@@ -338,12 +338,14 @@ uint32_t __attribute__((export_name("TS_LDKBech32Error_ty_from_ptr"))) TS_LDKBec
 int32_t __attribute__((export_name("TS_LDKBech32Error_InvalidChar_get_invalid_char"))) TS_LDKBech32Error_InvalidChar_get_invalid_char(uint32_t ptr) {
 	LDKBech32Error *obj = (LDKBech32Error*)(ptr & ~1);
 	assert(obj->tag == LDKBech32Error_InvalidChar);
-	return obj->invalid_char;
+			int32_t invalid_char_conv = obj->invalid_char;
+	return invalid_char_conv;
 }
 int8_t __attribute__((export_name("TS_LDKBech32Error_InvalidData_get_invalid_data"))) TS_LDKBech32Error_InvalidData_get_invalid_data(uint32_t ptr) {
 	LDKBech32Error *obj = (LDKBech32Error*)(ptr & ~1);
 	assert(obj->tag == LDKBech32Error_InvalidData);
-	return obj->invalid_data;
+			int8_t invalid_data_conv = obj->invalid_data;
+	return invalid_data_conv;
 }
 static inline LDKCVec_u8Z CVec_u8Z_clone(const LDKCVec_u8Z *orig) {
 	LDKCVec_u8Z ret = { .data = MALLOC(sizeof(int8_t) * orig->datalen, "LDKCVec_u8Z clone bytes"), .datalen = orig->datalen };
@@ -361,8 +363,8 @@ struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing) {	return CVe
 
 uint64_t TxOut_get_value (struct LDKTxOut* thing) {	return thing->value;}int64_t  __attribute__((export_name("TS_TxOut_get_value"))) TS_TxOut_get_value(uint32_t thing) {
 	LDKTxOut* thing_conv = (LDKTxOut*)(thing & ~1);
-	int64_t ret_val = TxOut_get_value(thing_conv);
-	return ret_val;
+	int64_t ret_conv = TxOut_get_value(thing_conv);
+	return ret_conv;
 }
 
 static inline void CResult_NoneNoneZ_get_ok(LDKCResult_NoneNoneZ *NONNULL_PTR owner){
@@ -572,7 +574,8 @@ uint32_t __attribute__((export_name("TS_LDKCOption_u32Z_ty_from_ptr"))) TS_LDKCO
 int32_t __attribute__((export_name("TS_LDKCOption_u32Z_Some_get_some"))) TS_LDKCOption_u32Z_Some_get_some(uint32_t ptr) {
 	LDKCOption_u32Z *obj = (LDKCOption_u32Z*)(ptr & ~1);
 	assert(obj->tag == LDKCOption_u32Z_Some);
-	return obj->some;
+			int32_t some_conv = obj->some;
+	return some_conv;
 }
 static inline struct LDKHTLCOutputInCommitment CResult_HTLCOutputInCommitmentDecodeErrorZ_get_ok(LDKCResult_HTLCOutputInCommitmentDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
@@ -1078,7 +1081,8 @@ uint32_t __attribute__((export_name("TS_LDKCOption_u64Z_ty_from_ptr"))) TS_LDKCO
 int64_t __attribute__((export_name("TS_LDKCOption_u64Z_Some_get_some"))) TS_LDKCOption_u64Z_Some_get_some(uint32_t ptr) {
 	LDKCOption_u64Z *obj = (LDKCOption_u64Z*)(ptr & ~1);
 	assert(obj->tag == LDKCOption_u64Z_Some);
-	return obj->some;
+			int64_t some_conv = obj->some;
+	return some_conv;
 }
 static inline struct LDKPaymentParameters CResult_PaymentParametersDecodeErrorZ_get_ok(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
@@ -1264,8 +1268,8 @@ static inline uintptr_t C2Tuple_usizeTransactionZ_get_a(LDKC2Tuple_usizeTransact
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_get_a"))) TS_C2Tuple_usizeTransactionZ_get_a(uint32_t owner) {
 	LDKC2Tuple_usizeTransactionZ* owner_conv = (LDKC2Tuple_usizeTransactionZ*)(owner & ~1);
-	uint32_t ret_val = C2Tuple_usizeTransactionZ_get_a(owner_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_usizeTransactionZ_get_a(owner_conv);
+	return ret_conv;
 }
 
 static inline struct LDKTransaction C2Tuple_usizeTransactionZ_get_b(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR owner){
@@ -1358,7 +1362,8 @@ uint32_t __attribute__((export_name("TS_LDKMonitorEvent_UpdateCompleted_get_fund
 int64_t __attribute__((export_name("TS_LDKMonitorEvent_UpdateCompleted_get_monitor_update_id"))) TS_LDKMonitorEvent_UpdateCompleted_get_monitor_update_id(uint32_t ptr) {
 	LDKMonitorEvent *obj = (LDKMonitorEvent*)(ptr & ~1);
 	assert(obj->tag == LDKMonitorEvent_UpdateCompleted);
-	return obj->update_completed.monitor_update_id;
+			int64_t monitor_update_id_conv = obj->update_completed.monitor_update_id;
+	return monitor_update_id_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKMonitorEvent_UpdateFailed_get_update_failed"))) TS_LDKMonitorEvent_UpdateFailed_get_update_failed(uint32_t ptr) {
 	LDKMonitorEvent *obj = (LDKMonitorEvent*)(ptr & ~1);
@@ -1489,12 +1494,14 @@ uint32_t __attribute__((export_name("TS_LDKNetworkUpdate_ChannelUpdateMessage_ge
 int64_t __attribute__((export_name("TS_LDKNetworkUpdate_ChannelClosed_get_short_channel_id"))) TS_LDKNetworkUpdate_ChannelClosed_get_short_channel_id(uint32_t ptr) {
 	LDKNetworkUpdate *obj = (LDKNetworkUpdate*)(ptr & ~1);
 	assert(obj->tag == LDKNetworkUpdate_ChannelClosed);
-	return obj->channel_closed.short_channel_id;
+			int64_t short_channel_id_conv = obj->channel_closed.short_channel_id;
+	return short_channel_id_conv;
 }
 jboolean __attribute__((export_name("TS_LDKNetworkUpdate_ChannelClosed_get_is_permanent"))) TS_LDKNetworkUpdate_ChannelClosed_get_is_permanent(uint32_t ptr) {
 	LDKNetworkUpdate *obj = (LDKNetworkUpdate*)(ptr & ~1);
 	assert(obj->tag == LDKNetworkUpdate_ChannelClosed);
-	return obj->channel_closed.is_permanent;
+			jboolean is_permanent_conv = obj->channel_closed.is_permanent;
+	return is_permanent_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKNetworkUpdate_NodeFailure_get_node_id"))) TS_LDKNetworkUpdate_NodeFailure_get_node_id(uint32_t ptr) {
 	LDKNetworkUpdate *obj = (LDKNetworkUpdate*)(ptr & ~1);
@@ -1506,7 +1513,8 @@ int8_tArray __attribute__((export_name("TS_LDKNetworkUpdate_NodeFailure_get_node
 jboolean __attribute__((export_name("TS_LDKNetworkUpdate_NodeFailure_get_is_permanent"))) TS_LDKNetworkUpdate_NodeFailure_get_is_permanent(uint32_t ptr) {
 	LDKNetworkUpdate *obj = (LDKNetworkUpdate*)(ptr & ~1);
 	assert(obj->tag == LDKNetworkUpdate_NodeFailure);
-	return obj->node_failure.is_permanent;
+			jboolean is_permanent_conv = obj->node_failure.is_permanent;
+	return is_permanent_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKCOption_NetworkUpdateZ_ty_from_ptr"))) TS_LDKCOption_NetworkUpdateZ_ty_from_ptr(uint32_t ptr) {
 	LDKCOption_NetworkUpdateZ *obj = (LDKCOption_NetworkUpdateZ*)(ptr & ~1);
@@ -1634,7 +1642,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_FundingGenerationReady_get_t
 int64_t __attribute__((export_name("TS_LDKEvent_FundingGenerationReady_get_channel_value_satoshis"))) TS_LDKEvent_FundingGenerationReady_get_channel_value_satoshis(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_FundingGenerationReady);
-	return obj->funding_generation_ready.channel_value_satoshis;
+			int64_t channel_value_satoshis_conv = obj->funding_generation_ready.channel_value_satoshis;
+	return channel_value_satoshis_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKEvent_FundingGenerationReady_get_output_script"))) TS_LDKEvent_FundingGenerationReady_get_output_script(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1647,7 +1656,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_FundingGenerationReady_get_o
 int64_t __attribute__((export_name("TS_LDKEvent_FundingGenerationReady_get_user_channel_id"))) TS_LDKEvent_FundingGenerationReady_get_user_channel_id(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_FundingGenerationReady);
-	return obj->funding_generation_ready.user_channel_id;
+			int64_t user_channel_id_conv = obj->funding_generation_ready.user_channel_id;
+	return user_channel_id_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKEvent_PaymentReceived_get_payment_hash"))) TS_LDKEvent_PaymentReceived_get_payment_hash(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1659,7 +1669,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_PaymentReceived_get_payment_
 int64_t __attribute__((export_name("TS_LDKEvent_PaymentReceived_get_amt"))) TS_LDKEvent_PaymentReceived_get_amt(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_PaymentReceived);
-	return obj->payment_received.amt;
+			int64_t amt_conv = obj->payment_received.amt;
+	return amt_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKEvent_PaymentReceived_get_purpose"))) TS_LDKEvent_PaymentReceived_get_purpose(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1711,7 +1722,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_paymen
 jboolean __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_rejected_by_dest"))) TS_LDKEvent_PaymentPathFailed_get_rejected_by_dest(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_PaymentPathFailed);
-	return obj->payment_path_failed.rejected_by_dest;
+			jboolean rejected_by_dest_conv = obj->payment_path_failed.rejected_by_dest;
+	return rejected_by_dest_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_network_update"))) TS_LDKEvent_PaymentPathFailed_get_network_update(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1722,7 +1734,8 @@ uint32_t __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_network_u
 jboolean __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_all_paths_failed"))) TS_LDKEvent_PaymentPathFailed_get_all_paths_failed(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_PaymentPathFailed);
-	return obj->payment_path_failed.all_paths_failed;
+			jboolean all_paths_failed_conv = obj->payment_path_failed.all_paths_failed;
+	return all_paths_failed_conv;
 }
 uint32_tArray __attribute__((export_name("TS_LDKEvent_PaymentPathFailed_get_path"))) TS_LDKEvent_PaymentPathFailed_get_path(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1779,7 +1792,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_PaymentFailed_get_payment_ha
 int64_t __attribute__((export_name("TS_LDKEvent_PendingHTLCsForwardable_get_time_forwardable"))) TS_LDKEvent_PendingHTLCsForwardable_get_time_forwardable(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_PendingHTLCsForwardable);
-	return obj->pending_htl_cs_forwardable.time_forwardable;
+			int64_t time_forwardable_conv = obj->pending_htl_cs_forwardable.time_forwardable;
+	return time_forwardable_conv;
 }
 uint32_tArray __attribute__((export_name("TS_LDKEvent_SpendableOutputs_get_outputs"))) TS_LDKEvent_SpendableOutputs_get_outputs(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1804,7 +1818,8 @@ uint32_t __attribute__((export_name("TS_LDKEvent_PaymentForwarded_get_fee_earned
 jboolean __attribute__((export_name("TS_LDKEvent_PaymentForwarded_get_claim_from_onchain_tx"))) TS_LDKEvent_PaymentForwarded_get_claim_from_onchain_tx(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_PaymentForwarded);
-	return obj->payment_forwarded.claim_from_onchain_tx;
+			jboolean claim_from_onchain_tx_conv = obj->payment_forwarded.claim_from_onchain_tx;
+	return claim_from_onchain_tx_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKEvent_ChannelClosed_get_channel_id"))) TS_LDKEvent_ChannelClosed_get_channel_id(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1816,7 +1831,8 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_ChannelClosed_get_channel_id
 int64_t __attribute__((export_name("TS_LDKEvent_ChannelClosed_get_user_channel_id"))) TS_LDKEvent_ChannelClosed_get_user_channel_id(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_ChannelClosed);
-	return obj->channel_closed.user_channel_id;
+			int64_t user_channel_id_conv = obj->channel_closed.user_channel_id;
+	return user_channel_id_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKEvent_ChannelClosed_get_reason"))) TS_LDKEvent_ChannelClosed_get_reason(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -1889,12 +1905,14 @@ int8_tArray __attribute__((export_name("TS_LDKEvent_OpenChannelRequest_get_count
 int64_t __attribute__((export_name("TS_LDKEvent_OpenChannelRequest_get_funding_satoshis"))) TS_LDKEvent_OpenChannelRequest_get_funding_satoshis(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_OpenChannelRequest);
-	return obj->open_channel_request.funding_satoshis;
+			int64_t funding_satoshis_conv = obj->open_channel_request.funding_satoshis;
+	return funding_satoshis_conv;
 }
 int64_t __attribute__((export_name("TS_LDKEvent_OpenChannelRequest_get_push_msat"))) TS_LDKEvent_OpenChannelRequest_get_push_msat(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
 	assert(obj->tag == LDKEvent_OpenChannelRequest);
-	return obj->open_channel_request.push_msat;
+			int64_t push_msat_conv = obj->open_channel_request.push_msat;
+	return push_msat_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKEvent_OpenChannelRequest_get_channel_type"))) TS_LDKEvent_OpenChannelRequest_get_channel_type(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)(ptr & ~1);
@@ -2955,7 +2973,8 @@ static void LDKBaseSign_JCalls_free(void* this_arg) {
 }
 LDKPublicKey get_per_commitment_point_LDKBaseSign_jcall(const void* this_arg, uint64_t idx) {
 	LDKBaseSign_JCalls *j_calls = (LDKBaseSign_JCalls*) this_arg;
-	int8_tArray ret = (int8_tArray)js_invoke_function_1(j_calls->instance_ptr, 0, (uint32_t)idx);
+	int64_t idx_conv = idx;
+	int8_tArray ret = (int8_tArray)js_invoke_function_1(j_calls->instance_ptr, 0, (uint32_t)idx_conv);
 	LDKPublicKey ret_ref;
 	CHECK(ret->arr_len == 33);
 	memcpy(ret_ref.compressed_form, ret->elems, 33); FREE(ret);
@@ -2963,7 +2982,8 @@ LDKPublicKey get_per_commitment_point_LDKBaseSign_jcall(const void* this_arg, ui
 }
 LDKThirtyTwoBytes release_commitment_secret_LDKBaseSign_jcall(const void* this_arg, uint64_t idx) {
 	LDKBaseSign_JCalls *j_calls = (LDKBaseSign_JCalls*) this_arg;
-	int8_tArray ret = (int8_tArray)js_invoke_function_1(j_calls->instance_ptr, 1, (uint32_t)idx);
+	int64_t idx_conv = idx;
+	int8_tArray ret = (int8_tArray)js_invoke_function_1(j_calls->instance_ptr, 1, (uint32_t)idx_conv);
 	LDKThirtyTwoBytes ret_ref;
 	CHECK(ret->arr_len == 32);
 	memcpy(ret_ref.data, ret->elems, 32); FREE(ret);
@@ -3039,9 +3059,10 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_L
 }
 LDKCResult_NoneNoneZ validate_counterparty_revocation_LDKBaseSign_jcall(const void* this_arg, uint64_t idx, const uint8_t (* secret)[32]) {
 	LDKBaseSign_JCalls *j_calls = (LDKBaseSign_JCalls*) this_arg;
+	int64_t idx_conv = idx;
 	int8_tArray secret_arr = init_int8_tArray(32, __LINE__);
 	memcpy(secret_arr->elems, *secret, 32);
-	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 5, (uint32_t)idx, (uint32_t)secret_arr);
+	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 5, (uint32_t)idx_conv, (uint32_t)secret_arr);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_NoneNoneZ ret_conv = *(LDKCResult_NoneNoneZ*)(ret_ptr);
@@ -3073,9 +3094,11 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_output_LDKBaseSign_jcall(const vo
 	int8_tArray justice_tx_arr = init_int8_tArray(justice_tx_var.datalen, __LINE__);
 	memcpy(justice_tx_arr->elems, justice_tx_var.data, justice_tx_var.datalen);
 	Transaction_free(justice_tx_var);
+	uint32_t input_conv = input;
+	int64_t amount_conv = amount;
 	int8_tArray per_commitment_key_arr = init_int8_tArray(32, __LINE__);
 	memcpy(per_commitment_key_arr->elems, *per_commitment_key, 32);
-	uint32_t ret = js_invoke_function_4(j_calls->instance_ptr, 7, (uint32_t)justice_tx_arr, (uint32_t)input, (uint32_t)amount, (uint32_t)per_commitment_key_arr);
+	uint32_t ret = js_invoke_function_4(j_calls->instance_ptr, 7, (uint32_t)justice_tx_arr, (uint32_t)input_conv, (uint32_t)amount_conv, (uint32_t)per_commitment_key_arr);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(ret_ptr);
@@ -3088,6 +3111,8 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_htlc_LDKBaseSign_jcall(const void
 	int8_tArray justice_tx_arr = init_int8_tArray(justice_tx_var.datalen, __LINE__);
 	memcpy(justice_tx_arr->elems, justice_tx_var.data, justice_tx_var.datalen);
 	Transaction_free(justice_tx_var);
+	uint32_t input_conv = input;
+	int64_t amount_conv = amount;
 	int8_tArray per_commitment_key_arr = init_int8_tArray(32, __LINE__);
 	memcpy(per_commitment_key_arr->elems, *per_commitment_key, 32);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
@@ -3100,7 +3125,7 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_htlc_LDKBaseSign_jcall(const void
 	if (htlc_var.is_owned) {
 		htlc_ref |= 1;
 	}
-	uint32_t ret = js_invoke_function_5(j_calls->instance_ptr, 8, (uint32_t)justice_tx_arr, (uint32_t)input, (uint32_t)amount, (uint32_t)per_commitment_key_arr, (uint32_t)htlc_ref);
+	uint32_t ret = js_invoke_function_5(j_calls->instance_ptr, 8, (uint32_t)justice_tx_arr, (uint32_t)input_conv, (uint32_t)amount_conv, (uint32_t)per_commitment_key_arr, (uint32_t)htlc_ref);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(ret_ptr);
@@ -3113,6 +3138,8 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKBaseSign_jcall(c
 	int8_tArray htlc_tx_arr = init_int8_tArray(htlc_tx_var.datalen, __LINE__);
 	memcpy(htlc_tx_arr->elems, htlc_tx_var.data, htlc_tx_var.datalen);
 	Transaction_free(htlc_tx_var);
+	uint32_t input_conv = input;
+	int64_t amount_conv = amount;
 	int8_tArray per_commitment_point_arr = init_int8_tArray(33, __LINE__);
 	memcpy(per_commitment_point_arr->elems, per_commitment_point.compressed_form, 33);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
@@ -3125,7 +3152,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKBaseSign_jcall(c
 	if (htlc_var.is_owned) {
 		htlc_ref |= 1;
 	}
-	uint32_t ret = js_invoke_function_5(j_calls->instance_ptr, 9, (uint32_t)htlc_tx_arr, (uint32_t)input, (uint32_t)amount, (uint32_t)per_commitment_point_arr, (uint32_t)htlc_ref);
+	uint32_t ret = js_invoke_function_5(j_calls->instance_ptr, 9, (uint32_t)htlc_tx_arr, (uint32_t)input_conv, (uint32_t)amount_conv, (uint32_t)per_commitment_point_arr, (uint32_t)htlc_ref);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(ret_ptr);
@@ -3673,7 +3700,8 @@ uint32_t __attribute__((export_name("TS_LDKCOption_u16Z_ty_from_ptr"))) TS_LDKCO
 int16_t __attribute__((export_name("TS_LDKCOption_u16Z_Some_get_some"))) TS_LDKCOption_u16Z_Some_get_some(uint32_t ptr) {
 	LDKCOption_u16Z *obj = (LDKCOption_u16Z*)(ptr & ~1);
 	assert(obj->tag == LDKCOption_u16Z_Some);
-	return obj->some;
+			int16_t some_conv = obj->some;
+	return some_conv;
 }
 uint32_t __attribute__((export_name("TS_LDKAPIError_ty_from_ptr"))) TS_LDKAPIError_ty_from_ptr(uint32_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)(ptr & ~1);
@@ -3704,7 +3732,8 @@ jstring __attribute__((export_name("TS_LDKAPIError_FeeRateTooHigh_get_err"))) TS
 int32_t __attribute__((export_name("TS_LDKAPIError_FeeRateTooHigh_get_feerate"))) TS_LDKAPIError_FeeRateTooHigh_get_feerate(uint32_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)(ptr & ~1);
 	assert(obj->tag == LDKAPIError_FeeRateTooHigh);
-	return obj->fee_rate_too_high.feerate;
+			int32_t feerate_conv = obj->fee_rate_too_high.feerate;
+	return feerate_conv;
 }
 jstring __attribute__((export_name("TS_LDKAPIError_RouteError_get_err"))) TS_LDKAPIError_RouteError_get_err(uint32_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)(ptr & ~1);
@@ -3978,7 +4007,8 @@ int8_tArray __attribute__((export_name("TS_LDKNetAddress_IPv4_get_addr"))) TS_LD
 int16_t __attribute__((export_name("TS_LDKNetAddress_IPv4_get_port"))) TS_LDKNetAddress_IPv4_get_port(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
 	assert(obj->tag == LDKNetAddress_IPv4);
-	return obj->i_pv4.port;
+			int16_t port_conv = obj->i_pv4.port;
+	return port_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKNetAddress_IPv6_get_addr"))) TS_LDKNetAddress_IPv6_get_addr(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
@@ -3990,7 +4020,8 @@ int8_tArray __attribute__((export_name("TS_LDKNetAddress_IPv6_get_addr"))) TS_LD
 int16_t __attribute__((export_name("TS_LDKNetAddress_IPv6_get_port"))) TS_LDKNetAddress_IPv6_get_port(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
 	assert(obj->tag == LDKNetAddress_IPv6);
-	return obj->i_pv6.port;
+			int16_t port_conv = obj->i_pv6.port;
+	return port_conv;
 }
 int8_tArray __attribute__((export_name("TS_LDKNetAddress_OnionV2_get_onion_v2"))) TS_LDKNetAddress_OnionV2_get_onion_v2(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
@@ -4009,17 +4040,20 @@ int8_tArray __attribute__((export_name("TS_LDKNetAddress_OnionV3_get_ed25519_pub
 int16_t __attribute__((export_name("TS_LDKNetAddress_OnionV3_get_checksum"))) TS_LDKNetAddress_OnionV3_get_checksum(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
 	assert(obj->tag == LDKNetAddress_OnionV3);
-	return obj->onion_v3.checksum;
+			int16_t checksum_conv = obj->onion_v3.checksum;
+	return checksum_conv;
 }
 int8_t __attribute__((export_name("TS_LDKNetAddress_OnionV3_get_version"))) TS_LDKNetAddress_OnionV3_get_version(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
 	assert(obj->tag == LDKNetAddress_OnionV3);
-	return obj->onion_v3.version;
+			int8_t version_conv = obj->onion_v3.version;
+	return version_conv;
 }
 int16_t __attribute__((export_name("TS_LDKNetAddress_OnionV3_get_port"))) TS_LDKNetAddress_OnionV3_get_port(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)(ptr & ~1);
 	assert(obj->tag == LDKNetAddress_OnionV3);
-	return obj->onion_v3.port;
+			int16_t port_conv = obj->onion_v3.port;
+	return port_conv;
 }
 static inline LDKCVec_NetAddressZ CVec_NetAddressZ_clone(const LDKCVec_NetAddressZ *orig) {
 	LDKCVec_NetAddressZ ret = { .data = MALLOC(sizeof(LDKNetAddress) * orig->datalen, "LDKCVec_NetAddressZ clone bytes"), .datalen = orig->datalen };
@@ -4563,7 +4597,9 @@ LDKShutdownScript get_shutdown_scriptpubkey_LDKKeysInterface_jcall(const void* t
 }
 LDKSign get_channel_signer_LDKKeysInterface_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
-	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 21, (uint32_t)inbound, (uint32_t)channel_value_satoshis);
+	jboolean inbound_conv = inbound;
+	int64_t channel_value_satoshis_conv = channel_value_satoshis;
+	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 21, (uint32_t)inbound_conv, (uint32_t)channel_value_satoshis_conv);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKSign ret_conv = *(LDKSign*)(ret_ptr);
@@ -4791,8 +4827,8 @@ int32_t  __attribute__((export_name("TS_FeeEstimator_get_est_sat_per_1000_weight
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKFeeEstimator* this_arg_conv = (LDKFeeEstimator*)this_arg_ptr;
 	LDKConfirmationTarget confirmation_target_conv = LDKConfirmationTarget_from_js(confirmation_target);
-	int32_t ret_val = (this_arg_conv->get_est_sat_per_1000_weight)(this_arg_conv->this_arg, confirmation_target_conv);
-	return ret_val;
+	int32_t ret_conv = (this_arg_conv->get_est_sat_per_1000_weight)(this_arg_conv->this_arg, confirmation_target_conv);
+	return ret_conv;
 }
 
 typedef struct LDKLogger_JCalls {
@@ -5021,8 +5057,8 @@ int16_t  __attribute__((export_name("TS_Type_type_id"))) TS_Type_type_id(uint32_
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKType* this_arg_conv = (LDKType*)this_arg_ptr;
-	int16_t ret_val = (this_arg_conv->type_id)(this_arg_conv->this_arg);
-	return ret_val;
+	int16_t ret_conv = (this_arg_conv->type_id)(this_arg_conv->this_arg);
+	return ret_conv;
 }
 
 jstring  __attribute__((export_name("TS_Type_debug_str"))) TS_Type_debug_str(uint32_t this_arg) {
@@ -5685,8 +5721,8 @@ static inline uint32_t C2Tuple_u32ScriptZ_get_a(LDKC2Tuple_u32ScriptZ *NONNULL_P
 }
 int32_t  __attribute__((export_name("TS_C2Tuple_u32ScriptZ_get_a"))) TS_C2Tuple_u32ScriptZ_get_a(uint32_t owner) {
 	LDKC2Tuple_u32ScriptZ* owner_conv = (LDKC2Tuple_u32ScriptZ*)(owner & ~1);
-	int32_t ret_val = C2Tuple_u32ScriptZ_get_a(owner_conv);
-	return ret_val;
+	int32_t ret_conv = C2Tuple_u32ScriptZ_get_a(owner_conv);
+	return ret_conv;
 }
 
 static inline struct LDKCVec_u8Z C2Tuple_u32ScriptZ_get_b(LDKC2Tuple_u32ScriptZ *NONNULL_PTR owner){
@@ -5756,8 +5792,8 @@ static inline uint32_t C2Tuple_u32TxOutZ_get_a(LDKC2Tuple_u32TxOutZ *NONNULL_PTR
 }
 int32_t  __attribute__((export_name("TS_C2Tuple_u32TxOutZ_get_a"))) TS_C2Tuple_u32TxOutZ_get_a(uint32_t owner) {
 	LDKC2Tuple_u32TxOutZ* owner_conv = (LDKC2Tuple_u32TxOutZ*)(owner & ~1);
-	int32_t ret_val = C2Tuple_u32TxOutZ_get_a(owner_conv);
-	return ret_val;
+	int32_t ret_conv = C2Tuple_u32TxOutZ_get_a(owner_conv);
+	return ret_conv;
 }
 
 static inline struct LDKTxOut C2Tuple_u32TxOutZ_get_b(LDKC2Tuple_u32TxOutZ *NONNULL_PTR owner){
@@ -5826,37 +5862,44 @@ uint32_t __attribute__((export_name("TS_LDKBalance_ty_from_ptr"))) TS_LDKBalance
 int64_t __attribute__((export_name("TS_LDKBalance_ClaimableOnChannelClose_get_claimable_amount_satoshis"))) TS_LDKBalance_ClaimableOnChannelClose_get_claimable_amount_satoshis(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_ClaimableOnChannelClose);
-	return obj->claimable_on_channel_close.claimable_amount_satoshis;
+			int64_t claimable_amount_satoshis_conv = obj->claimable_on_channel_close.claimable_amount_satoshis;
+	return claimable_amount_satoshis_conv;
 }
 int64_t __attribute__((export_name("TS_LDKBalance_ClaimableAwaitingConfirmations_get_claimable_amount_satoshis"))) TS_LDKBalance_ClaimableAwaitingConfirmations_get_claimable_amount_satoshis(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_ClaimableAwaitingConfirmations);
-	return obj->claimable_awaiting_confirmations.claimable_amount_satoshis;
+			int64_t claimable_amount_satoshis_conv = obj->claimable_awaiting_confirmations.claimable_amount_satoshis;
+	return claimable_amount_satoshis_conv;
 }
 int32_t __attribute__((export_name("TS_LDKBalance_ClaimableAwaitingConfirmations_get_confirmation_height"))) TS_LDKBalance_ClaimableAwaitingConfirmations_get_confirmation_height(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_ClaimableAwaitingConfirmations);
-	return obj->claimable_awaiting_confirmations.confirmation_height;
+			int32_t confirmation_height_conv = obj->claimable_awaiting_confirmations.confirmation_height;
+	return confirmation_height_conv;
 }
 int64_t __attribute__((export_name("TS_LDKBalance_ContentiousClaimable_get_claimable_amount_satoshis"))) TS_LDKBalance_ContentiousClaimable_get_claimable_amount_satoshis(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_ContentiousClaimable);
-	return obj->contentious_claimable.claimable_amount_satoshis;
+			int64_t claimable_amount_satoshis_conv = obj->contentious_claimable.claimable_amount_satoshis;
+	return claimable_amount_satoshis_conv;
 }
 int32_t __attribute__((export_name("TS_LDKBalance_ContentiousClaimable_get_timeout_height"))) TS_LDKBalance_ContentiousClaimable_get_timeout_height(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_ContentiousClaimable);
-	return obj->contentious_claimable.timeout_height;
+			int32_t timeout_height_conv = obj->contentious_claimable.timeout_height;
+	return timeout_height_conv;
 }
 int64_t __attribute__((export_name("TS_LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_amount_satoshis"))) TS_LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_amount_satoshis(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_MaybeClaimableHTLCAwaitingTimeout);
-	return obj->maybe_claimable_htlc_awaiting_timeout.claimable_amount_satoshis;
+			int64_t claimable_amount_satoshis_conv = obj->maybe_claimable_htlc_awaiting_timeout.claimable_amount_satoshis;
+	return claimable_amount_satoshis_conv;
 }
 int32_t __attribute__((export_name("TS_LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_height"))) TS_LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_height(uint32_t ptr) {
 	LDKBalance *obj = (LDKBalance*)(ptr & ~1);
 	assert(obj->tag == LDKBalance_MaybeClaimableHTLCAwaitingTimeout);
-	return obj->maybe_claimable_htlc_awaiting_timeout.claimable_height;
+			int32_t claimable_height_conv = obj->maybe_claimable_htlc_awaiting_timeout.claimable_height;
+	return claimable_height_conv;
 }
 static inline LDKCVec_BalanceZ CVec_BalanceZ_clone(const LDKCVec_BalanceZ *orig) {
 	LDKCVec_BalanceZ ret = { .data = MALLOC(sizeof(LDKBalance) * orig->datalen, "LDKCVec_BalanceZ clone bytes"), .datalen = orig->datalen };
@@ -5981,8 +6024,8 @@ CHECK(owner->result_ok);
 }
 jboolean  __attribute__((export_name("TS_CResult_boolLightningErrorZ_get_ok"))) TS_CResult_boolLightningErrorZ_get_ok(uint32_t owner) {
 	LDKCResult_boolLightningErrorZ* owner_conv = (LDKCResult_boolLightningErrorZ*)(owner & ~1);
-	jboolean ret_val = CResult_boolLightningErrorZ_get_ok(owner_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_boolLightningErrorZ_get_ok(owner_conv);
+	return ret_conv;
 }
 
 static inline struct LDKLightningError CResult_boolLightningErrorZ_get_err(LDKCResult_boolLightningErrorZ *NONNULL_PTR owner){
@@ -6146,8 +6189,8 @@ CHECK(owner->result_ok);
 }
 jboolean  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_get_ok"))) TS_CResult_boolPeerHandleErrorZ_get_ok(uint32_t owner) {
 	LDKCResult_boolPeerHandleErrorZ* owner_conv = (LDKCResult_boolPeerHandleErrorZ*)(owner & ~1);
-	jboolean ret_val = CResult_boolPeerHandleErrorZ_get_ok(owner_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_boolPeerHandleErrorZ_get_ok(owner_conv);
+	return ret_conv;
 }
 
 static inline struct LDKPeerHandleError CResult_boolPeerHandleErrorZ_get_err(LDKCResult_boolPeerHandleErrorZ *NONNULL_PTR owner){
@@ -6248,7 +6291,8 @@ LDKCResult_TxOutAccessErrorZ get_utxo_LDKAccess_jcall(const void* this_arg, cons
 	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
 	int8_tArray genesis_hash_arr = init_int8_tArray(32, __LINE__);
 	memcpy(genesis_hash_arr->elems, *genesis_hash, 32);
-	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 31, (uint32_t)genesis_hash_arr, (uint32_t)short_channel_id);
+	int64_t short_channel_id_conv = short_channel_id;
+	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 31, (uint32_t)genesis_hash_arr, (uint32_t)short_channel_id_conv);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)(ret_ptr);
@@ -8162,13 +8206,15 @@ void block_connected_LDKListen_jcall(const void* this_arg, LDKu8slice block, uin
 	LDKu8slice block_var = block;
 	int8_tArray block_arr = init_int8_tArray(block_var.datalen, __LINE__);
 	memcpy(block_arr->elems, block_var.data, block_var.datalen);
-	js_invoke_function_2(j_calls->instance_ptr, 37, (uint32_t)block_arr, (uint32_t)height);
+	int32_t height_conv = height;
+	js_invoke_function_2(j_calls->instance_ptr, 37, (uint32_t)block_arr, (uint32_t)height_conv);
 }
 void block_disconnected_LDKListen_jcall(const void* this_arg, const uint8_t (* header)[80], uint32_t height) {
 	LDKListen_JCalls *j_calls = (LDKListen_JCalls*) this_arg;
 	int8_tArray header_arr = init_int8_tArray(80, __LINE__);
 	memcpy(header_arr->elems, *header, 80);
-	js_invoke_function_2(j_calls->instance_ptr, 38, (uint32_t)header_arr, (uint32_t)height);
+	int32_t height_conv = height;
+	js_invoke_function_2(j_calls->instance_ptr, 38, (uint32_t)header_arr, (uint32_t)height_conv);
 }
 static void LDKListen_JCalls_cloned(LDKListen* new_obj) {
 	LDKListen_JCalls *j_calls = (LDKListen_JCalls*) new_obj->this_arg;
@@ -8238,7 +8284,8 @@ void transactions_confirmed_LDKConfirm_jcall(const void* this_arg, const uint8_t
 	}
 	
 	FREE(txdata_var.data);
-	js_invoke_function_3(j_calls->instance_ptr, 39, (uint32_t)header_arr, (uint32_t)txdata_arr, (uint32_t)height);
+	int32_t height_conv = height;
+	js_invoke_function_3(j_calls->instance_ptr, 39, (uint32_t)header_arr, (uint32_t)txdata_arr, (uint32_t)height_conv);
 }
 void transaction_unconfirmed_LDKConfirm_jcall(const void* this_arg, const uint8_t (* txid)[32]) {
 	LDKConfirm_JCalls *j_calls = (LDKConfirm_JCalls*) this_arg;
@@ -8250,7 +8297,8 @@ void best_block_updated_LDKConfirm_jcall(const void* this_arg, const uint8_t (* 
 	LDKConfirm_JCalls *j_calls = (LDKConfirm_JCalls*) this_arg;
 	int8_tArray header_arr = init_int8_tArray(80, __LINE__);
 	memcpy(header_arr->elems, *header, 80);
-	js_invoke_function_2(j_calls->instance_ptr, 41, (uint32_t)header_arr, (uint32_t)height);
+	int32_t height_conv = height;
+	js_invoke_function_2(j_calls->instance_ptr, 41, (uint32_t)header_arr, (uint32_t)height_conv);
 }
 LDKCVec_TxidZ get_relevant_txids_LDKConfirm_jcall(const void* this_arg) {
 	LDKConfirm_JCalls *j_calls = (LDKConfirm_JCalls*) this_arg;
@@ -8812,7 +8860,8 @@ void peer_disconnected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKP
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	int8_tArray their_node_id_arr = init_int8_tArray(33, __LINE__);
 	memcpy(their_node_id_arr->elems, their_node_id.compressed_form, 33);
-	js_invoke_function_2(j_calls->instance_ptr, 60, (uint32_t)their_node_id_arr, (uint32_t)no_connection_possible);
+	jboolean no_connection_possible_conv = no_connection_possible;
+	js_invoke_function_2(j_calls->instance_ptr, 60, (uint32_t)their_node_id_arr, (uint32_t)no_connection_possible_conv);
 }
 void peer_connected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -9281,7 +9330,9 @@ LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jc
 }
 LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcements_LDKRoutingMessageHandler_jcall(const void* this_arg, uint64_t starting_point, uint8_t batch_amount) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	uint32_tArray ret = (uint32_tArray)js_invoke_function_2(j_calls->instance_ptr, 68, (uint32_t)starting_point, (uint32_t)batch_amount);
+	int64_t starting_point_conv = starting_point;
+	int8_t batch_amount_conv = batch_amount;
+	uint32_tArray ret = (uint32_tArray)js_invoke_function_2(j_calls->instance_ptr, 68, (uint32_t)starting_point_conv, (uint32_t)batch_amount_conv);
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret_constr;
 	ret_constr.datalen = ret->arr_len;
 	if (ret_constr.datalen > 0)
@@ -9303,7 +9354,8 @@ LDKCVec_NodeAnnouncementZ get_next_node_announcements_LDKRoutingMessageHandler_j
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	int8_tArray starting_point_arr = init_int8_tArray(33, __LINE__);
 	memcpy(starting_point_arr->elems, starting_point.compressed_form, 33);
-	uint32_tArray ret = (uint32_tArray)js_invoke_function_2(j_calls->instance_ptr, 69, (uint32_t)starting_point_arr, (uint32_t)batch_amount);
+	int8_t batch_amount_conv = batch_amount;
+	uint32_tArray ret = (uint32_tArray)js_invoke_function_2(j_calls->instance_ptr, 69, (uint32_t)starting_point_arr, (uint32_t)batch_amount_conv);
 	LDKCVec_NodeAnnouncementZ ret_constr;
 	ret_constr.datalen = ret->arr_len;
 	if (ret_constr.datalen > 0)
@@ -9629,10 +9681,11 @@ static void LDKCustomMessageReader_JCalls_free(void* this_arg) {
 }
 LDKCResult_COption_TypeZDecodeErrorZ read_LDKCustomMessageReader_jcall(const void* this_arg, uint16_t message_type, LDKu8slice buffer) {
 	LDKCustomMessageReader_JCalls *j_calls = (LDKCustomMessageReader_JCalls*) this_arg;
+	int16_t message_type_conv = message_type;
 	LDKu8slice buffer_var = buffer;
 	int8_tArray buffer_arr = init_int8_tArray(buffer_var.datalen, __LINE__);
 	memcpy(buffer_arr->elems, buffer_var.data, buffer_var.datalen);
-	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 75, (uint32_t)message_type, (uint32_t)buffer_arr);
+	uint32_t ret = js_invoke_function_2(j_calls->instance_ptr, 75, (uint32_t)message_type_conv, (uint32_t)buffer_arr);
 	void* ret_ptr = (void*)(((uintptr_t)ret) & ~1);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_COption_TypeZDecodeErrorZ ret_conv = *(LDKCResult_COption_TypeZDecodeErrorZ*)(ret_ptr);
@@ -9793,7 +9846,8 @@ uintptr_t send_data_LDKSocketDescriptor_jcall(void* this_arg, LDKu8slice data, b
 	LDKu8slice data_var = data;
 	int8_tArray data_arr = init_int8_tArray(data_var.datalen, __LINE__);
 	memcpy(data_arr->elems, data_var.data, data_var.datalen);
-	return js_invoke_function_2(j_calls->instance_ptr, 78, (uint32_t)data_arr, (uint32_t)resume_read);
+	jboolean resume_read_conv = resume_read;
+	return js_invoke_function_2(j_calls->instance_ptr, 78, (uint32_t)data_arr, (uint32_t)resume_read_conv);
 }
 void disconnect_socket_LDKSocketDescriptor_jcall(void* this_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
@@ -9841,8 +9895,8 @@ uint32_t  __attribute__((export_name("TS_SocketDescriptor_send_data"))) TS_Socke
 	LDKu8slice data_ref;
 	data_ref.datalen = data->arr_len;
 	data_ref.data = data->elems /* XXX data leaks */;
-	uint32_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
-	return ret_val;
+	uint32_t ret_conv = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_SocketDescriptor_disconnect_socket"))) TS_SocketDescriptor_disconnect_socket(uint32_t this_arg) {
@@ -9856,8 +9910,8 @@ int64_t  __attribute__((export_name("TS_SocketDescriptor_hash"))) TS_SocketDescr
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg_ptr;
-	int64_t ret_val = (this_arg_conv->hash)(this_arg_conv->this_arg);
-	return ret_val;
+	int64_t ret_conv = (this_arg_conv->hash)(this_arg_conv->this_arg);
+	return ret_conv;
 }
 
 uint32_t __attribute__((export_name("TS_LDKEffectiveCapacity_ty_from_ptr"))) TS_LDKEffectiveCapacity_ty_from_ptr(uint32_t ptr) {
@@ -9874,17 +9928,20 @@ uint32_t __attribute__((export_name("TS_LDKEffectiveCapacity_ty_from_ptr"))) TS_
 int64_t __attribute__((export_name("TS_LDKEffectiveCapacity_ExactLiquidity_get_liquidity_msat"))) TS_LDKEffectiveCapacity_ExactLiquidity_get_liquidity_msat(uint32_t ptr) {
 	LDKEffectiveCapacity *obj = (LDKEffectiveCapacity*)(ptr & ~1);
 	assert(obj->tag == LDKEffectiveCapacity_ExactLiquidity);
-	return obj->exact_liquidity.liquidity_msat;
+			int64_t liquidity_msat_conv = obj->exact_liquidity.liquidity_msat;
+	return liquidity_msat_conv;
 }
 int64_t __attribute__((export_name("TS_LDKEffectiveCapacity_MaximumHTLC_get_amount_msat"))) TS_LDKEffectiveCapacity_MaximumHTLC_get_amount_msat(uint32_t ptr) {
 	LDKEffectiveCapacity *obj = (LDKEffectiveCapacity*)(ptr & ~1);
 	assert(obj->tag == LDKEffectiveCapacity_MaximumHTLC);
-	return obj->maximum_htlc.amount_msat;
+			int64_t amount_msat_conv = obj->maximum_htlc.amount_msat;
+	return amount_msat_conv;
 }
 int64_t __attribute__((export_name("TS_LDKEffectiveCapacity_Total_get_capacity_msat"))) TS_LDKEffectiveCapacity_Total_get_capacity_msat(uint32_t ptr) {
 	LDKEffectiveCapacity *obj = (LDKEffectiveCapacity*)(ptr & ~1);
 	assert(obj->tag == LDKEffectiveCapacity_Total);
-	return obj->total.capacity_msat;
+			int64_t capacity_msat_conv = obj->total.capacity_msat;
+	return capacity_msat_conv;
 }
 typedef struct LDKScore_JCalls {
 	atomic_size_t refcnt;
@@ -9898,6 +9955,9 @@ static void LDKScore_JCalls_free(void* this_arg) {
 }
 uint64_t channel_penalty_msat_LDKScore_jcall(const void* this_arg, uint64_t short_channel_id, uint64_t send_amt_msat, uint64_t capacity_msat, const LDKNodeId * source, const LDKNodeId * target) {
 	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) this_arg;
+	int64_t short_channel_id_conv = short_channel_id;
+	int64_t send_amt_msat_conv = send_amt_msat;
+	int64_t capacity_msat_conv = capacity_msat;
 	LDKNodeId source_var = *source;
 	uint32_t source_ref = 0;
 	source_var = NodeId_clone(&source_var);
@@ -9918,7 +9978,7 @@ uint64_t channel_penalty_msat_LDKScore_jcall(const void* this_arg, uint64_t shor
 	if (target_var.is_owned) {
 		target_ref |= 1;
 	}
-	return js_invoke_function_5(j_calls->instance_ptr, 82, (uint32_t)short_channel_id, (uint32_t)send_amt_msat, (uint32_t)capacity_msat, (uint32_t)source_ref, (uint32_t)target_ref);
+	return js_invoke_function_5(j_calls->instance_ptr, 82, (uint32_t)short_channel_id_conv, (uint32_t)send_amt_msat_conv, (uint32_t)capacity_msat_conv, (uint32_t)source_ref, (uint32_t)target_ref);
 }
 void payment_path_failed_LDKScore_jcall(void* this_arg, LDKCVec_RouteHopZ path, uint64_t short_channel_id) {
 	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) this_arg;
@@ -9940,7 +10000,8 @@ void payment_path_failed_LDKScore_jcall(void* this_arg, LDKCVec_RouteHopZ path, 
 	}
 	
 	FREE(path_var.data);
-	js_invoke_function_2(j_calls->instance_ptr, 83, (uint32_t)path_arr, (uint32_t)short_channel_id);
+	int64_t short_channel_id_conv = short_channel_id;
+	js_invoke_function_2(j_calls->instance_ptr, 83, (uint32_t)path_arr, (uint32_t)short_channel_id_conv);
 }
 void payment_path_successful_LDKScore_jcall(void* this_arg, LDKCVec_RouteHopZ path) {
 	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) this_arg;
@@ -10009,8 +10070,8 @@ int64_t  __attribute__((export_name("TS_Score_channel_penalty_msat"))) TS_Score_
 	target_conv.inner = (void*)(target & (~1));
 	target_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(target_conv);
-	int64_t ret_val = (this_arg_conv->channel_penalty_msat)(this_arg_conv->this_arg, short_channel_id, send_amt_msat, capacity_msat, &source_conv, &target_conv);
-	return ret_val;
+	int64_t ret_conv = (this_arg_conv->channel_penalty_msat)(this_arg_conv->this_arg, short_channel_id, send_amt_msat, capacity_msat, &source_conv, &target_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Score_payment_path_failed"))) TS_Score_payment_path_failed(uint32_t this_arg, uint32_tArray path, int64_t short_channel_id) {
@@ -10531,8 +10592,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_Bech32Error_clone_ptr"))) TS_Bech32Error_clone_ptr(uint32_t arg) {
 	LDKBech32Error* arg_conv = (LDKBech32Error*)arg;
-	uint32_t ret_val = Bech32Error_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Bech32Error_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Bech32Error_clone"))) TS_Bech32Error_clone(uint32_t orig) {
@@ -10587,8 +10648,8 @@ static inline uintptr_t TxOut_clone_ptr(LDKTxOut *NONNULL_PTR arg) {
 }
 uint32_t  __attribute__((export_name("TS_TxOut_clone_ptr"))) TS_TxOut_clone_ptr(uint32_t arg) {
 	LDKTxOut* arg_conv = (LDKTxOut*)(arg & ~1);
-	uint32_t ret_val = TxOut_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = TxOut_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_TxOut_clone"))) TS_TxOut_clone(uint32_t orig) {
@@ -10617,8 +10678,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneNoneZ_err"))) TS_CResult_No
 
 jboolean  __attribute__((export_name("TS_CResult_NoneNoneZ_is_ok"))) TS_CResult_NoneNoneZ_is_ok(uint32_t o) {
 	LDKCResult_NoneNoneZ* o_conv = (LDKCResult_NoneNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_NoneNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NoneNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NoneNoneZ_free"))) TS_CResult_NoneNoneZ_free(uint32_t _res) {
@@ -10637,8 +10698,8 @@ static inline uintptr_t CResult_NoneNoneZ_clone_ptr(LDKCResult_NoneNoneZ *NONNUL
 }
 uint32_t  __attribute__((export_name("TS_CResult_NoneNoneZ_clone_ptr"))) TS_CResult_NoneNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneNoneZ* arg_conv = (LDKCResult_NoneNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NoneNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NoneNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NoneNoneZ_clone"))) TS_CResult_NoneNoneZ_clone(uint32_t orig) {
@@ -10672,8 +10733,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDe
 
 jboolean  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_is_ok"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* o_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_free"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_free(uint32_t _res) {
@@ -10692,8 +10753,8 @@ static inline uintptr_t CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_
 }
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone(uint32_t orig) {
@@ -10721,8 +10782,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_err"))) TS_CRes
 
 jboolean  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_is_ok"))) TS_CResult_SecretKeyErrorZ_is_ok(uint32_t o) {
 	LDKCResult_SecretKeyErrorZ* o_conv = (LDKCResult_SecretKeyErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_SecretKeyErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SecretKeyErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_free"))) TS_CResult_SecretKeyErrorZ_free(uint32_t _res) {
@@ -10741,8 +10802,8 @@ static inline uintptr_t CResult_SecretKeyErrorZ_clone_ptr(LDKCResult_SecretKeyEr
 }
 uint32_t  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_clone_ptr"))) TS_CResult_SecretKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SecretKeyErrorZ* arg_conv = (LDKCResult_SecretKeyErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SecretKeyErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SecretKeyErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_clone"))) TS_CResult_SecretKeyErrorZ_clone(uint32_t orig) {
@@ -10770,8 +10831,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_err"))) TS_CRes
 
 jboolean  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_is_ok"))) TS_CResult_PublicKeyErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PublicKeyErrorZ* o_conv = (LDKCResult_PublicKeyErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PublicKeyErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PublicKeyErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_free"))) TS_CResult_PublicKeyErrorZ_free(uint32_t _res) {
@@ -10790,8 +10851,8 @@ static inline uintptr_t CResult_PublicKeyErrorZ_clone_ptr(LDKCResult_PublicKeyEr
 }
 uint32_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_clone_ptr"))) TS_CResult_PublicKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PublicKeyErrorZ* arg_conv = (LDKCResult_PublicKeyErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PublicKeyErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PublicKeyErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_clone"))) TS_CResult_PublicKeyErrorZ_clone(uint32_t orig) {
@@ -10825,8 +10886,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_is_ok"))) TS_CResult_TxCreationKeysDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* o_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_TxCreationKeysDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TxCreationKeysDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_free"))) TS_CResult_TxCreationKeysDecodeErrorZ_free(uint32_t _res) {
@@ -10845,8 +10906,8 @@ static inline uintptr_t CResult_TxCreationKeysDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* arg_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_TxCreationKeysDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_TxCreationKeysDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_clone"))) TS_CResult_TxCreationKeysDecodeErrorZ_clone(uint32_t orig) {
@@ -10880,8 +10941,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_is_ok"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* o_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelPublicKeysDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelPublicKeysDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_free"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_free(uint32_t _res) {
@@ -10900,8 +10961,8 @@ static inline uintptr_t CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* arg_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_clone"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_clone(uint32_t orig) {
@@ -10931,8 +10992,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_is_ok"))) TS_CResult_TxCreationKeysErrorZ_is_ok(uint32_t o) {
 	LDKCResult_TxCreationKeysErrorZ* o_conv = (LDKCResult_TxCreationKeysErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_TxCreationKeysErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TxCreationKeysErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_free"))) TS_CResult_TxCreationKeysErrorZ_free(uint32_t _res) {
@@ -10951,8 +11012,8 @@ static inline uintptr_t CResult_TxCreationKeysErrorZ_clone_ptr(LDKCResult_TxCrea
 }
 uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxCreationKeysErrorZ* arg_conv = (LDKCResult_TxCreationKeysErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_TxCreationKeysErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_TxCreationKeysErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_clone"))) TS_CResult_TxCreationKeysErrorZ_clone(uint32_t orig) {
@@ -10993,8 +11054,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_u32Z_clone_ptr"))) TS_COption_u32Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u32Z* arg_conv = (LDKCOption_u32Z*)arg;
-	uint32_t ret_val = COption_u32Z_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_u32Z_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_u32Z_clone"))) TS_COption_u32Z_clone(uint32_t orig) {
@@ -11029,8 +11090,8 @@ uint32_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErr
 
 jboolean  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_is_ok"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* o_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_HTLCOutputInCommitmentDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_HTLCOutputInCommitmentDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_free"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_free(uint32_t _res) {
@@ -11049,8 +11110,8 @@ static inline uintptr_t CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(LDK
 }
 uint32_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* arg_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone(uint32_t orig) {
@@ -11099,8 +11160,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionP
 
 jboolean  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* o_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_free"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_free(uint32_t _res) {
@@ -11119,8 +11180,8 @@ static inline uintptr_t CResult_CounterpartyChannelTransactionParametersDecodeEr
 }
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone(uint32_t orig) {
@@ -11154,8 +11215,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDec
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_is_ok"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* o_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelTransactionParametersDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelTransactionParametersDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_free"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_free(uint32_t _res) {
@@ -11174,8 +11235,8 @@ static inline uintptr_t CResult_ChannelTransactionParametersDecodeErrorZ_clone_p
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* arg_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone(uint32_t orig) {
@@ -11227,8 +11288,8 @@ uint32_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDeco
 
 jboolean  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_is_ok"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* o_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_HolderCommitmentTransactionDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_HolderCommitmentTransactionDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_free"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_free(uint32_t _res) {
@@ -11247,8 +11308,8 @@ static inline uintptr_t CResult_HolderCommitmentTransactionDecodeErrorZ_clone_pt
 }
 uint32_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone(uint32_t orig) {
@@ -11282,8 +11343,8 @@ uint32_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecod
 
 jboolean  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_is_ok"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* o_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_BuiltCommitmentTransactionDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_BuiltCommitmentTransactionDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_free"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_free(uint32_t _res) {
@@ -11302,8 +11363,8 @@ static inline uintptr_t CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr
 }
 uint32_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone(uint32_t orig) {
@@ -11332,8 +11393,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TrustedClosingTransactionNoneZ_
 
 jboolean  __attribute__((export_name("TS_CResult_TrustedClosingTransactionNoneZ_is_ok"))) TS_CResult_TrustedClosingTransactionNoneZ_is_ok(uint32_t o) {
 	LDKCResult_TrustedClosingTransactionNoneZ* o_conv = (LDKCResult_TrustedClosingTransactionNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_TrustedClosingTransactionNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TrustedClosingTransactionNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TrustedClosingTransactionNoneZ_free"))) TS_CResult_TrustedClosingTransactionNoneZ_free(uint32_t _res) {
@@ -11369,8 +11430,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErro
 
 jboolean  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_is_ok"))) TS_CResult_CommitmentTransactionDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* o_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CommitmentTransactionDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CommitmentTransactionDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_free"))) TS_CResult_CommitmentTransactionDecodeErrorZ_free(uint32_t _res) {
@@ -11389,8 +11450,8 @@ static inline uintptr_t CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(LDKC
 }
 uint32_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_clone"))) TS_CResult_CommitmentTransactionDecodeErrorZ_clone(uint32_t orig) {
@@ -11419,8 +11480,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TrustedCommitmentTransactionNon
 
 jboolean  __attribute__((export_name("TS_CResult_TrustedCommitmentTransactionNoneZ_is_ok"))) TS_CResult_TrustedCommitmentTransactionNoneZ_is_ok(uint32_t o) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ* o_conv = (LDKCResult_TrustedCommitmentTransactionNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_TrustedCommitmentTransactionNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TrustedCommitmentTransactionNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TrustedCommitmentTransactionNoneZ_free"))) TS_CResult_TrustedCommitmentTransactionNoneZ_free(uint32_t _res) {
@@ -11460,8 +11521,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_is_ok"))) TS_CResult_CVec_SignatureZNoneZ_is_ok(uint32_t o) {
 	LDKCResult_CVec_SignatureZNoneZ* o_conv = (LDKCResult_CVec_SignatureZNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_CVec_SignatureZNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CVec_SignatureZNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_free"))) TS_CResult_CVec_SignatureZNoneZ_free(uint32_t _res) {
@@ -11480,8 +11541,8 @@ static inline uintptr_t CResult_CVec_SignatureZNoneZ_clone_ptr(LDKCResult_CVec_S
 }
 uint32_t  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_clone_ptr"))) TS_CResult_CVec_SignatureZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ* arg_conv = (LDKCResult_CVec_SignatureZNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CVec_SignatureZNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CVec_SignatureZNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_clone"))) TS_CResult_CVec_SignatureZNoneZ_clone(uint32_t orig) {
@@ -11515,8 +11576,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_is_ok"))) TS_CResult_ShutdownScriptDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* o_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ShutdownScriptDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ShutdownScriptDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_free"))) TS_CResult_ShutdownScriptDecodeErrorZ_free(uint32_t _res) {
@@ -11535,8 +11596,8 @@ static inline uintptr_t CResult_ShutdownScriptDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* arg_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ShutdownScriptDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ShutdownScriptDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_clone"))) TS_CResult_ShutdownScriptDecodeErrorZ_clone(uint32_t orig) {
@@ -11570,8 +11631,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownSc
 
 jboolean  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_is_ok"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_is_ok(uint32_t o) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* o_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)(o & ~1);
-	jboolean ret_val = CResult_ShutdownScriptInvalidShutdownScriptZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ShutdownScriptInvalidShutdownScriptZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_free"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_free(uint32_t _res) {
@@ -11590,8 +11651,8 @@ static inline uintptr_t CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(L
 }
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* arg_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone(uint32_t orig) {
@@ -11625,8 +11686,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_is_ok"))) TS_CResult_RouteHopDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteHopDecodeErrorZ* o_conv = (LDKCResult_RouteHopDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteHopDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteHopDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_free"))) TS_CResult_RouteHopDecodeErrorZ_free(uint32_t _res) {
@@ -11645,8 +11706,8 @@ static inline uintptr_t CResult_RouteHopDecodeErrorZ_clone_ptr(LDKCResult_RouteH
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHopDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHopDecodeErrorZ* arg_conv = (LDKCResult_RouteHopDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteHopDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteHopDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_clone"))) TS_CResult_RouteHopDecodeErrorZ_clone(uint32_t orig) {
@@ -11729,8 +11790,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_err"))) TS_CR
 
 jboolean  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_is_ok"))) TS_CResult_RouteDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteDecodeErrorZ* o_conv = (LDKCResult_RouteDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_free"))) TS_CResult_RouteDecodeErrorZ_free(uint32_t _res) {
@@ -11749,8 +11810,8 @@ static inline uintptr_t CResult_RouteDecodeErrorZ_clone_ptr(LDKCResult_RouteDeco
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_clone_ptr"))) TS_CResult_RouteDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteDecodeErrorZ* arg_conv = (LDKCResult_RouteDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_clone"))) TS_CResult_RouteDecodeErrorZ_clone(uint32_t orig) {
@@ -11784,8 +11845,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_err
 
 jboolean  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_is_ok"))) TS_CResult_RouteParametersDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteParametersDecodeErrorZ* o_conv = (LDKCResult_RouteParametersDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteParametersDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteParametersDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_free"))) TS_CResult_RouteParametersDecodeErrorZ_free(uint32_t _res) {
@@ -11804,8 +11865,8 @@ static inline uintptr_t CResult_RouteParametersDecodeErrorZ_clone_ptr(LDKCResult
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_clone_ptr"))) TS_CResult_RouteParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteParametersDecodeErrorZ* arg_conv = (LDKCResult_RouteParametersDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteParametersDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteParametersDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_clone"))) TS_CResult_RouteParametersDecodeErrorZ_clone(uint32_t orig) {
@@ -11865,8 +11926,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_u64Z_clone_ptr"))) TS_COption_u64Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u64Z* arg_conv = (LDKCOption_u64Z*)arg;
-	uint32_t ret_val = COption_u64Z_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_u64Z_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_u64Z_clone"))) TS_COption_u64Z_clone(uint32_t orig) {
@@ -11901,8 +11962,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_is_ok"))) TS_CResult_PaymentParametersDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentParametersDecodeErrorZ* o_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentParametersDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentParametersDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_free"))) TS_CResult_PaymentParametersDecodeErrorZ_free(uint32_t _res) {
@@ -11921,8 +11982,8 @@ static inline uintptr_t CResult_PaymentParametersDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr"))) TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentParametersDecodeErrorZ* arg_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentParametersDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentParametersDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_clone"))) TS_CResult_PaymentParametersDecodeErrorZ_clone(uint32_t orig) {
@@ -11975,8 +12036,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_err"))) T
 
 jboolean  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_is_ok"))) TS_CResult_RouteHintDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteHintDecodeErrorZ* o_conv = (LDKCResult_RouteHintDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteHintDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteHintDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_free"))) TS_CResult_RouteHintDecodeErrorZ_free(uint32_t _res) {
@@ -11995,8 +12056,8 @@ static inline uintptr_t CResult_RouteHintDecodeErrorZ_clone_ptr(LDKCResult_Route
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHintDecodeErrorZ* arg_conv = (LDKCResult_RouteHintDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteHintDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteHintDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_clone"))) TS_CResult_RouteHintDecodeErrorZ_clone(uint32_t orig) {
@@ -12030,8 +12091,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_is_ok"))) TS_CResult_RouteHintHopDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteHintHopDecodeErrorZ* o_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteHintHopDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteHintHopDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_free"))) TS_CResult_RouteHintHopDecodeErrorZ_free(uint32_t _res) {
@@ -12050,8 +12111,8 @@ static inline uintptr_t CResult_RouteHintHopDecodeErrorZ_clone_ptr(LDKCResult_Ro
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHintHopDecodeErrorZ* arg_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteHintHopDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteHintHopDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_clone"))) TS_CResult_RouteHintHopDecodeErrorZ_clone(uint32_t orig) {
@@ -12104,8 +12165,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_is_ok"))) TS_CResult_RouteLightningErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RouteLightningErrorZ* o_conv = (LDKCResult_RouteLightningErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RouteLightningErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RouteLightningErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_free"))) TS_CResult_RouteLightningErrorZ_free(uint32_t _res) {
@@ -12124,8 +12185,8 @@ static inline uintptr_t CResult_RouteLightningErrorZ_clone_ptr(LDKCResult_RouteL
 }
 uint32_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_clone_ptr"))) TS_CResult_RouteLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteLightningErrorZ* arg_conv = (LDKCResult_RouteLightningErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RouteLightningErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RouteLightningErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_clone"))) TS_CResult_RouteLightningErrorZ_clone(uint32_t orig) {
@@ -12154,8 +12215,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_err"))) TS_CR
 
 jboolean  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_is_ok"))) TS_CResult_TxOutAccessErrorZ_is_ok(uint32_t o) {
 	LDKCResult_TxOutAccessErrorZ* o_conv = (LDKCResult_TxOutAccessErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_TxOutAccessErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TxOutAccessErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_free"))) TS_CResult_TxOutAccessErrorZ_free(uint32_t _res) {
@@ -12174,8 +12235,8 @@ static inline uintptr_t CResult_TxOutAccessErrorZ_clone_ptr(LDKCResult_TxOutAcce
 }
 uint32_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_clone_ptr"))) TS_CResult_TxOutAccessErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxOutAccessErrorZ* arg_conv = (LDKCResult_TxOutAccessErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_TxOutAccessErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_TxOutAccessErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_clone"))) TS_CResult_TxOutAccessErrorZ_clone(uint32_t orig) {
@@ -12192,8 +12253,8 @@ static inline uintptr_t C2Tuple_usizeTransactionZ_clone_ptr(LDKC2Tuple_usizeTran
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_clone_ptr"))) TS_C2Tuple_usizeTransactionZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_usizeTransactionZ* arg_conv = (LDKC2Tuple_usizeTransactionZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_usizeTransactionZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_usizeTransactionZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_clone"))) TS_C2Tuple_usizeTransactionZ_clone(uint32_t orig) {
@@ -12275,8 +12336,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_er
 
 jboolean  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_is_ok"))) TS_CResult_NoneChannelMonitorUpdateErrZ_is_ok(uint32_t o) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ* o_conv = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(o & ~1);
-	jboolean ret_val = CResult_NoneChannelMonitorUpdateErrZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NoneChannelMonitorUpdateErrZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_free"))) TS_CResult_NoneChannelMonitorUpdateErrZ_free(uint32_t _res) {
@@ -12295,8 +12356,8 @@ static inline uintptr_t CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(LDKCResul
 }
 uint32_t  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr"))) TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ* arg_conv = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_clone"))) TS_CResult_NoneChannelMonitorUpdateErrZ_clone(uint32_t orig) {
@@ -12360,8 +12421,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr"))) TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr(uint32_t arg) {
 	LDKCOption_C2Tuple_usizeTransactionZZ* arg_conv = (LDKCOption_C2Tuple_usizeTransactionZZ*)arg;
-	uint32_t ret_val = COption_C2Tuple_usizeTransactionZZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_C2Tuple_usizeTransactionZZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_C2Tuple_usizeTransactionZZ_clone"))) TS_COption_C2Tuple_usizeTransactionZZ_clone(uint32_t orig) {
@@ -12407,8 +12468,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_ClosureReasonZ_clone_ptr"))) TS_COption_ClosureReasonZ_clone_ptr(uint32_t arg) {
 	LDKCOption_ClosureReasonZ* arg_conv = (LDKCOption_ClosureReasonZ*)arg;
-	uint32_t ret_val = COption_ClosureReasonZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_ClosureReasonZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_ClosureReasonZ_clone"))) TS_COption_ClosureReasonZ_clone(uint32_t orig) {
@@ -12442,8 +12503,8 @@ uint32_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErr
 
 jboolean  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_is_ok"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_COption_ClosureReasonZDecodeErrorZ* o_conv = (LDKCResult_COption_ClosureReasonZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_COption_ClosureReasonZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_COption_ClosureReasonZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_free"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_free(uint32_t _res) {
@@ -12462,8 +12523,8 @@ static inline uintptr_t CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(LDK
 }
 uint32_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_ClosureReasonZDecodeErrorZ* arg_conv = (LDKCResult_COption_ClosureReasonZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone(uint32_t orig) {
@@ -12508,8 +12569,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_NetworkUpdateZ_clone_ptr"))) TS_COption_NetworkUpdateZ_clone_ptr(uint32_t arg) {
 	LDKCOption_NetworkUpdateZ* arg_conv = (LDKCOption_NetworkUpdateZ*)arg;
-	uint32_t ret_val = COption_NetworkUpdateZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_NetworkUpdateZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_NetworkUpdateZ_clone"))) TS_COption_NetworkUpdateZ_clone(uint32_t orig) {
@@ -12574,8 +12635,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_EventZ_clone_ptr"))) TS_COption_EventZ_clone_ptr(uint32_t arg) {
 	LDKCOption_EventZ* arg_conv = (LDKCOption_EventZ*)arg;
-	uint32_t ret_val = COption_EventZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_EventZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_EventZ_clone"))) TS_COption_EventZ_clone(uint32_t orig) {
@@ -12609,8 +12670,8 @@ uint32_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_is_ok"))) TS_CResult_COption_EventZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_COption_EventZDecodeErrorZ* o_conv = (LDKCResult_COption_EventZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_COption_EventZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_COption_EventZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_free"))) TS_CResult_COption_EventZDecodeErrorZ_free(uint32_t _res) {
@@ -12629,8 +12690,8 @@ static inline uintptr_t CResult_COption_EventZDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_EventZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_EventZDecodeErrorZ* arg_conv = (LDKCResult_COption_EventZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_COption_EventZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_COption_EventZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_clone"))) TS_CResult_COption_EventZDecodeErrorZ_clone(uint32_t orig) {
@@ -12683,8 +12744,8 @@ uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_
 
 jboolean  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_is_ok"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* o_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_FixedPenaltyScorerDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_FixedPenaltyScorerDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_free"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_free(uint32_t _res) {
@@ -12703,8 +12764,8 @@ static inline uintptr_t CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(LDKCRes
 }
 uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* arg_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone(uint32_t orig) {
@@ -12738,8 +12799,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_is_ok"))) TS_CResult_ScoringParametersDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ScoringParametersDecodeErrorZ* o_conv = (LDKCResult_ScoringParametersDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ScoringParametersDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ScoringParametersDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_free"))) TS_CResult_ScoringParametersDecodeErrorZ_free(uint32_t _res) {
@@ -12758,8 +12819,8 @@ static inline uintptr_t CResult_ScoringParametersDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ScoringParametersDecodeErrorZ* arg_conv = (LDKCResult_ScoringParametersDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_clone"))) TS_CResult_ScoringParametersDecodeErrorZ_clone(uint32_t orig) {
@@ -12793,8 +12854,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ScorerDecodeErrorZ_err"))) TS_C
 
 jboolean  __attribute__((export_name("TS_CResult_ScorerDecodeErrorZ_is_ok"))) TS_CResult_ScorerDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ScorerDecodeErrorZ* o_conv = (LDKCResult_ScorerDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ScorerDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ScorerDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ScorerDecodeErrorZ_free"))) TS_CResult_ScorerDecodeErrorZ_free(uint32_t _res) {
@@ -12830,8 +12891,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ
 
 jboolean  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ_is_ok"))) TS_CResult_ProbabilisticScorerDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ProbabilisticScorerDecodeErrorZ* o_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ProbabilisticScorerDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ProbabilisticScorerDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ_free"))) TS_CResult_ProbabilisticScorerDecodeErrorZ_free(uint32_t _res) {
@@ -12867,8 +12928,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_is_ok"))) TS_CResult_InitFeaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InitFeaturesDecodeErrorZ* o_conv = (LDKCResult_InitFeaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InitFeaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InitFeaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_free"))) TS_CResult_InitFeaturesDecodeErrorZ_free(uint32_t _res) {
@@ -12904,8 +12965,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_err
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_is_ok"))) TS_CResult_ChannelFeaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelFeaturesDecodeErrorZ* o_conv = (LDKCResult_ChannelFeaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelFeaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelFeaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_free"))) TS_CResult_ChannelFeaturesDecodeErrorZ_free(uint32_t _res) {
@@ -12941,8 +13002,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_is_ok"))) TS_CResult_NodeFeaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NodeFeaturesDecodeErrorZ* o_conv = (LDKCResult_NodeFeaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NodeFeaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NodeFeaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_free"))) TS_CResult_NodeFeaturesDecodeErrorZ_free(uint32_t _res) {
@@ -12978,8 +13039,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_err
 
 jboolean  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_is_ok"))) TS_CResult_InvoiceFeaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InvoiceFeaturesDecodeErrorZ* o_conv = (LDKCResult_InvoiceFeaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InvoiceFeaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InvoiceFeaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_free"))) TS_CResult_InvoiceFeaturesDecodeErrorZ_free(uint32_t _res) {
@@ -13015,8 +13076,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ_is_ok"))) TS_CResult_ChannelTypeFeaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelTypeFeaturesDecodeErrorZ* o_conv = (LDKCResult_ChannelTypeFeaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelTypeFeaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelTypeFeaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ_free"))) TS_CResult_ChannelTypeFeaturesDecodeErrorZ_free(uint32_t _res) {
@@ -13052,8 +13113,8 @@ uint32_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorD
 
 jboolean  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_is_ok"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* o_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_free"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_free(uint32_t _res) {
@@ -13072,8 +13133,8 @@ static inline uintptr_t CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone
 }
 uint32_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone(uint32_t orig) {
@@ -13107,8 +13168,8 @@ uint32_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDe
 
 jboolean  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_is_ok"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* o_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_free"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_free(uint32_t _res) {
@@ -13127,8 +13188,8 @@ static inline uintptr_t CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_
 }
 uint32_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(uint32_t orig) {
@@ -13161,8 +13222,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecode
 
 jboolean  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_is_ok"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* o_conv = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_SpendableOutputDescriptorDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SpendableOutputDescriptorDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_free"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_free(uint32_t _res) {
@@ -13181,8 +13242,8 @@ static inline uintptr_t CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(
 }
 uint32_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone(uint32_t orig) {
@@ -13217,8 +13278,8 @@ static inline uintptr_t C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(LDKC2Tuple_S
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr"))) TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ* arg_conv = (LDKC2Tuple_SignatureCVec_SignatureZZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureCVec_SignatureZZ_clone"))) TS_C2Tuple_SignatureCVec_SignatureZZ_clone(uint32_t orig) {
@@ -13278,8 +13339,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_Signature
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* o_conv = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(uint32_t _res) {
@@ -13298,8 +13359,8 @@ static inline uintptr_t CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* arg_conv = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(uint32_t orig) {
@@ -13326,8 +13387,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SignatureNoneZ_err"))) TS_CResu
 
 jboolean  __attribute__((export_name("TS_CResult_SignatureNoneZ_is_ok"))) TS_CResult_SignatureNoneZ_is_ok(uint32_t o) {
 	LDKCResult_SignatureNoneZ* o_conv = (LDKCResult_SignatureNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_SignatureNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SignatureNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SignatureNoneZ_free"))) TS_CResult_SignatureNoneZ_free(uint32_t _res) {
@@ -13346,8 +13407,8 @@ static inline uintptr_t CResult_SignatureNoneZ_clone_ptr(LDKCResult_SignatureNon
 }
 uint32_t  __attribute__((export_name("TS_CResult_SignatureNoneZ_clone_ptr"))) TS_CResult_SignatureNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignatureNoneZ* arg_conv = (LDKCResult_SignatureNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SignatureNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SignatureNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SignatureNoneZ_clone"))) TS_CResult_SignatureNoneZ_clone(uint32_t orig) {
@@ -13364,8 +13425,8 @@ static inline uintptr_t C2Tuple_SignatureSignatureZ_clone_ptr(LDKC2Tuple_Signatu
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureSignatureZ_clone_ptr"))) TS_C2Tuple_SignatureSignatureZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_SignatureSignatureZ* arg_conv = (LDKC2Tuple_SignatureSignatureZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_SignatureSignatureZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_SignatureSignatureZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureSignatureZ_clone"))) TS_C2Tuple_SignatureSignatureZ_clone(uint32_t orig) {
@@ -13414,8 +13475,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNone
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_SignatureSignatureZNoneZ* o_conv = (LDKCResult_C2Tuple_SignatureSignatureZNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_free"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_free(uint32_t _res) {
@@ -13434,8 +13495,8 @@ static inline uintptr_t CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(LDKCR
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureSignatureZNoneZ* arg_conv = (LDKCResult_C2Tuple_SignatureSignatureZNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone(uint32_t orig) {
@@ -13462,8 +13523,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_err"))) TS_CResu
 
 jboolean  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_is_ok"))) TS_CResult_SecretKeyNoneZ_is_ok(uint32_t o) {
 	LDKCResult_SecretKeyNoneZ* o_conv = (LDKCResult_SecretKeyNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_SecretKeyNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SecretKeyNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_free"))) TS_CResult_SecretKeyNoneZ_free(uint32_t _res) {
@@ -13482,8 +13543,8 @@ static inline uintptr_t CResult_SecretKeyNoneZ_clone_ptr(LDKCResult_SecretKeyNon
 }
 uint32_t  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_clone_ptr"))) TS_CResult_SecretKeyNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SecretKeyNoneZ* arg_conv = (LDKCResult_SecretKeyNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SecretKeyNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SecretKeyNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_clone"))) TS_CResult_SecretKeyNoneZ_clone(uint32_t orig) {
@@ -13519,8 +13580,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_err"))) TS_CRe
 
 jboolean  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_is_ok"))) TS_CResult_SignDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_SignDecodeErrorZ* o_conv = (LDKCResult_SignDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_SignDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SignDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_free"))) TS_CResult_SignDecodeErrorZ_free(uint32_t _res) {
@@ -13539,8 +13600,8 @@ static inline uintptr_t CResult_SignDecodeErrorZ_clone_ptr(LDKCResult_SignDecode
 }
 uint32_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_clone_ptr"))) TS_CResult_SignDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignDecodeErrorZ* arg_conv = (LDKCResult_SignDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SignDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SignDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_clone"))) TS_CResult_SignDecodeErrorZ_clone(uint32_t orig) {
@@ -13583,8 +13644,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_is_ok"))) TS_CResult_RecoverableSignatureNoneZ_is_ok(uint32_t o) {
 	LDKCResult_RecoverableSignatureNoneZ* o_conv = (LDKCResult_RecoverableSignatureNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_RecoverableSignatureNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RecoverableSignatureNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_free"))) TS_CResult_RecoverableSignatureNoneZ_free(uint32_t _res) {
@@ -13603,8 +13664,8 @@ static inline uintptr_t CResult_RecoverableSignatureNoneZ_clone_ptr(LDKCResult_R
 }
 uint32_t  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_clone_ptr"))) TS_CResult_RecoverableSignatureNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RecoverableSignatureNoneZ* arg_conv = (LDKCResult_RecoverableSignatureNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RecoverableSignatureNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RecoverableSignatureNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_clone"))) TS_CResult_RecoverableSignatureNoneZ_clone(uint32_t orig) {
@@ -13670,8 +13731,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_err"))) TS_
 
 jboolean  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_is_ok"))) TS_CResult_CVec_CVec_u8ZZNoneZ_is_ok(uint32_t o) {
 	LDKCResult_CVec_CVec_u8ZZNoneZ* o_conv = (LDKCResult_CVec_CVec_u8ZZNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_CVec_CVec_u8ZZNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CVec_CVec_u8ZZNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_free"))) TS_CResult_CVec_CVec_u8ZZNoneZ_free(uint32_t _res) {
@@ -13690,8 +13751,8 @@ static inline uintptr_t CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(LDKCResult_CVec_CV
 }
 uint32_t  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr"))) TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_CVec_u8ZZNoneZ* arg_conv = (LDKCResult_CVec_CVec_u8ZZNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_clone"))) TS_CResult_CVec_CVec_u8ZZNoneZ_clone(uint32_t orig) {
@@ -13725,8 +13786,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_is_ok"))) TS_CResult_InMemorySignerDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InMemorySignerDecodeErrorZ* o_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InMemorySignerDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InMemorySignerDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_free"))) TS_CResult_InMemorySignerDecodeErrorZ_free(uint32_t _res) {
@@ -13745,8 +13806,8 @@ static inline uintptr_t CResult_InMemorySignerDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr"))) TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InMemorySignerDecodeErrorZ* arg_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_InMemorySignerDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_InMemorySignerDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_clone"))) TS_CResult_InMemorySignerDecodeErrorZ_clone(uint32_t orig) {
@@ -13794,8 +13855,8 @@ uint32_t  __attribute__((export_name("TS_CResult_TransactionNoneZ_err"))) TS_CRe
 
 jboolean  __attribute__((export_name("TS_CResult_TransactionNoneZ_is_ok"))) TS_CResult_TransactionNoneZ_is_ok(uint32_t o) {
 	LDKCResult_TransactionNoneZ* o_conv = (LDKCResult_TransactionNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_TransactionNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_TransactionNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_TransactionNoneZ_free"))) TS_CResult_TransactionNoneZ_free(uint32_t _res) {
@@ -13814,8 +13875,8 @@ static inline uintptr_t CResult_TransactionNoneZ_clone_ptr(LDKCResult_Transactio
 }
 uint32_t  __attribute__((export_name("TS_CResult_TransactionNoneZ_clone_ptr"))) TS_CResult_TransactionNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TransactionNoneZ* arg_conv = (LDKCResult_TransactionNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_TransactionNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_TransactionNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_TransactionNoneZ_clone"))) TS_CResult_TransactionNoneZ_clone(uint32_t orig) {
@@ -13856,8 +13917,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_u16Z_clone_ptr"))) TS_COption_u16Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u16Z* arg_conv = (LDKCOption_u16Z*)arg;
-	uint32_t ret_val = COption_u16Z_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_u16Z_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_u16Z_clone"))) TS_COption_u16Z_clone(uint32_t orig) {
@@ -13886,8 +13947,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_err"))) TS_CResul
 
 jboolean  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_is_ok"))) TS_CResult_NoneAPIErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NoneAPIErrorZ* o_conv = (LDKCResult_NoneAPIErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NoneAPIErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NoneAPIErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_free"))) TS_CResult_NoneAPIErrorZ_free(uint32_t _res) {
@@ -13906,8 +13967,8 @@ static inline uintptr_t CResult_NoneAPIErrorZ_clone_ptr(LDKCResult_NoneAPIErrorZ
 }
 uint32_t  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_clone_ptr"))) TS_CResult_NoneAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneAPIErrorZ* arg_conv = (LDKCResult_NoneAPIErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NoneAPIErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NoneAPIErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_clone"))) TS_CResult_NoneAPIErrorZ_clone(uint32_t orig) {
@@ -13976,8 +14037,8 @@ uint32_t  __attribute__((export_name("TS_CResult__u832APIErrorZ_err"))) TS_CResu
 
 jboolean  __attribute__((export_name("TS_CResult__u832APIErrorZ_is_ok"))) TS_CResult__u832APIErrorZ_is_ok(uint32_t o) {
 	LDKCResult__u832APIErrorZ* o_conv = (LDKCResult__u832APIErrorZ*)(o & ~1);
-	jboolean ret_val = CResult__u832APIErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult__u832APIErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult__u832APIErrorZ_free"))) TS_CResult__u832APIErrorZ_free(uint32_t _res) {
@@ -13996,8 +14057,8 @@ static inline uintptr_t CResult__u832APIErrorZ_clone_ptr(LDKCResult__u832APIErro
 }
 uint32_t  __attribute__((export_name("TS_CResult__u832APIErrorZ_clone_ptr"))) TS_CResult__u832APIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult__u832APIErrorZ* arg_conv = (LDKCResult__u832APIErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult__u832APIErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult__u832APIErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult__u832APIErrorZ_clone"))) TS_CResult__u832APIErrorZ_clone(uint32_t orig) {
@@ -14028,8 +14089,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_er
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_is_ok"))) TS_CResult_PaymentIdPaymentSendFailureZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentIdPaymentSendFailureZ* o_conv = (LDKCResult_PaymentIdPaymentSendFailureZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentIdPaymentSendFailureZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentIdPaymentSendFailureZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_free"))) TS_CResult_PaymentIdPaymentSendFailureZ_free(uint32_t _res) {
@@ -14048,8 +14109,8 @@ static inline uintptr_t CResult_PaymentIdPaymentSendFailureZ_clone_ptr(LDKCResul
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr"))) TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentIdPaymentSendFailureZ* arg_conv = (LDKCResult_PaymentIdPaymentSendFailureZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentIdPaymentSendFailureZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentIdPaymentSendFailureZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_clone"))) TS_CResult_PaymentIdPaymentSendFailureZ_clone(uint32_t orig) {
@@ -14077,8 +14138,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_err")))
 
 jboolean  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_is_ok"))) TS_CResult_NonePaymentSendFailureZ_is_ok(uint32_t o) {
 	LDKCResult_NonePaymentSendFailureZ* o_conv = (LDKCResult_NonePaymentSendFailureZ*)(o & ~1);
-	jboolean ret_val = CResult_NonePaymentSendFailureZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NonePaymentSendFailureZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_free"))) TS_CResult_NonePaymentSendFailureZ_free(uint32_t _res) {
@@ -14097,8 +14158,8 @@ static inline uintptr_t CResult_NonePaymentSendFailureZ_clone_ptr(LDKCResult_Non
 }
 uint32_t  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_clone_ptr"))) TS_CResult_NonePaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NonePaymentSendFailureZ* arg_conv = (LDKCResult_NonePaymentSendFailureZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NonePaymentSendFailureZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NonePaymentSendFailureZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_clone"))) TS_CResult_NonePaymentSendFailureZ_clone(uint32_t orig) {
@@ -14115,8 +14176,8 @@ static inline uintptr_t C2Tuple_PaymentHashPaymentIdZ_clone_ptr(LDKC2Tuple_Payme
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PaymentHashPaymentIdZ* arg_conv = (LDKC2Tuple_PaymentHashPaymentIdZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_PaymentHashPaymentIdZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_PaymentHashPaymentIdZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentIdZ_clone"))) TS_C2Tuple_PaymentHashPaymentIdZ_clone(uint32_t orig) {
@@ -14169,8 +14230,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPa
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_is_ok"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* o_conv = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_free"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_free(uint32_t _res) {
@@ -14189,8 +14250,8 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(uint32_t orig) {
@@ -14226,8 +14287,8 @@ static inline uintptr_t C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(LDKC2Tuple_P
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PaymentHashPaymentSecretZ* arg_conv = (LDKC2Tuple_PaymentHashPaymentSecretZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentSecretZ_clone"))) TS_C2Tuple_PaymentHashPaymentSecretZ_clone(uint32_t orig) {
@@ -14276,8 +14337,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecre
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ* o_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_free"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_free(uint32_t _res) {
@@ -14296,8 +14357,8 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone(uint32_t orig) {
@@ -14329,8 +14390,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecre
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_is_ok"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ* o_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_free"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_free(uint32_t _res) {
@@ -14349,8 +14410,8 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone(uint32_t orig) {
@@ -14377,8 +14438,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_err"))) TS_C
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_is_ok"))) TS_CResult_PaymentSecretNoneZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentSecretNoneZ* o_conv = (LDKCResult_PaymentSecretNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentSecretNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentSecretNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_free"))) TS_CResult_PaymentSecretNoneZ_free(uint32_t _res) {
@@ -14397,8 +14458,8 @@ static inline uintptr_t CResult_PaymentSecretNoneZ_clone_ptr(LDKCResult_PaymentS
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_clone_ptr"))) TS_CResult_PaymentSecretNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentSecretNoneZ* arg_conv = (LDKCResult_PaymentSecretNoneZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentSecretNoneZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentSecretNoneZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_clone"))) TS_CResult_PaymentSecretNoneZ_clone(uint32_t orig) {
@@ -14429,8 +14490,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_err"))) 
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_is_ok"))) TS_CResult_PaymentSecretAPIErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentSecretAPIErrorZ* o_conv = (LDKCResult_PaymentSecretAPIErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentSecretAPIErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentSecretAPIErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_free"))) TS_CResult_PaymentSecretAPIErrorZ_free(uint32_t _res) {
@@ -14449,8 +14510,8 @@ static inline uintptr_t CResult_PaymentSecretAPIErrorZ_clone_ptr(LDKCResult_Paym
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_clone_ptr"))) TS_CResult_PaymentSecretAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentSecretAPIErrorZ* arg_conv = (LDKCResult_PaymentSecretAPIErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentSecretAPIErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentSecretAPIErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_clone"))) TS_CResult_PaymentSecretAPIErrorZ_clone(uint32_t orig) {
@@ -14481,8 +14542,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_is_ok"))) TS_CResult_PaymentPreimageAPIErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentPreimageAPIErrorZ* o_conv = (LDKCResult_PaymentPreimageAPIErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentPreimageAPIErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentPreimageAPIErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_free"))) TS_CResult_PaymentPreimageAPIErrorZ_free(uint32_t _res) {
@@ -14501,8 +14562,8 @@ static inline uintptr_t CResult_PaymentPreimageAPIErrorZ_clone_ptr(LDKCResult_Pa
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr"))) TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentPreimageAPIErrorZ* arg_conv = (LDKCResult_PaymentPreimageAPIErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentPreimageAPIErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentPreimageAPIErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_clone"))) TS_CResult_PaymentPreimageAPIErrorZ_clone(uint32_t orig) {
@@ -14536,8 +14597,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecod
 
 jboolean  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_is_ok"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* o_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CounterpartyForwardingInfoDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CounterpartyForwardingInfoDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_free"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_free(uint32_t _res) {
@@ -14556,8 +14617,8 @@ static inline uintptr_t CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr
 }
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone(uint32_t orig) {
@@ -14591,8 +14652,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_is_ok"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* o_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelCounterpartyDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelCounterpartyDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_free"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_free(uint32_t _res) {
@@ -14611,8 +14672,8 @@ static inline uintptr_t CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(LDKCRe
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* arg_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_clone"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_clone(uint32_t orig) {
@@ -14646,8 +14707,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_is_ok"))) TS_CResult_ChannelDetailsDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* o_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelDetailsDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelDetailsDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_free"))) TS_CResult_ChannelDetailsDecodeErrorZ_free(uint32_t _res) {
@@ -14666,8 +14727,8 @@ static inline uintptr_t CResult_ChannelDetailsDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* arg_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelDetailsDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelDetailsDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_clone"))) TS_CResult_ChannelDetailsDecodeErrorZ_clone(uint32_t orig) {
@@ -14701,8 +14762,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_is_ok"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* o_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PhantomRouteHintsDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PhantomRouteHintsDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_free"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_free(uint32_t _res) {
@@ -14721,8 +14782,8 @@ static inline uintptr_t CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* arg_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_clone"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_clone(uint32_t orig) {
@@ -14797,8 +14858,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManager
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ* o_conv = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(uint32_t _res) {
@@ -14834,8 +14895,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_is_ok"))) TS_CResult_ChannelConfigDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelConfigDecodeErrorZ* o_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelConfigDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelConfigDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_free"))) TS_CResult_ChannelConfigDecodeErrorZ_free(uint32_t _res) {
@@ -14854,8 +14915,8 @@ static inline uintptr_t CResult_ChannelConfigDecodeErrorZ_clone_ptr(LDKCResult_C
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelConfigDecodeErrorZ* arg_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelConfigDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelConfigDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_clone"))) TS_CResult_ChannelConfigDecodeErrorZ_clone(uint32_t orig) {
@@ -14889,8 +14950,8 @@ uint32_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_is_ok"))) TS_CResult_OutPointDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_OutPointDecodeErrorZ* o_conv = (LDKCResult_OutPointDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_OutPointDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_OutPointDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_free"))) TS_CResult_OutPointDecodeErrorZ_free(uint32_t _res) {
@@ -14909,8 +14970,8 @@ static inline uintptr_t CResult_OutPointDecodeErrorZ_clone_ptr(LDKCResult_OutPoi
 }
 uint32_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_clone_ptr"))) TS_CResult_OutPointDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_OutPointDecodeErrorZ* arg_conv = (LDKCResult_OutPointDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_OutPointDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_OutPointDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_clone"))) TS_CResult_OutPointDecodeErrorZ_clone(uint32_t orig) {
@@ -14958,8 +15019,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_TypeZ_clone_ptr"))) TS_COption_TypeZ_clone_ptr(uint32_t arg) {
 	LDKCOption_TypeZ* arg_conv = (LDKCOption_TypeZ*)arg;
-	uint32_t ret_val = COption_TypeZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_TypeZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_TypeZ_clone"))) TS_COption_TypeZ_clone(uint32_t orig) {
@@ -14993,8 +15054,8 @@ uint32_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_is_ok"))) TS_CResult_COption_TypeZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_COption_TypeZDecodeErrorZ* o_conv = (LDKCResult_COption_TypeZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_COption_TypeZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_COption_TypeZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_free"))) TS_CResult_COption_TypeZDecodeErrorZ_free(uint32_t _res) {
@@ -15013,8 +15074,8 @@ static inline uintptr_t CResult_COption_TypeZDecodeErrorZ_clone_ptr(LDKCResult_C
 }
 uint32_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_TypeZDecodeErrorZ* arg_conv = (LDKCResult_COption_TypeZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_COption_TypeZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_COption_TypeZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_clone"))) TS_CResult_COption_TypeZDecodeErrorZ_clone(uint32_t orig) {
@@ -15045,8 +15106,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_err"))) 
 
 jboolean  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_is_ok"))) TS_CResult_PaymentIdPaymentErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PaymentIdPaymentErrorZ* o_conv = (LDKCResult_PaymentIdPaymentErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PaymentIdPaymentErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PaymentIdPaymentErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_free"))) TS_CResult_PaymentIdPaymentErrorZ_free(uint32_t _res) {
@@ -15065,8 +15126,8 @@ static inline uintptr_t CResult_PaymentIdPaymentErrorZ_clone_ptr(LDKCResult_Paym
 }
 uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_clone_ptr"))) TS_CResult_PaymentIdPaymentErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentIdPaymentErrorZ* arg_conv = (LDKCResult_PaymentIdPaymentErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PaymentIdPaymentErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PaymentIdPaymentErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_clone"))) TS_CResult_PaymentIdPaymentErrorZ_clone(uint32_t orig) {
@@ -15095,8 +15156,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SiPrefixParseErrorZ_err"))) TS_
 
 jboolean  __attribute__((export_name("TS_CResult_SiPrefixParseErrorZ_is_ok"))) TS_CResult_SiPrefixParseErrorZ_is_ok(uint32_t o) {
 	LDKCResult_SiPrefixParseErrorZ* o_conv = (LDKCResult_SiPrefixParseErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_SiPrefixParseErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SiPrefixParseErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SiPrefixParseErrorZ_free"))) TS_CResult_SiPrefixParseErrorZ_free(uint32_t _res) {
@@ -15115,8 +15176,8 @@ static inline uintptr_t CResult_SiPrefixParseErrorZ_clone_ptr(LDKCResult_SiPrefi
 }
 uint32_t  __attribute__((export_name("TS_CResult_SiPrefixParseErrorZ_clone_ptr"))) TS_CResult_SiPrefixParseErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SiPrefixParseErrorZ* arg_conv = (LDKCResult_SiPrefixParseErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SiPrefixParseErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SiPrefixParseErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SiPrefixParseErrorZ_clone"))) TS_CResult_SiPrefixParseErrorZ_clone(uint32_t orig) {
@@ -15149,8 +15210,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_er
 
 jboolean  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_is_ok"))) TS_CResult_InvoiceParseOrSemanticErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InvoiceParseOrSemanticErrorZ* o_conv = (LDKCResult_InvoiceParseOrSemanticErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InvoiceParseOrSemanticErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InvoiceParseOrSemanticErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_free"))) TS_CResult_InvoiceParseOrSemanticErrorZ_free(uint32_t _res) {
@@ -15169,8 +15230,8 @@ static inline uintptr_t CResult_InvoiceParseOrSemanticErrorZ_clone_ptr(LDKCResul
 }
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_clone_ptr"))) TS_CResult_InvoiceParseOrSemanticErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceParseOrSemanticErrorZ* arg_conv = (LDKCResult_InvoiceParseOrSemanticErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_InvoiceParseOrSemanticErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_InvoiceParseOrSemanticErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_clone"))) TS_CResult_InvoiceParseOrSemanticErrorZ_clone(uint32_t orig) {
@@ -15203,8 +15264,8 @@ uint32_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_err
 
 jboolean  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_is_ok"))) TS_CResult_SignedRawInvoiceParseErrorZ_is_ok(uint32_t o) {
 	LDKCResult_SignedRawInvoiceParseErrorZ* o_conv = (LDKCResult_SignedRawInvoiceParseErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_SignedRawInvoiceParseErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_SignedRawInvoiceParseErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_free"))) TS_CResult_SignedRawInvoiceParseErrorZ_free(uint32_t _res) {
@@ -15223,8 +15284,8 @@ static inline uintptr_t CResult_SignedRawInvoiceParseErrorZ_clone_ptr(LDKCResult
 }
 uint32_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_clone_ptr"))) TS_CResult_SignedRawInvoiceParseErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignedRawInvoiceParseErrorZ* arg_conv = (LDKCResult_SignedRawInvoiceParseErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_SignedRawInvoiceParseErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_SignedRawInvoiceParseErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_clone"))) TS_CResult_SignedRawInvoiceParseErrorZ_clone(uint32_t orig) {
@@ -15241,8 +15302,8 @@ static inline uintptr_t C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(LDKC3
 }
 uint32_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(uint32_t arg) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* arg_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)(arg & ~1);
-	uint32_t ret_val = C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(uint32_t orig) {
@@ -15300,8 +15361,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_err"))) TS_CR
 
 jboolean  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_is_ok"))) TS_CResult_PayeePubKeyErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PayeePubKeyErrorZ* o_conv = (LDKCResult_PayeePubKeyErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PayeePubKeyErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PayeePubKeyErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_free"))) TS_CResult_PayeePubKeyErrorZ_free(uint32_t _res) {
@@ -15320,8 +15381,8 @@ static inline uintptr_t CResult_PayeePubKeyErrorZ_clone_ptr(LDKCResult_PayeePubK
 }
 uint32_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_clone_ptr"))) TS_CResult_PayeePubKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PayeePubKeyErrorZ* arg_conv = (LDKCResult_PayeePubKeyErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PayeePubKeyErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PayeePubKeyErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_clone"))) TS_CResult_PayeePubKeyErrorZ_clone(uint32_t orig) {
@@ -15370,8 +15431,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ
 
 jboolean  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_is_ok"))) TS_CResult_PositiveTimestampCreationErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PositiveTimestampCreationErrorZ* o_conv = (LDKCResult_PositiveTimestampCreationErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PositiveTimestampCreationErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PositiveTimestampCreationErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_free"))) TS_CResult_PositiveTimestampCreationErrorZ_free(uint32_t _res) {
@@ -15390,8 +15451,8 @@ static inline uintptr_t CResult_PositiveTimestampCreationErrorZ_clone_ptr(LDKCRe
 }
 uint32_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr"))) TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PositiveTimestampCreationErrorZ* arg_conv = (LDKCResult_PositiveTimestampCreationErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PositiveTimestampCreationErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PositiveTimestampCreationErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_clone"))) TS_CResult_PositiveTimestampCreationErrorZ_clone(uint32_t orig) {
@@ -15416,8 +15477,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_err"))) TS_C
 
 jboolean  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_is_ok"))) TS_CResult_NoneSemanticErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NoneSemanticErrorZ* o_conv = (LDKCResult_NoneSemanticErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NoneSemanticErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NoneSemanticErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_free"))) TS_CResult_NoneSemanticErrorZ_free(uint32_t _res) {
@@ -15436,8 +15497,8 @@ static inline uintptr_t CResult_NoneSemanticErrorZ_clone_ptr(LDKCResult_NoneSema
 }
 uint32_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_clone_ptr"))) TS_CResult_NoneSemanticErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneSemanticErrorZ* arg_conv = (LDKCResult_NoneSemanticErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NoneSemanticErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NoneSemanticErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_clone"))) TS_CResult_NoneSemanticErrorZ_clone(uint32_t orig) {
@@ -15467,8 +15528,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_err"))) T
 
 jboolean  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_is_ok"))) TS_CResult_InvoiceSemanticErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InvoiceSemanticErrorZ* o_conv = (LDKCResult_InvoiceSemanticErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InvoiceSemanticErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InvoiceSemanticErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_free"))) TS_CResult_InvoiceSemanticErrorZ_free(uint32_t _res) {
@@ -15487,8 +15548,8 @@ static inline uintptr_t CResult_InvoiceSemanticErrorZ_clone_ptr(LDKCResult_Invoi
 }
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_clone_ptr"))) TS_CResult_InvoiceSemanticErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceSemanticErrorZ* arg_conv = (LDKCResult_InvoiceSemanticErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_InvoiceSemanticErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_InvoiceSemanticErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_clone"))) TS_CResult_InvoiceSemanticErrorZ_clone(uint32_t orig) {
@@ -15518,8 +15579,8 @@ uint32_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_is_ok"))) TS_CResult_DescriptionCreationErrorZ_is_ok(uint32_t o) {
 	LDKCResult_DescriptionCreationErrorZ* o_conv = (LDKCResult_DescriptionCreationErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_DescriptionCreationErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_DescriptionCreationErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_free"))) TS_CResult_DescriptionCreationErrorZ_free(uint32_t _res) {
@@ -15538,8 +15599,8 @@ static inline uintptr_t CResult_DescriptionCreationErrorZ_clone_ptr(LDKCResult_D
 }
 uint32_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_clone_ptr"))) TS_CResult_DescriptionCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_DescriptionCreationErrorZ* arg_conv = (LDKCResult_DescriptionCreationErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_DescriptionCreationErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_DescriptionCreationErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_clone"))) TS_CResult_DescriptionCreationErrorZ_clone(uint32_t orig) {
@@ -15569,8 +15630,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_is_ok"))) TS_CResult_PrivateRouteCreationErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PrivateRouteCreationErrorZ* o_conv = (LDKCResult_PrivateRouteCreationErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PrivateRouteCreationErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PrivateRouteCreationErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_free"))) TS_CResult_PrivateRouteCreationErrorZ_free(uint32_t _res) {
@@ -15589,8 +15650,8 @@ static inline uintptr_t CResult_PrivateRouteCreationErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_clone_ptr"))) TS_CResult_PrivateRouteCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PrivateRouteCreationErrorZ* arg_conv = (LDKCResult_PrivateRouteCreationErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PrivateRouteCreationErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PrivateRouteCreationErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_clone"))) TS_CResult_PrivateRouteCreationErrorZ_clone(uint32_t orig) {
@@ -15616,8 +15677,8 @@ uint32_t  __attribute__((export_name("TS_CResult_StringErrorZ_err"))) TS_CResult
 
 jboolean  __attribute__((export_name("TS_CResult_StringErrorZ_is_ok"))) TS_CResult_StringErrorZ_is_ok(uint32_t o) {
 	LDKCResult_StringErrorZ* o_conv = (LDKCResult_StringErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_StringErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_StringErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_StringErrorZ_free"))) TS_CResult_StringErrorZ_free(uint32_t _res) {
@@ -15653,8 +15714,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeError
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_is_ok"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* o_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelMonitorUpdateDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelMonitorUpdateDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_free"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_free(uint32_t _res) {
@@ -15673,8 +15734,8 @@ static inline uintptr_t CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(LDKCR
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* arg_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone(uint32_t orig) {
@@ -15719,8 +15780,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_MonitorEventZ_clone_ptr"))) TS_COption_MonitorEventZ_clone_ptr(uint32_t arg) {
 	LDKCOption_MonitorEventZ* arg_conv = (LDKCOption_MonitorEventZ*)arg;
-	uint32_t ret_val = COption_MonitorEventZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_MonitorEventZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_MonitorEventZ_clone"))) TS_COption_MonitorEventZ_clone(uint32_t orig) {
@@ -15754,8 +15815,8 @@ uint32_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErro
 
 jboolean  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_is_ok"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_COption_MonitorEventZDecodeErrorZ* o_conv = (LDKCResult_COption_MonitorEventZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_COption_MonitorEventZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_COption_MonitorEventZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_free"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_free(uint32_t _res) {
@@ -15774,8 +15835,8 @@ static inline uintptr_t CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(LDKC
 }
 uint32_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_MonitorEventZDecodeErrorZ* arg_conv = (LDKCResult_COption_MonitorEventZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_clone"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_clone(uint32_t orig) {
@@ -15809,8 +15870,8 @@ uint32_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_err"))) 
 
 jboolean  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_is_ok"))) TS_CResult_HTLCUpdateDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* o_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_HTLCUpdateDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_HTLCUpdateDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_free"))) TS_CResult_HTLCUpdateDecodeErrorZ_free(uint32_t _res) {
@@ -15829,8 +15890,8 @@ static inline uintptr_t CResult_HTLCUpdateDecodeErrorZ_clone_ptr(LDKCResult_HTLC
 }
 uint32_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* arg_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_HTLCUpdateDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_HTLCUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_clone"))) TS_CResult_HTLCUpdateDecodeErrorZ_clone(uint32_t orig) {
@@ -15847,8 +15908,8 @@ static inline uintptr_t C2Tuple_OutPointScriptZ_clone_ptr(LDKC2Tuple_OutPointScr
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_OutPointScriptZ_clone_ptr"))) TS_C2Tuple_OutPointScriptZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_OutPointScriptZ* arg_conv = (LDKC2Tuple_OutPointScriptZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_OutPointScriptZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_OutPointScriptZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_OutPointScriptZ_clone"))) TS_C2Tuple_OutPointScriptZ_clone(uint32_t orig) {
@@ -15889,8 +15950,8 @@ static inline uintptr_t C2Tuple_u32ScriptZ_clone_ptr(LDKC2Tuple_u32ScriptZ *NONN
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_u32ScriptZ_clone_ptr"))) TS_C2Tuple_u32ScriptZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_u32ScriptZ* arg_conv = (LDKC2Tuple_u32ScriptZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_u32ScriptZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_u32ScriptZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_u32ScriptZ_clone"))) TS_C2Tuple_u32ScriptZ_clone(uint32_t orig) {
@@ -15945,8 +16006,8 @@ static inline uintptr_t C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(LDKC2Tup
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ* arg_conv = (LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone"))) TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(uint32_t orig) {
@@ -16054,8 +16115,8 @@ static inline uintptr_t C2Tuple_u32TxOutZ_clone_ptr(LDKC2Tuple_u32TxOutZ *NONNUL
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_u32TxOutZ_clone_ptr"))) TS_C2Tuple_u32TxOutZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_u32TxOutZ* arg_conv = (LDKC2Tuple_u32TxOutZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_u32TxOutZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_u32TxOutZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_u32TxOutZ_clone"))) TS_C2Tuple_u32TxOutZ_clone(uint32_t orig) {
@@ -16110,8 +16171,8 @@ static inline uintptr_t C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(LDKC2Tupl
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* arg_conv = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(uint32_t orig) {
@@ -16199,8 +16260,8 @@ static inline uintptr_t C2Tuple_BlockHashChannelMonitorZ_clone_ptr(LDKC2Tuple_Bl
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr"))) TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_BlockHashChannelMonitorZ* arg_conv = (LDKC2Tuple_BlockHashChannelMonitorZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_BlockHashChannelMonitorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_BlockHashChannelMonitorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_clone"))) TS_C2Tuple_BlockHashChannelMonitorZ_clone(uint32_t orig) {
@@ -16256,8 +16317,8 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitor
 
 jboolean  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* o_conv = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(uint32_t _res) {
@@ -16276,8 +16337,8 @@ static inline uintptr_t CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clo
 }
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* arg_conv = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(uint32_t orig) {
@@ -16306,8 +16367,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_err"))) TS_
 
 jboolean  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_is_ok"))) TS_CResult_NoneLightningErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NoneLightningErrorZ* o_conv = (LDKCResult_NoneLightningErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NoneLightningErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NoneLightningErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_free"))) TS_CResult_NoneLightningErrorZ_free(uint32_t _res) {
@@ -16326,8 +16387,8 @@ static inline uintptr_t CResult_NoneLightningErrorZ_clone_ptr(LDKCResult_NoneLig
 }
 uint32_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_clone_ptr"))) TS_CResult_NoneLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneLightningErrorZ* arg_conv = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NoneLightningErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NoneLightningErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_clone"))) TS_CResult_NoneLightningErrorZ_clone(uint32_t orig) {
@@ -16344,8 +16405,8 @@ static inline uintptr_t C2Tuple_PublicKeyTypeZ_clone_ptr(LDKC2Tuple_PublicKeyTyp
 }
 uint32_t  __attribute__((export_name("TS_C2Tuple_PublicKeyTypeZ_clone_ptr"))) TS_C2Tuple_PublicKeyTypeZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PublicKeyTypeZ* arg_conv = (LDKC2Tuple_PublicKeyTypeZ*)(arg & ~1);
-	uint32_t ret_val = C2Tuple_PublicKeyTypeZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C2Tuple_PublicKeyTypeZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C2Tuple_PublicKeyTypeZ_clone"))) TS_C2Tuple_PublicKeyTypeZ_clone(uint32_t orig) {
@@ -16418,8 +16479,8 @@ uint32_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_err"))) TS_
 
 jboolean  __attribute__((export_name("TS_CResult_boolLightningErrorZ_is_ok"))) TS_CResult_boolLightningErrorZ_is_ok(uint32_t o) {
 	LDKCResult_boolLightningErrorZ* o_conv = (LDKCResult_boolLightningErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_boolLightningErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_boolLightningErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_boolLightningErrorZ_free"))) TS_CResult_boolLightningErrorZ_free(uint32_t _res) {
@@ -16438,8 +16499,8 @@ static inline uintptr_t CResult_boolLightningErrorZ_clone_ptr(LDKCResult_boolLig
 }
 uint32_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_clone_ptr"))) TS_CResult_boolLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_boolLightningErrorZ* arg_conv = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_boolLightningErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_boolLightningErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_clone"))) TS_CResult_boolLightningErrorZ_clone(uint32_t orig) {
@@ -16456,8 +16517,8 @@ static inline uintptr_t C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_c
 }
 uint32_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(uint32_t arg) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* arg_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(arg & ~1);
-	uint32_t ret_val = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(uint32_t orig) {
@@ -16588,8 +16649,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_NetAddressZ_clone_ptr"))) TS_COption_NetAddressZ_clone_ptr(uint32_t arg) {
 	LDKCOption_NetAddressZ* arg_conv = (LDKCOption_NetAddressZ*)arg;
-	uint32_t ret_val = COption_NetAddressZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_NetAddressZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_NetAddressZ_clone"))) TS_COption_NetAddressZ_clone(uint32_t orig) {
@@ -16623,8 +16684,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_is_ok"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* o_conv = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CVec_u8ZPeerHandleErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CVec_u8ZPeerHandleErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_free"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_free(uint32_t _res) {
@@ -16643,8 +16704,8 @@ static inline uintptr_t CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(LDKCResult_CV
 }
 uint32_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* arg_conv = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_clone"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_clone(uint32_t orig) {
@@ -16673,8 +16734,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_is_ok"))) TS_CResult_NonePeerHandleErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NonePeerHandleErrorZ* o_conv = (LDKCResult_NonePeerHandleErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NonePeerHandleErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NonePeerHandleErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_free"))) TS_CResult_NonePeerHandleErrorZ_free(uint32_t _res) {
@@ -16693,8 +16754,8 @@ static inline uintptr_t CResult_NonePeerHandleErrorZ_clone_ptr(LDKCResult_NonePe
 }
 uint32_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_clone_ptr"))) TS_CResult_NonePeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NonePeerHandleErrorZ* arg_conv = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NonePeerHandleErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NonePeerHandleErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_clone"))) TS_CResult_NonePeerHandleErrorZ_clone(uint32_t orig) {
@@ -16723,8 +16784,8 @@ uint32_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_is_ok"))) TS_CResult_boolPeerHandleErrorZ_is_ok(uint32_t o) {
 	LDKCResult_boolPeerHandleErrorZ* o_conv = (LDKCResult_boolPeerHandleErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_boolPeerHandleErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_boolPeerHandleErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_free"))) TS_CResult_boolPeerHandleErrorZ_free(uint32_t _res) {
@@ -16743,8 +16804,8 @@ static inline uintptr_t CResult_boolPeerHandleErrorZ_clone_ptr(LDKCResult_boolPe
 }
 uint32_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_clone_ptr"))) TS_CResult_boolPeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_boolPeerHandleErrorZ* arg_conv = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_boolPeerHandleErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_boolPeerHandleErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_clone"))) TS_CResult_boolPeerHandleErrorZ_clone(uint32_t orig) {
@@ -16778,8 +16839,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_err"))) TS_C
 
 jboolean  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_is_ok"))) TS_CResult_NodeIdDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NodeIdDecodeErrorZ* o_conv = (LDKCResult_NodeIdDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NodeIdDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NodeIdDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_free"))) TS_CResult_NodeIdDecodeErrorZ_free(uint32_t _res) {
@@ -16798,8 +16859,8 @@ static inline uintptr_t CResult_NodeIdDecodeErrorZ_clone_ptr(LDKCResult_NodeIdDe
 }
 uint32_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_clone_ptr"))) TS_CResult_NodeIdDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeIdDecodeErrorZ* arg_conv = (LDKCResult_NodeIdDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NodeIdDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NodeIdDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_clone"))) TS_CResult_NodeIdDecodeErrorZ_clone(uint32_t orig) {
@@ -16832,8 +16893,8 @@ uint32_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErr
 
 jboolean  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_is_ok"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_COption_NetworkUpdateZDecodeErrorZ* o_conv = (LDKCResult_COption_NetworkUpdateZDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_COption_NetworkUpdateZDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_COption_NetworkUpdateZDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_free"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_free(uint32_t _res) {
@@ -16852,8 +16913,8 @@ static inline uintptr_t CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(LDK
 }
 uint32_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_NetworkUpdateZDecodeErrorZ* arg_conv = (LDKCResult_COption_NetworkUpdateZDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone(uint32_t orig) {
@@ -16917,8 +16978,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_is_ok"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* o_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelUpdateInfoDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelUpdateInfoDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_free"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_free(uint32_t _res) {
@@ -16937,8 +16998,8 @@ static inline uintptr_t CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* arg_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone(uint32_t orig) {
@@ -16972,8 +17033,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_err")))
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_is_ok"))) TS_CResult_ChannelInfoDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelInfoDecodeErrorZ* o_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelInfoDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelInfoDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_free"))) TS_CResult_ChannelInfoDecodeErrorZ_free(uint32_t _res) {
@@ -16992,8 +17053,8 @@ static inline uintptr_t CResult_ChannelInfoDecodeErrorZ_clone_ptr(LDKCResult_Cha
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelInfoDecodeErrorZ* arg_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelInfoDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelInfoDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_clone"))) TS_CResult_ChannelInfoDecodeErrorZ_clone(uint32_t orig) {
@@ -17027,8 +17088,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_err")))
 
 jboolean  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_is_ok"))) TS_CResult_RoutingFeesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RoutingFeesDecodeErrorZ* o_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RoutingFeesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RoutingFeesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_free"))) TS_CResult_RoutingFeesDecodeErrorZ_free(uint32_t _res) {
@@ -17047,8 +17108,8 @@ static inline uintptr_t CResult_RoutingFeesDecodeErrorZ_clone_ptr(LDKCResult_Rou
 }
 uint32_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr"))) TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ* arg_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RoutingFeesDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RoutingFeesDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_clone"))) TS_CResult_RoutingFeesDecodeErrorZ_clone(uint32_t orig) {
@@ -17082,8 +17143,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeError
 
 jboolean  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_is_ok"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* o_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NodeAnnouncementInfoDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NodeAnnouncementInfoDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_free"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_free(uint32_t _res) {
@@ -17102,8 +17163,8 @@ static inline uintptr_t CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(LDKCR
 }
 uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* arg_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone(uint32_t orig) {
@@ -17152,8 +17213,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_is_ok"))) TS_CResult_NodeInfoDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NodeInfoDecodeErrorZ* o_conv = (LDKCResult_NodeInfoDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NodeInfoDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NodeInfoDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_free"))) TS_CResult_NodeInfoDecodeErrorZ_free(uint32_t _res) {
@@ -17172,8 +17233,8 @@ static inline uintptr_t CResult_NodeInfoDecodeErrorZ_clone_ptr(LDKCResult_NodeIn
 }
 uint32_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ* arg_conv = (LDKCResult_NodeInfoDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NodeInfoDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NodeInfoDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_clone"))) TS_CResult_NodeInfoDecodeErrorZ_clone(uint32_t orig) {
@@ -17207,8 +17268,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_is_ok"))) TS_CResult_NetworkGraphDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NetworkGraphDecodeErrorZ* o_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NetworkGraphDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NetworkGraphDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_free"))) TS_CResult_NetworkGraphDecodeErrorZ_free(uint32_t _res) {
@@ -17227,8 +17288,8 @@ static inline uintptr_t CResult_NetworkGraphDecodeErrorZ_clone_ptr(LDKCResult_Ne
 }
 uint32_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr"))) TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ* arg_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NetworkGraphDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NetworkGraphDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_clone"))) TS_CResult_NetworkGraphDecodeErrorZ_clone(uint32_t orig) {
@@ -17284,8 +17345,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_COption_CVec_NetAddressZZ_clone_ptr"))) TS_COption_CVec_NetAddressZZ_clone_ptr(uint32_t arg) {
 	LDKCOption_CVec_NetAddressZZ* arg_conv = (LDKCOption_CVec_NetAddressZZ*)arg;
-	uint32_t ret_val = COption_CVec_NetAddressZZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = COption_CVec_NetAddressZZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_COption_CVec_NetAddressZZ_clone"))) TS_COption_CVec_NetAddressZZ_clone(uint32_t orig) {
@@ -17319,8 +17380,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_err"))) 
 
 jboolean  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_is_ok"))) TS_CResult_NetAddressDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NetAddressDecodeErrorZ* o_conv = (LDKCResult_NetAddressDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NetAddressDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NetAddressDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_free"))) TS_CResult_NetAddressDecodeErrorZ_free(uint32_t _res) {
@@ -17339,8 +17400,8 @@ static inline uintptr_t CResult_NetAddressDecodeErrorZ_clone_ptr(LDKCResult_NetA
 }
 uint32_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_clone_ptr"))) TS_CResult_NetAddressDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NetAddressDecodeErrorZ* arg_conv = (LDKCResult_NetAddressDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NetAddressDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NetAddressDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_clone"))) TS_CResult_NetAddressDecodeErrorZ_clone(uint32_t orig) {
@@ -17450,8 +17511,8 @@ uint32_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_is_ok"))) TS_CResult_AcceptChannelDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_AcceptChannelDecodeErrorZ* o_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_AcceptChannelDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_AcceptChannelDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_free"))) TS_CResult_AcceptChannelDecodeErrorZ_free(uint32_t _res) {
@@ -17470,8 +17531,8 @@ static inline uintptr_t CResult_AcceptChannelDecodeErrorZ_clone_ptr(LDKCResult_A
 }
 uint32_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr"))) TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_AcceptChannelDecodeErrorZ* arg_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_AcceptChannelDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_AcceptChannelDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_clone"))) TS_CResult_AcceptChannelDecodeErrorZ_clone(uint32_t orig) {
@@ -17505,8 +17566,8 @@ uint32_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErr
 
 jboolean  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_is_ok"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* o_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_AnnouncementSignaturesDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_AnnouncementSignaturesDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_free"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_free(uint32_t _res) {
@@ -17525,8 +17586,8 @@ static inline uintptr_t CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(LDK
 }
 uint32_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* arg_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone(uint32_t orig) {
@@ -17560,8 +17621,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_is_ok"))) TS_CResult_ChannelReestablishDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* o_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelReestablishDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelReestablishDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_free"))) TS_CResult_ChannelReestablishDecodeErrorZ_free(uint32_t _res) {
@@ -17580,8 +17641,8 @@ static inline uintptr_t CResult_ChannelReestablishDecodeErrorZ_clone_ptr(LDKCRes
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* arg_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelReestablishDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelReestablishDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_clone"))) TS_CResult_ChannelReestablishDecodeErrorZ_clone(uint32_t orig) {
@@ -17615,8 +17676,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_is_ok"))) TS_CResult_ClosingSignedDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ClosingSignedDecodeErrorZ* o_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ClosingSignedDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ClosingSignedDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_free"))) TS_CResult_ClosingSignedDecodeErrorZ_free(uint32_t _res) {
@@ -17635,8 +17696,8 @@ static inline uintptr_t CResult_ClosingSignedDecodeErrorZ_clone_ptr(LDKCResult_C
 }
 uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ClosingSignedDecodeErrorZ* arg_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ClosingSignedDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ClosingSignedDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_clone"))) TS_CResult_ClosingSignedDecodeErrorZ_clone(uint32_t orig) {
@@ -17670,8 +17731,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErro
 
 jboolean  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_is_ok"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* o_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ClosingSignedFeeRangeDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ClosingSignedFeeRangeDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_free"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_free(uint32_t _res) {
@@ -17690,8 +17751,8 @@ static inline uintptr_t CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(LDKC
 }
 uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* arg_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone(uint32_t orig) {
@@ -17725,8 +17786,8 @@ uint32_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_er
 
 jboolean  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_is_ok"))) TS_CResult_CommitmentSignedDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* o_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_CommitmentSignedDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_CommitmentSignedDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_free"))) TS_CResult_CommitmentSignedDecodeErrorZ_free(uint32_t _res) {
@@ -17745,8 +17806,8 @@ static inline uintptr_t CResult_CommitmentSignedDecodeErrorZ_clone_ptr(LDKCResul
 }
 uint32_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* arg_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_CommitmentSignedDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_CommitmentSignedDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_clone"))) TS_CResult_CommitmentSignedDecodeErrorZ_clone(uint32_t orig) {
@@ -17780,8 +17841,8 @@ uint32_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_is_ok"))) TS_CResult_FundingCreatedDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_FundingCreatedDecodeErrorZ* o_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_FundingCreatedDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_FundingCreatedDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_free"))) TS_CResult_FundingCreatedDecodeErrorZ_free(uint32_t _res) {
@@ -17800,8 +17861,8 @@ static inline uintptr_t CResult_FundingCreatedDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingCreatedDecodeErrorZ* arg_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_FundingCreatedDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_FundingCreatedDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_clone"))) TS_CResult_FundingCreatedDecodeErrorZ_clone(uint32_t orig) {
@@ -17835,8 +17896,8 @@ uint32_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_is_ok"))) TS_CResult_FundingSignedDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_FundingSignedDecodeErrorZ* o_conv = (LDKCResult_FundingSignedDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_FundingSignedDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_FundingSignedDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_free"))) TS_CResult_FundingSignedDecodeErrorZ_free(uint32_t _res) {
@@ -17855,8 +17916,8 @@ static inline uintptr_t CResult_FundingSignedDecodeErrorZ_clone_ptr(LDKCResult_F
 }
 uint32_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingSignedDecodeErrorZ* arg_conv = (LDKCResult_FundingSignedDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_FundingSignedDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_FundingSignedDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_clone"))) TS_CResult_FundingSignedDecodeErrorZ_clone(uint32_t orig) {
@@ -17890,8 +17951,8 @@ uint32_t  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_is_ok"))) TS_CResult_FundingLockedDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_FundingLockedDecodeErrorZ* o_conv = (LDKCResult_FundingLockedDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_FundingLockedDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_FundingLockedDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_free"))) TS_CResult_FundingLockedDecodeErrorZ_free(uint32_t _res) {
@@ -17910,8 +17971,8 @@ static inline uintptr_t CResult_FundingLockedDecodeErrorZ_clone_ptr(LDKCResult_F
 }
 uint32_t  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingLockedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingLockedDecodeErrorZ* arg_conv = (LDKCResult_FundingLockedDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_FundingLockedDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_FundingLockedDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_clone"))) TS_CResult_FundingLockedDecodeErrorZ_clone(uint32_t orig) {
@@ -17945,8 +18006,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_err"))) TS_CRe
 
 jboolean  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_is_ok"))) TS_CResult_InitDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InitDecodeErrorZ* o_conv = (LDKCResult_InitDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InitDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InitDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_free"))) TS_CResult_InitDecodeErrorZ_free(uint32_t _res) {
@@ -17965,8 +18026,8 @@ static inline uintptr_t CResult_InitDecodeErrorZ_clone_ptr(LDKCResult_InitDecode
 }
 uint32_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_clone_ptr"))) TS_CResult_InitDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InitDecodeErrorZ* arg_conv = (LDKCResult_InitDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_InitDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_InitDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_clone"))) TS_CResult_InitDecodeErrorZ_clone(uint32_t orig) {
@@ -18000,8 +18061,8 @@ uint32_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_err")))
 
 jboolean  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_is_ok"))) TS_CResult_OpenChannelDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_OpenChannelDecodeErrorZ* o_conv = (LDKCResult_OpenChannelDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_OpenChannelDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_OpenChannelDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_free"))) TS_CResult_OpenChannelDecodeErrorZ_free(uint32_t _res) {
@@ -18020,8 +18081,8 @@ static inline uintptr_t CResult_OpenChannelDecodeErrorZ_clone_ptr(LDKCResult_Ope
 }
 uint32_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_clone_ptr"))) TS_CResult_OpenChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_OpenChannelDecodeErrorZ* arg_conv = (LDKCResult_OpenChannelDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_OpenChannelDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_OpenChannelDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_clone"))) TS_CResult_OpenChannelDecodeErrorZ_clone(uint32_t orig) {
@@ -18055,8 +18116,8 @@ uint32_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_is_ok"))) TS_CResult_RevokeAndACKDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* o_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_RevokeAndACKDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_RevokeAndACKDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_free"))) TS_CResult_RevokeAndACKDecodeErrorZ_free(uint32_t _res) {
@@ -18075,8 +18136,8 @@ static inline uintptr_t CResult_RevokeAndACKDecodeErrorZ_clone_ptr(LDKCResult_Re
 }
 uint32_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr"))) TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* arg_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_RevokeAndACKDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_RevokeAndACKDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_clone"))) TS_CResult_RevokeAndACKDecodeErrorZ_clone(uint32_t orig) {
@@ -18110,8 +18171,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_err"))) TS
 
 jboolean  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_is_ok"))) TS_CResult_ShutdownDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ShutdownDecodeErrorZ* o_conv = (LDKCResult_ShutdownDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ShutdownDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ShutdownDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_free"))) TS_CResult_ShutdownDecodeErrorZ_free(uint32_t _res) {
@@ -18130,8 +18191,8 @@ static inline uintptr_t CResult_ShutdownDecodeErrorZ_clone_ptr(LDKCResult_Shutdo
 }
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownDecodeErrorZ* arg_conv = (LDKCResult_ShutdownDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ShutdownDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ShutdownDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_clone"))) TS_CResult_ShutdownDecodeErrorZ_clone(uint32_t orig) {
@@ -18165,8 +18226,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_is_ok"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* o_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UpdateFailHTLCDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UpdateFailHTLCDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_free"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_free(uint32_t _res) {
@@ -18185,8 +18246,8 @@ static inline uintptr_t CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_clone"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_clone(uint32_t orig) {
@@ -18220,8 +18281,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeEr
 
 jboolean  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_is_ok"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* o_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UpdateFailMalformedHTLCDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UpdateFailMalformedHTLCDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_free"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_free(uint32_t _res) {
@@ -18240,8 +18301,8 @@ static inline uintptr_t CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(LD
 }
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone(uint32_t orig) {
@@ -18275,8 +18336,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_err"))) T
 
 jboolean  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_is_ok"))) TS_CResult_UpdateFeeDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UpdateFeeDecodeErrorZ* o_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UpdateFeeDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UpdateFeeDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_free"))) TS_CResult_UpdateFeeDecodeErrorZ_free(uint32_t _res) {
@@ -18295,8 +18356,8 @@ static inline uintptr_t CResult_UpdateFeeDecodeErrorZ_clone_ptr(LDKCResult_Updat
 }
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFeeDecodeErrorZ* arg_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UpdateFeeDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UpdateFeeDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_clone"))) TS_CResult_UpdateFeeDecodeErrorZ_clone(uint32_t orig) {
@@ -18330,8 +18391,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_is_ok"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* o_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UpdateFulfillHTLCDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UpdateFulfillHTLCDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_free"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_free(uint32_t _res) {
@@ -18350,8 +18411,8 @@ static inline uintptr_t CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone(uint32_t orig) {
@@ -18385,8 +18446,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_is_ok"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* o_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UpdateAddHTLCDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UpdateAddHTLCDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_free"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_free(uint32_t _res) {
@@ -18405,8 +18466,8 @@ static inline uintptr_t CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(LDKCResult_U
 }
 uint32_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_clone"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_clone(uint32_t orig) {
@@ -18440,8 +18501,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_err"))) TS_CRe
 
 jboolean  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_is_ok"))) TS_CResult_PingDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PingDecodeErrorZ* o_conv = (LDKCResult_PingDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PingDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PingDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_free"))) TS_CResult_PingDecodeErrorZ_free(uint32_t _res) {
@@ -18460,8 +18521,8 @@ static inline uintptr_t CResult_PingDecodeErrorZ_clone_ptr(LDKCResult_PingDecode
 }
 uint32_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_clone_ptr"))) TS_CResult_PingDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PingDecodeErrorZ* arg_conv = (LDKCResult_PingDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PingDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PingDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_clone"))) TS_CResult_PingDecodeErrorZ_clone(uint32_t orig) {
@@ -18495,8 +18556,8 @@ uint32_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_err"))) TS_CRe
 
 jboolean  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_is_ok"))) TS_CResult_PongDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_PongDecodeErrorZ* o_conv = (LDKCResult_PongDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_PongDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_PongDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_free"))) TS_CResult_PongDecodeErrorZ_free(uint32_t _res) {
@@ -18515,8 +18576,8 @@ static inline uintptr_t CResult_PongDecodeErrorZ_clone_ptr(LDKCResult_PongDecode
 }
 uint32_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_clone_ptr"))) TS_CResult_PongDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PongDecodeErrorZ* arg_conv = (LDKCResult_PongDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_PongDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_PongDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_clone"))) TS_CResult_PongDecodeErrorZ_clone(uint32_t orig) {
@@ -18550,8 +18611,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDeco
 
 jboolean  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_is_ok"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* o_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UnsignedChannelAnnouncementDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UnsignedChannelAnnouncementDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_free"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_free(uint32_t _res) {
@@ -18570,8 +18631,8 @@ static inline uintptr_t CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_pt
 }
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone(uint32_t orig) {
@@ -18605,8 +18666,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_is_ok"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* o_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelAnnouncementDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelAnnouncementDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_free"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_free(uint32_t _res) {
@@ -18625,8 +18686,8 @@ static inline uintptr_t CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(LDKCRe
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_clone"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_clone(uint32_t orig) {
@@ -18660,8 +18721,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErro
 
 jboolean  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_is_ok"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* o_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UnsignedChannelUpdateDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UnsignedChannelUpdateDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_free"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_free(uint32_t _res) {
@@ -18680,8 +18741,8 @@ static inline uintptr_t CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(LDKC
 }
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* arg_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone(uint32_t orig) {
@@ -18715,8 +18776,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_is_ok"))) TS_CResult_ChannelUpdateDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* o_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ChannelUpdateDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ChannelUpdateDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_free"))) TS_CResult_ChannelUpdateDecodeErrorZ_free(uint32_t _res) {
@@ -18735,8 +18796,8 @@ static inline uintptr_t CResult_ChannelUpdateDecodeErrorZ_clone_ptr(LDKCResult_C
 }
 uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* arg_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_clone"))) TS_CResult_ChannelUpdateDecodeErrorZ_clone(uint32_t orig) {
@@ -18770,8 +18831,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_err"))
 
 jboolean  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_is_ok"))) TS_CResult_ErrorMessageDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ErrorMessageDecodeErrorZ* o_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ErrorMessageDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ErrorMessageDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_free"))) TS_CResult_ErrorMessageDecodeErrorZ_free(uint32_t _res) {
@@ -18790,8 +18851,8 @@ static inline uintptr_t CResult_ErrorMessageDecodeErrorZ_clone_ptr(LDKCResult_Er
 }
 uint32_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr"))) TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ* arg_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ErrorMessageDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ErrorMessageDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_clone"))) TS_CResult_ErrorMessageDecodeErrorZ_clone(uint32_t orig) {
@@ -18825,8 +18886,8 @@ uint32_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_err"
 
 jboolean  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_is_ok"))) TS_CResult_WarningMessageDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_WarningMessageDecodeErrorZ* o_conv = (LDKCResult_WarningMessageDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_WarningMessageDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_WarningMessageDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_free"))) TS_CResult_WarningMessageDecodeErrorZ_free(uint32_t _res) {
@@ -18845,8 +18906,8 @@ static inline uintptr_t CResult_WarningMessageDecodeErrorZ_clone_ptr(LDKCResult_
 }
 uint32_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_clone_ptr"))) TS_CResult_WarningMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_WarningMessageDecodeErrorZ* arg_conv = (LDKCResult_WarningMessageDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_WarningMessageDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_WarningMessageDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_clone"))) TS_CResult_WarningMessageDecodeErrorZ_clone(uint32_t orig) {
@@ -18880,8 +18941,8 @@ uint32_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeE
 
 jboolean  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_is_ok"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* o_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_UnsignedNodeAnnouncementDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_UnsignedNodeAnnouncementDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_free"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_free(uint32_t _res) {
@@ -18900,8 +18961,8 @@ static inline uintptr_t CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(L
 }
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone(uint32_t orig) {
@@ -18935,8 +18996,8 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_er
 
 jboolean  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_is_ok"))) TS_CResult_NodeAnnouncementDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* o_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_NodeAnnouncementDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_NodeAnnouncementDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_free"))) TS_CResult_NodeAnnouncementDecodeErrorZ_free(uint32_t _res) {
@@ -18955,8 +19016,8 @@ static inline uintptr_t CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(LDKCResul
 }
 uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_clone"))) TS_CResult_NodeAnnouncementDecodeErrorZ_clone(uint32_t orig) {
@@ -18990,8 +19051,8 @@ uint32_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeError
 
 jboolean  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_is_ok"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* o_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_QueryShortChannelIdsDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_QueryShortChannelIdsDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_free"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_free(uint32_t _res) {
@@ -19010,8 +19071,8 @@ static inline uintptr_t CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(LDKCR
 }
 uint32_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* arg_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone(uint32_t orig) {
@@ -19045,8 +19106,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeEr
 
 jboolean  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_is_ok"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* o_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ReplyShortChannelIdsEndDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ReplyShortChannelIdsEndDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_free"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_free(uint32_t _res) {
@@ -19065,8 +19126,8 @@ static inline uintptr_t CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(LD
 }
 uint32_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* arg_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone(uint32_t orig) {
@@ -19100,8 +19161,8 @@ uint32_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_is_ok"))) TS_CResult_QueryChannelRangeDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* o_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_QueryChannelRangeDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_QueryChannelRangeDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_free"))) TS_CResult_QueryChannelRangeDecodeErrorZ_free(uint32_t _res) {
@@ -19120,8 +19181,8 @@ static inline uintptr_t CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* arg_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_clone"))) TS_CResult_QueryChannelRangeDecodeErrorZ_clone(uint32_t orig) {
@@ -19155,8 +19216,8 @@ uint32_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_e
 
 jboolean  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_is_ok"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* o_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_ReplyChannelRangeDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_ReplyChannelRangeDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_free"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_free(uint32_t _res) {
@@ -19175,8 +19236,8 @@ static inline uintptr_t CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(LDKCResu
 }
 uint32_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* arg_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_clone"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_clone(uint32_t orig) {
@@ -19210,8 +19271,8 @@ uint32_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErro
 
 jboolean  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_is_ok"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_is_ok(uint32_t o) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* o_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_GossipTimestampFilterDecodeErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_GossipTimestampFilterDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_free"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_free(uint32_t _res) {
@@ -19230,8 +19291,8 @@ static inline uintptr_t CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(LDKC
 }
 uint32_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* arg_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_clone"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_clone(uint32_t orig) {
@@ -19264,8 +19325,8 @@ uint32_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_err
 
 jboolean  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_is_ok"))) TS_CResult_InvoiceSignOrCreationErrorZ_is_ok(uint32_t o) {
 	LDKCResult_InvoiceSignOrCreationErrorZ* o_conv = (LDKCResult_InvoiceSignOrCreationErrorZ*)(o & ~1);
-	jboolean ret_val = CResult_InvoiceSignOrCreationErrorZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_InvoiceSignOrCreationErrorZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_free"))) TS_CResult_InvoiceSignOrCreationErrorZ_free(uint32_t _res) {
@@ -19284,8 +19345,8 @@ static inline uintptr_t CResult_InvoiceSignOrCreationErrorZ_clone_ptr(LDKCResult
 }
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr"))) TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceSignOrCreationErrorZ* arg_conv = (LDKCResult_InvoiceSignOrCreationErrorZ*)(arg & ~1);
-	uint32_t ret_val = CResult_InvoiceSignOrCreationErrorZ_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CResult_InvoiceSignOrCreationErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_clone"))) TS_CResult_InvoiceSignOrCreationErrorZ_clone(uint32_t orig) {
@@ -19344,8 +19405,8 @@ uint32_t  __attribute__((export_name("TS_CResult_LockedChannelMonitorNoneZ_err")
 
 jboolean  __attribute__((export_name("TS_CResult_LockedChannelMonitorNoneZ_is_ok"))) TS_CResult_LockedChannelMonitorNoneZ_is_ok(uint32_t o) {
 	LDKCResult_LockedChannelMonitorNoneZ* o_conv = (LDKCResult_LockedChannelMonitorNoneZ*)(o & ~1);
-	jboolean ret_val = CResult_LockedChannelMonitorNoneZ_is_ok(o_conv);
-	return ret_val;
+	jboolean ret_conv = CResult_LockedChannelMonitorNoneZ_is_ok(o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CResult_LockedChannelMonitorNoneZ_free"))) TS_CResult_LockedChannelMonitorNoneZ_free(uint32_t _res) {
@@ -19393,8 +19454,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_PaymentPurpose_clone_ptr"))) TS_PaymentPurpose_clone_ptr(uint32_t arg) {
 	LDKPaymentPurpose* arg_conv = (LDKPaymentPurpose*)arg;
-	uint32_t ret_val = PaymentPurpose_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PaymentPurpose_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PaymentPurpose_clone"))) TS_PaymentPurpose_clone(uint32_t orig) {
@@ -19445,8 +19506,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_ClosureReason_clone_ptr"))) TS_ClosureReason_clone_ptr(uint32_t arg) {
 	LDKClosureReason* arg_conv = (LDKClosureReason*)arg;
-	uint32_t ret_val = ClosureReason_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ClosureReason_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ClosureReason_clone"))) TS_ClosureReason_clone(uint32_t orig) {
@@ -19550,8 +19611,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_Event_clone_ptr"))) TS_Event_clone_ptr(uint32_t arg) {
 	LDKEvent* arg_conv = (LDKEvent*)arg;
-	uint32_t ret_val = Event_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Event_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Event_clone"))) TS_Event_clone(uint32_t orig) {
@@ -19816,8 +19877,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_MessageSendEvent_clone_ptr"))) TS_MessageSendEvent_clone_ptr(uint32_t arg) {
 	LDKMessageSendEvent* arg_conv = (LDKMessageSendEvent*)arg;
-	uint32_t ret_val = MessageSendEvent_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = MessageSendEvent_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_MessageSendEvent_clone"))) TS_MessageSendEvent_clone(uint32_t orig) {
@@ -20167,8 +20228,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_APIError_clone_ptr"))) TS_APIError_clone_ptr(uint32_t arg) {
 	LDKAPIError* arg_conv = (LDKAPIError*)arg;
-	uint32_t ret_val = APIError_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = APIError_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_APIError_clone"))) TS_APIError_clone(uint32_t orig) {
@@ -20261,8 +20322,8 @@ jboolean  __attribute__((export_name("TS_verify"))) TS_verify(int8_tArray msg, j
 	LDKPublicKey pk_ref;
 	CHECK(pk->arr_len == 33);
 	memcpy(pk_ref.compressed_form, pk->elems, 33); FREE(pk);
-	jboolean ret_val = verify(msg_ref, sig_conv, pk_ref);
-	return ret_val;
+	jboolean ret_conv = verify(msg_ref, sig_conv, pk_ref);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_construct_invoice_preimage"))) TS_construct_invoice_preimage(int8_tArray hrp_bytes, ptrArray data_without_signature) {
@@ -20327,14 +20388,14 @@ uint32_t  __attribute__((export_name("TS_Level_error"))) TS_Level_error() {
 jboolean  __attribute__((export_name("TS_Level_eq"))) TS_Level_eq(uint32_t a, uint32_t b) {
 	LDKLevel* a_conv = (LDKLevel*)(a & ~1);
 	LDKLevel* b_conv = (LDKLevel*)(b & ~1);
-	jboolean ret_val = Level_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = Level_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_Level_hash"))) TS_Level_hash(uint32_t o) {
 	LDKLevel* o_conv = (LDKLevel*)(o & ~1);
-	int64_t ret_val = Level_hash(o_conv);
-	return ret_val;
+	int64_t ret_conv = Level_hash(o_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Level_max"))) TS_Level_max() {
@@ -20433,8 +20494,8 @@ int32_t  __attribute__((export_name("TS_Record_get_line"))) TS_Record_get_line(u
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = Record_get_line(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = Record_get_line(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Record_set_line"))) TS_Record_set_line(uint32_t this_ptr, int32_t val) {
@@ -20462,8 +20523,8 @@ uint32_t  __attribute__((export_name("TS_Record_clone_ptr"))) TS_Record_clone_pt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Record_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Record_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Record_clone"))) TS_Record_clone(uint32_t orig) {
@@ -20505,8 +20566,8 @@ int32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_get_minimum_depth
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ChannelHandshakeConfig_get_minimum_depth(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ChannelHandshakeConfig_get_minimum_depth(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_minimum_depth"))) TS_ChannelHandshakeConfig_set_minimum_depth(uint32_t this_ptr, int32_t val) {
@@ -20522,8 +20583,8 @@ int16_t  __attribute__((export_name("TS_ChannelHandshakeConfig_get_our_to_self_d
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelHandshakeConfig_get_our_to_self_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelHandshakeConfig_get_our_to_self_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_our_to_self_delay"))) TS_ChannelHandshakeConfig_set_our_to_self_delay(uint32_t this_ptr, int16_t val) {
@@ -20539,8 +20600,8 @@ int64_t  __attribute__((export_name("TS_ChannelHandshakeConfig_get_our_htlc_mini
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelHandshakeConfig_get_our_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelHandshakeConfig_get_our_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_our_htlc_minimum_msat"))) TS_ChannelHandshakeConfig_set_our_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -20556,8 +20617,8 @@ jboolean  __attribute__((export_name("TS_ChannelHandshakeConfig_get_negotiate_sc
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelHandshakeConfig_get_negotiate_scid_privacy(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelHandshakeConfig_get_negotiate_scid_privacy(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_negotiate_scid_privacy"))) TS_ChannelHandshakeConfig_set_negotiate_scid_privacy(uint32_t this_ptr, jboolean val) {
@@ -20598,8 +20659,8 @@ uint32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_clone_ptr"))) TS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelHandshakeConfig_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelHandshakeConfig_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_clone"))) TS_ChannelHandshakeConfig_clone(uint32_t orig) {
@@ -20645,8 +20706,8 @@ int64_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_min_funding_s
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelHandshakeLimits_get_min_funding_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelHandshakeLimits_get_min_funding_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_min_funding_satoshis"))) TS_ChannelHandshakeLimits_set_min_funding_satoshis(uint32_t this_ptr, int64_t val) {
@@ -20662,8 +20723,8 @@ int64_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_max_htlc_mini
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelHandshakeLimits_get_max_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelHandshakeLimits_get_max_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_max_htlc_minimum_msat"))) TS_ChannelHandshakeLimits_set_max_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -20679,8 +20740,8 @@ int64_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_min_max_htlc_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat"))) TS_ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
@@ -20696,8 +20757,8 @@ int64_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_max_channel_r
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelHandshakeLimits_get_max_channel_reserve_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelHandshakeLimits_get_max_channel_reserve_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_max_channel_reserve_satoshis"))) TS_ChannelHandshakeLimits_set_max_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
@@ -20713,8 +20774,8 @@ int16_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_min_max_accep
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelHandshakeLimits_get_min_max_accepted_htlcs(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelHandshakeLimits_get_min_max_accepted_htlcs(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_min_max_accepted_htlcs"))) TS_ChannelHandshakeLimits_set_min_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
@@ -20730,8 +20791,8 @@ int32_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_max_minimum_d
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ChannelHandshakeLimits_get_max_minimum_depth(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ChannelHandshakeLimits_get_max_minimum_depth(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_max_minimum_depth"))) TS_ChannelHandshakeLimits_set_max_minimum_depth(uint32_t this_ptr, int32_t val) {
@@ -20747,8 +20808,8 @@ jboolean  __attribute__((export_name("TS_ChannelHandshakeLimits_get_force_announ
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelHandshakeLimits_get_force_announced_channel_preference(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelHandshakeLimits_get_force_announced_channel_preference(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_force_announced_channel_preference"))) TS_ChannelHandshakeLimits_set_force_announced_channel_preference(uint32_t this_ptr, jboolean val) {
@@ -20764,8 +20825,8 @@ int16_t  __attribute__((export_name("TS_ChannelHandshakeLimits_get_their_to_self
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelHandshakeLimits_get_their_to_self_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelHandshakeLimits_get_their_to_self_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelHandshakeLimits_set_their_to_self_delay"))) TS_ChannelHandshakeLimits_set_their_to_self_delay(uint32_t this_ptr, int16_t val) {
@@ -20806,8 +20867,8 @@ uint32_t  __attribute__((export_name("TS_ChannelHandshakeLimits_clone_ptr"))) TS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelHandshakeLimits_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelHandshakeLimits_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelHandshakeLimits_clone"))) TS_ChannelHandshakeLimits_clone(uint32_t orig) {
@@ -20853,8 +20914,8 @@ int32_t  __attribute__((export_name("TS_ChannelConfig_get_forwarding_fee_proport
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ChannelConfig_get_forwarding_fee_proportional_millionths(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ChannelConfig_get_forwarding_fee_proportional_millionths(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_forwarding_fee_proportional_millionths"))) TS_ChannelConfig_set_forwarding_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
@@ -20870,8 +20931,8 @@ int32_t  __attribute__((export_name("TS_ChannelConfig_get_forwarding_fee_base_ms
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ChannelConfig_get_forwarding_fee_base_msat(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ChannelConfig_get_forwarding_fee_base_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_forwarding_fee_base_msat"))) TS_ChannelConfig_set_forwarding_fee_base_msat(uint32_t this_ptr, int32_t val) {
@@ -20887,8 +20948,8 @@ int16_t  __attribute__((export_name("TS_ChannelConfig_get_cltv_expiry_delta"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelConfig_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelConfig_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_cltv_expiry_delta"))) TS_ChannelConfig_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
@@ -20904,8 +20965,8 @@ jboolean  __attribute__((export_name("TS_ChannelConfig_get_announced_channel")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelConfig_get_announced_channel(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelConfig_get_announced_channel(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_announced_channel"))) TS_ChannelConfig_set_announced_channel(uint32_t this_ptr, jboolean val) {
@@ -20921,8 +20982,8 @@ jboolean  __attribute__((export_name("TS_ChannelConfig_get_commit_upfront_shutdo
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelConfig_get_commit_upfront_shutdown_pubkey(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelConfig_get_commit_upfront_shutdown_pubkey(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_commit_upfront_shutdown_pubkey"))) TS_ChannelConfig_set_commit_upfront_shutdown_pubkey(uint32_t this_ptr, jboolean val) {
@@ -20938,8 +20999,8 @@ int64_t  __attribute__((export_name("TS_ChannelConfig_get_max_dust_htlc_exposure
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelConfig_get_max_dust_htlc_exposure_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelConfig_get_max_dust_htlc_exposure_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_max_dust_htlc_exposure_msat"))) TS_ChannelConfig_set_max_dust_htlc_exposure_msat(uint32_t this_ptr, int64_t val) {
@@ -20955,8 +21016,8 @@ int64_t  __attribute__((export_name("TS_ChannelConfig_get_force_close_avoidance_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelConfig_get_force_close_avoidance_max_fee_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelConfig_get_force_close_avoidance_max_fee_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelConfig_set_force_close_avoidance_max_fee_satoshis"))) TS_ChannelConfig_set_force_close_avoidance_max_fee_satoshis(uint32_t this_ptr, int64_t val) {
@@ -20997,8 +21058,8 @@ uint32_t  __attribute__((export_name("TS_ChannelConfig_clone_ptr"))) TS_ChannelC
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelConfig_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelConfig_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelConfig_clone"))) TS_ChannelConfig_clone(uint32_t orig) {
@@ -21155,8 +21216,8 @@ jboolean  __attribute__((export_name("TS_UserConfig_get_accept_forwards_to_priv_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = UserConfig_get_accept_forwards_to_priv_channels(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = UserConfig_get_accept_forwards_to_priv_channels(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UserConfig_set_accept_forwards_to_priv_channels"))) TS_UserConfig_set_accept_forwards_to_priv_channels(uint32_t this_ptr, jboolean val) {
@@ -21172,8 +21233,8 @@ jboolean  __attribute__((export_name("TS_UserConfig_get_accept_inbound_channels"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = UserConfig_get_accept_inbound_channels(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = UserConfig_get_accept_inbound_channels(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UserConfig_set_accept_inbound_channels"))) TS_UserConfig_set_accept_inbound_channels(uint32_t this_ptr, jboolean val) {
@@ -21189,8 +21250,8 @@ jboolean  __attribute__((export_name("TS_UserConfig_get_manually_accept_inbound_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = UserConfig_get_manually_accept_inbound_channels(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = UserConfig_get_manually_accept_inbound_channels(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UserConfig_set_manually_accept_inbound_channels"))) TS_UserConfig_set_manually_accept_inbound_channels(uint32_t this_ptr, jboolean val) {
@@ -21246,8 +21307,8 @@ uint32_t  __attribute__((export_name("TS_UserConfig_clone_ptr"))) TS_UserConfig_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UserConfig_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UserConfig_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UserConfig_clone"))) TS_UserConfig_clone(uint32_t orig) {
@@ -21305,8 +21366,8 @@ uint32_t  __attribute__((export_name("TS_BestBlock_clone_ptr"))) TS_BestBlock_cl
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = BestBlock_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = BestBlock_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_BestBlock_clone"))) TS_BestBlock_clone(uint32_t orig) {
@@ -21371,8 +21432,8 @@ int32_t  __attribute__((export_name("TS_BestBlock_height"))) TS_BestBlock_height
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int32_t ret_val = BestBlock_height(&this_arg_conv);
-	return ret_val;
+	int32_t ret_conv = BestBlock_height(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_AccessError_clone"))) TS_AccessError_clone(uint32_t orig) {
@@ -21576,8 +21637,8 @@ uint32_t  __attribute__((export_name("TS_WatchedOutput_clone_ptr"))) TS_WatchedO
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = WatchedOutput_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = WatchedOutput_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_WatchedOutput_clone"))) TS_WatchedOutput_clone(uint32_t orig) {
@@ -21602,8 +21663,8 @@ int64_t  __attribute__((export_name("TS_WatchedOutput_hash"))) TS_WatchedOutput_
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = WatchedOutput_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = WatchedOutput_hash(&o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_BroadcasterInterface_free"))) TS_BroadcasterInterface_free(uint32_t this_ptr) {
@@ -21639,8 +21700,8 @@ uint32_t  __attribute__((export_name("TS_ConfirmationTarget_high_priority"))) TS
 jboolean  __attribute__((export_name("TS_ConfirmationTarget_eq"))) TS_ConfirmationTarget_eq(uint32_t a, uint32_t b) {
 	LDKConfirmationTarget* a_conv = (LDKConfirmationTarget*)(a & ~1);
 	LDKConfirmationTarget* b_conv = (LDKConfirmationTarget*)(b & ~1);
-	jboolean ret_val = ConfirmationTarget_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = ConfirmationTarget_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_FeeEstimator_free"))) TS_FeeEstimator_free(uint32_t this_ptr) {
@@ -21677,8 +21738,8 @@ uint32_t  __attribute__((export_name("TS_MonitorUpdateId_clone_ptr"))) TS_Monito
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = MonitorUpdateId_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = MonitorUpdateId_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_MonitorUpdateId_clone"))) TS_MonitorUpdateId_clone(uint32_t orig) {
@@ -21703,8 +21764,8 @@ int64_t  __attribute__((export_name("TS_MonitorUpdateId_hash"))) TS_MonitorUpdat
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = MonitorUpdateId_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = MonitorUpdateId_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_MonitorUpdateId_eq"))) TS_MonitorUpdateId_eq(uint32_t a, uint32_t b) {
@@ -21716,8 +21777,8 @@ jboolean  __attribute__((export_name("TS_MonitorUpdateId_eq"))) TS_MonitorUpdate
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = MonitorUpdateId_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = MonitorUpdateId_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Persist_free"))) TS_Persist_free(uint32_t this_ptr) {
@@ -21947,8 +22008,8 @@ int64_t  __attribute__((export_name("TS_ChannelMonitorUpdate_get_update_id"))) T
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelMonitorUpdate_get_update_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelMonitorUpdate_get_update_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelMonitorUpdate_set_update_id"))) TS_ChannelMonitorUpdate_set_update_id(uint32_t this_ptr, int64_t val) {
@@ -21976,8 +22037,8 @@ uint32_t  __attribute__((export_name("TS_ChannelMonitorUpdate_clone_ptr"))) TS_C
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelMonitorUpdate_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelMonitorUpdate_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelMonitorUpdate_clone"))) TS_ChannelMonitorUpdate_clone(uint32_t orig) {
@@ -22035,8 +22096,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_MonitorEvent_clone_ptr"))) TS_MonitorEvent_clone_ptr(uint32_t arg) {
 	LDKMonitorEvent* arg_conv = (LDKMonitorEvent*)arg;
-	uint32_t ret_val = MonitorEvent_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = MonitorEvent_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_MonitorEvent_clone"))) TS_MonitorEvent_clone(uint32_t orig) {
@@ -22138,8 +22199,8 @@ uint32_t  __attribute__((export_name("TS_HTLCUpdate_clone_ptr"))) TS_HTLCUpdate_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = HTLCUpdate_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = HTLCUpdate_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_HTLCUpdate_clone"))) TS_HTLCUpdate_clone(uint32_t orig) {
@@ -22197,8 +22258,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_Balance_clone_ptr"))) TS_Balance_clone_ptr(uint32_t arg) {
 	LDKBalance* arg_conv = (LDKBalance*)arg;
-	uint32_t ret_val = Balance_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Balance_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Balance_clone"))) TS_Balance_clone(uint32_t orig) {
@@ -22240,8 +22301,8 @@ uint32_t  __attribute__((export_name("TS_Balance_maybe_claimable_htlcawaiting_ti
 jboolean  __attribute__((export_name("TS_Balance_eq"))) TS_Balance_eq(uint32_t a, uint32_t b) {
 	LDKBalance* a_conv = (LDKBalance*)a;
 	LDKBalance* b_conv = (LDKBalance*)b;
-	jboolean ret_val = Balance_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = Balance_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelMonitor_free"))) TS_ChannelMonitor_free(uint32_t this_obj) {
@@ -22269,8 +22330,8 @@ uint32_t  __attribute__((export_name("TS_ChannelMonitor_clone_ptr"))) TS_Channel
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelMonitor_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelMonitor_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelMonitor_clone"))) TS_ChannelMonitor_clone(uint32_t orig) {
@@ -22330,8 +22391,8 @@ int64_t  __attribute__((export_name("TS_ChannelMonitor_get_latest_update_id"))) 
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ChannelMonitor_get_latest_update_id(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelMonitor_get_latest_update_id(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelMonitor_get_funding_txo"))) TS_ChannelMonitor_get_funding_txo(uint32_t this_arg) {
@@ -22768,8 +22829,8 @@ int16_t  __attribute__((export_name("TS_OutPoint_get_index"))) TS_OutPoint_get_i
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = OutPoint_get_index(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = OutPoint_get_index(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OutPoint_set_index"))) TS_OutPoint_set_index(uint32_t this_ptr, int16_t val) {
@@ -22813,8 +22874,8 @@ uint32_t  __attribute__((export_name("TS_OutPoint_clone_ptr"))) TS_OutPoint_clon
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = OutPoint_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = OutPoint_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_OutPoint_clone"))) TS_OutPoint_clone(uint32_t orig) {
@@ -22843,8 +22904,8 @@ jboolean  __attribute__((export_name("TS_OutPoint_eq"))) TS_OutPoint_eq(uint32_t
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = OutPoint_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = OutPoint_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_OutPoint_hash"))) TS_OutPoint_hash(uint32_t o) {
@@ -22852,8 +22913,8 @@ int64_t  __attribute__((export_name("TS_OutPoint_hash"))) TS_OutPoint_hash(uint3
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = OutPoint_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = OutPoint_hash(&o_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_OutPoint_to_channel_id"))) TS_OutPoint_to_channel_id(uint32_t this_arg) {
@@ -22951,8 +23012,8 @@ int16_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_get_to_se
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = DelayedPaymentOutputDescriptor_get_to_self_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = DelayedPaymentOutputDescriptor_get_to_self_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_set_to_self_delay"))) TS_DelayedPaymentOutputDescriptor_set_to_self_delay(uint32_t this_ptr, int16_t val) {
@@ -23022,8 +23083,8 @@ int64_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_get_chann
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = DelayedPaymentOutputDescriptor_get_channel_value_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = DelayedPaymentOutputDescriptor_get_channel_value_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_set_channel_value_satoshis"))) TS_DelayedPaymentOutputDescriptor_set_channel_value_satoshis(uint32_t this_ptr, int64_t val) {
@@ -23082,8 +23143,8 @@ uint32_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_clone_pt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = DelayedPaymentOutputDescriptor_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = DelayedPaymentOutputDescriptor_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_clone"))) TS_DelayedPaymentOutputDescriptor_clone(uint32_t orig) {
@@ -23200,8 +23261,8 @@ int64_t  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_get_channe
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = StaticPaymentOutputDescriptor_get_channel_value_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = StaticPaymentOutputDescriptor_get_channel_value_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_set_channel_value_satoshis"))) TS_StaticPaymentOutputDescriptor_set_channel_value_satoshis(uint32_t this_ptr, int64_t val) {
@@ -23254,8 +23315,8 @@ uint32_t  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_clone_ptr
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = StaticPaymentOutputDescriptor_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = StaticPaymentOutputDescriptor_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_clone"))) TS_StaticPaymentOutputDescriptor_clone(uint32_t orig) {
@@ -23313,8 +23374,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_SpendableOutputDescriptor_clone_ptr"))) TS_SpendableOutputDescriptor_clone_ptr(uint32_t arg) {
 	LDKSpendableOutputDescriptor* arg_conv = (LDKSpendableOutputDescriptor*)arg;
-	uint32_t ret_val = SpendableOutputDescriptor_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = SpendableOutputDescriptor_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_SpendableOutputDescriptor_clone"))) TS_SpendableOutputDescriptor_clone(uint32_t orig) {
@@ -23401,8 +23462,8 @@ uint32_t  __attribute__((export_name("TS_Sign_clone_ptr"))) TS_Sign_clone_ptr(ui
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKSign* arg_conv = (LDKSign*)arg_ptr;
-	uint32_t ret_val = Sign_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Sign_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Sign_clone"))) TS_Sign_clone(uint32_t orig) {
@@ -23599,8 +23660,8 @@ uint32_t  __attribute__((export_name("TS_InMemorySigner_clone_ptr"))) TS_InMemor
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = InMemorySigner_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = InMemorySigner_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InMemorySigner_clone"))) TS_InMemorySigner_clone(uint32_t orig) {
@@ -23679,8 +23740,8 @@ int16_t  __attribute__((export_name("TS_InMemorySigner_counterparty_selected_con
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int16_t ret_val = InMemorySigner_counterparty_selected_contest_delay(&this_arg_conv);
-	return ret_val;
+	int16_t ret_conv = InMemorySigner_counterparty_selected_contest_delay(&this_arg_conv);
+	return ret_conv;
 }
 
 int16_t  __attribute__((export_name("TS_InMemorySigner_holder_selected_contest_delay"))) TS_InMemorySigner_holder_selected_contest_delay(uint32_t this_arg) {
@@ -23688,8 +23749,8 @@ int16_t  __attribute__((export_name("TS_InMemorySigner_holder_selected_contest_d
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int16_t ret_val = InMemorySigner_holder_selected_contest_delay(&this_arg_conv);
-	return ret_val;
+	int16_t ret_conv = InMemorySigner_holder_selected_contest_delay(&this_arg_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_InMemorySigner_is_outbound"))) TS_InMemorySigner_is_outbound(uint32_t this_arg) {
@@ -23697,8 +23758,8 @@ jboolean  __attribute__((export_name("TS_InMemorySigner_is_outbound"))) TS_InMem
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = InMemorySigner_is_outbound(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = InMemorySigner_is_outbound(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InMemorySigner_funding_outpoint"))) TS_InMemorySigner_funding_outpoint(uint32_t this_arg) {
@@ -23740,8 +23801,8 @@ jboolean  __attribute__((export_name("TS_InMemorySigner_opt_anchors"))) TS_InMem
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = InMemorySigner_opt_anchors(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = InMemorySigner_opt_anchors(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_counterparty_payment_input"))) TS_InMemorySigner_sign_counterparty_payment_input(uint32_t this_arg, int8_tArray spend_tx, uint32_t input_idx, uint32_t descriptor) {
@@ -24130,8 +24191,8 @@ uint32_t  __attribute__((export_name("TS_ChainParameters_clone_ptr"))) TS_ChainP
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChainParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChainParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChainParameters_clone"))) TS_ChainParameters_clone(uint32_t orig) {
@@ -24164,8 +24225,8 @@ int32_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_get_fee_base_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = CounterpartyForwardingInfo_get_fee_base_msat(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = CounterpartyForwardingInfo_get_fee_base_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CounterpartyForwardingInfo_set_fee_base_msat"))) TS_CounterpartyForwardingInfo_set_fee_base_msat(uint32_t this_ptr, int32_t val) {
@@ -24181,8 +24242,8 @@ int32_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_get_fee_propo
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = CounterpartyForwardingInfo_get_fee_proportional_millionths(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = CounterpartyForwardingInfo_get_fee_proportional_millionths(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CounterpartyForwardingInfo_set_fee_proportional_millionths"))) TS_CounterpartyForwardingInfo_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
@@ -24198,8 +24259,8 @@ int16_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_get_cltv_expi
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = CounterpartyForwardingInfo_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = CounterpartyForwardingInfo_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CounterpartyForwardingInfo_set_cltv_expiry_delta"))) TS_CounterpartyForwardingInfo_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
@@ -24240,8 +24301,8 @@ uint32_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_clone_ptr"))
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CounterpartyForwardingInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CounterpartyForwardingInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_clone"))) TS_CounterpartyForwardingInfo_clone(uint32_t orig) {
@@ -24325,8 +24386,8 @@ int64_t  __attribute__((export_name("TS_ChannelCounterparty_get_unspendable_puni
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelCounterparty_get_unspendable_punishment_reserve(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelCounterparty_get_unspendable_punishment_reserve(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelCounterparty_set_unspendable_punishment_reserve"))) TS_ChannelCounterparty_set_unspendable_punishment_reserve(uint32_t this_ptr, int64_t val) {
@@ -24412,8 +24473,8 @@ uint32_t  __attribute__((export_name("TS_ChannelCounterparty_clone_ptr"))) TS_Ch
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelCounterparty_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelCounterparty_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelCounterparty_clone"))) TS_ChannelCounterparty_clone(uint32_t orig) {
@@ -24607,8 +24668,8 @@ int64_t  __attribute__((export_name("TS_ChannelDetails_get_channel_value_satoshi
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelDetails_get_channel_value_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelDetails_get_channel_value_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_channel_value_satoshis"))) TS_ChannelDetails_set_channel_value_satoshis(uint32_t this_ptr, int64_t val) {
@@ -24647,8 +24708,8 @@ int64_t  __attribute__((export_name("TS_ChannelDetails_get_user_channel_id"))) T
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelDetails_get_user_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelDetails_get_user_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_user_channel_id"))) TS_ChannelDetails_set_user_channel_id(uint32_t this_ptr, int64_t val) {
@@ -24664,8 +24725,8 @@ int64_t  __attribute__((export_name("TS_ChannelDetails_get_balance_msat"))) TS_C
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelDetails_get_balance_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelDetails_get_balance_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_balance_msat"))) TS_ChannelDetails_set_balance_msat(uint32_t this_ptr, int64_t val) {
@@ -24681,8 +24742,8 @@ int64_t  __attribute__((export_name("TS_ChannelDetails_get_outbound_capacity_msa
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelDetails_get_outbound_capacity_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelDetails_get_outbound_capacity_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_outbound_capacity_msat"))) TS_ChannelDetails_set_outbound_capacity_msat(uint32_t this_ptr, int64_t val) {
@@ -24698,8 +24759,8 @@ int64_t  __attribute__((export_name("TS_ChannelDetails_get_inbound_capacity_msat
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelDetails_get_inbound_capacity_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelDetails_get_inbound_capacity_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_inbound_capacity_msat"))) TS_ChannelDetails_set_inbound_capacity_msat(uint32_t this_ptr, int64_t val) {
@@ -24761,8 +24822,8 @@ jboolean  __attribute__((export_name("TS_ChannelDetails_get_is_outbound"))) TS_C
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelDetails_get_is_outbound(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelDetails_get_is_outbound(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_is_outbound"))) TS_ChannelDetails_set_is_outbound(uint32_t this_ptr, jboolean val) {
@@ -24778,8 +24839,8 @@ jboolean  __attribute__((export_name("TS_ChannelDetails_get_is_funding_locked"))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelDetails_get_is_funding_locked(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelDetails_get_is_funding_locked(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_is_funding_locked"))) TS_ChannelDetails_set_is_funding_locked(uint32_t this_ptr, jboolean val) {
@@ -24795,8 +24856,8 @@ jboolean  __attribute__((export_name("TS_ChannelDetails_get_is_usable"))) TS_Cha
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelDetails_get_is_usable(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelDetails_get_is_usable(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_is_usable"))) TS_ChannelDetails_set_is_usable(uint32_t this_ptr, jboolean val) {
@@ -24812,8 +24873,8 @@ jboolean  __attribute__((export_name("TS_ChannelDetails_get_is_public"))) TS_Cha
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelDetails_get_is_public(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelDetails_get_is_public(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelDetails_set_is_public"))) TS_ChannelDetails_set_is_public(uint32_t this_ptr, jboolean val) {
@@ -24891,8 +24952,8 @@ uint32_t  __attribute__((export_name("TS_ChannelDetails_clone_ptr"))) TS_Channel
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelDetails_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelDetails_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelDetails_clone"))) TS_ChannelDetails_clone(uint32_t orig) {
@@ -24940,8 +25001,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_PaymentSendFailure_clone_ptr"))) TS_PaymentSendFailure_clone_ptr(uint32_t arg) {
 	LDKPaymentSendFailure* arg_conv = (LDKPaymentSendFailure*)arg;
-	uint32_t ret_val = PaymentSendFailure_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PaymentSendFailure_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PaymentSendFailure_clone"))) TS_PaymentSendFailure_clone(uint32_t orig) {
@@ -25099,8 +25160,8 @@ int64_t  __attribute__((export_name("TS_PhantomRouteHints_get_phantom_scid"))) T
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = PhantomRouteHints_get_phantom_scid(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = PhantomRouteHints_get_phantom_scid(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PhantomRouteHints_set_phantom_scid"))) TS_PhantomRouteHints_set_phantom_scid(uint32_t this_ptr, int64_t val) {
@@ -25181,8 +25242,8 @@ uint32_t  __attribute__((export_name("TS_PhantomRouteHints_clone_ptr"))) TS_Phan
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PhantomRouteHints_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PhantomRouteHints_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PhantomRouteHints_clone"))) TS_PhantomRouteHints_clone(uint32_t orig) {
@@ -25534,8 +25595,8 @@ jboolean  __attribute__((export_name("TS_ChannelManager_fail_htlc_backwards"))) 
 	CHECK(payment_hash->arr_len == 32);
 	memcpy(payment_hash_arr, payment_hash->elems, 32); FREE(payment_hash);
 	unsigned char (*payment_hash_ref)[32] = &payment_hash_arr;
-	jboolean ret_val = ChannelManager_fail_htlc_backwards(&this_arg_conv, payment_hash_ref);
-	return ret_val;
+	jboolean ret_conv = ChannelManager_fail_htlc_backwards(&this_arg_conv, payment_hash_ref);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_ChannelManager_claim_funds"))) TS_ChannelManager_claim_funds(uint32_t this_arg, int8_tArray payment_preimage) {
@@ -25546,8 +25607,8 @@ jboolean  __attribute__((export_name("TS_ChannelManager_claim_funds"))) TS_Chann
 	LDKThirtyTwoBytes payment_preimage_ref;
 	CHECK(payment_preimage->arr_len == 32);
 	memcpy(payment_preimage_ref.data, payment_preimage->elems, 32); FREE(payment_preimage);
-	jboolean ret_val = ChannelManager_claim_funds(&this_arg_conv, payment_preimage_ref);
-	return ret_val;
+	jboolean ret_conv = ChannelManager_claim_funds(&this_arg_conv, payment_preimage_ref);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_ChannelManager_get_our_node_id"))) TS_ChannelManager_get_our_node_id(uint32_t this_arg) {
@@ -25657,8 +25718,8 @@ int64_t  __attribute__((export_name("TS_ChannelManager_get_phantom_scid"))) TS_C
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ChannelManager_get_phantom_scid(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelManager_get_phantom_scid(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelManager_get_phantom_route_hints"))) TS_ChannelManager_get_phantom_route_hints(uint32_t this_arg) {
@@ -26119,8 +26180,8 @@ uint32_t  __attribute__((export_name("TS_DecodeError_clone_ptr"))) TS_DecodeErro
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = DecodeError_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = DecodeError_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_DecodeError_clone"))) TS_DecodeError_clone(uint32_t orig) {
@@ -26239,8 +26300,8 @@ uint32_t  __attribute__((export_name("TS_Init_clone_ptr"))) TS_Init_clone_ptr(ui
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Init_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Init_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Init_clone"))) TS_Init_clone(uint32_t orig) {
@@ -26343,8 +26404,8 @@ uint32_t  __attribute__((export_name("TS_ErrorMessage_clone_ptr"))) TS_ErrorMess
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ErrorMessage_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ErrorMessage_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ErrorMessage_clone"))) TS_ErrorMessage_clone(uint32_t orig) {
@@ -26447,8 +26508,8 @@ uint32_t  __attribute__((export_name("TS_WarningMessage_clone_ptr"))) TS_Warning
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = WarningMessage_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = WarningMessage_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_WarningMessage_clone"))) TS_WarningMessage_clone(uint32_t orig) {
@@ -26481,8 +26542,8 @@ int16_t  __attribute__((export_name("TS_Ping_get_ponglen"))) TS_Ping_get_ponglen
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = Ping_get_ponglen(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = Ping_get_ponglen(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Ping_set_ponglen"))) TS_Ping_set_ponglen(uint32_t this_ptr, int16_t val) {
@@ -26498,8 +26559,8 @@ int16_t  __attribute__((export_name("TS_Ping_get_byteslen"))) TS_Ping_get_bytesl
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = Ping_get_byteslen(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = Ping_get_byteslen(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Ping_set_byteslen"))) TS_Ping_set_byteslen(uint32_t this_ptr, int16_t val) {
@@ -26540,8 +26601,8 @@ uint32_t  __attribute__((export_name("TS_Ping_clone_ptr"))) TS_Ping_clone_ptr(ui
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Ping_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Ping_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Ping_clone"))) TS_Ping_clone(uint32_t orig) {
@@ -26574,8 +26635,8 @@ int16_t  __attribute__((export_name("TS_Pong_get_byteslen"))) TS_Pong_get_bytesl
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = Pong_get_byteslen(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = Pong_get_byteslen(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Pong_set_byteslen"))) TS_Pong_set_byteslen(uint32_t this_ptr, int16_t val) {
@@ -26616,8 +26677,8 @@ uint32_t  __attribute__((export_name("TS_Pong_clone_ptr"))) TS_Pong_clone_ptr(ui
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Pong_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Pong_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Pong_clone"))) TS_Pong_clone(uint32_t orig) {
@@ -26692,8 +26753,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_funding_satoshis"))) TS_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_funding_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_funding_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_funding_satoshis"))) TS_OpenChannel_set_funding_satoshis(uint32_t this_ptr, int64_t val) {
@@ -26709,8 +26770,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_push_msat"))) TS_OpenCha
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_push_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_push_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_push_msat"))) TS_OpenChannel_set_push_msat(uint32_t this_ptr, int64_t val) {
@@ -26726,8 +26787,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_dust_limit_satoshis"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_dust_limit_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_dust_limit_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_dust_limit_satoshis"))) TS_OpenChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
@@ -26743,8 +26804,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_max_htlc_value_in_flight
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_max_htlc_value_in_flight_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_max_htlc_value_in_flight_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_max_htlc_value_in_flight_msat"))) TS_OpenChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
@@ -26760,8 +26821,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_channel_reserve_satoshis
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_channel_reserve_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_channel_reserve_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_channel_reserve_satoshis"))) TS_OpenChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
@@ -26777,8 +26838,8 @@ int64_t  __attribute__((export_name("TS_OpenChannel_get_htlc_minimum_msat"))) TS
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = OpenChannel_get_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = OpenChannel_get_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_htlc_minimum_msat"))) TS_OpenChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -26794,8 +26855,8 @@ int32_t  __attribute__((export_name("TS_OpenChannel_get_feerate_per_kw"))) TS_Op
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = OpenChannel_get_feerate_per_kw(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = OpenChannel_get_feerate_per_kw(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_feerate_per_kw"))) TS_OpenChannel_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
@@ -26811,8 +26872,8 @@ int16_t  __attribute__((export_name("TS_OpenChannel_get_to_self_delay"))) TS_Ope
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = OpenChannel_get_to_self_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = OpenChannel_get_to_self_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_to_self_delay"))) TS_OpenChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
@@ -26828,8 +26889,8 @@ int16_t  __attribute__((export_name("TS_OpenChannel_get_max_accepted_htlcs"))) T
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = OpenChannel_get_max_accepted_htlcs(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = OpenChannel_get_max_accepted_htlcs(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_max_accepted_htlcs"))) TS_OpenChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
@@ -26971,8 +27032,8 @@ int8_t  __attribute__((export_name("TS_OpenChannel_get_channel_flags"))) TS_Open
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int8_t ret_val = OpenChannel_get_channel_flags(&this_ptr_conv);
-	return ret_val;
+	int8_t ret_conv = OpenChannel_get_channel_flags(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_OpenChannel_set_channel_flags"))) TS_OpenChannel_set_channel_flags(uint32_t this_ptr, int8_t val) {
@@ -27032,8 +27093,8 @@ uint32_t  __attribute__((export_name("TS_OpenChannel_clone_ptr"))) TS_OpenChanne
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = OpenChannel_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = OpenChannel_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_OpenChannel_clone"))) TS_OpenChannel_clone(uint32_t orig) {
@@ -27087,8 +27148,8 @@ int64_t  __attribute__((export_name("TS_AcceptChannel_get_dust_limit_satoshis"))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = AcceptChannel_get_dust_limit_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = AcceptChannel_get_dust_limit_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_dust_limit_satoshis"))) TS_AcceptChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
@@ -27104,8 +27165,8 @@ int64_t  __attribute__((export_name("TS_AcceptChannel_get_max_htlc_value_in_flig
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = AcceptChannel_get_max_htlc_value_in_flight_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = AcceptChannel_get_max_htlc_value_in_flight_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_max_htlc_value_in_flight_msat"))) TS_AcceptChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
@@ -27121,8 +27182,8 @@ int64_t  __attribute__((export_name("TS_AcceptChannel_get_channel_reserve_satosh
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = AcceptChannel_get_channel_reserve_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = AcceptChannel_get_channel_reserve_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_channel_reserve_satoshis"))) TS_AcceptChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
@@ -27138,8 +27199,8 @@ int64_t  __attribute__((export_name("TS_AcceptChannel_get_htlc_minimum_msat"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = AcceptChannel_get_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = AcceptChannel_get_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_htlc_minimum_msat"))) TS_AcceptChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -27155,8 +27216,8 @@ int32_t  __attribute__((export_name("TS_AcceptChannel_get_minimum_depth"))) TS_A
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = AcceptChannel_get_minimum_depth(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = AcceptChannel_get_minimum_depth(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_minimum_depth"))) TS_AcceptChannel_set_minimum_depth(uint32_t this_ptr, int32_t val) {
@@ -27172,8 +27233,8 @@ int16_t  __attribute__((export_name("TS_AcceptChannel_get_to_self_delay"))) TS_A
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = AcceptChannel_get_to_self_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = AcceptChannel_get_to_self_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_to_self_delay"))) TS_AcceptChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
@@ -27189,8 +27250,8 @@ int16_t  __attribute__((export_name("TS_AcceptChannel_get_max_accepted_htlcs")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = AcceptChannel_get_max_accepted_htlcs(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = AcceptChannel_get_max_accepted_htlcs(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AcceptChannel_set_max_accepted_htlcs"))) TS_AcceptChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
@@ -27376,8 +27437,8 @@ uint32_t  __attribute__((export_name("TS_AcceptChannel_clone_ptr"))) TS_AcceptCh
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = AcceptChannel_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = AcceptChannel_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_AcceptChannel_clone"))) TS_AcceptChannel_clone(uint32_t orig) {
@@ -27452,8 +27513,8 @@ int16_t  __attribute__((export_name("TS_FundingCreated_get_funding_output_index"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = FundingCreated_get_funding_output_index(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = FundingCreated_get_funding_output_index(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_FundingCreated_set_funding_output_index"))) TS_FundingCreated_set_funding_output_index(uint32_t this_ptr, int16_t val) {
@@ -27524,8 +27585,8 @@ uint32_t  __attribute__((export_name("TS_FundingCreated_clone_ptr"))) TS_Funding
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = FundingCreated_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = FundingCreated_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_FundingCreated_clone"))) TS_FundingCreated_clone(uint32_t orig) {
@@ -27631,8 +27692,8 @@ uint32_t  __attribute__((export_name("TS_FundingSigned_clone_ptr"))) TS_FundingS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = FundingSigned_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = FundingSigned_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_FundingSigned_clone"))) TS_FundingSigned_clone(uint32_t orig) {
@@ -27765,8 +27826,8 @@ uint32_t  __attribute__((export_name("TS_FundingLocked_clone_ptr"))) TS_FundingL
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = FundingLocked_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = FundingLocked_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_FundingLocked_clone"))) TS_FundingLocked_clone(uint32_t orig) {
@@ -27875,8 +27936,8 @@ uint32_t  __attribute__((export_name("TS_Shutdown_clone_ptr"))) TS_Shutdown_clon
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Shutdown_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Shutdown_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Shutdown_clone"))) TS_Shutdown_clone(uint32_t orig) {
@@ -27909,8 +27970,8 @@ int64_t  __attribute__((export_name("TS_ClosingSignedFeeRange_get_min_fee_satosh
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ClosingSignedFeeRange_get_min_fee_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingSignedFeeRange_get_min_fee_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ClosingSignedFeeRange_set_min_fee_satoshis"))) TS_ClosingSignedFeeRange_set_min_fee_satoshis(uint32_t this_ptr, int64_t val) {
@@ -27926,8 +27987,8 @@ int64_t  __attribute__((export_name("TS_ClosingSignedFeeRange_get_max_fee_satosh
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ClosingSignedFeeRange_get_max_fee_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingSignedFeeRange_get_max_fee_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ClosingSignedFeeRange_set_max_fee_satoshis"))) TS_ClosingSignedFeeRange_set_max_fee_satoshis(uint32_t this_ptr, int64_t val) {
@@ -27968,8 +28029,8 @@ uint32_t  __attribute__((export_name("TS_ClosingSignedFeeRange_clone_ptr"))) TS_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ClosingSignedFeeRange_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ClosingSignedFeeRange_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ClosingSignedFeeRange_clone"))) TS_ClosingSignedFeeRange_clone(uint32_t orig) {
@@ -28023,8 +28084,8 @@ int64_t  __attribute__((export_name("TS_ClosingSigned_get_fee_satoshis"))) TS_Cl
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ClosingSigned_get_fee_satoshis(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingSigned_get_fee_satoshis(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ClosingSigned_set_fee_satoshis"))) TS_ClosingSigned_set_fee_satoshis(uint32_t this_ptr, int64_t val) {
@@ -28129,8 +28190,8 @@ uint32_t  __attribute__((export_name("TS_ClosingSigned_clone_ptr"))) TS_ClosingS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ClosingSigned_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ClosingSigned_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ClosingSigned_clone"))) TS_ClosingSigned_clone(uint32_t orig) {
@@ -28184,8 +28245,8 @@ int64_t  __attribute__((export_name("TS_UpdateAddHTLC_get_htlc_id"))) TS_UpdateA
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UpdateAddHTLC_get_htlc_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UpdateAddHTLC_get_htlc_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateAddHTLC_set_htlc_id"))) TS_UpdateAddHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
@@ -28201,8 +28262,8 @@ int64_t  __attribute__((export_name("TS_UpdateAddHTLC_get_amount_msat"))) TS_Upd
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UpdateAddHTLC_get_amount_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UpdateAddHTLC_get_amount_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateAddHTLC_set_amount_msat"))) TS_UpdateAddHTLC_set_amount_msat(uint32_t this_ptr, int64_t val) {
@@ -28239,8 +28300,8 @@ int32_t  __attribute__((export_name("TS_UpdateAddHTLC_get_cltv_expiry"))) TS_Upd
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UpdateAddHTLC_get_cltv_expiry(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UpdateAddHTLC_get_cltv_expiry(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateAddHTLC_set_cltv_expiry"))) TS_UpdateAddHTLC_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
@@ -28268,8 +28329,8 @@ uint32_t  __attribute__((export_name("TS_UpdateAddHTLC_clone_ptr"))) TS_UpdateAd
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UpdateAddHTLC_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UpdateAddHTLC_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UpdateAddHTLC_clone"))) TS_UpdateAddHTLC_clone(uint32_t orig) {
@@ -28323,8 +28384,8 @@ int64_t  __attribute__((export_name("TS_UpdateFulfillHTLC_get_htlc_id"))) TS_Upd
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UpdateFulfillHTLC_get_htlc_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UpdateFulfillHTLC_get_htlc_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateFulfillHTLC_set_htlc_id"))) TS_UpdateFulfillHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
@@ -28392,8 +28453,8 @@ uint32_t  __attribute__((export_name("TS_UpdateFulfillHTLC_clone_ptr"))) TS_Upda
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UpdateFulfillHTLC_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UpdateFulfillHTLC_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UpdateFulfillHTLC_clone"))) TS_UpdateFulfillHTLC_clone(uint32_t orig) {
@@ -28447,8 +28508,8 @@ int64_t  __attribute__((export_name("TS_UpdateFailHTLC_get_htlc_id"))) TS_Update
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UpdateFailHTLC_get_htlc_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UpdateFailHTLC_get_htlc_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateFailHTLC_set_htlc_id"))) TS_UpdateFailHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
@@ -28476,8 +28537,8 @@ uint32_t  __attribute__((export_name("TS_UpdateFailHTLC_clone_ptr"))) TS_UpdateF
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UpdateFailHTLC_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UpdateFailHTLC_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UpdateFailHTLC_clone"))) TS_UpdateFailHTLC_clone(uint32_t orig) {
@@ -28531,8 +28592,8 @@ int64_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_get_htlc_id"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UpdateFailMalformedHTLC_get_htlc_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UpdateFailMalformedHTLC_get_htlc_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateFailMalformedHTLC_set_htlc_id"))) TS_UpdateFailMalformedHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
@@ -28548,8 +28609,8 @@ int16_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_get_failure_code
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = UpdateFailMalformedHTLC_get_failure_code(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = UpdateFailMalformedHTLC_get_failure_code(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateFailMalformedHTLC_set_failure_code"))) TS_UpdateFailMalformedHTLC_set_failure_code(uint32_t this_ptr, int16_t val) {
@@ -28577,8 +28638,8 @@ uint32_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_clone_ptr"))) T
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UpdateFailMalformedHTLC_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UpdateFailMalformedHTLC_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_clone"))) TS_UpdateFailMalformedHTLC_clone(uint32_t orig) {
@@ -28720,8 +28781,8 @@ uint32_t  __attribute__((export_name("TS_CommitmentSigned_clone_ptr"))) TS_Commi
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CommitmentSigned_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CommitmentSigned_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CommitmentSigned_clone"))) TS_CommitmentSigned_clone(uint32_t orig) {
@@ -28851,8 +28912,8 @@ uint32_t  __attribute__((export_name("TS_RevokeAndACK_clone_ptr"))) TS_RevokeAnd
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RevokeAndACK_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RevokeAndACK_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RevokeAndACK_clone"))) TS_RevokeAndACK_clone(uint32_t orig) {
@@ -28906,8 +28967,8 @@ int32_t  __attribute__((export_name("TS_UpdateFee_get_feerate_per_kw"))) TS_Upda
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UpdateFee_get_feerate_per_kw(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UpdateFee_get_feerate_per_kw(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UpdateFee_set_feerate_per_kw"))) TS_UpdateFee_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
@@ -28951,8 +29012,8 @@ uint32_t  __attribute__((export_name("TS_UpdateFee_clone_ptr"))) TS_UpdateFee_cl
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UpdateFee_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UpdateFee_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UpdateFee_clone"))) TS_UpdateFee_clone(uint32_t orig) {
@@ -29058,8 +29119,8 @@ uint32_t  __attribute__((export_name("TS_DataLossProtect_clone_ptr"))) TS_DataLo
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = DataLossProtect_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = DataLossProtect_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_DataLossProtect_clone"))) TS_DataLossProtect_clone(uint32_t orig) {
@@ -29113,8 +29174,8 @@ int64_t  __attribute__((export_name("TS_ChannelReestablish_get_next_local_commit
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelReestablish_get_next_local_commitment_number(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelReestablish_get_next_local_commitment_number(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelReestablish_set_next_local_commitment_number"))) TS_ChannelReestablish_set_next_local_commitment_number(uint32_t this_ptr, int64_t val) {
@@ -29130,8 +29191,8 @@ int64_t  __attribute__((export_name("TS_ChannelReestablish_get_next_remote_commi
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelReestablish_get_next_remote_commitment_number(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelReestablish_get_next_remote_commitment_number(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelReestablish_set_next_remote_commitment_number"))) TS_ChannelReestablish_set_next_remote_commitment_number(uint32_t this_ptr, int64_t val) {
@@ -29159,8 +29220,8 @@ uint32_t  __attribute__((export_name("TS_ChannelReestablish_clone_ptr"))) TS_Cha
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelReestablish_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelReestablish_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelReestablish_clone"))) TS_ChannelReestablish_clone(uint32_t orig) {
@@ -29214,8 +29275,8 @@ int64_t  __attribute__((export_name("TS_AnnouncementSignatures_get_short_channel
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = AnnouncementSignatures_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = AnnouncementSignatures_get_short_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_AnnouncementSignatures_set_short_channel_id"))) TS_AnnouncementSignatures_set_short_channel_id(uint32_t this_ptr, int64_t val) {
@@ -29307,8 +29368,8 @@ uint32_t  __attribute__((export_name("TS_AnnouncementSignatures_clone_ptr"))) TS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = AnnouncementSignatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = AnnouncementSignatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_AnnouncementSignatures_clone"))) TS_AnnouncementSignatures_clone(uint32_t orig) {
@@ -29345,8 +29406,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_NetAddress_clone_ptr"))) TS_NetAddress_clone_ptr(uint32_t arg) {
 	LDKNetAddress* arg_conv = (LDKNetAddress*)arg;
-	uint32_t ret_val = NetAddress_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NetAddress_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NetAddress_clone"))) TS_NetAddress_clone(uint32_t orig) {
@@ -29458,8 +29519,8 @@ int32_t  __attribute__((export_name("TS_UnsignedNodeAnnouncement_get_timestamp")
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UnsignedNodeAnnouncement_get_timestamp(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UnsignedNodeAnnouncement_get_timestamp(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedNodeAnnouncement_set_timestamp"))) TS_UnsignedNodeAnnouncement_set_timestamp(uint32_t this_ptr, int32_t val) {
@@ -29573,8 +29634,8 @@ uint32_t  __attribute__((export_name("TS_UnsignedNodeAnnouncement_clone_ptr"))) 
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UnsignedNodeAnnouncement_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UnsignedNodeAnnouncement_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UnsignedNodeAnnouncement_clone"))) TS_UnsignedNodeAnnouncement_clone(uint32_t orig) {
@@ -29691,8 +29752,8 @@ uint32_t  __attribute__((export_name("TS_NodeAnnouncement_clone_ptr"))) TS_NodeA
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NodeAnnouncement_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NodeAnnouncement_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeAnnouncement_clone"))) TS_NodeAnnouncement_clone(uint32_t orig) {
@@ -29776,8 +29837,8 @@ int64_t  __attribute__((export_name("TS_UnsignedChannelAnnouncement_get_short_ch
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UnsignedChannelAnnouncement_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UnsignedChannelAnnouncement_get_short_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelAnnouncement_set_short_channel_id"))) TS_UnsignedChannelAnnouncement_set_short_channel_id(uint32_t this_ptr, int64_t val) {
@@ -29889,8 +29950,8 @@ uint32_t  __attribute__((export_name("TS_UnsignedChannelAnnouncement_clone_ptr")
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UnsignedChannelAnnouncement_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UnsignedChannelAnnouncement_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UnsignedChannelAnnouncement_clone"))) TS_UnsignedChannelAnnouncement_clone(uint32_t orig) {
@@ -30079,8 +30140,8 @@ uint32_t  __attribute__((export_name("TS_ChannelAnnouncement_clone_ptr"))) TS_Ch
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelAnnouncement_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelAnnouncement_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelAnnouncement_clone"))) TS_ChannelAnnouncement_clone(uint32_t orig) {
@@ -30134,8 +30195,8 @@ int64_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_short_channel_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UnsignedChannelUpdate_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UnsignedChannelUpdate_get_short_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_short_channel_id"))) TS_UnsignedChannelUpdate_set_short_channel_id(uint32_t this_ptr, int64_t val) {
@@ -30151,8 +30212,8 @@ int32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_timestamp"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UnsignedChannelUpdate_get_timestamp(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UnsignedChannelUpdate_get_timestamp(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_timestamp"))) TS_UnsignedChannelUpdate_set_timestamp(uint32_t this_ptr, int32_t val) {
@@ -30168,8 +30229,8 @@ int8_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_flags"))) TS_Un
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int8_t ret_val = UnsignedChannelUpdate_get_flags(&this_ptr_conv);
-	return ret_val;
+	int8_t ret_conv = UnsignedChannelUpdate_get_flags(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_flags"))) TS_UnsignedChannelUpdate_set_flags(uint32_t this_ptr, int8_t val) {
@@ -30185,8 +30246,8 @@ int16_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_cltv_expiry_de
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = UnsignedChannelUpdate_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = UnsignedChannelUpdate_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_cltv_expiry_delta"))) TS_UnsignedChannelUpdate_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
@@ -30202,8 +30263,8 @@ int64_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_htlc_minimum_m
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = UnsignedChannelUpdate_get_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = UnsignedChannelUpdate_get_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_htlc_minimum_msat"))) TS_UnsignedChannelUpdate_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -30219,8 +30280,8 @@ int32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_fee_base_msat"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UnsignedChannelUpdate_get_fee_base_msat(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UnsignedChannelUpdate_get_fee_base_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_fee_base_msat"))) TS_UnsignedChannelUpdate_set_fee_base_msat(uint32_t this_ptr, int32_t val) {
@@ -30236,8 +30297,8 @@ int32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_get_fee_proportion
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = UnsignedChannelUpdate_get_fee_proportional_millionths(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = UnsignedChannelUpdate_get_fee_proportional_millionths(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_UnsignedChannelUpdate_set_fee_proportional_millionths"))) TS_UnsignedChannelUpdate_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
@@ -30265,8 +30326,8 @@ uint32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_clone_ptr"))) TS_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = UnsignedChannelUpdate_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = UnsignedChannelUpdate_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_clone"))) TS_UnsignedChannelUpdate_clone(uint32_t orig) {
@@ -30383,8 +30444,8 @@ uint32_t  __attribute__((export_name("TS_ChannelUpdate_clone_ptr"))) TS_ChannelU
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelUpdate_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelUpdate_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelUpdate_clone"))) TS_ChannelUpdate_clone(uint32_t orig) {
@@ -30438,8 +30499,8 @@ int32_t  __attribute__((export_name("TS_QueryChannelRange_get_first_blocknum")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = QueryChannelRange_get_first_blocknum(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = QueryChannelRange_get_first_blocknum(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_QueryChannelRange_set_first_blocknum"))) TS_QueryChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
@@ -30455,8 +30516,8 @@ int32_t  __attribute__((export_name("TS_QueryChannelRange_get_number_of_blocks")
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = QueryChannelRange_get_number_of_blocks(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = QueryChannelRange_get_number_of_blocks(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_QueryChannelRange_set_number_of_blocks"))) TS_QueryChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
@@ -30500,8 +30561,8 @@ uint32_t  __attribute__((export_name("TS_QueryChannelRange_clone_ptr"))) TS_Quer
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = QueryChannelRange_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = QueryChannelRange_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_QueryChannelRange_clone"))) TS_QueryChannelRange_clone(uint32_t orig) {
@@ -30555,8 +30616,8 @@ int32_t  __attribute__((export_name("TS_ReplyChannelRange_get_first_blocknum")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ReplyChannelRange_get_first_blocknum(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ReplyChannelRange_get_first_blocknum(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ReplyChannelRange_set_first_blocknum"))) TS_ReplyChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
@@ -30572,8 +30633,8 @@ int32_t  __attribute__((export_name("TS_ReplyChannelRange_get_number_of_blocks")
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ReplyChannelRange_get_number_of_blocks(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ReplyChannelRange_get_number_of_blocks(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ReplyChannelRange_set_number_of_blocks"))) TS_ReplyChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
@@ -30589,8 +30650,8 @@ jboolean  __attribute__((export_name("TS_ReplyChannelRange_get_sync_complete")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ReplyChannelRange_get_sync_complete(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ReplyChannelRange_get_sync_complete(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ReplyChannelRange_set_sync_complete"))) TS_ReplyChannelRange_set_sync_complete(uint32_t this_ptr, jboolean val) {
@@ -30664,8 +30725,8 @@ uint32_t  __attribute__((export_name("TS_ReplyChannelRange_clone_ptr"))) TS_Repl
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ReplyChannelRange_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ReplyChannelRange_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ReplyChannelRange_clone"))) TS_ReplyChannelRange_clone(uint32_t orig) {
@@ -30777,8 +30838,8 @@ uint32_t  __attribute__((export_name("TS_QueryShortChannelIds_clone_ptr"))) TS_Q
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = QueryShortChannelIds_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = QueryShortChannelIds_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_QueryShortChannelIds_clone"))) TS_QueryShortChannelIds_clone(uint32_t orig) {
@@ -30832,8 +30893,8 @@ jboolean  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_get_full_inform
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ReplyShortChannelIdsEnd_get_full_information(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ReplyShortChannelIdsEnd_get_full_information(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_set_full_information"))) TS_ReplyShortChannelIdsEnd_set_full_information(uint32_t this_ptr, jboolean val) {
@@ -30877,8 +30938,8 @@ uint32_t  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_clone_ptr"))) T
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ReplyShortChannelIdsEnd_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ReplyShortChannelIdsEnd_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_clone"))) TS_ReplyShortChannelIdsEnd_clone(uint32_t orig) {
@@ -30932,8 +30993,8 @@ int32_t  __attribute__((export_name("TS_GossipTimestampFilter_get_first_timestam
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = GossipTimestampFilter_get_first_timestamp(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = GossipTimestampFilter_get_first_timestamp(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_GossipTimestampFilter_set_first_timestamp"))) TS_GossipTimestampFilter_set_first_timestamp(uint32_t this_ptr, int32_t val) {
@@ -30949,8 +31010,8 @@ int32_t  __attribute__((export_name("TS_GossipTimestampFilter_get_timestamp_rang
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = GossipTimestampFilter_get_timestamp_range(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = GossipTimestampFilter_get_timestamp_range(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_GossipTimestampFilter_set_timestamp_range"))) TS_GossipTimestampFilter_set_timestamp_range(uint32_t this_ptr, int32_t val) {
@@ -30994,8 +31055,8 @@ uint32_t  __attribute__((export_name("TS_GossipTimestampFilter_clone_ptr"))) TS_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = GossipTimestampFilter_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = GossipTimestampFilter_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_GossipTimestampFilter_clone"))) TS_GossipTimestampFilter_clone(uint32_t orig) {
@@ -31032,8 +31093,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_ErrorAction_clone_ptr"))) TS_ErrorAction_clone_ptr(uint32_t arg) {
 	LDKErrorAction* arg_conv = (LDKErrorAction*)arg;
-	uint32_t ret_val = ErrorAction_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ErrorAction_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ErrorAction_clone"))) TS_ErrorAction_clone(uint32_t orig) {
@@ -31189,8 +31250,8 @@ uint32_t  __attribute__((export_name("TS_LightningError_clone_ptr"))) TS_Lightni
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = LightningError_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = LightningError_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_LightningError_clone"))) TS_LightningError_clone(uint32_t orig) {
@@ -31584,8 +31645,8 @@ uint32_t  __attribute__((export_name("TS_CommitmentUpdate_clone_ptr"))) TS_Commi
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CommitmentUpdate_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CommitmentUpdate_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CommitmentUpdate_clone"))) TS_CommitmentUpdate_clone(uint32_t orig) {
@@ -32258,8 +32319,8 @@ int32_t  __attribute__((export_name("TS_QueryChannelRange_end_blocknum"))) TS_Qu
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int32_t ret_val = QueryChannelRange_end_blocknum(&this_arg_conv);
-	return ret_val;
+	int32_t ret_conv = QueryChannelRange_end_blocknum(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_QueryChannelRange_write"))) TS_QueryChannelRange_write(uint32_t obj) {
@@ -32530,8 +32591,8 @@ uint32_t  __attribute__((export_name("TS_SocketDescriptor_clone_ptr"))) TS_Socke
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKSocketDescriptor* arg_conv = (LDKSocketDescriptor*)arg_ptr;
-	uint32_t ret_val = SocketDescriptor_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = SocketDescriptor_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_SocketDescriptor_clone"))) TS_SocketDescriptor_clone(uint32_t orig) {
@@ -32565,8 +32626,8 @@ jboolean  __attribute__((export_name("TS_PeerHandleError_get_no_connection_possi
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = PeerHandleError_get_no_connection_possible(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = PeerHandleError_get_no_connection_possible(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PeerHandleError_set_no_connection_possible"))) TS_PeerHandleError_set_no_connection_possible(uint32_t this_ptr, jboolean val) {
@@ -32607,8 +32668,8 @@ uint32_t  __attribute__((export_name("TS_PeerHandleError_clone_ptr"))) TS_PeerHa
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PeerHandleError_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PeerHandleError_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PeerHandleError_clone"))) TS_PeerHandleError_clone(uint32_t orig) {
@@ -32813,13 +32874,13 @@ void  __attribute__((export_name("TS_PeerManager_timer_tick_occurred"))) TS_Peer
 }
 
 int64_t  __attribute__((export_name("TS_htlc_success_tx_weight"))) TS_htlc_success_tx_weight(jboolean opt_anchors) {
-	int64_t ret_val = htlc_success_tx_weight(opt_anchors);
-	return ret_val;
+	int64_t ret_conv = htlc_success_tx_weight(opt_anchors);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_htlc_timeout_tx_weight"))) TS_htlc_timeout_tx_weight(jboolean opt_anchors) {
-	int64_t ret_val = htlc_timeout_tx_weight(opt_anchors);
-	return ret_val;
+	int64_t ret_conv = htlc_timeout_tx_weight(opt_anchors);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_build_commitment_secret"))) TS_build_commitment_secret(int8_tArray commitment_seed, int64_t idx) {
@@ -32878,8 +32939,8 @@ uint32_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_clone_ptr
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CounterpartyCommitmentSecrets_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CounterpartyCommitmentSecrets_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_clone"))) TS_CounterpartyCommitmentSecrets_clone(uint32_t orig) {
@@ -32917,8 +32978,8 @@ int64_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_get_min_se
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = CounterpartyCommitmentSecrets_get_min_seen_secret(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = CounterpartyCommitmentSecrets_get_min_seen_secret(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_provide_secret"))) TS_CounterpartyCommitmentSecrets_provide_secret(uint32_t this_arg, int64_t idx, int8_tArray secret) {
@@ -33174,8 +33235,8 @@ uint32_t  __attribute__((export_name("TS_TxCreationKeys_clone_ptr"))) TS_TxCreat
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = TxCreationKeys_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = TxCreationKeys_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_TxCreationKeys_clone"))) TS_TxCreationKeys_clone(uint32_t orig) {
@@ -33374,8 +33435,8 @@ uint32_t  __attribute__((export_name("TS_ChannelPublicKeys_clone_ptr"))) TS_Chan
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelPublicKeys_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelPublicKeys_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelPublicKeys_clone"))) TS_ChannelPublicKeys_clone(uint32_t orig) {
@@ -33481,8 +33542,8 @@ jboolean  __attribute__((export_name("TS_HTLCOutputInCommitment_get_offered"))) 
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = HTLCOutputInCommitment_get_offered(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = HTLCOutputInCommitment_get_offered(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_HTLCOutputInCommitment_set_offered"))) TS_HTLCOutputInCommitment_set_offered(uint32_t this_ptr, jboolean val) {
@@ -33498,8 +33559,8 @@ int64_t  __attribute__((export_name("TS_HTLCOutputInCommitment_get_amount_msat")
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = HTLCOutputInCommitment_get_amount_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = HTLCOutputInCommitment_get_amount_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_HTLCOutputInCommitment_set_amount_msat"))) TS_HTLCOutputInCommitment_set_amount_msat(uint32_t this_ptr, int64_t val) {
@@ -33515,8 +33576,8 @@ int32_t  __attribute__((export_name("TS_HTLCOutputInCommitment_get_cltv_expiry")
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = HTLCOutputInCommitment_get_cltv_expiry(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = HTLCOutputInCommitment_get_cltv_expiry(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_HTLCOutputInCommitment_set_cltv_expiry"))) TS_HTLCOutputInCommitment_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
@@ -33608,8 +33669,8 @@ uint32_t  __attribute__((export_name("TS_HTLCOutputInCommitment_clone_ptr"))) TS
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = HTLCOutputInCommitment_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = HTLCOutputInCommitment_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_HTLCOutputInCommitment_clone"))) TS_HTLCOutputInCommitment_clone(uint32_t orig) {
@@ -33756,8 +33817,8 @@ int16_t  __attribute__((export_name("TS_ChannelTransactionParameters_get_holder_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelTransactionParameters_get_holder_selected_contest_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelTransactionParameters_get_holder_selected_contest_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelTransactionParameters_set_holder_selected_contest_delay"))) TS_ChannelTransactionParameters_set_holder_selected_contest_delay(uint32_t this_ptr, int16_t val) {
@@ -33773,8 +33834,8 @@ jboolean  __attribute__((export_name("TS_ChannelTransactionParameters_get_is_out
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelTransactionParameters_get_is_outbound_from_holder(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelTransactionParameters_get_is_outbound_from_holder(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelTransactionParameters_set_is_outbound_from_holder"))) TS_ChannelTransactionParameters_set_is_outbound_from_holder(uint32_t this_ptr, jboolean val) {
@@ -33913,8 +33974,8 @@ uint32_t  __attribute__((export_name("TS_ChannelTransactionParameters_clone_ptr"
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelTransactionParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelTransactionParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelTransactionParameters_clone"))) TS_ChannelTransactionParameters_clone(uint32_t orig) {
@@ -33977,8 +34038,8 @@ int16_t  __attribute__((export_name("TS_CounterpartyChannelTransactionParameters
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = CounterpartyChannelTransactionParameters_get_selected_contest_delay(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = CounterpartyChannelTransactionParameters_get_selected_contest_delay(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CounterpartyChannelTransactionParameters_set_selected_contest_delay"))) TS_CounterpartyChannelTransactionParameters_set_selected_contest_delay(uint32_t this_ptr, int16_t val) {
@@ -34024,8 +34085,8 @@ uint32_t  __attribute__((export_name("TS_CounterpartyChannelTransactionParameter
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CounterpartyChannelTransactionParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CounterpartyChannelTransactionParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CounterpartyChannelTransactionParameters_clone"))) TS_CounterpartyChannelTransactionParameters_clone(uint32_t orig) {
@@ -34050,8 +34111,8 @@ jboolean  __attribute__((export_name("TS_ChannelTransactionParameters_is_populat
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = ChannelTransactionParameters_is_populated(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelTransactionParameters_is_populated(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelTransactionParameters_as_holder_broadcastable"))) TS_ChannelTransactionParameters_as_holder_broadcastable(uint32_t this_arg) {
@@ -34177,8 +34238,8 @@ int16_t  __attribute__((export_name("TS_DirectedChannelTransactionParameters_con
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int16_t ret_val = DirectedChannelTransactionParameters_contest_delay(&this_arg_conv);
-	return ret_val;
+	int16_t ret_conv = DirectedChannelTransactionParameters_contest_delay(&this_arg_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_DirectedChannelTransactionParameters_is_outbound"))) TS_DirectedChannelTransactionParameters_is_outbound(uint32_t this_arg) {
@@ -34186,8 +34247,8 @@ jboolean  __attribute__((export_name("TS_DirectedChannelTransactionParameters_is
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = DirectedChannelTransactionParameters_is_outbound(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = DirectedChannelTransactionParameters_is_outbound(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_DirectedChannelTransactionParameters_funding_outpoint"))) TS_DirectedChannelTransactionParameters_funding_outpoint(uint32_t this_arg) {
@@ -34212,8 +34273,8 @@ jboolean  __attribute__((export_name("TS_DirectedChannelTransactionParameters_op
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = DirectedChannelTransactionParameters_opt_anchors(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = DirectedChannelTransactionParameters_opt_anchors(&this_arg_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_HolderCommitmentTransaction_free"))) TS_HolderCommitmentTransaction_free(uint32_t this_obj) {
@@ -34284,8 +34345,8 @@ uint32_t  __attribute__((export_name("TS_HolderCommitmentTransaction_clone_ptr")
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = HolderCommitmentTransaction_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = HolderCommitmentTransaction_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_HolderCommitmentTransaction_clone"))) TS_HolderCommitmentTransaction_clone(uint32_t orig) {
@@ -34459,8 +34520,8 @@ uint32_t  __attribute__((export_name("TS_BuiltCommitmentTransaction_clone_ptr"))
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = BuiltCommitmentTransaction_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = BuiltCommitmentTransaction_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_BuiltCommitmentTransaction_clone"))) TS_BuiltCommitmentTransaction_clone(uint32_t orig) {
@@ -34556,8 +34617,8 @@ uint32_t  __attribute__((export_name("TS_ClosingTransaction_clone_ptr"))) TS_Clo
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ClosingTransaction_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ClosingTransaction_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ClosingTransaction_clone"))) TS_ClosingTransaction_clone(uint32_t orig) {
@@ -34582,8 +34643,8 @@ int64_t  __attribute__((export_name("TS_ClosingTransaction_hash"))) TS_ClosingTr
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = ClosingTransaction_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingTransaction_hash(&o_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ClosingTransaction_new"))) TS_ClosingTransaction_new(int64_t to_holder_value_sat, int64_t to_counterparty_value_sat, int8_tArray to_holder_script, int8_tArray to_counterparty_script, uint32_t funding_outpoint) {
@@ -34649,8 +34710,8 @@ int64_t  __attribute__((export_name("TS_ClosingTransaction_to_holder_value_sat")
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ClosingTransaction_to_holder_value_sat(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingTransaction_to_holder_value_sat(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_ClosingTransaction_to_counterparty_value_sat"))) TS_ClosingTransaction_to_counterparty_value_sat(uint32_t this_arg) {
@@ -34658,8 +34719,8 @@ int64_t  __attribute__((export_name("TS_ClosingTransaction_to_counterparty_value
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ClosingTransaction_to_counterparty_value_sat(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ClosingTransaction_to_counterparty_value_sat(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_ClosingTransaction_to_holder_script"))) TS_ClosingTransaction_to_holder_script(uint32_t this_arg) {
@@ -34759,8 +34820,8 @@ uint32_t  __attribute__((export_name("TS_CommitmentTransaction_clone_ptr"))) TS_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = CommitmentTransaction_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = CommitmentTransaction_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CommitmentTransaction_clone"))) TS_CommitmentTransaction_clone(uint32_t orig) {
@@ -34806,8 +34867,8 @@ int64_t  __attribute__((export_name("TS_CommitmentTransaction_commitment_number"
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = CommitmentTransaction_commitment_number(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = CommitmentTransaction_commitment_number(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_CommitmentTransaction_to_broadcaster_value_sat"))) TS_CommitmentTransaction_to_broadcaster_value_sat(uint32_t this_arg) {
@@ -34815,8 +34876,8 @@ int64_t  __attribute__((export_name("TS_CommitmentTransaction_to_broadcaster_val
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = CommitmentTransaction_to_broadcaster_value_sat(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = CommitmentTransaction_to_broadcaster_value_sat(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_CommitmentTransaction_to_countersignatory_value_sat"))) TS_CommitmentTransaction_to_countersignatory_value_sat(uint32_t this_arg) {
@@ -34824,8 +34885,8 @@ int64_t  __attribute__((export_name("TS_CommitmentTransaction_to_countersignator
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = CommitmentTransaction_to_countersignatory_value_sat(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = CommitmentTransaction_to_countersignatory_value_sat(&this_arg_conv);
+	return ret_conv;
 }
 
 int32_t  __attribute__((export_name("TS_CommitmentTransaction_feerate_per_kw"))) TS_CommitmentTransaction_feerate_per_kw(uint32_t this_arg) {
@@ -34833,8 +34894,8 @@ int32_t  __attribute__((export_name("TS_CommitmentTransaction_feerate_per_kw")))
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int32_t ret_val = CommitmentTransaction_feerate_per_kw(&this_arg_conv);
-	return ret_val;
+	int32_t ret_conv = CommitmentTransaction_feerate_per_kw(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_CommitmentTransaction_trust"))) TS_CommitmentTransaction_trust(uint32_t this_arg) {
@@ -34933,8 +34994,8 @@ jboolean  __attribute__((export_name("TS_TrustedCommitmentTransaction_opt_anchor
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = TrustedCommitmentTransaction_opt_anchors(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = TrustedCommitmentTransaction_opt_anchors(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_TrustedCommitmentTransaction_get_htlc_sigs"))) TS_TrustedCommitmentTransaction_get_htlc_sigs(uint32_t this_arg, int8_tArray htlc_base_key, uint32_t channel_parameters) {
@@ -34962,8 +35023,8 @@ int64_t  __attribute__((export_name("TS_get_commitment_transaction_number_obscur
 	LDKPublicKey countersignatory_payment_basepoint_ref;
 	CHECK(countersignatory_payment_basepoint->arr_len == 33);
 	memcpy(countersignatory_payment_basepoint_ref.compressed_form, countersignatory_payment_basepoint->elems, 33); FREE(countersignatory_payment_basepoint);
-	int64_t ret_val = get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint_ref, countersignatory_payment_basepoint_ref, outbound_from_broadcaster);
-	return ret_val;
+	int64_t ret_conv = get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint_ref, countersignatory_payment_basepoint_ref, outbound_from_broadcaster);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_InitFeatures_eq"))) TS_InitFeatures_eq(uint32_t a, uint32_t b) {
@@ -34975,8 +35036,8 @@ jboolean  __attribute__((export_name("TS_InitFeatures_eq"))) TS_InitFeatures_eq(
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = InitFeatures_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = InitFeatures_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_NodeFeatures_eq"))) TS_NodeFeatures_eq(uint32_t a, uint32_t b) {
@@ -34988,8 +35049,8 @@ jboolean  __attribute__((export_name("TS_NodeFeatures_eq"))) TS_NodeFeatures_eq(
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = NodeFeatures_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = NodeFeatures_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_ChannelFeatures_eq"))) TS_ChannelFeatures_eq(uint32_t a, uint32_t b) {
@@ -35001,8 +35062,8 @@ jboolean  __attribute__((export_name("TS_ChannelFeatures_eq"))) TS_ChannelFeatur
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = ChannelFeatures_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelFeatures_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_InvoiceFeatures_eq"))) TS_InvoiceFeatures_eq(uint32_t a, uint32_t b) {
@@ -35014,8 +35075,8 @@ jboolean  __attribute__((export_name("TS_InvoiceFeatures_eq"))) TS_InvoiceFeatur
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = InvoiceFeatures_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = InvoiceFeatures_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_ChannelTypeFeatures_eq"))) TS_ChannelTypeFeatures_eq(uint32_t a, uint32_t b) {
@@ -35027,8 +35088,8 @@ jboolean  __attribute__((export_name("TS_ChannelTypeFeatures_eq"))) TS_ChannelTy
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = ChannelTypeFeatures_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelTypeFeatures_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t InitFeatures_clone_ptr(LDKInitFeatures *NONNULL_PTR arg) {
@@ -35048,8 +35109,8 @@ uint32_t  __attribute__((export_name("TS_InitFeatures_clone_ptr"))) TS_InitFeatu
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = InitFeatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = InitFeatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InitFeatures_clone"))) TS_InitFeatures_clone(uint32_t orig) {
@@ -35086,8 +35147,8 @@ uint32_t  __attribute__((export_name("TS_NodeFeatures_clone_ptr"))) TS_NodeFeatu
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NodeFeatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NodeFeatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeFeatures_clone"))) TS_NodeFeatures_clone(uint32_t orig) {
@@ -35124,8 +35185,8 @@ uint32_t  __attribute__((export_name("TS_ChannelFeatures_clone_ptr"))) TS_Channe
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelFeatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelFeatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelFeatures_clone"))) TS_ChannelFeatures_clone(uint32_t orig) {
@@ -35162,8 +35223,8 @@ uint32_t  __attribute__((export_name("TS_InvoiceFeatures_clone_ptr"))) TS_Invoic
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = InvoiceFeatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = InvoiceFeatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InvoiceFeatures_clone"))) TS_InvoiceFeatures_clone(uint32_t orig) {
@@ -35200,8 +35261,8 @@ uint32_t  __attribute__((export_name("TS_ChannelTypeFeatures_clone_ptr"))) TS_Ch
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelTypeFeatures_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelTypeFeatures_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelTypeFeatures_clone"))) TS_ChannelTypeFeatures_clone(uint32_t orig) {
@@ -35292,8 +35353,8 @@ jboolean  __attribute__((export_name("TS_InitFeatures_requires_unknown_bits"))) 
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = InitFeatures_requires_unknown_bits(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = InitFeatures_requires_unknown_bits(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeFeatures_empty"))) TS_NodeFeatures_empty() {
@@ -35327,8 +35388,8 @@ jboolean  __attribute__((export_name("TS_NodeFeatures_requires_unknown_bits"))) 
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = NodeFeatures_requires_unknown_bits(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = NodeFeatures_requires_unknown_bits(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelFeatures_empty"))) TS_ChannelFeatures_empty() {
@@ -35362,8 +35423,8 @@ jboolean  __attribute__((export_name("TS_ChannelFeatures_requires_unknown_bits")
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = ChannelFeatures_requires_unknown_bits(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelFeatures_requires_unknown_bits(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InvoiceFeatures_empty"))) TS_InvoiceFeatures_empty() {
@@ -35397,8 +35458,8 @@ jboolean  __attribute__((export_name("TS_InvoiceFeatures_requires_unknown_bits")
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = InvoiceFeatures_requires_unknown_bits(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = InvoiceFeatures_requires_unknown_bits(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelTypeFeatures_empty"))) TS_ChannelTypeFeatures_empty() {
@@ -35432,8 +35493,8 @@ jboolean  __attribute__((export_name("TS_ChannelTypeFeatures_requires_unknown_bi
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = ChannelTypeFeatures_requires_unknown_bits(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelTypeFeatures_requires_unknown_bits(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_InitFeatures_write"))) TS_InitFeatures_write(uint32_t obj) {
@@ -35566,8 +35627,8 @@ uint32_t  __attribute__((export_name("TS_ShutdownScript_clone_ptr"))) TS_Shutdow
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ShutdownScript_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ShutdownScript_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ShutdownScript_clone"))) TS_ShutdownScript_clone(uint32_t orig) {
@@ -35652,8 +35713,8 @@ uint32_t  __attribute__((export_name("TS_InvalidShutdownScript_clone_ptr"))) TS_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = InvalidShutdownScript_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = InvalidShutdownScript_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InvalidShutdownScript_clone"))) TS_InvalidShutdownScript_clone(uint32_t orig) {
@@ -35769,8 +35830,8 @@ jboolean  __attribute__((export_name("TS_ShutdownScript_is_compatible"))) TS_Shu
 	features_conv.inner = (void*)(features & (~1));
 	features_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(features_conv);
-	jboolean ret_val = ShutdownScript_is_compatible(&this_arg_conv, &features_conv);
-	return ret_val;
+	jboolean ret_conv = ShutdownScript_is_compatible(&this_arg_conv, &features_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_CustomMessageReader_free"))) TS_CustomMessageReader_free(uint32_t this_ptr) {
@@ -35791,8 +35852,8 @@ uint32_t  __attribute__((export_name("TS_Type_clone_ptr"))) TS_Type_clone_ptr(ui
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKType* arg_conv = (LDKType*)arg_ptr;
-	uint32_t ret_val = Type_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Type_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Type_clone"))) TS_Type_clone(uint32_t orig) {
@@ -35838,8 +35899,8 @@ uint32_t  __attribute__((export_name("TS_NodeId_clone_ptr"))) TS_NodeId_clone_pt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NodeId_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NodeId_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeId_clone"))) TS_NodeId_clone(uint32_t orig) {
@@ -35891,8 +35952,8 @@ int64_t  __attribute__((export_name("TS_NodeId_hash"))) TS_NodeId_hash(uint32_t 
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = NodeId_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = NodeId_hash(&o_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_NodeId_write"))) TS_NodeId_write(uint32_t obj) {
@@ -35941,8 +36002,8 @@ uint32_t  __attribute__((export_name("TS_NetworkGraph_clone_ptr"))) TS_NetworkGr
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NetworkGraph_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NetworkGraph_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NetworkGraph_clone"))) TS_NetworkGraph_clone(uint32_t orig) {
@@ -35987,8 +36048,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_NetworkUpdate_clone_ptr"))) TS_NetworkUpdate_clone_ptr(uint32_t arg) {
 	LDKNetworkUpdate* arg_conv = (LDKNetworkUpdate*)arg;
-	uint32_t ret_val = NetworkUpdate_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NetworkUpdate_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NetworkUpdate_clone"))) TS_NetworkUpdate_clone(uint32_t orig) {
@@ -36151,8 +36212,8 @@ int32_t  __attribute__((export_name("TS_ChannelUpdateInfo_get_last_update"))) TS
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = ChannelUpdateInfo_get_last_update(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = ChannelUpdateInfo_get_last_update(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelUpdateInfo_set_last_update"))) TS_ChannelUpdateInfo_set_last_update(uint32_t this_ptr, int32_t val) {
@@ -36168,8 +36229,8 @@ jboolean  __attribute__((export_name("TS_ChannelUpdateInfo_get_enabled"))) TS_Ch
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_val = ChannelUpdateInfo_get_enabled(&this_ptr_conv);
-	return ret_val;
+	jboolean ret_conv = ChannelUpdateInfo_get_enabled(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelUpdateInfo_set_enabled"))) TS_ChannelUpdateInfo_set_enabled(uint32_t this_ptr, jboolean val) {
@@ -36185,8 +36246,8 @@ int16_t  __attribute__((export_name("TS_ChannelUpdateInfo_get_cltv_expiry_delta"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ChannelUpdateInfo_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ChannelUpdateInfo_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelUpdateInfo_set_cltv_expiry_delta"))) TS_ChannelUpdateInfo_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
@@ -36202,8 +36263,8 @@ int64_t  __attribute__((export_name("TS_ChannelUpdateInfo_get_htlc_minimum_msat"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ChannelUpdateInfo_get_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ChannelUpdateInfo_get_htlc_minimum_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelUpdateInfo_set_htlc_minimum_msat"))) TS_ChannelUpdateInfo_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
@@ -36343,8 +36404,8 @@ uint32_t  __attribute__((export_name("TS_ChannelUpdateInfo_clone_ptr"))) TS_Chan
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelUpdateInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelUpdateInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelUpdateInfo_clone"))) TS_ChannelUpdateInfo_clone(uint32_t orig) {
@@ -36619,8 +36680,8 @@ uint32_t  __attribute__((export_name("TS_ChannelInfo_clone_ptr"))) TS_ChannelInf
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ChannelInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ChannelInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelInfo_clone"))) TS_ChannelInfo_clone(uint32_t orig) {
@@ -36686,8 +36747,8 @@ uint32_t  __attribute__((export_name("TS_DirectedChannelInfo_clone_ptr"))) TS_Di
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = DirectedChannelInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = DirectedChannelInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_DirectedChannelInfo_clone"))) TS_DirectedChannelInfo_clone(uint32_t orig) {
@@ -36771,8 +36832,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_EffectiveCapacity_clone_ptr"))) TS_EffectiveCapacity_clone_ptr(uint32_t arg) {
 	LDKEffectiveCapacity* arg_conv = (LDKEffectiveCapacity*)arg;
-	uint32_t ret_val = EffectiveCapacity_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = EffectiveCapacity_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_EffectiveCapacity_clone"))) TS_EffectiveCapacity_clone(uint32_t orig) {
@@ -36820,8 +36881,8 @@ uint32_t  __attribute__((export_name("TS_EffectiveCapacity_unknown"))) TS_Effect
 
 int64_t  __attribute__((export_name("TS_EffectiveCapacity_as_msat"))) TS_EffectiveCapacity_as_msat(uint32_t this_arg) {
 	LDKEffectiveCapacity* this_arg_conv = (LDKEffectiveCapacity*)this_arg;
-	int64_t ret_val = EffectiveCapacity_as_msat(this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = EffectiveCapacity_as_msat(this_arg_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RoutingFees_free"))) TS_RoutingFees_free(uint32_t this_obj) {
@@ -36837,8 +36898,8 @@ int32_t  __attribute__((export_name("TS_RoutingFees_get_base_msat"))) TS_Routing
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = RoutingFees_get_base_msat(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = RoutingFees_get_base_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RoutingFees_set_base_msat"))) TS_RoutingFees_set_base_msat(uint32_t this_ptr, int32_t val) {
@@ -36854,8 +36915,8 @@ int32_t  __attribute__((export_name("TS_RoutingFees_get_proportional_millionths"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = RoutingFees_get_proportional_millionths(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = RoutingFees_get_proportional_millionths(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RoutingFees_set_proportional_millionths"))) TS_RoutingFees_set_proportional_millionths(uint32_t this_ptr, int32_t val) {
@@ -36888,8 +36949,8 @@ jboolean  __attribute__((export_name("TS_RoutingFees_eq"))) TS_RoutingFees_eq(ui
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RoutingFees_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RoutingFees_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t RoutingFees_clone_ptr(LDKRoutingFees *NONNULL_PTR arg) {
@@ -36909,8 +36970,8 @@ uint32_t  __attribute__((export_name("TS_RoutingFees_clone_ptr"))) TS_RoutingFee
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RoutingFees_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RoutingFees_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RoutingFees_clone"))) TS_RoutingFees_clone(uint32_t orig) {
@@ -36935,8 +36996,8 @@ int64_t  __attribute__((export_name("TS_RoutingFees_hash"))) TS_RoutingFees_hash
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = RoutingFees_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = RoutingFees_hash(&o_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_RoutingFees_write"))) TS_RoutingFees_write(uint32_t obj) {
@@ -37003,8 +37064,8 @@ int32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_get_last_update")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = NodeAnnouncementInfo_get_last_update(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = NodeAnnouncementInfo_get_last_update(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_last_update"))) TS_NodeAnnouncementInfo_set_last_update(uint32_t this_ptr, int32_t val) {
@@ -37172,8 +37233,8 @@ uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_clone_ptr"))) TS_N
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NodeAnnouncementInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NodeAnnouncementInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_clone"))) TS_NodeAnnouncementInfo_clone(uint32_t orig) {
@@ -37356,8 +37417,8 @@ uint32_t  __attribute__((export_name("TS_NodeInfo_clone_ptr"))) TS_NodeInfo_clon
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = NodeInfo_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = NodeInfo_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_NodeInfo_clone"))) TS_NodeInfo_clone(uint32_t orig) {
@@ -37663,8 +37724,8 @@ int64_t  __attribute__((export_name("TS_RouteHop_get_short_channel_id"))) TS_Rou
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = RouteHop_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHop_get_short_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteHop_set_short_channel_id"))) TS_RouteHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
@@ -37710,8 +37771,8 @@ int64_t  __attribute__((export_name("TS_RouteHop_get_fee_msat"))) TS_RouteHop_ge
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = RouteHop_get_fee_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHop_get_fee_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteHop_set_fee_msat"))) TS_RouteHop_set_fee_msat(uint32_t this_ptr, int64_t val) {
@@ -37727,8 +37788,8 @@ int32_t  __attribute__((export_name("TS_RouteHop_get_cltv_expiry_delta"))) TS_Ro
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = RouteHop_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = RouteHop_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteHop_set_cltv_expiry_delta"))) TS_RouteHop_set_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
@@ -37782,8 +37843,8 @@ uint32_t  __attribute__((export_name("TS_RouteHop_clone_ptr"))) TS_RouteHop_clon
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RouteHop_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RouteHop_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RouteHop_clone"))) TS_RouteHop_clone(uint32_t orig) {
@@ -37808,8 +37869,8 @@ int64_t  __attribute__((export_name("TS_RouteHop_hash"))) TS_RouteHop_hash(uint3
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = RouteHop_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHop_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_RouteHop_eq"))) TS_RouteHop_eq(uint32_t a, uint32_t b) {
@@ -37821,8 +37882,8 @@ jboolean  __attribute__((export_name("TS_RouteHop_eq"))) TS_RouteHop_eq(uint32_t
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RouteHop_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RouteHop_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_RouteHop_write"))) TS_RouteHop_write(uint32_t obj) {
@@ -38018,8 +38079,8 @@ uint32_t  __attribute__((export_name("TS_Route_clone_ptr"))) TS_Route_clone_ptr(
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Route_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Route_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Route_clone"))) TS_Route_clone(uint32_t orig) {
@@ -38044,8 +38105,8 @@ int64_t  __attribute__((export_name("TS_Route_hash"))) TS_Route_hash(uint32_t o)
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = Route_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = Route_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Route_eq"))) TS_Route_eq(uint32_t a, uint32_t b) {
@@ -38057,8 +38118,8 @@ jboolean  __attribute__((export_name("TS_Route_eq"))) TS_Route_eq(uint32_t a, ui
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = Route_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = Route_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_Route_get_total_fees"))) TS_Route_get_total_fees(uint32_t this_arg) {
@@ -38066,8 +38127,8 @@ int64_t  __attribute__((export_name("TS_Route_get_total_fees"))) TS_Route_get_to
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = Route_get_total_fees(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = Route_get_total_fees(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_Route_get_total_amount"))) TS_Route_get_total_amount(uint32_t this_arg) {
@@ -38075,8 +38136,8 @@ int64_t  __attribute__((export_name("TS_Route_get_total_amount"))) TS_Route_get_
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = Route_get_total_amount(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = Route_get_total_amount(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_Route_write"))) TS_Route_write(uint32_t obj) {
@@ -38143,8 +38204,8 @@ int64_t  __attribute__((export_name("TS_RouteParameters_get_final_value_msat")))
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = RouteParameters_get_final_value_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = RouteParameters_get_final_value_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteParameters_set_final_value_msat"))) TS_RouteParameters_set_final_value_msat(uint32_t this_ptr, int64_t val) {
@@ -38160,8 +38221,8 @@ int32_t  __attribute__((export_name("TS_RouteParameters_get_final_cltv_expiry_de
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = RouteParameters_get_final_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = RouteParameters_get_final_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteParameters_set_final_cltv_expiry_delta"))) TS_RouteParameters_set_final_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
@@ -38207,8 +38268,8 @@ uint32_t  __attribute__((export_name("TS_RouteParameters_clone_ptr"))) TS_RouteP
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RouteParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RouteParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RouteParameters_clone"))) TS_RouteParameters_clone(uint32_t orig) {
@@ -38388,8 +38449,8 @@ int32_t  __attribute__((export_name("TS_PaymentParameters_get_max_total_cltv_exp
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int32_t ret_val = PaymentParameters_get_max_total_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int32_t ret_conv = PaymentParameters_get_max_total_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PaymentParameters_set_max_total_cltv_expiry_delta"))) TS_PaymentParameters_set_max_total_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
@@ -38458,8 +38519,8 @@ uint32_t  __attribute__((export_name("TS_PaymentParameters_clone_ptr"))) TS_Paym
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PaymentParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PaymentParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PaymentParameters_clone"))) TS_PaymentParameters_clone(uint32_t orig) {
@@ -38484,8 +38545,8 @@ int64_t  __attribute__((export_name("TS_PaymentParameters_hash"))) TS_PaymentPar
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = PaymentParameters_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = PaymentParameters_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_PaymentParameters_eq"))) TS_PaymentParameters_eq(uint32_t a, uint32_t b) {
@@ -38497,8 +38558,8 @@ jboolean  __attribute__((export_name("TS_PaymentParameters_eq"))) TS_PaymentPara
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = PaymentParameters_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = PaymentParameters_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_PaymentParameters_write"))) TS_PaymentParameters_write(uint32_t obj) {
@@ -38658,8 +38719,8 @@ uint32_t  __attribute__((export_name("TS_RouteHint_clone_ptr"))) TS_RouteHint_cl
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RouteHint_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RouteHint_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RouteHint_clone"))) TS_RouteHint_clone(uint32_t orig) {
@@ -38684,8 +38745,8 @@ int64_t  __attribute__((export_name("TS_RouteHint_hash"))) TS_RouteHint_hash(uin
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = RouteHint_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHint_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_RouteHint_eq"))) TS_RouteHint_eq(uint32_t a, uint32_t b) {
@@ -38697,8 +38758,8 @@ jboolean  __attribute__((export_name("TS_RouteHint_eq"))) TS_RouteHint_eq(uint32
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RouteHint_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RouteHint_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_RouteHint_write"))) TS_RouteHint_write(uint32_t obj) {
@@ -38756,8 +38817,8 @@ int64_t  __attribute__((export_name("TS_RouteHintHop_get_short_channel_id"))) TS
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = RouteHintHop_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHintHop_get_short_channel_id(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteHintHop_set_short_channel_id"))) TS_RouteHintHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
@@ -38803,8 +38864,8 @@ int16_t  __attribute__((export_name("TS_RouteHintHop_get_cltv_expiry_delta"))) T
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = RouteHintHop_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = RouteHintHop_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RouteHintHop_set_cltv_expiry_delta"))) TS_RouteHintHop_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
@@ -38907,8 +38968,8 @@ uint32_t  __attribute__((export_name("TS_RouteHintHop_clone_ptr"))) TS_RouteHint
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RouteHintHop_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RouteHintHop_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RouteHintHop_clone"))) TS_RouteHintHop_clone(uint32_t orig) {
@@ -38933,8 +38994,8 @@ int64_t  __attribute__((export_name("TS_RouteHintHop_hash"))) TS_RouteHintHop_ha
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = RouteHintHop_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = RouteHintHop_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_RouteHintHop_eq"))) TS_RouteHintHop_eq(uint32_t a, uint32_t b) {
@@ -38946,8 +39007,8 @@ jboolean  __attribute__((export_name("TS_RouteHintHop_eq"))) TS_RouteHintHop_eq(
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RouteHintHop_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RouteHintHop_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_RouteHintHop_write"))) TS_RouteHintHop_write(uint32_t obj) {
@@ -39093,8 +39154,8 @@ uint32_t  __attribute__((export_name("TS_FixedPenaltyScorer_clone_ptr"))) TS_Fix
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = FixedPenaltyScorer_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = FixedPenaltyScorer_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_FixedPenaltyScorer_clone"))) TS_FixedPenaltyScorer_clone(uint32_t orig) {
@@ -39179,8 +39240,8 @@ int64_t  __attribute__((export_name("TS_ScoringParameters_get_base_penalty_msat"
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ScoringParameters_get_base_penalty_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ScoringParameters_get_base_penalty_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ScoringParameters_set_base_penalty_msat"))) TS_ScoringParameters_set_base_penalty_msat(uint32_t this_ptr, int64_t val) {
@@ -39196,8 +39257,8 @@ int64_t  __attribute__((export_name("TS_ScoringParameters_get_failure_penalty_ms
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ScoringParameters_get_failure_penalty_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ScoringParameters_get_failure_penalty_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ScoringParameters_set_failure_penalty_msat"))) TS_ScoringParameters_set_failure_penalty_msat(uint32_t this_ptr, int64_t val) {
@@ -39213,8 +39274,8 @@ int16_t  __attribute__((export_name("TS_ScoringParameters_get_overuse_penalty_st
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int16_t ret_val = ScoringParameters_get_overuse_penalty_start_1024th(&this_ptr_conv);
-	return ret_val;
+	int16_t ret_conv = ScoringParameters_get_overuse_penalty_start_1024th(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ScoringParameters_set_overuse_penalty_start_1024th"))) TS_ScoringParameters_set_overuse_penalty_start_1024th(uint32_t this_ptr, int16_t val) {
@@ -39230,8 +39291,8 @@ int64_t  __attribute__((export_name("TS_ScoringParameters_get_overuse_penalty_ms
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ScoringParameters_get_overuse_penalty_msat_per_1024th(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ScoringParameters_get_overuse_penalty_msat_per_1024th(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ScoringParameters_set_overuse_penalty_msat_per_1024th"))) TS_ScoringParameters_set_overuse_penalty_msat_per_1024th(uint32_t this_ptr, int64_t val) {
@@ -39247,8 +39308,8 @@ int64_t  __attribute__((export_name("TS_ScoringParameters_get_failure_penalty_ha
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ScoringParameters_get_failure_penalty_half_life(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ScoringParameters_get_failure_penalty_half_life(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ScoringParameters_set_failure_penalty_half_life"))) TS_ScoringParameters_set_failure_penalty_half_life(uint32_t this_ptr, int64_t val) {
@@ -39289,8 +39350,8 @@ uint32_t  __attribute__((export_name("TS_ScoringParameters_clone_ptr"))) TS_Scor
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ScoringParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ScoringParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ScoringParameters_clone"))) TS_ScoringParameters_clone(uint32_t orig) {
@@ -39427,8 +39488,8 @@ int64_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_get_base_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ProbabilisticScoringParameters_get_base_penalty_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ProbabilisticScoringParameters_get_base_penalty_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_base_penalty_msat"))) TS_ProbabilisticScoringParameters_set_base_penalty_msat(uint32_t this_ptr, int64_t val) {
@@ -39444,8 +39505,8 @@ int64_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_get_liqui
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ProbabilisticScoringParameters_get_liquidity_penalty_multiplier_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ProbabilisticScoringParameters_get_liquidity_penalty_multiplier_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_liquidity_penalty_multiplier_msat"))) TS_ProbabilisticScoringParameters_set_liquidity_penalty_multiplier_msat(uint32_t this_ptr, int64_t val) {
@@ -39461,8 +39522,8 @@ int64_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_get_liqui
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ProbabilisticScoringParameters_get_liquidity_offset_half_life(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ProbabilisticScoringParameters_get_liquidity_offset_half_life(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_liquidity_offset_half_life"))) TS_ProbabilisticScoringParameters_set_liquidity_offset_half_life(uint32_t this_ptr, int64_t val) {
@@ -39478,8 +39539,8 @@ int64_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_get_amoun
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat"))) TS_ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(uint32_t this_ptr, int64_t val) {
@@ -39520,8 +39581,8 @@ uint32_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_clone_pt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ProbabilisticScoringParameters_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ProbabilisticScoringParameters_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_clone"))) TS_ProbabilisticScoringParameters_clone(uint32_t orig) {
@@ -39633,8 +39694,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_ParseError_clone_ptr"))) TS_ParseError_clone_ptr(uint32_t arg) {
 	LDKParseError* arg_conv = (LDKParseError*)arg;
-	uint32_t ret_val = ParseError_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ParseError_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ParseError_clone"))) TS_ParseError_clone(uint32_t orig) {
@@ -39796,8 +39857,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_ParseOrSemanticError_clone_ptr"))) TS_ParseOrSemanticError_clone_ptr(uint32_t arg) {
 	LDKParseOrSemanticError* arg_conv = (LDKParseOrSemanticError*)arg;
-	uint32_t ret_val = ParseOrSemanticError_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ParseOrSemanticError_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ParseOrSemanticError_clone"))) TS_ParseOrSemanticError_clone(uint32_t orig) {
@@ -39844,8 +39905,8 @@ jboolean  __attribute__((export_name("TS_Invoice_eq"))) TS_Invoice_eq(uint32_t a
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = Invoice_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = Invoice_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t Invoice_clone_ptr(LDKInvoice *NONNULL_PTR arg) {
@@ -39865,8 +39926,8 @@ uint32_t  __attribute__((export_name("TS_Invoice_clone_ptr"))) TS_Invoice_clone_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Invoice_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Invoice_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Invoice_clone"))) TS_Invoice_clone(uint32_t orig) {
@@ -39903,8 +39964,8 @@ jboolean  __attribute__((export_name("TS_SignedRawInvoice_eq"))) TS_SignedRawInv
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = SignedRawInvoice_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = SignedRawInvoice_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t SignedRawInvoice_clone_ptr(LDKSignedRawInvoice *NONNULL_PTR arg) {
@@ -39924,8 +39985,8 @@ uint32_t  __attribute__((export_name("TS_SignedRawInvoice_clone_ptr"))) TS_Signe
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = SignedRawInvoice_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = SignedRawInvoice_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_SignedRawInvoice_clone"))) TS_SignedRawInvoice_clone(uint32_t orig) {
@@ -39992,8 +40053,8 @@ jboolean  __attribute__((export_name("TS_RawInvoice_eq"))) TS_RawInvoice_eq(uint
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RawInvoice_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RawInvoice_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t RawInvoice_clone_ptr(LDKRawInvoice *NONNULL_PTR arg) {
@@ -40013,8 +40074,8 @@ uint32_t  __attribute__((export_name("TS_RawInvoice_clone_ptr"))) TS_RawInvoice_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RawInvoice_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RawInvoice_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RawInvoice_clone"))) TS_RawInvoice_clone(uint32_t orig) {
@@ -40081,8 +40142,8 @@ jboolean  __attribute__((export_name("TS_RawDataPart_eq"))) TS_RawDataPart_eq(ui
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RawDataPart_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RawDataPart_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t RawDataPart_clone_ptr(LDKRawDataPart *NONNULL_PTR arg) {
@@ -40102,8 +40163,8 @@ uint32_t  __attribute__((export_name("TS_RawDataPart_clone_ptr"))) TS_RawDataPar
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RawDataPart_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RawDataPart_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RawDataPart_clone"))) TS_RawDataPart_clone(uint32_t orig) {
@@ -40140,8 +40201,8 @@ jboolean  __attribute__((export_name("TS_PositiveTimestamp_eq"))) TS_PositiveTim
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = PositiveTimestamp_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = PositiveTimestamp_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 static inline uintptr_t PositiveTimestamp_clone_ptr(LDKPositiveTimestamp *NONNULL_PTR arg) {
@@ -40161,8 +40222,8 @@ uint32_t  __attribute__((export_name("TS_PositiveTimestamp_clone_ptr"))) TS_Posi
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PositiveTimestamp_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PositiveTimestamp_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PositiveTimestamp_clone"))) TS_PositiveTimestamp_clone(uint32_t orig) {
@@ -40211,14 +40272,14 @@ uint32_t  __attribute__((export_name("TS_SiPrefix_pico"))) TS_SiPrefix_pico() {
 jboolean  __attribute__((export_name("TS_SiPrefix_eq"))) TS_SiPrefix_eq(uint32_t a, uint32_t b) {
 	LDKSiPrefix* a_conv = (LDKSiPrefix*)(a & ~1);
 	LDKSiPrefix* b_conv = (LDKSiPrefix*)(b & ~1);
-	jboolean ret_val = SiPrefix_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = SiPrefix_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_SiPrefix_multiplier"))) TS_SiPrefix_multiplier(uint32_t this_arg) {
 	LDKSiPrefix* this_arg_conv = (LDKSiPrefix*)(this_arg & ~1);
-	int64_t ret_val = SiPrefix_multiplier(this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = SiPrefix_multiplier(this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Currency_clone"))) TS_Currency_clone(uint32_t orig) {
@@ -40254,15 +40315,15 @@ uint32_t  __attribute__((export_name("TS_Currency_signet"))) TS_Currency_signet(
 
 int64_t  __attribute__((export_name("TS_Currency_hash"))) TS_Currency_hash(uint32_t o) {
 	LDKCurrency* o_conv = (LDKCurrency*)(o & ~1);
-	int64_t ret_val = Currency_hash(o_conv);
-	return ret_val;
+	int64_t ret_conv = Currency_hash(o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Currency_eq"))) TS_Currency_eq(uint32_t a, uint32_t b) {
 	LDKCurrency* a_conv = (LDKCurrency*)(a & ~1);
 	LDKCurrency* b_conv = (LDKCurrency*)(b & ~1);
-	jboolean ret_val = Currency_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = Currency_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Sha256_free"))) TS_Sha256_free(uint32_t this_obj) {
@@ -40290,8 +40351,8 @@ uint32_t  __attribute__((export_name("TS_Sha256_clone_ptr"))) TS_Sha256_clone_pt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Sha256_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Sha256_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Sha256_clone"))) TS_Sha256_clone(uint32_t orig) {
@@ -40316,8 +40377,8 @@ int64_t  __attribute__((export_name("TS_Sha256_hash"))) TS_Sha256_hash(uint32_t 
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = Sha256_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = Sha256_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Sha256_eq"))) TS_Sha256_eq(uint32_t a, uint32_t b) {
@@ -40329,8 +40390,8 @@ jboolean  __attribute__((export_name("TS_Sha256_eq"))) TS_Sha256_eq(uint32_t a, 
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = Sha256_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = Sha256_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Description_free"))) TS_Description_free(uint32_t this_obj) {
@@ -40358,8 +40419,8 @@ uint32_t  __attribute__((export_name("TS_Description_clone_ptr"))) TS_Descriptio
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = Description_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Description_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Description_clone"))) TS_Description_clone(uint32_t orig) {
@@ -40384,8 +40445,8 @@ int64_t  __attribute__((export_name("TS_Description_hash"))) TS_Description_hash
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = Description_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = Description_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Description_eq"))) TS_Description_eq(uint32_t a, uint32_t b) {
@@ -40397,8 +40458,8 @@ jboolean  __attribute__((export_name("TS_Description_eq"))) TS_Description_eq(ui
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = Description_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = Description_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PayeePubKey_free"))) TS_PayeePubKey_free(uint32_t this_obj) {
@@ -40463,8 +40524,8 @@ uint32_t  __attribute__((export_name("TS_PayeePubKey_clone_ptr"))) TS_PayeePubKe
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PayeePubKey_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PayeePubKey_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PayeePubKey_clone"))) TS_PayeePubKey_clone(uint32_t orig) {
@@ -40489,8 +40550,8 @@ int64_t  __attribute__((export_name("TS_PayeePubKey_hash"))) TS_PayeePubKey_hash
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = PayeePubKey_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = PayeePubKey_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_PayeePubKey_eq"))) TS_PayeePubKey_eq(uint32_t a, uint32_t b) {
@@ -40502,8 +40563,8 @@ jboolean  __attribute__((export_name("TS_PayeePubKey_eq"))) TS_PayeePubKey_eq(ui
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = PayeePubKey_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = PayeePubKey_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_ExpiryTime_free"))) TS_ExpiryTime_free(uint32_t this_obj) {
@@ -40531,8 +40592,8 @@ uint32_t  __attribute__((export_name("TS_ExpiryTime_clone_ptr"))) TS_ExpiryTime_
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = ExpiryTime_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = ExpiryTime_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_ExpiryTime_clone"))) TS_ExpiryTime_clone(uint32_t orig) {
@@ -40557,8 +40618,8 @@ int64_t  __attribute__((export_name("TS_ExpiryTime_hash"))) TS_ExpiryTime_hash(u
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = ExpiryTime_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = ExpiryTime_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_ExpiryTime_eq"))) TS_ExpiryTime_eq(uint32_t a, uint32_t b) {
@@ -40570,8 +40631,8 @@ jboolean  __attribute__((export_name("TS_ExpiryTime_eq"))) TS_ExpiryTime_eq(uint
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = ExpiryTime_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = ExpiryTime_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_MinFinalCltvExpiry_free"))) TS_MinFinalCltvExpiry_free(uint32_t this_obj) {
@@ -40587,8 +40648,8 @@ int64_t  __attribute__((export_name("TS_MinFinalCltvExpiry_get_a"))) TS_MinFinal
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int64_t ret_val = MinFinalCltvExpiry_get_a(&this_ptr_conv);
-	return ret_val;
+	int64_t ret_conv = MinFinalCltvExpiry_get_a(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_MinFinalCltvExpiry_set_a"))) TS_MinFinalCltvExpiry_set_a(uint32_t this_ptr, int64_t val) {
@@ -40629,8 +40690,8 @@ uint32_t  __attribute__((export_name("TS_MinFinalCltvExpiry_clone_ptr"))) TS_Min
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = MinFinalCltvExpiry_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = MinFinalCltvExpiry_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_MinFinalCltvExpiry_clone"))) TS_MinFinalCltvExpiry_clone(uint32_t orig) {
@@ -40655,8 +40716,8 @@ int64_t  __attribute__((export_name("TS_MinFinalCltvExpiry_hash"))) TS_MinFinalC
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = MinFinalCltvExpiry_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = MinFinalCltvExpiry_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_MinFinalCltvExpiry_eq"))) TS_MinFinalCltvExpiry_eq(uint32_t a, uint32_t b) {
@@ -40668,8 +40729,8 @@ jboolean  __attribute__((export_name("TS_MinFinalCltvExpiry_eq"))) TS_MinFinalCl
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = MinFinalCltvExpiry_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = MinFinalCltvExpiry_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_Fallback_free"))) TS_Fallback_free(uint32_t this_ptr) {
@@ -40689,8 +40750,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_Fallback_clone_ptr"))) TS_Fallback_clone_ptr(uint32_t arg) {
 	LDKFallback* arg_conv = (LDKFallback*)arg;
-	uint32_t ret_val = Fallback_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = Fallback_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Fallback_clone"))) TS_Fallback_clone(uint32_t orig) {
@@ -40735,15 +40796,15 @@ uint32_t  __attribute__((export_name("TS_Fallback_script_hash"))) TS_Fallback_sc
 
 int64_t  __attribute__((export_name("TS_Fallback_hash"))) TS_Fallback_hash(uint32_t o) {
 	LDKFallback* o_conv = (LDKFallback*)o;
-	int64_t ret_val = Fallback_hash(o_conv);
-	return ret_val;
+	int64_t ret_conv = Fallback_hash(o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Fallback_eq"))) TS_Fallback_eq(uint32_t a, uint32_t b) {
 	LDKFallback* a_conv = (LDKFallback*)a;
 	LDKFallback* b_conv = (LDKFallback*)b;
-	jboolean ret_val = Fallback_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = Fallback_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_InvoiceSignature_free"))) TS_InvoiceSignature_free(uint32_t this_obj) {
@@ -40771,8 +40832,8 @@ uint32_t  __attribute__((export_name("TS_InvoiceSignature_clone_ptr"))) TS_Invoi
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = InvoiceSignature_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = InvoiceSignature_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_InvoiceSignature_clone"))) TS_InvoiceSignature_clone(uint32_t orig) {
@@ -40801,8 +40862,8 @@ jboolean  __attribute__((export_name("TS_InvoiceSignature_eq"))) TS_InvoiceSigna
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = InvoiceSignature_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = InvoiceSignature_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PrivateRoute_free"))) TS_PrivateRoute_free(uint32_t this_obj) {
@@ -40830,8 +40891,8 @@ uint32_t  __attribute__((export_name("TS_PrivateRoute_clone_ptr"))) TS_PrivateRo
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = PrivateRoute_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PrivateRoute_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PrivateRoute_clone"))) TS_PrivateRoute_clone(uint32_t orig) {
@@ -40856,8 +40917,8 @@ int64_t  __attribute__((export_name("TS_PrivateRoute_hash"))) TS_PrivateRoute_ha
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = PrivateRoute_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = PrivateRoute_hash(&o_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_PrivateRoute_eq"))) TS_PrivateRoute_eq(uint32_t a, uint32_t b) {
@@ -40869,8 +40930,8 @@ jboolean  __attribute__((export_name("TS_PrivateRoute_eq"))) TS_PrivateRoute_eq(
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = PrivateRoute_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = PrivateRoute_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_SignedRawInvoice_into_parts"))) TS_SignedRawInvoice_into_parts(uint32_t this_arg) {
@@ -40943,8 +41004,8 @@ jboolean  __attribute__((export_name("TS_SignedRawInvoice_check_signature"))) TS
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = SignedRawInvoice_check_signature(&this_arg_conv);
-	return ret_val;
+	jboolean ret_conv = SignedRawInvoice_check_signature(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_RawInvoice_hash"))) TS_RawInvoice_hash(uint32_t this_arg) {
@@ -41163,8 +41224,8 @@ int64_t  __attribute__((export_name("TS_PositiveTimestamp_as_unix_timestamp"))) 
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = PositiveTimestamp_as_unix_timestamp(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = PositiveTimestamp_as_unix_timestamp(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_PositiveTimestamp_as_duration_since_epoch"))) TS_PositiveTimestamp_as_duration_since_epoch(uint32_t this_arg) {
@@ -41172,8 +41233,8 @@ int64_t  __attribute__((export_name("TS_PositiveTimestamp_as_duration_since_epoc
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = PositiveTimestamp_as_duration_since_epoch(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = PositiveTimestamp_as_duration_since_epoch(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_Invoice_into_signed_raw"))) TS_Invoice_into_signed_raw(uint32_t this_arg) {
@@ -41220,8 +41281,8 @@ int64_t  __attribute__((export_name("TS_Invoice_duration_since_epoch"))) TS_Invo
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = Invoice_duration_since_epoch(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = Invoice_duration_since_epoch(&this_arg_conv);
+	return ret_conv;
 }
 
 int8_tArray  __attribute__((export_name("TS_Invoice_payment_hash"))) TS_Invoice_payment_hash(uint32_t this_arg) {
@@ -41288,8 +41349,8 @@ int64_t  __attribute__((export_name("TS_Invoice_expiry_time"))) TS_Invoice_expir
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = Invoice_expiry_time(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = Invoice_expiry_time(&this_arg_conv);
+	return ret_conv;
 }
 
 jboolean  __attribute__((export_name("TS_Invoice_would_expire"))) TS_Invoice_would_expire(uint32_t this_arg, int64_t at_time) {
@@ -41297,8 +41358,8 @@ jboolean  __attribute__((export_name("TS_Invoice_would_expire"))) TS_Invoice_wou
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	jboolean ret_val = Invoice_would_expire(&this_arg_conv, at_time);
-	return ret_val;
+	jboolean ret_conv = Invoice_would_expire(&this_arg_conv, at_time);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_Invoice_min_final_cltv_expiry"))) TS_Invoice_min_final_cltv_expiry(uint32_t this_arg) {
@@ -41306,8 +41367,8 @@ int64_t  __attribute__((export_name("TS_Invoice_min_final_cltv_expiry"))) TS_Inv
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = Invoice_min_final_cltv_expiry(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = Invoice_min_final_cltv_expiry(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_tArray  __attribute__((export_name("TS_Invoice_private_routes"))) TS_Invoice_private_routes(uint32_t this_arg) {
@@ -41432,8 +41493,8 @@ int64_t  __attribute__((export_name("TS_ExpiryTime_as_seconds"))) TS_ExpiryTime_
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ExpiryTime_as_seconds(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ExpiryTime_as_seconds(&this_arg_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_ExpiryTime_as_duration"))) TS_ExpiryTime_as_duration(uint32_t this_arg) {
@@ -41441,8 +41502,8 @@ int64_t  __attribute__((export_name("TS_ExpiryTime_as_duration"))) TS_ExpiryTime
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	int64_t ret_val = ExpiryTime_as_duration(&this_arg_conv);
-	return ret_val;
+	int64_t ret_conv = ExpiryTime_as_duration(&this_arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PrivateRoute_new"))) TS_PrivateRoute_new(uint32_t hops) {
@@ -41508,8 +41569,8 @@ uint32_t  __attribute__((export_name("TS_CreationError_missing_route_hints"))) T
 jboolean  __attribute__((export_name("TS_CreationError_eq"))) TS_CreationError_eq(uint32_t a, uint32_t b) {
 	LDKCreationError* a_conv = (LDKCreationError*)(a & ~1);
 	LDKCreationError* b_conv = (LDKCreationError*)(b & ~1);
-	jboolean ret_val = CreationError_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = CreationError_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 jstring  __attribute__((export_name("TS_CreationError_to_str"))) TS_CreationError_to_str(uint32_t o) {
@@ -41579,8 +41640,8 @@ uint32_t  __attribute__((export_name("TS_SemanticError_imprecise_amount"))) TS_S
 jboolean  __attribute__((export_name("TS_SemanticError_eq"))) TS_SemanticError_eq(uint32_t a, uint32_t b) {
 	LDKSemanticError* a_conv = (LDKSemanticError*)(a & ~1);
 	LDKSemanticError* b_conv = (LDKSemanticError*)(b & ~1);
-	jboolean ret_val = SemanticError_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = SemanticError_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 jstring  __attribute__((export_name("TS_SemanticError_to_str"))) TS_SemanticError_to_str(uint32_t o) {
@@ -41608,8 +41669,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_SignOrCreationError_clone_ptr"))) TS_SignOrCreationError_clone_ptr(uint32_t arg) {
 	LDKSignOrCreationError* arg_conv = (LDKSignOrCreationError*)arg;
-	uint32_t ret_val = SignOrCreationError_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = SignOrCreationError_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_SignOrCreationError_clone"))) TS_SignOrCreationError_clone(uint32_t orig) {
@@ -41638,8 +41699,8 @@ uint32_t  __attribute__((export_name("TS_SignOrCreationError_creation_error"))) 
 jboolean  __attribute__((export_name("TS_SignOrCreationError_eq"))) TS_SignOrCreationError_eq(uint32_t a, uint32_t b) {
 	LDKSignOrCreationError* a_conv = (LDKSignOrCreationError*)a;
 	LDKSignOrCreationError* b_conv = (LDKSignOrCreationError*)b;
-	jboolean ret_val = SignOrCreationError_eq(a_conv, b_conv);
-	return ret_val;
+	jboolean ret_conv = SignOrCreationError_eq(a_conv, b_conv);
+	return ret_conv;
 }
 
 jstring  __attribute__((export_name("TS_SignOrCreationError_to_str"))) TS_SignOrCreationError_to_str(uint32_t o) {
@@ -41689,8 +41750,8 @@ uint32_t  __attribute__((export_name("TS_RetryAttempts_get_a"))) TS_RetryAttempt
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	uint32_t ret_val = RetryAttempts_get_a(&this_ptr_conv);
-	return ret_val;
+	uint32_t ret_conv = RetryAttempts_get_a(&this_ptr_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_RetryAttempts_set_a"))) TS_RetryAttempts_set_a(uint32_t this_ptr, uint32_t val) {
@@ -41731,8 +41792,8 @@ uint32_t  __attribute__((export_name("TS_RetryAttempts_clone_ptr"))) TS_RetryAtt
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	uint32_t ret_val = RetryAttempts_clone_ptr(&arg_conv);
-	return ret_val;
+	uint32_t ret_conv = RetryAttempts_clone_ptr(&arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_RetryAttempts_clone"))) TS_RetryAttempts_clone(uint32_t orig) {
@@ -41761,8 +41822,8 @@ jboolean  __attribute__((export_name("TS_RetryAttempts_eq"))) TS_RetryAttempts_e
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
-	jboolean ret_val = RetryAttempts_eq(&a_conv, &b_conv);
-	return ret_val;
+	jboolean ret_conv = RetryAttempts_eq(&a_conv, &b_conv);
+	return ret_conv;
 }
 
 int64_t  __attribute__((export_name("TS_RetryAttempts_hash"))) TS_RetryAttempts_hash(uint32_t o) {
@@ -41770,8 +41831,8 @@ int64_t  __attribute__((export_name("TS_RetryAttempts_hash"))) TS_RetryAttempts_
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
-	int64_t ret_val = RetryAttempts_hash(&o_conv);
-	return ret_val;
+	int64_t ret_conv = RetryAttempts_hash(&o_conv);
+	return ret_conv;
 }
 
 void  __attribute__((export_name("TS_PaymentError_free"))) TS_PaymentError_free(uint32_t this_ptr) {
@@ -41791,8 +41852,8 @@ uint32_t ret_ref = (uintptr_t)ret_copy;
 }
 uint32_t  __attribute__((export_name("TS_PaymentError_clone_ptr"))) TS_PaymentError_clone_ptr(uint32_t arg) {
 	LDKPaymentError* arg_conv = (LDKPaymentError*)arg;
-	uint32_t ret_val = PaymentError_clone_ptr(arg_conv);
-	return ret_val;
+	uint32_t ret_conv = PaymentError_clone_ptr(arg_conv);
+	return ret_conv;
 }
 
 uint32_t  __attribute__((export_name("TS_PaymentError_clone"))) TS_PaymentError_clone(uint32_t orig) {

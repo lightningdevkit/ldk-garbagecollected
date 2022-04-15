@@ -260,11 +260,19 @@ class TypeMappingGenerator:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None,
                     ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 8", to_hu_conv_name = None, from_hu_conv = None)
-        elif ty_info.is_native_primitive:
+        elif ty_info.is_native_primitive and ty_info.c_ty != "void":
             assert not is_nullable
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
-                ret_conv = None, ret_conv_name = None, to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
+                arg_conv = None, arg_conv_name =  ty_info.var_name, arg_conv_cleanup = None,
+                ret_conv = (ty_info.c_ty + " " + ty_info.var_name + "_conv = ", ";"), ret_conv_name = ty_info.var_name + "_conv",
+                to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
+        elif ty_info.c_ty == "void":
+            assert ty_info.is_native_primitive
+            assert not is_nullable
+            return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                arg_conv = None, arg_conv_name =  ty_info.var_name, arg_conv_cleanup = None,
+                ret_conv = None, ret_conv_name = ty_info.var_name,
+                to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         else:
             if ty_info.var_name == "":
                 ty_info.var_name = "ret"
