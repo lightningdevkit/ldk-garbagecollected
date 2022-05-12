@@ -359,8 +359,8 @@ jobs:
           git checkout 0.0.106
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
-          cd ldk-c-bindings
           export PATH=`pwd`/clang+llvm-14.0.1-x86_64-apple-darwin/bin:$PATH
+          cd ldk-c-bindings
           CC=clang ./genbindings.sh ../rust-lightning true
           cd ..
       - name: Fetch OpenJDK 16
