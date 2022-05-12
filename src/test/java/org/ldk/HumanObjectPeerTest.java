@@ -678,9 +678,6 @@ class HumanObjectPeerTestInstance {
 
     void maybe_exchange_peer_messages(Peer peer1, Peer peer2) {
         if (!use_nio_peer_handler) {
-            synchronized (runqueue) {
-                ran = false;
-            }
             while (true) {
                 peer1.peer_manager.process_events();
                 peer2.peer_manager.process_events();
