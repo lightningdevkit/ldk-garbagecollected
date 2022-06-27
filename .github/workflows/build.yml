@@ -34,11 +34,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2021-03-java-bindings-base
+          git checkout origin/2022-06-108-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.106
+          git checkout 0.0.108
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -118,11 +118,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2021-03-java-bindings-base
+          git checkout origin/2022-06-108-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.106
+          git checkout 0.0.108
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -168,11 +168,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2021-03-java-bindings-base
+          git checkout origin/2022-06-108-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.106
+          git checkout 0.0.108
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -271,11 +271,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2021-03-java-bindings-base
+          git checkout origin/2022-06-108-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.106
+          git checkout 0.0.108
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -351,11 +351,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2021-03-java-bindings-base
+          git checkout origin/2022-06-108-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.106
+          git checkout 0.0.108
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           export PATH=`pwd`/clang+llvm-14.0.1-x86_64-apple-darwin/bin:$PATH
