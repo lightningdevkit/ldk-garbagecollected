@@ -708,7 +708,7 @@ import javax.annotation.Nullable;
             return ty.java_fn_ty_arg.strip("L;").replace("/", ".")
         if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5" or ty.java_hu_ty == "WitnessVersion":
             return "org.ldk.util." + ty.java_hu_ty
-        if ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
+        if not ty.is_native_primitive and ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
             return "org.ldk.structs." + ty.java_hu_ty
         return ty.java_hu_ty
 
