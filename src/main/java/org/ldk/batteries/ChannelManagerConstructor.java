@@ -72,7 +72,7 @@ public class ChannelManagerConstructor {
      * given explicitly to the new-object constructor.
      */
     @Nullable public final NetworkGraph net_graph;
-    @Nullable private final NetGraphMsgHandler graph_msg_handler;
+    @Nullable private final P2PGossipSync graph_msg_handler;
     private final Logger logger;
 
     private final byte[] router_rand_bytes;
@@ -115,7 +115,7 @@ public class ChannelManagerConstructor {
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
         if (net_graph_serialized != null) {
-            Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized);
+            Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized, logger);
             if (!graph_res.is_ok()) {
                 throw new InvalidSerializedDataException("Serialized Network Graph was corrupt");
             }
@@ -127,7 +127,7 @@ public class ChannelManagerConstructor {
         assert node_secret.is_ok();
         if (net_graph != null) {
             //TODO: We really need to expose the Access here to let users prevent DoS issues
-            this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
+            this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
@@ -174,7 +174,7 @@ public class ChannelManagerConstructor {
         assert node_secret.is_ok();
         if (net_graph != null) {
             //TODO: We really need to expose the Access here to let users prevent DoS issues
-            this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
+            this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
@@ -203,6 +203,7 @@ public class ChannelManagerConstructor {
         void handle_event(Event events);
         void persist_manager(byte[] channel_manager_bytes);
         void persist_network_graph(byte[] network_graph);
+        void persist_scorer(byte[] scorer_bytes);
     }
 
     BackgroundProcessor background_processor = null;
@@ -222,10 +223,16 @@ public class ChannelManagerConstructor {
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
         if (this.net_graph != null && scorer != null) {
             Router router = DefaultRouter.of(net_graph, logger, router_rand_bytes).as_Router();
-            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, scorer, this.logger, ldk_handler, RetryAttempts.of(3));
+            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, scorer, this.logger, ldk_handler, Retry.attempts(3));
 assert this.payer != null;
             ldk_handler = this.payer.as_EventHandler();
         }
+
+        GossipSync gossip_sync;
+        if (this.graph_msg_handler == null)
+            gossip_sync = GossipSync.none();
+        else
+            gossip_sync = GossipSync.p2_p(this.graph_msg_handler);
 
         background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
             @Override
@@ -239,7 +246,13 @@ assert this.payer != null;
                 event_handler.persist_network_graph(network_graph.write());
                 return Result_NoneErrorZ.ok();
             }
-        }), ldk_handler, this.chain_monitor, this.channel_manager, this.graph_msg_handler, this.peer_manager, this.logger);
+
+            @Override
+            public Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer) {
+                event_handler.persist_scorer(scorer.write());
+                return Result_NoneErrorZ.ok();
+            }
+        }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, this.peer_manager, this.logger, scorer);
     }
 
     /**
