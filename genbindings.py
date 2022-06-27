@@ -263,14 +263,19 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_ty = "uint8_t"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
-    elif fn_arg.startswith("LDKu5"):
+    elif fn_arg.startswith("LDKu5") or fn_arg.startswith("LDKWitnessVersion"):
         java_ty = consts.c_type_map['uint8_t'][0]
-        java_hu_ty = "UInt5"
-        rust_obj = "LDKu5"
+        if fn_arg.startswith("LDKu5"):
+            java_hu_ty = "UInt5"
+            rust_obj = "LDKu5"
+            fn_arg = fn_arg[6:].strip()
+        else:
+            java_hu_ty = "WitnessVersion"
+            rust_obj = "LDKWitnessVersion"
+            fn_arg = fn_arg[18:].strip()
         c_ty = "int8_t"
         arr_ty = "uint8_t"
         fn_ty_arg = "B"
-        fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("uint16_t"):
         mapped_type = consts.c_type_map['uint16_t']
         java_ty = mapped_type[0]

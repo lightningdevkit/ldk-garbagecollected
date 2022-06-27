@@ -36,7 +36,7 @@ class Consts:
 
         self.bindings_header = """
 import * as version from './version.mjs';
-import { UInt5 } from './structs/CommonBase.mjs';
+import { UInt5, WitnessVersion } from './structs/CommonBase.mjs';
 
 const imports: any = {};
 imports.env = {};
@@ -148,6 +148,17 @@ export function uint5ArrToBytes(inputArray: Array<UInt5>): Uint8Array {
 	}
 	return arr;
 }
+
+/* @internal */
+export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uint8Array {
+	const arr = new Uint8Array(inputArray.length);
+	for (var i = 0; i < inputArray.length; i++) {
+		arr[i] = inputArray[i].getVal();
+	}
+	return arr;
+}
+
+
 
 /* @internal */
 export function encodeUint8Array (inputArray: Uint8Array): number {
@@ -321,6 +332,15 @@ export class CommonBase {
 export class UInt5 {
 	public constructor(private val: number) {
 		if (val > 32 || val < 0) throw new Error("UInt5 value is out of range");
+	}
+	public getVal(): number {
+		return this.val;
+	}
+}
+
+export class WitnessVersion {
+	public constructor(private val: number) {
+		if (val > 16 || val < 0) throw new Error("WitnessVersion value is out of range");
 	}
 	public getVal(): number {
 		return this.val;
@@ -596,7 +616,7 @@ jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
 }"""
 
         self.hu_struct_file_prefix = """
-import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
+import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 """

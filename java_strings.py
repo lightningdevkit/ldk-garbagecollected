@@ -632,6 +632,8 @@ import javax.annotation.Nullable;
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
         elif elem_ty.java_hu_ty == "UInt5":
             return arr_name + " != null ? InternalUtils.convUInt5Array(" + arr_name + ") : null"
+        elif elem_ty.java_hu_ty == "WitnessVersion":
+            return arr_name + " != null ? InternalUtils.convWitnessVersionArray(" + arr_name + ") : null"
         else:
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray(" + arr_ty.java_ty + "::new) : null"
 
@@ -704,7 +706,7 @@ import javax.annotation.Nullable;
     def fully_qualified_hu_ty_path(self, ty):
         if ty.java_fn_ty_arg.startswith("L") and ty.java_fn_ty_arg.endswith(";"):
             return ty.java_fn_ty_arg.strip("L;").replace("/", ".")
-        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5":
+        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5" or ty.java_hu_ty == "WitnessVersion":
             return "org.ldk.util." + ty.java_hu_ty
         if ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
             return "org.ldk.structs." + ty.java_hu_ty
