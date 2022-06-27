@@ -144,7 +144,7 @@ if [ "$2" != "wasm" ]; then
 				echo "Archive contained non-object files!"
 				exit 1
 			fi
-			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
+			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
 				echo "Archive contained more than one LDK object file"
 				exit 1
 			fi
@@ -152,9 +152,9 @@ if [ "$2" != "wasm" ]; then
 			rm -f tmp/*
 			ar x --output=tmp "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 			pushd tmp
-			llvm-dis ldk.ldk.*-cgu.*.rcgu.o
-			sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk.ldk.*-cgu.*.rcgu.o.ll
-			llvm-as ldk.ldk.*-cgu.*.rcgu.o.ll -o ./libldk.bc
+			llvm-dis ldk*-cgu.*.rcgu.o
+			sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk*-cgu.*.rcgu.o.ll
+			llvm-as ldk*-cgu.*.rcgu.o.ll -o ./libldk.bc
 			ar q libldk.a *.o
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
