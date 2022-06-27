@@ -78,16 +78,16 @@ public class Watch extends CommonBase {
 		 * For details on asynchronous [`ChannelMonitor`] updating and returning
 		 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 		 */
-		MonitorEvent[] release_pending_monitor_events();
+		TwoTuple_OutPointCVec_MonitorEventZZ[] release_pending_monitor_events();
 	}
 	private static class LDKWatchHolder { Watch held; }
 	public static Watch new_impl(WatchInterface arg) {
 		final LDKWatchHolder impl_holder = new LDKWatchHolder();
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
 			@Override public long watch_channel(long funding_txo, long monitor) {
-				OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new OutPoint(null, funding_txo); }
+				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				funding_txo_hu_conv.ptrs_to.add(this);
-				ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new ChannelMonitor(null, monitor); }
+				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
 				monitor_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
@@ -95,9 +95,9 @@ public class Watch extends CommonBase {
 				return result;
 			}
 			@Override public long update_channel(long funding_txo, long update) {
-				OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new OutPoint(null, funding_txo); }
+				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				funding_txo_hu_conv.ptrs_to.add(this);
-				ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new ChannelMonitorUpdate(null, update); }
+				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
 				update_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				Reference.reachabilityFence(arg);
@@ -105,9 +105,9 @@ public class Watch extends CommonBase {
 				return result;
 			}
 			@Override public long[] release_pending_monitor_events() {
-				MonitorEvent[] ret = arg.release_pending_monitor_events();
+				TwoTuple_OutPointCVec_MonitorEventZZ[] ret = arg.release_pending_monitor_events();
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_14 -> ret_conv_14 == null ? 0 : ret_conv_14.clone_ptr()).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_38 -> ret_conv_38 == null ? 0 : ret_conv_38.clone_ptr()).toArray() : null;
 				return result;
 			}
 		});
@@ -166,18 +166,18 @@ public class Watch extends CommonBase {
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
 	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 	 */
-	public MonitorEvent[] release_pending_monitor_events() {
+	public TwoTuple_OutPointCVec_MonitorEventZZ[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_14_len = ret.length;
-		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
-		for (int o = 0; o < ret_conv_14_len; o++) {
-			long ret_conv_14 = ret[o];
-			org.ldk.structs.MonitorEvent ret_conv_14_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret_conv_14);
-			ret_conv_14_hu_conv.ptrs_to.add(this);
-			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
+		int ret_conv_38_len = ret.length;
+		TwoTuple_OutPointCVec_MonitorEventZZ[] ret_conv_38_arr = new TwoTuple_OutPointCVec_MonitorEventZZ[ret_conv_38_len];
+		for (int m = 0; m < ret_conv_38_len; m++) {
+			long ret_conv_38 = ret[m];
+			TwoTuple_OutPointCVec_MonitorEventZZ ret_conv_38_hu_conv = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret_conv_38);
+			ret_conv_38_hu_conv.ptrs_to.add(this);
+			ret_conv_38_arr[m] = ret_conv_38_hu_conv;
 		}
-		return ret_conv_14_arr;
+		return ret_conv_38_arr;
 	}
 
 }

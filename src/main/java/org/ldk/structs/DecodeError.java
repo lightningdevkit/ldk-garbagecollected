@@ -33,7 +33,7 @@ public class DecodeError extends CommonBase {
 		long ret = bindings.DecodeError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DecodeError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DecodeError(null, ret); }
+		org.ldk.structs.DecodeError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DecodeError(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

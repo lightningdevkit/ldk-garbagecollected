@@ -28,7 +28,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_features(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelFeatures(null, ret); }
+		org.ldk.structs.ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -49,7 +49,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_node_one(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeId(null, ret); }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -73,7 +73,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_one_to_two(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdateInfo(null, ret); }
+		org.ldk.structs.ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -96,7 +96,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_node_two(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeId(null, ret); }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -120,7 +120,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_two_to_one(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdateInfo(null, ret); }
+		org.ldk.structs.ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -170,7 +170,7 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_get_announcement_message(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelAnnouncement(null, ret); }
+		org.ldk.structs.ChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -202,7 +202,23 @@ public class ChannelInfo extends CommonBase {
 		long ret = bindings.ChannelInfo_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelInfo(null, ret); }
+		org.ldk.structs.ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelInfo(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns a [`ChannelUpdateInfo`] based on the direction implied by the channel_flag.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ChannelUpdateInfo get_directional_info(byte channel_flags) {
+		long ret = bindings.ChannelInfo_get_directional_info(this.ptr, channel_flags);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_flags);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

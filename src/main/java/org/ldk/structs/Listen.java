@@ -15,6 +15,10 @@ import javax.annotation.Nullable;
  * sourcing chain data using a block-oriented API should prefer this interface over [`Confirm`].
  * Such clients fetch the entire header chain whereas clients using [`Confirm`] only fetch headers
  * when needed.
+ * 
+ * By using [`Listen::filtered_block_connected`] this interface supports clients fetching the
+ * entire header chain and only blocks with matching transaction data using BIP 157 filters or
+ * other similar filtering.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Listen extends CommonBase {
@@ -32,6 +36,11 @@ public class Listen extends CommonBase {
 
 	public static interface ListenInterface {
 		/**
+		 * Notifies the listener that a block was added at the given height, with the transaction data
+		 * possibly filtered.
+		 */
+		void filtered_block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height);
+		/**
 		 * Notifies the listener that a block was added at the given height.
 		 */
 		void block_connected(byte[] block, int height);
@@ -44,6 +53,18 @@ public class Listen extends CommonBase {
 	public static Listen new_impl(ListenInterface arg) {
 		final LDKListenHolder impl_holder = new LDKListenHolder();
 		impl_holder.held = new Listen(new bindings.LDKListen() {
+			@Override public void filtered_block_connected(byte[] header, long[] txdata, int height) {
+				int txdata_conv_28_len = txdata.length;
+				TwoTuple_usizeTransactionZ[] txdata_conv_28_arr = new TwoTuple_usizeTransactionZ[txdata_conv_28_len];
+				for (int c = 0; c < txdata_conv_28_len; c++) {
+					long txdata_conv_28 = txdata[c];
+					TwoTuple_usizeTransactionZ txdata_conv_28_hu_conv = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
+					txdata_conv_28_hu_conv.ptrs_to.add(this);
+					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
+				}
+				arg.filtered_block_connected(header, txdata_conv_28_arr, height);
+				Reference.reachabilityFence(arg);
+			}
 			@Override public void block_connected(byte[] block, int height) {
 				arg.block_connected(block, height);
 				Reference.reachabilityFence(arg);
@@ -55,6 +76,18 @@ public class Listen extends CommonBase {
 		});
 		return impl_holder.held;
 	}
+	/**
+	 * Notifies the listener that a block was added at the given height, with the transaction data
+	 * possibly filtered.
+	 */
+	public void filtered_block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height) {
+		bindings.Listen_filtered_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(txdata);
+		Reference.reachabilityFence(height);
+	}
+
 	/**
 	 * Notifies the listener that a block was added at the given height.
 	 */

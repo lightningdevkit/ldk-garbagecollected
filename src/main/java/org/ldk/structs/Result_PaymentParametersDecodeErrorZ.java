@@ -25,7 +25,7 @@ public class Result_PaymentParametersDecodeErrorZ extends CommonBase {
 		private Result_PaymentParametersDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_PaymentParametersDecodeErrorZ_get_ok(ptr);
-			PaymentParameters res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new PaymentParameters(null, res); }
+			org.ldk.structs.PaymentParameters res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.PaymentParameters(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_PaymentParametersDecodeErrorZ extends CommonBase {
 		private Result_PaymentParametersDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_PaymentParametersDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

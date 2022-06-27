@@ -25,7 +25,7 @@ public class Result_WarningMessageDecodeErrorZ extends CommonBase {
 		private Result_WarningMessageDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_WarningMessageDecodeErrorZ_get_ok(ptr);
-			WarningMessage res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new WarningMessage(null, res); }
+			org.ldk.structs.WarningMessage res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.WarningMessage(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_WarningMessageDecodeErrorZ extends CommonBase {
 		private Result_WarningMessageDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_WarningMessageDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * Update to the [`NetworkGraph`] based on payment failure information conveyed via the Onion
  * return packet by a node along the route. See [BOLT #4] for details.
  * 
- * [BOLT #4]: https://github.com/lightningnetwork/lightning-rfc/blob/master/04-onion-routing.md
+ * [BOLT #4]: https://github.com/lightning/bolts/blob/master/04-onion-routing.md
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NetworkUpdate extends CommonBase {
@@ -27,8 +27,8 @@ public class NetworkUpdate extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKNetworkUpdate.ChannelUpdateMessage.class) {
 			return new ChannelUpdateMessage(ptr, (bindings.LDKNetworkUpdate.ChannelUpdateMessage)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKNetworkUpdate.ChannelClosed.class) {
-			return new ChannelClosed(ptr, (bindings.LDKNetworkUpdate.ChannelClosed)raw_val);
+		if (raw_val.getClass() == bindings.LDKNetworkUpdate.ChannelFailure.class) {
+			return new ChannelFailure(ptr, (bindings.LDKNetworkUpdate.ChannelFailure)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKNetworkUpdate.NodeFailure.class) {
 			return new NodeFailure(ptr, (bindings.LDKNetworkUpdate.NodeFailure)raw_val);
@@ -48,16 +48,16 @@ public class NetworkUpdate extends CommonBase {
 		private ChannelUpdateMessage(long ptr, bindings.LDKNetworkUpdate.ChannelUpdateMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
+			org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
 	/**
-	 * An error indicating only that a channel has been closed, which should be applied via
-	 * [`NetworkGraph::close_channel_from_update`].
+	 * An error indicating that a channel failed to route a payment, which should be applied via
+	 * [`NetworkGraph::channel_failed`].
 	 */
-	public final static class ChannelClosed extends NetworkUpdate {
+	public final static class ChannelFailure extends NetworkUpdate {
 		/**
 		 * The short channel id of the closed channel.
 		*/
@@ -67,15 +67,15 @@ public class NetworkUpdate extends CommonBase {
 		 * `channel_update` message is received.
 		*/
 		public final boolean is_permanent;
-		private ChannelClosed(long ptr, bindings.LDKNetworkUpdate.ChannelClosed obj) {
+		private ChannelFailure(long ptr, bindings.LDKNetworkUpdate.ChannelFailure obj) {
 			super(null, ptr);
 			this.short_channel_id = obj.short_channel_id;
 			this.is_permanent = obj.is_permanent;
 		}
 	}
 	/**
-	 * An error indicating only that a node has failed, which should be applied via
-	 * [`NetworkGraph::fail_node`].
+	 * An error indicating that a node failed to route a payment, which should be applied via
+	 * [`NetworkGraph::node_failed`].
 	 */
 	public final static class NodeFailure extends NetworkUpdate {
 		/**
@@ -124,10 +124,10 @@ public class NetworkUpdate extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new ChannelClosed-variant NetworkUpdate
+	 * Utility method to constructs a new ChannelFailure-variant NetworkUpdate
 	 */
-	public static NetworkUpdate channel_closed(long short_channel_id, boolean is_permanent) {
-		long ret = bindings.NetworkUpdate_channel_closed(short_channel_id, is_permanent);
+	public static NetworkUpdate channel_failure(long short_channel_id, boolean is_permanent) {
+		long ret = bindings.NetworkUpdate_channel_failure(short_channel_id, is_permanent);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }

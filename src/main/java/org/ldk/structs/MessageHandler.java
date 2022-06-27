@@ -50,10 +50,9 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages updating our knowledge of the network channel
-	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
-	 * [`IgnoringMessageHandler`].
+	 * graph. Usually this is just a [`P2PGossipSync`] object or an [`IgnoringMessageHandler`].
 	 * 
-	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 * [`P2PGossipSync`]: crate::routing::gossip::P2PGossipSync
 	 */
 	public RoutingMessageHandler get_route_handler() {
 		long ret = bindings.MessageHandler_get_route_handler(this.ptr);
@@ -66,10 +65,9 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages updating our knowledge of the network channel
-	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
-	 * [`IgnoringMessageHandler`].
+	 * graph. Usually this is just a [`P2PGossipSync`] object or an [`IgnoringMessageHandler`].
 	 * 
-	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 * [`P2PGossipSync`]: crate::routing::gossip::P2PGossipSync
 	 */
 	public void set_route_handler(RoutingMessageHandler val) {
 		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : val.ptr);
@@ -86,7 +84,7 @@ public class MessageHandler extends CommonBase {
 		Reference.reachabilityFence(chan_handler_arg);
 		Reference.reachabilityFence(route_handler_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MessageHandler(null, ret); }
+		org.ldk.structs.MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MessageHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chan_handler_arg);
 		ret_hu_conv.ptrs_to.add(route_handler_arg);

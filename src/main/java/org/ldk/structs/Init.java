@@ -27,7 +27,7 @@ public class Init extends CommonBase {
 		long ret = bindings.Init_get_features(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InitFeatures(null, ret); }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -76,7 +76,7 @@ public class Init extends CommonBase {
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(remote_network_address_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Init(null, ret); }
+		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -94,7 +94,7 @@ public class Init extends CommonBase {
 		long ret = bindings.Init_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Init(null, ret); }
+		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

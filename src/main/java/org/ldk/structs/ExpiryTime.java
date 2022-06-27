@@ -34,7 +34,7 @@ public class ExpiryTime extends CommonBase {
 		long ret = bindings.ExpiryTime_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
+		org.ldk.structs.ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ExpiryTime(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -75,7 +75,7 @@ public class ExpiryTime extends CommonBase {
 		long ret = bindings.ExpiryTime_from_seconds(seconds);
 		Reference.reachabilityFence(seconds);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
+		org.ldk.structs.ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ExpiryTime(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -87,7 +87,7 @@ public class ExpiryTime extends CommonBase {
 		long ret = bindings.ExpiryTime_from_duration(duration);
 		Reference.reachabilityFence(duration);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
+		org.ldk.structs.ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ExpiryTime(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

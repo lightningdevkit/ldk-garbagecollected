@@ -45,7 +45,7 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(feeest);
 		Reference.reachabilityFence(persister);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainMonitor(null, ret); }
+		org.ldk.structs.ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChainMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
@@ -110,7 +110,7 @@ public class ChainMonitor extends CommonBase {
 		OutPoint[] ret_conv_10_arr = new OutPoint[ret_conv_10_len];
 		for (int k = 0; k < ret_conv_10_len; k++) {
 			long ret_conv_10 = ret[k];
-			OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new OutPoint(null, ret_conv_10); }
+			org.ldk.structs.OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new org.ldk.structs.OutPoint(null, ret_conv_10); }
 			ret_conv_10_hu_conv.ptrs_to.add(this);
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}

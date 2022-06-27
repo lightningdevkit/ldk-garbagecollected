@@ -34,7 +34,7 @@ public class DirectedChannelInfo extends CommonBase {
 		long ret = bindings.DirectedChannelInfo_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DirectedChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectedChannelInfo(null, ret); }
+		org.ldk.structs.DirectedChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DirectedChannelInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -46,7 +46,7 @@ public class DirectedChannelInfo extends CommonBase {
 		long ret = bindings.DirectedChannelInfo_channel(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelInfo(null, ret); }
+		org.ldk.structs.ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -61,9 +61,18 @@ public class DirectedChannelInfo extends CommonBase {
 		long ret = bindings.DirectedChannelInfo_direction(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdateInfo(null, ret); }
+		org.ldk.structs.ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the maximum HTLC amount allowed over the channel in the direction.
+	 */
+	public long htlc_maximum_msat() {
+		long ret = bindings.DirectedChannelInfo_htlc_maximum_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**
@@ -71,7 +80,7 @@ public class DirectedChannelInfo extends CommonBase {
 	 * 
 	 * This is either the total capacity from the funding transaction, if known, or the
 	 * `htlc_maximum_msat` for the direction as advertised by the gossip network, if known,
-	 * whichever is smaller.
+	 * otherwise.
 	 */
 	public EffectiveCapacity effective_capacity() {
 		long ret = bindings.DirectedChannelInfo_effective_capacity(this.ptr);

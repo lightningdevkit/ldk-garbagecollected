@@ -102,7 +102,7 @@ public class FundingCreated extends CommonBase {
 		Reference.reachabilityFence(funding_output_index_arg);
 		Reference.reachabilityFence(signature_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingCreated(null, ret); }
+		org.ldk.structs.FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.FundingCreated(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -120,7 +120,7 @@ public class FundingCreated extends CommonBase {
 		long ret = bindings.FundingCreated_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingCreated(null, ret); }
+		org.ldk.structs.FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.FundingCreated(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

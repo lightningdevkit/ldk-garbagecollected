@@ -56,7 +56,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private StaticOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutput obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
-			OutPoint outpoint_hu_conv = null; if (outpoint < 0 || outpoint > 4096) { outpoint_hu_conv = new OutPoint(null, outpoint); }
+			org.ldk.structs.OutPoint outpoint_hu_conv = null; if (outpoint < 0 || outpoint > 4096) { outpoint_hu_conv = new org.ldk.structs.OutPoint(null, outpoint); }
 			outpoint_hu_conv.ptrs_to.add(this);
 			this.outpoint = outpoint_hu_conv;
 			long output = obj.output;
@@ -99,7 +99,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private DelayedPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput obj) {
 			super(null, ptr);
 			long delayed_payment_output = obj.delayed_payment_output;
-			DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = null; if (delayed_payment_output < 0 || delayed_payment_output > 4096) { delayed_payment_output_hu_conv = new DelayedPaymentOutputDescriptor(null, delayed_payment_output); }
+			org.ldk.structs.DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = null; if (delayed_payment_output < 0 || delayed_payment_output > 4096) { delayed_payment_output_hu_conv = new org.ldk.structs.DelayedPaymentOutputDescriptor(null, delayed_payment_output); }
 			delayed_payment_output_hu_conv.ptrs_to.add(this);
 			this.delayed_payment_output = delayed_payment_output_hu_conv;
 		}
@@ -118,7 +118,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private StaticPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput obj) {
 			super(null, ptr);
 			long static_payment_output = obj.static_payment_output;
-			StaticPaymentOutputDescriptor static_payment_output_hu_conv = null; if (static_payment_output < 0 || static_payment_output > 4096) { static_payment_output_hu_conv = new StaticPaymentOutputDescriptor(null, static_payment_output); }
+			org.ldk.structs.StaticPaymentOutputDescriptor static_payment_output_hu_conv = null; if (static_payment_output < 0 || static_payment_output > 4096) { static_payment_output_hu_conv = new org.ldk.structs.StaticPaymentOutputDescriptor(null, static_payment_output); }
 			static_payment_output_hu_conv.ptrs_to.add(this);
 			this.static_payment_output = static_payment_output_hu_conv;
 		}

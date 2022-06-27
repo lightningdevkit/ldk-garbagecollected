@@ -63,8 +63,6 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Non-proportional fees are fixed according to our risk using the provided fee estimator.
 	 * 
-	 * panics if channel_value_satoshis is >= `MAX_FUNDING_SATOSHIS`!
-	 * 
 	 * Users need to notify the new ChannelManager when a new block is connected or
 	 * disconnected using its `block_connected` and `block_disconnected` methods, starting
 	 * from after `params.latest_hash`.
@@ -79,7 +77,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(config);
 		Reference.reachabilityFence(params);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelManager(null, ret); }
+		org.ldk.structs.ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
 		ret_hu_conv.ptrs_to.add(chain_monitor);
@@ -96,7 +94,7 @@ public class ChannelManager extends CommonBase {
 		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UserConfig(null, ret); }
+		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -155,7 +153,7 @@ public class ChannelManager extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -163,12 +161,14 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets the list of usable channels, in random order. Useful as an argument to
-	 * get_route to ensure non-announced channels are used.
+	 * Gets the list of usable channels, in random order. Useful as an argument to [`find_route`]
+	 * to ensure non-announced channels are used.
 	 * 
 	 * These are guaranteed to have their [`ChannelDetails::is_usable`] value set to true, see the
 	 * documentation for [`ChannelDetails::is_usable`] for more info on exactly what the criteria
 	 * are.
+	 * 
+	 * [`find_route`]: crate::routing::router::find_route
 	 */
 	public ChannelDetails[] list_usable_channels() {
 		long[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
@@ -177,7 +177,7 @@ public class ChannelManager extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -203,10 +203,11 @@ public class ChannelManager extends CommonBase {
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
-	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
-		long ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
+	public Result_NoneAPIErrorZ close_channel(byte[] channel_id, byte[] counterparty_node_id) {
+		long ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -233,10 +234,11 @@ public class ChannelManager extends CommonBase {
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
-	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, int target_feerate_sats_per_1000_weight) {
-		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), target_feerate_sats_per_1000_weight);
+	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, byte[] counterparty_node_id, int target_feerate_sats_per_1000_weight) {
+		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), target_feerate_sats_per_1000_weight);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(target_feerate_sats_per_1000_weight);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -245,12 +247,15 @@ public class ChannelManager extends CommonBase {
 
 	/**
 	 * Force closes a channel, immediately broadcasting the latest local commitment transaction to
-	 * the chain and rejecting new HTLCs on the given channel. Fails if channel_id is unknown to the manager.
+	 * the chain and rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
+	 * the manager, or if the `counterparty_node_id` isn't the counterparty of the corresponding
+	 * channel.
 	 */
-	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id) {
-		long ret = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
+	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id, byte[] counterparty_node_id) {
+		long ret = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -418,10 +423,11 @@ public class ChannelManager extends CommonBase {
 	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
 	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
 	 */
-	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] funding_transaction) {
-		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), funding_transaction);
+	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] funding_transaction) {
+		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_transaction);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(funding_transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -488,38 +494,47 @@ public class ChannelManager extends CommonBase {
 	 * Indicates that the preimage for payment_hash is unknown or the received amount is incorrect
 	 * after a PaymentReceived event, failing the HTLC back to its origin and freeing resources
 	 * along the path (including in our own channel on which we received it).
-	 * Returns false if no payment was found to fail backwards, true if the process of failing the
-	 * HTLC backwards has been started.
+	 * 
+	 * Note that in some cases around unclean shutdown, it is possible the payment may have
+	 * already been claimed by you via [`ChannelManager::claim_funds`] prior to you seeing (a
+	 * second copy of) the [`events::Event::PaymentReceived`] event. Alternatively, the payment
+	 * may have already been failed automatically by LDK if it was nearing its expiration time.
+	 * 
+	 * While LDK will never claim a payment automatically on your behalf (i.e. without you calling
+	 * [`ChannelManager::claim_funds`]), you should still monitor for
+	 * [`events::Event::PaymentClaimed`] events even for payments you intend to fail, especially on
+	 * startup during which time claims that were in-progress at shutdown may be replayed.
 	 */
-	public boolean fail_htlc_backwards(byte[] payment_hash) {
-		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
+	public void fail_htlc_backwards(byte[] payment_hash) {
+		bindings.ChannelManager_fail_htlc_backwards(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_hash);
-		return ret;
 	}
 
 	/**
 	 * Provides a payment preimage in response to [`Event::PaymentReceived`], generating any
 	 * [`MessageSendEvent`]s needed to claim the payment.
 	 * 
+	 * Note that calling this method does *not* guarantee that the payment has been claimed. You
+	 * must* wait for an [`Event::PaymentClaimed`] event which upon a successful claim will be
+	 * provided to your [`EventHandler`] when [`process_pending_events`] is next called.
+	 * 
 	 * Note that if you did not set an `amount_msat` when calling [`create_inbound_payment`] or
 	 * [`create_inbound_payment_for_hash`] you must check that the amount in the `PaymentReceived`
 	 * event matches your expectation. If you fail to do so and call this method, you may provide
 	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
-	 * Returns whether any HTLCs were claimed, and thus if any new [`MessageSendEvent`]s are now
-	 * pending for processing via [`get_and_clear_pending_msg_events`].
-	 * 
 	 * [`Event::PaymentReceived`]: crate::util::events::Event::PaymentReceived
+	 * [`Event::PaymentClaimed`]: crate::util::events::Event::PaymentClaimed
+	 * [`process_pending_events`]: EventsProvider::process_pending_events
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */
-	public boolean claim_funds(byte[] payment_preimage) {
-		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
+	public void claim_funds(byte[] payment_preimage) {
+		bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_preimage);
-		return ret;
 	}
 
 	/**
@@ -532,22 +547,59 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Called to accept a request to open a channel after [`Event::OpenChannelRequest`] has been
-	 * triggered.
+	 * Accepts a request to open a channel after a [`Event::OpenChannelRequest`].
 	 * 
-	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted.
+	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted,
+	 * and the `counterparty_node_id` parameter is the id of the peer which has requested to open
+	 * the channel.
 	 * 
-	 * For inbound channels, the `user_channel_id` parameter will be provided back in
+	 * The `user_channel_id` parameter will be provided back in
 	 * [`Event::ChannelClosed::user_channel_id`] to allow tracking of which events correspond
-	 * with which `accept_inbound_channel` call.
+	 * with which `accept_inbound_channel`/`accept_inbound_channel_from_trusted_peer_0conf` call.
+	 * 
+	 * Note that this method will return an error and reject the channel, if it requires support
+	 * for zero confirmations. Instead, `accept_inbound_channel_from_trusted_peer_0conf` must be
+	 * used to accept such channels.
 	 * 
 	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
 	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
 	 */
-	public Result_NoneAPIErrorZ accept_inbound_channel(byte[] temporary_channel_id, long user_channel_id) {
-		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), user_channel_id);
+	public Result_NoneAPIErrorZ accept_inbound_channel(byte[] temporary_channel_id, byte[] counterparty_node_id, long user_channel_id) {
+		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(user_channel_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Accepts a request to open a channel after a [`events::Event::OpenChannelRequest`], treating
+	 * it as confirmed immediately.
+	 * 
+	 * The `user_channel_id` parameter will be provided back in
+	 * [`Event::ChannelClosed::user_channel_id`] to allow tracking of which events correspond
+	 * with which `accept_inbound_channel`/`accept_inbound_channel_from_trusted_peer_0conf` call.
+	 * 
+	 * Unlike [`ChannelManager::accept_inbound_channel`], this method accepts the incoming channel
+	 * and (if the counterparty agrees), enables forwarding of payments immediately.
+	 * 
+	 * This fully trusts that the counterparty has honestly and correctly constructed the funding
+	 * transaction and blindly assumes that it will eventually confirm.
+	 * 
+	 * If it does not confirm before we decide to close the channel, or if the funding transaction
+	 * does not pay to the correct script the correct amount, *you will lose funds*.
+	 * 
+	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
+	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
+	 */
+	public Result_NoneAPIErrorZ accept_inbound_channel_from_trusted_peer_0conf(byte[] temporary_channel_id, byte[] counterparty_node_id, long user_channel_id) {
+		long ret = bindings.ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -728,7 +780,7 @@ public class ChannelManager extends CommonBase {
 		long ret = bindings.ChannelManager_get_phantom_route_hints(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PhantomRouteHints(null, ret); }
+		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -818,7 +870,7 @@ public class ChannelManager extends CommonBase {
 		long ret = bindings.ChannelManager_current_best_block(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
+		org.ldk.structs.BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

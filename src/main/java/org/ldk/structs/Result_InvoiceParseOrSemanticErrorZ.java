@@ -25,7 +25,7 @@ public class Result_InvoiceParseOrSemanticErrorZ extends CommonBase {
 		private Result_InvoiceParseOrSemanticErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_InvoiceParseOrSemanticErrorZ_get_ok(ptr);
-			Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Invoice(null, res); }
+			org.ldk.structs.Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.Invoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

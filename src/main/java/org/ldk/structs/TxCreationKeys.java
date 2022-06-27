@@ -135,7 +135,7 @@ public class TxCreationKeys extends CommonBase {
 		Reference.reachabilityFence(countersignatory_htlc_key_arg);
 		Reference.reachabilityFence(broadcaster_delayed_payment_key_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TxCreationKeys(null, ret); }
+		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -153,7 +153,7 @@ public class TxCreationKeys extends CommonBase {
 		long ret = bindings.TxCreationKeys_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TxCreationKeys(null, ret); }
+		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

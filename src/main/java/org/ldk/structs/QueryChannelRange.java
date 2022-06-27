@@ -86,7 +86,7 @@ public class QueryChannelRange extends CommonBase {
 		Reference.reachabilityFence(first_blocknum_arg);
 		Reference.reachabilityFence(number_of_blocks_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		QueryChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryChannelRange(null, ret); }
+		org.ldk.structs.QueryChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.QueryChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -104,7 +104,7 @@ public class QueryChannelRange extends CommonBase {
 		long ret = bindings.QueryChannelRange_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		QueryChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryChannelRange(null, ret); }
+		org.ldk.structs.QueryChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.QueryChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

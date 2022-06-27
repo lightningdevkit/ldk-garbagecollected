@@ -46,9 +46,9 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_funding_signed(byte[] their_node_id, FundingSigned msg);
 		/**
-		 * Handle an incoming funding_locked message from the given peer.
+		 * Handle an incoming channel_ready message from the given peer.
 		 */
-		void handle_funding_locked(byte[] their_node_id, FundingLocked msg);
+		void handle_channel_ready(byte[] their_node_id, ChannelReady msg);
 		/**
 		 * Handle an incoming shutdown message from the given peer.
 		 */
@@ -118,82 +118,82 @@ public class ChannelMessageHandler extends CommonBase {
 		final LDKChannelMessageHandlerHolder impl_holder = new LDKChannelMessageHandlerHolder();
 		impl_holder.held = new ChannelMessageHandler(new bindings.LDKChannelMessageHandler() {
 			@Override public void handle_open_channel(byte[] their_node_id, long their_features, long msg) {
-				InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new InitFeatures(null, their_features); }
+				org.ldk.structs.InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new org.ldk.structs.InitFeatures(null, their_features); }
 				their_features_hu_conv.ptrs_to.add(this);
-				OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new OpenChannel(null, msg); }
+				org.ldk.structs.OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannel(null, msg); }
 				arg.handle_open_channel(their_node_id, their_features_hu_conv, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_accept_channel(byte[] their_node_id, long their_features, long msg) {
-				InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new InitFeatures(null, their_features); }
+				org.ldk.structs.InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new org.ldk.structs.InitFeatures(null, their_features); }
 				their_features_hu_conv.ptrs_to.add(this);
-				AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new AcceptChannel(null, msg); }
+				org.ldk.structs.AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannel(null, msg); }
 				arg.handle_accept_channel(their_node_id, their_features_hu_conv, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_funding_created(byte[] their_node_id, long msg) {
-				FundingCreated msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingCreated(null, msg); }
+				org.ldk.structs.FundingCreated msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingCreated(null, msg); }
 				arg.handle_funding_created(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_funding_signed(byte[] their_node_id, long msg) {
-				FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingSigned(null, msg); }
+				org.ldk.structs.FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingSigned(null, msg); }
 				arg.handle_funding_signed(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void handle_funding_locked(byte[] their_node_id, long msg) {
-				FundingLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingLocked(null, msg); }
-				arg.handle_funding_locked(their_node_id, msg_hu_conv);
+			@Override public void handle_channel_ready(byte[] their_node_id, long msg) {
+				org.ldk.structs.ChannelReady msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReady(null, msg); }
+				arg.handle_channel_ready(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_shutdown(byte[] their_node_id, long their_features, long msg) {
-				InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new InitFeatures(null, their_features); }
-				Shutdown msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new Shutdown(null, msg); }
+				org.ldk.structs.InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new org.ldk.structs.InitFeatures(null, their_features); }
+				org.ldk.structs.Shutdown msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Shutdown(null, msg); }
 				arg.handle_shutdown(their_node_id, their_features_hu_conv, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_closing_signed(byte[] their_node_id, long msg) {
-				ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ClosingSigned(null, msg); }
+				org.ldk.structs.ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ClosingSigned(null, msg); }
 				arg.handle_closing_signed(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_add_htlc(byte[] their_node_id, long msg) {
-				UpdateAddHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UpdateAddHTLC(null, msg); }
+				org.ldk.structs.UpdateAddHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateAddHTLC(null, msg); }
 				arg.handle_update_add_htlc(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_fulfill_htlc(byte[] their_node_id, long msg) {
-				UpdateFulfillHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UpdateFulfillHTLC(null, msg); }
+				org.ldk.structs.UpdateFulfillHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, msg); }
 				arg.handle_update_fulfill_htlc(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_fail_htlc(byte[] their_node_id, long msg) {
-				UpdateFailHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UpdateFailHTLC(null, msg); }
+				org.ldk.structs.UpdateFailHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateFailHTLC(null, msg); }
 				arg.handle_update_fail_htlc(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_fail_malformed_htlc(byte[] their_node_id, long msg) {
-				UpdateFailMalformedHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UpdateFailMalformedHTLC(null, msg); }
+				org.ldk.structs.UpdateFailMalformedHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateFailMalformedHTLC(null, msg); }
 				arg.handle_update_fail_malformed_htlc(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_commitment_signed(byte[] their_node_id, long msg) {
-				CommitmentSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new CommitmentSigned(null, msg); }
+				org.ldk.structs.CommitmentSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.CommitmentSigned(null, msg); }
 				arg.handle_commitment_signed(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_revoke_and_ack(byte[] their_node_id, long msg) {
-				RevokeAndACK msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new RevokeAndACK(null, msg); }
+				org.ldk.structs.RevokeAndACK msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.RevokeAndACK(null, msg); }
 				arg.handle_revoke_and_ack(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_fee(byte[] their_node_id, long msg) {
-				UpdateFee msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UpdateFee(null, msg); }
+				org.ldk.structs.UpdateFee msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateFee(null, msg); }
 				arg.handle_update_fee(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_announcement_signatures(byte[] their_node_id, long msg) {
-				AnnouncementSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new AnnouncementSignatures(null, msg); }
+				org.ldk.structs.AnnouncementSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, msg); }
 				arg.handle_announcement_signatures(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
@@ -202,22 +202,22 @@ public class ChannelMessageHandler extends CommonBase {
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void peer_connected(byte[] their_node_id, long msg) {
-				Init msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new Init(null, msg); }
+				org.ldk.structs.Init msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Init(null, msg); }
 				arg.peer_connected(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_channel_reestablish(byte[] their_node_id, long msg) {
-				ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelReestablish(null, msg); }
+				org.ldk.structs.ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReestablish(null, msg); }
 				arg.handle_channel_reestablish(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_channel_update(byte[] their_node_id, long msg) {
-				ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
+				org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
 				arg.handle_channel_update(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_error(byte[] their_node_id, long msg) {
-				ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ErrorMessage(null, msg); }
+				org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
 				arg.handle_error(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
@@ -281,10 +281,10 @@ public class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming funding_locked message from the given peer.
+	 * Handle an incoming channel_ready message from the given peer.
 	 */
-	public void handle_funding_locked(byte[] their_node_id, FundingLocked msg) {
-		bindings.ChannelMessageHandler_handle_funding_locked(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+	public void handle_channel_ready(byte[] their_node_id, ChannelReady msg) {
+		bindings.ChannelMessageHandler_handle_channel_ready(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);

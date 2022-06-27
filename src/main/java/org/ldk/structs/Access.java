@@ -31,7 +31,7 @@ public class Access extends CommonBase {
 		 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
 		 * is unknown.
 		 * 
-		 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+		 * [`short_channel_id`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 		 */
 		Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
@@ -53,7 +53,7 @@ public class Access extends CommonBase {
 	 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
 	 * is unknown.
 	 * 
-	 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+	 * [`short_channel_id`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 	 */
 	public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
 		long ret = bindings.Access_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);

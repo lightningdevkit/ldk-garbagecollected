@@ -85,7 +85,7 @@ public class GossipTimestampFilter extends CommonBase {
 		Reference.reachabilityFence(first_timestamp_arg);
 		Reference.reachabilityFence(timestamp_range_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new GossipTimestampFilter(null, ret); }
+		org.ldk.structs.GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.GossipTimestampFilter(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -103,7 +103,7 @@ public class GossipTimestampFilter extends CommonBase {
 		long ret = bindings.GossipTimestampFilter_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new GossipTimestampFilter(null, ret); }
+		org.ldk.structs.GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.GossipTimestampFilter(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

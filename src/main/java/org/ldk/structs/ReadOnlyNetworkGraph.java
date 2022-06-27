@@ -12,11 +12,9 @@ import javax.annotation.Nullable;
  * A read-only view of [`NetworkGraph`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
-public class ReadOnlyNetworkGraph extends CommonBase {
+public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 	ReadOnlyNetworkGraph(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
+	@Override public void close() {
 		if (ptr != 0) { bindings.ReadOnlyNetworkGraph_free(ptr); }
 	}
 

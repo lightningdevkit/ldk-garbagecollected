@@ -23,7 +23,7 @@ public class InvalidShutdownScript extends CommonBase {
 	/**
 	 * The script that did not meet the requirements from [BOLT #2].
 	 * 
-	 * [BOLT #2]: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md
+	 * [BOLT #2]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md
 	 */
 	public byte[] get_script() {
 		byte[] ret = bindings.InvalidShutdownScript_get_script(this.ptr);
@@ -34,7 +34,7 @@ public class InvalidShutdownScript extends CommonBase {
 	/**
 	 * The script that did not meet the requirements from [BOLT #2].
 	 * 
-	 * [BOLT #2]: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md
+	 * [BOLT #2]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md
 	 */
 	public void set_script(byte[] val) {
 		bindings.InvalidShutdownScript_set_script(this.ptr, val);
@@ -49,7 +49,7 @@ public class InvalidShutdownScript extends CommonBase {
 		long ret = bindings.InvalidShutdownScript_new(script_arg);
 		Reference.reachabilityFence(script_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
+		org.ldk.structs.InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class InvalidShutdownScript extends CommonBase {
 		long ret = bindings.InvalidShutdownScript_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
+		org.ldk.structs.InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

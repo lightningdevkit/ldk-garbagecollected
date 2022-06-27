@@ -51,7 +51,7 @@ public class ChainParameters extends CommonBase {
 		long ret = bindings.ChainParameters_get_best_block(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
+		org.ldk.structs.BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -75,7 +75,7 @@ public class ChainParameters extends CommonBase {
 		Reference.reachabilityFence(network_arg);
 		Reference.reachabilityFence(best_block_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChainParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainParameters(null, ret); }
+		org.ldk.structs.ChainParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChainParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -93,7 +93,7 @@ public class ChainParameters extends CommonBase {
 		long ret = bindings.ChainParameters_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChainParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainParameters(null, ret); }
+		org.ldk.structs.ChainParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChainParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

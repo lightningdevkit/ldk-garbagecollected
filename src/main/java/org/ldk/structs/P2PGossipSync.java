@@ -19,25 +19,12 @@ import javax.annotation.Nullable;
  * [`NetworkGraph`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
-public class NetGraphMsgHandler extends CommonBase {
-	NetGraphMsgHandler(Object _dummy, long ptr) { super(ptr); }
+public class P2PGossipSync extends CommonBase {
+	P2PGossipSync(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		if (ptr != 0) { bindings.NetGraphMsgHandler_free(ptr); }
-	}
-
-	/**
-	 * Constructs a new EventHandler which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
-	 */
-	public EventHandler as_EventHandler() {
-		long ret = bindings.NetGraphMsgHandler_as_EventHandler(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		EventHandler ret_hu_conv = new EventHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
+		if (ptr != 0) { bindings.P2PGossipSync_free(ptr); }
 	}
 
 	/**
@@ -47,13 +34,13 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * channel data is correct, and that the announcement is signed with
 	 * channel owners' keys.
 	 */
-	public static NetGraphMsgHandler of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
-		long ret = bindings.NetGraphMsgHandler_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
+	public static P2PGossipSync of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
+		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(chain_access);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetGraphMsgHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetGraphMsgHandler(null, ret); }
+		org.ldk.structs.P2PGossipSync ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.P2PGossipSync(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(chain_access);
@@ -67,7 +54,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * Add, update or remove the provider would replace the current one.
 	 */
 	public void add_chain_access(Option_AccessZ chain_access) {
-		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
+		bindings.P2PGossipSync_add_chain_access(this.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(chain_access);
 		this.ptrs_to.add(chain_access);
@@ -78,7 +65,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned RoutingMessageHandler must be freed before this_arg is
 	 */
 	public RoutingMessageHandler as_RoutingMessageHandler() {
-		long ret = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(this.ptr);
+		long ret = bindings.P2PGossipSync_as_RoutingMessageHandler(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
@@ -91,7 +78,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
-		long ret = bindings.NetGraphMsgHandler_as_MessageSendEventsProvider(this.ptr);
+		long ret = bindings.P2PGossipSync_as_MessageSendEventsProvider(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);

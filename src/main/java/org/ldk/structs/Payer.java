@@ -69,21 +69,21 @@ public class Payer extends CommonBase {
 				return result;
 			}
 			@Override public long send_payment(long route, byte[] payment_hash, byte[] payment_secret) {
-				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
+				org.ldk.structs.Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new org.ldk.structs.Route(null, route); }
 				Result_PaymentIdPaymentSendFailureZ ret = arg.send_payment(route_hu_conv, payment_hash, payment_secret);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long send_spontaneous_payment(long route, byte[] payment_preimage) {
-				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
+				org.ldk.structs.Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new org.ldk.structs.Route(null, route); }
 				Result_PaymentIdPaymentSendFailureZ ret = arg.send_spontaneous_payment(route_hu_conv, payment_preimage);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long retry_payment(long route, byte[] payment_id) {
-				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
+				org.ldk.structs.Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new org.ldk.structs.Route(null, route); }
 				Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -115,7 +115,7 @@ public class Payer extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}

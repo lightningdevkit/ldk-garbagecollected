@@ -85,7 +85,7 @@ public class ClosingSigned extends CommonBase {
 		long ret = bindings.ClosingSigned_get_fee_range(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSignedFeeRange(null, ret); }
+		org.ldk.structs.ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingSignedFeeRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -112,7 +112,7 @@ public class ClosingSigned extends CommonBase {
 		Reference.reachabilityFence(signature_arg);
 		Reference.reachabilityFence(fee_range_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSigned(null, ret); }
+		org.ldk.structs.ClosingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -130,7 +130,7 @@ public class ClosingSigned extends CommonBase {
 		long ret = bindings.ClosingSigned_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSigned(null, ret); }
+		org.ldk.structs.ClosingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

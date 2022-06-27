@@ -55,7 +55,7 @@ public class ErrorAction extends CommonBase {
 		private DisconnectPeer(long ptr, bindings.LDKErrorAction.DisconnectPeer obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ErrorMessage(null, msg); }
+			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -100,7 +100,7 @@ public class ErrorAction extends CommonBase {
 		private SendErrorMessage(long ptr, bindings.LDKErrorAction.SendErrorMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ErrorMessage(null, msg); }
+			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -122,7 +122,7 @@ public class ErrorAction extends CommonBase {
 		private SendWarningMessage(long ptr, bindings.LDKErrorAction.SendWarningMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new WarningMessage(null, msg); }
+			org.ldk.structs.WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.WarningMessage(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 			this.log_level = obj.log_level;

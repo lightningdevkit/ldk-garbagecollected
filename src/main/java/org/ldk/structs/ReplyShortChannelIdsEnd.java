@@ -69,7 +69,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		Reference.reachabilityFence(chain_hash_arg);
 		Reference.reachabilityFence(full_information_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ReplyShortChannelIdsEnd ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret); }
+		org.ldk.structs.ReplyShortChannelIdsEnd ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReplyShortChannelIdsEnd(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -87,7 +87,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		long ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ReplyShortChannelIdsEnd ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret); }
+		org.ldk.structs.ReplyShortChannelIdsEnd ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReplyShortChannelIdsEnd(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

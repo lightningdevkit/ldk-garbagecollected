@@ -44,7 +44,7 @@ public class MonitorEvent extends CommonBase {
 		private HTLCEvent(long ptr, bindings.LDKMonitorEvent.HTLCEvent obj) {
 			super(null, ptr);
 			long htlc_event = obj.htlc_event;
-			HTLCUpdate htlc_event_hu_conv = null; if (htlc_event < 0 || htlc_event > 4096) { htlc_event_hu_conv = new HTLCUpdate(null, htlc_event); }
+			org.ldk.structs.HTLCUpdate htlc_event_hu_conv = null; if (htlc_event < 0 || htlc_event > 4096) { htlc_event_hu_conv = new org.ldk.structs.HTLCUpdate(null, htlc_event); }
 			htlc_event_hu_conv.ptrs_to.add(this);
 			this.htlc_event = htlc_event_hu_conv;
 		}
@@ -57,7 +57,7 @@ public class MonitorEvent extends CommonBase {
 		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
 			super(null, ptr);
 			long commitment_tx_confirmed = obj.commitment_tx_confirmed;
-			OutPoint commitment_tx_confirmed_hu_conv = null; if (commitment_tx_confirmed < 0 || commitment_tx_confirmed > 4096) { commitment_tx_confirmed_hu_conv = new OutPoint(null, commitment_tx_confirmed); }
+			org.ldk.structs.OutPoint commitment_tx_confirmed_hu_conv = null; if (commitment_tx_confirmed < 0 || commitment_tx_confirmed > 4096) { commitment_tx_confirmed_hu_conv = new org.ldk.structs.OutPoint(null, commitment_tx_confirmed); }
 			commitment_tx_confirmed_hu_conv.ptrs_to.add(this);
 			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 		}
@@ -84,7 +84,7 @@ public class MonitorEvent extends CommonBase {
 		private UpdateCompleted(long ptr, bindings.LDKMonitorEvent.UpdateCompleted obj) {
 			super(null, ptr);
 			long funding_txo = obj.funding_txo;
-			OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new OutPoint(null, funding_txo); }
+			org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 			funding_txo_hu_conv.ptrs_to.add(this);
 			this.funding_txo = funding_txo_hu_conv;
 			this.monitor_update_id = obj.monitor_update_id;
@@ -101,7 +101,7 @@ public class MonitorEvent extends CommonBase {
 		private UpdateFailed(long ptr, bindings.LDKMonitorEvent.UpdateFailed obj) {
 			super(null, ptr);
 			long update_failed = obj.update_failed;
-			OutPoint update_failed_hu_conv = null; if (update_failed < 0 || update_failed > 4096) { update_failed_hu_conv = new OutPoint(null, update_failed); }
+			org.ldk.structs.OutPoint update_failed_hu_conv = null; if (update_failed < 0 || update_failed > 4096) { update_failed_hu_conv = new org.ldk.structs.OutPoint(null, update_failed); }
 			update_failed_hu_conv.ptrs_to.add(this);
 			this.update_failed = update_failed_hu_conv;
 		}

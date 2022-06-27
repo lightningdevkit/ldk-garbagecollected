@@ -32,7 +32,7 @@ public class PhantomRouteHints extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -95,7 +95,7 @@ public class PhantomRouteHints extends CommonBase {
 		Reference.reachabilityFence(phantom_scid_arg);
 		Reference.reachabilityFence(real_node_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PhantomRouteHints(null, ret); }
+		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -113,7 +113,7 @@ public class PhantomRouteHints extends CommonBase {
 		long ret = bindings.PhantomRouteHints_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PhantomRouteHints(null, ret); }
+		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

@@ -52,7 +52,7 @@ public class PeerManager extends CommonBase {
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(custom_message_handler);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PeerManager(null, ret); }
+		org.ldk.structs.PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg);
 		ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg);
@@ -192,6 +192,10 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * You don't have to call this function explicitly if you are using [`lightning-net-tokio`]
 	 * or one of the other clients provided in our language bindings.
+	 * 
+	 * Note that if there are any other calls to this function waiting on lock(s) this may return
+	 * without doing any work. All available events that need handling will be handled before the
+	 * other calls return.
 	 * 
 	 * [`send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards

@@ -33,7 +33,7 @@ public class Result_boolLightningErrorZ extends CommonBase {
 		private Result_boolLightningErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_boolLightningErrorZ_get_err(ptr);
-			LightningError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new LightningError(null, err); }
+			org.ldk.structs.LightningError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.LightningError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

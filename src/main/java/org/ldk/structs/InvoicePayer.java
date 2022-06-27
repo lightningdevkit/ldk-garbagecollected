@@ -28,18 +28,18 @@ public class InvoicePayer extends CommonBase {
 	 * Creates an invoice payer that retries failed payment paths.
 	 * 
 	 * Will forward any [`Event::PaymentPathFailed`] events to the decorated `event_handler` once
-	 * `retry_attempts` has been exceeded for a given [`Invoice`].
+	 * `retry` has been exceeded for a given [`Invoice`].
 	 */
-	public static InvoicePayer of(Payer payer, Router router, MultiThreadedLockableScore scorer, Logger logger, EventHandler event_handler, RetryAttempts retry_attempts) {
-		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr & ~1, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry_attempts == null ? 0 : retry_attempts.ptr & ~1);
+	public static InvoicePayer of(Payer payer, Router router, MultiThreadedLockableScore scorer, Logger logger, EventHandler event_handler, Retry retry) {
+		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr & ~1, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
 		Reference.reachabilityFence(payer);
 		Reference.reachabilityFence(router);
 		Reference.reachabilityFence(scorer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(event_handler);
-		Reference.reachabilityFence(retry_attempts);
+		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoicePayer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoicePayer(null, ret); }
+		org.ldk.structs.InvoicePayer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoicePayer(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(payer);
 		ret_hu_conv.ptrs_to.add(router);

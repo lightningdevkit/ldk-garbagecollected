@@ -66,7 +66,7 @@ public class PhantomKeysManager extends CommonBase {
 		Reference.reachabilityFence(starting_time_nanos);
 		Reference.reachabilityFence(cross_node_seed);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PhantomKeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PhantomKeysManager(null, ret); }
+		org.ldk.structs.PhantomKeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomKeysManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -95,7 +95,7 @@ public class PhantomKeysManager extends CommonBase {
 		Reference.reachabilityFence(channel_value_satoshis);
 		Reference.reachabilityFence(params);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
+		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

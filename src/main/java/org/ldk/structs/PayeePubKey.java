@@ -39,7 +39,7 @@ public class PayeePubKey extends CommonBase {
 		long ret = bindings.PayeePubKey_new(InternalUtils.check_arr_len(a_arg, 33));
 		Reference.reachabilityFence(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PayeePubKey(null, ret); }
+		org.ldk.structs.PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PayeePubKey(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -57,7 +57,7 @@ public class PayeePubKey extends CommonBase {
 		long ret = bindings.PayeePubKey_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PayeePubKey(null, ret); }
+		org.ldk.structs.PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PayeePubKey(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

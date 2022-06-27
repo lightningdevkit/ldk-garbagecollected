@@ -36,7 +36,7 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_get_b(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelManager(null, ret); }
+		org.ldk.structs.ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

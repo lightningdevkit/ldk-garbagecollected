@@ -37,7 +37,7 @@ public class ClosingTransaction extends CommonBase {
 		long ret = bindings.ClosingTransaction_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingTransaction(null, ret); }
+		org.ldk.structs.ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -65,7 +65,7 @@ public class ClosingTransaction extends CommonBase {
 		Reference.reachabilityFence(to_counterparty_script);
 		Reference.reachabilityFence(funding_outpoint);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingTransaction(null, ret); }
+		org.ldk.structs.ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -82,7 +82,7 @@ public class ClosingTransaction extends CommonBase {
 		long ret = bindings.ClosingTransaction_trust(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TrustedClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TrustedClosingTransaction(null, ret); }
+		org.ldk.structs.TrustedClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TrustedClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

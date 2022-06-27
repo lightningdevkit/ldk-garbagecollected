@@ -25,7 +25,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 		private Result_DescriptionCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_DescriptionCreationErrorZ_get_ok(ptr);
-			Description res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Description(null, res); }
+			org.ldk.structs.Description res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.Description(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

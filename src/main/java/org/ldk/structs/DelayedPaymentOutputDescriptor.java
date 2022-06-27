@@ -28,7 +28,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 		long ret = bindings.DelayedPaymentOutputDescriptor_get_outpoint(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
+		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -162,7 +162,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(channel_keys_id_arg);
 		Reference.reachabilityFence(channel_value_satoshis_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret); }
+		org.ldk.structs.DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentOutputDescriptor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -180,7 +180,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 		long ret = bindings.DelayedPaymentOutputDescriptor_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret); }
+		org.ldk.structs.DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentOutputDescriptor(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

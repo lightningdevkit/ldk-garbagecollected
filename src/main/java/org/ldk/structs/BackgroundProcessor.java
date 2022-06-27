@@ -18,8 +18,8 @@ import javax.annotation.Nullable;
  * [`ChannelManager`] persistence should be done in the background.
  * Calling [`ChannelManager::timer_tick_occurred`] and [`PeerManager::timer_tick_occurred`]
  * at the appropriate intervals.
- * Calling [`NetworkGraph::remove_stale_channels`] (if a [`NetGraphMsgHandler`] is provided to
- * [`BackgroundProcessor::start`]).
+ * Calling [`NetworkGraph::remove_stale_channels`] (if a [`GossipSync`] with a [`NetworkGraph`]
+ * is provided to [`BackgroundProcessor::start`]).
  * 
  * It will also call [`PeerManager::process_events`] periodically though this shouldn't be relied
  * upon as doing so may result in high latency.
@@ -56,12 +56,12 @@ public class BackgroundProcessor extends CommonBase {
 	 * 
 	 * [`Persister::persist_manager`] is responsible for writing out the [`ChannelManager`] to disk, and/or
 	 * uploading to one or more backup services. See [`ChannelManager::write`] for writing out a
-	 * [`ChannelManager`]. See [`FilesystemPersister::persist_manager`] for Rust-Lightning's
+	 * [`ChannelManager`]. See the `lightning-persister` crate for LDK's
 	 * provided implementation.
 	 * 
-	 * [`Persister::persist_graph`] is responsible for writing out the [`NetworkGraph`] to disk. See
-	 * [`NetworkGraph::write`] for writing out a [`NetworkGraph`]. See [`FilesystemPersister::persist_network_graph`]
-	 * for Rust-Lightning's provided implementation.
+	 * [`Persister::persist_graph`] is responsible for writing out the [`NetworkGraph`] to disk, if
+	 * [`GossipSync`] is supplied. See [`NetworkGraph::write`] for writing out a [`NetworkGraph`].
+	 * See the `lightning-persister` crate for LDK's provided implementation.
 	 * 
 	 * Typically, users should either implement [`Persister::persist_manager`] to never return an
 	 * error or call [`join`] and handle any error that may arise. For the latter case,
@@ -72,39 +72,46 @@ public class BackgroundProcessor extends CommonBase {
 	 * `event_handler` is responsible for handling events that users should be notified of (e.g.,
 	 * payment failed). [`BackgroundProcessor`] may decorate the given [`EventHandler`] with common
 	 * functionality implemented by other handlers.
-	 * [`NetGraphMsgHandler`] if given will update the [`NetworkGraph`] based on payment failures.
+	 * [`P2PGossipSync`] if given will update the [`NetworkGraph`] based on payment failures.
+	 * 
+	 * # Rapid Gossip Sync
+	 * 
+	 * If rapid gossip sync is meant to run at startup, pass a [`RapidGossipSync`] to `gossip_sync`
+	 * to indicate that the [`BackgroundProcessor`] should not prune the [`NetworkGraph`] instance
+	 * until the [`RapidGossipSync`] instance completes its first sync.
 	 * 
 	 * [top-level documentation]: BackgroundProcessor
 	 * [`join`]: Self::join
 	 * [`stop`]: Self::stop
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 * [`ChannelManager::write`]: lightning::ln::channelmanager::ChannelManager#impl-Writeable
-	 * [`FilesystemPersister::persist_manager`]: lightning_persister::FilesystemPersister::persist_manager
-	 * [`FilesystemPersister::persist_network_graph`]: lightning_persister::FilesystemPersister::persist_network_graph
-	 * [`NetworkGraph`]: lightning::routing::network_graph::NetworkGraph
-	 * [`NetworkGraph::write`]: lightning::routing::network_graph::NetworkGraph#impl-Writeable
+	 * [`Persister::persist_manager`]: lightning::util::persist::Persister::persist_manager
+	 * [`Persister::persist_graph`]: lightning::util::persist::Persister::persist_graph
+	 * [`NetworkGraph`]: lightning::routing::gossip::NetworkGraph
+	 * [`NetworkGraph::write`]: lightning::routing::gossip::NetworkGraph#impl-Writeable
 	 * 
-	 * Note that net_graph_msg_handler (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that scorer (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, @Nullable NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
-		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr & ~1, channel_manager == null ? 0 : channel_manager.ptr & ~1, net_graph_msg_handler == null ? 0 : net_graph_msg_handler.ptr & ~1, peer_manager == null ? 0 : peer_manager.ptr & ~1, logger == null ? 0 : logger.ptr);
+	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, GossipSync gossip_sync, PeerManager peer_manager, Logger logger, @Nullable MultiThreadedLockableScore scorer) {
+		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr & ~1, channel_manager == null ? 0 : channel_manager.ptr & ~1, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr & ~1, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr & ~1);
 		Reference.reachabilityFence(persister);
 		Reference.reachabilityFence(event_handler);
 		Reference.reachabilityFence(chain_monitor);
 		Reference.reachabilityFence(channel_manager);
-		Reference.reachabilityFence(net_graph_msg_handler);
+		Reference.reachabilityFence(gossip_sync);
 		Reference.reachabilityFence(peer_manager);
 		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BackgroundProcessor(null, ret); }
+		org.ldk.structs.BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BackgroundProcessor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(persister);
 		ret_hu_conv.ptrs_to.add(event_handler);
 		ret_hu_conv.ptrs_to.add(chain_monitor);
 		ret_hu_conv.ptrs_to.add(channel_manager);
-		ret_hu_conv.ptrs_to.add(net_graph_msg_handler);
 		ret_hu_conv.ptrs_to.add(peer_manager);
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(scorer);
 		return ret_hu_conv;
 	}
 

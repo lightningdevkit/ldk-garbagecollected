@@ -35,8 +35,8 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendFundingSigned.class) {
 			return new SendFundingSigned(ptr, (bindings.LDKMessageSendEvent.SendFundingSigned)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendFundingLocked.class) {
-			return new SendFundingLocked(ptr, (bindings.LDKMessageSendEvent.SendFundingLocked)raw_val);
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelReady.class) {
+			return new SendChannelReady(ptr, (bindings.LDKMessageSendEvent.SendChannelReady)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendAnnouncementSignatures.class) {
 			return new SendAnnouncementSignatures(ptr, (bindings.LDKMessageSendEvent.SendAnnouncementSignatures)raw_val);
@@ -103,7 +103,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new AcceptChannel(null, msg); }
+			org.ldk.structs.AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannel(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -125,7 +125,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new OpenChannel(null, msg); }
+			org.ldk.structs.OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannel(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -146,7 +146,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			FundingCreated msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingCreated(null, msg); }
+			org.ldk.structs.FundingCreated msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingCreated(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -167,28 +167,28 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingSigned(null, msg); }
+			org.ldk.structs.FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingSigned(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
 	/**
-	 * Used to indicate that a funding_locked message should be sent to the peer with the given node_id.
+	 * Used to indicate that a channel_ready message should be sent to the peer with the given node_id.
 	 */
-	public final static class SendFundingLocked extends MessageSendEvent {
+	public final static class SendChannelReady extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive these message(s)
 		*/
 		public final byte[] node_id;
 		/**
-		 * The funding_locked message which should be sent.
+		 * The channel_ready message which should be sent.
 		*/
-		public final org.ldk.structs.FundingLocked msg;
-		private SendFundingLocked(long ptr, bindings.LDKMessageSendEvent.SendFundingLocked obj) {
+		public final org.ldk.structs.ChannelReady msg;
+		private SendChannelReady(long ptr, bindings.LDKMessageSendEvent.SendChannelReady obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			FundingLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new FundingLocked(null, msg); }
+			org.ldk.structs.ChannelReady msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReady(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -209,7 +209,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			AnnouncementSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new AnnouncementSignatures(null, msg); }
+			org.ldk.structs.AnnouncementSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -231,7 +231,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long updates = obj.updates;
-			CommitmentUpdate updates_hu_conv = null; if (updates < 0 || updates > 4096) { updates_hu_conv = new CommitmentUpdate(null, updates); }
+			org.ldk.structs.CommitmentUpdate updates_hu_conv = null; if (updates < 0 || updates > 4096) { updates_hu_conv = new org.ldk.structs.CommitmentUpdate(null, updates); }
 			updates_hu_conv.ptrs_to.add(this);
 			this.updates = updates_hu_conv;
 		}
@@ -252,7 +252,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			RevokeAndACK msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new RevokeAndACK(null, msg); }
+			org.ldk.structs.RevokeAndACK msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.RevokeAndACK(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -273,7 +273,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ClosingSigned(null, msg); }
+			org.ldk.structs.ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ClosingSigned(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -294,7 +294,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			Shutdown msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new Shutdown(null, msg); }
+			org.ldk.structs.Shutdown msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Shutdown(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -315,7 +315,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelReestablish(null, msg); }
+			org.ldk.structs.ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReestablish(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -342,11 +342,11 @@ public class MessageSendEvent extends CommonBase {
 		private BroadcastChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelAnnouncement(null, msg); }
+			org.ldk.structs.ChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelAnnouncement(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 			long update_msg = obj.update_msg;
-			ChannelUpdate update_msg_hu_conv = null; if (update_msg < 0 || update_msg > 4096) { update_msg_hu_conv = new ChannelUpdate(null, update_msg); }
+			org.ldk.structs.ChannelUpdate update_msg_hu_conv = null; if (update_msg < 0 || update_msg > 4096) { update_msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, update_msg); }
 			update_msg_hu_conv.ptrs_to.add(this);
 			this.update_msg = update_msg_hu_conv;
 		}
@@ -362,7 +362,7 @@ public class MessageSendEvent extends CommonBase {
 		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new NodeAnnouncement(null, msg); }
+			org.ldk.structs.NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.NodeAnnouncement(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -378,7 +378,7 @@ public class MessageSendEvent extends CommonBase {
 		private BroadcastChannelUpdate(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelUpdate obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
+			org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -401,7 +401,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
+			org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -443,7 +443,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			QueryChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryChannelRange(null, msg); }
+			org.ldk.structs.QueryChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.QueryChannelRange(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -465,7 +465,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryShortChannelIds(null, msg); }
+			org.ldk.structs.QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.QueryShortChannelIds(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -487,7 +487,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyChannelRange(null, msg); }
+			org.ldk.structs.ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ReplyChannelRange(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -509,7 +509,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			GossipTimestampFilter msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new GossipTimestampFilter(null, msg); }
+			org.ldk.structs.GossipTimestampFilter msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.GossipTimestampFilter(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -585,10 +585,10 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new SendFundingLocked-variant MessageSendEvent
+	 * Utility method to constructs a new SendChannelReady-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_funding_locked(byte[] node_id, FundingLocked msg) {
-		long ret = bindings.MessageSendEvent_send_funding_locked(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+	public static MessageSendEvent send_channel_ready(byte[] node_id, ChannelReady msg) {
+		long ret = bindings.MessageSendEvent_send_channel_ready(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

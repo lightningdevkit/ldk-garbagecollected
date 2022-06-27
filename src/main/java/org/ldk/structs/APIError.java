@@ -133,7 +133,7 @@ public class APIError extends CommonBase {
 		private IncompatibleShutdownScript(long ptr, bindings.LDKAPIError.IncompatibleShutdownScript obj) {
 			super(null, ptr);
 			long script = obj.script;
-			ShutdownScript script_hu_conv = null; if (script < 0 || script > 4096) { script_hu_conv = new ShutdownScript(null, script); }
+			org.ldk.structs.ShutdownScript script_hu_conv = null; if (script < 0 || script > 4096) { script_hu_conv = new org.ldk.structs.ShutdownScript(null, script); }
 			script_hu_conv.ptrs_to.add(this);
 			this.script = script_hu_conv;
 		}

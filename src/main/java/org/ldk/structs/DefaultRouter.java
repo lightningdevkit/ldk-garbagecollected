@@ -30,7 +30,7 @@ public class DefaultRouter extends CommonBase {
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DefaultRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DefaultRouter(null, ret); }
+		org.ldk.structs.DefaultRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DefaultRouter(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);

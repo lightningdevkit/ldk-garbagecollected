@@ -25,7 +25,7 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 		private Result_TrustedClosingTransactionNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_TrustedClosingTransactionNoneZ_get_ok(ptr);
-			TrustedClosingTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TrustedClosingTransaction(null, res); }
+			org.ldk.structs.TrustedClosingTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.TrustedClosingTransaction(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

@@ -48,7 +48,7 @@ public class ChannelCounterparty extends CommonBase {
 		long ret = bindings.ChannelCounterparty_get_features(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InitFeatures(null, ret); }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -105,7 +105,7 @@ public class ChannelCounterparty extends CommonBase {
 		long ret = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		CounterpartyForwardingInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyForwardingInfo(null, ret); }
+		org.ldk.structs.CounterpartyForwardingInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CounterpartyForwardingInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -123,16 +123,64 @@ public class ChannelCounterparty extends CommonBase {
 	}
 
 	/**
+	 * The smallest value HTLC (in msat) the remote peer will accept, for this channel. This field
+	 * is only `None` before we have received either the `OpenChannel` or `AcceptChannel` message
+	 * from the remote peer, or for `ChannelCounterparty` objects serialized prior to LDK 0.0.107.
+	 */
+	public Option_u64Z get_outbound_htlc_minimum_msat() {
+		long ret = bindings.ChannelCounterparty_get_outbound_htlc_minimum_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The smallest value HTLC (in msat) the remote peer will accept, for this channel. This field
+	 * is only `None` before we have received either the `OpenChannel` or `AcceptChannel` message
+	 * from the remote peer, or for `ChannelCounterparty` objects serialized prior to LDK 0.0.107.
+	 */
+	public void set_outbound_htlc_minimum_msat(Option_u64Z val) {
+		bindings.ChannelCounterparty_set_outbound_htlc_minimum_msat(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The largest value HTLC (in msat) the remote peer currently will accept, for this channel.
+	 */
+	public Option_u64Z get_outbound_htlc_maximum_msat() {
+		long ret = bindings.ChannelCounterparty_get_outbound_htlc_maximum_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The largest value HTLC (in msat) the remote peer currently will accept, for this channel.
+	 */
+	public void set_outbound_htlc_maximum_msat(Option_u64Z val) {
+		bindings.ChannelCounterparty_set_outbound_htlc_maximum_msat(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelCounterparty given each field
 	 */
-	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
-		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg, Option_u64Z outbound_htlc_minimum_msat_arg, Option_u64Z outbound_htlc_maximum_msat_arg) {
+		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
 		Reference.reachabilityFence(node_id_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(unspendable_punishment_reserve_arg);
 		Reference.reachabilityFence(forwarding_info_arg);
+		Reference.reachabilityFence(outbound_htlc_minimum_msat_arg);
+		Reference.reachabilityFence(outbound_htlc_maximum_msat_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
+		org.ldk.structs.ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -150,7 +198,7 @@ public class ChannelCounterparty extends CommonBase {
 		long ret = bindings.ChannelCounterparty_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
+		org.ldk.structs.ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

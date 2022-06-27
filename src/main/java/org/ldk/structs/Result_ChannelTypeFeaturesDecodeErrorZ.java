@@ -25,7 +25,7 @@ public class Result_ChannelTypeFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelTypeFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(ptr);
-			ChannelTypeFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ChannelTypeFeatures(null, res); }
+			org.ldk.structs.ChannelTypeFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_ChannelTypeFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelTypeFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -71,6 +71,24 @@ public class Result_ChannelTypeFeaturesDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_ChannelTypeFeaturesDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_ChannelTypeFeaturesDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_ChannelTypeFeaturesDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ChannelTypeFeaturesDecodeErrorZ clone() {
+		long ret = bindings.CResult_ChannelTypeFeaturesDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelTypeFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelTypeFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

@@ -118,7 +118,7 @@ public class ReplyChannelRange extends CommonBase {
 		Reference.reachabilityFence(sync_complete_arg);
 		Reference.reachabilityFence(short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyChannelRange(null, ret); }
+		org.ldk.structs.ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReplyChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -136,7 +136,7 @@ public class ReplyChannelRange extends CommonBase {
 		long ret = bindings.ReplyChannelRange_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyChannelRange(null, ret); }
+		org.ldk.structs.ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReplyChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
