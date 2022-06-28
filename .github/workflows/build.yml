@@ -345,14 +345,14 @@ jobs:
         run: rustup target install aarch64-apple-darwin
       - name: Fetch upstream LLVM/clang snapshot
         run: |
-          wget -O clang+llvm-14.0.1-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.1/clang+llvm-14.0.1-x86_64-apple-darwin.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-14.0.1-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "43149390e95b1cdbf1d4ef2e9d214bbb6d35858ceb2df27245868e06bc4fc44c" ]; then
+          wget -O clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz
+          if [ "$(shasum -a 256 clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "66cf1b8e00289a567b2f5f740f068b7682e27ccf048647b836d3624376a64705" ]; then
             echo "Bad hash"
             exit 1
           fi
       - name: Unpack upstream LLVM+clang and use it by default
         run: |
-          tar xvvf clang+llvm-14.0.1-x86_64-apple-darwin.tar.xz
+          tar xvvf clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -373,7 +373,7 @@ jobs:
           git checkout 0.0.108
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
-          export PATH=`pwd`/clang+llvm-14.0.1-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-14.0.5-x86_64-apple-darwin/bin:$PATH
           cd ldk-c-bindings
           CC=clang ./genbindings.sh ../rust-lightning true
       - name: Fetch OpenJDK 18
@@ -412,7 +412,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-14.0.1-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-14.0.5-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
 
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
