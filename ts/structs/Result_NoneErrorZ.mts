@@ -5,6 +5,7 @@ import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
@@ -61,23 +62,18 @@ import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopD
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { LightningError } from '../structs/LightningError.mjs';
 import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
-import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
-import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
-import { OutPoint } from '../structs/OutPoint.mjs';
-import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
+import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
-import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
@@ -86,7 +82,7 @@ import { AcceptChannel } from '../structs/AcceptChannel.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
-import { FundingLocked } from '../structs/FundingLocked.mjs';
+import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
@@ -103,11 +99,17 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
+import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
+import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
+import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
+import { MonitorEvent } from '../structs/MonitorEvent.mjs';
+import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
-import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
-import { Scorer } from '../structs/Scorer.mjs';
-import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
+import { Record } from '../structs/Record.mjs';
+import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
@@ -120,6 +122,27 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
+import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
+import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
+import { Access, AccessInterface } from '../structs/Access.mjs';
+import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
+import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
+import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
+import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
+import { ChannelInfo } from '../structs/ChannelInfo.mjs';
+import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
+import { RoutingFees } from '../structs/RoutingFees.mjs';
+import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { NetAddress } from '../structs/NetAddress.mjs';
+import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
+import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeInfo } from '../structs/NodeInfo.mjs';
+import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
+import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
+import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
@@ -148,7 +171,6 @@ import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentId
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
-import { NetAddress } from '../structs/NetAddress.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZNoneZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.mjs';
@@ -168,8 +190,6 @@ import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
 import { KeysInterface, KeysInterfaceInterface } from '../structs/KeysInterface.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
-import { Record } from '../structs/Record.mjs';
-import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
@@ -214,32 +234,12 @@ import { TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ } from '../structs/TwoTuple_TxidC
 import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
-import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
-import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
-import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
-import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
-import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
-import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
-import { ChannelInfo } from '../structs/ChannelInfo.mjs';
-import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
-import { RoutingFees } from '../structs/RoutingFees.mjs';
-import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
-import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
-import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
-import { NodeInfo } from '../structs/NodeInfo.mjs';
-import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
-import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
-import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
@@ -255,7 +255,7 @@ import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { Result_CommitmentSignedDecodeErrorZ } from '../structs/Result_CommitmentSignedDecodeErrorZ.mjs';
 import { Result_FundingCreatedDecodeErrorZ } from '../structs/Result_FundingCreatedDecodeErrorZ.mjs';
 import { Result_FundingSignedDecodeErrorZ } from '../structs/Result_FundingSignedDecodeErrorZ.mjs';
-import { Result_FundingLockedDecodeErrorZ } from '../structs/Result_FundingLockedDecodeErrorZ.mjs';
+import { Result_ChannelReadyDecodeErrorZ } from '../structs/Result_ChannelReadyDecodeErrorZ.mjs';
 import { Init } from '../structs/Init.mjs';
 import { Result_InitDecodeErrorZ } from '../structs/Result_InitDecodeErrorZ.mjs';
 import { Result_OpenChannelDecodeErrorZ } from '../structs/Result_OpenChannelDecodeErrorZ.mjs';
@@ -297,6 +297,11 @@ import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChanne
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
+import { BigSize } from '../structs/BigSize.mjs';
+import { ChannelUsage } from '../structs/ChannelUsage.mjs';
+import { Score, ScoreInterface } from '../structs/Score.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { Persister, PersisterInterface } from '../structs/Persister.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -311,6 +316,7 @@ import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
+import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
@@ -322,12 +328,10 @@ import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDe
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
 import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
-import { NetGraphMsgHandler } from '../structs/NetGraphMsgHandler.mjs';
+import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -337,212 +341,81 @@ import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
 import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { RetryAttempts } from '../structs/RetryAttempts.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
+import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
-/**
- * Parameters for configuring [`Scorer`].
- */
-export class ScoringParameters extends CommonBase {
+
+export class Result_NoneErrorZ extends CommonBase {
+	protected constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.CResult_NoneErrorZ_free);
+	}
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.ScoringParameters_free);
+	public static constr_from_ptr(ptr: number): Result_NoneErrorZ {
+		if (bindings.CResult_NoneErrorZ_is_ok(ptr)) {
+			return new Result_NoneErrorZ_OK(null, ptr);
+		} else {
+			return new Result_NoneErrorZ_Err(null, ptr);
+		}
 	}
-
 	/**
-	 * A fixed penalty in msats to apply to each channel.
-	 * 
-	 * Default value: 500 msat
+	 * Creates a new CResult_NoneErrorZ in the success state.
 	 */
-	public get_base_penalty_msat(): bigint {
-		const ret: bigint = bindings.ScoringParameters_get_base_penalty_msat(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * A fixed penalty in msats to apply to each channel.
-	 * 
-	 * Default value: 500 msat
-	 */
-	public set_base_penalty_msat(val: bigint): void {
-		bindings.ScoringParameters_set_base_penalty_msat(this.ptr, val);
-	}
-
-	/**
-	 * A penalty in msats to apply to a channel upon failing to relay a payment.
-	 * 
-	 * This accumulates for each failure but may be reduced over time based on
-	 * [`failure_penalty_half_life`] or when successfully routing through a channel.
-	 * 
-	 * Default value: 1,024,000 msat
-	 * 
-	 * [`failure_penalty_half_life`]: Self::failure_penalty_half_life
-	 */
-	public get_failure_penalty_msat(): bigint {
-		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_msat(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * A penalty in msats to apply to a channel upon failing to relay a payment.
-	 * 
-	 * This accumulates for each failure but may be reduced over time based on
-	 * [`failure_penalty_half_life`] or when successfully routing through a channel.
-	 * 
-	 * Default value: 1,024,000 msat
-	 * 
-	 * [`failure_penalty_half_life`]: Self::failure_penalty_half_life
-	 */
-	public set_failure_penalty_msat(val: bigint): void {
-		bindings.ScoringParameters_set_failure_penalty_msat(this.ptr, val);
-	}
-
-	/**
-	 * When the amount being sent over a channel is this many 1024ths of the total channel
-	 * capacity, we begin applying [`overuse_penalty_msat_per_1024th`].
-	 * 
-	 * Default value: 128 1024ths (i.e. begin penalizing when an HTLC uses 1/8th of a channel)
-	 * 
-	 * [`overuse_penalty_msat_per_1024th`]: Self::overuse_penalty_msat_per_1024th
-	 */
-	public get_overuse_penalty_start_1024th(): number {
-		const ret: number = bindings.ScoringParameters_get_overuse_penalty_start_1024th(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * When the amount being sent over a channel is this many 1024ths of the total channel
-	 * capacity, we begin applying [`overuse_penalty_msat_per_1024th`].
-	 * 
-	 * Default value: 128 1024ths (i.e. begin penalizing when an HTLC uses 1/8th of a channel)
-	 * 
-	 * [`overuse_penalty_msat_per_1024th`]: Self::overuse_penalty_msat_per_1024th
-	 */
-	public set_overuse_penalty_start_1024th(val: number): void {
-		bindings.ScoringParameters_set_overuse_penalty_start_1024th(this.ptr, val);
-	}
-
-	/**
-	 * A penalty applied, per whole 1024ths of the channel capacity which the amount being sent
-	 * over the channel exceeds [`overuse_penalty_start_1024th`] by.
-	 * 
-	 * Default value: 20 msat (i.e. 2560 msat penalty to use 1/4th of a channel, 7680 msat penalty
-	 * to use half a channel, and 12,560 msat penalty to use 3/4ths of a channel)
-	 * 
-	 * [`overuse_penalty_start_1024th`]: Self::overuse_penalty_start_1024th
-	 */
-	public get_overuse_penalty_msat_per_1024th(): bigint {
-		const ret: bigint = bindings.ScoringParameters_get_overuse_penalty_msat_per_1024th(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * A penalty applied, per whole 1024ths of the channel capacity which the amount being sent
-	 * over the channel exceeds [`overuse_penalty_start_1024th`] by.
-	 * 
-	 * Default value: 20 msat (i.e. 2560 msat penalty to use 1/4th of a channel, 7680 msat penalty
-	 * to use half a channel, and 12,560 msat penalty to use 3/4ths of a channel)
-	 * 
-	 * [`overuse_penalty_start_1024th`]: Self::overuse_penalty_start_1024th
-	 */
-	public set_overuse_penalty_msat_per_1024th(val: bigint): void {
-		bindings.ScoringParameters_set_overuse_penalty_msat_per_1024th(this.ptr, val);
-	}
-
-	/**
-	 * The time required to elapse before any accumulated [`failure_penalty_msat`] penalties are
-	 * cut in half.
-	 * 
-	 * Successfully routing through a channel will immediately cut the penalty in half as well.
-	 * 
-	 * Default value: 1 hour
-	 * 
-	 * # Note
-	 * 
-	 * When built with the `no-std` feature, time will never elapse. Therefore, this penalty will
-	 * never decay.
-	 * 
-	 * [`failure_penalty_msat`]: Self::failure_penalty_msat
-	 */
-	public get_failure_penalty_half_life(): bigint {
-		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_half_life(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * The time required to elapse before any accumulated [`failure_penalty_msat`] penalties are
-	 * cut in half.
-	 * 
-	 * Successfully routing through a channel will immediately cut the penalty in half as well.
-	 * 
-	 * Default value: 1 hour
-	 * 
-	 * # Note
-	 * 
-	 * When built with the `no-std` feature, time will never elapse. Therefore, this penalty will
-	 * never decay.
-	 * 
-	 * [`failure_penalty_msat`]: Self::failure_penalty_msat
-	 */
-	public set_failure_penalty_half_life(val: bigint): void {
-		bindings.ScoringParameters_set_failure_penalty_half_life(this.ptr, val);
-	}
-
-	/**
-	 * Constructs a new ScoringParameters given each field
-	 */
-	public static constructor_new(base_penalty_msat_arg: bigint, failure_penalty_msat_arg: bigint, overuse_penalty_start_1024th_arg: number, overuse_penalty_msat_per_1024th_arg: bigint, failure_penalty_half_life_arg: bigint): ScoringParameters {
-		const ret: number = bindings.ScoringParameters_new(base_penalty_msat_arg, failure_penalty_msat_arg, overuse_penalty_start_1024th_arg, overuse_penalty_msat_per_1024th_arg, failure_penalty_half_life_arg);
-		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+	public static constructor_ok(): Result_NoneErrorZ {
+		const ret: number = bindings.CResult_NoneErrorZ_ok();
+		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NoneErrorZ in the error state.
+	 */
+	public static constructor_err(e: IOError): Result_NoneErrorZ {
+		const ret: number = bindings.CResult_NoneErrorZ_err(e);
+		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public is_ok(): boolean {
+		const ret: boolean = bindings.CResult_NoneErrorZ_is_ok(this.ptr);
+		return ret;
 	}
 
 	public clone_ptr(): number {
-		const ret: number = bindings.ScoringParameters_clone_ptr(this.ptr);
+		const ret: number = bindings.CResult_NoneErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a copy of the ScoringParameters
+	 * Creates a new CResult_NoneErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
-	public clone(): ScoringParameters {
-		const ret: number = bindings.ScoringParameters_clone(this.ptr);
-		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, this);
+	public clone(): Result_NoneErrorZ {
+		const ret: number = bindings.CResult_NoneErrorZ_clone(this.ptr);
+		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Serialize the ScoringParameters object into a byte array which can be read by ScoringParameters_read
-	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.ScoringParameters_write(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
+}
+export class Result_NoneErrorZ_OK extends Result_NoneErrorZ {
 
-	/**
-	 * Read a ScoringParameters from a byte array, created by ScoringParameters_write
-	 */
-	public static constructor_read(ser: Uint8Array): Result_ScoringParametersDecodeErrorZ {
-		const ret: number = bindings.ScoringParameters_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_ScoringParametersDecodeErrorZ = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {
+		super(_dummy, ptr);
 	}
+}
+export class Result_NoneErrorZ_Err extends Result_NoneErrorZ {
+	public err: IOError;
 
-	/**
-	 * Creates a "default" ScoringParameters. See struct and individual field documentaiton for details on which values are used.
-	 */
-	public static constructor_default(): ScoringParameters {
-		const ret: number = bindings.ScoringParameters_default();
-		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		return ret_hu_conv;
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {
+		super(_dummy, ptr);
+		this.err = bindings.CResult_NoneErrorZ_get_err(ptr);
 	}
-
 }

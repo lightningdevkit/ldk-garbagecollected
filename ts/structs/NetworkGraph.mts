@@ -5,6 +5,7 @@ import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
@@ -61,23 +62,18 @@ import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopD
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { LightningError } from '../structs/LightningError.mjs';
 import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
-import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
-import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
-import { OutPoint } from '../structs/OutPoint.mjs';
-import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
+import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
-import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
@@ -86,7 +82,7 @@ import { AcceptChannel } from '../structs/AcceptChannel.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
-import { FundingLocked } from '../structs/FundingLocked.mjs';
+import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
@@ -103,12 +99,17 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
+import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
+import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
+import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
+import { MonitorEvent } from '../structs/MonitorEvent.mjs';
+import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
-import { ScoringParameters } from '../structs/ScoringParameters.mjs';
-import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
-import { Scorer } from '../structs/Scorer.mjs';
-import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
+import { Record } from '../structs/Record.mjs';
+import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -120,6 +121,27 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
+import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
+import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
+import { Access, AccessInterface } from '../structs/Access.mjs';
+import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
+import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
+import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
+import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
+import { ChannelInfo } from '../structs/ChannelInfo.mjs';
+import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
+import { RoutingFees } from '../structs/RoutingFees.mjs';
+import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { NetAddress } from '../structs/NetAddress.mjs';
+import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
+import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeInfo } from '../structs/NodeInfo.mjs';
+import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
+import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
+import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
@@ -148,7 +170,6 @@ import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentId
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
-import { NetAddress } from '../structs/NetAddress.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZNoneZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.mjs';
@@ -168,8 +189,6 @@ import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
 import { KeysInterface, KeysInterfaceInterface } from '../structs/KeysInterface.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
-import { Record } from '../structs/Record.mjs';
-import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
@@ -214,32 +233,13 @@ import { TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ } from '../structs/TwoTuple_TxidC
 import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
-import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
-import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
-import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
-import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
-import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
-import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
-import { ChannelInfo } from '../structs/ChannelInfo.mjs';
-import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
-import { RoutingFees } from '../structs/RoutingFees.mjs';
-import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
-import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
-import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
-import { NodeInfo } from '../structs/NodeInfo.mjs';
-import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
-import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
-import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
+import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
@@ -255,7 +255,7 @@ import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { Result_CommitmentSignedDecodeErrorZ } from '../structs/Result_CommitmentSignedDecodeErrorZ.mjs';
 import { Result_FundingCreatedDecodeErrorZ } from '../structs/Result_FundingCreatedDecodeErrorZ.mjs';
 import { Result_FundingSignedDecodeErrorZ } from '../structs/Result_FundingSignedDecodeErrorZ.mjs';
-import { Result_FundingLockedDecodeErrorZ } from '../structs/Result_FundingLockedDecodeErrorZ.mjs';
+import { Result_ChannelReadyDecodeErrorZ } from '../structs/Result_ChannelReadyDecodeErrorZ.mjs';
 import { Init } from '../structs/Init.mjs';
 import { Result_InitDecodeErrorZ } from '../structs/Result_InitDecodeErrorZ.mjs';
 import { Result_OpenChannelDecodeErrorZ } from '../structs/Result_OpenChannelDecodeErrorZ.mjs';
@@ -297,6 +297,11 @@ import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChanne
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
+import { BigSize } from '../structs/BigSize.mjs';
+import { ChannelUsage } from '../structs/ChannelUsage.mjs';
+import { Score, ScoreInterface } from '../structs/Score.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { Persister, PersisterInterface } from '../structs/Persister.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -311,6 +316,7 @@ import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
+import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
@@ -322,12 +328,10 @@ import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDe
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
 import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
-import { NetGraphMsgHandler } from '../structs/NetGraphMsgHandler.mjs';
+import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -337,10 +341,10 @@ import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
 import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { RetryAttempts } from '../structs/RetryAttempts.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
+import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
@@ -353,17 +357,13 @@ export class NetworkGraph extends CommonBase {
 		super(ptr, bindings.NetworkGraph_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NetworkGraph_clone_ptr(this.ptr);
-		return ret;
-	}
-
 	/**
-	 * Creates a copy of the NetworkGraph
+	 * Constructs a new EventHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
 	 */
-	public clone(): NetworkGraph {
-		const ret: number = bindings.NetworkGraph_clone(this.ptr);
-		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
+	public as_EventHandler(): EventHandler {
+		const ret: number = bindings.NetworkGraph_as_EventHandler(this.ptr);
+		const ret_hu_conv: EventHandler = new EventHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
@@ -380,19 +380,21 @@ export class NetworkGraph extends CommonBase {
 	/**
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
-	public static constructor_read(ser: Uint8Array): Result_NetworkGraphDecodeErrorZ {
-		const ret: number = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser));
+	public static constructor_read(ser: Uint8Array, arg: Logger): Result_NetworkGraphDecodeErrorZ {
+		const ret: number = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser), arg == null ? 0 : CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_NetworkGraphDecodeErrorZ = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static constructor_new(genesis_hash: Uint8Array): NetworkGraph {
-		const ret: number = bindings.NetworkGraph_new(bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)));
+	public static constructor_new(genesis_hash: Uint8Array, logger: Logger): NetworkGraph {
+		const ret: number = bindings.NetworkGraph_new(bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, logger);
 		return ret_hu_conv;
 	}
 
@@ -407,10 +409,29 @@ export class NetworkGraph extends CommonBase {
 	}
 
 	/**
+	 * The unix timestamp provided by the most recent rapid gossip sync.
+	 * It will be set by the rapid sync process after every sync completion.
+	 */
+	public get_last_rapid_gossip_sync_timestamp(): Option_u32Z {
+		const ret: number = bindings.NetworkGraph_get_last_rapid_gossip_sync_timestamp(this.ptr);
+		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Update the unix timestamp provided by the most recent rapid gossip sync.
+	 * This should be done automatically by the rapid sync process after every sync completion.
+	 */
+	public set_last_rapid_gossip_sync_timestamp(last_rapid_gossip_sync_timestamp: number): void {
+		bindings.NetworkGraph_set_last_rapid_gossip_sync_timestamp(this.ptr, last_rapid_gossip_sync_timestamp);
+	}
+
+	/**
 	 * For an already known node (from channel announcements), update its stored properties from a
 	 * given node announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 */
@@ -437,7 +458,7 @@ export class NetworkGraph extends CommonBase {
 	/**
 	 * Store or update channel info from a channel announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
@@ -469,20 +490,34 @@ export class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Close a channel if a corresponding HTLC fail was sent.
+	 * Update channel from partial announcement data received via rapid gossip sync
+	 * 
+	 * `timestamp: u64`: Timestamp emulating the backdated original announcement receipt (by the
+	 * rapid gossip sync server)
+	 * 
+	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
+	 */
+	public add_channel_from_partial_announcement(short_channel_id: bigint, timestamp: bigint, features: ChannelFeatures, node_id_1: Uint8Array, node_id_2: Uint8Array): Result_NoneLightningErrorZ {
+		const ret: number = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : CommonBase.get_ptr_of(features) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(node_id_1, 33)), bindings.encodeUint8Array(bindings.check_arr_len(node_id_2, 33)));
+		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Marks a channel in the graph as failed if a corresponding HTLC fail was sent.
 	 * If permanent, removes a channel from the local storage.
 	 * May cause the removal of nodes too, if this was their last channel.
 	 * If not permanent, makes channels unavailable for routing.
 	 */
-	public close_channel_from_update(short_channel_id: bigint, is_permanent: boolean): void {
-		bindings.NetworkGraph_close_channel_from_update(this.ptr, short_channel_id, is_permanent);
+	public channel_failed(short_channel_id: bigint, is_permanent: boolean): void {
+		bindings.NetworkGraph_channel_failed(this.ptr, short_channel_id, is_permanent);
 	}
 
 	/**
 	 * Marks a node in the graph as failed.
 	 */
-	public fail_node(_node_id: Uint8Array, is_permanent: boolean): void {
-		bindings.NetworkGraph_fail_node(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(_node_id, 33)), is_permanent);
+	public node_failed(_node_id: Uint8Array, is_permanent: boolean): void {
+		bindings.NetworkGraph_node_failed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(_node_id, 33)), is_permanent);
 	}
 
 	/**
@@ -505,7 +540,7 @@ export class NetworkGraph extends CommonBase {
 	 * For an already known (from announcement) channel, update info about one of the directions
 	 * of the channel.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 

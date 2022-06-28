@@ -82,7 +82,6 @@ import { AcceptChannel } from '../structs/AcceptChannel.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
-import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
@@ -155,6 +154,7 @@ import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
+import { Sign, SignInterface } from '../structs/Sign.mjs';
 import { Result_SignDecodeErrorZ } from '../structs/Result_SignDecodeErrorZ.mjs';
 import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
@@ -344,80 +344,110 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
-
-/** An implementation of Sign */
-export interface SignInterface {
-	/**Serialize the object into a byte array
-	 */
-	write(): Uint8Array;
-}
-
-class LDKSignHolder {
-	held: Sign;
-}
-
 /**
- * A cloneable signer.
- * 
- * Although we require signers to be cloneable, it may be useful for developers to be able to use
- * signers in an un-sized way, for example as `dyn BaseSign`. Therefore we separate the Clone trait,
- * which implies Sized, into this derived trait.
+ * A channel_ready message to be sent or received from a peer
  */
-export class Sign extends CommonBase {
+export class ChannelReady extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKSign;
-
-	/* @internal */
-	constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.Sign_free);
-		this.bindings_instance = null;
-	}
-
-	/** Creates a new instance of Sign from a given implementation */
-	public static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
-		const impl_holder: LDKSignHolder = new LDKSignHolder();
-		let structImplementation = {
-			write (): number {
-				const ret: Uint8Array = arg.write();
-				const result: number = bindings.encodeUint8Array(ret);
-				return result;
-			},
-		} as bindings.LDKSign;
-		const baseSign = BaseSign.new_impl(baseSign_impl, pubkeys, );
-		const ptr: number = bindings.LDKSign_new(structImplementation, baseSign.bindings_instance, pubkeys == null ? 0 : pubkeys.clone_ptr());
-
-		impl_holder.held = new Sign(null, ptr);
-		impl_holder.held.bindings_instance = structImplementation;
-		impl_holder.held.ptrs_to.push(baseSign);
-		return impl_holder.held;
+	public constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.ChannelReady_free);
 	}
 
 	/**
-	 * Serialize the object into a byte array
+	 * The channel ID
 	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.Sign_write(this.ptr);
+	public get_channel_id(): Uint8Array {
+		const ret: number = bindings.ChannelReady_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
+	public set_channel_id(val: Uint8Array): void {
+		bindings.ChannelReady_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
+	}
+
+	/**
+	 * The per-commitment point of the second commitment transaction
+	 */
+	public get_next_per_commitment_point(): Uint8Array {
+		const ret: number = bindings.ChannelReady_get_next_per_commitment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * The per-commitment point of the second commitment transaction
+	 */
+	public set_next_per_commitment_point(val: Uint8Array): void {
+		bindings.ChannelReady_set_next_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
+	}
+
+	/**
+	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
+	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 */
+	public get_short_channel_id_alias(): Option_u64Z {
+		const ret: number = bindings.ChannelReady_get_short_channel_id_alias(this.ptr);
+		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
+	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 */
+	public set_short_channel_id_alias(val: Option_u64Z): void {
+		bindings.ChannelReady_set_short_channel_id_alias(this.ptr, CommonBase.get_ptr_of(val));
+	}
+
+	/**
+	 * Constructs a new ChannelReady given each field
+	 */
+	public static constructor_new(channel_id_arg: Uint8Array, next_per_commitment_point_arg: Uint8Array, short_channel_id_alias_arg: Option_u64Z): ChannelReady {
+		const ret: number = bindings.ChannelReady_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)), CommonBase.get_ptr_of(short_channel_id_alias_arg));
+		const ret_hu_conv: ChannelReady = new ChannelReady(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public clone_ptr(): number {
-		const ret: number = bindings.Sign_clone_ptr(this.ptr);
+		const ret: number = bindings.ChannelReady_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a copy of a Sign
+	 * Creates a copy of the ChannelReady
 	 */
-	public clone(): Sign {
-		const ret: number = bindings.Sign_clone(this.ptr);
-		const ret_hu_conv: Sign = new Sign(null, ret);
+	public clone(): ChannelReady {
+		const ret: number = bindings.ChannelReady_clone(this.ptr);
+		const ret_hu_conv: ChannelReady = new ChannelReady(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the ChannelReady object into a byte array which can be read by ChannelReady_read
+	 */
+	public write(): Uint8Array {
+		const ret: number = bindings.ChannelReady_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a ChannelReady from a byte array, created by ChannelReady_write
+	 */
+	public static constructor_read(ser: Uint8Array): Result_ChannelReadyDecodeErrorZ {
+		const ret: number = bindings.ChannelReady_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_ChannelReadyDecodeErrorZ = Result_ChannelReadyDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -155,6 +155,7 @@ import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
+import { Sign, SignInterface } from '../structs/Sign.mjs';
 import { Result_SignDecodeErrorZ } from '../structs/Result_SignDecodeErrorZ.mjs';
 import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
@@ -298,7 +299,6 @@ import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '.
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
 import { BigSize } from '../structs/BigSize.mjs';
-import { ChannelUsage } from '../structs/ChannelUsage.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
@@ -344,79 +344,89 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
-
-/** An implementation of Sign */
-export interface SignInterface {
-	/**Serialize the object into a byte array
-	 */
-	write(): Uint8Array;
-}
-
-class LDKSignHolder {
-	held: Sign;
-}
-
 /**
- * A cloneable signer.
- * 
- * Although we require signers to be cloneable, it may be useful for developers to be able to use
- * signers in an un-sized way, for example as `dyn BaseSign`. Therefore we separate the Clone trait,
- * which implies Sized, into this derived trait.
+ * Proposed use of a channel passed as a parameter to [`Score::channel_penalty_msat`].
  */
-export class Sign extends CommonBase {
+export class ChannelUsage extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKSign;
-
-	/* @internal */
-	constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.Sign_free);
-		this.bindings_instance = null;
-	}
-
-	/** Creates a new instance of Sign from a given implementation */
-	public static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
-		const impl_holder: LDKSignHolder = new LDKSignHolder();
-		let structImplementation = {
-			write (): number {
-				const ret: Uint8Array = arg.write();
-				const result: number = bindings.encodeUint8Array(ret);
-				return result;
-			},
-		} as bindings.LDKSign;
-		const baseSign = BaseSign.new_impl(baseSign_impl, pubkeys, );
-		const ptr: number = bindings.LDKSign_new(structImplementation, baseSign.bindings_instance, pubkeys == null ? 0 : pubkeys.clone_ptr());
-
-		impl_holder.held = new Sign(null, ptr);
-		impl_holder.held.bindings_instance = structImplementation;
-		impl_holder.held.ptrs_to.push(baseSign);
-		return impl_holder.held;
+	public constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.ChannelUsage_free);
 	}
 
 	/**
-	 * Serialize the object into a byte array
+	 * The amount to send through the channel, denominated in millisatoshis.
 	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.Sign_write(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	public clone_ptr(): number {
-		const ret: number = bindings.Sign_clone_ptr(this.ptr);
+	public get_amount_msat(): bigint {
+		const ret: bigint = bindings.ChannelUsage_get_amount_msat(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a copy of a Sign
+	 * The amount to send through the channel, denominated in millisatoshis.
 	 */
-	public clone(): Sign {
-		const ret: number = bindings.Sign_clone(this.ptr);
-		const ret_hu_conv: Sign = new Sign(null, ret);
+	public set_amount_msat(val: bigint): void {
+		bindings.ChannelUsage_set_amount_msat(this.ptr, val);
+	}
+
+	/**
+	 * Total amount, denominated in millisatoshis, already allocated to send through the channel
+	 * as part of a multi-path payment.
+	 */
+	public get_inflight_htlc_msat(): bigint {
+		const ret: bigint = bindings.ChannelUsage_get_inflight_htlc_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Total amount, denominated in millisatoshis, already allocated to send through the channel
+	 * as part of a multi-path payment.
+	 */
+	public set_inflight_htlc_msat(val: bigint): void {
+		bindings.ChannelUsage_set_inflight_htlc_msat(this.ptr, val);
+	}
+
+	/**
+	 * The effective capacity of the channel.
+	 */
+	public get_effective_capacity(): EffectiveCapacity {
+		const ret: number = bindings.ChannelUsage_get_effective_capacity(this.ptr);
+		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The effective capacity of the channel.
+	 */
+	public set_effective_capacity(val: EffectiveCapacity): void {
+		bindings.ChannelUsage_set_effective_capacity(this.ptr, CommonBase.get_ptr_of(val));
+	}
+
+	/**
+	 * Constructs a new ChannelUsage given each field
+	 */
+	public static constructor_new(amount_msat_arg: bigint, inflight_htlc_msat_arg: bigint, effective_capacity_arg: EffectiveCapacity): ChannelUsage {
+		const ret: number = bindings.ChannelUsage_new(amount_msat_arg, inflight_htlc_msat_arg, CommonBase.get_ptr_of(effective_capacity_arg));
+		const ret_hu_conv: ChannelUsage = new ChannelUsage(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public clone_ptr(): number {
+		const ret: number = bindings.ChannelUsage_clone_ptr(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the ChannelUsage
+	 */
+	public clone(): ChannelUsage {
+		const ret: number = bindings.ChannelUsage_clone(this.ptr);
+		const ret_hu_conv: ChannelUsage = new ChannelUsage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}

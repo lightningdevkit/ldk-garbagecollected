@@ -5,6 +5,7 @@ import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
@@ -61,23 +62,18 @@ import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopD
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { LightningError } from '../structs/LightningError.mjs';
 import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
-import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
-import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
-import { OutPoint } from '../structs/OutPoint.mjs';
-import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
+import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
-import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
@@ -86,7 +82,7 @@ import { AcceptChannel } from '../structs/AcceptChannel.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
-import { FundingLocked } from '../structs/FundingLocked.mjs';
+import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
@@ -103,12 +99,17 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
+import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
+import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
+import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
+import { MonitorEvent } from '../structs/MonitorEvent.mjs';
+import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
-import { ScoringParameters } from '../structs/ScoringParameters.mjs';
-import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
-import { Scorer } from '../structs/Scorer.mjs';
-import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
+import { Record } from '../structs/Record.mjs';
+import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
@@ -121,6 +122,27 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
+import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
+import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
+import { Access, AccessInterface } from '../structs/Access.mjs';
+import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
+import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
+import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
+import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
+import { ChannelInfo } from '../structs/ChannelInfo.mjs';
+import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
+import { RoutingFees } from '../structs/RoutingFees.mjs';
+import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { NetAddress } from '../structs/NetAddress.mjs';
+import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
+import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeInfo } from '../structs/NodeInfo.mjs';
+import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
+import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
+import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
@@ -149,7 +171,6 @@ import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentId
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
-import { NetAddress } from '../structs/NetAddress.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZNoneZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.mjs';
@@ -169,8 +190,6 @@ import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
 import { KeysInterface, KeysInterfaceInterface } from '../structs/KeysInterface.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
-import { Record } from '../structs/Record.mjs';
-import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
 import { ChannelConfig } from '../structs/ChannelConfig.mjs';
@@ -214,32 +233,13 @@ import { TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ } from '../structs/TwoTuple_TxidC
 import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
-import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
-import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
-import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
-import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
-import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
-import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
-import { ChannelInfo } from '../structs/ChannelInfo.mjs';
-import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
-import { RoutingFees } from '../structs/RoutingFees.mjs';
-import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
-import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
-import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
-import { NodeInfo } from '../structs/NodeInfo.mjs';
-import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
-import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
-import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
+import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
@@ -255,7 +255,7 @@ import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { Result_CommitmentSignedDecodeErrorZ } from '../structs/Result_CommitmentSignedDecodeErrorZ.mjs';
 import { Result_FundingCreatedDecodeErrorZ } from '../structs/Result_FundingCreatedDecodeErrorZ.mjs';
 import { Result_FundingSignedDecodeErrorZ } from '../structs/Result_FundingSignedDecodeErrorZ.mjs';
-import { Result_FundingLockedDecodeErrorZ } from '../structs/Result_FundingLockedDecodeErrorZ.mjs';
+import { Result_ChannelReadyDecodeErrorZ } from '../structs/Result_ChannelReadyDecodeErrorZ.mjs';
 import { Init } from '../structs/Init.mjs';
 import { Result_InitDecodeErrorZ } from '../structs/Result_InitDecodeErrorZ.mjs';
 import { Result_OpenChannelDecodeErrorZ } from '../structs/Result_OpenChannelDecodeErrorZ.mjs';
@@ -297,6 +297,11 @@ import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChanne
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
+import { BigSize } from '../structs/BigSize.mjs';
+import { ChannelUsage } from '../structs/ChannelUsage.mjs';
+import { Score, ScoreInterface } from '../structs/Score.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { Persister, PersisterInterface } from '../structs/Persister.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -311,6 +316,7 @@ import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
+import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
@@ -322,12 +328,10 @@ import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDe
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
 import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
-import { NetGraphMsgHandler } from '../structs/NetGraphMsgHandler.mjs';
+import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -337,10 +341,10 @@ import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
 import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { RetryAttempts } from '../structs/RetryAttempts.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
+import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
@@ -395,8 +399,6 @@ export class ChannelManager extends CommonBase {
 	 * ChannelMessageHandler.
 	 * 
 	 * Non-proportional fees are fixed according to our risk using the provided fee estimator.
-	 * 
-	 * panics if channel_value_satoshis is >= `MAX_FUNDING_SATOSHIS`!
 	 * 
 	 * Users need to notify the new ChannelManager when a new block is connected or
 	 * disconnected using its `block_connected` and `block_disconnected` methods, starting
@@ -479,12 +481,14 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets the list of usable channels, in random order. Useful as an argument to
-	 * get_route to ensure non-announced channels are used.
+	 * Gets the list of usable channels, in random order. Useful as an argument to [`find_route`]
+	 * to ensure non-announced channels are used.
 	 * 
 	 * These are guaranteed to have their [`ChannelDetails::is_usable`] value set to true, see the
 	 * documentation for [`ChannelDetails::is_usable`] for more info on exactly what the criteria
 	 * are.
+	 * 
+	 * [`find_route`]: crate::routing::router::find_route
 	 */
 	public list_usable_channels(): ChannelDetails[] {
 		const ret: number = bindings.ChannelManager_list_usable_channels(this.ptr);
@@ -519,8 +523,8 @@ export class ChannelManager extends CommonBase {
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
-	public close_channel(channel_id: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
+	public close_channel(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -546,18 +550,20 @@ export class ChannelManager extends CommonBase {
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
-	public close_channel_with_target_feerate(channel_id: Uint8Array, target_feerate_sats_per_1000_weight: number): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), target_feerate_sats_per_1000_weight);
+	public close_channel_with_target_feerate(channel_id: Uint8Array, counterparty_node_id: Uint8Array, target_feerate_sats_per_1000_weight: number): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), target_feerate_sats_per_1000_weight);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Force closes a channel, immediately broadcasting the latest local commitment transaction to
-	 * the chain and rejecting new HTLCs on the given channel. Fails if channel_id is unknown to the manager.
+	 * the chain and rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
+	 * the manager, or if the `counterparty_node_id` isn't the counterparty of the corresponding
+	 * channel.
 	 */
-	public force_close_channel(channel_id: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_force_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
+	public force_close_channel(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_force_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -708,8 +714,8 @@ export class ChannelManager extends CommonBase {
 	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
 	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
 	 */
-	public funding_transaction_generated(temporary_channel_id: Uint8Array, funding_transaction: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_funding_transaction_generated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(funding_transaction));
+	public funding_transaction_generated(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, funding_transaction: Uint8Array): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_funding_transaction_generated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), bindings.encodeUint8Array(funding_transaction));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -768,34 +774,43 @@ export class ChannelManager extends CommonBase {
 	 * Indicates that the preimage for payment_hash is unknown or the received amount is incorrect
 	 * after a PaymentReceived event, failing the HTLC back to its origin and freeing resources
 	 * along the path (including in our own channel on which we received it).
-	 * Returns false if no payment was found to fail backwards, true if the process of failing the
-	 * HTLC backwards has been started.
+	 * 
+	 * Note that in some cases around unclean shutdown, it is possible the payment may have
+	 * already been claimed by you via [`ChannelManager::claim_funds`] prior to you seeing (a
+	 * second copy of) the [`events::Event::PaymentReceived`] event. Alternatively, the payment
+	 * may have already been failed automatically by LDK if it was nearing its expiration time.
+	 * 
+	 * While LDK will never claim a payment automatically on your behalf (i.e. without you calling
+	 * [`ChannelManager::claim_funds`]), you should still monitor for
+	 * [`events::Event::PaymentClaimed`] events even for payments you intend to fail, especially on
+	 * startup during which time claims that were in-progress at shutdown may be replayed.
 	 */
-	public fail_htlc_backwards(payment_hash: Uint8Array): boolean {
-		const ret: boolean = bindings.ChannelManager_fail_htlc_backwards(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
-		return ret;
+	public fail_htlc_backwards(payment_hash: Uint8Array): void {
+		bindings.ChannelManager_fail_htlc_backwards(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 	}
 
 	/**
 	 * Provides a payment preimage in response to [`Event::PaymentReceived`], generating any
 	 * [`MessageSendEvent`]s needed to claim the payment.
 	 * 
+	 * Note that calling this method does *not* guarantee that the payment has been claimed. You
+	 * must* wait for an [`Event::PaymentClaimed`] event which upon a successful claim will be
+	 * provided to your [`EventHandler`] when [`process_pending_events`] is next called.
+	 * 
 	 * Note that if you did not set an `amount_msat` when calling [`create_inbound_payment`] or
 	 * [`create_inbound_payment_for_hash`] you must check that the amount in the `PaymentReceived`
 	 * event matches your expectation. If you fail to do so and call this method, you may provide
 	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
-	 * Returns whether any HTLCs were claimed, and thus if any new [`MessageSendEvent`]s are now
-	 * pending for processing via [`get_and_clear_pending_msg_events`].
-	 * 
 	 * [`Event::PaymentReceived`]: crate::util::events::Event::PaymentReceived
+	 * [`Event::PaymentClaimed`]: crate::util::events::Event::PaymentClaimed
+	 * [`process_pending_events`]: EventsProvider::process_pending_events
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */
-	public claim_funds(payment_preimage: Uint8Array): boolean {
-		const ret: boolean = bindings.ChannelManager_claim_funds(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
-		return ret;
+	public claim_funds(payment_preimage: Uint8Array): void {
+		bindings.ChannelManager_claim_funds(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
 	}
 
 	/**
@@ -808,20 +823,51 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Called to accept a request to open a channel after [`Event::OpenChannelRequest`] has been
-	 * triggered.
+	 * Accepts a request to open a channel after a [`Event::OpenChannelRequest`].
 	 * 
-	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted.
+	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted,
+	 * and the `counterparty_node_id` parameter is the id of the peer which has requested to open
+	 * the channel.
 	 * 
-	 * For inbound channels, the `user_channel_id` parameter will be provided back in
+	 * The `user_channel_id` parameter will be provided back in
 	 * [`Event::ChannelClosed::user_channel_id`] to allow tracking of which events correspond
-	 * with which `accept_inbound_channel` call.
+	 * with which `accept_inbound_channel`/`accept_inbound_channel_from_trusted_peer_0conf` call.
+	 * 
+	 * Note that this method will return an error and reject the channel, if it requires support
+	 * for zero confirmations. Instead, `accept_inbound_channel_from_trusted_peer_0conf` must be
+	 * used to accept such channels.
 	 * 
 	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
 	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
 	 */
-	public accept_inbound_channel(temporary_channel_id: Uint8Array, user_channel_id: bigint): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_accept_inbound_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), user_channel_id);
+	public accept_inbound_channel(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, user_channel_id: bigint): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_accept_inbound_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), user_channel_id);
+		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Accepts a request to open a channel after a [`events::Event::OpenChannelRequest`], treating
+	 * it as confirmed immediately.
+	 * 
+	 * The `user_channel_id` parameter will be provided back in
+	 * [`Event::ChannelClosed::user_channel_id`] to allow tracking of which events correspond
+	 * with which `accept_inbound_channel`/`accept_inbound_channel_from_trusted_peer_0conf` call.
+	 * 
+	 * Unlike [`ChannelManager::accept_inbound_channel`], this method accepts the incoming channel
+	 * and (if the counterparty agrees), enables forwarding of payments immediately.
+	 * 
+	 * This fully trusts that the counterparty has honestly and correctly constructed the funding
+	 * transaction and blindly assumes that it will eventually confirm.
+	 * 
+	 * If it does not confirm before we decide to close the channel, or if the funding transaction
+	 * does not pay to the correct script the correct amount, *you will lose funds*.
+	 * 
+	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
+	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
+	 */
+	public accept_inbound_channel_from_trusted_peer_0conf(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, user_channel_id: bigint): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), user_channel_id);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

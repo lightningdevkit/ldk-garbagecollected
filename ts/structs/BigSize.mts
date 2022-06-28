@@ -155,6 +155,7 @@ import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
+import { Sign, SignInterface } from '../structs/Sign.mjs';
 import { Result_SignDecodeErrorZ } from '../structs/Result_SignDecodeErrorZ.mjs';
 import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
@@ -297,7 +298,6 @@ import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChanne
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
-import { BigSize } from '../structs/BigSize.mjs';
 import { ChannelUsage } from '../structs/ChannelUsage.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
@@ -344,80 +344,41 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
-
-/** An implementation of Sign */
-export interface SignInterface {
-	/**Serialize the object into a byte array
-	 */
-	write(): Uint8Array;
-}
-
-class LDKSignHolder {
-	held: Sign;
-}
-
 /**
- * A cloneable signer.
+ * Lightning TLV uses a custom variable-length integer called BigSize. It is similar to Bitcoin's
+ * variable-length integers except that it is serialized in big-endian instead of little-endian.
  * 
- * Although we require signers to be cloneable, it may be useful for developers to be able to use
- * signers in an un-sized way, for example as `dyn BaseSign`. Therefore we separate the Clone trait,
- * which implies Sized, into this derived trait.
+ * Like Bitcoin's variable-length integer, it exhibits ambiguity in that certain values can be
+ * encoded in several different ways, which we must check for at deserialization-time. Thus, if
+ * you're looking for an example of a variable-length integer to use for your own project, move
+ * along, this is a rather poor design.
  */
-export class Sign extends CommonBase {
+export class BigSize extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKSign;
-
-	/* @internal */
-	constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.Sign_free);
-		this.bindings_instance = null;
+	public constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.BigSize_free);
 	}
 
-	/** Creates a new instance of Sign from a given implementation */
-	public static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
-		const impl_holder: LDKSignHolder = new LDKSignHolder();
-		let structImplementation = {
-			write (): number {
-				const ret: Uint8Array = arg.write();
-				const result: number = bindings.encodeUint8Array(ret);
-				return result;
-			},
-		} as bindings.LDKSign;
-		const baseSign = BaseSign.new_impl(baseSign_impl, pubkeys, );
-		const ptr: number = bindings.LDKSign_new(structImplementation, baseSign.bindings_instance, pubkeys == null ? 0 : pubkeys.clone_ptr());
-
-		impl_holder.held = new Sign(null, ptr);
-		impl_holder.held.bindings_instance = structImplementation;
-		impl_holder.held.ptrs_to.push(baseSign);
-		return impl_holder.held;
-	}
-
-	/**
-	 * Serialize the object into a byte array
-	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.Sign_write(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	public clone_ptr(): number {
-		const ret: number = bindings.Sign_clone_ptr(this.ptr);
+	public get_a(): bigint {
+		const ret: bigint = bindings.BigSize_get_a(this.ptr);
 		return ret;
 	}
 
+	public set_a(val: bigint): void {
+		bindings.BigSize_set_a(this.ptr, val);
+	}
+
 	/**
-	 * Creates a copy of a Sign
+	 * Constructs a new BigSize given each field
 	 */
-	public clone(): Sign {
-		const ret: number = bindings.Sign_clone(this.ptr);
-		const ret_hu_conv: Sign = new Sign(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, this);
+	public static constructor_new(a_arg: bigint): BigSize {
+		const ret: number = bindings.BigSize_new(a_arg);
+		const ret_hu_conv: BigSize = new BigSize(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
