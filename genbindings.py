@@ -653,7 +653,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif camel_to_snake(variant_name) in inline_enum_variants:
                     # TODO: If we ever have a rust enum Variant(Option<Struct>) we need to pipe
                     # docs through to there, and then potentially mark the field nullable.
-                    mapped = type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True)
+                    (variant_info, variant_field_docs) = inline_enum_variants[camel_to_snake(variant_name)]
+                    variant_ty_text = variant_info + " " + camel_to_snake(variant_name)
+                    variant_ty_info = type_mapping_generator.java_c_types(variant_ty_text, None)
+                    if variant_field_docs is not None and doc_to_field_nullable(variant_field_docs):
+                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, True)
+                    else:
+                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, False)
                     contains_trait |= mapped.ty_info.contains_trait
                     fields.append((mapped, None))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
@@ -944,7 +950,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif struct_name in union_enum_items:
                     tuple_variants = {}
                     elem_items = -1
-                    for line, _ in field_lines:
+                    for line, field_block_comment in field_lines:
                         if line == "      struct {":
                             elem_items = 0
                         elif line == "      };":
@@ -957,7 +963,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                                 line = line[5:]
                             split = line.split(" ")
                             assert len(split) == 2
-                            tuple_variants[split[1].strip(";")] = split[0]
+                            tuple_variants[split[1].strip(";")] = (split[0], field_block_comment)
                             elem_items += 1
                             if elem_items > 1:
                                 # We don't currently support tuple variant with more than one element
