@@ -17,7 +17,7 @@ jobs:
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install cargo libstd-rust-dev-wasm32 lld git g++ clang curl node-typescript npm python3
+          apt-get -y install cargo libstd-rust-dev-wasm32 lld git g++ clang curl node-typescript npm python3 wasi-libc
           echo "int main() {}" > genbindings_wasm_test_file.c
           clang -nostdlib -o /dev/null --target=wasm32-wasi -Wl,--no-entry genbindings_wasm_test_file.c
           rm genbindings_wasm_test_file.c
