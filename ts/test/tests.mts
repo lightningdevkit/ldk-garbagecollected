@@ -186,7 +186,7 @@ tests.push(async () => {
 	funding_tx[witness_pos] = 1; funding_tx[witness_pos + 1] = 1; funding_tx[witness_pos + 2] = 0xff; // one witness element of size 1 with contents 0xff
 	funding_tx[witness_pos + 3] = 0; funding_tx[witness_pos + 4] = 0; funding_tx[witness_pos + 5] = 0; funding_tx[witness_pos + 6] = 0; // lock time 0
 
-	const funding_res = chan_man_a.funding_transaction_generated(events[0].temporary_channel_id, funding_tx);
+	const funding_res = chan_man_a.funding_transaction_generated(events[0].temporary_channel_id, events[0].counterparty_node_id, funding_tx);
 	if (!(funding_res instanceof ldk.Result_NoneAPIErrorZ_OK)) return false;
 
 	if (!exchange_messages(chan_man_a, chan_man_b)) return false;
