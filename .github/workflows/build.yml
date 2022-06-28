@@ -26,7 +26,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --version 0.20.0 cbindgen
+        run: |
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -110,7 +115,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --version 0.20.0 cbindgen
+        run: |
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -160,7 +170,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --version 0.20.0 cbindgen
+        run: |
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -263,7 +278,7 @@ jobs:
       - name: Install cbindgen
         run: |
           . $HOME/.cargo/env
-          cargo install --version 0.20.0 cbindgen
+          cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -343,7 +358,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --version 0.20.0 cbindgen
+        run: cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
