@@ -1249,11 +1249,11 @@ import javax.annotation.Nullable;
         out_opaque_struct_human += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
         out_opaque_struct_human += ("public class " + hu_name + " extends CommonBase")
-        if struct_name.startswith("LDKLocked"):
+        if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
             out_opaque_struct_human += (" implements AutoCloseable")
         out_opaque_struct_human += (" {\n")
         out_opaque_struct_human += ("\t" + hu_name + "(Object _dummy, long ptr) { super(ptr); }\n")
-        if struct_name.startswith("LDKLocked"):
+        if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
             out_opaque_struct_human += ("\t@Override public void close() {\n")
         else:
             out_opaque_struct_human += ("\t@Override @SuppressWarnings(\"deprecation\")\n")

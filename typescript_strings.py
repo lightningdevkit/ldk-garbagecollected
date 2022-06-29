@@ -1199,7 +1199,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
         out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
-        if struct_name.startswith("LDKLocked"):
+        if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
             out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
         formatted_doc_comment = struct_doc_comment.replace("\n", "\n * ")
         out_opaque_struct_human += f"""
