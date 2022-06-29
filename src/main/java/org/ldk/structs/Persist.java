@@ -105,10 +105,10 @@ public class Persist extends CommonBase {
 		final LDKPersistHolder impl_holder = new LDKPersistHolder();
 		impl_holder.held = new Persist(new bindings.LDKPersist() {
 			@Override public long persist_new_channel(long channel_id, long data, long update_id) {
-				OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new OutPoint(null, channel_id); }
+				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
 				channel_id_hu_conv.ptrs_to.add(this);
-				ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new ChannelMonitor(null, data); }
-				MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new MonitorUpdateId(null, update_id); }
+				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
+				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
 				update_id_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);
@@ -116,11 +116,11 @@ public class Persist extends CommonBase {
 				return result;
 			}
 			@Override public long update_persisted_channel(long channel_id, long update, long data, long update_id) {
-				OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new OutPoint(null, channel_id); }
+				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
 				channel_id_hu_conv.ptrs_to.add(this);
-				ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new ChannelMonitorUpdate(null, update); }
-				ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new ChannelMonitor(null, data); }
-				MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new MonitorUpdateId(null, update_id); }
+				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
+				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
+				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
 				update_id_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);

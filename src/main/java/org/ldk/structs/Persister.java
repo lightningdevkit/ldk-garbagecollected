@@ -8,7 +8,7 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * Trait that handles persisting a [`ChannelManager`] and [`NetworkGraph`] to disk.
+ * Trait that handles persisting a [`ChannelManager`], [`NetworkGraph`], and [`MultiThreadedLockableScore`] to disk.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Persister extends CommonBase {
@@ -26,29 +26,39 @@ public class Persister extends CommonBase {
 
 	public static interface PersisterInterface {
 		/**
-		 * Persist the given [`ChannelManager`] to disk, returning an error if persistence failed
-		 * (which will cause the [`BackgroundProcessor`] which called this method to exit).
+		 * Persist the given ['ChannelManager'] to disk, returning an error if persistence failed.
 		 */
 		Result_NoneErrorZ persist_manager(ChannelManager channel_manager);
 		/**
 		 * Persist the given [`NetworkGraph`] to disk, returning an error if persistence failed.
 		 */
 		Result_NoneErrorZ persist_graph(NetworkGraph network_graph);
+		/**
+		 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
+		 */
+		Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer);
 	}
 	private static class LDKPersisterHolder { Persister held; }
 	public static Persister new_impl(PersisterInterface arg) {
 		final LDKPersisterHolder impl_holder = new LDKPersisterHolder();
 		impl_holder.held = new Persister(new bindings.LDKPersister() {
 			@Override public long persist_manager(long channel_manager) {
-				ChannelManager channel_manager_hu_conv = null; if (channel_manager < 0 || channel_manager > 4096) { channel_manager_hu_conv = new ChannelManager(null, channel_manager); }
+				org.ldk.structs.ChannelManager channel_manager_hu_conv = null; if (channel_manager < 0 || channel_manager > 4096) { channel_manager_hu_conv = new org.ldk.structs.ChannelManager(null, channel_manager); }
 				Result_NoneErrorZ ret = arg.persist_manager(channel_manager_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long persist_graph(long network_graph) {
-				NetworkGraph network_graph_hu_conv = null; if (network_graph < 0 || network_graph > 4096) { network_graph_hu_conv = new NetworkGraph(null, network_graph); }
+				org.ldk.structs.NetworkGraph network_graph_hu_conv = null; if (network_graph < 0 || network_graph > 4096) { network_graph_hu_conv = new org.ldk.structs.NetworkGraph(null, network_graph); }
 				Result_NoneErrorZ ret = arg.persist_graph(network_graph_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long persist_scorer(long scorer) {
+				org.ldk.structs.MultiThreadedLockableScore scorer_hu_conv = null; if (scorer < 0 || scorer > 4096) { scorer_hu_conv = new org.ldk.structs.MultiThreadedLockableScore(null, scorer); }
+				Result_NoneErrorZ ret = arg.persist_scorer(scorer_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -57,8 +67,7 @@ public class Persister extends CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Persist the given [`ChannelManager`] to disk, returning an error if persistence failed
-	 * (which will cause the [`BackgroundProcessor`] which called this method to exit).
+	 * Persist the given ['ChannelManager'] to disk, returning an error if persistence failed.
 	 */
 	public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
 		long ret = bindings.Persister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr & ~1);
@@ -80,6 +89,19 @@ public class Persister extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(network_graph);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
+	 */
+	public Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer) {
+		long ret = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : scorer.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(scorer);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(scorer);
 		return ret_hu_conv;
 	}
 

@@ -178,6 +178,17 @@ public class UnsignedChannelUpdate extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * Excess data which was signed as a part of the message which we do not (yet) understand how
+	 * to decode. This is stored to ensure forward-compatibility as new fields are added to the
+	 * lightning gossip
+	 */
+	public void set_excess_data(byte[] val) {
+		bindings.UnsignedChannelUpdate_set_excess_data(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
 	long clone_ptr() {
 		long ret = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -191,7 +202,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		UnsignedChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedChannelUpdate(null, ret); }
+		org.ldk.structs.UnsignedChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UnsignedChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

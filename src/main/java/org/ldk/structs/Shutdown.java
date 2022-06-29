@@ -66,7 +66,7 @@ public class Shutdown extends CommonBase {
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(scriptpubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Shutdown ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Shutdown(null, ret); }
+		org.ldk.structs.Shutdown ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Shutdown(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -84,7 +84,7 @@ public class Shutdown extends CommonBase {
 		long ret = bindings.Shutdown_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Shutdown ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Shutdown(null, ret); }
+		org.ldk.structs.Shutdown ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Shutdown(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

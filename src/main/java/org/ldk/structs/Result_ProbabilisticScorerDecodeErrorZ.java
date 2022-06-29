@@ -25,7 +25,7 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 		private Result_ProbabilisticScorerDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_ok(ptr);
-			ProbabilisticScorer res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ProbabilisticScorer(null, res); }
+			org.ldk.structs.ProbabilisticScorer res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.ProbabilisticScorer(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 		private Result_ProbabilisticScorerDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -45,14 +45,16 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the success state.
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ ok(ProbabilisticScoringParameters o_params, NetworkGraph o_network_graph) {
-		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : o_params.ptr & ~1, o_network_graph == null ? 0 : o_network_graph.ptr & ~1));
+	public static Result_ProbabilisticScorerDecodeErrorZ ok(ProbabilisticScoringParameters o_params, NetworkGraph o_network_graph, Logger o_logger) {
+		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : o_params.ptr & ~1, o_network_graph == null ? 0 : o_network_graph.ptr & ~1, o_logger == null ? 0 : o_logger.ptr));
 		Reference.reachabilityFence(o_params);
 		Reference.reachabilityFence(o_network_graph);
+		Reference.reachabilityFence(o_logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ProbabilisticScorerDecodeErrorZ ret_hu_conv = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
 		;
 		ret_hu_conv.ptrs_to.add(o_network_graph);
+		ret_hu_conv.ptrs_to.add(o_logger);
 		return ret_hu_conv;
 	}
 

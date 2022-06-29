@@ -102,7 +102,7 @@ public class AnnouncementSignatures extends CommonBase {
 		Reference.reachabilityFence(node_signature_arg);
 		Reference.reachabilityFence(bitcoin_signature_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new AnnouncementSignatures(null, ret); }
+		org.ldk.structs.AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -120,7 +120,7 @@ public class AnnouncementSignatures extends CommonBase {
 		long ret = bindings.AnnouncementSignatures_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new AnnouncementSignatures(null, ret); }
+		org.ldk.structs.AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

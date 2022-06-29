@@ -41,7 +41,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 		long ret = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BuiltCommitmentTransaction(null, ret); }
+		org.ldk.structs.BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BuiltCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 		long ret = bindings.TrustedCommitmentTransaction_keys(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TxCreationKeys(null, ret); }
+		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -73,7 +73,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 * 
 	 * The returned Vec has one entry for each HTLC, and in the same order.
 	 * 
-	 * This function is only valid in the holder commitment context, it always uses SigHashType::All.
+	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
 		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);

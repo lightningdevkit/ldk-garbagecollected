@@ -23,8 +23,13 @@ public class PeerHandleError extends CommonBase {
 	}
 
 	/**
-	 * Used to indicate that we probably can't make any future connections to this peer, implying
-	 * we should go ahead and force-close any channels we have with it.
+	 * Used to indicate that we probably can't make any future connections to this peer (e.g.
+	 * because we required features that our peer was missing, or vice versa).
+	 * 
+	 * While LDK's [`ChannelManager`] will not do it automatically, you likely wish to force-close
+	 * any channels with this peer or check for new versions of LDK.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public boolean get_no_connection_possible() {
 		boolean ret = bindings.PeerHandleError_get_no_connection_possible(this.ptr);
@@ -33,8 +38,13 @@ public class PeerHandleError extends CommonBase {
 	}
 
 	/**
-	 * Used to indicate that we probably can't make any future connections to this peer, implying
-	 * we should go ahead and force-close any channels we have with it.
+	 * Used to indicate that we probably can't make any future connections to this peer (e.g.
+	 * because we required features that our peer was missing, or vice versa).
+	 * 
+	 * While LDK's [`ChannelManager`] will not do it automatically, you likely wish to force-close
+	 * any channels with this peer or check for new versions of LDK.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public void set_no_connection_possible(boolean val) {
 		bindings.PeerHandleError_set_no_connection_possible(this.ptr, val);
@@ -49,7 +59,7 @@ public class PeerHandleError extends CommonBase {
 		long ret = bindings.PeerHandleError_new(no_connection_possible_arg);
 		Reference.reachabilityFence(no_connection_possible_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PeerHandleError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PeerHandleError(null, ret); }
+		org.ldk.structs.PeerHandleError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerHandleError(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -67,7 +77,7 @@ public class PeerHandleError extends CommonBase {
 		long ret = bindings.PeerHandleError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PeerHandleError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PeerHandleError(null, ret); }
+		org.ldk.structs.PeerHandleError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerHandleError(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

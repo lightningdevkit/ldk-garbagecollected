@@ -64,7 +64,7 @@ public class UpdateFee extends CommonBase {
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(feerate_per_kw_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFee(null, ret); }
+		org.ldk.structs.UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateFee(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -82,7 +82,7 @@ public class UpdateFee extends CommonBase {
 		long ret = bindings.UpdateFee_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFee(null, ret); }
+		org.ldk.structs.UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateFee(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

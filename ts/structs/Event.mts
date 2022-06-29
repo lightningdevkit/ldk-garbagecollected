@@ -5,6 +5,7 @@ import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
@@ -61,23 +62,18 @@ import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopD
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { LightningError } from '../structs/LightningError.mjs';
 import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
-import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
-import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
-import { OutPoint } from '../structs/OutPoint.mjs';
-import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
+import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
-import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -85,7 +81,7 @@ import { AcceptChannel } from '../structs/AcceptChannel.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
-import { FundingLocked } from '../structs/FundingLocked.mjs';
+import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
@@ -102,12 +98,17 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
+import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
+import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
+import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
+import { MonitorEvent } from '../structs/MonitorEvent.mjs';
+import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
-import { ScoringParameters } from '../structs/ScoringParameters.mjs';
-import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
-import { Scorer } from '../structs/Scorer.mjs';
-import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
+import { Record } from '../structs/Record.mjs';
+import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
@@ -120,6 +121,27 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
+import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
+import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
+import { Access, AccessInterface } from '../structs/Access.mjs';
+import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
+import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
+import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
+import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
+import { ChannelInfo } from '../structs/ChannelInfo.mjs';
+import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
+import { RoutingFees } from '../structs/RoutingFees.mjs';
+import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { NetAddress } from '../structs/NetAddress.mjs';
+import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
+import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeInfo } from '../structs/NodeInfo.mjs';
+import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
+import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
+import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
@@ -148,7 +170,6 @@ import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentId
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
-import { NetAddress } from '../structs/NetAddress.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZNoneZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.mjs';
@@ -168,8 +189,6 @@ import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
 import { KeysInterface, KeysInterfaceInterface } from '../structs/KeysInterface.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
-import { Record } from '../structs/Record.mjs';
-import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
@@ -214,32 +233,13 @@ import { TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ } from '../structs/TwoTuple_TxidC
 import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
-import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
-import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
-import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
-import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
-import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
-import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
-import { ChannelInfo } from '../structs/ChannelInfo.mjs';
-import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
-import { RoutingFees } from '../structs/RoutingFees.mjs';
-import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
-import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
-import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
-import { NodeInfo } from '../structs/NodeInfo.mjs';
-import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
-import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
-import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
+import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
@@ -255,7 +255,7 @@ import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { Result_CommitmentSignedDecodeErrorZ } from '../structs/Result_CommitmentSignedDecodeErrorZ.mjs';
 import { Result_FundingCreatedDecodeErrorZ } from '../structs/Result_FundingCreatedDecodeErrorZ.mjs';
 import { Result_FundingSignedDecodeErrorZ } from '../structs/Result_FundingSignedDecodeErrorZ.mjs';
-import { Result_FundingLockedDecodeErrorZ } from '../structs/Result_FundingLockedDecodeErrorZ.mjs';
+import { Result_ChannelReadyDecodeErrorZ } from '../structs/Result_ChannelReadyDecodeErrorZ.mjs';
 import { Init } from '../structs/Init.mjs';
 import { Result_InitDecodeErrorZ } from '../structs/Result_InitDecodeErrorZ.mjs';
 import { Result_OpenChannelDecodeErrorZ } from '../structs/Result_OpenChannelDecodeErrorZ.mjs';
@@ -297,6 +297,11 @@ import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChanne
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
+import { BigSize } from '../structs/BigSize.mjs';
+import { ChannelUsage } from '../structs/ChannelUsage.mjs';
+import { Score, ScoreInterface } from '../structs/Score.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { Persister, PersisterInterface } from '../structs/Persister.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -311,6 +316,7 @@ import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
+import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
@@ -322,12 +328,10 @@ import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDe
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
 import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
-import { NetGraphMsgHandler } from '../structs/NetGraphMsgHandler.mjs';
+import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -337,10 +341,10 @@ import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
 import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { RetryAttempts } from '../structs/RetryAttempts.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
+import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 /**
@@ -358,16 +362,17 @@ export class Event extends CommonBase {
 		switch (raw_ty) {
 			case 0: return new Event_FundingGenerationReady(ptr);
 			case 1: return new Event_PaymentReceived(ptr);
-			case 2: return new Event_PaymentSent(ptr);
-			case 3: return new Event_PaymentPathFailed(ptr);
+			case 2: return new Event_PaymentClaimed(ptr);
+			case 3: return new Event_PaymentSent(ptr);
 			case 4: return new Event_PaymentFailed(ptr);
-			case 5: return new Event_PendingHTLCsForwardable(ptr);
-			case 6: return new Event_SpendableOutputs(ptr);
-			case 7: return new Event_PaymentForwarded(ptr);
-			case 8: return new Event_ChannelClosed(ptr);
-			case 9: return new Event_DiscardFunding(ptr);
-			case 10: return new Event_PaymentPathSuccessful(ptr);
-			case 11: return new Event_OpenChannelRequest(ptr);
+			case 5: return new Event_PaymentPathSuccessful(ptr);
+			case 6: return new Event_PaymentPathFailed(ptr);
+			case 7: return new Event_PendingHTLCsForwardable(ptr);
+			case 8: return new Event_SpendableOutputs(ptr);
+			case 9: return new Event_PaymentForwarded(ptr);
+			case 10: return new Event_ChannelClosed(ptr);
+			case 11: return new Event_DiscardFunding(ptr);
+			case 12: return new Event_OpenChannelRequest(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -391,8 +396,8 @@ export class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new FundingGenerationReady-variant Event
 	 */
-	public static constructor_funding_generation_ready(temporary_channel_id: Uint8Array, channel_value_satoshis: bigint, output_script: Uint8Array, user_channel_id: bigint): Event {
-		const ret: number = bindings.Event_funding_generation_ready(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), channel_value_satoshis, bindings.encodeUint8Array(output_script), user_channel_id);
+	public static constructor_funding_generation_ready(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, channel_value_satoshis: bigint, output_script: Uint8Array, user_channel_id: bigint): Event {
+		const ret: number = bindings.Event_funding_generation_ready(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), channel_value_satoshis, bindings.encodeUint8Array(output_script), user_channel_id);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,8 +406,18 @@ export class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentReceived-variant Event
 	 */
-	public static constructor_payment_received(payment_hash: Uint8Array, amt: bigint, purpose: PaymentPurpose): Event {
-		const ret: number = bindings.Event_payment_received(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), amt, CommonBase.get_ptr_of(purpose));
+	public static constructor_payment_received(payment_hash: Uint8Array, amount_msat: bigint, purpose: PaymentPurpose): Event {
+		const ret: number = bindings.Event_payment_received(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), amount_msat, CommonBase.get_ptr_of(purpose));
+		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentClaimed-variant Event
+	 */
+	public static constructor_payment_claimed(payment_hash: Uint8Array, amount_msat: bigint, purpose: PaymentPurpose): Event {
+		const ret: number = bindings.Event_payment_claimed(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), amount_msat, CommonBase.get_ptr_of(purpose));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -419,20 +434,30 @@ export class Event extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new PaymentPathFailed-variant Event
+	 * Utility method to constructs a new PaymentFailed-variant Event
 	 */
-	public static constructor_payment_path_failed(payment_id: Uint8Array, payment_hash: Uint8Array, rejected_by_dest: boolean, network_update: Option_NetworkUpdateZ, all_paths_failed: boolean, path: RouteHop[], short_channel_id: Option_u64Z, retry: RouteParameters): Event {
-		const ret: number = bindings.Event_payment_path_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), rejected_by_dest, CommonBase.get_ptr_of(network_update), all_paths_failed, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), CommonBase.get_ptr_of(short_channel_id), retry == null ? 0 : CommonBase.get_ptr_of(retry) & ~1);
+	public static constructor_payment_failed(payment_id: Uint8Array, payment_hash: Uint8Array): Event {
+		const ret: number = bindings.Event_payment_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Utility method to constructs a new PaymentFailed-variant Event
+	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
 	 */
-	public static constructor_payment_failed(payment_id: Uint8Array, payment_hash: Uint8Array): Event {
-		const ret: number = bindings.Event_payment_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
+	public static constructor_payment_path_successful(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[]): Event {
+		const ret: number = bindings.Event_payment_path_successful(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
+		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentPathFailed-variant Event
+	 */
+	public static constructor_payment_path_failed(payment_id: Uint8Array, payment_hash: Uint8Array, rejected_by_dest: boolean, network_update: Option_NetworkUpdateZ, all_paths_failed: boolean, path: RouteHop[], short_channel_id: Option_u64Z, retry: RouteParameters): Event {
+		const ret: number = bindings.Event_payment_path_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), rejected_by_dest, CommonBase.get_ptr_of(network_update), all_paths_failed, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), CommonBase.get_ptr_of(short_channel_id), retry == null ? 0 : CommonBase.get_ptr_of(retry) & ~1);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -461,8 +486,8 @@ export class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentForwarded-variant Event
 	 */
-	public static constructor_payment_forwarded(fee_earned_msat: Option_u64Z, claim_from_onchain_tx: boolean): Event {
-		const ret: number = bindings.Event_payment_forwarded(CommonBase.get_ptr_of(fee_earned_msat), claim_from_onchain_tx);
+	public static constructor_payment_forwarded(prev_channel_id: Uint8Array, next_channel_id: Uint8Array, fee_earned_msat: Option_u64Z, claim_from_onchain_tx: boolean): Event {
+		const ret: number = bindings.Event_payment_forwarded(bindings.encodeUint8Array(bindings.check_arr_len(prev_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_channel_id, 32)), CommonBase.get_ptr_of(fee_earned_msat), claim_from_onchain_tx);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -483,16 +508,6 @@ export class Event extends CommonBase {
 	 */
 	public static constructor_discard_funding(channel_id: Uint8Array, transaction: Uint8Array): Event {
 		const ret: number = bindings.Event_discard_funding(bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(transaction));
-		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
-	 */
-	public static constructor_payment_path_successful(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[]): Event {
-		const ret: number = bindings.Event_payment_path_successful(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -522,9 +537,18 @@ export class Event extends CommonBase {
 export class Event_FundingGenerationReady extends Event {
 	/**
 	 * The random channel_id we picked which you'll need to pass into
-	 * ChannelManager::funding_transaction_generated.
+	 * [`ChannelManager::funding_transaction_generated`].
+	 * 
+	 * [`ChannelManager::funding_transaction_generated`]: crate::ln::channelmanager::ChannelManager::funding_transaction_generated
 	 */
 	public temporary_channel_id: Uint8Array;
+	/**
+	 * The counterparty's node_id, which you'll need to pass back into
+	 * [`ChannelManager::funding_transaction_generated`].
+	 * 
+	 * [`ChannelManager::funding_transaction_generated`]: crate::ln::channelmanager::ChannelManager::funding_transaction_generated
+	 */
+	public counterparty_node_id: Uint8Array;
 	/**
 	 * The value, in satoshis, that the output should have.
 	 */
@@ -546,6 +570,9 @@ export class Event_FundingGenerationReady extends Event {
 		const temporary_channel_id: number = bindings.LDKEvent_FundingGenerationReady_get_temporary_channel_id(ptr);
 		const temporary_channel_id_conv: Uint8Array = bindings.decodeUint8Array(temporary_channel_id);
 		this.temporary_channel_id = temporary_channel_id_conv;
+		const counterparty_node_id: number = bindings.LDKEvent_FundingGenerationReady_get_counterparty_node_id(ptr);
+		const counterparty_node_id_conv: Uint8Array = bindings.decodeUint8Array(counterparty_node_id);
+		this.counterparty_node_id = counterparty_node_id_conv;
 		this.channel_value_satoshis = bindings.LDKEvent_FundingGenerationReady_get_channel_value_satoshis(ptr);
 		const output_script: number = bindings.LDKEvent_FundingGenerationReady_get_output_script(ptr);
 		const output_script_conv: Uint8Array = bindings.decodeUint8Array(output_script);
@@ -563,7 +590,7 @@ export class Event_PaymentReceived extends Event {
 	/**
 	 * The value, in thousandths of a satoshi, that this payment is for.
 	 */
-	public amt: bigint;
+	public amount_msat: bigint;
 	/**
 	 * Information for claiming this received payment, based on whether the purpose of the
 	 * payment is to pay an invoice or to send a spontaneous payment.
@@ -575,8 +602,37 @@ export class Event_PaymentReceived extends Event {
 		const payment_hash: number = bindings.LDKEvent_PaymentReceived_get_payment_hash(ptr);
 		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
 		this.payment_hash = payment_hash_conv;
-		this.amt = bindings.LDKEvent_PaymentReceived_get_amt(ptr);
+		this.amount_msat = bindings.LDKEvent_PaymentReceived_get_amount_msat(ptr);
 		const purpose: number = bindings.LDKEvent_PaymentReceived_get_purpose(ptr);
+		const purpose_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(purpose);
+			CommonBase.add_ref_from(purpose_hu_conv, this);
+		this.purpose = purpose_hu_conv;
+	}
+}
+/** A Event of type PaymentClaimed */
+export class Event_PaymentClaimed extends Event {
+	/**
+	 * The payment hash of the claimed payment. Note that LDK will not stop you from
+	 * registering duplicate payment hashes for inbound payments.
+	 */
+	public payment_hash: Uint8Array;
+	/**
+	 * The value, in thousandths of a satoshi, that this payment is for.
+	 */
+	public amount_msat: bigint;
+	/**
+	 * The purpose of this claimed payment, i.e. whether the payment was for an invoice or a
+	 * spontaneous payment.
+	 */
+	public purpose: PaymentPurpose;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const payment_hash: number = bindings.LDKEvent_PaymentClaimed_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		this.amount_msat = bindings.LDKEvent_PaymentClaimed_get_amount_msat(ptr);
+		const purpose: number = bindings.LDKEvent_PaymentClaimed_get_purpose(ptr);
 		const purpose_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(purpose);
 			CommonBase.add_ref_from(purpose_hu_conv, this);
 		this.purpose = purpose_hu_conv;
@@ -636,6 +692,80 @@ export class Event_PaymentSent extends Event {
 		this.fee_paid_msat = fee_paid_msat_hu_conv;
 	}
 }
+/** A Event of type PaymentFailed */
+export class Event_PaymentFailed extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 */
+	public payment_id: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 */
+	public payment_hash: Uint8Array;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const payment_id: number = bindings.LDKEvent_PaymentFailed_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentFailed_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+	}
+}
+/** A Event of type PaymentPathSuccessful */
+export class Event_PaymentPathSuccessful extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 */
+	public payment_id: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public payment_hash: Uint8Array;
+	/**
+	 * The payment path that was successful.
+	 * 
+	 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
+	 */
+	public path: RouteHop[];
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const payment_id: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		const path: number = bindings.LDKEvent_PaymentPathSuccessful_get_path(ptr);
+		const path_conv_10_len: number = bindings.getArrayLength(path);
+			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+			for (var k = 0; k < path_conv_10_len; k++) {
+				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+			bindings.freeWasmMemory(path)
+		this.path = path_conv_10_arr;
+	}
+}
 /** A Event of type PaymentPathFailed */
 export class Event_PaymentPathFailed extends Event {
 	/**
@@ -666,10 +796,9 @@ export class Event_PaymentPathFailed extends Event {
 	 * payment route.
 	 * 
 	 * Should be applied to the [`NetworkGraph`] so that routing decisions can take into
-	 * account the update. [`NetGraphMsgHandler`] is capable of doing this.
+	 * account the update.
 	 * 
-	 * [`NetworkGraph`]: crate::routing::network_graph::NetworkGraph
-	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 * [`NetworkGraph`]: crate::routing::gossip::NetworkGraph
 	 */
 	public network_update: Option_NetworkUpdateZ;
 	/**
@@ -698,6 +827,10 @@ export class Event_PaymentPathFailed extends Event {
 	public path: RouteHop[];
 	/**
 	 * The channel responsible for the failed payment path.
+	 * 
+	 * Note that for route hints or for the first hop in a path this may be an SCID alias and
+	 * may not refer to a channel in the public network graph. These aliases may also collide
+	 * with channels in the public network graph.
 	 * 
 	 * If this is `Some`, then the corresponding channel should be avoided when the payment is
 	 * retried. May be `None` for older [`Event`] serializations.
@@ -750,34 +883,6 @@ export class Event_PaymentPathFailed extends Event {
 		this.retry = retry_hu_conv;
 	}
 }
-/** A Event of type PaymentFailed */
-export class Event_PaymentFailed extends Event {
-	/**
-	 * The id returned by [`ChannelManager::send_payment`] and used with
-	 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
-	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
-	 */
-	public payment_id: Uint8Array;
-	/**
-	 * The hash that was given to [`ChannelManager::send_payment`].
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 */
-	public payment_hash: Uint8Array;
-	/* @internal */
-	public constructor(ptr: number) {
-		super(null, ptr);
-		const payment_id: number = bindings.LDKEvent_PaymentFailed_get_payment_id(ptr);
-		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
-		this.payment_id = payment_id_conv;
-		const payment_hash: number = bindings.LDKEvent_PaymentFailed_get_payment_hash(ptr);
-		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
-		this.payment_hash = payment_hash_conv;
-	}
-}
 /** A Event of type PendingHTLCsForwardable */
 export class Event_PendingHTLCsForwardable extends Event {
 	/**
@@ -818,6 +923,20 @@ export class Event_SpendableOutputs extends Event {
 /** A Event of type PaymentForwarded */
 export class Event_PaymentForwarded extends Event {
 	/**
+	 * The incoming channel between the previous node and us. This is only `None` for events
+	 * generated or serialized by versions prior to 0.0.107.
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public prev_channel_id: Uint8Array;
+	/**
+	 * The outgoing channel between the next node and us. This is only `None` for events
+	 * generated or serialized by versions prior to 0.0.107.
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public next_channel_id: Uint8Array;
+	/**
 	 * The fee, in milli-satoshis, which was earned as a result of the payment.
 	 * 
 	 * Note that if we force-closed the channel over which we forwarded an HTLC while the HTLC
@@ -841,6 +960,12 @@ export class Event_PaymentForwarded extends Event {
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
+		const prev_channel_id: number = bindings.LDKEvent_PaymentForwarded_get_prev_channel_id(ptr);
+		const prev_channel_id_conv: Uint8Array = bindings.decodeUint8Array(prev_channel_id);
+		this.prev_channel_id = prev_channel_id_conv;
+		const next_channel_id: number = bindings.LDKEvent_PaymentForwarded_get_next_channel_id(ptr);
+		const next_channel_id_conv: Uint8Array = bindings.decodeUint8Array(next_channel_id);
+		this.next_channel_id = next_channel_id_conv;
 		const fee_earned_msat: number = bindings.LDKEvent_PaymentForwarded_get_fee_earned_msat(ptr);
 		const fee_earned_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(fee_earned_msat);
 			CommonBase.add_ref_from(fee_earned_msat_hu_conv, this);
@@ -905,60 +1030,14 @@ export class Event_DiscardFunding extends Event {
 		this.transaction = transaction_conv;
 	}
 }
-/** A Event of type PaymentPathSuccessful */
-export class Event_PaymentPathSuccessful extends Event {
-	/**
-	 * The id returned by [`ChannelManager::send_payment`] and used with
-	 * [`ChannelManager::retry_payment`].
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
-	 */
-	public payment_id: Uint8Array;
-	/**
-	 * The hash that was given to [`ChannelManager::send_payment`].
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * 
-	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public payment_hash: Uint8Array;
-	/**
-	 * The payment path that was successful.
-	 * 
-	 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
-	 */
-	public path: RouteHop[];
-	/* @internal */
-	public constructor(ptr: number) {
-		super(null, ptr);
-		const payment_id: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_id(ptr);
-		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
-		this.payment_id = payment_id_conv;
-		const payment_hash: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_hash(ptr);
-		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
-		this.payment_hash = payment_hash_conv;
-		const path: number = bindings.LDKEvent_PaymentPathSuccessful_get_path(ptr);
-		const path_conv_10_len: number = bindings.getArrayLength(path);
-			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
-			for (var k = 0; k < path_conv_10_len; k++) {
-				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
-				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
-				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
-				path_conv_10_arr[k] = path_conv_10_hu_conv;
-			}
-			bindings.freeWasmMemory(path)
-		this.path = path_conv_10_arr;
-	}
-}
 /** A Event of type OpenChannelRequest */
 export class Event_OpenChannelRequest extends Event {
 	/**
 	 * The temporary channel ID of the channel requested to be opened.
 	 * 
 	 * When responding to the request, the `temporary_channel_id` should be passed
-	 * back to the ChannelManager with [`ChannelManager::accept_inbound_channel`] to accept,
-	 * or to [`ChannelManager::force_close_channel`] to reject.
+	 * back to the ChannelManager through [`ChannelManager::accept_inbound_channel`] to accept,
+	 * or through [`ChannelManager::force_close_channel`] to reject.
 	 * 
 	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
 	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
@@ -966,6 +1045,14 @@ export class Event_OpenChannelRequest extends Event {
 	public temporary_channel_id: Uint8Array;
 	/**
 	 * The node_id of the counterparty requesting to open the channel.
+	 * 
+	 * When responding to the request, the `counterparty_node_id` should be passed
+	 * back to the `ChannelManager` through [`ChannelManager::accept_inbound_channel`] to
+	 * accept the request, or through [`ChannelManager::force_close_channel`] to reject the
+	 * request.
+	 * 
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
 	 */
 	public counterparty_node_id: Uint8Array;
 	/**
@@ -984,6 +1071,12 @@ export class Event_OpenChannelRequest extends Event {
 	 * Note that if [`ChannelTypeFeatures::supports_scid_privacy`] returns true on this type,
 	 * the resulting [`ChannelManager`] will not be readable by versions of LDK prior to
 	 * 0.0.106.
+	 * 
+	 * Furthermore, note that if [`ChannelTypeFeatures::supports_zero_conf`] returns true on this type,
+	 * the resulting [`ChannelManager`] will not be readable by versions of LDK prior to
+	 * 0.0.107. Channels setting this type also need to get manually accepted via
+	 * [`crate::ln::channelmanager::ChannelManager::accept_inbound_channel_from_trusted_peer_0conf`],
+	 * or will be rejected otherwise.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */

@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 /**
  * Parameters needed to find a [`Route`].
  * 
- * Passed to [`find_route`] and also provided in [`Event::PaymentPathFailed`] for retrying a failed
- * payment path.
+ * Passed to [`find_route`] and [`build_route_from_hops`], but also provided in
+ * [`Event::PaymentPathFailed`] for retrying a failed payment path.
  * 
  * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
  */
@@ -32,7 +32,7 @@ public class RouteParameters extends CommonBase {
 		long ret = bindings.RouteParameters_get_payment_params(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PaymentParameters(null, ret); }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -91,7 +91,7 @@ public class RouteParameters extends CommonBase {
 		Reference.reachabilityFence(final_value_msat_arg);
 		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteParameters(null, ret); }
+		org.ldk.structs.RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -109,7 +109,7 @@ public class RouteParameters extends CommonBase {
 		long ret = bindings.RouteParameters_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteParameters(null, ret); }
+		org.ldk.structs.RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

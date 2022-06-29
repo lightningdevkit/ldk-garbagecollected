@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An enum which can either contain a crate::lightning::routing::network_graph::NetworkUpdate or not
+ * An enum which can either contain a crate::lightning::routing::gossip::NetworkUpdate or not
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Option_NetworkUpdateZ extends CommonBase {
@@ -31,7 +31,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	}
 
 	/**
-	 * When we're in this state, this COption_NetworkUpdateZ contains a crate::lightning::routing::network_graph::NetworkUpdate
+	 * When we're in this state, this COption_NetworkUpdateZ contains a crate::lightning::routing::gossip::NetworkUpdate
 	 */
 	public final static class Some extends Option_NetworkUpdateZ {
 		public final org.ldk.structs.NetworkUpdate some;
@@ -52,7 +52,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_NetworkUpdateZ containing a crate::lightning::routing::network_graph::NetworkUpdate
+	 * Constructs a new COption_NetworkUpdateZ containing a crate::lightning::routing::gossip::NetworkUpdate
 	 */
 	public static Option_NetworkUpdateZ some(NetworkUpdate o) {
 		long ret = bindings.COption_NetworkUpdateZ_some(o.ptr);

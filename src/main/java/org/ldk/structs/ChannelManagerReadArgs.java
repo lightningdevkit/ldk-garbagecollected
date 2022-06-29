@@ -191,7 +191,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 		long ret = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UserConfig(null, ret); }
+		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -221,7 +221,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 		Reference.reachabilityFence(default_config);
 		Reference.reachabilityFence(channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelManagerReadArgs(null, ret); }
+		org.ldk.structs.ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManagerReadArgs(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		ret_hu_conv.ptrs_to.add(fee_estimator);

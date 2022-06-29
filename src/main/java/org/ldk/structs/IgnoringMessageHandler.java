@@ -27,7 +27,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	public static IgnoringMessageHandler of() {
 		long ret = bindings.IgnoringMessageHandler_new();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		IgnoringMessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new IgnoringMessageHandler(null, ret); }
+		org.ldk.structs.IgnoringMessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.IgnoringMessageHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

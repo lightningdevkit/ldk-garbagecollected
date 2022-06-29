@@ -27,7 +27,7 @@ public class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 		long ret = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RawInvoice(null, ret); }
+		org.ldk.structs.RawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 		long ret = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoiceSignature ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceSignature(null, ret); }
+		org.ldk.structs.InvoiceSignature ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceSignature(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

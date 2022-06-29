@@ -25,7 +25,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 		private Result_LockedChannelMonitorNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_LockedChannelMonitorNoneZ_get_ok(ptr);
-			LockedChannelMonitor res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new LockedChannelMonitor(null, res); }
+			org.ldk.structs.LockedChannelMonitor res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.LockedChannelMonitor(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

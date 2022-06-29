@@ -67,4 +67,22 @@ public class Result_StringErrorZ extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.CResult_StringErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_StringErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_StringErrorZ clone() {
+		long ret = bindings.CResult_StringErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * A script pubkey for shutting down a channel as defined by [BOLT #2].
  * 
- * [BOLT #2]: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md
+ * [BOLT #2]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ShutdownScript extends CommonBase {
@@ -35,7 +35,7 @@ public class ShutdownScript extends CommonBase {
 		long ret = bindings.ShutdownScript_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
+		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class ShutdownScript extends CommonBase {
 		long ret = bindings.ShutdownScript_new_p2wpkh(InternalUtils.check_arr_len(pubkey_hash, 20));
 		Reference.reachabilityFence(pubkey_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
+		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -79,7 +79,7 @@ public class ShutdownScript extends CommonBase {
 		long ret = bindings.ShutdownScript_new_p2wsh(InternalUtils.check_arr_len(script_hash, 32));
 		Reference.reachabilityFence(script_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
+		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -94,8 +94,8 @@ public class ShutdownScript extends CommonBase {
 	 * 
 	 * This function may return an error if `program` is invalid for the segwit `version`.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(byte version, byte[] program) {
-		long ret = bindings.ShutdownScript_new_witness_program(version, program);
+	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(WitnessVersion version, byte[] program) {
+		long ret = bindings.ShutdownScript_new_witness_program(version.getVal(), program);
 		Reference.reachabilityFence(version);
 		Reference.reachabilityFence(program);
 		if (ret >= 0 && ret <= 4096) { return null; }

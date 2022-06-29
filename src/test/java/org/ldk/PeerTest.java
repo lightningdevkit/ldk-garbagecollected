@@ -11,6 +11,8 @@ import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PeerTest {
@@ -80,7 +82,12 @@ public class PeerTest {
                     synchronized (monitors) {
                         assert monitors.size() <= 1;
                         for (Long mon : monitors.values()) {
-                            return bindings.ChannelMonitor_get_and_clear_pending_monitor_events(mon);
+                            long funding_info = bindings.ChannelMonitor_get_funding_txo(mon);
+                            long funding_txo = bindings.C2Tuple_OutPointScriptZ_get_a(funding_info);
+                            long[] mon_events = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(mon);
+                            long funding_mon_tuple = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_new(funding_txo, mon_events);
+                            bindings.C2Tuple_OutPointScriptZ_free(funding_info);
+                            return new long[] {funding_mon_tuple};
                         }
                     }
                     return new long[0];
@@ -99,9 +106,9 @@ public class PeerTest {
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
-            this.router = bindings.NetworkGraph_new(new byte[32]);
-            this.router_wrapper = bindings.NetGraphMsgHandler_new(router, bindings.COption_AccessZ_none(), logger);
-            this.route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router_wrapper);
+            this.router = bindings.NetworkGraph_new(new byte[32], logger);
+            this.router_wrapper = bindings.P2PGossipSync_new(router, bindings.COption_AccessZ_none(), logger);
+            this.route_handler = bindings.P2PGossipSync_as_RoutingMessageHandler(router_wrapper);
             this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
             this.custom_message_handler = bindings.IgnoringMessageHandler_new();
 
@@ -148,7 +155,7 @@ public class PeerTest {
             bindings.EventsProvider_free(chan_manager_events);
             bindings.ChannelMessageHandler_free(chan_handler);
             bindings.NetworkGraph_free(router);
-            bindings.NetGraphMsgHandler_free(router_wrapper);
+            bindings.P2PGossipSync_free(router_wrapper);
             bindings.RoutingMessageHandler_free(route_handler);
             //MessageHandler was actually moved into the route_handler!: bindings.MessageHandler_free(message_handler);
             bindings.PeerManager_free(peer_manager);
@@ -161,13 +168,30 @@ public class PeerTest {
     }
 
     class LongHolder { long val; }
+    class PendingWrite {
+        long pm;
+        long descriptor;
+        byte[] array;
+        PendingWrite(long pm, long descriptor, byte[] array) { this.pm = pm; this.descriptor = descriptor; this.array = array; }
+        void process() {
+            long res = bindings.PeerManager_read_event(pm, descriptor, array);
+            assert bindings.CResult_boolPeerHandleErrorZ_is_ok(res);
+            assert !bindings.CResult_boolPeerHandleErrorZ_get_ok(res);
+            bindings.CResult_boolPeerHandleErrorZ_free(res);
+        }
+    }
+    ConcurrentLinkedQueue<PendingWrite> pending_writes = new ConcurrentLinkedQueue<>();
 
     void do_read_event(ConcurrentLinkedQueue<Thread> list, long pm, long descriptor, byte[] arr) {
+        pending_writes.add(new PendingWrite(pm, descriptor, arr));
         Thread thread = new Thread(() -> {
-            long res = bindings.PeerManager_read_event(pm, descriptor, arr);
-            assert bindings.CResult_boolPeerHandleErrorZ_is_ok(res);
-            //assert bindings.deref_bool(bindings.LDKCResult_boolPeerHandleErrorZ_get_inner(res));
-            bindings.CResult_boolPeerHandleErrorZ_free(res);
+            synchronized (pending_writes) {
+                while (true) {
+                    PendingWrite write = pending_writes.poll();
+                    if (write == null) break;
+                    write.process();
+                }
+            }
         });
         thread.start();
         list.add(thread);
@@ -256,7 +280,7 @@ public class PeerTest {
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[] {0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
-        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding.bitcoinSerialize());
+        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, peer2.node_id, funding.bitcoinSerialize());
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
@@ -287,8 +311,9 @@ public class PeerTest {
         assert bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
         long payment_tuple = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(inbound_payment);
         bindings.COption_u64Z_free(no_min_val);
-        long scorer = bindings.Scorer_default();
-        long scorer_interface = bindings.Scorer_as_Score(scorer);
+
+        long scorer = bindings.ProbabilisticScorer_new(bindings.ProbabilisticScoringParameters_default(), peer1.router, peer1.logger);
+        long scorer_interface = bindings.ProbabilisticScorer_as_Score(scorer);
 
         long no_u64 = bindings.COption_u64Z_none();
         long invoice_features = bindings.InvoiceFeatures_known();
@@ -296,12 +321,12 @@ public class PeerTest {
         bindings.InvoiceFeatures_free(invoice_features);
         bindings.COption_u64Z_free(no_u64);
         long route_params = bindings.RouteParameters_new(payee, 1000, 42);
-        long route = bindings.find_route(peer1.node_id, route_params, peer1.router, peer1_chans,
-                peer1.logger, scorer_interface, new byte[32]);
+        long route = bindings.find_route(peer1.node_id, route_params, peer1.router, peer1_chans, peer1.logger,
+                scorer_interface, new byte[32]);
         bindings.RouteParameters_free(route_params);
         bindings.PaymentParameters_free(payee);
         bindings.Score_free(scorer_interface);
-        bindings.Scorer_free(scorer);
+        bindings.ProbabilisticScorer_free(scorer);
 
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.CResult_RouteLightningErrorZ_is_ok(route);
@@ -327,7 +352,13 @@ public class PeerTest {
         assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
         bindings.LDKPaymentPurpose purpose = bindings.LDKPaymentPurpose_ref_from_ptr(((bindings.LDKEvent.PaymentReceived) payment_recvd).purpose);
         assert purpose instanceof bindings.LDKPaymentPurpose.InvoicePayment;
-        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKPaymentPurpose.InvoicePayment) purpose).payment_preimage);
+        bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKPaymentPurpose.InvoicePayment) purpose).payment_preimage);
+        bindings.Event_free(events.remove(0));
+
+        bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent payment_claimed = bindings.LDKEvent_ref_from_ptr(events.get(0));
+        assert payment_claimed instanceof bindings.LDKEvent.PaymentClaimed;
         bindings.Event_free(events.remove(0));
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);

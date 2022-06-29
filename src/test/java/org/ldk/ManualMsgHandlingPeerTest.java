@@ -34,7 +34,7 @@ public class ManualMsgHandlingPeerTest {
             }
 
             @Override
-            public void handle_funding_locked(byte[] their_node_id, long msg) {
+            public void handle_channel_ready(byte[] their_node_id, long msg) {
 
             }
 

@@ -141,7 +141,7 @@ public class PaymentSendFailure extends CommonBase {
 			}
 			this.results = results_conv_22_arr;
 			long failed_paths_retry = obj.failed_paths_retry;
-			RouteParameters failed_paths_retry_hu_conv = null; if (failed_paths_retry < 0 || failed_paths_retry > 4096) { failed_paths_retry_hu_conv = new RouteParameters(null, failed_paths_retry); }
+			org.ldk.structs.RouteParameters failed_paths_retry_hu_conv = null; if (failed_paths_retry < 0 || failed_paths_retry > 4096) { failed_paths_retry_hu_conv = new org.ldk.structs.RouteParameters(null, failed_paths_retry); }
 			failed_paths_retry_hu_conv.ptrs_to.add(this);
 			this.failed_paths_retry = failed_paths_retry_hu_conv;
 			this.payment_id = obj.payment_id;

@@ -25,7 +25,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 		private Result_InitFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_InitFeaturesDecodeErrorZ_get_ok(ptr);
-			InitFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new InitFeatures(null, res); }
+			org.ldk.structs.InitFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.InitFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 		private Result_InitFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_InitFeaturesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -71,6 +71,24 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_InitFeaturesDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_InitFeaturesDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_InitFeaturesDecodeErrorZ clone() {
+		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

@@ -25,7 +25,7 @@ public class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 		private Result_RoutingFeesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_RoutingFeesDecodeErrorZ_get_ok(ptr);
-			RoutingFees res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new RoutingFees(null, res); }
+			org.ldk.structs.RoutingFees res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.RoutingFees(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 		private Result_RoutingFeesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_RoutingFeesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

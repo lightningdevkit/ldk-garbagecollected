@@ -27,7 +27,7 @@ public class ErroringMessageHandler extends CommonBase {
 	public static ErroringMessageHandler of() {
 		long ret = bindings.ErroringMessageHandler_new();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErroringMessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErroringMessageHandler(null, ret); }
+		org.ldk.structs.ErroringMessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ErroringMessageHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

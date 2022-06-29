@@ -36,7 +36,7 @@ public class PrivateRoute extends CommonBase {
 		long ret = bindings.PrivateRoute_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PrivateRoute ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PrivateRoute(null, ret); }
+		org.ldk.structs.PrivateRoute ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PrivateRoute(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class PrivateRoute extends CommonBase {
 		long ret = bindings.PrivateRoute_into_inner(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
+		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		;
 		return ret_hu_conv;

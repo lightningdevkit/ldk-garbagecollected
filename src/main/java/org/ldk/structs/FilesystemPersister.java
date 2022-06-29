@@ -39,7 +39,7 @@ public class FilesystemPersister extends CommonBase {
 		long ret = bindings.FilesystemPersister_new(path_to_channel_data);
 		Reference.reachabilityFence(path_to_channel_data);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		FilesystemPersister ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FilesystemPersister(null, ret); }
+		org.ldk.structs.FilesystemPersister ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.FilesystemPersister(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -63,19 +63,6 @@ public class FilesystemPersister extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(keys_manager);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Constructs a new Persist which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Persist must be freed before this_arg is
-	 */
-	public Persist as_Persist() {
-		long ret = bindings.FilesystemPersister_as_Persist(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Persist ret_hu_conv = new Persist(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

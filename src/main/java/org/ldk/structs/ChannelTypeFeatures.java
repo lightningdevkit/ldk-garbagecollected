@@ -59,7 +59,7 @@ public class ChannelTypeFeatures extends CommonBase {
 		long ret = bindings.ChannelTypeFeatures_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTypeFeatures(null, ret); }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -70,7 +70,7 @@ public class ChannelTypeFeatures extends CommonBase {
 	public static ChannelTypeFeatures empty() {
 		long ret = bindings.ChannelTypeFeatures_empty();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTypeFeatures(null, ret); }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -81,7 +81,7 @@ public class ChannelTypeFeatures extends CommonBase {
 	public static ChannelTypeFeatures known() {
 		long ret = bindings.ChannelTypeFeatures_known();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTypeFeatures(null, ret); }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -114,6 +114,108 @@ public class ChannelTypeFeatures extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTypeFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelTypeFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_static_remote_key_optional() {
+		bindings.ChannelTypeFeatures_set_static_remote_key_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_static_remote_key_required() {
+		bindings.ChannelTypeFeatures_set_static_remote_key_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_static_remote_key() {
+		boolean ret = bindings.ChannelTypeFeatures_supports_static_remote_key(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_static_remote_key() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_static_remote_key(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_scid_privacy_optional() {
+		bindings.ChannelTypeFeatures_set_scid_privacy_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_scid_privacy_required() {
+		bindings.ChannelTypeFeatures_set_scid_privacy_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_scid_privacy() {
+		boolean ret = bindings.ChannelTypeFeatures_supports_scid_privacy(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_scid_privacy() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_scid_privacy(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_zero_conf_optional() {
+		bindings.ChannelTypeFeatures_set_zero_conf_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_zero_conf_required() {
+		bindings.ChannelTypeFeatures_set_zero_conf_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_zero_conf() {
+		boolean ret = bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_zero_conf() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

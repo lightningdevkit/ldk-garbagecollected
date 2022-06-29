@@ -25,7 +25,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 		private Result_NetworkGraphDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_NetworkGraphDecodeErrorZ_get_ok(ptr);
-			NetworkGraph res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new NetworkGraph(null, res); }
+			org.ldk.structs.NetworkGraph res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.NetworkGraph(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 		private Result_NetworkGraphDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_NetworkGraphDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -45,11 +45,14 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
 	 */
-	public static Result_NetworkGraphDecodeErrorZ ok(NetworkGraph o) {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		Reference.reachabilityFence(o);
+	public static Result_NetworkGraphDecodeErrorZ ok(byte[] o_genesis_hash, Logger o_logger) {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(InternalUtils.check_arr_len(o_genesis_hash, 32), o_logger == null ? 0 : o_logger.ptr));
+		Reference.reachabilityFence(o_genesis_hash);
+		Reference.reachabilityFence(o_logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		;
+		ret_hu_conv.ptrs_to.add(o_logger);
 		return ret_hu_conv;
 	}
 
@@ -71,24 +74,6 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_NetworkGraphDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
-	}
-
-	long clone_ptr() {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_clone_ptr(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Creates a new CResult_NetworkGraphDecodeErrorZ which has the same data as `orig`
-	 * but with all dynamically-allocated buffers duplicated in new buffers.
-	 */
-	public Result_NetworkGraphDecodeErrorZ clone() {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_clone(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
 	}
 
 }

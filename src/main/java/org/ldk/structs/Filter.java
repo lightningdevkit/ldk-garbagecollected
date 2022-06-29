@@ -71,7 +71,7 @@ public class Filter extends CommonBase {
 				Reference.reachabilityFence(arg);
 			}
 			@Override public long register_output(long output) {
-				WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new WatchedOutput(null, output); }
+				org.ldk.structs.WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new org.ldk.structs.WatchedOutput(null, output); }
 				output_hu_conv.ptrs_to.add(this);
 				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
 				Reference.reachabilityFence(arg);

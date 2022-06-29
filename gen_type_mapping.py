@@ -337,12 +337,13 @@ class TypeMappingGenerator:
                 to_hu_conv_sfx = ""
                 if not ty_info.is_ptr or holds_ref:
                     to_hu_conv_sfx = "\n" + self.consts.add_ref(ty_info.var_name + "_hu_conv", "this") + ";"
+                qualified_hu_ty = self.consts.fully_qualified_hu_ty_path(ty_info)
                 if ty_info.is_ptr:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = *", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
+                        to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', qualified_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
                 else:
@@ -350,7 +351,7 @@ class TypeMappingGenerator:
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
+                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', qualified_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
 
@@ -503,10 +504,10 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = ("0", ""))
 
-                if ty_info.rust_obj == "LDKu5":
+                if ty_info.rust_obj == "LDKu5" or ty_info.rust_obj == "LDKWitnessVersion":
                     assert from_hu_conv is None
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = "", arg_conv_name = "(LDKu5){ ._0 = " + ty_info.var_name + " }", arg_conv_cleanup = None,
+                        arg_conv = "", arg_conv_name = "(" + ty_info.rust_obj + "){ ._0 = " + ty_info.var_name + " }", arg_conv_cleanup = None,
                         ret_conv = ("uint8_t " + ty_info.var_name + "_val = ", "._0;"), ret_conv_name = ty_info.var_name + "_val",
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".getVal()", ""))

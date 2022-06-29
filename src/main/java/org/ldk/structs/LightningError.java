@@ -67,7 +67,7 @@ public class LightningError extends CommonBase {
 		Reference.reachabilityFence(err_arg);
 		Reference.reachabilityFence(action_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		LightningError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new LightningError(null, ret); }
+		org.ldk.structs.LightningError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.LightningError(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -85,7 +85,7 @@ public class LightningError extends CommonBase {
 		long ret = bindings.LightningError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		LightningError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new LightningError(null, ret); }
+		org.ldk.structs.LightningError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.LightningError(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

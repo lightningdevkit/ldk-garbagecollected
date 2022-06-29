@@ -9,22 +9,22 @@ import javax.annotation.Nullable;
 
 
 /**
- * A funding_locked message to be sent or received from a peer
+ * A channel_ready message to be sent or received from a peer
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
-public class FundingLocked extends CommonBase {
-	FundingLocked(Object _dummy, long ptr) { super(ptr); }
+public class ChannelReady extends CommonBase {
+	ChannelReady(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		if (ptr != 0) { bindings.FundingLocked_free(ptr); }
+		if (ptr != 0) { bindings.ChannelReady_free(ptr); }
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.FundingLocked_get_channel_id(this.ptr);
+		byte[] ret = bindings.ChannelReady_get_channel_id(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -33,7 +33,7 @@ public class FundingLocked extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.FundingLocked_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelReady_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -42,7 +42,7 @@ public class FundingLocked extends CommonBase {
 	 * The per-commitment point of the second commitment transaction
 	 */
 	public byte[] get_next_per_commitment_point() {
-		byte[] ret = bindings.FundingLocked_get_next_per_commitment_point(this.ptr);
+		byte[] ret = bindings.ChannelReady_get_next_per_commitment_point(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -51,7 +51,7 @@ public class FundingLocked extends CommonBase {
 	 * The per-commitment point of the second commitment transaction
 	 */
 	public void set_next_per_commitment_point(byte[] val) {
-		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelReady_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -61,7 +61,7 @@ public class FundingLocked extends CommonBase {
 	 * to be forwarded over this SCID and forward them to this messages' recipient.
 	 */
 	public Option_u64Z get_short_channel_id_alias() {
-		long ret = bindings.FundingLocked_get_short_channel_id_alias(this.ptr);
+		long ret = bindings.ChannelReady_get_short_channel_id_alias(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
@@ -74,60 +74,60 @@ public class FundingLocked extends CommonBase {
 	 * to be forwarded over this SCID and forward them to this messages' recipient.
 	 */
 	public void set_short_channel_id_alias(Option_u64Z val) {
-		bindings.FundingLocked_set_short_channel_id_alias(this.ptr, val.ptr);
+		bindings.ChannelReady_set_short_channel_id_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
 
 	/**
-	 * Constructs a new FundingLocked given each field
+	 * Constructs a new ChannelReady given each field
 	 */
-	public static FundingLocked of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, Option_u64Z short_channel_id_alias_arg) {
-		long ret = bindings.FundingLocked_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33), short_channel_id_alias_arg.ptr);
+	public static ChannelReady of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, Option_u64Z short_channel_id_alias_arg) {
+		long ret = bindings.ChannelReady_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33), short_channel_id_alias_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(next_per_commitment_point_arg);
 		Reference.reachabilityFence(short_channel_id_alias_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
+		org.ldk.structs.ChannelReady ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReady(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	long clone_ptr() {
-		long ret = bindings.FundingLocked_clone_ptr(this.ptr);
+		long ret = bindings.ChannelReady_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
-	 * Creates a copy of the FundingLocked
+	 * Creates a copy of the ChannelReady
 	 */
-	public FundingLocked clone() {
-		long ret = bindings.FundingLocked_clone(this.ptr);
+	public ChannelReady clone() {
+		long ret = bindings.ChannelReady_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
+		org.ldk.structs.ChannelReady ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReady(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Serialize the FundingLocked object into a byte array which can be read by FundingLocked_read
+	 * Serialize the ChannelReady object into a byte array which can be read by ChannelReady_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.FundingLocked_write(this.ptr);
+		byte[] ret = bindings.ChannelReady_write(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
-	 * Read a FundingLocked from a byte array, created by FundingLocked_write
+	 * Read a ChannelReady from a byte array, created by ChannelReady_write
 	 */
-	public static Result_FundingLockedDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.FundingLocked_read(ser);
+	public static Result_ChannelReadyDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.ChannelReady_read(ser);
 		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_FundingLockedDecodeErrorZ ret_hu_conv = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
+		Result_ChannelReadyDecodeErrorZ ret_hu_conv = Result_ChannelReadyDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

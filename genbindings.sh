@@ -144,7 +144,7 @@ if [ "$2" != "wasm" ]; then
 				echo "Archive contained non-object files!"
 				exit 1
 			fi
-			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
+			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
 				echo "Archive contained more than one LDK object file"
 				exit 1
 			fi
@@ -152,9 +152,9 @@ if [ "$2" != "wasm" ]; then
 			rm -f tmp/*
 			ar x --output=tmp "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 			pushd tmp
-			llvm-dis ldk.ldk.*-cgu.*.rcgu.o
-			sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk.ldk.*-cgu.*.rcgu.o.ll
-			llvm-as ldk.ldk.*-cgu.*.rcgu.o.ll -o ./libldk.bc
+			llvm-dis ldk*-cgu.*.rcgu.o
+			sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk*-cgu.*.rcgu.o.ll
+			llvm-as ldk*-cgu.*.rcgu.o.ll -o ./libldk.bc
 			ar q libldk.a *.o
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
@@ -203,8 +203,7 @@ else
 	echo "Building TS bindings..."
 	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
 	# We only need malloc and assert/abort, but for now just use WASI for those:
-	#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
-	EXTRA_LINK=
+	EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
 	if [ "$3" = "true" ]; then
 		WASM_FILE=liblightningjs_debug.wasm

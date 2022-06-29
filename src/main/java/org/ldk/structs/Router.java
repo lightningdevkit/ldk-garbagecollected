@@ -37,12 +37,12 @@ public class Router extends CommonBase {
 		final LDKRouterHolder impl_holder = new LDKRouterHolder();
 		impl_holder.held = new Router(new bindings.LDKRouter() {
 			@Override public long find_route(byte[] payer, long route_params, byte[] payment_hash, long[] first_hops, long scorer) {
-				RouteParameters route_params_hu_conv = null; if (route_params < 0 || route_params > 4096) { route_params_hu_conv = new RouteParameters(null, route_params); }
+				org.ldk.structs.RouteParameters route_params_hu_conv = null; if (route_params < 0 || route_params > 4096) { route_params_hu_conv = new org.ldk.structs.RouteParameters(null, route_params); }
 				int first_hops_conv_16_len = first_hops.length;
 				ChannelDetails[] first_hops_conv_16_arr = new ChannelDetails[first_hops_conv_16_len];
 				for (int q = 0; q < first_hops_conv_16_len; q++) {
 					long first_hops_conv_16 = first_hops[q];
-					ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new ChannelDetails(null, first_hops_conv_16); }
+					org.ldk.structs.ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, first_hops_conv_16); }
 					first_hops_conv_16_hu_conv.ptrs_to.add(this);
 					first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
 				}

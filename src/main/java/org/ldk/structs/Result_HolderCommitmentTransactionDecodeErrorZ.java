@@ -25,7 +25,7 @@ public class Result_HolderCommitmentTransactionDecodeErrorZ extends CommonBase {
 		private Result_HolderCommitmentTransactionDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_get_ok(ptr);
-			HolderCommitmentTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new HolderCommitmentTransaction(null, res); }
+			org.ldk.structs.HolderCommitmentTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_HolderCommitmentTransactionDecodeErrorZ extends CommonBase {
 		private Result_HolderCommitmentTransactionDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

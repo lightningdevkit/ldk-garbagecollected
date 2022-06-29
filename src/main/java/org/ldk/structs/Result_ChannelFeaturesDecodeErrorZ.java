@@ -25,7 +25,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
-			ChannelFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ChannelFeatures(null, res); }
+			org.ldk.structs.ChannelFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.ChannelFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -71,6 +71,24 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_ChannelFeaturesDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ChannelFeaturesDecodeErrorZ clone() {
+		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

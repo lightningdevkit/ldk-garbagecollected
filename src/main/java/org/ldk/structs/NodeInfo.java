@@ -41,7 +41,7 @@ public class NodeInfo extends CommonBase {
 		long ret = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RoutingFees ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RoutingFees(null, ret); }
+		org.ldk.structs.RoutingFees ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RoutingFees(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -71,7 +71,7 @@ public class NodeInfo extends CommonBase {
 		long ret = bindings.NodeInfo_get_announcement_info(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncementInfo(null, ret); }
+		org.ldk.structs.NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncementInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -98,7 +98,7 @@ public class NodeInfo extends CommonBase {
 		Reference.reachabilityFence(lowest_inbound_channel_fees_arg);
 		Reference.reachabilityFence(announcement_info_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeInfo(null, ret); }
+		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -116,7 +116,7 @@ public class NodeInfo extends CommonBase {
 		long ret = bindings.NodeInfo_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeInfo(null, ret); }
+		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

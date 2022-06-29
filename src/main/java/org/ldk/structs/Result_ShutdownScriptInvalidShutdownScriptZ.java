@@ -25,7 +25,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 		private Result_ShutdownScriptInvalidShutdownScriptZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_get_ok(ptr);
-			ShutdownScript res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ShutdownScript(null, res); }
+			org.ldk.structs.ShutdownScript res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.ShutdownScript(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 		private Result_ShutdownScriptInvalidShutdownScriptZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_get_err(ptr);
-			InvalidShutdownScript err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new InvalidShutdownScript(null, err); }
+			org.ldk.structs.InvalidShutdownScript err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.InvalidShutdownScript(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

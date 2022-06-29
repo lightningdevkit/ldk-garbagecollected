@@ -51,7 +51,7 @@ public class PaymentError extends CommonBase {
 		private Routing(long ptr, bindings.LDKPaymentError.Routing obj) {
 			super(null, ptr);
 			long routing = obj.routing;
-			LightningError routing_hu_conv = null; if (routing < 0 || routing > 4096) { routing_hu_conv = new LightningError(null, routing); }
+			org.ldk.structs.LightningError routing_hu_conv = null; if (routing < 0 || routing > 4096) { routing_hu_conv = new org.ldk.structs.LightningError(null, routing); }
 			routing_hu_conv.ptrs_to.add(this);
 			this.routing = routing_hu_conv;
 		}

@@ -632,6 +632,8 @@ import javax.annotation.Nullable;
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
         elif elem_ty.java_hu_ty == "UInt5":
             return arr_name + " != null ? InternalUtils.convUInt5Array(" + arr_name + ") : null"
+        elif elem_ty.java_hu_ty == "WitnessVersion":
+            return arr_name + " != null ? InternalUtils.convWitnessVersionArray(" + arr_name + ") : null"
         else:
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray(" + arr_ty.java_ty + "::new) : null"
 
@@ -704,9 +706,9 @@ import javax.annotation.Nullable;
     def fully_qualified_hu_ty_path(self, ty):
         if ty.java_fn_ty_arg.startswith("L") and ty.java_fn_ty_arg.endswith(";"):
             return ty.java_fn_ty_arg.strip("L;").replace("/", ".")
-        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5":
+        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5" or ty.java_hu_ty == "WitnessVersion":
             return "org.ldk.util." + ty.java_hu_ty
-        if ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
+        if not ty.is_native_primitive and ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
             return "org.ldk.structs." + ty.java_hu_ty
         return ty.java_hu_ty
 
@@ -1247,11 +1249,11 @@ import javax.annotation.Nullable;
         out_opaque_struct_human += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
         out_opaque_struct_human += ("public class " + hu_name + " extends CommonBase")
-        if struct_name.startswith("LDKLocked"):
+        if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
             out_opaque_struct_human += (" implements AutoCloseable")
         out_opaque_struct_human += (" {\n")
         out_opaque_struct_human += ("\t" + hu_name + "(Object _dummy, long ptr) { super(ptr); }\n")
-        if struct_name.startswith("LDKLocked"):
+        if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
             out_opaque_struct_human += ("\t@Override public void close() {\n")
         else:
             out_opaque_struct_human += ("\t@Override @SuppressWarnings(\"deprecation\")\n")

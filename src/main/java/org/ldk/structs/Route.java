@@ -23,11 +23,10 @@ public class Route extends CommonBase {
 
 	/**
 	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same.
-	 * Each entry represents a list of hops, NOT INCLUDING our own, where the last hop is the
-	 * destination. Thus, this must always be at least length one. While the maximum length of any
-	 * given path is variable, keeping the length of any path to less than 20 should currently
-	 * ensure it is viable.
+	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
+	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
+	 * least length one. While the maximum length of any given path is variable, keeping the length
+	 * of any path less or equal to 19 should currently ensure it is viable.
 	 */
 	public RouteHop[][] get_paths() {
 		long[][] ret = bindings.Route_get_paths(this.ptr);
@@ -40,7 +39,7 @@ public class Route extends CommonBase {
 			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12_conv_10_len];
 			for (int k = 0; k < ret_conv_12_conv_10_len; k++) {
 				long ret_conv_12_conv_10 = ret_conv_12[k];
-				RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new RouteHop(null, ret_conv_12_conv_10); }
+				org.ldk.structs.RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, ret_conv_12_conv_10); }
 				ret_conv_12_conv_10_hu_conv.ptrs_to.add(this);
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
 			}
@@ -51,11 +50,10 @@ public class Route extends CommonBase {
 
 	/**
 	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same.
-	 * Each entry represents a list of hops, NOT INCLUDING our own, where the last hop is the
-	 * destination. Thus, this must always be at least length one. While the maximum length of any
-	 * given path is variable, keeping the length of any path to less than 20 should currently
-	 * ensure it is viable.
+	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
+	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
+	 * least length one. While the maximum length of any given path is variable, keeping the length
+	 * of any path less or equal to 19 should currently ensure it is viable.
 	 */
 	public void set_paths(RouteHop[][] val) {
 		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
@@ -77,7 +75,7 @@ public class Route extends CommonBase {
 		long ret = bindings.Route_get_payment_params(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PaymentParameters(null, ret); }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -105,7 +103,7 @@ public class Route extends CommonBase {
 		Reference.reachabilityFence(paths_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
+		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -123,7 +121,7 @@ public class Route extends CommonBase {
 		long ret = bindings.Route_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
+		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

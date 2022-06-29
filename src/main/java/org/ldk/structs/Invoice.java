@@ -55,7 +55,7 @@ public class Invoice extends CommonBase {
 		long ret = bindings.Invoice_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Invoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Invoice(null, ret); }
+		org.ldk.structs.Invoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Invoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Invoice extends CommonBase {
 		long ret = bindings.Invoice_into_signed_raw(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SignedRawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new SignedRawInvoice(null, ret); }
+		org.ldk.structs.SignedRawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.SignedRawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		;
 		return ret_hu_conv;
@@ -172,7 +172,7 @@ public class Invoice extends CommonBase {
 		long ret = bindings.Invoice_features(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
+		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -235,7 +235,7 @@ public class Invoice extends CommonBase {
 		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
-			PrivateRoute ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new PrivateRoute(null, ret_conv_14); }
+			org.ldk.structs.PrivateRoute ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.PrivateRoute(null, ret_conv_14); }
 			ret_conv_14_hu_conv.ptrs_to.add(this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
@@ -252,7 +252,7 @@ public class Invoice extends CommonBase {
 		RouteHint[] ret_conv_11_arr = new RouteHint[ret_conv_11_len];
 		for (int l = 0; l < ret_conv_11_len; l++) {
 			long ret_conv_11 = ret[l];
-			RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new RouteHint(null, ret_conv_11); }
+			org.ldk.structs.RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, ret_conv_11); }
 			ret_conv_11_hu_conv.ptrs_to.add(this);
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
 		}

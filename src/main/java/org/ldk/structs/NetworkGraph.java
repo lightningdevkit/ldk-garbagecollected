@@ -20,20 +20,15 @@ public class NetworkGraph extends CommonBase {
 		if (ptr != 0) { bindings.NetworkGraph_free(ptr); }
 	}
 
-	long clone_ptr() {
-		long ret = bindings.NetworkGraph_clone_ptr(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
 	/**
-	 * Creates a copy of the NetworkGraph
+	 * Constructs a new EventHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
 	 */
-	public NetworkGraph clone() {
-		long ret = bindings.NetworkGraph_clone(this.ptr);
+	public EventHandler as_EventHandler() {
+		long ret = bindings.NetworkGraph_as_EventHandler(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetworkGraph(null, ret); }
+		EventHandler ret_hu_conv = new EventHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -50,23 +45,27 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
-	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.NetworkGraph_read(ser);
+	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, Logger arg) {
+		long ret = bindings.NetworkGraph_read(ser, arg == null ? 0 : arg.ptr);
 		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(arg);
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static NetworkGraph of(byte[] genesis_hash) {
-		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32));
+	public static NetworkGraph of(byte[] genesis_hash, Logger logger) {
+		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32), logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(genesis_hash);
+		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetworkGraph(null, ret); }
+		org.ldk.structs.NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NetworkGraph(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
 
@@ -77,16 +76,39 @@ public class NetworkGraph extends CommonBase {
 		long ret = bindings.NetworkGraph_read_only(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ReadOnlyNetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReadOnlyNetworkGraph(null, ret); }
+		org.ldk.structs.ReadOnlyNetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReadOnlyNetworkGraph(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * The unix timestamp provided by the most recent rapid gossip sync.
+	 * It will be set by the rapid sync process after every sync completion.
+	 */
+	public Option_u32Z get_last_rapid_gossip_sync_timestamp() {
+		long ret = bindings.NetworkGraph_get_last_rapid_gossip_sync_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Update the unix timestamp provided by the most recent rapid gossip sync.
+	 * This should be done automatically by the rapid sync process after every sync completion.
+	 */
+	public void set_last_rapid_gossip_sync_timestamp(int last_rapid_gossip_sync_timestamp) {
+		bindings.NetworkGraph_set_last_rapid_gossip_sync_timestamp(this.ptr, last_rapid_gossip_sync_timestamp);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(last_rapid_gossip_sync_timestamp);
 	}
 
 	/**
 	 * For an already known node (from channel announcements), update its stored properties from a
 	 * given node announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 */
@@ -119,7 +141,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Store or update channel info from a channel announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
@@ -159,13 +181,34 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Close a channel if a corresponding HTLC fail was sent.
+	 * Update channel from partial announcement data received via rapid gossip sync
+	 * 
+	 * `timestamp: u64`: Timestamp emulating the backdated original announcement receipt (by the
+	 * rapid gossip sync server)
+	 * 
+	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
+	 */
+	public Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
+		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr & ~1, InternalUtils.check_arr_len(node_id_1, 33), InternalUtils.check_arr_len(node_id_2, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(timestamp);
+		Reference.reachabilityFence(features);
+		Reference.reachabilityFence(node_id_1);
+		Reference.reachabilityFence(node_id_2);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Marks a channel in the graph as failed if a corresponding HTLC fail was sent.
 	 * If permanent, removes a channel from the local storage.
 	 * May cause the removal of nodes too, if this was their last channel.
 	 * If not permanent, makes channels unavailable for routing.
 	 */
-	public void close_channel_from_update(long short_channel_id, boolean is_permanent) {
-		bindings.NetworkGraph_close_channel_from_update(this.ptr, short_channel_id, is_permanent);
+	public void channel_failed(long short_channel_id, boolean is_permanent) {
+		bindings.NetworkGraph_channel_failed(this.ptr, short_channel_id, is_permanent);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(is_permanent);
@@ -174,8 +217,8 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Marks a node in the graph as failed.
 	 */
-	public void fail_node(byte[] _node_id, boolean is_permanent) {
-		bindings.NetworkGraph_fail_node(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
+	public void node_failed(byte[] _node_id, boolean is_permanent) {
+		bindings.NetworkGraph_node_failed(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(_node_id);
 		Reference.reachabilityFence(is_permanent);
@@ -223,7 +266,7 @@ public class NetworkGraph extends CommonBase {
 	 * For an already known (from announcement) channel, update info about one of the directions
 	 * of the channel.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a NetGraphMsgHandler's
+	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 

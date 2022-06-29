@@ -25,7 +25,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 		private Result_PositiveTimestampCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_PositiveTimestampCreationErrorZ_get_ok(ptr);
-			PositiveTimestamp res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new PositiveTimestamp(null, res); }
+			org.ldk.structs.PositiveTimestamp res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.PositiveTimestamp(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

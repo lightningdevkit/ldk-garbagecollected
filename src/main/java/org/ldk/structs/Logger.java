@@ -35,7 +35,7 @@ public class Logger extends CommonBase {
 		final LDKLoggerHolder impl_holder = new LDKLoggerHolder();
 		impl_holder.held = new Logger(new bindings.LDKLogger() {
 			@Override public void log(long record) {
-				Record record_hu_conv = null; if (record < 0 || record > 4096) { record_hu_conv = new Record(null, record); }
+				org.ldk.structs.Record record_hu_conv = null; if (record < 0 || record > 4096) { record_hu_conv = new org.ldk.structs.Record(null, record); }
 				arg.log(record_hu_conv);
 				Reference.reachabilityFence(arg);
 			}

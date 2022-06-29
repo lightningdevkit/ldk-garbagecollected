@@ -50,7 +50,7 @@ public class InvoiceFeatures extends CommonBase {
 		long ret = bindings.InvoiceFeatures_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
+		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -61,7 +61,7 @@ public class InvoiceFeatures extends CommonBase {
 	public static InvoiceFeatures empty() {
 		long ret = bindings.InvoiceFeatures_empty();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
+		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -72,7 +72,7 @@ public class InvoiceFeatures extends CommonBase {
 	public static InvoiceFeatures known() {
 		long ret = bindings.InvoiceFeatures_known();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
+		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -105,6 +105,108 @@ public class InvoiceFeatures extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_variable_length_onion_optional() {
+		bindings.InvoiceFeatures_set_variable_length_onion_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_variable_length_onion_required() {
+		bindings.InvoiceFeatures_set_variable_length_onion_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_variable_length_onion() {
+		boolean ret = bindings.InvoiceFeatures_supports_variable_length_onion(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_variable_length_onion() {
+		boolean ret = bindings.InvoiceFeatures_requires_variable_length_onion(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_payment_secret_optional() {
+		bindings.InvoiceFeatures_set_payment_secret_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_payment_secret_required() {
+		bindings.InvoiceFeatures_set_payment_secret_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_payment_secret() {
+		boolean ret = bindings.InvoiceFeatures_supports_payment_secret(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_payment_secret() {
+		boolean ret = bindings.InvoiceFeatures_requires_payment_secret(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_basic_mpp_optional() {
+		bindings.InvoiceFeatures_set_basic_mpp_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_basic_mpp_required() {
+		bindings.InvoiceFeatures_set_basic_mpp_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_basic_mpp() {
+		boolean ret = bindings.InvoiceFeatures_supports_basic_mpp(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_basic_mpp() {
+		boolean ret = bindings.InvoiceFeatures_requires_basic_mpp(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

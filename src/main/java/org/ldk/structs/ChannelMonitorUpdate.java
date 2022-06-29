@@ -72,7 +72,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 		long ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ChannelMonitorUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelMonitorUpdate(null, ret); }
+		org.ldk.structs.ChannelMonitorUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

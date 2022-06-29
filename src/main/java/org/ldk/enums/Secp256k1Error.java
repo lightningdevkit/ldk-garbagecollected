@@ -25,6 +25,10 @@ public enum Secp256k1Error {
 	 */
 	LDKSecp256k1Error_InvalidSecretKey,
 	/**
+	 * Bad shared secret.
+	 */
+	LDKSecp256k1Error_InvalidSharedSecret,
+	/**
 	 * Bad recovery id
 	 */
 	LDKSecp256k1Error_InvalidRecoveryId,
@@ -33,13 +37,17 @@ public enum Secp256k1Error {
 	 */
 	LDKSecp256k1Error_InvalidTweak,
 	/**
-	 * tweak_add_check failed on an xonly public key
-	 */
-	LDKSecp256k1Error_TweakCheckFailed,
-	/**
 	 * Didn't pass enough memory to context creation with preallocated memory
 	 */
 	LDKSecp256k1Error_NotEnoughMemory,
+	/**
+	 * Bad set of public keys.
+	 */
+	LDKSecp256k1Error_InvalidPublicKeySum,
+	/**
+	 * The only valid parity values are 0 or 1.
+	 */
+	LDKSecp256k1Error_InvalidParityValue,
 	; static native void init();
 	static { init(); }
 }

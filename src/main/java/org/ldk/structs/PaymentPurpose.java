@@ -119,4 +119,24 @@ public class PaymentPurpose extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the PaymentPurpose object into a byte array which can be read by PaymentPurpose_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.PaymentPurpose_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a PaymentPurpose from a byte array, created by PaymentPurpose_write
+	 */
+	public static Result_PaymentPurposeDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.PaymentPurpose_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PaymentPurposeDecodeErrorZ ret_hu_conv = Result_PaymentPurposeDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

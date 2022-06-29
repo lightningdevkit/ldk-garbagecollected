@@ -25,7 +25,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 		private Result_RevokeAndACKDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_RevokeAndACKDecodeErrorZ_get_ok(ptr);
-			RevokeAndACK res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new RevokeAndACK(null, res); }
+			org.ldk.structs.RevokeAndACK res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.RevokeAndACK(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -36,7 +36,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 		private Result_RevokeAndACKDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_RevokeAndACKDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

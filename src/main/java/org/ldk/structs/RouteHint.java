@@ -27,7 +27,7 @@ public class RouteHint extends CommonBase {
 		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
-			RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new RouteHintHop(null, ret_conv_14); }
+			org.ldk.structs.RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.RouteHintHop(null, ret_conv_14); }
 			ret_conv_14_hu_conv.ptrs_to.add(this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
@@ -47,7 +47,7 @@ public class RouteHint extends CommonBase {
 		long ret = bindings.RouteHint_new(a_arg != null ? Arrays.stream(a_arg).mapToLong(a_arg_conv_14 -> a_arg_conv_14 == null ? 0 : a_arg_conv_14.ptr & ~1).toArray() : null);
 		Reference.reachabilityFence(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
+		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -65,7 +65,7 @@ public class RouteHint extends CommonBase {
 		long ret = bindings.RouteHint_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
+		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
