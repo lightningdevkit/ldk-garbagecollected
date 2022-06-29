@@ -27,6 +27,7 @@ class HumanObjectPeerTestInstance {
     private final boolean use_ignore_handler;
     private final boolean use_chan_manager_constructor;
     private final boolean use_invoice_payer;
+    TxOut gossip_txout = null;
 
     HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) {
         this.nice_close = nice_close;
@@ -166,6 +167,14 @@ class HumanObjectPeerTestInstance {
             must_free_objs.add(new WeakReference<>(watch_impl));
             must_free_objs.add(new WeakReference<>(watch));
             return watch;
+        }
+
+        UserConfig get_config() {
+            ChannelConfig channel_config = ChannelConfig.with_default();
+            channel_config.set_announced_channel(true);
+            UserConfig config = UserConfig.with_default();
+            config.set_channel_options(channel_config);
+            return config;
         }
 
         NioPeerHandler nio_peer_handler;
@@ -340,15 +349,8 @@ class HumanObjectPeerTestInstance {
             }
         }
         private void setup_route_handler() {
-            this.route_handler = P2PGossipSync.of(this.router, Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
-                @Override
-                public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
-                    // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
-                    // is a good test of our Option<Trait> free'ing, which used to be broken and relies on a dirty hack.
-                    assert false;
-                    return Result_TxOutAccessErrorZ.err(AccessError.LDKAccessError_UnknownTx);
-                }
-            })), this.logger);
+            this.route_handler = P2PGossipSync.of(this.router,
+                Option_AccessZ.some(Access.new_impl((genesis_hash, short_channel_id) -> Result_TxOutAccessErrorZ.ok(gossip_txout))), this.logger);
         }
         Peer(byte seed) {
             this(null, seed);
@@ -357,10 +359,10 @@ class HumanObjectPeerTestInstance {
 
             if (use_chan_manager_constructor) {
                 if (use_ignore_handler) {
-                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, get_config(), new byte[32], 0,
 							this.keys_interface, this.fee_estimator, this.chain_monitor, null, this.tx_broadcaster, this.logger);
                 } else {
-                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, get_config(), new byte[32], 0,
 							this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
                 }
                 ProbabilisticScoringParameters params = ProbabilisticScoringParameters.with_default();
@@ -387,7 +389,7 @@ class HumanObjectPeerTestInstance {
                 must_free_objs.add(new WeakReference<>(this.chan_manager));
             } else {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
-                this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
+                this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, get_config(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
                 Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
                 assert node_secret.is_ok();
@@ -434,11 +436,11 @@ class HumanObjectPeerTestInstance {
                         filter_nullable = ((Option_FilterZ.Some) this.filter).some;
                     }
                     if (use_ignore_handler) {
-                        this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, get_config(),
                                 this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
                                 null, this.tx_broadcaster, this.logger);
                     } else {
-                        this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, get_config(),
                                 this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
                                 serialized_router, this.tx_broadcaster, this.logger);
                         try {
@@ -446,7 +448,7 @@ class HumanObjectPeerTestInstance {
                             byte[][] monitors_dupd = new byte[2][];
                             monitors_dupd[0] = monitors[0];
                             monitors_dupd[1] = monitors[0];
-                            ChannelManagerConstructor constr = this.constructor = new ChannelManagerConstructor(serialized, monitors_dupd, UserConfig.with_default(),
+                            ChannelManagerConstructor constr = this.constructor = new ChannelManagerConstructor(serialized, monitors_dupd, get_config(),
                                     this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
                                     null, this.tx_broadcaster, this.logger);
                             assert false;
@@ -497,7 +499,7 @@ class HumanObjectPeerTestInstance {
                 }
                 byte[] serialized = orig.chan_manager.write();
                 Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                        UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.with_default(), monitors);
+                        UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, get_config(), monitors);
                 assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().get_a(), monitors[0]);
@@ -791,6 +793,8 @@ class HumanObjectPeerTestInstance {
         funding.addOutput(Coin.SATOSHI.multiply(100000), new Script(funding_spk));
         Result_NoneAPIErrorZ funding_res = peer1.chan_manager.funding_transaction_generated(chan_id, peer2.node_id, funding.bitcoinSerialize());
         assert funding_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
+
+        gossip_txout = new TxOut(100000, funding_spk);
 
         maybe_exchange_peer_messages(peer1, peer2);
         synchronized (peer1.broadcast_set) {
