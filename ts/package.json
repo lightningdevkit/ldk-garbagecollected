@@ -15,6 +15,8 @@
     "enums/*.d.mts",
     "bindings.mjs",
     "bindings.d.mts",
+    "index.mjs",
+    "index.d.mts",
     "version.mjs",
     "liblightningjs.wasm",
     "tsconfig.json",
