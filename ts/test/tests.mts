@@ -55,7 +55,11 @@ tests.push(async () => {
 });
 
 var seed_counter = 0;
-function get_chanman() {
+class Node {
+	constructor(public chan_man: ldk.ChannelManager, public tx_broadcasted: Promise<Uint8Array>, public logger: ldk.Logger,
+		public node_id: Uint8Array, public node_secret: Uint8Array) {}
+}
+function get_chanman(): Node {
 	const fee_est = ldk.FeeEstimator.new_impl({
 		get_est_sat_per_1000_weight(confirmation_target: ldk.ConfirmationTarget): number {
 			return 253;
@@ -93,7 +97,11 @@ function get_chanman() {
 	const config = ldk.UserConfig.constructor_default();
 	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_genesis(ldk.Network.LDKNetwork_Testnet));
 
-	return [ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster, logger, keys_interface, config, params), tx_broadcasted];
+	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster, logger, keys_interface, config, params);
+	return new Node(
+		chan_man, tx_broadcasted, logger, chan_man.get_our_node_id(),
+		(keys_interface.get_node_secret(ldk.Recipient.LDKRecipient_Node) as ldk.Result_SecretKeyNoneZ_OK).res
+	);
 }
 
 function exchange_messages(a: ldk.ChannelManager, b: ldk.ChannelManager) {
@@ -139,26 +147,7 @@ function assign_u64(arr: Uint8Array, offset: number, value: bigint) {
 	arr[offset + 7] = Number((value >> BigInt(8 * 7)) & BigInt(0xff));
 }
 
-tests.push(async () => {
-	const peer_a = get_chanman();
-	const peer_b = get_chanman();
-	const chan_man_a: ldk.ChannelManager = peer_a[0] as ldk.ChannelManager;
-	const chan_man_b: ldk.ChannelManager = peer_b[0] as ldk.ChannelManager;
-
-	chan_man_a.as_ChannelMessageHandler().peer_connected(chan_man_b.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
-	chan_man_b.as_ChannelMessageHandler().peer_connected(chan_man_a.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
-
-	const chan_create_err = chan_man_a.create_channel(chan_man_b.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
-	if (chan_create_err.is_ok()) return false;
-	if (!(chan_create_err instanceof ldk.Result__u832APIErrorZ_Err)) return false;
-	if (!(chan_create_err.err instanceof ldk.APIError_APIMisuseError)) return false;
-	if (chan_create_err.err.err != "Channel value must be at least 1000 satoshis. It was 0") return false;
-
-	const chan_create_res = chan_man_a.create_channel(chan_man_b.get_our_node_id(), BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
-	if (!chan_create_res.is_ok()) return false;
-
-	if (!exchange_messages(chan_man_a, chan_man_b)) return false;
-
+function get_event(chan_man: ldk.ChannelManager): ldk.Event {
 	const events: Array<ldk.Event> = [];
 	const event_handler = ldk.EventHandler.new_impl({
 		handle_event(event: ldk.Event): void {
@@ -166,12 +155,33 @@ tests.push(async () => {
 		}
 	} as ldk.EventHandlerInterface);
 
-	chan_man_a.as_EventsProvider().process_pending_events(event_handler);
-	if (events.length != 1) return false;
-	if (!(events[0] instanceof ldk.Event_FundingGenerationReady)) return false;
+	chan_man.as_EventsProvider().process_pending_events(event_handler);
+	console.assert(events.length == 1);
+	return events[0];
+}
+
+tests.push(async () => {
+	const a = get_chanman();
+	const b = get_chanman();
+
+	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
+	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
+
+	const chan_create_err = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
+	if (chan_create_err.is_ok()) return false;
+	if (!(chan_create_err instanceof ldk.Result__u832APIErrorZ_Err)) return false;
+	if (!(chan_create_err.err instanceof ldk.APIError_APIMisuseError)) return false;
+	if (chan_create_err.err.err != "Channel value must be at least 1000 satoshis. It was 0") return false;
+
+	const chan_create_res = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
+	if (!chan_create_res.is_ok()) return false;
+
+	if (!exchange_messages(a.chan_man, b.chan_man)) return false;
+
+	const event = get_event(a.chan_man) as ldk.Event_FundingGenerationReady;
 
 	// (very) manually create a funding transaction
-	const witness_pos = events[0].output_script.length + 58;
+	const witness_pos = event.output_script.length + 58;
 	const funding_tx = new Uint8Array(witness_pos + 7);
 	funding_tx[0] = 2; // 4-byte tx version 2
 	funding_tx[4] = 0; funding_tx[5] = 1; // segwit magic bytes
@@ -180,19 +190,87 @@ tests.push(async () => {
 	funding_tx[43] = 0; // 1-byte input script length 0
 	funding_tx[44] = 0xff; funding_tx[45] = 0xff; funding_tx[46] = 0xff; funding_tx[47] = 0xff; // 4-byte nSequence
 	funding_tx[48] = 1; // one output
-	assign_u64(funding_tx, 49, events[0].channel_value_satoshis);
-	funding_tx[57] = events[0].output_script.length; // 1-byte output script length
-	funding_tx.set(events[0].output_script, 58);
+	assign_u64(funding_tx, 49, event.channel_value_satoshis);
+	funding_tx[57] = event.output_script.length; // 1-byte output script length
+	funding_tx.set(event.output_script, 58);
 	funding_tx[witness_pos] = 1; funding_tx[witness_pos + 1] = 1; funding_tx[witness_pos + 2] = 0xff; // one witness element of size 1 with contents 0xff
 	funding_tx[witness_pos + 3] = 0; funding_tx[witness_pos + 4] = 0; funding_tx[witness_pos + 5] = 0; funding_tx[witness_pos + 6] = 0; // lock time 0
 
-	const funding_res = chan_man_a.funding_transaction_generated(events[0].temporary_channel_id, events[0].counterparty_node_id, funding_tx);
+	const funding_res = a.chan_man.funding_transaction_generated(event.temporary_channel_id, event.counterparty_node_id, funding_tx);
 	if (!(funding_res instanceof ldk.Result_NoneAPIErrorZ_OK)) return false;
 
-	if (!exchange_messages(chan_man_a, chan_man_b)) return false;
+	if (!exchange_messages(a.chan_man, b.chan_man)) return false;
 
-	const tx_broadcasted: Uint8Array = (await peer_a[1]) as Uint8Array;
+	const tx_broadcasted: Uint8Array = (await a.tx_broadcasted);
 	if (!array_eq(tx_broadcasted, funding_tx)) return false;
+
+	return true;
+});
+
+tests.push(async () => {
+	const a = get_chanman();
+	const b = get_chanman();
+
+	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), a.node_secret, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), b.node_secret, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
+
+	var sock_b: ldk.SocketDescriptor;
+	const sock_a = ldk.SocketDescriptor.new_impl({
+		send_data(data: Uint8Array, resume_read: boolean): number {
+			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			return data.length;
+		},
+		disconnect_socket(): void {
+			console.assert(false);
+		},
+		eq(other: ldk.SocketDescriptor): boolean {
+			return other.hash() == this.hash();
+		},
+		hash(): bigint {
+			return BigInt(1);
+		}
+	} as ldk.SocketDescriptorInterface);
+	sock_b = ldk.SocketDescriptor.new_impl({
+		send_data(data: Uint8Array, resume_read: boolean): number {
+			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			return data.length;
+		},
+		disconnect_socket(): void {
+			console.assert(false);
+		},
+		eq(other: ldk.SocketDescriptor): boolean {
+			return other.hash() == this.hash();
+		},
+		hash(): bigint {
+			return BigInt(2);
+		}
+	} as ldk.SocketDescriptorInterface);
+
+	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
+	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
+	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
+	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+
+	console.assert(pm_a.get_peer_node_ids().length == 0);
+	console.assert(pm_b.get_peer_node_ids().length == 0);
+
+	pm_b.process_events();
+	pm_a.process_events();
+	pm_b.process_events();
+
+	console.assert(pm_a.get_peer_node_ids().length == 1);
+	console.assert(pm_b.get_peer_node_ids().length == 1);
+
+	const chan_create_res = a.chan_man.create_channel(b.node_id, BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
+	if (!chan_create_res.is_ok()) return false;
+
+	pm_a.process_events();
+	pm_b.process_events();
+
+	const event = get_event(a.chan_man);
+	if (!(event instanceof ldk.Event_FundingGenerationReady)) return false;
 
 	return true;
 });

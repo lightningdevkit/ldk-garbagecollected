@@ -71,7 +71,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	}
 
 	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
-		throw new Error("Compiled LDK library and LDK class failes do not match");
+		throw new Error("Compiled LDK library and LDK class files do not match");
 	// Fetching the LDK versions from C also checks that the header and binaries match
 	const c_bindings_ver: number = wasm.TS_get_ldk_c_bindings_version();
 	const ldk_ver: number = wasm.TS_get_ldk_version();
@@ -88,7 +88,8 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
-	imports.env["js_invoke_function"] = js_invoke;
+	imports.env["js_invoke_function_u"] = js_invoke;
+	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
 	await finishInitializeWasm(wasmInstance);
 }
@@ -96,7 +97,8 @@ export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
 /* @internal */
 export async function initializeWasmFetch(uri: string) {
 	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
+	imports.env["js_invoke_function_u"] = js_invoke;
+	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	await finishInitializeWasm(wasmInstance);
 }
@@ -32624,7 +32626,7 @@ export function SiPrefix_to_str(o: number): number {
 }
 
 
-js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: bigint|number, arg3: bigint|number, arg4: bigint|number, arg5: bigint|number, arg6: bigint|number, arg7: bigint|number, arg8: bigint|number, arg9: bigint|number, arg10: bigint|number) {
 	const weak: WeakRef<object> = js_objs[obj_ptr];
 	if (weak == null || weak == undefined) {
 		console.error("Got function call on unknown/free'd JS object!");
@@ -32743,5 +32745,7 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number,
 		console.error("Got function call on incorrect JS object!");
 		throw new Error("Got function call on incorrect JS object!");
 	}
-	return fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	const ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	if (ret === undefined || ret === null) return BigInt(0);
+	return BigInt(ret);
 }

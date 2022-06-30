@@ -107,7 +107,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	}
 
 	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
-		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
+		throw new Error(\"Compiled LDK library and LDK class files do not match\");
 	// Fetching the LDK versions from C also checks that the header and binaries match
 	const c_bindings_ver: number = wasm.TS_get_ldk_c_bindings_version();
 	const ldk_ver: number = wasm.TS_get_ldk_version();
@@ -124,7 +124,8 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
-	imports.env["js_invoke_function"] = js_invoke;
+	imports.env["js_invoke_function_u"] = js_invoke;
+	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
 	await finishInitializeWasm(wasmInstance);
 }
@@ -132,7 +133,8 @@ export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
 /* @internal */
 export async function initializeWasmFetch(uri: string) {
 	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
+	imports.env["js_invoke_function_u"] = js_invoke;
+	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	await finishInitializeWasm(wasmInstance);
 }"""
@@ -646,11 +648,11 @@ import * as bindings from '../bindings.mjs'
         if ty_info.c_ty == "int8_tArray":
             if copy:
                 return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + "); FREE(" + arr_name + ")"
+        assert not copy
         if ty_info.c_ty == "ptrArray":
-            return "(void*) " + arr_name + "->elems /* XXX " + arr_name + " leaks */"
+            return "(void*) " + arr_name + "->elems"
         else:
-            assert not copy
-            return arr_name + "->elems /* XXX " + arr_name + " leaks */"
+            return arr_name + "->elems"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
@@ -661,9 +663,9 @@ import * as bindings from '../bindings.mjs'
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return None
+            return "FREE(" + arr_name + ");"
         else:
-            return None
+            return "FREE(" + arr_name + ")"
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
         if elem_ty.rust_obj == "LDKu5":
@@ -1001,17 +1003,27 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                         out_c = out_c + arg_info.arg_name
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
+                fn_suffix = ""
+                if fn_line.ret_ty_info.c_ty == "uint64_t" or fn_line.ret_ty_info.c_ty == "int64_t":
+                    fn_suffix += "b_"
+                else:
+                    fn_suffix += "u_"
+                for arg in fn_line.args_ty:
+                    if arg_info.c_ty == "uint64_t" or arg_info.c_ty == "int64_t":
+                        fn_suffix += "b"
+                    else:
+                        fn_suffix += "u"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
-                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c += "js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_ty == "void":
-                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c = out_c + "\tjs_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_hu_ty == "string":
-                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c += "\tjstring ret = (jstring)js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c += "\treturn js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
-                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c += "\tuint32_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
 
                 self.function_ptrs[self.function_ptr_counter] = (struct_name, fn_line.fn_name)
                 self.function_ptr_counter += 1
@@ -1450,7 +1462,7 @@ export function {method_name}({method_argument_string}): {return_java_ty} {{
         with open(self.outdir + "/bindings.mts", "a") as bindings:
             bindings.write("""
 
-js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: bigint|number, arg3: bigint|number, arg4: bigint|number, arg5: bigint|number, arg6: bigint|number, arg7: bigint|number, arg8: bigint|number, arg9: bigint|number, arg10: bigint|number) {
 	const weak: WeakRef<object> = js_objs[obj_ptr];
 	if (weak == null || weak == undefined) {
 		console.error("Got function call on unknown/free'd JS object!");
@@ -1475,5 +1487,7 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number,
 		console.error("Got function call on incorrect JS object!");
 		throw new Error("Got function call on incorrect JS object!");
 	}
-	return fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	const ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	if (ret === undefined || ret === null) return BigInt(0);
+	return BigInt(ret);
 }""")
