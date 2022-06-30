@@ -648,11 +648,11 @@ import * as bindings from '../bindings.mjs'
         if ty_info.c_ty == "int8_tArray":
             if copy:
                 return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + "); FREE(" + arr_name + ")"
+        assert not copy
         if ty_info.c_ty == "ptrArray":
-            return "(void*) " + arr_name + "->elems /* XXX " + arr_name + " leaks */"
+            return "(void*) " + arr_name + "->elems"
         else:
-            assert not copy
-            return arr_name + "->elems /* XXX " + arr_name + " leaks */"
+            return arr_name + "->elems"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
@@ -663,9 +663,9 @@ import * as bindings from '../bindings.mjs'
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return None
+            return "FREE(" + arr_name + ");"
         else:
-            return None
+            return "FREE(" + arr_name + ")"
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
         if elem_ty.rust_obj == "LDKu5":
