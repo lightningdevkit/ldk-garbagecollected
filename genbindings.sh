@@ -189,6 +189,7 @@ else
 		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
 	fi
 	rm -f ts/bindings.c
+	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
 	elif [ "$3" = "leaks" ]; then

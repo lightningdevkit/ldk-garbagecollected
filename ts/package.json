@@ -1,6 +1,6 @@
 {
   "name": "lightningdevkit",
-  "version": "0.0.106.0beta1",
+  "version": "Set in genbindings.sh automagically",
   "description": "Lightning Development Kit",
   "main": "index.mjs",
   "types": "index.d.mts",
