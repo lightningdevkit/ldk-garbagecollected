@@ -107,7 +107,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	}
 
 	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
-		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
+		throw new Error(\"Compiled LDK library and LDK class files do not match\");
 	// Fetching the LDK versions from C also checks that the header and binaries match
 	const c_bindings_ver: number = wasm.TS_get_ldk_c_bindings_version();
 	const ldk_ver: number = wasm.TS_get_ldk_version();
