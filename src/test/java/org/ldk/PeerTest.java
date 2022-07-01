@@ -317,7 +317,7 @@ public class PeerTest {
 
         long no_u64 = bindings.COption_u64Z_none();
         long invoice_features = bindings.InvoiceFeatures_known();
-        long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14);
+        long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14, (byte)1);
         bindings.InvoiceFeatures_free(invoice_features);
         bindings.COption_u64Z_free(no_u64);
         long route_params = bindings.RouteParameters_new(payee, 1000, 42);

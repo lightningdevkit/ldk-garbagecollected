@@ -170,10 +170,10 @@ class HumanObjectPeerTestInstance {
         }
 
         UserConfig get_config() {
-            ChannelConfig channel_config = ChannelConfig.with_default();
+            ChannelHandshakeConfig channel_config = ChannelHandshakeConfig.with_default();
             channel_config.set_announced_channel(true);
             UserConfig config = UserConfig.with_default();
-            config.set_channel_options(channel_config);
+            config.set_channel_handshake_config(channel_config);
             return config;
         }
 
@@ -855,7 +855,7 @@ class HumanObjectPeerTestInstance {
             InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
             RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14);
+            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14, (byte)1);
             RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
@@ -974,7 +974,7 @@ class HumanObjectPeerTestInstance {
                 while (state.peer2.broadcast_set.size() != 1) state.peer2.broadcast_set.wait();
             }
         } else {
-            state.peer1.chan_manager.force_close_all_channels();
+            state.peer1.chan_manager.force_close_all_channels_broadcasting_latest_txn();
             maybe_exchange_peer_messages(state.peer1, state.peer2);
             synchronized (state.peer1.broadcast_set) {
                 while (state.peer1.broadcast_set.size() != 1) state.peer1.broadcast_set.wait();
