@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -472,76 +476,6 @@ export class ChannelConfig extends CommonBase {
 	}
 
 	/**
-	 * Set to announce the channel publicly and notify all nodes that they can route via this
-	 * channel.
-	 * 
-	 * This should only be set to true for nodes which expect to be online reliably.
-	 * 
-	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
-	 * 
-	 * This cannot be changed after the initial channel handshake.
-	 * 
-	 * Default value: false.
-	 */
-	public get_announced_channel(): boolean {
-		const ret: boolean = bindings.ChannelConfig_get_announced_channel(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * Set to announce the channel publicly and notify all nodes that they can route via this
-	 * channel.
-	 * 
-	 * This should only be set to true for nodes which expect to be online reliably.
-	 * 
-	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
-	 * 
-	 * This cannot be changed after the initial channel handshake.
-	 * 
-	 * Default value: false.
-	 */
-	public set_announced_channel(val: boolean): void {
-		bindings.ChannelConfig_set_announced_channel(this.ptr, val);
-	}
-
-	/**
-	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
-	 * supports it, they will then enforce the mutual-close output to us matches what we provided
-	 * at intialization, preventing us from closing to an alternate pubkey.
-	 * 
-	 * This is set to true by default to provide a slight increase in security, though ultimately
-	 * any attacker who is able to take control of a channel can just as easily send the funds via
-	 * lightning payments, so we never require that our counterparties support this option.
-	 * 
-	 * This cannot be changed after a channel has been initialized.
-	 * 
-	 * Default value: true.
-	 */
-	public get_commit_upfront_shutdown_pubkey(): boolean {
-		const ret: boolean = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
-	 * supports it, they will then enforce the mutual-close output to us matches what we provided
-	 * at intialization, preventing us from closing to an alternate pubkey.
-	 * 
-	 * This is set to true by default to provide a slight increase in security, though ultimately
-	 * any attacker who is able to take control of a channel can just as easily send the funds via
-	 * lightning payments, so we never require that our counterparties support this option.
-	 * 
-	 * This cannot be changed after a channel has been initialized.
-	 * 
-	 * Default value: true.
-	 */
-	public set_commit_upfront_shutdown_pubkey(val: boolean): void {
-		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
-	}
-
-	/**
 	 * Limit our total exposure to in-flight HTLCs which are burned to fees as they are too
 	 * small to claim on-chain.
 	 * 
@@ -644,8 +578,8 @@ export class ChannelConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelConfig given each field
 	 */
-	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean, max_dust_htlc_exposure_msat_arg: bigint, force_close_avoidance_max_fee_satoshis_arg: bigint): ChannelConfig {
-		const ret: number = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
+	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, max_dust_htlc_exposure_msat_arg: bigint, force_close_avoidance_max_fee_satoshis_arg: bigint): ChannelConfig {
+		const ret: number = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

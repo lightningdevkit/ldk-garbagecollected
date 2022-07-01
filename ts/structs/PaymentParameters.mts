@@ -107,6 +107,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -121,7 +124,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -138,6 +140,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -447,6 +451,7 @@ export class PaymentParameters extends CommonBase {
 
 	/**
 	 * The maximum total CLTV delta we accept for the route.
+	 * Defaults to [`DEFAULT_MAX_TOTAL_CLTV_EXPIRY_DELTA`].
 	 */
 	public get_max_total_cltv_expiry_delta(): number {
 		const ret: number = bindings.PaymentParameters_get_max_total_cltv_expiry_delta(this.ptr);
@@ -455,16 +460,34 @@ export class PaymentParameters extends CommonBase {
 
 	/**
 	 * The maximum total CLTV delta we accept for the route.
+	 * Defaults to [`DEFAULT_MAX_TOTAL_CLTV_EXPIRY_DELTA`].
 	 */
 	public set_max_total_cltv_expiry_delta(val: number): void {
 		bindings.PaymentParameters_set_max_total_cltv_expiry_delta(this.ptr, val);
 	}
 
 	/**
+	 * The maximum number of paths that may be used by MPP payments.
+	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 */
+	public get_max_mpp_path_count(): number {
+		const ret: number = bindings.PaymentParameters_get_max_mpp_path_count(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * The maximum number of paths that may be used by MPP payments.
+	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 */
+	public set_max_mpp_path_count(val: number): void {
+		bindings.PaymentParameters_set_max_mpp_path_count(this.ptr, val);
+	}
+
+	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static constructor_new(payee_pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z, max_total_cltv_expiry_delta_arg: number): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg);
+	public static constructor_new(payee_pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z, max_total_cltv_expiry_delta_arg: number, max_mpp_path_count_arg: number): PaymentParameters {
+		const ret: number = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg, max_mpp_path_count_arg);
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

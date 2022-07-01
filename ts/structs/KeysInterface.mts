@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -352,7 +356,9 @@ import * as bindings from '../bindings.mjs'
 
 /** An implementation of KeysInterface */
 export interface KeysInterfaceInterface {
-	/**Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
+	/**Get node secret key based on the provided [`Recipient`].
+	 * 
+	 * The node_id/network_key is the public key that corresponds to this secret key.
 	 * 
 	 * This method must return the same value each time it is called with a given `Recipient`
 	 * parameter.
@@ -494,7 +500,9 @@ export class KeysInterface extends CommonBase {
 	}
 
 	/**
-	 * Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
+	 * Get node secret key based on the provided [`Recipient`].
+	 * 
+	 * The node_id/network_key is the public key that corresponds to this secret key.
 	 * 
 	 * This method must return the same value each time it is called with a given `Recipient`
 	 * parameter.

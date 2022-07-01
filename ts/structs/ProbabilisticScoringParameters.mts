@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -505,13 +509,28 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new ProbabilisticScoringParameters given each field
+	 * This penalty is applied when `htlc_maximum_msat` is equal to or larger than half of the
+	 * channel's capacity, which makes us prefer nodes with a smaller `htlc_maximum_msat`. We
+	 * treat such nodes preferentially as this makes balance discovery attacks harder to execute,
+	 * thereby creating an incentive to restrict `htlc_maximum_msat` and improve privacy.
+	 * 
+	 * Default value: 250 msat
 	 */
-	public static constructor_new(base_penalty_msat_arg: bigint, liquidity_penalty_multiplier_msat_arg: bigint, liquidity_offset_half_life_arg: bigint, amount_penalty_multiplier_msat_arg: bigint): ProbabilisticScoringParameters {
-		const ret: number = bindings.ProbabilisticScoringParameters_new(base_penalty_msat_arg, liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg, amount_penalty_multiplier_msat_arg);
-		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		return ret_hu_conv;
+	public get_anti_probing_penalty_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_anti_probing_penalty_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * This penalty is applied when `htlc_maximum_msat` is equal to or larger than half of the
+	 * channel's capacity, which makes us prefer nodes with a smaller `htlc_maximum_msat`. We
+	 * treat such nodes preferentially as this makes balance discovery attacks harder to execute,
+	 * thereby creating an incentive to restrict `htlc_maximum_msat` and improve privacy.
+	 * 
+	 * Default value: 250 msat
+	 */
+	public set_anti_probing_penalty_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_anti_probing_penalty_msat(this.ptr, val);
 	}
 
 	public clone_ptr(): number {
@@ -527,6 +546,14 @@ export class ProbabilisticScoringParameters extends CommonBase {
 		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Marks all nodes in the given list as banned, i.e.,
+	 * they will be avoided during path finding.
+	 */
+	public add_banned_from_list(node_ids: NodeId[]): void {
+		bindings.ProbabilisticScoringParameters_add_banned_from_list(this.ptr, bindings.encodeUint32Array(node_ids != null ? node_ids.map(node_ids_conv_8 => node_ids_conv_8 == null ? 0 : CommonBase.get_ptr_of(node_ids_conv_8) & ~1) : null));
 	}
 
 	/**

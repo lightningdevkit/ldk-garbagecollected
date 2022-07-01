@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -535,20 +539,20 @@ export class ChannelHandshakeConfig extends CommonBase {
 	 * 
 	 * If this option is set, channels may be created that will not be readable by LDK versions
 	 * prior to 0.0.106, causing [`ChannelManager`]'s read method to return a
-	 * [`DecodeError:InvalidValue`].
+	 * [`DecodeError::InvalidValue`].
 	 * 
 	 * Note that setting this to true does *not* prevent us from opening channels with
 	 * counterparties that do not support the `scid_alias` option; we will simply fall back to a
 	 * private channel without that option.
 	 * 
 	 * Ignored if the channel is negotiated to be announced, see
-	 * [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`] for more.
 	 * 
 	 * Default value: false. This value is likely to change to true in the future.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 * [`DecodeError:InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 * [`DecodeError::InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
 	 */
 	public get_negotiate_scid_privacy(): boolean {
 		const ret: boolean = bindings.ChannelHandshakeConfig_get_negotiate_scid_privacy(this.ptr);
@@ -563,30 +567,100 @@ export class ChannelHandshakeConfig extends CommonBase {
 	 * 
 	 * If this option is set, channels may be created that will not be readable by LDK versions
 	 * prior to 0.0.106, causing [`ChannelManager`]'s read method to return a
-	 * [`DecodeError:InvalidValue`].
+	 * [`DecodeError::InvalidValue`].
 	 * 
 	 * Note that setting this to true does *not* prevent us from opening channels with
 	 * counterparties that do not support the `scid_alias` option; we will simply fall back to a
 	 * private channel without that option.
 	 * 
 	 * Ignored if the channel is negotiated to be announced, see
-	 * [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`] for more.
 	 * 
 	 * Default value: false. This value is likely to change to true in the future.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 * [`DecodeError:InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 * [`DecodeError::InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
 	 */
 	public set_negotiate_scid_privacy(val: boolean): void {
 		bindings.ChannelHandshakeConfig_set_negotiate_scid_privacy(this.ptr, val);
 	}
 
 	/**
+	 * Set to announce the channel publicly and notify all nodes that they can route via this
+	 * channel.
+	 * 
+	 * This should only be set to true for nodes which expect to be online reliably.
+	 * 
+	 * As the node which funds a channel picks this value this will only apply for new outbound
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
+	 * 
+	 * Default value: false.
+	 */
+	public get_announced_channel(): boolean {
+		const ret: boolean = bindings.ChannelHandshakeConfig_get_announced_channel(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Set to announce the channel publicly and notify all nodes that they can route via this
+	 * channel.
+	 * 
+	 * This should only be set to true for nodes which expect to be online reliably.
+	 * 
+	 * As the node which funds a channel picks this value this will only apply for new outbound
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
+	 * 
+	 * Default value: false.
+	 */
+	public set_announced_channel(val: boolean): void {
+		bindings.ChannelHandshakeConfig_set_announced_channel(this.ptr, val);
+	}
+
+	/**
+	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
+	 * supports it, they will then enforce the mutual-close output to us matches what we provided
+	 * at intialization, preventing us from closing to an alternate pubkey.
+	 * 
+	 * This is set to true by default to provide a slight increase in security, though ultimately
+	 * any attacker who is able to take control of a channel can just as easily send the funds via
+	 * lightning payments, so we never require that our counterparties support this option.
+	 * 
+	 * The upfront key committed is provided from [`KeysInterface::get_shutdown_scriptpubkey`].
+	 * 
+	 * Default value: true.
+	 * 
+	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 */
+	public get_commit_upfront_shutdown_pubkey(): boolean {
+		const ret: boolean = bindings.ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
+	 * supports it, they will then enforce the mutual-close output to us matches what we provided
+	 * at intialization, preventing us from closing to an alternate pubkey.
+	 * 
+	 * This is set to true by default to provide a slight increase in security, though ultimately
+	 * any attacker who is able to take control of a channel can just as easily send the funds via
+	 * lightning payments, so we never require that our counterparties support this option.
+	 * 
+	 * The upfront key committed is provided from [`KeysInterface::get_shutdown_scriptpubkey`].
+	 * 
+	 * Default value: true.
+	 * 
+	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 */
+	public set_commit_upfront_shutdown_pubkey(val: boolean): void {
+		bindings.ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
+	}
+
+	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: bigint, max_inbound_htlc_value_in_flight_percent_of_channel_arg: number, negotiate_scid_privacy_arg: boolean): ChannelHandshakeConfig {
-		const ret: number = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg);
+	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: bigint, max_inbound_htlc_value_in_flight_percent_of_channel_arg: number, negotiate_scid_privacy_arg: boolean, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean): ChannelHandshakeConfig {
+		const ret: number = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

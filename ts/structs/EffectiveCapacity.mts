@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -407,8 +411,8 @@ export class EffectiveCapacity extends CommonBase {
 	/**
 	 * Utility method to constructs a new Total-variant EffectiveCapacity
 	 */
-	public static constructor_total(capacity_msat: bigint): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_total(capacity_msat);
+	public static constructor_total(capacity_msat: bigint, htlc_maximum_msat: Option_u64Z): EffectiveCapacity {
+		const ret: number = bindings.EffectiveCapacity_total(capacity_msat, CommonBase.get_ptr_of(htlc_maximum_msat));
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -474,10 +478,18 @@ export class EffectiveCapacity_Total extends EffectiveCapacity {
 	 * The funding amount denominated in millisatoshi.
 	 */
 	public capacity_msat: bigint;
+	/**
+	 * The maximum HTLC amount denominated in millisatoshi.
+	 */
+	public htlc_maximum_msat: Option_u64Z;
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
 		this.capacity_msat = bindings.LDKEffectiveCapacity_Total_get_capacity_msat(ptr);
+		const htlc_maximum_msat: number = bindings.LDKEffectiveCapacity_Total_get_htlc_maximum_msat(ptr);
+		const htlc_maximum_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(htlc_maximum_msat);
+			CommonBase.add_ref_from(htlc_maximum_msat_hu_conv, this);
+		this.htlc_maximum_msat = htlc_maximum_msat_hu_conv;
 	}
 }
 /** A EffectiveCapacity of type Infinite */

@@ -107,6 +107,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -121,7 +124,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -138,6 +140,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -925,10 +929,35 @@ export class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * Set of configurable parameters that affect channel operation.
+	 * 
+	 * This field is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.109.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public get_config(): ChannelConfig {
+		const ret: number = bindings.ChannelDetails_get_config(this.ptr);
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Set of configurable parameters that affect channel operation.
+	 * 
+	 * This field is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.109.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public set_config(val: ChannelConfig): void {
+		bindings.ChannelDetails_set_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+	}
+
+	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, channel_type_arg: ChannelTypeFeatures, short_channel_id_arg: Option_u64Z, outbound_scid_alias_arg: Option_u64Z, inbound_scid_alias_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, next_outbound_htlc_limit_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_channel_ready_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean, inbound_htlc_minimum_msat_arg: Option_u64Z, inbound_htlc_maximum_msat_arg: Option_u64Z): ChannelDetails {
-		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, channel_type_arg == null ? 0 : CommonBase.get_ptr_of(channel_type_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), CommonBase.get_ptr_of(outbound_scid_alias_arg), CommonBase.get_ptr_of(inbound_scid_alias_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, CommonBase.get_ptr_of(inbound_htlc_minimum_msat_arg), CommonBase.get_ptr_of(inbound_htlc_maximum_msat_arg));
+	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, channel_type_arg: ChannelTypeFeatures, short_channel_id_arg: Option_u64Z, outbound_scid_alias_arg: Option_u64Z, inbound_scid_alias_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, next_outbound_htlc_limit_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_channel_ready_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean, inbound_htlc_minimum_msat_arg: Option_u64Z, inbound_htlc_maximum_msat_arg: Option_u64Z, config_arg: ChannelConfig): ChannelDetails {
+		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, channel_type_arg == null ? 0 : CommonBase.get_ptr_of(channel_type_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), CommonBase.get_ptr_of(outbound_scid_alias_arg), CommonBase.get_ptr_of(inbound_scid_alias_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, CommonBase.get_ptr_of(inbound_htlc_minimum_msat_arg), CommonBase.get_ptr_of(inbound_htlc_maximum_msat_arg), config_arg == null ? 0 : CommonBase.get_ptr_of(config_arg) & ~1);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

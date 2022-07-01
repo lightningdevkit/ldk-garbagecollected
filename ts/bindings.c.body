@@ -2605,6 +2605,47 @@ uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_
 	return ret_ref;
 }
 
+static inline uint64_t C2Tuple_u64u64Z_get_a(LDKC2Tuple_u64u64Z *NONNULL_PTR owner){
+	return owner->a;
+}
+int64_t  __attribute__((export_name("TS_C2Tuple_u64u64Z_get_a"))) TS_C2Tuple_u64u64Z_get_a(uint32_t owner) {
+	LDKC2Tuple_u64u64Z* owner_conv = (LDKC2Tuple_u64u64Z*)(owner & ~1);
+	int64_t ret_conv = C2Tuple_u64u64Z_get_a(owner_conv);
+	return ret_conv;
+}
+
+static inline uint64_t C2Tuple_u64u64Z_get_b(LDKC2Tuple_u64u64Z *NONNULL_PTR owner){
+	return owner->b;
+}
+int64_t  __attribute__((export_name("TS_C2Tuple_u64u64Z_get_b"))) TS_C2Tuple_u64u64Z_get_b(uint32_t owner) {
+	LDKC2Tuple_u64u64Z* owner_conv = (LDKC2Tuple_u64u64Z*)(owner & ~1);
+	int64_t ret_conv = C2Tuple_u64u64Z_get_b(owner_conv);
+	return ret_conv;
+}
+
+uint32_t __attribute__((export_name("TS_LDKCOption_C2Tuple_u64u64ZZ_ty_from_ptr"))) TS_LDKCOption_C2Tuple_u64u64ZZ_ty_from_ptr(uint32_t ptr) {
+	LDKCOption_C2Tuple_u64u64ZZ *obj = (LDKCOption_C2Tuple_u64u64ZZ*)(ptr & ~1);
+	switch(obj->tag) {
+		case LDKCOption_C2Tuple_u64u64ZZ_Some: return 0;
+		case LDKCOption_C2Tuple_u64u64ZZ_None: return 1;
+		default: abort();
+	}
+}
+uint32_t __attribute__((export_name("TS_LDKCOption_C2Tuple_u64u64ZZ_Some_get_some"))) TS_LDKCOption_C2Tuple_u64u64ZZ_Some_get_some(uint32_t ptr) {
+	LDKCOption_C2Tuple_u64u64ZZ *obj = (LDKCOption_C2Tuple_u64u64ZZ*)(ptr & ~1);
+	assert(obj->tag == LDKCOption_C2Tuple_u64u64ZZ_Some);
+			LDKC2Tuple_u64u64Z* some_conv = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
+			*some_conv = obj->some;
+			*some_conv = C2Tuple_u64u64Z_clone(some_conv);
+	return ((uint32_t)some_conv);
+}
+static inline LDKCVec_NodeIdZ CVec_NodeIdZ_clone(const LDKCVec_NodeIdZ *orig) {
+	LDKCVec_NodeIdZ ret = { .data = MALLOC(sizeof(LDKNodeId) * orig->datalen, "LDKCVec_NodeIdZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = NodeId_clone(&orig->data[i]);
+	}
+	return ret;
+}
 typedef struct LDKLogger_JCalls {
 	atomic_size_t refcnt;
 	uint32_t instance_ptr;
@@ -3333,6 +3374,42 @@ CHECK(!owner->result_ok);
 uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_err"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_err(uint32_t owner) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)(owner & ~1);
 	LDKDecodeError ret_var = CResult_NodeAnnouncementInfoDecodeErrorZ_get_err(owner_conv);
+	uint32_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline struct LDKNodeAlias CResult_NodeAliasDecodeErrorZ_get_ok(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
+CHECK(owner->result_ok);
+	return NodeAlias_clone(&*owner->contents.result);
+}
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_ok"))) TS_CResult_NodeAliasDecodeErrorZ_get_ok(uint32_t owner) {
+	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)(owner & ~1);
+	LDKNodeAlias ret_var = CResult_NodeAliasDecodeErrorZ_get_ok(owner_conv);
+	uint32_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline struct LDKDecodeError CResult_NodeAliasDecodeErrorZ_get_err(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
+CHECK(!owner->result_ok);
+	return DecodeError_clone(&*owner->contents.err);
+}
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_err"))) TS_CResult_NodeAliasDecodeErrorZ_get_err(uint32_t owner) {
+	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)(owner & ~1);
+	LDKDecodeError ret_var = CResult_NodeAliasDecodeErrorZ_get_err(owner_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -4705,6 +4782,13 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPa
 	return ret_ref;
 }
 
+static inline LDKCVec_ThirtyTwoBytesZ CVec_ThirtyTwoBytesZ_clone(const LDKCVec_ThirtyTwoBytesZ *orig) {
+	LDKCVec_ThirtyTwoBytesZ ret = { .data = MALLOC(sizeof(LDKThirtyTwoBytes) * orig->datalen, "LDKCVec_ThirtyTwoBytesZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = ThirtyTwoBytes_clone(&orig->data[i]);
+	}
+	return ret;
+}
 static inline struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentSecretZ_get_a(LDKC2Tuple_PaymentHashPaymentSecretZ *NONNULL_PTR owner){
 	return ThirtyTwoBytes_clone(&owner->a);
 }
@@ -10445,6 +10529,12 @@ int64_t __attribute__((export_name("TS_LDKEffectiveCapacity_Total_get_capacity_m
 			int64_t capacity_msat_conv = obj->total.capacity_msat;
 	return capacity_msat_conv;
 }
+uint32_t __attribute__((export_name("TS_LDKEffectiveCapacity_Total_get_htlc_maximum_msat"))) TS_LDKEffectiveCapacity_Total_get_htlc_maximum_msat(uint32_t ptr) {
+	LDKEffectiveCapacity *obj = (LDKEffectiveCapacity*)(ptr & ~1);
+	assert(obj->tag == LDKEffectiveCapacity_Total);
+			uint32_t htlc_maximum_msat_ref = ((uintptr_t)&obj->total.htlc_maximum_msat) | 1;
+	return htlc_maximum_msat_ref;
+}
 typedef struct LDKLockableScore_JCalls {
 	atomic_size_t refcnt;
 	uint32_t instance_ptr;
@@ -13264,6 +13354,106 @@ uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_
 	return (uint32_t)ret_conv;
 }
 
+static inline uintptr_t C2Tuple_u64u64Z_clone_ptr(LDKC2Tuple_u64u64Z *NONNULL_PTR arg) {
+	LDKC2Tuple_u64u64Z* ret_conv = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
+	*ret_conv = C2Tuple_u64u64Z_clone(arg);
+	return ((uint32_t)ret_conv);
+}
+uint32_t  __attribute__((export_name("TS_C2Tuple_u64u64Z_clone_ptr"))) TS_C2Tuple_u64u64Z_clone_ptr(uint32_t arg) {
+	LDKC2Tuple_u64u64Z* arg_conv = (LDKC2Tuple_u64u64Z*)(arg & ~1);
+	uint32_t ret_conv = C2Tuple_u64u64Z_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_C2Tuple_u64u64Z_clone"))) TS_C2Tuple_u64u64Z_clone(uint32_t orig) {
+	LDKC2Tuple_u64u64Z* orig_conv = (LDKC2Tuple_u64u64Z*)(orig & ~1);
+	LDKC2Tuple_u64u64Z* ret_conv = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
+	*ret_conv = C2Tuple_u64u64Z_clone(orig_conv);
+	return ((uint32_t)ret_conv);
+}
+
+uint32_t  __attribute__((export_name("TS_C2Tuple_u64u64Z_new"))) TS_C2Tuple_u64u64Z_new(int64_t a, int64_t b) {
+	LDKC2Tuple_u64u64Z* ret_conv = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
+	*ret_conv = C2Tuple_u64u64Z_new(a, b);
+	return ((uint32_t)ret_conv);
+}
+
+void  __attribute__((export_name("TS_C2Tuple_u64u64Z_free"))) TS_C2Tuple_u64u64Z_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	void* _res_ptr = (void*)(((uintptr_t)_res) & ~1);
+	CHECK_ACCESS(_res_ptr);
+	LDKC2Tuple_u64u64Z _res_conv = *(LDKC2Tuple_u64u64Z*)(_res_ptr);
+	FREE((void*)_res);
+	C2Tuple_u64u64Z_free(_res_conv);
+}
+
+uint32_t  __attribute__((export_name("TS_COption_C2Tuple_u64u64ZZ_some"))) TS_COption_C2Tuple_u64u64ZZ_some(uint32_t o) {
+	void* o_ptr = (void*)(((uintptr_t)o) & ~1);
+	CHECK_ACCESS(o_ptr);
+	LDKC2Tuple_u64u64Z o_conv = *(LDKC2Tuple_u64u64Z*)(o_ptr);
+	o_conv = C2Tuple_u64u64Z_clone((LDKC2Tuple_u64u64Z*)(((uintptr_t)o) & ~1));
+	LDKCOption_C2Tuple_u64u64ZZ *ret_copy = MALLOC(sizeof(LDKCOption_C2Tuple_u64u64ZZ), "LDKCOption_C2Tuple_u64u64ZZ");
+	*ret_copy = COption_C2Tuple_u64u64ZZ_some(o_conv);
+	uint32_t ret_ref = (uintptr_t)ret_copy;
+	return ret_ref;
+}
+
+uint32_t  __attribute__((export_name("TS_COption_C2Tuple_u64u64ZZ_none"))) TS_COption_C2Tuple_u64u64ZZ_none() {
+	LDKCOption_C2Tuple_u64u64ZZ *ret_copy = MALLOC(sizeof(LDKCOption_C2Tuple_u64u64ZZ), "LDKCOption_C2Tuple_u64u64ZZ");
+	*ret_copy = COption_C2Tuple_u64u64ZZ_none();
+	uint32_t ret_ref = (uintptr_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((export_name("TS_COption_C2Tuple_u64u64ZZ_free"))) TS_COption_C2Tuple_u64u64ZZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	void* _res_ptr = (void*)(((uintptr_t)_res) & ~1);
+	CHECK_ACCESS(_res_ptr);
+	LDKCOption_C2Tuple_u64u64ZZ _res_conv = *(LDKCOption_C2Tuple_u64u64ZZ*)(_res_ptr);
+	FREE((void*)_res);
+	COption_C2Tuple_u64u64ZZ_free(_res_conv);
+}
+
+static inline uintptr_t COption_C2Tuple_u64u64ZZ_clone_ptr(LDKCOption_C2Tuple_u64u64ZZ *NONNULL_PTR arg) {
+	LDKCOption_C2Tuple_u64u64ZZ *ret_copy = MALLOC(sizeof(LDKCOption_C2Tuple_u64u64ZZ), "LDKCOption_C2Tuple_u64u64ZZ");
+	*ret_copy = COption_C2Tuple_u64u64ZZ_clone(arg);
+uint32_t ret_ref = (uintptr_t)ret_copy;
+	return ret_ref;
+}
+uint32_t  __attribute__((export_name("TS_COption_C2Tuple_u64u64ZZ_clone_ptr"))) TS_COption_C2Tuple_u64u64ZZ_clone_ptr(uint32_t arg) {
+	LDKCOption_C2Tuple_u64u64ZZ* arg_conv = (LDKCOption_C2Tuple_u64u64ZZ*)arg;
+	uint32_t ret_conv = COption_C2Tuple_u64u64ZZ_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_COption_C2Tuple_u64u64ZZ_clone"))) TS_COption_C2Tuple_u64u64ZZ_clone(uint32_t orig) {
+	LDKCOption_C2Tuple_u64u64ZZ* orig_conv = (LDKCOption_C2Tuple_u64u64ZZ*)orig;
+	LDKCOption_C2Tuple_u64u64ZZ *ret_copy = MALLOC(sizeof(LDKCOption_C2Tuple_u64u64ZZ), "LDKCOption_C2Tuple_u64u64ZZ");
+	*ret_copy = COption_C2Tuple_u64u64ZZ_clone(orig_conv);
+	uint32_t ret_ref = (uintptr_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((export_name("TS_CVec_NodeIdZ_free"))) TS_CVec_NodeIdZ_free(uint32_tArray _res) {
+	LDKCVec_NodeIdZ _res_constr;
+	_res_constr.datalen = _res->arr_len;
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKNodeId), "LDKCVec_NodeIdZ Elements");
+	else
+		_res_constr.data = NULL;
+	uint32_t* _res_vals = _res->elems;
+	for (size_t i = 0; i < _res_constr.datalen; i++) {
+		uint32_t _res_conv_8 = _res_vals[i];
+		LDKNodeId _res_conv_8_conv;
+		_res_conv_8_conv.inner = (void*)(_res_conv_8 & (~1));
+		_res_conv_8_conv.is_owned = (_res_conv_8 & 1) || (_res_conv_8 == 0);
+		CHECK_INNER_FIELD_ACCESS_OR_NULL(_res_conv_8_conv);
+		_res_constr.data[i] = _res_conv_8_conv;
+	}
+	FREE(_res);
+	CVec_NodeIdZ_free(_res_constr);
+}
+
 uint32_t  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ_ok"))) TS_CResult_ProbabilisticScorerDecodeErrorZ_ok(uint32_t o) {
 	LDKProbabilisticScorer o_conv;
 	o_conv.inner = (void*)(o & (~1));
@@ -14140,6 +14330,61 @@ uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeError
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* orig_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)(orig & ~1);
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAnnouncementInfoDecodeErrorZ), "LDKCResult_NodeAnnouncementInfoDecodeErrorZ");
 	*ret_conv = CResult_NodeAnnouncementInfoDecodeErrorZ_clone(orig_conv);
+	return (uint32_t)ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_ok"))) TS_CResult_NodeAliasDecodeErrorZ_ok(uint32_t o) {
+	LDKNodeAlias o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
+	o_conv = NodeAlias_clone(&o_conv);
+	LDKCResult_NodeAliasDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAliasDecodeErrorZ), "LDKCResult_NodeAliasDecodeErrorZ");
+	*ret_conv = CResult_NodeAliasDecodeErrorZ_ok(o_conv);
+	return (uint32_t)ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_err"))) TS_CResult_NodeAliasDecodeErrorZ_err(uint32_t e) {
+	LDKDecodeError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(e_conv);
+	e_conv = DecodeError_clone(&e_conv);
+	LDKCResult_NodeAliasDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAliasDecodeErrorZ), "LDKCResult_NodeAliasDecodeErrorZ");
+	*ret_conv = CResult_NodeAliasDecodeErrorZ_err(e_conv);
+	return (uint32_t)ret_conv;
+}
+
+jboolean  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_is_ok"))) TS_CResult_NodeAliasDecodeErrorZ_is_ok(uint32_t o) {
+	LDKCResult_NodeAliasDecodeErrorZ* o_conv = (LDKCResult_NodeAliasDecodeErrorZ*)(o & ~1);
+	jboolean ret_conv = CResult_NodeAliasDecodeErrorZ_is_ok(o_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_free"))) TS_CResult_NodeAliasDecodeErrorZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	void* _res_ptr = (void*)(((uintptr_t)_res) & ~1);
+	CHECK_ACCESS(_res_ptr);
+	LDKCResult_NodeAliasDecodeErrorZ _res_conv = *(LDKCResult_NodeAliasDecodeErrorZ*)(_res_ptr);
+	FREE((void*)_res);
+	CResult_NodeAliasDecodeErrorZ_free(_res_conv);
+}
+
+static inline uintptr_t CResult_NodeAliasDecodeErrorZ_clone_ptr(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR arg) {
+	LDKCResult_NodeAliasDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAliasDecodeErrorZ), "LDKCResult_NodeAliasDecodeErrorZ");
+	*ret_conv = CResult_NodeAliasDecodeErrorZ_clone(arg);
+	return (uint32_t)ret_conv;
+}
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAliasDecodeErrorZ_clone_ptr(uint32_t arg) {
+	LDKCResult_NodeAliasDecodeErrorZ* arg_conv = (LDKCResult_NodeAliasDecodeErrorZ*)(arg & ~1);
+	uint32_t ret_conv = CResult_NodeAliasDecodeErrorZ_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_clone"))) TS_CResult_NodeAliasDecodeErrorZ_clone(uint32_t orig) {
+	LDKCResult_NodeAliasDecodeErrorZ* orig_conv = (LDKCResult_NodeAliasDecodeErrorZ*)(orig & ~1);
+	LDKCResult_NodeAliasDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAliasDecodeErrorZ), "LDKCResult_NodeAliasDecodeErrorZ");
+	*ret_conv = CResult_NodeAliasDecodeErrorZ_clone(orig_conv);
 	return (uint32_t)ret_conv;
 }
 
@@ -15488,6 +15733,25 @@ uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPa
 	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ), "LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ");
 	*ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(orig_conv);
 	return (uint32_t)ret_conv;
+}
+
+void  __attribute__((export_name("TS_CVec_ThirtyTwoBytesZ_free"))) TS_CVec_ThirtyTwoBytesZ_free(ptrArray _res) {
+	LDKCVec_ThirtyTwoBytesZ _res_constr;
+	_res_constr.datalen = _res->arr_len;
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKThirtyTwoBytes), "LDKCVec_ThirtyTwoBytesZ Elements");
+	else
+		_res_constr.data = NULL;
+	int8_tArray* _res_vals = (void*) _res->elems;
+	for (size_t m = 0; m < _res_constr.datalen; m++) {
+		int8_tArray _res_conv_12 = _res_vals[m];
+		LDKThirtyTwoBytes _res_conv_12_ref;
+		CHECK(_res_conv_12->arr_len == 32);
+		memcpy(_res_conv_12_ref.data, _res_conv_12->elems, 32); FREE(_res_conv_12);
+		_res_constr.data[m] = _res_conv_12_ref;
+	}
+	FREE(_res);
+	CVec_ThirtyTwoBytesZ_free(_res_constr);
 }
 
 static inline uintptr_t C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(LDKC2Tuple_PaymentHashPaymentSecretZ *NONNULL_PTR arg) {
@@ -21290,8 +21554,42 @@ void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_negotiate_scid_p
 	ChannelHandshakeConfig_set_negotiate_scid_privacy(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_new"))) TS_ChannelHandshakeConfig_new(int32_t minimum_depth_arg, int16_t our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg, int8_t max_inbound_htlc_value_in_flight_percent_of_channel_arg, jboolean negotiate_scid_privacy_arg) {
-	LDKChannelHandshakeConfig ret_var = ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg);
+jboolean  __attribute__((export_name("TS_ChannelHandshakeConfig_get_announced_channel"))) TS_ChannelHandshakeConfig_get_announced_channel(uint32_t this_ptr) {
+	LDKChannelHandshakeConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	jboolean ret_conv = ChannelHandshakeConfig_get_announced_channel(&this_ptr_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_announced_channel"))) TS_ChannelHandshakeConfig_set_announced_channel(uint32_t this_ptr, jboolean val) {
+	LDKChannelHandshakeConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	ChannelHandshakeConfig_set_announced_channel(&this_ptr_conv, val);
+}
+
+jboolean  __attribute__((export_name("TS_ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey"))) TS_ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey(uint32_t this_ptr) {
+	LDKChannelHandshakeConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	jboolean ret_conv = ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey(&this_ptr_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey"))) TS_ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey(uint32_t this_ptr, jboolean val) {
+	LDKChannelHandshakeConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_new"))) TS_ChannelHandshakeConfig_new(int32_t minimum_depth_arg, int16_t our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg, int8_t max_inbound_htlc_value_in_flight_percent_of_channel_arg, jboolean negotiate_scid_privacy_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
+	LDKChannelHandshakeConfig ret_var = ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -21655,40 +21953,6 @@ void  __attribute__((export_name("TS_ChannelConfig_set_cltv_expiry_delta"))) TS_
 	ChannelConfig_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-jboolean  __attribute__((export_name("TS_ChannelConfig_get_announced_channel"))) TS_ChannelConfig_get_announced_channel(uint32_t this_ptr) {
-	LDKChannelConfig this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_conv = ChannelConfig_get_announced_channel(&this_ptr_conv);
-	return ret_conv;
-}
-
-void  __attribute__((export_name("TS_ChannelConfig_set_announced_channel"))) TS_ChannelConfig_set_announced_channel(uint32_t this_ptr, jboolean val) {
-	LDKChannelConfig this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	ChannelConfig_set_announced_channel(&this_ptr_conv, val);
-}
-
-jboolean  __attribute__((export_name("TS_ChannelConfig_get_commit_upfront_shutdown_pubkey"))) TS_ChannelConfig_get_commit_upfront_shutdown_pubkey(uint32_t this_ptr) {
-	LDKChannelConfig this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	jboolean ret_conv = ChannelConfig_get_commit_upfront_shutdown_pubkey(&this_ptr_conv);
-	return ret_conv;
-}
-
-void  __attribute__((export_name("TS_ChannelConfig_set_commit_upfront_shutdown_pubkey"))) TS_ChannelConfig_set_commit_upfront_shutdown_pubkey(uint32_t this_ptr, jboolean val) {
-	LDKChannelConfig this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	ChannelConfig_set_commit_upfront_shutdown_pubkey(&this_ptr_conv, val);
-}
-
 int64_t  __attribute__((export_name("TS_ChannelConfig_get_max_dust_htlc_exposure_msat"))) TS_ChannelConfig_get_max_dust_htlc_exposure_msat(uint32_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -21723,8 +21987,8 @@ void  __attribute__((export_name("TS_ChannelConfig_set_force_close_avoidance_max
 	ChannelConfig_set_force_close_avoidance_max_fee_satoshis(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_ChannelConfig_new"))) TS_ChannelConfig_new(int32_t forwarding_fee_proportional_millionths_arg, int32_t forwarding_fee_base_msat_arg, int16_t cltv_expiry_delta_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg, int64_t max_dust_htlc_exposure_msat_arg, int64_t force_close_avoidance_max_fee_satoshis_arg) {
-	LDKChannelConfig ret_var = ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
+uint32_t  __attribute__((export_name("TS_ChannelConfig_new"))) TS_ChannelConfig_new(int32_t forwarding_fee_proportional_millionths_arg, int32_t forwarding_fee_base_msat_arg, int16_t cltv_expiry_delta_arg, int64_t max_dust_htlc_exposure_msat_arg, int64_t force_close_avoidance_max_fee_satoshis_arg) {
+	LDKChannelConfig ret_var = ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -21817,12 +22081,12 @@ void  __attribute__((export_name("TS_UserConfig_free"))) TS_UserConfig_free(uint
 	UserConfig_free(this_obj_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_UserConfig_get_own_channel_config"))) TS_UserConfig_get_own_channel_config(uint32_t this_ptr) {
+uint32_t  __attribute__((export_name("TS_UserConfig_get_channel_handshake_config"))) TS_UserConfig_get_channel_handshake_config(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	LDKChannelHandshakeConfig ret_var = UserConfig_get_own_channel_config(&this_ptr_conv);
+	LDKChannelHandshakeConfig ret_var = UserConfig_get_channel_handshake_config(&this_ptr_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -21834,7 +22098,7 @@ uint32_t  __attribute__((export_name("TS_UserConfig_get_own_channel_config"))) T
 	return ret_ref;
 }
 
-void  __attribute__((export_name("TS_UserConfig_set_own_channel_config"))) TS_UserConfig_set_own_channel_config(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((export_name("TS_UserConfig_set_channel_handshake_config"))) TS_UserConfig_set_channel_handshake_config(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -21844,15 +22108,15 @@ void  __attribute__((export_name("TS_UserConfig_set_own_channel_config"))) TS_Us
 	val_conv.is_owned = (val & 1) || (val == 0);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(val_conv);
 	val_conv = ChannelHandshakeConfig_clone(&val_conv);
-	UserConfig_set_own_channel_config(&this_ptr_conv, val_conv);
+	UserConfig_set_channel_handshake_config(&this_ptr_conv, val_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_UserConfig_get_peer_channel_config_limits"))) TS_UserConfig_get_peer_channel_config_limits(uint32_t this_ptr) {
+uint32_t  __attribute__((export_name("TS_UserConfig_get_channel_handshake_limits"))) TS_UserConfig_get_channel_handshake_limits(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	LDKChannelHandshakeLimits ret_var = UserConfig_get_peer_channel_config_limits(&this_ptr_conv);
+	LDKChannelHandshakeLimits ret_var = UserConfig_get_channel_handshake_limits(&this_ptr_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -21864,7 +22128,7 @@ uint32_t  __attribute__((export_name("TS_UserConfig_get_peer_channel_config_limi
 	return ret_ref;
 }
 
-void  __attribute__((export_name("TS_UserConfig_set_peer_channel_config_limits"))) TS_UserConfig_set_peer_channel_config_limits(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((export_name("TS_UserConfig_set_channel_handshake_limits"))) TS_UserConfig_set_channel_handshake_limits(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -21874,15 +22138,15 @@ void  __attribute__((export_name("TS_UserConfig_set_peer_channel_config_limits")
 	val_conv.is_owned = (val & 1) || (val == 0);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(val_conv);
 	val_conv = ChannelHandshakeLimits_clone(&val_conv);
-	UserConfig_set_peer_channel_config_limits(&this_ptr_conv, val_conv);
+	UserConfig_set_channel_handshake_limits(&this_ptr_conv, val_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_UserConfig_get_channel_options"))) TS_UserConfig_get_channel_options(uint32_t this_ptr) {
+uint32_t  __attribute__((export_name("TS_UserConfig_get_channel_config"))) TS_UserConfig_get_channel_config(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	LDKChannelConfig ret_var = UserConfig_get_channel_options(&this_ptr_conv);
+	LDKChannelConfig ret_var = UserConfig_get_channel_config(&this_ptr_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -21894,7 +22158,7 @@ uint32_t  __attribute__((export_name("TS_UserConfig_get_channel_options"))) TS_U
 	return ret_ref;
 }
 
-void  __attribute__((export_name("TS_UserConfig_set_channel_options"))) TS_UserConfig_set_channel_options(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((export_name("TS_UserConfig_set_channel_config"))) TS_UserConfig_set_channel_config(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -21904,7 +22168,7 @@ void  __attribute__((export_name("TS_UserConfig_set_channel_options"))) TS_UserC
 	val_conv.is_owned = (val & 1) || (val == 0);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(val_conv);
 	val_conv = ChannelConfig_clone(&val_conv);
-	UserConfig_set_channel_options(&this_ptr_conv, val_conv);
+	UserConfig_set_channel_config(&this_ptr_conv, val_conv);
 }
 
 jboolean  __attribute__((export_name("TS_UserConfig_get_accept_forwards_to_priv_channels"))) TS_UserConfig_get_accept_forwards_to_priv_channels(uint32_t this_ptr) {
@@ -21958,23 +22222,23 @@ void  __attribute__((export_name("TS_UserConfig_set_manually_accept_inbound_chan
 	UserConfig_set_manually_accept_inbound_channels(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_UserConfig_new"))) TS_UserConfig_new(uint32_t own_channel_config_arg, uint32_t peer_channel_config_limits_arg, uint32_t channel_options_arg, jboolean accept_forwards_to_priv_channels_arg, jboolean accept_inbound_channels_arg, jboolean manually_accept_inbound_channels_arg) {
-	LDKChannelHandshakeConfig own_channel_config_arg_conv;
-	own_channel_config_arg_conv.inner = (void*)(own_channel_config_arg & (~1));
-	own_channel_config_arg_conv.is_owned = (own_channel_config_arg & 1) || (own_channel_config_arg == 0);
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(own_channel_config_arg_conv);
-	own_channel_config_arg_conv = ChannelHandshakeConfig_clone(&own_channel_config_arg_conv);
-	LDKChannelHandshakeLimits peer_channel_config_limits_arg_conv;
-	peer_channel_config_limits_arg_conv.inner = (void*)(peer_channel_config_limits_arg & (~1));
-	peer_channel_config_limits_arg_conv.is_owned = (peer_channel_config_limits_arg & 1) || (peer_channel_config_limits_arg == 0);
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(peer_channel_config_limits_arg_conv);
-	peer_channel_config_limits_arg_conv = ChannelHandshakeLimits_clone(&peer_channel_config_limits_arg_conv);
-	LDKChannelConfig channel_options_arg_conv;
-	channel_options_arg_conv.inner = (void*)(channel_options_arg & (~1));
-	channel_options_arg_conv.is_owned = (channel_options_arg & 1) || (channel_options_arg == 0);
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(channel_options_arg_conv);
-	channel_options_arg_conv = ChannelConfig_clone(&channel_options_arg_conv);
-	LDKUserConfig ret_var = UserConfig_new(own_channel_config_arg_conv, peer_channel_config_limits_arg_conv, channel_options_arg_conv, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
+uint32_t  __attribute__((export_name("TS_UserConfig_new"))) TS_UserConfig_new(uint32_t channel_handshake_config_arg, uint32_t channel_handshake_limits_arg, uint32_t channel_config_arg, jboolean accept_forwards_to_priv_channels_arg, jboolean accept_inbound_channels_arg, jboolean manually_accept_inbound_channels_arg) {
+	LDKChannelHandshakeConfig channel_handshake_config_arg_conv;
+	channel_handshake_config_arg_conv.inner = (void*)(channel_handshake_config_arg & (~1));
+	channel_handshake_config_arg_conv.is_owned = (channel_handshake_config_arg & 1) || (channel_handshake_config_arg == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(channel_handshake_config_arg_conv);
+	channel_handshake_config_arg_conv = ChannelHandshakeConfig_clone(&channel_handshake_config_arg_conv);
+	LDKChannelHandshakeLimits channel_handshake_limits_arg_conv;
+	channel_handshake_limits_arg_conv.inner = (void*)(channel_handshake_limits_arg & (~1));
+	channel_handshake_limits_arg_conv.is_owned = (channel_handshake_limits_arg & 1) || (channel_handshake_limits_arg == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(channel_handshake_limits_arg_conv);
+	channel_handshake_limits_arg_conv = ChannelHandshakeLimits_clone(&channel_handshake_limits_arg_conv);
+	LDKChannelConfig channel_config_arg_conv;
+	channel_config_arg_conv.inner = (void*)(channel_config_arg & (~1));
+	channel_config_arg_conv.is_owned = (channel_config_arg & 1) || (channel_config_arg == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(channel_config_arg_conv);
+	channel_config_arg_conv = ChannelConfig_clone(&channel_config_arg_conv);
+	LDKUserConfig ret_var = UserConfig_new(channel_handshake_config_arg_conv, channel_handshake_limits_arg_conv, channel_config_arg_conv, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -25737,7 +26001,39 @@ void  __attribute__((export_name("TS_ChannelDetails_set_inbound_htlc_maximum_msa
 	ChannelDetails_set_inbound_htlc_maximum_msat(&this_ptr_conv, val_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_ChannelDetails_new"))) TS_ChannelDetails_new(int8_tArray channel_id_arg, uint32_t counterparty_arg, uint32_t funding_txo_arg, uint32_t channel_type_arg, uint32_t short_channel_id_arg, uint32_t outbound_scid_alias_arg, uint32_t inbound_scid_alias_arg, int64_t channel_value_satoshis_arg, uint32_t unspendable_punishment_reserve_arg, int64_t user_channel_id_arg, int64_t balance_msat_arg, int64_t outbound_capacity_msat_arg, int64_t next_outbound_htlc_limit_msat_arg, int64_t inbound_capacity_msat_arg, uint32_t confirmations_required_arg, uint32_t force_close_spend_delay_arg, jboolean is_outbound_arg, jboolean is_channel_ready_arg, jboolean is_usable_arg, jboolean is_public_arg, uint32_t inbound_htlc_minimum_msat_arg, uint32_t inbound_htlc_maximum_msat_arg) {
+uint32_t  __attribute__((export_name("TS_ChannelDetails_get_config"))) TS_ChannelDetails_get_config(uint32_t this_ptr) {
+	LDKChannelDetails this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	LDKChannelConfig ret_var = ChannelDetails_get_config(&this_ptr_conv);
+	uint32_t ret_ref = 0;
+	if ((uintptr_t)ret_var.inner > 4096) {
+		CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+		CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+		ret_ref = (uintptr_t)ret_var.inner;
+		if (ret_var.is_owned) {
+			ret_ref |= 1;
+		}
+	}
+	return ret_ref;
+}
+
+void  __attribute__((export_name("TS_ChannelDetails_set_config"))) TS_ChannelDetails_set_config(uint32_t this_ptr, uint32_t val) {
+	LDKChannelDetails this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	LDKChannelConfig val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(val_conv);
+	val_conv = ChannelConfig_clone(&val_conv);
+	ChannelDetails_set_config(&this_ptr_conv, val_conv);
+}
+
+uint32_t  __attribute__((export_name("TS_ChannelDetails_new"))) TS_ChannelDetails_new(int8_tArray channel_id_arg, uint32_t counterparty_arg, uint32_t funding_txo_arg, uint32_t channel_type_arg, uint32_t short_channel_id_arg, uint32_t outbound_scid_alias_arg, uint32_t inbound_scid_alias_arg, int64_t channel_value_satoshis_arg, uint32_t unspendable_punishment_reserve_arg, int64_t user_channel_id_arg, int64_t balance_msat_arg, int64_t outbound_capacity_msat_arg, int64_t next_outbound_htlc_limit_msat_arg, int64_t inbound_capacity_msat_arg, uint32_t confirmations_required_arg, uint32_t force_close_spend_delay_arg, jboolean is_outbound_arg, jboolean is_channel_ready_arg, jboolean is_usable_arg, jboolean is_public_arg, uint32_t inbound_htlc_minimum_msat_arg, uint32_t inbound_htlc_maximum_msat_arg, uint32_t config_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(channel_id_arg->arr_len == 32);
 	memcpy(channel_id_arg_ref.data, channel_id_arg->elems, 32); FREE(channel_id_arg);
@@ -25787,7 +26083,12 @@ uint32_t  __attribute__((export_name("TS_ChannelDetails_new"))) TS_ChannelDetail
 	CHECK_ACCESS(inbound_htlc_maximum_msat_arg_ptr);
 	LDKCOption_u64Z inbound_htlc_maximum_msat_arg_conv = *(LDKCOption_u64Z*)(inbound_htlc_maximum_msat_arg_ptr);
 	inbound_htlc_maximum_msat_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uintptr_t)inbound_htlc_maximum_msat_arg) & ~1));
-	LDKChannelDetails ret_var = ChannelDetails_new(channel_id_arg_ref, counterparty_arg_conv, funding_txo_arg_conv, channel_type_arg_conv, short_channel_id_arg_conv, outbound_scid_alias_arg_conv, inbound_scid_alias_arg_conv, channel_value_satoshis_arg, unspendable_punishment_reserve_arg_conv, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg_conv, force_close_spend_delay_arg_conv, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg_conv, inbound_htlc_maximum_msat_arg_conv);
+	LDKChannelConfig config_arg_conv;
+	config_arg_conv.inner = (void*)(config_arg & (~1));
+	config_arg_conv.is_owned = (config_arg & 1) || (config_arg == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(config_arg_conv);
+	config_arg_conv = ChannelConfig_clone(&config_arg_conv);
+	LDKChannelDetails ret_var = ChannelDetails_new(channel_id_arg_ref, counterparty_arg_conv, funding_txo_arg_conv, channel_type_arg_conv, short_channel_id_arg_conv, outbound_scid_alias_arg_conv, inbound_scid_alias_arg_conv, channel_value_satoshis_arg, unspendable_punishment_reserve_arg_conv, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg_conv, force_close_spend_delay_arg_conv, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg_conv, inbound_htlc_maximum_msat_arg_conv, config_arg_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -26322,7 +26623,7 @@ uint32_t  __attribute__((export_name("TS_ChannelManager_close_channel_with_targe
 	return (uint32_t)ret_conv;
 }
 
-uint32_t  __attribute__((export_name("TS_ChannelManager_force_close_channel"))) TS_ChannelManager_force_close_channel(uint32_t this_arg, int8_tArray channel_id, int8_tArray counterparty_node_id) {
+uint32_t  __attribute__((export_name("TS_ChannelManager_force_close_broadcasting_latest_txn"))) TS_ChannelManager_force_close_broadcasting_latest_txn(uint32_t this_arg, int8_tArray channel_id, int8_tArray counterparty_node_id) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -26335,16 +26636,41 @@ uint32_t  __attribute__((export_name("TS_ChannelManager_force_close_channel"))) 
 	CHECK(counterparty_node_id->arr_len == 33);
 	memcpy(counterparty_node_id_ref.compressed_form, counterparty_node_id->elems, 33); FREE(counterparty_node_id);
 	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
-	*ret_conv = ChannelManager_force_close_channel(&this_arg_conv, channel_id_ref, counterparty_node_id_ref);
+	*ret_conv = ChannelManager_force_close_broadcasting_latest_txn(&this_arg_conv, channel_id_ref, counterparty_node_id_ref);
 	return (uint32_t)ret_conv;
 }
 
-void  __attribute__((export_name("TS_ChannelManager_force_close_all_channels"))) TS_ChannelManager_force_close_all_channels(uint32_t this_arg) {
+uint32_t  __attribute__((export_name("TS_ChannelManager_force_close_without_broadcasting_txn"))) TS_ChannelManager_force_close_without_broadcasting_txn(uint32_t this_arg, int8_tArray channel_id, int8_tArray counterparty_node_id) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
-	ChannelManager_force_close_all_channels(&this_arg_conv);
+	unsigned char channel_id_arr[32];
+	CHECK(channel_id->arr_len == 32);
+	memcpy(channel_id_arr, channel_id->elems, 32); FREE(channel_id);
+	unsigned char (*channel_id_ref)[32] = &channel_id_arr;
+	LDKPublicKey counterparty_node_id_ref;
+	CHECK(counterparty_node_id->arr_len == 33);
+	memcpy(counterparty_node_id_ref.compressed_form, counterparty_node_id->elems, 33); FREE(counterparty_node_id);
+	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
+	*ret_conv = ChannelManager_force_close_without_broadcasting_txn(&this_arg_conv, channel_id_ref, counterparty_node_id_ref);
+	return (uint32_t)ret_conv;
+}
+
+void  __attribute__((export_name("TS_ChannelManager_force_close_all_channels_broadcasting_latest_txn"))) TS_ChannelManager_force_close_all_channels_broadcasting_latest_txn(uint32_t this_arg) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	ChannelManager_force_close_all_channels_broadcasting_latest_txn(&this_arg_conv);
+}
+
+void  __attribute__((export_name("TS_ChannelManager_force_close_all_channels_without_broadcasting_txn"))) TS_ChannelManager_force_close_all_channels_without_broadcasting_txn(uint32_t this_arg) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	ChannelManager_force_close_all_channels_without_broadcasting_txn(&this_arg_conv);
 }
 
 uint32_t  __attribute__((export_name("TS_ChannelManager_send_payment"))) TS_ChannelManager_send_payment(uint32_t this_arg, uint32_t route, int8_tArray payment_hash, int8_tArray payment_secret) {
@@ -26461,6 +26787,38 @@ void  __attribute__((export_name("TS_ChannelManager_broadcast_node_announcement"
 	}
 	FREE(addresses);
 	ChannelManager_broadcast_node_announcement(&this_arg_conv, rgb_ref, alias_ref, addresses_constr);
+}
+
+uint32_t  __attribute__((export_name("TS_ChannelManager_update_channel_config"))) TS_ChannelManager_update_channel_config(uint32_t this_arg, int8_tArray counterparty_node_id, ptrArray channel_ids, uint32_t config) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKPublicKey counterparty_node_id_ref;
+	CHECK(counterparty_node_id->arr_len == 33);
+	memcpy(counterparty_node_id_ref.compressed_form, counterparty_node_id->elems, 33); FREE(counterparty_node_id);
+	LDKCVec_ThirtyTwoBytesZ channel_ids_constr;
+	channel_ids_constr.datalen = channel_ids->arr_len;
+	if (channel_ids_constr.datalen > 0)
+		channel_ids_constr.data = MALLOC(channel_ids_constr.datalen * sizeof(LDKThirtyTwoBytes), "LDKCVec_ThirtyTwoBytesZ Elements");
+	else
+		channel_ids_constr.data = NULL;
+	int8_tArray* channel_ids_vals = (void*) channel_ids->elems;
+	for (size_t m = 0; m < channel_ids_constr.datalen; m++) {
+		int8_tArray channel_ids_conv_12 = channel_ids_vals[m];
+		LDKThirtyTwoBytes channel_ids_conv_12_ref;
+		CHECK(channel_ids_conv_12->arr_len == 32);
+		memcpy(channel_ids_conv_12_ref.data, channel_ids_conv_12->elems, 32); FREE(channel_ids_conv_12);
+		channel_ids_constr.data[m] = channel_ids_conv_12_ref;
+	}
+	FREE(channel_ids);
+	LDKChannelConfig config_conv;
+	config_conv.inner = (void*)(config & (~1));
+	config_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(config_conv);
+	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
+	*ret_conv = ChannelManager_update_channel_config(&this_arg_conv, counterparty_node_id_ref, channel_ids_constr, &config_conv);
+	return (uint32_t)ret_conv;
 }
 
 void  __attribute__((export_name("TS_ChannelManager_process_pending_htlc_forwards"))) TS_ChannelManager_process_pending_htlc_forwards(uint32_t this_arg) {
@@ -38992,9 +39350,13 @@ uint32_t  __attribute__((export_name("TS_EffectiveCapacity_maximum_htlc"))) TS_E
 	return ret_ref;
 }
 
-uint32_t  __attribute__((export_name("TS_EffectiveCapacity_total"))) TS_EffectiveCapacity_total(int64_t capacity_msat) {
+uint32_t  __attribute__((export_name("TS_EffectiveCapacity_total"))) TS_EffectiveCapacity_total(int64_t capacity_msat, uint32_t htlc_maximum_msat) {
+	void* htlc_maximum_msat_ptr = (void*)(((uintptr_t)htlc_maximum_msat) & ~1);
+	CHECK_ACCESS(htlc_maximum_msat_ptr);
+	LDKCOption_u64Z htlc_maximum_msat_conv = *(LDKCOption_u64Z*)(htlc_maximum_msat_ptr);
+	htlc_maximum_msat_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uintptr_t)htlc_maximum_msat) & ~1));
 	LDKEffectiveCapacity *ret_copy = MALLOC(sizeof(LDKEffectiveCapacity), "LDKEffectiveCapacity");
-	*ret_copy = EffectiveCapacity_total(capacity_msat);
+	*ret_copy = EffectiveCapacity_total(capacity_msat, htlc_maximum_msat_conv);
 	uint32_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
@@ -39232,25 +39594,34 @@ void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_rgb"))) TS_NodeAnn
 	NodeAnnouncementInfo_set_rgb(&this_ptr_conv, val_ref);
 }
 
-int8_tArray  __attribute__((export_name("TS_NodeAnnouncementInfo_get_alias"))) TS_NodeAnnouncementInfo_get_alias(uint32_t this_ptr) {
+uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_get_alias"))) TS_NodeAnnouncementInfo_get_alias(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	int8_tArray ret_arr = init_int8_tArray(32, __LINE__);
-	memcpy(ret_arr->elems, *NodeAnnouncementInfo_get_alias(&this_ptr_conv), 32);
-	return ret_arr;
+	LDKNodeAlias ret_var = NodeAnnouncementInfo_get_alias(&this_ptr_conv);
+	uint32_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
 }
 
-void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_alias"))) TS_NodeAnnouncementInfo_set_alias(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_alias"))) TS_NodeAnnouncementInfo_set_alias(uint32_t this_ptr, uint32_t val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	LDKThirtyTwoBytes val_ref;
-	CHECK(val->arr_len == 32);
-	memcpy(val_ref.data, val->elems, 32); FREE(val);
-	NodeAnnouncementInfo_set_alias(&this_ptr_conv, val_ref);
+	LDKNodeAlias val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(val_conv);
+	val_conv = NodeAlias_clone(&val_conv);
+	NodeAnnouncementInfo_set_alias(&this_ptr_conv, val_conv);
 }
 
 void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_addresses"))) TS_NodeAnnouncementInfo_set_addresses(uint32_t this_ptr, uint32_tArray val) {
@@ -39309,7 +39680,7 @@ void  __attribute__((export_name("TS_NodeAnnouncementInfo_set_announcement_messa
 	NodeAnnouncementInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_new"))) TS_NodeAnnouncementInfo_new(uint32_t features_arg, int32_t last_update_arg, int8_tArray rgb_arg, int8_tArray alias_arg, uint32_tArray addresses_arg, uint32_t announcement_message_arg) {
+uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_new"))) TS_NodeAnnouncementInfo_new(uint32_t features_arg, int32_t last_update_arg, int8_tArray rgb_arg, uint32_t alias_arg, uint32_tArray addresses_arg, uint32_t announcement_message_arg) {
 	LDKNodeFeatures features_arg_conv;
 	features_arg_conv.inner = (void*)(features_arg & (~1));
 	features_arg_conv.is_owned = (features_arg & 1) || (features_arg == 0);
@@ -39318,9 +39689,11 @@ uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_new"))) TS_NodeAnn
 	LDKThreeBytes rgb_arg_ref;
 	CHECK(rgb_arg->arr_len == 3);
 	memcpy(rgb_arg_ref.data, rgb_arg->elems, 3); FREE(rgb_arg);
-	LDKThirtyTwoBytes alias_arg_ref;
-	CHECK(alias_arg->arr_len == 32);
-	memcpy(alias_arg_ref.data, alias_arg->elems, 32); FREE(alias_arg);
+	LDKNodeAlias alias_arg_conv;
+	alias_arg_conv.inner = (void*)(alias_arg & (~1));
+	alias_arg_conv.is_owned = (alias_arg & 1) || (alias_arg == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(alias_arg_conv);
+	alias_arg_conv = NodeAlias_clone(&alias_arg_conv);
 	LDKCVec_NetAddressZ addresses_arg_constr;
 	addresses_arg_constr.datalen = addresses_arg->arr_len;
 	if (addresses_arg_constr.datalen > 0)
@@ -39341,7 +39714,7 @@ uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_new"))) TS_NodeAnn
 	announcement_message_arg_conv.is_owned = (announcement_message_arg & 1) || (announcement_message_arg == 0);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(announcement_message_arg_conv);
 	announcement_message_arg_conv = NodeAnnouncement_clone(&announcement_message_arg_conv);
-	LDKNodeAnnouncementInfo ret_var = NodeAnnouncementInfo_new(features_arg_conv, last_update_arg, rgb_arg_ref, alias_arg_ref, addresses_arg_constr, announcement_message_arg_conv);
+	LDKNodeAnnouncementInfo ret_var = NodeAnnouncementInfo_new(features_arg_conv, last_update_arg, rgb_arg_ref, alias_arg_conv, addresses_arg_constr, announcement_message_arg_conv);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -39409,6 +39782,111 @@ uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_read"))) TS_NodeAn
 	ser_ref.data = ser->elems;
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAnnouncementInfoDecodeErrorZ), "LDKCResult_NodeAnnouncementInfoDecodeErrorZ");
 	*ret_conv = NodeAnnouncementInfo_read(ser_ref);
+	FREE(ser);
+	return (uint32_t)ret_conv;
+}
+
+void  __attribute__((export_name("TS_NodeAlias_free"))) TS_NodeAlias_free(uint32_t this_obj) {
+	LDKNodeAlias this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_obj_conv);
+	NodeAlias_free(this_obj_conv);
+}
+
+int8_tArray  __attribute__((export_name("TS_NodeAlias_get_a"))) TS_NodeAlias_get_a(uint32_t this_ptr) {
+	LDKNodeAlias this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	int8_tArray ret_arr = init_int8_tArray(32, __LINE__);
+	memcpy(ret_arr->elems, *NodeAlias_get_a(&this_ptr_conv), 32);
+	return ret_arr;
+}
+
+void  __attribute__((export_name("TS_NodeAlias_set_a"))) TS_NodeAlias_set_a(uint32_t this_ptr, int8_tArray val) {
+	LDKNodeAlias this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	LDKThirtyTwoBytes val_ref;
+	CHECK(val->arr_len == 32);
+	memcpy(val_ref.data, val->elems, 32); FREE(val);
+	NodeAlias_set_a(&this_ptr_conv, val_ref);
+}
+
+uint32_t  __attribute__((export_name("TS_NodeAlias_new"))) TS_NodeAlias_new(int8_tArray a_arg) {
+	LDKThirtyTwoBytes a_arg_ref;
+	CHECK(a_arg->arr_len == 32);
+	memcpy(a_arg_ref.data, a_arg->elems, 32); FREE(a_arg);
+	LDKNodeAlias ret_var = NodeAlias_new(a_arg_ref);
+	uint32_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline uintptr_t NodeAlias_clone_ptr(LDKNodeAlias *NONNULL_PTR arg) {
+	LDKNodeAlias ret_var = NodeAlias_clone(arg);
+uint32_t ret_ref = 0;
+CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+ret_ref = (uintptr_t)ret_var.inner;
+if (ret_var.is_owned) {
+	ret_ref |= 1;
+}
+	return ret_ref;
+}
+uint32_t  __attribute__((export_name("TS_NodeAlias_clone_ptr"))) TS_NodeAlias_clone_ptr(uint32_t arg) {
+	LDKNodeAlias arg_conv;
+	arg_conv.inner = (void*)(arg & (~1));
+	arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
+	uint32_t ret_conv = NodeAlias_clone_ptr(&arg_conv);
+	return ret_conv;
+}
+
+uint32_t  __attribute__((export_name("TS_NodeAlias_clone"))) TS_NodeAlias_clone(uint32_t orig) {
+	LDKNodeAlias orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(orig_conv);
+	LDKNodeAlias ret_var = NodeAlias_clone(&orig_conv);
+	uint32_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int8_tArray  __attribute__((export_name("TS_NodeAlias_write"))) TS_NodeAlias_write(uint32_t obj) {
+	LDKNodeAlias obj_conv;
+	obj_conv.inner = (void*)(obj & (~1));
+	obj_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(obj_conv);
+	LDKCVec_u8Z ret_var = NodeAlias_write(&obj_conv);
+	int8_tArray ret_arr = init_int8_tArray(ret_var.datalen, __LINE__);
+	memcpy(ret_arr->elems, ret_var.data, ret_var.datalen);
+	CVec_u8Z_free(ret_var);
+	return ret_arr;
+}
+
+uint32_t  __attribute__((export_name("TS_NodeAlias_read"))) TS_NodeAlias_read(int8_tArray ser) {
+	LDKu8slice ser_ref;
+	ser_ref.datalen = ser->arr_len;
+	ser_ref.data = ser->elems;
+	LDKCResult_NodeAliasDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeAliasDecodeErrorZ), "LDKCResult_NodeAliasDecodeErrorZ");
+	*ret_conv = NodeAlias_read(ser_ref);
 	FREE(ser);
 	return (uint32_t)ret_conv;
 }
@@ -40665,7 +41143,24 @@ void  __attribute__((export_name("TS_PaymentParameters_set_max_total_cltv_expiry
 	PaymentParameters_set_max_total_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_PaymentParameters_new"))) TS_PaymentParameters_new(int8_tArray payee_pubkey_arg, uint32_t features_arg, uint32_tArray route_hints_arg, uint32_t expiry_time_arg, int32_t max_total_cltv_expiry_delta_arg) {
+int8_t  __attribute__((export_name("TS_PaymentParameters_get_max_mpp_path_count"))) TS_PaymentParameters_get_max_mpp_path_count(uint32_t this_ptr) {
+	LDKPaymentParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	int8_t ret_conv = PaymentParameters_get_max_mpp_path_count(&this_ptr_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_PaymentParameters_set_max_mpp_path_count"))) TS_PaymentParameters_set_max_mpp_path_count(uint32_t this_ptr, int8_t val) {
+	LDKPaymentParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	PaymentParameters_set_max_mpp_path_count(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((export_name("TS_PaymentParameters_new"))) TS_PaymentParameters_new(int8_tArray payee_pubkey_arg, uint32_t features_arg, uint32_tArray route_hints_arg, uint32_t expiry_time_arg, int32_t max_total_cltv_expiry_delta_arg, int8_t max_mpp_path_count_arg) {
 	LDKPublicKey payee_pubkey_arg_ref;
 	CHECK(payee_pubkey_arg->arr_len == 33);
 	memcpy(payee_pubkey_arg_ref.compressed_form, payee_pubkey_arg->elems, 33); FREE(payee_pubkey_arg);
@@ -40695,7 +41190,7 @@ uint32_t  __attribute__((export_name("TS_PaymentParameters_new"))) TS_PaymentPar
 	CHECK_ACCESS(expiry_time_arg_ptr);
 	LDKCOption_u64Z expiry_time_arg_conv = *(LDKCOption_u64Z*)(expiry_time_arg_ptr);
 	expiry_time_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uintptr_t)expiry_time_arg) & ~1));
-	LDKPaymentParameters ret_var = PaymentParameters_new(payee_pubkey_arg_ref, features_arg_conv, route_hints_arg_constr, expiry_time_arg_conv, max_total_cltv_expiry_delta_arg);
+	LDKPaymentParameters ret_var = PaymentParameters_new(payee_pubkey_arg_ref, features_arg_conv, route_hints_arg_constr, expiry_time_arg_conv, max_total_cltv_expiry_delta_arg, max_mpp_path_count_arg);
 	uint32_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -41690,17 +42185,21 @@ void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_amount_p
 	ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_new"))) TS_ProbabilisticScoringParameters_new(int64_t base_penalty_msat_arg, int64_t liquidity_penalty_multiplier_msat_arg, int64_t liquidity_offset_half_life_arg, int64_t amount_penalty_multiplier_msat_arg) {
-	LDKProbabilisticScoringParameters ret_var = ProbabilisticScoringParameters_new(base_penalty_msat_arg, liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg, amount_penalty_multiplier_msat_arg);
-	uint32_t ret_ref = 0;
-	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = (uintptr_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
+int64_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_get_anti_probing_penalty_msat"))) TS_ProbabilisticScoringParameters_get_anti_probing_penalty_msat(uint32_t this_ptr) {
+	LDKProbabilisticScoringParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	int64_t ret_conv = ProbabilisticScoringParameters_get_anti_probing_penalty_msat(&this_ptr_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_ProbabilisticScoringParameters_set_anti_probing_penalty_msat"))) TS_ProbabilisticScoringParameters_set_anti_probing_penalty_msat(uint32_t this_ptr, int64_t val) {
+	LDKProbabilisticScoringParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
+	ProbabilisticScoringParameters_set_anti_probing_penalty_msat(&this_ptr_conv, val);
 }
 
 static inline uintptr_t ProbabilisticScoringParameters_clone_ptr(LDKProbabilisticScoringParameters *NONNULL_PTR arg) {
@@ -41776,6 +42275,78 @@ void  __attribute__((export_name("TS_ProbabilisticScorer_debug_log_liquidity_sta
 	this_arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	ProbabilisticScorer_debug_log_liquidity_stats(&this_arg_conv);
+}
+
+uint32_t  __attribute__((export_name("TS_ProbabilisticScorer_estimated_channel_liquidity_range"))) TS_ProbabilisticScorer_estimated_channel_liquidity_range(uint32_t this_arg, int64_t scid, uint32_t target) {
+	LDKProbabilisticScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKNodeId target_conv;
+	target_conv.inner = (void*)(target & (~1));
+	target_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(target_conv);
+	LDKCOption_C2Tuple_u64u64ZZ *ret_copy = MALLOC(sizeof(LDKCOption_C2Tuple_u64u64ZZ), "LDKCOption_C2Tuple_u64u64ZZ");
+	*ret_copy = ProbabilisticScorer_estimated_channel_liquidity_range(&this_arg_conv, scid, &target_conv);
+	uint32_t ret_ref = (uintptr_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((export_name("TS_ProbabilisticScorer_add_banned"))) TS_ProbabilisticScorer_add_banned(uint32_t this_arg, uint32_t node_id) {
+	LDKProbabilisticScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKNodeId node_id_conv;
+	node_id_conv.inner = (void*)(node_id & (~1));
+	node_id_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(node_id_conv);
+	ProbabilisticScorer_add_banned(&this_arg_conv, &node_id_conv);
+}
+
+void  __attribute__((export_name("TS_ProbabilisticScorer_remove_banned"))) TS_ProbabilisticScorer_remove_banned(uint32_t this_arg, uint32_t node_id) {
+	LDKProbabilisticScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKNodeId node_id_conv;
+	node_id_conv.inner = (void*)(node_id & (~1));
+	node_id_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(node_id_conv);
+	ProbabilisticScorer_remove_banned(&this_arg_conv, &node_id_conv);
+}
+
+void  __attribute__((export_name("TS_ProbabilisticScorer_clear_banned"))) TS_ProbabilisticScorer_clear_banned(uint32_t this_arg) {
+	LDKProbabilisticScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	ProbabilisticScorer_clear_banned(&this_arg_conv);
+}
+
+void  __attribute__((export_name("TS_ProbabilisticScoringParameters_add_banned_from_list"))) TS_ProbabilisticScoringParameters_add_banned_from_list(uint32_t this_arg, uint32_tArray node_ids) {
+	LDKProbabilisticScoringParameters this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKCVec_NodeIdZ node_ids_constr;
+	node_ids_constr.datalen = node_ids->arr_len;
+	if (node_ids_constr.datalen > 0)
+		node_ids_constr.data = MALLOC(node_ids_constr.datalen * sizeof(LDKNodeId), "LDKCVec_NodeIdZ Elements");
+	else
+		node_ids_constr.data = NULL;
+	uint32_t* node_ids_vals = node_ids->elems;
+	for (size_t i = 0; i < node_ids_constr.datalen; i++) {
+		uint32_t node_ids_conv_8 = node_ids_vals[i];
+		LDKNodeId node_ids_conv_8_conv;
+		node_ids_conv_8_conv.inner = (void*)(node_ids_conv_8 & (~1));
+		node_ids_conv_8_conv.is_owned = (node_ids_conv_8 & 1) || (node_ids_conv_8 == 0);
+		CHECK_INNER_FIELD_ACCESS_OR_NULL(node_ids_conv_8_conv);
+		node_ids_conv_8_conv = NodeId_clone(&node_ids_conv_8_conv);
+		node_ids_constr.data[i] = node_ids_conv_8_conv;
+	}
+	FREE(node_ids);
+	ProbabilisticScoringParameters_add_banned_from_list(&this_arg_conv, node_ids_constr);
 }
 
 uint32_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_default"))) TS_ProbabilisticScoringParameters_default() {
