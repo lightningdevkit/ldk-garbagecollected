@@ -24,10 +24,10 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
-	 * Channel config that we propose to our counterparty.
+	 * Channel handshake config that we propose to our counterparty.
 	 */
-	public ChannelHandshakeConfig get_own_channel_config() {
-		long ret = bindings.UserConfig_get_own_channel_config(this.ptr);
+	public ChannelHandshakeConfig get_channel_handshake_config() {
+		long ret = bindings.UserConfig_get_channel_handshake_config(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeConfig(null, ret); }
@@ -36,19 +36,19 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
-	 * Channel config that we propose to our counterparty.
+	 * Channel handshake config that we propose to our counterparty.
 	 */
-	public void set_own_channel_config(ChannelHandshakeConfig val) {
-		bindings.UserConfig_set_own_channel_config(this.ptr, val == null ? 0 : val.ptr & ~1);
+	public void set_channel_handshake_config(ChannelHandshakeConfig val) {
+		bindings.UserConfig_set_channel_handshake_config(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
 
 	/**
-	 * Limits applied to our counterparty's proposed channel config settings.
+	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
-	public ChannelHandshakeLimits get_peer_channel_config_limits() {
-		long ret = bindings.UserConfig_get_peer_channel_config_limits(this.ptr);
+	public ChannelHandshakeLimits get_channel_handshake_limits() {
+		long ret = bindings.UserConfig_get_channel_handshake_limits(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeLimits ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeLimits(null, ret); }
@@ -57,10 +57,10 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
-	 * Limits applied to our counterparty's proposed channel config settings.
+	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
-	public void set_peer_channel_config_limits(ChannelHandshakeLimits val) {
-		bindings.UserConfig_set_peer_channel_config_limits(this.ptr, val == null ? 0 : val.ptr & ~1);
+	public void set_channel_handshake_limits(ChannelHandshakeLimits val) {
+		bindings.UserConfig_set_channel_handshake_limits(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -68,8 +68,8 @@ public class UserConfig extends CommonBase {
 	/**
 	 * Channel config which affects behavior during channel lifetime.
 	 */
-	public ChannelConfig get_channel_options() {
-		long ret = bindings.UserConfig_get_channel_options(this.ptr);
+	public ChannelConfig get_channel_config() {
+		long ret = bindings.UserConfig_get_channel_config(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelConfig(null, ret); }
@@ -80,8 +80,8 @@ public class UserConfig extends CommonBase {
 	/**
 	 * Channel config which affects behavior during channel lifetime.
 	 */
-	public void set_channel_options(ChannelConfig val) {
-		bindings.UserConfig_set_channel_options(this.ptr, val == null ? 0 : val.ptr & ~1);
+	public void set_channel_config(ChannelConfig val) {
+		bindings.UserConfig_set_channel_config(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -92,7 +92,7 @@ public class UserConfig extends CommonBase {
 	 * node which is not online reliably.
 	 * 
 	 * For nodes which are not online reliably, you should set all channels to *not* be announced
-	 * (using [`ChannelConfig::announced_channel`] and
+	 * (using [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
 	 * ensure you are not exposed to any forwarding risk.
 	 * 
@@ -116,7 +116,7 @@ public class UserConfig extends CommonBase {
 	 * node which is not online reliably.
 	 * 
 	 * For nodes which are not online reliably, you should set all channels to *not* be announced
-	 * (using [`ChannelConfig::announced_channel`] and
+	 * (using [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
 	 * ensure you are not exposed to any forwarding risk.
 	 * 
@@ -199,11 +199,11 @@ public class UserConfig extends CommonBase {
 	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg, boolean accept_inbound_channels_arg, boolean manually_accept_inbound_channels_arg) {
-		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
-		Reference.reachabilityFence(own_channel_config_arg);
-		Reference.reachabilityFence(peer_channel_config_limits_arg);
-		Reference.reachabilityFence(channel_options_arg);
+	public static UserConfig of(ChannelHandshakeConfig channel_handshake_config_arg, ChannelHandshakeLimits channel_handshake_limits_arg, ChannelConfig channel_config_arg, boolean accept_forwards_to_priv_channels_arg, boolean accept_inbound_channels_arg, boolean manually_accept_inbound_channels_arg) {
+		long ret = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0 : channel_handshake_config_arg.ptr & ~1, channel_handshake_limits_arg == null ? 0 : channel_handshake_limits_arg.ptr & ~1, channel_config_arg == null ? 0 : channel_config_arg.ptr & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
+		Reference.reachabilityFence(channel_handshake_config_arg);
+		Reference.reachabilityFence(channel_handshake_limits_arg);
+		Reference.reachabilityFence(channel_config_arg);
 		Reference.reachabilityFence(accept_forwards_to_priv_channels_arg);
 		Reference.reachabilityFence(accept_inbound_channels_arg);
 		Reference.reachabilityFence(manually_accept_inbound_channels_arg);

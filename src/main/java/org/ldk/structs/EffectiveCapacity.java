@@ -78,9 +78,17 @@ public class EffectiveCapacity extends CommonBase {
 		 * The funding amount denominated in millisatoshi.
 		*/
 		public final long capacity_msat;
+		/**
+		 * The maximum HTLC amount denominated in millisatoshi.
+		*/
+		public final org.ldk.structs.Option_u64Z htlc_maximum_msat;
 		private Total(long ptr, bindings.LDKEffectiveCapacity.Total obj) {
 			super(null, ptr);
 			this.capacity_msat = obj.capacity_msat;
+			long htlc_maximum_msat = obj.htlc_maximum_msat;
+			org.ldk.structs.Option_u64Z htlc_maximum_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(htlc_maximum_msat);
+			htlc_maximum_msat_hu_conv.ptrs_to.add(this);
+			this.htlc_maximum_msat = htlc_maximum_msat_hu_conv;
 		}
 	}
 	/**
@@ -146,9 +154,10 @@ public class EffectiveCapacity extends CommonBase {
 	/**
 	 * Utility method to constructs a new Total-variant EffectiveCapacity
 	 */
-	public static EffectiveCapacity total(long capacity_msat) {
-		long ret = bindings.EffectiveCapacity_total(capacity_msat);
+	public static EffectiveCapacity total(long capacity_msat, Option_u64Z htlc_maximum_msat) {
+		long ret = bindings.EffectiveCapacity_total(capacity_msat, htlc_maximum_msat.ptr);
 		Reference.reachabilityFence(capacity_msat);
+		Reference.reachabilityFence(htlc_maximum_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

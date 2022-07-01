@@ -26,7 +26,9 @@ public class KeysInterface extends CommonBase {
 
 	public static interface KeysInterfaceInterface {
 		/**
-		 * Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
+		 * Get node secret key based on the provided [`Recipient`].
+		 * 
+		 * The node_id/network_key is the public key that corresponds to this secret key.
 		 * 
 		 * This method must return the same value each time it is called with a given `Recipient`
 		 * parameter.
@@ -156,7 +158,9 @@ public class KeysInterface extends CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
+	 * Get node secret key based on the provided [`Recipient`].
+	 * 
+	 * The node_id/network_key is the public key that corresponds to this secret key.
 	 * 
 	 * This method must return the same value each time it is called with a given `Recipient`
 	 * parameter.

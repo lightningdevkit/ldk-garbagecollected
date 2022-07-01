@@ -256,10 +256,10 @@ public class ChannelHandshakeLimits extends CommonBase {
 
 	/**
 	 * Set to force an incoming channel to match our announced channel preference in
-	 * [`ChannelConfig::announced_channel`].
+	 * [`ChannelHandshakeConfig::announced_channel`].
 	 * 
 	 * For a node which is not online reliably, this should be set to true and
-	 * [`ChannelConfig::announced_channel`] set to false, ensuring that no announced (aka public)
+	 * [`ChannelHandshakeConfig::announced_channel`] set to false, ensuring that no announced (aka public)
 	 * channels will ever be opened.
 	 * 
 	 * Default value: true.
@@ -272,10 +272,10 @@ public class ChannelHandshakeLimits extends CommonBase {
 
 	/**
 	 * Set to force an incoming channel to match our announced channel preference in
-	 * [`ChannelConfig::announced_channel`].
+	 * [`ChannelHandshakeConfig::announced_channel`].
 	 * 
 	 * For a node which is not online reliably, this should be set to true and
-	 * [`ChannelConfig::announced_channel`] set to false, ensuring that no announced (aka public)
+	 * [`ChannelHandshakeConfig::announced_channel`] set to false, ensuring that no announced (aka public)
 	 * channels will ever be opened.
 	 * 
 	 * Default value: true.

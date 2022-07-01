@@ -123,6 +123,7 @@ public class PaymentParameters extends CommonBase {
 
 	/**
 	 * The maximum total CLTV delta we accept for the route.
+	 * Defaults to [`DEFAULT_MAX_TOTAL_CLTV_EXPIRY_DELTA`].
 	 */
 	public int get_max_total_cltv_expiry_delta() {
 		int ret = bindings.PaymentParameters_get_max_total_cltv_expiry_delta(this.ptr);
@@ -132,6 +133,7 @@ public class PaymentParameters extends CommonBase {
 
 	/**
 	 * The maximum total CLTV delta we accept for the route.
+	 * Defaults to [`DEFAULT_MAX_TOTAL_CLTV_EXPIRY_DELTA`].
 	 */
 	public void set_max_total_cltv_expiry_delta(int val) {
 		bindings.PaymentParameters_set_max_total_cltv_expiry_delta(this.ptr, val);
@@ -140,15 +142,36 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
+	 * The maximum number of paths that may be used by MPP payments.
+	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 */
+	public byte get_max_mpp_path_count() {
+		byte ret = bindings.PaymentParameters_get_max_mpp_path_count(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The maximum number of paths that may be used by MPP payments.
+	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 */
+	public void set_max_mpp_path_count(byte val) {
+		bindings.PaymentParameters_set_max_mpp_path_count(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg);
+	public static PaymentParameters of(byte[] payee_pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_mpp_path_count_arg) {
+		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_mpp_path_count_arg);
 		Reference.reachabilityFence(payee_pubkey_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(route_hints_arg);
 		Reference.reachabilityFence(expiry_time_arg);
 		Reference.reachabilityFence(max_total_cltv_expiry_delta_arg);
+		Reference.reachabilityFence(max_mpp_path_count_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

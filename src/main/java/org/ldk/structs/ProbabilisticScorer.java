@@ -70,6 +70,51 @@ public class ProbabilisticScorer extends CommonBase {
 	}
 
 	/**
+	 * Query the estimated minimum and maximum liquidity available for sending a payment over the
+	 * channel with `scid` towards the given `target` node.
+	 */
+	public Option_C2Tuple_u64u64ZZ estimated_channel_liquidity_range(long scid, NodeId target) {
+		long ret = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0 : target.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(scid);
+		Reference.reachabilityFence(target);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_C2Tuple_u64u64ZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(target);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Marks the node with the given `node_id` as banned, i.e.,
+	 * it will be avoided during path finding.
+	 */
+	public void add_banned(NodeId node_id) {
+		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		this.ptrs_to.add(node_id);
+	}
+
+	/**
+	 * Removes the node with the given `node_id` from the list of nodes to avoid.
+	 */
+	public void remove_banned(NodeId node_id) {
+		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		this.ptrs_to.add(node_id);
+	}
+
+	/**
+	 * Clears the list of nodes that are avoided during path finding.
+	 */
+	public void clear_banned() {
+		bindings.ProbabilisticScorer_clear_banned(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Constructs a new Score which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
 	 */

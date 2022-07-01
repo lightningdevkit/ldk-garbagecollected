@@ -180,18 +180,31 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new ProbabilisticScoringParameters given each field
+	 * This penalty is applied when `htlc_maximum_msat` is equal to or larger than half of the
+	 * channel's capacity, which makes us prefer nodes with a smaller `htlc_maximum_msat`. We
+	 * treat such nodes preferentially as this makes balance discovery attacks harder to execute,
+	 * thereby creating an incentive to restrict `htlc_maximum_msat` and improve privacy.
+	 * 
+	 * Default value: 250 msat
 	 */
-	public static ProbabilisticScoringParameters of(long base_penalty_msat_arg, long liquidity_penalty_multiplier_msat_arg, long liquidity_offset_half_life_arg, long amount_penalty_multiplier_msat_arg) {
-		long ret = bindings.ProbabilisticScoringParameters_new(base_penalty_msat_arg, liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg, amount_penalty_multiplier_msat_arg);
-		Reference.reachabilityFence(base_penalty_msat_arg);
-		Reference.reachabilityFence(liquidity_penalty_multiplier_msat_arg);
-		Reference.reachabilityFence(liquidity_offset_half_life_arg);
-		Reference.reachabilityFence(amount_penalty_multiplier_msat_arg);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ProbabilisticScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScoringParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
+	public long get_anti_probing_penalty_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_anti_probing_penalty_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * This penalty is applied when `htlc_maximum_msat` is equal to or larger than half of the
+	 * channel's capacity, which makes us prefer nodes with a smaller `htlc_maximum_msat`. We
+	 * treat such nodes preferentially as this makes balance discovery attacks harder to execute,
+	 * thereby creating an incentive to restrict `htlc_maximum_msat` and improve privacy.
+	 * 
+	 * Default value: 250 msat
+	 */
+	public void set_anti_probing_penalty_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_anti_probing_penalty_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
@@ -210,6 +223,16 @@ public class ProbabilisticScoringParameters extends CommonBase {
 		org.ldk.structs.ProbabilisticScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScoringParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Marks all nodes in the given list as banned, i.e.,
+	 * they will be avoided during path finding.
+	 */
+	public void add_banned_from_list(NodeId[] node_ids) {
+		bindings.ProbabilisticScoringParameters_add_banned_from_list(this.ptr, node_ids != null ? Arrays.stream(node_ids).mapToLong(node_ids_conv_8 -> node_ids_conv_8 == null ? 0 : node_ids_conv_8.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_ids);
 	}
 
 	/**

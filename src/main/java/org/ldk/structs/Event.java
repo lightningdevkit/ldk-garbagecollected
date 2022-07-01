@@ -604,13 +604,13 @@ public class Event extends CommonBase {
 	 * Indicates a request to open a new channel by a peer.
 	 * 
 	 * To accept the request, call [`ChannelManager::accept_inbound_channel`]. To reject the
-	 * request, call [`ChannelManager::force_close_channel`].
+	 * request, call [`ChannelManager::force_close_without_broadcasting_txn`].
 	 * 
 	 * The event is only triggered when a new open channel request is received and the
 	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true.
 	 * 
 	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
+	 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
 	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 	 */
 	public final static class OpenChannelRequest extends Event {
@@ -619,10 +619,10 @@ public class Event extends CommonBase {
 		 * 
 		 * When responding to the request, the `temporary_channel_id` should be passed
 		 * back to the ChannelManager through [`ChannelManager::accept_inbound_channel`] to accept,
-		 * or through [`ChannelManager::force_close_channel`] to reject.
+		 * or through [`ChannelManager::force_close_without_broadcasting_txn`] to reject.
 		 * 
 		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-		 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
+		 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
 		*/
 		public final byte[] temporary_channel_id;
 		/**
@@ -630,11 +630,11 @@ public class Event extends CommonBase {
 		 * 
 		 * When responding to the request, the `counterparty_node_id` should be passed
 		 * back to the `ChannelManager` through [`ChannelManager::accept_inbound_channel`] to
-		 * accept the request, or through [`ChannelManager::force_close_channel`] to reject the
+		 * accept the request, or through [`ChannelManager::force_close_without_broadcasting_txn`] to reject the
 		 * request.
 		 * 
 		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-		 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
+		 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
 		*/
 		public final byte[] counterparty_node_id;
 		/**
