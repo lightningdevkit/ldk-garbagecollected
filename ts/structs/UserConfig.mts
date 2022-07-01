@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -361,44 +365,44 @@ export class UserConfig extends CommonBase {
 	}
 
 	/**
-	 * Channel config that we propose to our counterparty.
+	 * Channel handshake config that we propose to our counterparty.
 	 */
-	public get_own_channel_config(): ChannelHandshakeConfig {
-		const ret: number = bindings.UserConfig_get_own_channel_config(this.ptr);
+	public get_channel_handshake_config(): ChannelHandshakeConfig {
+		const ret: number = bindings.UserConfig_get_channel_handshake_config(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Channel config that we propose to our counterparty.
+	 * Channel handshake config that we propose to our counterparty.
 	 */
-	public set_own_channel_config(val: ChannelHandshakeConfig): void {
-		bindings.UserConfig_set_own_channel_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+	public set_channel_handshake_config(val: ChannelHandshakeConfig): void {
+		bindings.UserConfig_set_channel_handshake_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
 	/**
-	 * Limits applied to our counterparty's proposed channel config settings.
+	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
-	public get_peer_channel_config_limits(): ChannelHandshakeLimits {
-		const ret: number = bindings.UserConfig_get_peer_channel_config_limits(this.ptr);
+	public get_channel_handshake_limits(): ChannelHandshakeLimits {
+		const ret: number = bindings.UserConfig_get_channel_handshake_limits(this.ptr);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Limits applied to our counterparty's proposed channel config settings.
+	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
-	public set_peer_channel_config_limits(val: ChannelHandshakeLimits): void {
-		bindings.UserConfig_set_peer_channel_config_limits(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+	public set_channel_handshake_limits(val: ChannelHandshakeLimits): void {
+		bindings.UserConfig_set_channel_handshake_limits(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
 	/**
 	 * Channel config which affects behavior during channel lifetime.
 	 */
-	public get_channel_options(): ChannelConfig {
-		const ret: number = bindings.UserConfig_get_channel_options(this.ptr);
+	public get_channel_config(): ChannelConfig {
+		const ret: number = bindings.UserConfig_get_channel_config(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -407,8 +411,8 @@ export class UserConfig extends CommonBase {
 	/**
 	 * Channel config which affects behavior during channel lifetime.
 	 */
-	public set_channel_options(val: ChannelConfig): void {
-		bindings.UserConfig_set_channel_options(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+	public set_channel_config(val: ChannelConfig): void {
+		bindings.UserConfig_set_channel_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
 	/**
@@ -417,7 +421,7 @@ export class UserConfig extends CommonBase {
 	 * node which is not online reliably.
 	 * 
 	 * For nodes which are not online reliably, you should set all channels to *not* be announced
-	 * (using [`ChannelConfig::announced_channel`] and
+	 * (using [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
 	 * ensure you are not exposed to any forwarding risk.
 	 * 
@@ -440,7 +444,7 @@ export class UserConfig extends CommonBase {
 	 * node which is not online reliably.
 	 * 
 	 * For nodes which are not online reliably, you should set all channels to *not* be announced
-	 * (using [`ChannelConfig::announced_channel`] and
+	 * (using [`ChannelHandshakeConfig::announced_channel`] and
 	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
 	 * ensure you are not exposed to any forwarding risk.
 	 * 
@@ -515,8 +519,8 @@ export class UserConfig extends CommonBase {
 	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static constructor_new(own_channel_config_arg: ChannelHandshakeConfig, peer_channel_config_limits_arg: ChannelHandshakeLimits, channel_options_arg: ChannelConfig, accept_forwards_to_priv_channels_arg: boolean, accept_inbound_channels_arg: boolean, manually_accept_inbound_channels_arg: boolean): UserConfig {
-		const ret: number = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : CommonBase.get_ptr_of(own_channel_config_arg) & ~1, peer_channel_config_limits_arg == null ? 0 : CommonBase.get_ptr_of(peer_channel_config_limits_arg) & ~1, channel_options_arg == null ? 0 : CommonBase.get_ptr_of(channel_options_arg) & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
+	public static constructor_new(channel_handshake_config_arg: ChannelHandshakeConfig, channel_handshake_limits_arg: ChannelHandshakeLimits, channel_config_arg: ChannelConfig, accept_forwards_to_priv_channels_arg: boolean, accept_inbound_channels_arg: boolean, manually_accept_inbound_channels_arg: boolean): UserConfig {
+		const ret: number = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0 : CommonBase.get_ptr_of(channel_handshake_config_arg) & ~1, channel_handshake_limits_arg == null ? 0 : CommonBase.get_ptr_of(channel_handshake_limits_arg) & ~1, channel_config_arg == null ? 0 : CommonBase.get_ptr_of(channel_config_arg) & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

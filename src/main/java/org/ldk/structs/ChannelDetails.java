@@ -666,10 +666,40 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * Set of configurable parameters that affect channel operation.
+	 * 
+	 * This field is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.109.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ChannelConfig get_config() {
+		long ret = bindings.ChannelDetails_get_config(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelConfig(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Set of configurable parameters that affect channel operation.
+	 * 
+	 * This field is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.109.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_config(@Nullable ChannelConfig val) {
+		bindings.ChannelDetails_set_config(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, ChannelTypeFeatures channel_type_arg, Option_u64Z short_channel_id_arg, Option_u64Z outbound_scid_alias_arg, Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, Option_u64Z inbound_htlc_minimum_msat_arg, Option_u64Z inbound_htlc_maximum_msat_arg) {
-		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, channel_type_arg == null ? 0 : channel_type_arg.ptr & ~1, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr);
+	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, ChannelTypeFeatures channel_type_arg, Option_u64Z short_channel_id_arg, Option_u64Z outbound_scid_alias_arg, Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, Option_u64Z inbound_htlc_minimum_msat_arg, Option_u64Z inbound_htlc_maximum_msat_arg, ChannelConfig config_arg) {
+		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, channel_type_arg == null ? 0 : channel_type_arg.ptr & ~1, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr & ~1);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(counterparty_arg);
 		Reference.reachabilityFence(funding_txo_arg);
@@ -692,6 +722,7 @@ public class ChannelDetails extends CommonBase {
 		Reference.reachabilityFence(is_public_arg);
 		Reference.reachabilityFence(inbound_htlc_minimum_msat_arg);
 		Reference.reachabilityFence(inbound_htlc_maximum_msat_arg);
+		Reference.reachabilityFence(config_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelDetails ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelDetails(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -139,6 +141,8 @@ import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDec
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -557,13 +561,27 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Force closes a channel, immediately broadcasting the latest local commitment transaction to
-	 * the chain and rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
+	 * Force closes a channel, immediately broadcasting the latest local transaction(s) and
+	 * rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
 	 * the manager, or if the `counterparty_node_id` isn't the counterparty of the corresponding
 	 * channel.
 	 */
-	public force_close_channel(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_force_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)));
+	public force_close_broadcasting_latest_txn(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_force_close_broadcasting_latest_txn(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)));
+		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Force closes a channel, rejecting new HTLCs on the given channel but skips broadcasting
+	 * the latest local transaction(s). Fails if `channel_id` is unknown to the manager, or if the
+	 * `counterparty_node_id` isn't the counterparty of the corresponding channel.
+	 * 
+	 * You can always get the latest local transaction(s) to broadcast from
+	 * [`ChannelMonitor::get_latest_holder_commitment_txn`].
+	 */
+	public force_close_without_broadcasting_txn(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_force_close_without_broadcasting_txn(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -572,8 +590,16 @@ export class ChannelManager extends CommonBase {
 	 * Force close all channels, immediately broadcasting the latest local commitment transaction
 	 * for each to the chain and rejecting new HTLCs on each.
 	 */
-	public force_close_all_channels(): void {
-		bindings.ChannelManager_force_close_all_channels(this.ptr);
+	public force_close_all_channels_broadcasting_latest_txn(): void {
+		bindings.ChannelManager_force_close_all_channels_broadcasting_latest_txn(this.ptr);
+	}
+
+	/**
+	 * Force close all channels rejecting new HTLCs on each but without broadcasting the latest
+	 * local transaction(s).
+	 */
+	public force_close_all_channels_without_broadcasting_txn(): void {
+		bindings.ChannelManager_force_close_all_channels_without_broadcasting_txn(this.ptr);
 	}
 
 	/**
@@ -696,6 +722,9 @@ export class ChannelManager extends CommonBase {
 	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
 	 * or if no output was found which matches the parameters in [`Event::FundingGenerationReady`].
 	 * 
+	 * Returns [`APIError::APIMisuseError`] if the funding transaction is not final for propagation
+	 * across the p2p network.
+	 * 
 	 * Returns [`APIError::ChannelUnavailable`] if a funding transaction has already been provided
 	 * for the channel or if the channel has been closed as indicated by [`Event::ChannelClosed`].
 	 * 
@@ -710,6 +739,11 @@ export class ChannelManager extends CommonBase {
 	 * Note that this includes RBF or similar transaction replacement strategies - lightning does
 	 * not currently support replacing a funding transaction on an existing channel. Instead,
 	 * create a new channel with a conflicting funding transaction.
+	 * 
+	 * Note to keep the miner incentives aligned in moving the blockchain forward, we recommend
+	 * the wallet software generating the funding transaction to apply anti-fee sniping as
+	 * implemented by Bitcoin Core wallet. See <https://bitcoinops.org/en/topics/fee-sniping/>
+	 * for more details.
 	 * 
 	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
 	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
@@ -745,6 +779,37 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Atomically updates the [`ChannelConfig`] for the given channels.
+	 * 
+	 * Once the updates are applied, each eligible channel (advertised with a known short channel
+	 * ID and a change in [`forwarding_fee_proportional_millionths`], [`forwarding_fee_base_msat`],
+	 * or [`cltv_expiry_delta`]) has a [`BroadcastChannelUpdate`] event message generated
+	 * containing the new [`ChannelUpdate`] message which should be broadcast to the network.
+	 * 
+	 * Returns [`ChannelUnavailable`] when a channel is not found or an incorrect
+	 * `counterparty_node_id` is provided.
+	 * 
+	 * Returns [`APIMisuseError`] when a [`cltv_expiry_delta`] update is to be applied with a value
+	 * below [`MIN_CLTV_EXPIRY_DELTA`].
+	 * 
+	 * If an error is returned, none of the updates should be considered applied.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 * [`forwarding_fee_base_msat`]: ChannelConfig::forwarding_fee_base_msat
+	 * [`cltv_expiry_delta`]: ChannelConfig::cltv_expiry_delta
+	 * [`BroadcastChannelUpdate`]: events::MessageSendEvent::BroadcastChannelUpdate
+	 * [`ChannelUpdate`]: msgs::ChannelUpdate
+	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
+	 * [`APIMisuseError`]: APIError::APIMisuseError
+	 */
+	public update_channel_config(counterparty_node_id: Uint8Array, channel_ids: Uint8Array[], config: ChannelConfig): Result_NoneAPIErrorZ {
+		const ret: number = bindings.ChannelManager_update_channel_config(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), bindings.encodeUint32Array(channel_ids != null ? channel_ids.map(channel_ids_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(channel_ids_conv_12, 32))) : null), config == null ? 0 : CommonBase.get_ptr_of(config) & ~1);
+		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, config);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Processes HTLCs which are pending waiting on random forward delay.
 	 * 
 	 * Should only really ever be called in response to a PendingHTLCsForwardable event.
@@ -762,6 +827,8 @@ export class ChannelManager extends CommonBase {
 	 * Broadcasting `ChannelUpdate` messages if we've been disconnected from our peer for more
 	 * than a minute, informing the network that they should no longer attempt to route over
 	 * the channel.
+	 * Expiring a channel's previous `ChannelConfig` if necessary to only allow forwarding HTLCs
+	 * with the current `ChannelConfig`.
 	 * 
 	 * Note that this may cause reentrancy through `chain::Watch::update_channel` calls or feerate
 	 * estimate fetches.

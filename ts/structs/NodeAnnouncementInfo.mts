@@ -108,6 +108,9 @@ import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPoi
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
+import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -122,7 +125,6 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -138,6 +140,8 @@ import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
+import { NodeAlias } from '../structs/NodeAlias.mjs';
+import { Result_NodeAliasDecodeErrorZ } from '../structs/Result_NodeAliasDecodeErrorZ.mjs';
 import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
@@ -412,10 +416,11 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * May be invalid or malicious (eg control chars),
 	 * should not be exposed to the user.
 	 */
-	public get_alias(): Uint8Array {
+	public get_alias(): NodeAlias {
 		const ret: number = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
+		const ret_hu_conv: NodeAlias = new NodeAlias(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -423,8 +428,8 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * May be invalid or malicious (eg control chars),
 	 * should not be exposed to the user.
 	 */
-	public set_alias(val: Uint8Array): void {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
+	public set_alias(val: NodeAlias): void {
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
 	/**
@@ -464,8 +469,8 @@ export class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static constructor_new(features_arg: NodeFeatures, last_update_arg: number, rgb_arg: Uint8Array, alias_arg: Uint8Array, addresses_arg: NetAddress[], announcement_message_arg: NodeAnnouncement): NodeAnnouncementInfo {
-		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), bindings.encodeUint8Array(bindings.check_arr_len(alias_arg, 32)), bindings.encodeUint32Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
+	public static constructor_new(features_arg: NodeFeatures, last_update_arg: number, rgb_arg: Uint8Array, alias_arg: NodeAlias, addresses_arg: NetAddress[], announcement_message_arg: NodeAnnouncement): NodeAnnouncementInfo {
+		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), alias_arg == null ? 0 : CommonBase.get_ptr_of(alias_arg) & ~1, bindings.encodeUint32Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

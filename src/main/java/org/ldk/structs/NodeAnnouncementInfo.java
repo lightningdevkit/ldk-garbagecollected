@@ -84,10 +84,13 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * May be invalid or malicious (eg control chars),
 	 * should not be exposed to the user.
 	 */
-	public byte[] get_alias() {
-		byte[] ret = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
+	public NodeAlias get_alias() {
+		long ret = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeAlias ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAlias(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -95,8 +98,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * May be invalid or malicious (eg control chars),
 	 * should not be exposed to the user.
 	 */
-	public void set_alias(byte[] val) {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_alias(NodeAlias val) {
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -145,8 +148,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
-		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), InternalUtils.check_arr_len(alias_arg, 32), addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, NodeAlias alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr & ~1, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(last_update_arg);
 		Reference.reachabilityFence(rgb_arg);

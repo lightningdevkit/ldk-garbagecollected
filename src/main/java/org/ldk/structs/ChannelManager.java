@@ -246,13 +246,31 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Force closes a channel, immediately broadcasting the latest local commitment transaction to
-	 * the chain and rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
+	 * Force closes a channel, immediately broadcasting the latest local transaction(s) and
+	 * rejecting new HTLCs on the given channel. Fails if `channel_id` is unknown to
 	 * the manager, or if the `counterparty_node_id` isn't the counterparty of the corresponding
 	 * channel.
 	 */
-	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id, byte[] counterparty_node_id) {
-		long ret = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
+	public Result_NoneAPIErrorZ force_close_broadcasting_latest_txn(byte[] channel_id, byte[] counterparty_node_id) {
+		long ret = bindings.ChannelManager_force_close_broadcasting_latest_txn(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Force closes a channel, rejecting new HTLCs on the given channel but skips broadcasting
+	 * the latest local transaction(s). Fails if `channel_id` is unknown to the manager, or if the
+	 * `counterparty_node_id` isn't the counterparty of the corresponding channel.
+	 * 
+	 * You can always get the latest local transaction(s) to broadcast from
+	 * [`ChannelMonitor::get_latest_holder_commitment_txn`].
+	 */
+	public Result_NoneAPIErrorZ force_close_without_broadcasting_txn(byte[] channel_id, byte[] counterparty_node_id) {
+		long ret = bindings.ChannelManager_force_close_without_broadcasting_txn(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
@@ -265,8 +283,17 @@ public class ChannelManager extends CommonBase {
 	 * Force close all channels, immediately broadcasting the latest local commitment transaction
 	 * for each to the chain and rejecting new HTLCs on each.
 	 */
-	public void force_close_all_channels() {
-		bindings.ChannelManager_force_close_all_channels(this.ptr);
+	public void force_close_all_channels_broadcasting_latest_txn() {
+		bindings.ChannelManager_force_close_all_channels_broadcasting_latest_txn(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Force close all channels rejecting new HTLCs on each but without broadcasting the latest
+	 * local transaction(s).
+	 */
+	public void force_close_all_channels_without_broadcasting_txn() {
+		bindings.ChannelManager_force_close_all_channels_without_broadcasting_txn(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -405,6 +432,9 @@ public class ChannelManager extends CommonBase {
 	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
 	 * or if no output was found which matches the parameters in [`Event::FundingGenerationReady`].
 	 * 
+	 * Returns [`APIError::APIMisuseError`] if the funding transaction is not final for propagation
+	 * across the p2p network.
+	 * 
 	 * Returns [`APIError::ChannelUnavailable`] if a funding transaction has already been provided
 	 * for the channel or if the channel has been closed as indicated by [`Event::ChannelClosed`].
 	 * 
@@ -419,6 +449,11 @@ public class ChannelManager extends CommonBase {
 	 * Note that this includes RBF or similar transaction replacement strategies - lightning does
 	 * not currently support replacing a funding transaction on an existing channel. Instead,
 	 * create a new channel with a conflicting funding transaction.
+	 * 
+	 * Note to keep the miner incentives aligned in moving the blockchain forward, we recommend
+	 * the wallet software generating the funding transaction to apply anti-fee sniping as
+	 * implemented by Bitcoin Core wallet. See <https://bitcoinops.org/en/topics/fee-sniping/>
+	 * for more details.
 	 * 
 	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
 	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
@@ -463,6 +498,42 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Atomically updates the [`ChannelConfig`] for the given channels.
+	 * 
+	 * Once the updates are applied, each eligible channel (advertised with a known short channel
+	 * ID and a change in [`forwarding_fee_proportional_millionths`], [`forwarding_fee_base_msat`],
+	 * or [`cltv_expiry_delta`]) has a [`BroadcastChannelUpdate`] event message generated
+	 * containing the new [`ChannelUpdate`] message which should be broadcast to the network.
+	 * 
+	 * Returns [`ChannelUnavailable`] when a channel is not found or an incorrect
+	 * `counterparty_node_id` is provided.
+	 * 
+	 * Returns [`APIMisuseError`] when a [`cltv_expiry_delta`] update is to be applied with a value
+	 * below [`MIN_CLTV_EXPIRY_DELTA`].
+	 * 
+	 * If an error is returned, none of the updates should be considered applied.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 * [`forwarding_fee_base_msat`]: ChannelConfig::forwarding_fee_base_msat
+	 * [`cltv_expiry_delta`]: ChannelConfig::cltv_expiry_delta
+	 * [`BroadcastChannelUpdate`]: events::MessageSendEvent::BroadcastChannelUpdate
+	 * [`ChannelUpdate`]: msgs::ChannelUpdate
+	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
+	 * [`APIMisuseError`]: APIError::APIMisuseError
+	 */
+	public Result_NoneAPIErrorZ update_channel_config(byte[] counterparty_node_id, byte[][] channel_ids, ChannelConfig config) {
+		long ret = bindings.ChannelManager_update_channel_config(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_ids != null ? Arrays.stream(channel_ids).map(channel_ids_conv_8 -> InternalUtils.check_arr_len(channel_ids_conv_8, 32)).toArray(byte[][]::new) : null, config == null ? 0 : config.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(channel_ids);
+		Reference.reachabilityFence(config);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(config);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Processes HTLCs which are pending waiting on random forward delay.
 	 * 
 	 * Should only really ever be called in response to a PendingHTLCsForwardable event.
@@ -481,6 +552,8 @@ public class ChannelManager extends CommonBase {
 	 * Broadcasting `ChannelUpdate` messages if we've been disconnected from our peer for more
 	 * than a minute, informing the network that they should no longer attempt to route over
 	 * the channel.
+	 * Expiring a channel's previous `ChannelConfig` if necessary to only allow forwarding HTLCs
+	 * with the current `ChannelConfig`.
 	 * 
 	 * Note that this may cause reentrancy through `chain::Watch::update_channel` calls or feerate
 	 * estimate fetches.

@@ -144,82 +144,6 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	/**
-	 * Set to announce the channel publicly and notify all nodes that they can route via this
-	 * channel.
-	 * 
-	 * This should only be set to true for nodes which expect to be online reliably.
-	 * 
-	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
-	 * 
-	 * This cannot be changed after the initial channel handshake.
-	 * 
-	 * Default value: false.
-	 */
-	public boolean get_announced_channel() {
-		boolean ret = bindings.ChannelConfig_get_announced_channel(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Set to announce the channel publicly and notify all nodes that they can route via this
-	 * channel.
-	 * 
-	 * This should only be set to true for nodes which expect to be online reliably.
-	 * 
-	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
-	 * 
-	 * This cannot be changed after the initial channel handshake.
-	 * 
-	 * Default value: false.
-	 */
-	public void set_announced_channel(boolean val) {
-		bindings.ChannelConfig_set_announced_channel(this.ptr, val);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
-	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
-	 * supports it, they will then enforce the mutual-close output to us matches what we provided
-	 * at intialization, preventing us from closing to an alternate pubkey.
-	 * 
-	 * This is set to true by default to provide a slight increase in security, though ultimately
-	 * any attacker who is able to take control of a channel can just as easily send the funds via
-	 * lightning payments, so we never require that our counterparties support this option.
-	 * 
-	 * This cannot be changed after a channel has been initialized.
-	 * 
-	 * Default value: true.
-	 */
-	public boolean get_commit_upfront_shutdown_pubkey() {
-		boolean ret = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
-	 * supports it, they will then enforce the mutual-close output to us matches what we provided
-	 * at intialization, preventing us from closing to an alternate pubkey.
-	 * 
-	 * This is set to true by default to provide a slight increase in security, though ultimately
-	 * any attacker who is able to take control of a channel can just as easily send the funds via
-	 * lightning payments, so we never require that our counterparties support this option.
-	 * 
-	 * This cannot be changed after a channel has been initialized.
-	 * 
-	 * Default value: true.
-	 */
-	public void set_commit_upfront_shutdown_pubkey(boolean val) {
-		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
 	 * Limit our total exposure to in-flight HTLCs which are burned to fees as they are too
 	 * small to claim on-chain.
 	 * 
@@ -328,13 +252,11 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelConfig given each field
 	 */
-	public static ChannelConfig of(int forwarding_fee_proportional_millionths_arg, int forwarding_fee_base_msat_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, long max_dust_htlc_exposure_msat_arg, long force_close_avoidance_max_fee_satoshis_arg) {
-		long ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
+	public static ChannelConfig of(int forwarding_fee_proportional_millionths_arg, int forwarding_fee_base_msat_arg, short cltv_expiry_delta_arg, long max_dust_htlc_exposure_msat_arg, long force_close_avoidance_max_fee_satoshis_arg) {
+		long ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		Reference.reachabilityFence(forwarding_fee_proportional_millionths_arg);
 		Reference.reachabilityFence(forwarding_fee_base_msat_arg);
 		Reference.reachabilityFence(cltv_expiry_delta_arg);
-		Reference.reachabilityFence(announced_channel_arg);
-		Reference.reachabilityFence(commit_upfront_shutdown_pubkey_arg);
 		Reference.reachabilityFence(max_dust_htlc_exposure_msat_arg);
 		Reference.reachabilityFence(force_close_avoidance_max_fee_satoshis_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
