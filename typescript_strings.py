@@ -779,8 +779,12 @@ import * as bindings from '../bindings.mjs'
         out_c = out_c + "\t}\n"
         out_c = out_c + "}\n"
 
+        # Note that this is *not* marked /* @internal */ as we re-expose it directly in enums/
+        enum_comment_formatted = enum_doc_comment.replace("\n", "\n * ")
         out_typescript = f"""
-/* @internal */
+/**
+ * {enum_comment_formatted}
+ */
 export enum {struct_name} {{
 	{out_typescript_enum_fields}
 }}
