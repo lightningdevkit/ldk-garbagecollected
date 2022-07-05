@@ -153,7 +153,7 @@ export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): nu
 
 /* @internal */
 export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
-	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
+	if (arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
 	return arr;
 }
 
@@ -229,7 +229,9 @@ export function decodeString(stringPointer: number, free = true): string {
 /* @internal */ export function getRemainingAllocationCount(): number { return 0; }
 /* @internal */ export function debugPrintRemainingAllocs() { }
 
-/* @internal */
+/**
+ * An error when accessing the chain via [`Access`].
+ */
 export enum AccessError {
 	/**
 	 * The requested chain is unknown.
@@ -242,7 +244,9 @@ export enum AccessError {
 	
 }
 
-/* @internal */
+/**
+ * An enum which can either contain a  or not
+ */
 export enum COption_NoneZ {
 	/**
 	 * When we're in this state, this COption_NoneZ contains a
@@ -255,7 +259,9 @@ export enum COption_NoneZ {
 	
 }
 
-/* @internal */
+/**
+ * An error enum representing a failure to persist a channel monitor update.
+ */
 export enum ChannelMonitorUpdateErr {
 	/**
 	 * Used to indicate a temporary failure (eg connection to a watchtower or remote backup of
@@ -324,7 +330,10 @@ export enum ChannelMonitorUpdateErr {
 	
 }
 
-/* @internal */
+/**
+ * An enum that represents the speed at which we want a transaction to confirm used for feerate
+ * estimation.
+ */
 export enum ConfirmationTarget {
 	/**
 	 * We are happy with this transaction confirming slowly when feerate drops some.
@@ -341,7 +350,9 @@ export enum ConfirmationTarget {
 	
 }
 
-/* @internal */
+/**
+ * Errors that may occur when constructing a new `RawInvoice` or `Invoice`
+ */
 export enum CreationError {
 	/**
 	 * The supplied description string was longer than 639 __bytes__ (see [`Description::new(...)`](./struct.Description.html#method.new))
@@ -369,7 +380,9 @@ export enum CreationError {
 	
 }
 
-/* @internal */
+/**
+ * Enum representing the crypto currencies (or networks) supported by this library
+ */
 export enum Currency {
 	/**
 	 * Bitcoin mainnet
@@ -394,7 +407,9 @@ export enum Currency {
 	
 }
 
-/* @internal */
+/**
+ * Represents an IO Error. Note that some information is lost in the conversion from Rust.
+ */
 export enum IOError {
 		LDKIOError_NotFound,
 		LDKIOError_PermissionDenied,
@@ -417,7 +432,9 @@ export enum IOError {
 	
 }
 
-/* @internal */
+/**
+ * An enum representing the available verbosity levels of the logger.
+ */
 export enum Level {
 	/**
 	 * Designates extremely verbose information, including gossip-induced messages
@@ -446,7 +463,9 @@ export enum Level {
 	
 }
 
-/* @internal */
+/**
+ * An enum representing the possible Bitcoin or test networks which we can run on
+ */
 export enum Network {
 	/**
 	 * The main Bitcoin blockchain.
@@ -467,7 +486,10 @@ export enum Network {
 	
 }
 
-/* @internal */
+/**
+ * Specifies the recipient of an invoice, to indicate to [`KeysInterface::sign_invoice`] what node
+ * secret key should be used to sign the invoice.
+ */
 export enum Recipient {
 	/**
 	 * The invoice should be signed with the local node secret key.
@@ -483,7 +505,9 @@ export enum Recipient {
 	
 }
 
-/* @internal */
+/**
+ * Represents an error returned from libsecp256k1 during validation of some secp256k1 data
+ */
 export enum Secp256k1Error {
 	/**
 	 * Signature failed verification
@@ -532,7 +556,10 @@ export enum Secp256k1Error {
 	
 }
 
-/* @internal */
+/**
+ * Errors that may occur when converting a `RawInvoice` to an `Invoice`. They relate to the
+ * requirements sections in BOLT #11
+ */
 export enum SemanticError {
 	/**
 	 * The invoice is missing the mandatory payment hash
@@ -578,7 +605,9 @@ export enum SemanticError {
 	
 }
 
-/* @internal */
+/**
+ * SI prefixes for the human readable part
+ */
 export enum SiPrefix {
 	/**
 	 * 10^-3
