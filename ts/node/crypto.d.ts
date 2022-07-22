@@ -2,7 +2,7 @@
 // May be (c) Microsoft licensed under the MIT license, however API's are not generally copyrightable per recent precedent.
 declare module 'crypto' {
     namespace webcrypto {
-		function getRandomValues(TypedArray): void;
+		function getRandomValues(out: Uint8Array): void;
     }
 }
 declare module 'node:crypto' {

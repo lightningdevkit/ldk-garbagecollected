@@ -1,7 +1,7 @@
 // Minimal part of the Node fs API which we depend on.
 // May be (c) Microsoft licensed under the MIT license, however API's are not generally copyrightable per recent precedent.
 declare module 'fs' {
-    export type PathLike = string | Buffer | URL;
+    export type PathLike = string | URL;
     export type PathOrFileDescriptor = PathLike | number;
     export function readFileSync(
         path: PathOrFileDescriptor,
