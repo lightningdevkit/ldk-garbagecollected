@@ -190,6 +190,8 @@ else
 	fi
 	rm -f ts/bindings.c
 	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
+	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' node-net/package.json
+	sed -i 's/^    "lightningdevkit": .*/    "lightningdevkit": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'"/g' node-net/package.json
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
 	elif [ "$3" = "leaks" ]; then
@@ -224,11 +226,16 @@ else
 		tsc --types node --typeRoots .
 		cp ../$WASM_FILE liblightningjs.wasm
 		cp ../README.md README.md
+		cd ../node-net
+		tsc --types node --typeRoots .
 		echo Ready to publish!
 		if [ -x "$(which node)" ]; then
 			NODE_V="$(node --version)"
 			if [ "${NODE_V:1:2}" -gt 14 ]; then
+				cd ../ts
 				node test/node.mjs
+				cd ../node-net
+				node test/test.mjs
 			fi
 		fi
 	fi
