@@ -62,6 +62,11 @@ The TypeScript bindings require modern web standards, including support for `Fin
 and `WeakRef` (Chrome 84, Firefox 79, Safari 14.1/iOS 14.5 and Node 14.6) and WASM BigInt support
 (Chrome 85, Firefox 78, Safari 14.1/iOS 14.5, and Node 15.0).
 
+For users of Node.JS environments you may wish to use the `lightningdevkit-node-net` package as
+well to implement the required network handling to bridge the `lightningdevkit` package's
+`SocketDescriptor` interface to Node.JS TCP Sockets. For those wishing to run a lightning node in
+the browser you will need to provide your own bridge from `SocketDescriptor` to a WebSocket proxy.
+
 ## General
 
 The only known issue resulting in a use-after-free bug requires custom a custom ChannelKeys instance

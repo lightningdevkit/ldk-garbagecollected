@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "es2022",
+    "sourceMap": true,
+    "esModuleInterop": false,
+    "stripInternal": true,
+    "moduleResolution": "node",
+
+    "paths": {
+        "lightningdevkit": [ "../ts/index.mts" ]
+    },
+
+    "allowSyntheticDefaultImports": false,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false
+  }
+}

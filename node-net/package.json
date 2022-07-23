@@ -1,0 +1,34 @@
+{
+  "name": "lightningdevkit-node-net",
+  "version": "Set in genbindings.sh automagically",
+  "description": "Lightning Development Kit Net Implementation for Node.JS",
+  "main": "net.mjs",
+  "types": "net.d.mts",
+  "type": "module",
+  "files": [
+    "net.mjs",
+    "net.d.mts",
+    "tsconfig.json",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightningdevkit/ldk-garbagecollected.git"
+  },
+  "keywords": [
+    "lightning",
+    "bitcoin"
+  ],
+  "author": "LDK Developers",
+  "license": "MIT OR Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lightningdevkit/ldk-garbagecollected/issues"
+  },
+  "homepage": "https://github.com/lightningdevkit/ldk-garbagecollected#readme",
+  "dependencies": {
+    "lightningdevkit": "Set in genbindings.sh automagically"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8"
+  }
+}

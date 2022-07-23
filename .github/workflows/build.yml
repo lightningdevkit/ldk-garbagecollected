@@ -96,6 +96,7 @@ jobs:
       - name: Check latest TS files are in git
         run: |
           git checkout ts/package.json
+          git checkout node-net/package.json
           git diff --exit-code
 
   java_bindings:
