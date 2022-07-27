@@ -78,7 +78,7 @@ public class Watch extends CommonBase {
 		 * For details on asynchronous [`ChannelMonitor`] updating and returning
 		 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 		 */
-		TwoTuple_OutPointCVec_MonitorEventZZ[] release_pending_monitor_events();
+		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] release_pending_monitor_events();
 	}
 	private static class LDKWatchHolder { Watch held; }
 	public static Watch new_impl(WatchInterface arg) {
@@ -105,9 +105,9 @@ public class Watch extends CommonBase {
 				return result;
 			}
 			@Override public long[] release_pending_monitor_events() {
-				TwoTuple_OutPointCVec_MonitorEventZZ[] ret = arg.release_pending_monitor_events();
+				ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] ret = arg.release_pending_monitor_events();
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_38 -> ret_conv_38 == null ? 0 : ret_conv_38.clone_ptr()).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_49 -> ret_conv_49 == null ? 0 : ret_conv_49.clone_ptr()).toArray() : null;
 				return result;
 			}
 		});
@@ -166,18 +166,18 @@ public class Watch extends CommonBase {
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
 	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 	 */
-	public TwoTuple_OutPointCVec_MonitorEventZZ[] release_pending_monitor_events() {
+	public ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_38_len = ret.length;
-		TwoTuple_OutPointCVec_MonitorEventZZ[] ret_conv_38_arr = new TwoTuple_OutPointCVec_MonitorEventZZ[ret_conv_38_len];
-		for (int m = 0; m < ret_conv_38_len; m++) {
-			long ret_conv_38 = ret[m];
-			TwoTuple_OutPointCVec_MonitorEventZZ ret_conv_38_hu_conv = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret_conv_38);
-			ret_conv_38_hu_conv.ptrs_to.add(this);
-			ret_conv_38_arr[m] = ret_conv_38_hu_conv;
+		int ret_conv_49_len = ret.length;
+		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] ret_conv_49_arr = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_conv_49_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret_conv_49);
+			ret_conv_49_hu_conv.ptrs_to.add(this);
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
-		return ret_conv_38_arr;
+		return ret_conv_49_arr;
 	}
 
 }

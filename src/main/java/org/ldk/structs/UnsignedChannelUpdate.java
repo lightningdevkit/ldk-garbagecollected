@@ -143,6 +143,24 @@ public class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	/**
+	 * The maximum HTLC value incoming to sender, in milli-satoshi. Used to be optional.
+	 */
+	public long get_htlc_maximum_msat() {
+		long ret = bindings.UnsignedChannelUpdate_get_htlc_maximum_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The maximum HTLC value incoming to sender, in milli-satoshi. Used to be optional.
+	 */
+	public void set_htlc_maximum_msat(long val) {
+		bindings.UnsignedChannelUpdate_set_htlc_maximum_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * The base HTLC fee charged by sender, in milli-satoshi
 	 */
 	public int get_fee_base_msat() {
@@ -187,6 +205,27 @@ public class UnsignedChannelUpdate extends CommonBase {
 		bindings.UnsignedChannelUpdate_set_excess_data(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Constructs a new UnsignedChannelUpdate given each field
+	 */
+	public static UnsignedChannelUpdate of(byte[] chain_hash_arg, long short_channel_id_arg, int timestamp_arg, byte flags_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, int fee_base_msat_arg, int fee_proportional_millionths_arg, byte[] excess_data_arg) {
+		long ret = bindings.UnsignedChannelUpdate_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_id_arg, timestamp_arg, flags_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fee_base_msat_arg, fee_proportional_millionths_arg, excess_data_arg);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(short_channel_id_arg);
+		Reference.reachabilityFence(timestamp_arg);
+		Reference.reachabilityFence(flags_arg);
+		Reference.reachabilityFence(cltv_expiry_delta_arg);
+		Reference.reachabilityFence(htlc_minimum_msat_arg);
+		Reference.reachabilityFence(htlc_maximum_msat_arg);
+		Reference.reachabilityFence(fee_base_msat_arg);
+		Reference.reachabilityFence(fee_proportional_millionths_arg);
+		Reference.reachabilityFence(excess_data_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.UnsignedChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UnsignedChannelUpdate(null, ret); }
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
 	}
 
 	long clone_ptr() {

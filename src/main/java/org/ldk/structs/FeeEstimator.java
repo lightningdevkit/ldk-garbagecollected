@@ -32,12 +32,12 @@ public class FeeEstimator extends CommonBase {
 		/**
 		 * Gets estimated satoshis of fee required per 1000 Weight-Units.
 		 * 
-		 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
-		 * round-downs don't put us below 1 satoshi-per-byte).
+		 * LDK will wrap this method and ensure that the value returned is no smaller than 253
+		 * (ie 1 satoshi-per-byte rounded up to ensure later round-downs don't put us below 1 satoshi-per-byte).
 		 * 
-		 * This method can be implemented with the following unit conversions:
-		 * max(satoshis-per-byte * 250, 253)
-		 * max(satoshis-per-kbyte / 4, 253)
+		 * The following unit conversions can be used to convert to sats/KW:
+		 * satoshis-per-byte * 250
+		 * satoshis-per-kbyte / 4
 		 */
 		int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target);
 	}
@@ -56,12 +56,12 @@ public class FeeEstimator extends CommonBase {
 	/**
 	 * Gets estimated satoshis of fee required per 1000 Weight-Units.
 	 * 
-	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
-	 * round-downs don't put us below 1 satoshi-per-byte).
+	 * LDK will wrap this method and ensure that the value returned is no smaller than 253
+	 * (ie 1 satoshi-per-byte rounded up to ensure later round-downs don't put us below 1 satoshi-per-byte).
 	 * 
-	 * This method can be implemented with the following unit conversions:
-	 * max(satoshis-per-byte * 250, 253)
-	 * max(satoshis-per-kbyte / 4, 253)
+	 * The following unit conversions can be used to convert to sats/KW:
+	 * satoshis-per-byte * 250
+	 * satoshis-per-kbyte / 4
 	 */
 	public int get_est_sat_per_1000_weight(org.ldk.enums.ConfirmationTarget confirmation_target) {
 		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);

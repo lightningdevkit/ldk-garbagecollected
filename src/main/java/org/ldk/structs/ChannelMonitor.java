@@ -177,6 +177,21 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	/**
+	 * Gets the `node_id` of the counterparty for this channel.
+	 * 
+	 * Will be `None` for channels constructed on LDK versions prior to 0.0.110 and always `Some`
+	 * otherwise.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public byte[] get_counterparty_node_id() {
+		byte[] ret = bindings.ChannelMonitor_get_counterparty_node_id(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Used by ChannelManager deserialization to broadcast the latest holder state if its copy of
 	 * the Channel was out-of-date. You may use it to get a broadcastable holder toxic tx in case of
 	 * fallen-behind, i.e when receiving a channel_reestablish with a proof that our counterparty side knows

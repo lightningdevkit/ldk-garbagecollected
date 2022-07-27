@@ -47,6 +47,14 @@ public class Score extends CommonBase {
 		 */
 		void payment_path_successful(RouteHop[] path);
 		/**
+		 * Handles updating channel penalties after a probe over the given path failed.
+		 */
+		void probe_failed(RouteHop[] path, long short_channel_id);
+		/**
+		 * Handles updating channel penalties after a probe over the given path succeeded.
+		 */
+		void probe_successful(RouteHop[] path);
+		/**
 		 * Serialize the object into a byte array
 		 */
 		byte[] write();
@@ -86,6 +94,30 @@ public class Score extends CommonBase {
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.payment_path_successful(path_conv_10_arr);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void probe_failed(long[] path, long short_channel_id) {
+				int path_conv_10_len = path.length;
+				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+				for (int k = 0; k < path_conv_10_len; k++) {
+					long path_conv_10 = path[k];
+					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
+					path_conv_10_hu_conv.ptrs_to.add(this);
+					path_conv_10_arr[k] = path_conv_10_hu_conv;
+				}
+				arg.probe_failed(path_conv_10_arr, short_channel_id);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void probe_successful(long[] path) {
+				int path_conv_10_len = path.length;
+				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+				for (int k = 0; k < path_conv_10_len; k++) {
+					long path_conv_10 = path[k];
+					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
+					path_conv_10_hu_conv.ptrs_to.add(this);
+					path_conv_10_arr[k] = path_conv_10_hu_conv;
+				}
+				arg.probe_successful(path_conv_10_arr);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public byte[] write() {
@@ -133,6 +165,25 @@ public class Score extends CommonBase {
 	 */
 	public void payment_path_successful(RouteHop[] path) {
 		bindings.Score_payment_path_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(path);
+	}
+
+	/**
+	 * Handles updating channel penalties after a probe over the given path failed.
+	 */
+	public void probe_failed(RouteHop[] path, long short_channel_id) {
+		bindings.Score_probe_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(short_channel_id);
+	}
+
+	/**
+	 * Handles updating channel penalties after a probe over the given path succeeded.
+	 */
+	public void probe_successful(RouteHop[] path) {
+		bindings.Score_probe_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 	}

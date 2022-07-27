@@ -33,6 +33,9 @@ public class NetAddress extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKNetAddress.OnionV3.class) {
 			return new OnionV3(ptr, (bindings.LDKNetAddress.OnionV3)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKNetAddress.Hostname.class) {
+			return new Hostname(ptr, (bindings.LDKNetAddress.Hostname)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -115,6 +118,27 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	/**
+	 * A hostname/port on which the peer is listening.
+	 */
+	public final static class Hostname extends NetAddress {
+		/**
+		 * The hostname on which the node is listening.
+		*/
+		public final org.ldk.structs.Hostname hostname;
+		/**
+		 * The port on which the node is listening.
+		*/
+		public final short port;
+		private Hostname(long ptr, bindings.LDKNetAddress.Hostname obj) {
+			super(null, ptr);
+			long hostname = obj.hostname;
+			org.ldk.structs.Hostname hostname_hu_conv = null; if (hostname < 0 || hostname > 4096) { hostname_hu_conv = new org.ldk.structs.Hostname(null, hostname); }
+			hostname_hu_conv.ptrs_to.add(this);
+			this.hostname = hostname_hu_conv;
+			this.port = obj.port;
+		}
+	}
 	long clone_ptr() {
 		long ret = bindings.NetAddress_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -179,6 +203,19 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(ed25519_pubkey);
 		Reference.reachabilityFence(checksum);
 		Reference.reachabilityFence(version);
+		Reference.reachabilityFence(port);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Hostname-variant NetAddress
+	 */
+	public static NetAddress hostname(Hostname hostname, short port) {
+		long ret = bindings.NetAddress_hostname(hostname == null ? 0 : hostname.ptr & ~1, port);
+		Reference.reachabilityFence(hostname);
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
