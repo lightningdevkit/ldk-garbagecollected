@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -137,6 +140,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -435,10 +439,26 @@ export class ProbabilisticScorer extends CommonBase {
 	}
 
 	/**
-	 * Clears the list of nodes that are avoided during path finding.
+	 * Sets a manual penalty for the given node.
 	 */
-	public clear_banned(): void {
-		bindings.ProbabilisticScorer_clear_banned(this.ptr);
+	public set_manual_penalty(node_id: NodeId, penalty: bigint): void {
+		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1, penalty);
+		CommonBase.add_ref_from(this, node_id);
+	}
+
+	/**
+	 * Removes the node with the given `node_id` from the list of manual penalties.
+	 */
+	public remove_manual_penalty(node_id: NodeId): void {
+		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1);
+		CommonBase.add_ref_from(this, node_id);
+	}
+
+	/**
+	 * Clears the list of manual penalties that are applied during path finding.
+	 */
+	public clear_manual_penalties(): void {
+		bindings.ProbabilisticScorer_clear_manual_penalties(this.ptr);
 	}
 
 	/**

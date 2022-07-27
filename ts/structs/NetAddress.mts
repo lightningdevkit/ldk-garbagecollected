@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
 import { NodeAlias } from '../structs/NodeAlias.mjs';
@@ -364,6 +368,7 @@ export class NetAddress extends CommonBase {
 			case 1: return new NetAddress_IPv6(ptr);
 			case 2: return new NetAddress_OnionV2(ptr);
 			case 3: return new NetAddress_OnionV3(ptr);
+			case 4: return new NetAddress_Hostname(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -419,6 +424,16 @@ export class NetAddress extends CommonBase {
 	 */
 	public static constructor_onion_v3(ed25519_pubkey: Uint8Array, checksum: number, version: number, port: number): NetAddress {
 		const ret: number = bindings.NetAddress_onion_v3(bindings.encodeUint8Array(bindings.check_arr_len(ed25519_pubkey, 32)), checksum, version, port);
+		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Hostname-variant NetAddress
+	 */
+	public static constructor_hostname(hostname: Hostname, port: number): NetAddress {
+		const ret: number = bindings.NetAddress_hostname(hostname == null ? 0 : CommonBase.get_ptr_of(hostname) & ~1, port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -519,5 +534,25 @@ export class NetAddress_OnionV3 extends NetAddress {
 		this.checksum = bindings.LDKNetAddress_OnionV3_get_checksum(ptr);
 		this.version = bindings.LDKNetAddress_OnionV3_get_version(ptr);
 		this.port = bindings.LDKNetAddress_OnionV3_get_port(ptr);
+	}
+}
+/** A NetAddress of type Hostname */
+export class NetAddress_Hostname extends NetAddress {
+	/**
+	 * The hostname on which the node is listening.
+	 */
+	public hostname: Hostname;
+	/**
+	 * The port on which the node is listening.
+	 */
+	public port: number;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const hostname: number = bindings.LDKNetAddress_Hostname_get_hostname(ptr);
+		const hostname_hu_conv: Hostname = new Hostname(null, hostname);
+			CommonBase.add_ref_from(hostname_hu_conv, this);
+		this.hostname = hostname_hu_conv;
+		this.port = bindings.LDKNetAddress_Hostname_get_port(ptr);
 	}
 }

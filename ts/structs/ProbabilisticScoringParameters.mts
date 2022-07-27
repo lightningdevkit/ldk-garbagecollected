@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -357,6 +361,9 @@ import * as bindings from '../bindings.mjs'
  * 
  * Used to configure base, liquidity, and amount penalties, the sum of which comprises the channel
  * penalty (i.e., the amount in msats willing to be paid to avoid routing through the channel).
+ * 
+ * The penalty applied to any channel by the [`ProbabilisticScorer`] is the sum of each of the
+ * parameters here.
  */
 export class ProbabilisticScoringParameters extends CommonBase {
 	/* @internal */
@@ -381,6 +388,43 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 */
 	public set_base_penalty_msat(val: bigint): void {
 		bindings.ProbabilisticScoringParameters_set_base_penalty_msat(this.ptr, val);
+	}
+
+	/**
+	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
+	 * channel, in excess of the [`base_penalty_msat`].
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^30`ths of the payment amount.
+	 * 
+	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
+	 * 
+	 * Default value: 8,192 msat
+	 * 
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 */
+	public get_base_penalty_amount_multiplier_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_base_penalty_amount_multiplier_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
+	 * channel, in excess of the [`base_penalty_msat`].
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^30`ths of the payment amount.
+	 * 
+	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
+	 * 
+	 * Default value: 8,192 msat
+	 * 
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 */
+	public set_base_penalty_amount_multiplier_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_base_penalty_amount_multiplier_msat(this.ptr, val);
 	}
 
 	/**
@@ -470,7 +514,7 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
 	 * success probability.
 	 * 
-	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
 	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
 	 * the amount will result in a penalty of the multiplier. And, as the success probability
@@ -480,8 +524,8 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * 
 	 * Default value: 256 msat
 	 */
-	public get_amount_penalty_multiplier_msat(): bigint {
-		const ret: bigint = bindings.ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(this.ptr);
+	public get_liquidity_penalty_amount_multiplier_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_liquidity_penalty_amount_multiplier_msat(this.ptr);
 		return ret;
 	}
 
@@ -494,7 +538,7 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
 	 * success probability.
 	 * 
-	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
 	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
 	 * the amount will result in a penalty of the multiplier. And, as the success probability
@@ -504,8 +548,8 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * 
 	 * Default value: 256 msat
 	 */
-	public set_amount_penalty_multiplier_msat(val: bigint): void {
-		bindings.ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(this.ptr, val);
+	public set_liquidity_penalty_amount_multiplier_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_liquidity_penalty_amount_multiplier_msat(this.ptr, val);
 	}
 
 	/**
@@ -531,6 +575,53 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 */
 	public set_anti_probing_penalty_msat(val: bigint): void {
 		bindings.ProbabilisticScoringParameters_set_anti_probing_penalty_msat(this.ptr, val);
+	}
+
+	/**
+	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
+	 * current estimate of the channel's available liquidity.
+	 * 
+	 * Note that in this case all other penalties, including the
+	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
+	 * penalties, as well as the [`base_penalty_msat`] and the [`anti_probing_penalty_msat`], if
+	 * applicable, are still included in the overall penalty.
+	 * 
+	 * If you wish to avoid creating paths with such channels entirely, setting this to a value of
+	 * `u64::max_value()` will guarantee that.
+	 * 
+	 * Default value: 1_0000_0000_000 msat (1 Bitcoin)
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 * [`anti_probing_penalty_msat`]: Self::anti_probing_penalty_msat
+	 */
+	public get_considered_impossible_penalty_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_considered_impossible_penalty_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
+	 * current estimate of the channel's available liquidity.
+	 * 
+	 * Note that in this case all other penalties, including the
+	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
+	 * penalties, as well as the [`base_penalty_msat`] and the [`anti_probing_penalty_msat`], if
+	 * applicable, are still included in the overall penalty.
+	 * 
+	 * If you wish to avoid creating paths with such channels entirely, setting this to a value of
+	 * `u64::max_value()` will guarantee that.
+	 * 
+	 * Default value: 1_0000_0000_000 msat (1 Bitcoin)
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 * [`anti_probing_penalty_msat`]: Self::anti_probing_penalty_msat
+	 */
+	public set_considered_impossible_penalty_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_considered_impossible_penalty_msat(this.ptr, val);
 	}
 
 	public clone_ptr(): number {

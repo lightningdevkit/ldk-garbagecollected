@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -717,6 +721,17 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Send a payment that is probing the given route for liquidity. We calculate the
+	 * [`PaymentHash`] of probes based on a static secret and a random [`PaymentId`], which allows
+	 * us to easily discern them from real payments.
+	 */
+	public send_probe(hops: RouteHop[]): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
+		const ret: number = bindings.ChannelManager_send_probe(this.ptr, bindings.encodeUint32Array(hops != null ? hops.map(hops_conv_10 => hops_conv_10 == null ? 0 : CommonBase.get_ptr_of(hops_conv_10) & ~1) : null));
+		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Call this upon creation of a funding transaction for the given channel.
 	 * 
 	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
@@ -770,7 +785,7 @@ export class ChannelManager extends CommonBase {
 	 * tying these addresses together and to this node. If you wish to preserve user privacy,
 	 * addresses should likely contain only Tor Onion addresses.
 	 * 
-	 * Panics if `addresses` is absurdly large (more than 500).
+	 * Panics if `addresses` is absurdly large (more than 100).
 	 * 
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */

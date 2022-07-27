@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -358,12 +362,12 @@ import * as bindings from '../bindings.mjs'
 export interface FeeEstimatorInterface {
 	/**Gets estimated satoshis of fee required per 1000 Weight-Units.
 	 * 
-	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
-	 * round-downs don't put us below 1 satoshi-per-byte).
+	 * LDK will wrap this method and ensure that the value returned is no smaller than 253
+	 * (ie 1 satoshi-per-byte rounded up to ensure later round-downs don't put us below 1 satoshi-per-byte).
 	 * 
-	 * This method can be implemented with the following unit conversions:
-	 * max(satoshis-per-byte * 250, 253)
-	 * max(satoshis-per-kbyte / 4, 253)
+	 * The following unit conversions can be used to convert to sats/KW:
+	 * satoshis-per-byte * 250
+	 * satoshis-per-kbyte / 4
 	 */
 	get_est_sat_per_1000_weight(confirmation_target: ConfirmationTarget): number;
 }
@@ -408,12 +412,12 @@ export class FeeEstimator extends CommonBase {
 	/**
 	 * Gets estimated satoshis of fee required per 1000 Weight-Units.
 	 * 
-	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
-	 * round-downs don't put us below 1 satoshi-per-byte).
+	 * LDK will wrap this method and ensure that the value returned is no smaller than 253
+	 * (ie 1 satoshi-per-byte rounded up to ensure later round-downs don't put us below 1 satoshi-per-byte).
 	 * 
-	 * This method can be implemented with the following unit conversions:
-	 * max(satoshis-per-byte * 250, 253)
-	 * max(satoshis-per-kbyte / 4, 253)
+	 * The following unit conversions can be used to convert to sats/KW:
+	 * satoshis-per-byte * 250
+	 * satoshis-per-kbyte / 4
 	 */
 	public get_est_sat_per_1000_weight(confirmation_target: ConfirmationTarget): number {
 		const ret: number = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);

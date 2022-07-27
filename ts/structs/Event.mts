@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -103,7 +106,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -137,6 +140,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -371,12 +375,15 @@ export class Event extends CommonBase {
 			case 4: return new Event_PaymentFailed(ptr);
 			case 5: return new Event_PaymentPathSuccessful(ptr);
 			case 6: return new Event_PaymentPathFailed(ptr);
-			case 7: return new Event_PendingHTLCsForwardable(ptr);
-			case 8: return new Event_SpendableOutputs(ptr);
-			case 9: return new Event_PaymentForwarded(ptr);
-			case 10: return new Event_ChannelClosed(ptr);
-			case 11: return new Event_DiscardFunding(ptr);
-			case 12: return new Event_OpenChannelRequest(ptr);
+			case 7: return new Event_ProbeSuccessful(ptr);
+			case 8: return new Event_ProbeFailed(ptr);
+			case 9: return new Event_PendingHTLCsForwardable(ptr);
+			case 10: return new Event_SpendableOutputs(ptr);
+			case 11: return new Event_PaymentForwarded(ptr);
+			case 12: return new Event_ChannelClosed(ptr);
+			case 13: return new Event_DiscardFunding(ptr);
+			case 14: return new Event_OpenChannelRequest(ptr);
+			case 15: return new Event_HTLCHandlingFailed(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -468,6 +475,26 @@ export class Event extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new ProbeSuccessful-variant Event
+	 */
+	public static constructor_probe_successful(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[]): Event {
+		const ret: number = bindings.Event_probe_successful(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
+		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ProbeFailed-variant Event
+	 */
+	public static constructor_probe_failed(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[], short_channel_id: Option_u64Z): Event {
+		const ret: number = bindings.Event_probe_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), CommonBase.get_ptr_of(short_channel_id));
+		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new PendingHTLCsForwardable-variant Event
 	 */
 	public static constructor_pending_htlcs_forwardable(time_forwardable: bigint): Event {
@@ -522,6 +549,16 @@ export class Event extends CommonBase {
 	 */
 	public static constructor_open_channel_request(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, funding_satoshis: bigint, push_msat: bigint, channel_type: ChannelTypeFeatures): Event {
 		const ret: number = bindings.Event_open_channel_request(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), funding_satoshis, push_msat, channel_type == null ? 0 : CommonBase.get_ptr_of(channel_type) & ~1);
+		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new HTLCHandlingFailed-variant Event
+	 */
+	public static constructor_htlchandling_failed(prev_channel_id: Uint8Array, failed_next_destination: HTLCDestination): Event {
+		const ret: number = bindings.Event_htlchandling_failed(bindings.encodeUint8Array(bindings.check_arr_len(prev_channel_id, 32)), CommonBase.get_ptr_of(failed_next_destination));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -887,6 +924,98 @@ export class Event_PaymentPathFailed extends Event {
 		this.retry = retry_hu_conv;
 	}
 }
+/** A Event of type ProbeSuccessful */
+export class Event_ProbeSuccessful extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_probe`].
+	 * 
+	 * [`ChannelManager::send_probe`]: crate::ln::channelmanager::ChannelManager::send_probe
+	 */
+	public payment_id: Uint8Array;
+	/**
+	 * The hash generated by [`ChannelManager::send_probe`].
+	 * 
+	 * [`ChannelManager::send_probe`]: crate::ln::channelmanager::ChannelManager::send_probe
+	 */
+	public payment_hash: Uint8Array;
+	/**
+	 * The payment path that was successful.
+	 */
+	public path: RouteHop[];
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const payment_id: number = bindings.LDKEvent_ProbeSuccessful_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_ProbeSuccessful_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		const path: number = bindings.LDKEvent_ProbeSuccessful_get_path(ptr);
+		const path_conv_10_len: number = bindings.getArrayLength(path);
+			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+			for (var k = 0; k < path_conv_10_len; k++) {
+				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+			bindings.freeWasmMemory(path)
+		this.path = path_conv_10_arr;
+	}
+}
+/** A Event of type ProbeFailed */
+export class Event_ProbeFailed extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_probe`].
+	 * 
+	 * [`ChannelManager::send_probe`]: crate::ln::channelmanager::ChannelManager::send_probe
+	 */
+	public payment_id: Uint8Array;
+	/**
+	 * The hash generated by [`ChannelManager::send_probe`].
+	 * 
+	 * [`ChannelManager::send_probe`]: crate::ln::channelmanager::ChannelManager::send_probe
+	 */
+	public payment_hash: Uint8Array;
+	/**
+	 * The payment path that failed.
+	 */
+	public path: RouteHop[];
+	/**
+	 * The channel responsible for the failed probe.
+	 * 
+	 * Note that for route hints or for the first hop in a path this may be an SCID alias and
+	 * may not refer to a channel in the public network graph. These aliases may also collide
+	 * with channels in the public network graph.
+	 */
+	public short_channel_id: Option_u64Z;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const payment_id: number = bindings.LDKEvent_ProbeFailed_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_ProbeFailed_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		const path: number = bindings.LDKEvent_ProbeFailed_get_path(ptr);
+		const path_conv_10_len: number = bindings.getArrayLength(path);
+			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+			for (var k = 0; k < path_conv_10_len; k++) {
+				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+			bindings.freeWasmMemory(path)
+		this.path = path_conv_10_arr;
+		const short_channel_id: number = bindings.LDKEvent_ProbeFailed_get_short_channel_id(ptr);
+		const short_channel_id_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(short_channel_id);
+			CommonBase.add_ref_from(short_channel_id_hu_conv, this);
+		this.short_channel_id = short_channel_id_hu_conv;
+	}
+}
 /** A Event of type PendingHTLCsForwardable */
 export class Event_PendingHTLCsForwardable extends Event {
 	/**
@@ -1100,5 +1229,27 @@ export class Event_OpenChannelRequest extends Event {
 		const channel_type_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, channel_type);
 			CommonBase.add_ref_from(channel_type_hu_conv, this);
 		this.channel_type = channel_type_hu_conv;
+	}
+}
+/** A Event of type HTLCHandlingFailed */
+export class Event_HTLCHandlingFailed extends Event {
+	/**
+	 * The channel over which the HTLC was received.
+	 */
+	public prev_channel_id: Uint8Array;
+	/**
+	 * Destination of the HTLC that failed to be processed.
+	 */
+	public failed_next_destination: HTLCDestination;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const prev_channel_id: number = bindings.LDKEvent_HTLCHandlingFailed_get_prev_channel_id(ptr);
+		const prev_channel_id_conv: Uint8Array = bindings.decodeUint8Array(prev_channel_id);
+		this.prev_channel_id = prev_channel_id_conv;
+		const failed_next_destination: number = bindings.LDKEvent_HTLCHandlingFailed_get_failed_next_destination(ptr);
+		const failed_next_destination_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(failed_next_destination);
+			CommonBase.add_ref_from(failed_next_destination_hu_conv, this);
+		this.failed_next_destination = failed_next_destination_hu_conv;
 	}
 }

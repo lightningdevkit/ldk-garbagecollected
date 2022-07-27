@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -388,7 +392,7 @@ export interface WatchInterface {
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
 	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 	 */
-	release_pending_monitor_events(): TwoTuple_OutPointCVec_MonitorEventZZ[];
+	release_pending_monitor_events(): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[];
 }
 
 class LDKWatchHolder {
@@ -449,8 +453,8 @@ export class Watch extends CommonBase {
 				return result;
 			},
 			release_pending_monitor_events (): number {
-				const ret: TwoTuple_OutPointCVec_MonitorEventZZ[] = arg.release_pending_monitor_events();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_38 => ret_conv_38 == null ? 0 : ret_conv_38.clone_ptr()) : null);
+				const ret: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] = arg.release_pending_monitor_events();
+				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_49 => ret_conv_49 == null ? 0 : ret_conv_49.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKWatch;
@@ -506,18 +510,18 @@ export class Watch extends CommonBase {
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
 	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 	 */
-	public release_pending_monitor_events(): TwoTuple_OutPointCVec_MonitorEventZZ[] {
+	public release_pending_monitor_events(): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] {
 		const ret: number = bindings.Watch_release_pending_monitor_events(this.ptr);
-		const ret_conv_38_len: number = bindings.getArrayLength(ret);
-		const ret_conv_38_arr: TwoTuple_OutPointCVec_MonitorEventZZ[] = new Array(ret_conv_38_len).fill(null);
-		for (var m = 0; m < ret_conv_38_len; m++) {
-			const ret_conv_38: number = bindings.getU32ArrayElem(ret, m);
-			const ret_conv_38_hu_conv: TwoTuple_OutPointCVec_MonitorEventZZ = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret_conv_38);
-			CommonBase.add_ref_from(ret_conv_38_hu_conv, this);
-			ret_conv_38_arr[m] = ret_conv_38_hu_conv;
+		const ret_conv_49_len: number = bindings.getArrayLength(ret);
+		const ret_conv_49_arr: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] = new Array(ret_conv_49_len).fill(null);
+		for (var x = 0; x < ret_conv_49_len; x++) {
+			const ret_conv_49: number = bindings.getU32ArrayElem(ret, x);
+			const ret_conv_49_hu_conv: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret_conv_49);
+			CommonBase.add_ref_from(ret_conv_49_hu_conv, this);
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
 		bindings.freeWasmMemory(ret)
-		return ret_conv_38_arr;
+		return ret_conv_49_arr;
 	}
 
 }
