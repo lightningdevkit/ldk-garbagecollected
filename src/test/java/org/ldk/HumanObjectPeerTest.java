@@ -151,16 +151,16 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public TwoTuple_OutPointCVec_MonitorEventZZ[] release_pending_monitor_events() {
+                public ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] release_pending_monitor_events() {
                     synchronized (monitors) {
                         assert monitors.size() <= 1;
                         for (ChannelMonitor mon : monitors.values()) {
-                            TwoTuple_OutPointCVec_MonitorEventZZ[] res = new TwoTuple_OutPointCVec_MonitorEventZZ[1];
-                            res[0] = TwoTuple_OutPointCVec_MonitorEventZZ.of(mon.get_funding_txo().get_a(), mon.get_and_clear_pending_monitor_events());
+                            ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] res = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[1];
+                            res[0] = ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.of(mon.get_funding_txo().get_a(), mon.get_and_clear_pending_monitor_events(), mon.get_counterparty_node_id());
                             return res;
                         }
                     }
-                    return new TwoTuple_OutPointCVec_MonitorEventZZ[0];
+                    return new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[0];
                 }
             };
             Watch watch = Watch.new_impl(watch_impl);
@@ -405,6 +405,8 @@ class HumanObjectPeerTestInstance {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
                         @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
                         @Override public void payment_path_successful(RouteHop[] path) {}
+                        @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
+                        @Override public void probe_successful(RouteHop[] path) { assert false; }
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -525,6 +527,8 @@ class HumanObjectPeerTestInstance {
                         @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
                         @Override public void payment_path_successful(RouteHop[] path) {}
+                        @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
+                        @Override public void probe_successful(RouteHop[] path) { assert false; }
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -855,7 +859,7 @@ class HumanObjectPeerTestInstance {
             InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
             RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14, (byte)1);
+            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0]);
             RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
@@ -1087,9 +1091,10 @@ class HumanObjectPeerTestInstance {
             state.peer1.router.write();
 
         // Construct the only Option_Enum::Variant(OpaqueStruct) we have in the codebase as this used to cause double-frees:
-        byte[] serd = new byte[] {(byte)0xd9,(byte)0x77,(byte)0xcb,(byte)0x9b,(byte)0x53,(byte)0xd9,(byte)0x3a,(byte)0x6f,(byte)0xf6,(byte)0x4b,(byte)0xb5,(byte)0xf1,(byte)0xe1,(byte)0x58,(byte)0xb4,(byte)0x09,(byte)0x4b,(byte)0x66,(byte)0xe7,(byte)0x98,(byte)0xfb,(byte)0x12,(byte)0x91,(byte)0x11,(byte)0x68,(byte)0xa3,(byte)0xcc,(byte)0xdf,(byte)0x80,(byte)0xa8,(byte)0x30,(byte)0x96,(byte)0x34,(byte)0x0a,(byte)0x6a,(byte)0x95,(byte)0xda,(byte)0x0a,(byte)0xe8,(byte)0xd9,(byte)0xf7,(byte)0x76,(byte)0x52,(byte)0x8e,(byte)0xec,(byte)0xdb,(byte)0xb7,(byte)0x47,(byte)0xeb,(byte)0x6b,(byte)0x54,(byte)0x54,(byte)0x95,(byte)0xa4,(byte)0x31,(byte)0x9e,(byte)0xd5,(byte)0x37,(byte)0x8e,(byte)0x35,(byte)0xb2,(byte)0x1e,(byte)0x07,(byte)0x3a,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x19,(byte)0xd6,(byte)0x68,(byte)0x9c,(byte)0x08,(byte)0x5a,(byte)0xe1,(byte)0x65,(byte)0x83,(byte)0x1e,(byte)0x93,(byte)0x4f,(byte)0xf7,(byte)0x63,(byte)0xae,(byte)0x46,(byte)0xa2,(byte)0xa6,(byte)0xc1,(byte)0x72,(byte)0xb3,(byte)0xf1,(byte)0xb6,(byte)0x0a,(byte)0x8c,(byte)0xe2,(byte)0x6f,(byte)0x00,(byte)0x08,(byte)0x3a,(byte)0x84,(byte)0x00,(byte)0x00,(byte)0x03,(byte)0x4d,(byte)0x01,(byte)0x34,(byte)0x13,(byte)0xa7,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x90,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x0f,(byte)0x42,(byte)0x40,(byte)0x00,(byte)0x00,(byte)0x27,(byte)0x10,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x14,};
+        byte[] serd = new byte[] {(byte)0xd9,(byte)0x77,(byte)0xcb,(byte)0x9b,(byte)0x53,(byte)0xd9,(byte)0x3a,(byte)0x6f,(byte)0xf6,(byte)0x4b,(byte)0xb5,(byte)0xf1,(byte)0xe1,(byte)0x58,(byte)0xb4,(byte)0x09,(byte)0x4b,(byte)0x66,(byte)0xe7,(byte)0x98,(byte)0xfb,(byte)0x12,(byte)0x91,(byte)0x11,(byte)0x68,(byte)0xa3,(byte)0xcc,(byte)0xdf,(byte)0x80,(byte)0xa8,(byte)0x30,(byte)0x96,(byte)0x34,(byte)0x0a,(byte)0x6a,(byte)0x95,(byte)0xda,(byte)0x0a,(byte)0xe8,(byte)0xd9,(byte)0xf7,(byte)0x76,(byte)0x52,(byte)0x8e,(byte)0xec,(byte)0xdb,(byte)0xb7,(byte)0x47,(byte)0xeb,(byte)0x6b,(byte)0x54,(byte)0x54,(byte)0x95,(byte)0xa4,(byte)0x31,(byte)0x9e,(byte)0xd5,(byte)0x37,(byte)0x8e,(byte)0x35,(byte)0xb2,(byte)0x1e,(byte)0x07,(byte)0x3a,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x01,(byte)0x19,(byte)0xd6,(byte)0x68,(byte)0x9c,(byte)0x08,(byte)0x5a,(byte)0xe1,(byte)0x65,(byte)0x83,(byte)0x1e,(byte)0x93,(byte)0x4f,(byte)0xf7,(byte)0x63,(byte)0xae,(byte)0x46,(byte)0xa2,(byte)0xa6,(byte)0xc1,(byte)0x72,(byte)0xb3,(byte)0xf1,(byte)0xb6,(byte)0x0a,(byte)0x8c,(byte)0xe2,(byte)0x6f,(byte)0x00,(byte)0x08,(byte)0x3a,(byte)0x84,(byte)0x00,(byte)0x00,(byte)0x03,(byte)0x4d,(byte)0x01,(byte)0x34,(byte)0x13,(byte)0xa7,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x90,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x0f,(byte)0x42,(byte)0x40,(byte)0x00,(byte)0x00,(byte)0x27,(byte)0x10,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x14,(byte)0xde,(byte)0xad,(byte)0xbe,(byte)0xef,(byte)0x42,(byte)0x42,(byte)0x42,(byte)0x42};
         Result_ChannelUpdateDecodeErrorZ upd_msg = ChannelUpdate.read(serd);
         assert upd_msg instanceof Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK;
+        assert ((Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK) upd_msg).res.get_contents().get_htlc_maximum_msat() == 0xdeadbeef42424242L;
         Option_NetworkUpdateZ upd = Option_NetworkUpdateZ.some(NetworkUpdate.channel_update_message(((Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK) upd_msg).res));
     }
 
