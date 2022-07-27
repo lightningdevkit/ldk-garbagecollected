@@ -19,6 +19,39 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 	}
 
 	/**
+	 * Returns information on a channel with the given id.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ChannelInfo channel(long short_channel_id) {
+		long ret = bindings.ReadOnlyNetworkGraph_channel(this.ptr, short_channel_id);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(short_channel_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelInfo(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns information on a node with the given id.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public NodeInfo node(NodeId node_id) {
+		long ret = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(node_id);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Get network addresses by node id.
 	 * Returns None if the requested node is completely unknown,
 	 * or if node announcement for the node was never received.

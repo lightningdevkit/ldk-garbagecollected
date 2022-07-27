@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -104,7 +107,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -138,6 +141,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -372,6 +376,12 @@ export interface ScoreInterface {
 	/**Handles updating channel penalties after successfully routing along a path.
 	 */
 	payment_path_successful(path: RouteHop[]): void;
+	/**Handles updating channel penalties after a probe over the given path failed.
+	 */
+	probe_failed(path: RouteHop[], short_channel_id: bigint): void;
+	/**Handles updating channel penalties after a probe over the given path succeeded.
+	 */
+	probe_successful(path: RouteHop[]): void;
 	/**Serialize the object into a byte array
 	 */
 	write(): Uint8Array;
@@ -432,6 +442,30 @@ export class Score extends CommonBase {
 				bindings.freeWasmMemory(path)
 				arg.payment_path_successful(path_conv_10_arr);
 			},
+			probe_failed (path: number, short_channel_id: bigint): void {
+				const path_conv_10_len: number = bindings.getArrayLength(path);
+				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+				for (var k = 0; k < path_conv_10_len; k++) {
+					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
+					path_conv_10_arr[k] = path_conv_10_hu_conv;
+				}
+				bindings.freeWasmMemory(path)
+				arg.probe_failed(path_conv_10_arr, short_channel_id);
+			},
+			probe_successful (path: number): void {
+				const path_conv_10_len: number = bindings.getArrayLength(path);
+				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+				for (var k = 0; k < path_conv_10_len; k++) {
+					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
+					path_conv_10_arr[k] = path_conv_10_hu_conv;
+				}
+				bindings.freeWasmMemory(path)
+				arg.probe_successful(path_conv_10_arr);
+			},
 			write (): number {
 				const ret: Uint8Array = arg.write();
 				const result: number = bindings.encodeUint8Array(ret);
@@ -474,6 +508,20 @@ export class Score extends CommonBase {
 	 */
 	public payment_path_successful(path: RouteHop[]): void {
 		bindings.Score_payment_path_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
+	}
+
+	/**
+	 * Handles updating channel penalties after a probe over the given path failed.
+	 */
+	public probe_failed(path: RouteHop[], short_channel_id: bigint): void {
+		bindings.Score_probe_failed(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), short_channel_id);
+	}
+
+	/**
+	 * Handles updating channel penalties after a probe over the given path succeeded.
+	 */
+	public probe_successful(path: RouteHop[]): void {
+		bindings.Score_probe_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 	}
 
 	/**

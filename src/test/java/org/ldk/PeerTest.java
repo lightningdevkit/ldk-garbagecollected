@@ -85,7 +85,8 @@ public class PeerTest {
                             long funding_info = bindings.ChannelMonitor_get_funding_txo(mon);
                             long funding_txo = bindings.C2Tuple_OutPointScriptZ_get_a(funding_info);
                             long[] mon_events = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(mon);
-                            long funding_mon_tuple = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_new(funding_txo, mon_events);
+                            byte[] counterparty_pk = bindings.ChannelMonitor_get_counterparty_node_id(mon);
+                            long funding_mon_tuple = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(funding_txo, mon_events, counterparty_pk);
                             bindings.C2Tuple_OutPointScriptZ_free(funding_info);
                             return new long[] {funding_mon_tuple};
                         }
@@ -317,7 +318,7 @@ public class PeerTest {
 
         long no_u64 = bindings.COption_u64Z_none();
         long invoice_features = bindings.InvoiceFeatures_known();
-        long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14, (byte)1);
+        long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14, (byte)1, (byte)1, new long[0]);
         bindings.InvoiceFeatures_free(invoice_features);
         bindings.COption_u64Z_free(no_u64);
         long route_params = bindings.RouteParameters_new(payee, 1000, 42);

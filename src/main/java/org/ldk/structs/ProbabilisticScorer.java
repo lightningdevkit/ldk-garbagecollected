@@ -107,10 +107,31 @@ public class ProbabilisticScorer extends CommonBase {
 	}
 
 	/**
-	 * Clears the list of nodes that are avoided during path finding.
+	 * Sets a manual penalty for the given node.
 	 */
-	public void clear_banned() {
-		bindings.ProbabilisticScorer_clear_banned(this.ptr);
+	public void set_manual_penalty(NodeId node_id, long penalty) {
+		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr & ~1, penalty);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(penalty);
+		this.ptrs_to.add(node_id);
+	}
+
+	/**
+	 * Removes the node with the given `node_id` from the list of manual penalties.
+	 */
+	public void remove_manual_penalty(NodeId node_id) {
+		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		this.ptrs_to.add(node_id);
+	}
+
+	/**
+	 * Clears the list of manual penalties that are applied during path finding.
+	 */
+	public void clear_manual_penalties() {
+		bindings.ProbabilisticScorer_clear_manual_penalties(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 

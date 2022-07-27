@@ -427,6 +427,20 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Send a payment that is probing the given route for liquidity. We calculate the
+	 * [`PaymentHash`] of probes based on a static secret and a random [`PaymentId`], which allows
+	 * us to easily discern them from real payments.
+	 */
+	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(RouteHop[] hops) {
+		long ret = bindings.ChannelManager_send_probe(this.ptr, hops != null ? Arrays.stream(hops).mapToLong(hops_conv_10 -> hops_conv_10 == null ? 0 : hops_conv_10.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(hops);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Call this upon creation of a funding transaction for the given channel.
 	 * 
 	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
@@ -485,7 +499,7 @@ public class ChannelManager extends CommonBase {
 	 * tying these addresses together and to this node. If you wish to preserve user privacy,
 	 * addresses should likely contain only Tor Onion addresses.
 	 * 
-	 * Panics if `addresses` is absurdly large (more than 500).
+	 * Panics if `addresses` is absurdly large (more than 100).
 	 * 
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */

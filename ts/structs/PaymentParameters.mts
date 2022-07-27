@@ -66,6 +66,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -103,7 +106,7 @@ import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransaction
 import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
-import { TwoTuple_OutPointCVec_MonitorEventZZ } from '../structs/TwoTuple_OutPointCVec_MonitorEventZZ.mjs';
+import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -137,6 +140,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -467,27 +471,75 @@ export class PaymentParameters extends CommonBase {
 	}
 
 	/**
-	 * The maximum number of paths that may be used by MPP payments.
-	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 * The maximum number of paths that may be used by (MPP) payments.
+	 * Defaults to [`DEFAULT_MAX_PATH_COUNT`].
 	 */
-	public get_max_mpp_path_count(): number {
-		const ret: number = bindings.PaymentParameters_get_max_mpp_path_count(this.ptr);
+	public get_max_path_count(): number {
+		const ret: number = bindings.PaymentParameters_get_max_path_count(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * The maximum number of paths that may be used by MPP payments.
-	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 * The maximum number of paths that may be used by (MPP) payments.
+	 * Defaults to [`DEFAULT_MAX_PATH_COUNT`].
 	 */
-	public set_max_mpp_path_count(val: number): void {
-		bindings.PaymentParameters_set_max_mpp_path_count(this.ptr, val);
+	public set_max_path_count(val: number): void {
+		bindings.PaymentParameters_set_max_path_count(this.ptr, val);
+	}
+
+	/**
+	 * Selects the maximum share of a channel's total capacity which will be sent over a channel,
+	 * as a power of 1/2. A higher value prefers to send the payment using more MPP parts whereas
+	 * a lower value prefers to send larger MPP parts, potentially saturating channels and
+	 * increasing failure probability for those paths.
+	 * 
+	 * Note that this restriction will be relaxed during pathfinding after paths which meet this
+	 * restriction have been found. While paths which meet this criteria will be searched for, it
+	 * is ultimately up to the scorer to select them over other paths.
+	 * 
+	 * A value of 0 will allow payments up to and including a channel's total announced usable
+	 * capacity, a value of one will only use up to half its capacity, two 1/4, etc.
+	 * 
+	 * Default value: 2
+	 */
+	public get_max_channel_saturation_power_of_half(): number {
+		const ret: number = bindings.PaymentParameters_get_max_channel_saturation_power_of_half(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Selects the maximum share of a channel's total capacity which will be sent over a channel,
+	 * as a power of 1/2. A higher value prefers to send the payment using more MPP parts whereas
+	 * a lower value prefers to send larger MPP parts, potentially saturating channels and
+	 * increasing failure probability for those paths.
+	 * 
+	 * Note that this restriction will be relaxed during pathfinding after paths which meet this
+	 * restriction have been found. While paths which meet this criteria will be searched for, it
+	 * is ultimately up to the scorer to select them over other paths.
+	 * 
+	 * A value of 0 will allow payments up to and including a channel's total announced usable
+	 * capacity, a value of one will only use up to half its capacity, two 1/4, etc.
+	 * 
+	 * Default value: 2
+	 */
+	public set_max_channel_saturation_power_of_half(val: number): void {
+		bindings.PaymentParameters_set_max_channel_saturation_power_of_half(this.ptr, val);
+	}
+
+	/**
+	 * A list of SCIDs which this payment was previously attempted over and which caused the
+	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
+	 * these SCIDs.
+	 */
+	public set_previously_failed_channels(val: bigint[]): void {
+		bindings.PaymentParameters_set_previously_failed_channels(this.ptr, bindings.encodeUint64Array(val));
 	}
 
 	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static constructor_new(payee_pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z, max_total_cltv_expiry_delta_arg: number, max_mpp_path_count_arg: number): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg, max_mpp_path_count_arg);
+	public static constructor_new(payee_pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z, max_total_cltv_expiry_delta_arg: number, max_path_count_arg: number, max_channel_saturation_power_of_half_arg: number, previously_failed_channels_arg: bigint[]): PaymentParameters {
+		const ret: number = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, bindings.encodeUint64Array(previously_failed_channels_arg));
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

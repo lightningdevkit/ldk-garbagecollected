@@ -35,6 +35,17 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Read a HTLCDestination from a byte array, created by HTLCDestination_write
+	 */
+	public static Result_COption_HTLCDestinationZDecodeErrorZ HTLCDestination_read(byte[] ser) {
+		long ret = bindings.HTLCDestination_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_HTLCDestinationZDecodeErrorZ ret_hu_conv = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Read a Event from a byte array, created by Event_write
 	 */
 	public static Result_COption_EventZDecodeErrorZ Event_read(byte[] ser) {

@@ -13,6 +13,9 @@ import javax.annotation.Nullable;
  * 
  * Used to configure base, liquidity, and amount penalties, the sum of which comprises the channel
  * penalty (i.e., the amount in msats willing to be paid to avoid routing through the channel).
+ * 
+ * The penalty applied to any channel by the [`ProbabilisticScorer`] is the sum of each of the
+ * parameters here.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ProbabilisticScoringParameters extends CommonBase {
@@ -41,6 +44,46 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 */
 	public void set_base_penalty_msat(long val) {
 		bindings.ProbabilisticScoringParameters_set_base_penalty_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
+	 * channel, in excess of the [`base_penalty_msat`].
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^30`ths of the payment amount.
+	 * 
+	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
+	 * 
+	 * Default value: 8,192 msat
+	 * 
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 */
+	public long get_base_penalty_amount_multiplier_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_base_penalty_amount_multiplier_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
+	 * channel, in excess of the [`base_penalty_msat`].
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^30`ths of the payment amount.
+	 * 
+	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
+	 * 
+	 * Default value: 8,192 msat
+	 * 
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 */
+	public void set_base_penalty_amount_multiplier_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_base_penalty_amount_multiplier_msat(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -138,7 +181,7 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
 	 * success probability.
 	 * 
-	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
 	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
 	 * the amount will result in a penalty of the multiplier. And, as the success probability
@@ -148,8 +191,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * 
 	 * Default value: 256 msat
 	 */
-	public long get_amount_penalty_multiplier_msat() {
-		long ret = bindings.ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(this.ptr);
+	public long get_liquidity_penalty_amount_multiplier_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_liquidity_penalty_amount_multiplier_msat(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -163,7 +206,7 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
 	 * success probability.
 	 * 
-	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
 	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
 	 * the amount will result in a penalty of the multiplier. And, as the success probability
@@ -173,8 +216,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * 
 	 * Default value: 256 msat
 	 */
-	public void set_amount_penalty_multiplier_msat(long val) {
-		bindings.ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(this.ptr, val);
+	public void set_liquidity_penalty_amount_multiplier_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_liquidity_penalty_amount_multiplier_msat(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -203,6 +246,56 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 */
 	public void set_anti_probing_penalty_msat(long val) {
 		bindings.ProbabilisticScoringParameters_set_anti_probing_penalty_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
+	 * current estimate of the channel's available liquidity.
+	 * 
+	 * Note that in this case all other penalties, including the
+	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
+	 * penalties, as well as the [`base_penalty_msat`] and the [`anti_probing_penalty_msat`], if
+	 * applicable, are still included in the overall penalty.
+	 * 
+	 * If you wish to avoid creating paths with such channels entirely, setting this to a value of
+	 * `u64::max_value()` will guarantee that.
+	 * 
+	 * Default value: 1_0000_0000_000 msat (1 Bitcoin)
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 * [`anti_probing_penalty_msat`]: Self::anti_probing_penalty_msat
+	 */
+	public long get_considered_impossible_penalty_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_considered_impossible_penalty_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
+	 * current estimate of the channel's available liquidity.
+	 * 
+	 * Note that in this case all other penalties, including the
+	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
+	 * penalties, as well as the [`base_penalty_msat`] and the [`anti_probing_penalty_msat`], if
+	 * applicable, are still included in the overall penalty.
+	 * 
+	 * If you wish to avoid creating paths with such channels entirely, setting this to a value of
+	 * `u64::max_value()` will guarantee that.
+	 * 
+	 * Default value: 1_0000_0000_000 msat (1 Bitcoin)
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 * [`base_penalty_msat`]: Self::base_penalty_msat
+	 * [`anti_probing_penalty_msat`]: Self::anti_probing_penalty_msat
+	 */
+	public void set_considered_impossible_penalty_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_considered_impossible_penalty_msat(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}

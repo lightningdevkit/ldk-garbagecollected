@@ -12,19 +12,19 @@ import javax.annotation.Nullable;
  * A Tuple
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
-public class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
-	TwoTuple_OutPointCVec_MonitorEventZZ(Object _dummy, long ptr) { super(ptr); }
+public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ extends CommonBase {
+	ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		if (ptr != 0) { bindings.C2Tuple_OutPointCVec_MonitorEventZZ_free(ptr); }
+		if (ptr != 0) { bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_free(ptr); }
 	}
 
 	/**
 	 * 
 	 */
 	public OutPoint get_a() {
-		long ret = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_get_a(this.ptr);
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
@@ -36,7 +36,7 @@ public class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 	 * 
 	 */
 	public MonitorEvent[] get_b() {
-		long[] ret = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_get_b(this.ptr);
+		long[] ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_b(this.ptr);
 		Reference.reachabilityFence(this);
 		int ret_conv_14_len = ret.length;
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
@@ -49,8 +49,17 @@ public class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 		return ret_conv_14_arr;
 	}
 
+	/**
+	 * 
+	 */
+	public byte[] get_c() {
+		byte[] ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_c(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 	long clone_ptr() {
-		long ret = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_clone_ptr(this.ptr);
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -59,24 +68,25 @@ public class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
-	public TwoTuple_OutPointCVec_MonitorEventZZ clone() {
-		long ret = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_clone(this.ptr);
+	public ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ clone() {
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TwoTuple_OutPointCVec_MonitorEventZZ ret_hu_conv = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret);
+		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Creates a new C2Tuple_OutPointCVec_MonitorEventZZ from the contained elements.
+	 * Creates a new C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ from the contained elements.
 	 */
-	public static TwoTuple_OutPointCVec_MonitorEventZZ of(OutPoint a, MonitorEvent[] b) {
-		long ret = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_new(a == null ? 0 : a.ptr & ~1, b != null ? Arrays.stream(b).mapToLong(b_conv_14 -> b_conv_14.ptr).toArray() : null);
+	public static ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ of(OutPoint a, MonitorEvent[] b, byte[] c) {
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(a == null ? 0 : a.ptr & ~1, b != null ? Arrays.stream(b).mapToLong(b_conv_14 -> b_conv_14.ptr).toArray() : null, InternalUtils.check_arr_len(c, 33));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);
+		Reference.reachabilityFence(c);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TwoTuple_OutPointCVec_MonitorEventZZ ret_hu_conv = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret);
+		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

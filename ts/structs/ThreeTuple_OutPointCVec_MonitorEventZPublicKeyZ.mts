@@ -67,6 +67,9 @@ import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurp
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
+import { HTLCDestination } from '../structs/HTLCDestination.mjs';
+import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
+import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -137,6 +140,7 @@ import { ChannelInfo } from '../structs/ChannelInfo.mjs';
 import { Result_ChannelInfoDecodeErrorZ } from '../structs/Result_ChannelInfoDecodeErrorZ.mjs';
 import { RoutingFees } from '../structs/RoutingFees.mjs';
 import { Result_RoutingFeesDecodeErrorZ } from '../structs/Result_RoutingFeesDecodeErrorZ.mjs';
+import { Hostname } from '../structs/Hostname.mjs';
 import { NetAddress } from '../structs/NetAddress.mjs';
 import { NodeAnnouncementInfo } from '../structs/NodeAnnouncementInfo.mjs';
 import { Result_NodeAnnouncementInfoDecodeErrorZ } from '../structs/Result_NodeAnnouncementInfoDecodeErrorZ.mjs';
@@ -355,17 +359,17 @@ import * as bindings from '../bindings.mjs'
 /**
  * A Tuple
  */
-export class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
+export class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.C2Tuple_OutPointCVec_MonitorEventZZ_free);
+		super(ptr, bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_free);
 	}
 
 	/**
 	 * 
 	 */
 	public get_a(): OutPoint {
-		const ret: number = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_get_a(this.ptr);
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -375,7 +379,7 @@ export class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 	 * 
 	 */
 	public get_b(): MonitorEvent[] {
-		const ret: number = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_get_b(this.ptr);
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_b(this.ptr);
 		const ret_conv_14_len: number = bindings.getArrayLength(ret);
 		const ret_conv_14_arr: MonitorEvent[] = new Array(ret_conv_14_len).fill(null);
 		for (var o = 0; o < ret_conv_14_len; o++) {
@@ -388,8 +392,17 @@ export class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 		return ret_conv_14_arr;
 	}
 
+	/**
+	 * 
+	 */
+	public get_c(): Uint8Array {
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_c(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
 	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_clone_ptr(this.ptr);
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -397,19 +410,19 @@ export class TwoTuple_OutPointCVec_MonitorEventZZ extends CommonBase {
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
-	public clone(): TwoTuple_OutPointCVec_MonitorEventZZ {
-		const ret: number = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_clone(this.ptr);
-		const ret_hu_conv: TwoTuple_OutPointCVec_MonitorEventZZ = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret);
+	public clone(): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ {
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_clone(this.ptr);
+		const ret_hu_conv: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Creates a new C2Tuple_OutPointCVec_MonitorEventZZ from the contained elements.
+	 * Creates a new C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ from the contained elements.
 	 */
-	public static constructor_new(a: OutPoint, b: MonitorEvent[]): TwoTuple_OutPointCVec_MonitorEventZZ {
-		const ret: number = bindings.C2Tuple_OutPointCVec_MonitorEventZZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint32Array(b != null ? b.map(b_conv_14 => CommonBase.get_ptr_of(b_conv_14)) : null));
-		const ret_hu_conv: TwoTuple_OutPointCVec_MonitorEventZZ = new TwoTuple_OutPointCVec_MonitorEventZZ(null, ret);
+	public static constructor_new(a: OutPoint, b: MonitorEvent[], c: Uint8Array): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ {
+		const ret: number = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint32Array(b != null ? b.map(b_conv_14 => CommonBase.get_ptr_of(b_conv_14)) : null), bindings.encodeUint8Array(bindings.check_arr_len(c, 33)));
+		const ret_hu_conv: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}

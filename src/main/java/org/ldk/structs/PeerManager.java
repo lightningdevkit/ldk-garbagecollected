@@ -82,8 +82,7 @@ public class PeerManager extends CommonBase {
 	 * peer using the init message.
 	 * The user should pass the remote network address of the host they are connected to.
 	 * 
-	 * Note that if an Err is returned here you MUST NOT call socket_disconnected for the new
-	 * descriptor but must disconnect the connection immediately.
+	 * If an `Err` is returned here you must disconnect the connection immediately.
 	 * 
 	 * Returns a small number of bytes to send to the remote node (currently always 50).
 	 * 
@@ -113,9 +112,8 @@ public class PeerManager extends CommonBase {
 	 * The user should pass the remote network address of the host they are connected to.
 	 * 
 	 * May refuse the connection by returning an Err, but will never write bytes to the remote end
-	 * (outbound connector always speaks first). Note that if an Err is returned here you MUST NOT
-	 * call socket_disconnected for the new descriptor but must disconnect the connection
-	 * immediately.
+	 * (outbound connector always speaks first). If an `Err` is returned here you must disconnect
+	 * the connection immediately.
 	 * 
 	 * Panics if descriptor is duplicative with some other descriptor which has not yet been
 	 * [`socket_disconnected()`].

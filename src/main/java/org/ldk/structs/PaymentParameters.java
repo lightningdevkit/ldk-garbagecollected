@@ -142,21 +142,74 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
-	 * The maximum number of paths that may be used by MPP payments.
-	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 * The maximum number of paths that may be used by (MPP) payments.
+	 * Defaults to [`DEFAULT_MAX_PATH_COUNT`].
 	 */
-	public byte get_max_mpp_path_count() {
-		byte ret = bindings.PaymentParameters_get_max_mpp_path_count(this.ptr);
+	public byte get_max_path_count() {
+		byte ret = bindings.PaymentParameters_get_max_path_count(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
-	 * The maximum number of paths that may be used by MPP payments.
-	 * Defaults to [`DEFAULT_MAX_MPP_PATH_COUNT`].
+	 * The maximum number of paths that may be used by (MPP) payments.
+	 * Defaults to [`DEFAULT_MAX_PATH_COUNT`].
 	 */
-	public void set_max_mpp_path_count(byte val) {
-		bindings.PaymentParameters_set_max_mpp_path_count(this.ptr, val);
+	public void set_max_path_count(byte val) {
+		bindings.PaymentParameters_set_max_path_count(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Selects the maximum share of a channel's total capacity which will be sent over a channel,
+	 * as a power of 1/2. A higher value prefers to send the payment using more MPP parts whereas
+	 * a lower value prefers to send larger MPP parts, potentially saturating channels and
+	 * increasing failure probability for those paths.
+	 * 
+	 * Note that this restriction will be relaxed during pathfinding after paths which meet this
+	 * restriction have been found. While paths which meet this criteria will be searched for, it
+	 * is ultimately up to the scorer to select them over other paths.
+	 * 
+	 * A value of 0 will allow payments up to and including a channel's total announced usable
+	 * capacity, a value of one will only use up to half its capacity, two 1/4, etc.
+	 * 
+	 * Default value: 2
+	 */
+	public byte get_max_channel_saturation_power_of_half() {
+		byte ret = bindings.PaymentParameters_get_max_channel_saturation_power_of_half(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Selects the maximum share of a channel's total capacity which will be sent over a channel,
+	 * as a power of 1/2. A higher value prefers to send the payment using more MPP parts whereas
+	 * a lower value prefers to send larger MPP parts, potentially saturating channels and
+	 * increasing failure probability for those paths.
+	 * 
+	 * Note that this restriction will be relaxed during pathfinding after paths which meet this
+	 * restriction have been found. While paths which meet this criteria will be searched for, it
+	 * is ultimately up to the scorer to select them over other paths.
+	 * 
+	 * A value of 0 will allow payments up to and including a channel's total announced usable
+	 * capacity, a value of one will only use up to half its capacity, two 1/4, etc.
+	 * 
+	 * Default value: 2
+	 */
+	public void set_max_channel_saturation_power_of_half(byte val) {
+		bindings.PaymentParameters_set_max_channel_saturation_power_of_half(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * A list of SCIDs which this payment was previously attempted over and which caused the
+	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
+	 * these SCIDs.
+	 */
+	public void set_previously_failed_channels(long[] val) {
+		bindings.PaymentParameters_set_previously_failed_channels(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -164,14 +217,16 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_mpp_path_count_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_mpp_path_count_arg);
+	public static PaymentParameters of(byte[] payee_pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
+		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
 		Reference.reachabilityFence(payee_pubkey_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(route_hints_arg);
 		Reference.reachabilityFence(expiry_time_arg);
 		Reference.reachabilityFence(max_total_cltv_expiry_delta_arg);
-		Reference.reachabilityFence(max_mpp_path_count_arg);
+		Reference.reachabilityFence(max_path_count_arg);
+		Reference.reachabilityFence(max_channel_saturation_power_of_half_arg);
+		Reference.reachabilityFence(previously_failed_channels_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

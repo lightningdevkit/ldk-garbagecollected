@@ -97,20 +97,17 @@ public class ChannelUpdateInfo extends CommonBase {
 	/**
 	 * The maximum value which may be relayed to the next hop via the channel.
 	 */
-	public Option_u64Z get_htlc_maximum_msat() {
+	public long get_htlc_maximum_msat() {
 		long ret = bindings.ChannelUpdateInfo_get_htlc_maximum_msat(this.ptr);
 		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
 	 * The maximum value which may be relayed to the next hop via the channel.
 	 */
-	public void set_htlc_maximum_msat(Option_u64Z val) {
-		bindings.ChannelUpdateInfo_set_htlc_maximum_msat(this.ptr, val.ptr);
+	public void set_htlc_maximum_msat(long val) {
+		bindings.ChannelUpdateInfo_set_htlc_maximum_msat(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -171,8 +168,8 @@ public class ChannelUpdateInfo extends CommonBase {
 	/**
 	 * Constructs a new ChannelUpdateInfo given each field
 	 */
-	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
-		long ret = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
+	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
+		long ret = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
 		Reference.reachabilityFence(last_update_arg);
 		Reference.reachabilityFence(enabled_arg);
 		Reference.reachabilityFence(cltv_expiry_delta_arg);
