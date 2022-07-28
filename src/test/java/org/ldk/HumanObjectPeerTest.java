@@ -399,7 +399,11 @@ class HumanObjectPeerTestInstance {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
                         public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            // Take a read lock on the NetworkGraph just to make sure we even can.
+                            try (ReadOnlyNetworkGraph graph = router.read_only()) {
+                                assert graph.channel(424242) == null;
+                                return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            }
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
@@ -1054,7 +1058,9 @@ class HumanObjectPeerTestInstance {
         // so we cannot exchange custom messages with it
         if (!use_chan_manager_constructor) {
             byte[] custom_message_bytes = new byte[]{0x42, 0x44, 0x43, 0x00};
-            state.peer1.custom_messages_to_send.add(custom_message_bytes);
+            synchronized(state.peer1.custom_messages_to_send) {
+                state.peer1.custom_messages_to_send.add(custom_message_bytes);
+            }
             state.peer1.peer_manager.process_events();
             synchronized (state.peer2.received_custom_messages) {
                 while (true) {
