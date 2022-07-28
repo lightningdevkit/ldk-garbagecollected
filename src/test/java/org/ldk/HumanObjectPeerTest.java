@@ -399,7 +399,11 @@ class HumanObjectPeerTestInstance {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
                         public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            // Take a read lock on the NetworkGraph just to make sure we even can.
+                            try (ReadOnlyNetworkGraph graph = router.read_only()) {
+                                assert graph.channel(424242) == null;
+                                return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            }
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
