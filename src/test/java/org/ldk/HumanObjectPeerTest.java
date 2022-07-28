@@ -1054,7 +1054,9 @@ class HumanObjectPeerTestInstance {
         // so we cannot exchange custom messages with it
         if (!use_chan_manager_constructor) {
             byte[] custom_message_bytes = new byte[]{0x42, 0x44, 0x43, 0x00};
-            state.peer1.custom_messages_to_send.add(custom_message_bytes);
+            synchronized(state.peer1.custom_messages_to_send) {
+                state.peer1.custom_messages_to_send.add(custom_message_bytes);
+            }
             state.peer1.peer_manager.process_events();
             synchronized (state.peer2.received_custom_messages) {
                 while (true) {
