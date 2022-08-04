@@ -46,14 +46,17 @@ var js_invoke: Function;
 var getRandomValues: Function;
 
 imports.wasi_snapshot_preview1 = {
-	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number, bytes_written_ptr: number) => {
 		// This should generally only be used to print panic messages
-		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
 		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		var bytes_written = 0;
 		for (var i = 0; i < iovec_array_len; i++) {
 			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
-			console.log(String.fromCharCode(...bytes_view));
+			console.log("[fd " + fd + "]: " + String.fromCharCode(...bytes_view));
+			bytes_written += ptr_len_view[i*2+1];
 		}
+		const written_view = new Uint32Array(wasm.memory.buffer, bytes_written_ptr, 1);
+		written_view[0] = bytes_written;
 		return 0;
 	},
 	"fd_close": (_fd: number) => {
@@ -73,7 +76,6 @@ imports.wasi_snapshot_preview1 = {
 	},
 	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
 		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_sizes_get");
 		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
 		out_count_view[0] = 0;
 		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
@@ -81,7 +83,8 @@ imports.wasi_snapshot_preview1 = {
 		return 0;
 	},
 	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
+		// This is called before fd_write to format + print panic messages,
+		// but only if we have variables in environ_sizes_get, so shouldn't ever actually happen!
 		console.log("wasi_snapshot_preview1:environ_get");
 		return 58; // Note supported - we said there were 0 environment entries!
 	},
