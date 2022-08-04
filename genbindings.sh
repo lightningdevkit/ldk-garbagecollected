@@ -16,6 +16,10 @@ usage() {
 set -e
 set -x
 
+function is_gnu_sed(){
+  sed --version >/dev/null 2>&1
+}
+
 if [ "$CC" != "" ]; then
 	COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 else
@@ -29,11 +33,11 @@ if [ "$3" = "leaks" ]; then
 fi
 
 cp "$1/lightning-c-bindings/include/lightning.h" ./
-if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ] || [ "$(rustc --version --verbose | grep "host:")" = "host: aarch64-apple-darwin" ]; then
-	# OSX sed is for some reason not compatible with GNU sed
-	sed -i '' "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
-else
+if is_gnu_sed; then
 	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+else
+  # OSX sed is for some reason not compatible with GNU sed
+	sed -i '' "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
 fi
 
 if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
@@ -71,11 +75,11 @@ if [ "$2" != "wasm" ]; then
 		LDK_TARGET_CPU="sandybridge"
 	fi
 
-	if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ] || [ "$(rustc --version --verbose | grep "host:")" = "host: aarch64-apple-darwin" ]; then
-		# OSX sed is for some reason not compatible with GNU sed
-		sed -i '' "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
-	else
+	if is_gnu_sed; then
 		sed -i "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
+	else
+	  # OSX sed is for some reason not compatible with GNU sed
+		sed -i '' "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
 	fi
 
 	echo "Creating Java bindings..."
