@@ -355,14 +355,20 @@ import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */
+
 /**
+ * This type represents a lock and MUST BE MANUALLY FREE'd!
  * A read-only view of [`NetworkGraph`].
  */
 export class ReadOnlyNetworkGraph extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.ReadOnlyNetworkGraph_free);
+		super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });
+	}
+	/** Releases this lock */
+	public free() {
+		bindings.ReadOnlyNetworkGraph_free(this.ptr);
+		CommonBase.set_null_skip_free(this);
 	}
 
 	/**
@@ -378,6 +384,15 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 	}
 
 	/**
+	 * Returns the list of channels in the graph
+	 */
+	public list_channels(): bigint[] {
+		const ret: number = bindings.ReadOnlyNetworkGraph_list_channels(this.ptr);
+		const ret_conv: bigint[] = bindings.decodeUint64Array(ret);
+		return ret_conv;
+	}
+
+	/**
 	 * Returns information on a node with the given id.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -388,6 +403,23 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		CommonBase.add_ref_from(this, node_id);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the list of nodes in the graph
+	 */
+	public list_nodes(): NodeId[] {
+		const ret: number = bindings.ReadOnlyNetworkGraph_list_nodes(this.ptr);
+		const ret_conv_8_len: number = bindings.getArrayLength(ret);
+		const ret_conv_8_arr: NodeId[] = new Array(ret_conv_8_len).fill(null);
+		for (var i = 0; i < ret_conv_8_len; i++) {
+			const ret_conv_8: number = bindings.getU32ArrayElem(ret, i);
+			const ret_conv_8_hu_conv: NodeId = new NodeId(null, ret_conv_8);
+			CommonBase.add_ref_from(ret_conv_8_hu_conv, this);
+			ret_conv_8_arr[i] = ret_conv_8_hu_conv;
+		}
+		bindings.freeWasmMemory(ret)
+		return ret_conv_8_arr;
 	}
 
 	/**

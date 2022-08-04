@@ -10,14 +10,17 @@ var js_invoke: Function;
 var getRandomValues: Function;
 
 imports.wasi_snapshot_preview1 = {
-	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number, bytes_written_ptr: number) => {
 		// This should generally only be used to print panic messages
-		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
 		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		var bytes_written = 0;
 		for (var i = 0; i < iovec_array_len; i++) {
 			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
-			console.log(String.fromCharCode(...bytes_view));
+			console.log("[fd " + fd + "]: " + String.fromCharCode(...bytes_view));
+			bytes_written += ptr_len_view[i*2+1];
 		}
+		const written_view = new Uint32Array(wasm.memory.buffer, bytes_written_ptr, 1);
+		written_view[0] = bytes_written;
 		return 0;
 	},
 	"fd_close": (_fd: number) => {
@@ -37,7 +40,6 @@ imports.wasi_snapshot_preview1 = {
 	},
 	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
 		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_sizes_get");
 		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
 		out_count_view[0] = 0;
 		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
@@ -45,7 +47,8 @@ imports.wasi_snapshot_preview1 = {
 		return 0;
 	},
 	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
+		// This is called before fd_write to format + print panic messages,
+		// but only if we have variables in environ_sizes_get, so shouldn't ever actually happen!
 		console.log("wasi_snapshot_preview1:environ_get");
 		return 58; // Note supported - we said there were 0 environment entries!
 	},
@@ -86,19 +89,19 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
+const fn_list = ["uuuuuu", "buuuuu", "bbbbbb", "ubuuuu", "uubuuu"];
+
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
 	await finishInitializeWasm(wasmInstance);
 }
 
 /* @internal */
 export async function initializeWasmFetch(uri: string) {
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const stream = fetch(uri);
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	await finishInitializeWasm(wasmInstance);
 }
@@ -126,28 +129,28 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 /* @internal */
 export function encodeUint8Array (inputArray: Uint8Array): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
-	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
-	arrayMemoryView.set(inputArray, 1);
-	arrayMemoryView[0] = inputArray.length;
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
+	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayMemoryView.set(inputArray, 1);
+	arrayMemoryView[0] = BigInt(inputArray.length);
 	return cArrayPointer;
 }
 
@@ -159,13 +162,15 @@ export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
 
 /* @internal */
 export function getArrayLength(arrayPointer: number): number {
-	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
-	return arraySizeViewer[0];
+	const arraySizeViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer, 1);
+	const len = arraySizeViewer[0];
+	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
+	return Number(len % (2n ** 32n));
 }
 /* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
 	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
@@ -179,7 +184,7 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
 		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
+		arrayPointer + 8, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
@@ -190,19 +195,35 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	}
 	return actualArray;
 }
-
+/* @internal */
+export function decodeUint64Array (arrayPointer: number, free = true): bigint[] {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new BigUint64Array(
+		wasm.memory.buffer, // value
+		arrayPointer + 8, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = new Array(arraySize);
+	for (var i = 0; i < arraySize; i++) actualArray[i] = actualArrayViewer[i];
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
 
 export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 
 /* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
 /* @internal */
 export function getU8ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
@@ -216,7 +237,7 @@ export function encodeString(str: string): number {
 /* @internal */
 export function decodeString(stringPointer: number, free = true): string {
 	const arraySize = getArrayLength(stringPointer);
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 8, arraySize);
 	const result = new TextDecoder("utf-8").decode(memoryView);
 
 	if (free) {
@@ -18480,6 +18501,15 @@ export function DelayedPaymentOutputDescriptor_set_to_self_delay(this_ptr: numbe
 	const nativeResponseValue = wasm.TS_DelayedPaymentOutputDescriptor_set_to_self_delay(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKTxOut DelayedPaymentOutputDescriptor_get_output(const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr);
+/* @internal */
+export function DelayedPaymentOutputDescriptor_get_output(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_DelayedPaymentOutputDescriptor_get_output(this_ptr);
+	return nativeResponseValue;
+}
 	// void DelayedPaymentOutputDescriptor_set_output(struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr, struct LDKTxOut val);
 /* @internal */
 export function DelayedPaymentOutputDescriptor_set_output(this_ptr: number, val: number): void {
@@ -18614,6 +18644,15 @@ export function StaticPaymentOutputDescriptor_set_outpoint(this_ptr: number, val
 	}
 	const nativeResponseValue = wasm.TS_StaticPaymentOutputDescriptor_set_outpoint(this_ptr, val);
 	// debug statements here
+}
+	// struct LDKTxOut StaticPaymentOutputDescriptor_get_output(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR this_ptr);
+/* @internal */
+export function StaticPaymentOutputDescriptor_get_output(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_StaticPaymentOutputDescriptor_get_output(this_ptr);
+	return nativeResponseValue;
 }
 	// void StaticPaymentOutputDescriptor_set_output(struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR this_ptr, struct LDKTxOut val);
 /* @internal */
@@ -22701,6 +22740,15 @@ export function CommitmentSigned_set_signature(this_ptr: number, val: number): v
 	const nativeResponseValue = wasm.TS_CommitmentSigned_set_signature(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKCVec_SignatureZ CommitmentSigned_get_htlc_signatures(const struct LDKCommitmentSigned *NONNULL_PTR this_ptr);
+/* @internal */
+export function CommitmentSigned_get_htlc_signatures(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CommitmentSigned_get_htlc_signatures(this_ptr);
+	return nativeResponseValue;
+}
 	// void CommitmentSigned_set_htlc_signatures(struct LDKCommitmentSigned *NONNULL_PTR this_ptr, struct LDKCVec_SignatureZ val);
 /* @internal */
 export function CommitmentSigned_set_htlc_signatures(this_ptr: number, val: number): void {
@@ -23349,6 +23397,15 @@ export function UnsignedNodeAnnouncement_set_alias(this_ptr: number, val: number
 	const nativeResponseValue = wasm.TS_UnsignedNodeAnnouncement_set_alias(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKCVec_NetAddressZ UnsignedNodeAnnouncement_get_addresses(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr);
+/* @internal */
+export function UnsignedNodeAnnouncement_get_addresses(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_UnsignedNodeAnnouncement_get_addresses(this_ptr);
+	return nativeResponseValue;
+}
 	// void UnsignedNodeAnnouncement_set_addresses(struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr, struct LDKCVec_NetAddressZ val);
 /* @internal */
 export function UnsignedNodeAnnouncement_set_addresses(this_ptr: number, val: number): void {
@@ -23898,6 +23955,15 @@ export function UnsignedChannelUpdate_set_fee_proportional_millionths(this_ptr: 
 	const nativeResponseValue = wasm.TS_UnsignedChannelUpdate_set_fee_proportional_millionths(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKCVec_u8Z UnsignedChannelUpdate_get_excess_data(const struct LDKUnsignedChannelUpdate *NONNULL_PTR this_ptr);
+/* @internal */
+export function UnsignedChannelUpdate_get_excess_data(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_UnsignedChannelUpdate_get_excess_data(this_ptr);
+	return nativeResponseValue;
+}
 	// void UnsignedChannelUpdate_set_excess_data(struct LDKUnsignedChannelUpdate *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
 /* @internal */
 export function UnsignedChannelUpdate_set_excess_data(this_ptr: number, val: number): void {
@@ -24177,6 +24243,15 @@ export function ReplyChannelRange_set_sync_complete(this_ptr: number, val: boole
 	const nativeResponseValue = wasm.TS_ReplyChannelRange_set_sync_complete(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKCVec_u64Z ReplyChannelRange_get_short_channel_ids(const struct LDKReplyChannelRange *NONNULL_PTR this_ptr);
+/* @internal */
+export function ReplyChannelRange_get_short_channel_ids(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ReplyChannelRange_get_short_channel_ids(this_ptr);
+	return nativeResponseValue;
+}
 	// void ReplyChannelRange_set_short_channel_ids(struct LDKReplyChannelRange *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 /* @internal */
 export function ReplyChannelRange_set_short_channel_ids(this_ptr: number, val: number): void {
@@ -24239,6 +24314,15 @@ export function QueryShortChannelIds_set_chain_hash(this_ptr: number, val: numbe
 	}
 	const nativeResponseValue = wasm.TS_QueryShortChannelIds_set_chain_hash(this_ptr, val);
 	// debug statements here
+}
+	// struct LDKCVec_u64Z QueryShortChannelIds_get_short_channel_ids(const struct LDKQueryShortChannelIds *NONNULL_PTR this_ptr);
+/* @internal */
+export function QueryShortChannelIds_get_short_channel_ids(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_QueryShortChannelIds_get_short_channel_ids(this_ptr);
+	return nativeResponseValue;
 }
 	// void QueryShortChannelIds_set_short_channel_ids(struct LDKQueryShortChannelIds *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 /* @internal */
@@ -26714,6 +26798,15 @@ export function HolderCommitmentTransaction_set_counterparty_sig(this_ptr: numbe
 	}
 	const nativeResponseValue = wasm.TS_HolderCommitmentTransaction_set_counterparty_sig(this_ptr, val);
 	// debug statements here
+}
+	// struct LDKCVec_SignatureZ HolderCommitmentTransaction_get_counterparty_htlc_sigs(const struct LDKHolderCommitmentTransaction *NONNULL_PTR this_ptr);
+/* @internal */
+export function HolderCommitmentTransaction_get_counterparty_htlc_sigs(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_HolderCommitmentTransaction_get_counterparty_htlc_sigs(this_ptr);
+	return nativeResponseValue;
 }
 	// void HolderCommitmentTransaction_set_counterparty_htlc_sigs(struct LDKHolderCommitmentTransaction *NONNULL_PTR this_ptr, struct LDKCVec_SignatureZ val);
 /* @internal */
@@ -29820,6 +29913,15 @@ export function NodeAnnouncementInfo_set_alias(this_ptr: number, val: number): v
 	const nativeResponseValue = wasm.TS_NodeAnnouncementInfo_set_alias(this_ptr, val);
 	// debug statements here
 }
+	// struct LDKCVec_NetAddressZ NodeAnnouncementInfo_get_addresses(const struct LDKNodeAnnouncementInfo *NONNULL_PTR this_ptr);
+/* @internal */
+export function NodeAnnouncementInfo_get_addresses(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_NodeAnnouncementInfo_get_addresses(this_ptr);
+	return nativeResponseValue;
+}
 	// void NodeAnnouncementInfo_set_addresses(struct LDKNodeAnnouncementInfo *NONNULL_PTR this_ptr, struct LDKCVec_NetAddressZ val);
 /* @internal */
 export function NodeAnnouncementInfo_set_addresses(this_ptr: number, val: number): void {
@@ -29972,6 +30074,15 @@ export function NodeInfo_free(this_obj: number): void {
 	}
 	const nativeResponseValue = wasm.TS_NodeInfo_free(this_obj);
 	// debug statements here
+}
+	// struct LDKCVec_u64Z NodeInfo_get_channels(const struct LDKNodeInfo *NONNULL_PTR this_ptr);
+/* @internal */
+export function NodeInfo_get_channels(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_NodeInfo_get_channels(this_ptr);
+	return nativeResponseValue;
 }
 	// void NodeInfo_set_channels(struct LDKNodeInfo *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 /* @internal */
@@ -30216,6 +30327,15 @@ export function ReadOnlyNetworkGraph_channel(this_arg: number, short_channel_id:
 	const nativeResponseValue = wasm.TS_ReadOnlyNetworkGraph_channel(this_arg, short_channel_id);
 	return nativeResponseValue;
 }
+	// MUST_USE_RES struct LDKCVec_u64Z ReadOnlyNetworkGraph_list_channels(const struct LDKReadOnlyNetworkGraph *NONNULL_PTR this_arg);
+/* @internal */
+export function ReadOnlyNetworkGraph_list_channels(this_arg: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ReadOnlyNetworkGraph_list_channels(this_arg);
+	return nativeResponseValue;
+}
 	// MUST_USE_RES struct LDKNodeInfo ReadOnlyNetworkGraph_node(const struct LDKReadOnlyNetworkGraph *NONNULL_PTR this_arg, const struct LDKNodeId *NONNULL_PTR node_id);
 /* @internal */
 export function ReadOnlyNetworkGraph_node(this_arg: number, node_id: number): number {
@@ -30223,6 +30343,15 @@ export function ReadOnlyNetworkGraph_node(this_arg: number, node_id: number): nu
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_ReadOnlyNetworkGraph_node(this_arg, node_id);
+	return nativeResponseValue;
+}
+	// MUST_USE_RES struct LDKCVec_NodeIdZ ReadOnlyNetworkGraph_list_nodes(const struct LDKReadOnlyNetworkGraph *NONNULL_PTR this_arg);
+/* @internal */
+export function ReadOnlyNetworkGraph_list_nodes(this_arg: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ReadOnlyNetworkGraph_list_nodes(this_arg);
 	return nativeResponseValue;
 }
 	// MUST_USE_RES struct LDKCOption_CVec_NetAddressZZ ReadOnlyNetworkGraph_get_addresses(const struct LDKReadOnlyNetworkGraph *NONNULL_PTR this_arg, struct LDKPublicKey pubkey);
@@ -30782,6 +30911,15 @@ export function PaymentParameters_set_max_channel_saturation_power_of_half(this_
 	}
 	const nativeResponseValue = wasm.TS_PaymentParameters_set_max_channel_saturation_power_of_half(this_ptr, val);
 	// debug statements here
+}
+	// struct LDKCVec_u64Z PaymentParameters_get_previously_failed_channels(const struct LDKPaymentParameters *NONNULL_PTR this_ptr);
+/* @internal */
+export function PaymentParameters_get_previously_failed_channels(this_ptr: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_PaymentParameters_get_previously_failed_channels(this_ptr);
+	return nativeResponseValue;
 }
 	// void PaymentParameters_set_previously_failed_channels(struct LDKPaymentParameters *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 /* @internal */

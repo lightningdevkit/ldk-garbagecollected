@@ -355,8 +355,9 @@ import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */
+
 /**
+ * This type represents a lock and MUST BE MANUALLY FREE'd!
  * A read-only reference to a current ChannelMonitor.
  * 
  * Note that this holds a mutex in [`ChainMonitor`] and may block other events until it is
@@ -365,7 +366,12 @@ import * as bindings from '../bindings.mjs'
 export class LockedChannelMonitor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.LockedChannelMonitor_free);
+		super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });
+	}
+	/** Releases this lock */
+	public free() {
+		bindings.LockedChannelMonitor_free(this.ptr);
+		CommonBase.set_null_skip_free(this);
 	}
 
 }

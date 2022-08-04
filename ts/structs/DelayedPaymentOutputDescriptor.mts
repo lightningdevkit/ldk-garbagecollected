@@ -418,6 +418,17 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 
 	/**
 	 * The output which is referenced by the given outpoint
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_output(): TxOut {
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_output(this.ptr);
+		const ret_conv: TxOut = new TxOut(null, ret);
+		return ret_conv;
+	}
+
+	/**
+	 * The output which is referenced by the given outpoint
 	 */
 	public set_output(val: TxOut): void {
 		bindings.DelayedPaymentOutputDescriptor_set_output(this.ptr, CommonBase.get_ptr_of(val));
