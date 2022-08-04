@@ -228,7 +228,23 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	}
 	return actualArray;
 }
-
+/* @internal */
+export function decodeUint64Array (arrayPointer: number, free = true): bigint[] {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new BigUint64Array(
+		wasm.memory.buffer, // value
+		arrayPointer + 4, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = new Array(arraySize);
+	for (var i = 0; i < arraySize; i++) actualArray[i] = actualArrayViewer[i];
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
 
 export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 
@@ -720,8 +736,12 @@ import * as bindings from '../bindings.mjs'
             assert False
 
     def primitive_arr_to_hu(self, mapped_ty, fixed_len, arr_name, conv_name):
-        assert mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t"
-        return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+        if mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+            return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
+            return "const " + conv_name + ": bigint[] = bindings.decodeUint64Array(" + arr_name + ");"
+        else:
+            assert False
 
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement

@@ -187,8 +187,6 @@ class TypeMappingGenerator:
                     if is_nullable:
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n}")
 
-                to_hu_conv = None
-                to_hu_conv_name = None
                 if subty.to_hu_conv is not None:
                     to_hu_conv = self.consts.var_decl_statement(self.consts.c_type_map["uint32_t"][0], conv_name + "_len", self.consts.get_java_arr_len(arr_name)) + ";\n"
                     to_hu_conv += self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", self.consts.constr_hu_array(ty_info, conv_name + "_len"))
@@ -200,6 +198,12 @@ class TypeMappingGenerator:
                     if cleanup is not None:
                         to_hu_conv += "\n" + cleanup
                     to_hu_conv_name = conv_name + "_arr"
+                else:
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                    if to_hu_conv is not None:
+                        to_hu_conv_name = arr_name + "_conv"
+                    else:
+                        to_hu_conv_name = None
                 from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
                 if subty.from_hu_conv is not None:
                     hu_conv_b = ""
