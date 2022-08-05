@@ -233,9 +233,9 @@ else
 			NODE_V="$(node --version)"
 			if [ "${NODE_V:1:2}" -gt 14 ]; then
 				cd ../ts
-				node test/node.mjs
+				node --stack_trace_limit=200 --trace-uncaught test/node.mjs
 				cd ../node-net
-				node test/test.mjs
+				node --stack_trace_limit=200 --trace-uncaught test/test.mjs
 			fi
 		fi
 	fi
