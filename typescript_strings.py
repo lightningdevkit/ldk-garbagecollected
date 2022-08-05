@@ -1238,18 +1238,28 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
         out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
+        constructor_body = "super(ptr, bindings." + struct_name.replace("LDK","") + "_free);"
+        extra_docs = ""
+        extra_body = ""
         if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
-            out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+            extra_docs = "\n * This type represents a lock and MUST BE MANUALLY FREE'd!"
+            constructor_body = 'super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });'
+            extra_body = f"""
+	/** Releases this lock */
+	public free() {{
+		bindings.{struct_name.replace("LDK","")}_free(this.ptr);
+		CommonBase.set_null_skip_free(this);
+	}}"""
         formatted_doc_comment = struct_doc_comment.replace("\n", "\n * ")
         out_opaque_struct_human += f"""
-/**
+/**{extra_docs}
  * {formatted_doc_comment}
  */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {{
-		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
-	}}
+		{constructor_body}
+	}}{extra_body}
 
 """
         self.obj_defined([hu_name], "structs")
