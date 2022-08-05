@@ -167,28 +167,28 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 /* @internal */
 export function encodeUint8Array (inputArray: Uint8Array): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
-	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
-	arrayMemoryView.set(inputArray, 1);
-	arrayMemoryView[0] = inputArray.length;
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
+	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayMemoryView.set(inputArray, 1);
+	arrayMemoryView[0] = BigInt(inputArray.length);
 	return cArrayPointer;
 }
 
@@ -200,13 +200,15 @@ export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
 
 /* @internal */
 export function getArrayLength(arrayPointer: number): number {
-	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
-	return arraySizeViewer[0];
+	const arraySizeViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer, 1);
+	const len = arraySizeViewer[0];
+	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
+	return Number(len % (2n ** 32n));
 }
 /* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
 	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
@@ -220,7 +222,7 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
 		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
+		arrayPointer + 8, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
@@ -236,7 +238,7 @@ export function decodeUint64Array (arrayPointer: number, free = true): bigint[] 
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new BigUint64Array(
 		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
+		arrayPointer + 8, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
@@ -253,13 +255,13 @@ export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 
 /* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
 /* @internal */
 export function getU8ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
@@ -273,7 +275,7 @@ export function encodeString(str: string): number {
 /* @internal */
 export function decodeString(stringPointer: number, free = true): string {
 	const arraySize = getArrayLength(stringPointer);
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 8, arraySize);
 	const result = new TextDecoder("utf-8").decode(memoryView);
 
 	if (free) {
@@ -579,12 +581,12 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
 #define DECL_ARR_TYPE(ty, name) \\
 	struct name##array { \\
-		uint32_t arr_len; \\
+		uint64_t arr_len; /* uint32_t would suffice but we want to align uint64_ts as well */ \\
 		ty elems[]; \\
 	}; \\
 	typedef struct name##array * name##Array; \\
 	static inline name##Array init_##name##Array(size_t arr_len, int lineno) { \\
-		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), #name" array init", lineno); \\
+		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint64_t), #name" array init", lineno); \\
 		arr->arr_len = arr_len; \\
 		return arr; \\
 	}
@@ -679,8 +681,8 @@ import * as bindings from '../bindings.mjs'
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 4)"
-        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 4)"
+            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 8)"
+        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 8)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
