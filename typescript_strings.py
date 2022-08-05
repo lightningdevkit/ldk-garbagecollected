@@ -332,7 +332,7 @@ export class CommonBase {
 	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
 		this.ptr = ptr;
 		if (Number.isFinite(ptr) && ptr != 0){
-			finalizer.register(this, get_freeer(ptr, free_fn));
+			finalizer.register(this, get_freeer(ptr, free_fn), this);
 		}
 	}
 	// In Java, protected means "any subclass can access fields on any other subclass'"
@@ -346,7 +346,10 @@ export class CommonBase {
 	}
 	protected static set_null_skip_free(o: CommonBase) {
 		o.ptr = 0;
-		finalizer.unregister(o);
+		// @ts-ignore TypeScript is wrong about the returnvalue of unregister here!
+		const did_unregister: boolean = finalizer.unregister(o);
+		if (!did_unregister)
+			throw new Error("FinalizationRegistry unregister should always unregister unless you double-free'd");
 	}
 }
 
