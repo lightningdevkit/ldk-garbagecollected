@@ -125,19 +125,19 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
+const fn_list = ["uuuuuu", "buuuuu", "bbbbbb", "ubuuuu", "uubuuu"];
+
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
 	await finishInitializeWasm(wasmInstance);
 }
 
 /* @internal */
 export async function initializeWasmFetch(uri: string) {
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const stream = fetch(uri);
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	await finishInitializeWasm(wasmInstance);
 }"""
@@ -388,7 +388,7 @@ export class UnqualifiedError {
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
+	public static constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
 		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }"""
@@ -1034,15 +1034,14 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 fn_suffix = ""
-                if fn_line.ret_ty_info.c_ty == "uint64_t" or fn_line.ret_ty_info.c_ty == "int64_t":
-                    fn_suffix += "b_"
-                else:
-                    fn_suffix += "u_"
-                for arg in fn_line.args_ty:
+                assert len(fn_line.args_ty) < 6
+                for arg_info in fn_line.args_ty:
                     if arg_info.c_ty == "uint64_t" or arg_info.c_ty == "int64_t":
                         fn_suffix += "b"
                     else:
                         fn_suffix += "u"
+                for i in range(0, 6 - len(fn_line.args_ty)):
+                    fn_suffix += "u"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
                     out_c += "js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
@@ -1060,9 +1059,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c = out_c + ", (uint32_t)" + arg_info.ret_conv_name
+                        out_c += ", (uint32_t)" + arg_info.ret_conv_name
                     else:
-                        out_c = out_c + ", (uint32_t)" + arg_info.arg_name
+                        out_c += ", (uint32_t)" + arg_info.arg_name
+                for i in range(0, 6 - len(fn_line.args_ty)):
+                    out_c += ", 0"
                 out_c = out_c + ");\n"
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
