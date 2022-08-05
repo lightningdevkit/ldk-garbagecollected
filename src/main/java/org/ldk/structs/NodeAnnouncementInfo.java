@@ -106,6 +106,25 @@ public class NodeAnnouncementInfo extends CommonBase {
 
 	/**
 	 * Internet-level addresses via which one can connect to the node
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public NetAddress[] get_addresses() {
+		long[] ret = bindings.NodeAnnouncementInfo_get_addresses(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_12_len = ret.length;
+		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
+		for (int m = 0; m < ret_conv_12_len; m++) {
+			long ret_conv_12 = ret[m];
+			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
+			ret_conv_12_hu_conv.ptrs_to.add(this);
+			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		}
+		return ret_conv_12_arr;
+	}
+
+	/**
+	 * Internet-level addresses via which one can connect to the node
 	 */
 	public void set_addresses(NetAddress[] val) {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);

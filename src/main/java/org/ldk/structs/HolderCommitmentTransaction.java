@@ -42,6 +42,17 @@ public class HolderCommitmentTransaction extends CommonBase {
 
 	/**
 	 * All non-dust counterparty HTLC signatures, in the order they appear in the transaction
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public byte[][] get_counterparty_htlc_sigs() {
+		byte[][] ret = bindings.HolderCommitmentTransaction_get_counterparty_htlc_sigs(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * All non-dust counterparty HTLC signatures, in the order they appear in the transaction
 	 */
 	public void set_counterparty_htlc_sigs(byte[][] val) {
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val != null ? Arrays.stream(val).map(val_conv_8 -> InternalUtils.check_arr_len(val_conv_8, 64)).toArray(byte[][]::new) : null);

@@ -207,6 +207,19 @@ public class PaymentParameters extends CommonBase {
 	 * A list of SCIDs which this payment was previously attempted over and which caused the
 	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
 	 * these SCIDs.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public long[] get_previously_failed_channels() {
+		long[] ret = bindings.PaymentParameters_get_previously_failed_channels(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A list of SCIDs which this payment was previously attempted over and which caused the
+	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
+	 * these SCIDs.
 	 */
 	public void set_previously_failed_channels(long[] val) {
 		bindings.PaymentParameters_set_previously_failed_channels(this.ptr, val);

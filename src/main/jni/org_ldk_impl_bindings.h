@@ -14513,6 +14513,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DelayedPaymentOutputDescriptor
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    DelayedPaymentOutputDescriptor_get_output
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DelayedPaymentOutputDescriptor_1get_1output
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    DelayedPaymentOutputDescriptor_set_output
  * Signature: (JJ)V
  */
@@ -14630,6 +14638,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_StaticPaymentOutputDescriptor
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_StaticPaymentOutputDescriptor_1set_1outpoint
   (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    StaticPaymentOutputDescriptor_get_output
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_StaticPaymentOutputDescriptor_1get_1output
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -18273,6 +18289,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1set_1signatu
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    CommitmentSigned_get_htlc_signatures
+ * Signature: (J)[[B
+ */
+JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1get_1htlc_1signatures
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CommitmentSigned_set_htlc_signatures
  * Signature: (J[[B)V
  */
@@ -18849,6 +18873,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1set_
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    UnsignedNodeAnnouncement_get_addresses
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1get_1addresses
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    UnsignedNodeAnnouncement_set_addresses
  * Signature: (J[J)V
  */
@@ -19337,6 +19369,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1set_1fe
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    UnsignedChannelUpdate_get_excess_data
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1get_1excess_1data
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    UnsignedChannelUpdate_set_excess_data
  * Signature: (J[B)V
  */
@@ -19585,6 +19625,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1set_1sync_1
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ReplyChannelRange_get_short_channel_ids
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1get_1short_1channel_1ids
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ReplyChannelRange_set_short_channel_ids
  * Signature: (J[J)V
  */
@@ -19638,6 +19686,14 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1ge
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1set_1chain_1hash
   (JNIEnv *, jclass, jlong, jbyteArray);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    QueryShortChannelIds_get_short_channel_ids
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1get_1short_1channel_1ids
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -21838,6 +21894,14 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransact
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1set_1counterparty_1sig
   (JNIEnv *, jclass, jlong, jbyteArray);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    HolderCommitmentTransaction_get_counterparty_htlc_sigs
+ * Signature: (J)[[B
+ */
+JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1get_1counterparty_1htlc_1sigs
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -24601,6 +24665,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1set_1ali
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    NodeAnnouncementInfo_get_addresses
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1get_1addresses
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    NodeAnnouncementInfo_set_addresses
  * Signature: (J[J)V
  */
@@ -24733,6 +24805,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAlias_1read
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeInfo_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    NodeInfo_get_channels
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_NodeInfo_1get_1channels
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -24961,11 +25041,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReadOnlyNetworkGraph_1channel
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ReadOnlyNetworkGraph_list_channels
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ReadOnlyNetworkGraph_1list_1channels
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ReadOnlyNetworkGraph_node
  * Signature: (JJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReadOnlyNetworkGraph_1node
   (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ReadOnlyNetworkGraph_list_nodes
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ReadOnlyNetworkGraph_1list_1nodes
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -25462,6 +25558,14 @@ JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_PaymentParameters_1get_1max_1
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PaymentParameters_1set_1max_1channel_1saturation_1power_1of_1half
   (JNIEnv *, jclass, jlong, jbyte);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    PaymentParameters_get_previously_failed_channels
+ * Signature: (J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_PaymentParameters_1get_1previously_1failed_1channels
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

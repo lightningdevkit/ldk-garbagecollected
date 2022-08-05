@@ -22,6 +22,17 @@ public class NodeInfo extends CommonBase {
 
 	/**
 	 * All valid channels a node has announced
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public long[] get_channels() {
+		long[] ret = bindings.NodeInfo_get_channels(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * All valid channels a node has announced
 	 */
 	public void set_channels(long[] val) {
 		bindings.NodeInfo_set_channels(this.ptr, val);

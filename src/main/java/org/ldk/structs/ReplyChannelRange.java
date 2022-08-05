@@ -100,6 +100,17 @@ public class ReplyChannelRange extends CommonBase {
 
 	/**
 	 * The short_channel_ids in the channel range
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public long[] get_short_channel_ids() {
+		long[] ret = bindings.ReplyChannelRange_get_short_channel_ids(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The short_channel_ids in the channel range
 	 */
 	public void set_short_channel_ids(long[] val) {
 		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, val);
