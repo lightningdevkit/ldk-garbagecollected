@@ -438,6 +438,25 @@ export class NodeAnnouncementInfo extends CommonBase {
 
 	/**
 	 * Internet-level addresses via which one can connect to the node
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_addresses(): NetAddress[] {
+		const ret: number = bindings.NodeAnnouncementInfo_get_addresses(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: NetAddress[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret_conv_12);
+			CommonBase.add_ref_from(ret_conv_12_hu_conv, this);
+			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		}
+		bindings.freeWasmMemory(ret)
+		return ret_conv_12_arr;
+	}
+
+	/**
+	 * Internet-level addresses via which one can connect to the node
 	 */
 	public set_addresses(val: NetAddress[]): void {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));

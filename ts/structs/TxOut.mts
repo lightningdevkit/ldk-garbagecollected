@@ -367,7 +367,7 @@ export class TxOut extends CommonBase {
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
+	public static constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
 		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }

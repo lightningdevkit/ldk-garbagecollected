@@ -367,6 +367,17 @@ export class NodeInfo extends CommonBase {
 
 	/**
 	 * All valid channels a node has announced
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_channels(): bigint[] {
+		const ret: number = bindings.NodeInfo_get_channels(this.ptr);
+		const ret_conv: bigint[] = bindings.decodeUint64Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * All valid channels a node has announced
 	 */
 	public set_channels(val: bigint[]): void {
 		bindings.NodeInfo_set_channels(this.ptr, bindings.encodeUint64Array(val));

@@ -399,6 +399,24 @@ export class CommitmentSigned extends CommonBase {
 
 	/**
 	 * Signatures on the HTLC transactions
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_htlc_signatures(): Uint8Array[] {
+		const ret: number = bindings.CommitmentSigned_get_htlc_signatures(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
+			ret_conv_12_arr[m] = ret_conv_12_conv;
+		}
+		bindings.freeWasmMemory(ret)
+		return ret_conv_12_arr;
+	}
+
+	/**
+	 * Signatures on the HTLC transactions
 	 */
 	public set_htlc_signatures(val: Uint8Array[]): void {
 		bindings.CommitmentSigned_set_htlc_signatures(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(val_conv_12, 64))) : null));

@@ -390,6 +390,17 @@ export class QueryShortChannelIds extends CommonBase {
 
 	/**
 	 * The short_channel_ids that are being queried
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_short_channel_ids(): bigint[] {
+		const ret: number = bindings.QueryShortChannelIds_get_short_channel_ids(this.ptr);
+		const ret_conv: bigint[] = bindings.decodeUint64Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * The short_channel_ids that are being queried
 	 */
 	public set_short_channel_ids(val: bigint[]): void {
 		bindings.QueryShortChannelIds_set_short_channel_ids(this.ptr, bindings.encodeUint64Array(val));

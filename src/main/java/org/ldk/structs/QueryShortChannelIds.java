@@ -47,6 +47,17 @@ public class QueryShortChannelIds extends CommonBase {
 
 	/**
 	 * The short_channel_ids that are being queried
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public long[] get_short_channel_ids() {
+		long[] ret = bindings.QueryShortChannelIds_get_short_channel_ids(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The short_channel_ids that are being queried
 	 */
 	public void set_short_channel_ids(long[] val) {
 		bindings.QueryShortChannelIds_set_short_channel_ids(this.ptr, val);

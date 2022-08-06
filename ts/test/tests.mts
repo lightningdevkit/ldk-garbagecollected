@@ -275,6 +275,24 @@ tests.push(async () => {
 	return true;
 });
 
+tests.push(async () => {
+	// Test that we can do basic locking of a NetworkGraph
+	const genesis_hash = new Uint8Array([0x00, 0x00, 0x00, 0x00, 0x00, 0x19, 0xd6, 0x68, 0x9c, 0x08, 0x5a, 0xe1, 0x65, 0x83, 0x1e, 0x93, 0x4f, 0xf7, 0x63, 0xae, 0x46, 0xa2, 0xa6, 0xc1, 0x72, 0xb3, 0xf1, 0xb6, 0x0a, 0x8c, 0xe2, 0x6f]);
+	const logger = ldk.Logger.new_impl({
+		log(record: ldk.Record): void {
+			if (record.get_level() != ldk.Level.LDKLevel_Gossip)
+				console.log(record.get_module_path() + ": " + record.get_args());
+		}
+	} as ldk.LoggerInterface);
+	const network_graph = ldk.NetworkGraph.constructor_new(genesis_hash, logger);
+	const graph_lock_1 = network_graph.read_only();
+	graph_lock_1.free();
+	const graph_lock_2 = network_graph.read_only();
+	graph_lock_2.free();
+
+	return true;
+});
+
 async function run_tests(check_leaks: boolean) {
 	var test_runs = [];
 	for (const test of tests) {

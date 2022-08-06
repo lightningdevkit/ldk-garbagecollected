@@ -530,6 +530,19 @@ export class PaymentParameters extends CommonBase {
 	 * A list of SCIDs which this payment was previously attempted over and which caused the
 	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
 	 * these SCIDs.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_previously_failed_channels(): bigint[] {
+		const ret: number = bindings.PaymentParameters_get_previously_failed_channels(this.ptr);
+		const ret_conv: bigint[] = bindings.decodeUint64Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * A list of SCIDs which this payment was previously attempted over and which caused the
+	 * payment to fail. Future attempts for the same payment shouldn't be relayed through any of
+	 * these SCIDs.
 	 */
 	public set_previously_failed_channels(val: bigint[]): void {
 		bindings.PaymentParameters_set_previously_failed_channels(this.ptr, bindings.encodeUint64Array(val));

@@ -46,14 +46,17 @@ var js_invoke: Function;
 var getRandomValues: Function;
 
 imports.wasi_snapshot_preview1 = {
-	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number, bytes_written_ptr: number) => {
 		// This should generally only be used to print panic messages
-		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
 		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		var bytes_written = 0;
 		for (var i = 0; i < iovec_array_len; i++) {
 			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
-			console.log(String.fromCharCode(...bytes_view));
+			console.log("[fd " + fd + "]: " + String.fromCharCode(...bytes_view));
+			bytes_written += ptr_len_view[i*2+1];
 		}
+		const written_view = new Uint32Array(wasm.memory.buffer, bytes_written_ptr, 1);
+		written_view[0] = bytes_written;
 		return 0;
 	},
 	"fd_close": (_fd: number) => {
@@ -73,7 +76,6 @@ imports.wasi_snapshot_preview1 = {
 	},
 	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
 		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_sizes_get");
 		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
 		out_count_view[0] = 0;
 		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
@@ -81,7 +83,8 @@ imports.wasi_snapshot_preview1 = {
 		return 0;
 	},
 	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
+		// This is called before fd_write to format + print panic messages,
+		// but only if we have variables in environ_sizes_get, so shouldn't ever actually happen!
 		console.log("wasi_snapshot_preview1:environ_get");
 		return 58; // Note supported - we said there were 0 environment entries!
 	},
@@ -122,19 +125,19 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
+const fn_list = ["uuuuuu", "buuuuu", "bbbbbb", "ubuuuu", "uubuuu"];
+
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
 	await finishInitializeWasm(wasmInstance);
 }
 
 /* @internal */
 export async function initializeWasmFetch(uri: string) {
+	for (const fn of fn_list) { imports.env["js_invoke_function_" + fn] = js_invoke; }
 	const stream = fetch(uri);
-	imports.env["js_invoke_function_u"] = js_invoke;
-	imports.env["js_invoke_function_b"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	await finishInitializeWasm(wasmInstance);
 }"""
@@ -164,28 +167,28 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 /* @internal */
 export function encodeUint8Array (inputArray: Uint8Array): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
-	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
-	arrayMemoryView.set(inputArray, 1);
-	arrayMemoryView[0] = inputArray.length;
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
+	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 /* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayMemoryView.set(inputArray, 1);
+	arrayMemoryView[0] = BigInt(inputArray.length);
 	return cArrayPointer;
 }
 
@@ -197,13 +200,15 @@ export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
 
 /* @internal */
 export function getArrayLength(arrayPointer: number): number {
-	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
-	return arraySizeViewer[0];
+	const arraySizeViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer, 1);
+	const len = arraySizeViewer[0];
+	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
+	return Number(len % (2n ** 32n));
 }
 /* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
 	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
@@ -217,7 +222,7 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
 		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
+		arrayPointer + 8, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
@@ -228,19 +233,35 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	}
 	return actualArray;
 }
-
+/* @internal */
+export function decodeUint64Array (arrayPointer: number, free = true): bigint[] {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new BigUint64Array(
+		wasm.memory.buffer, // value
+		arrayPointer + 8, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = new Array(arraySize);
+	for (var i = 0; i < arraySize; i++) actualArray[i] = actualArrayViewer[i];
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
 
 export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 
 /* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
 /* @internal */
 export function getU8ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
 }
 
@@ -254,7 +275,7 @@ export function encodeString(str: string): number {
 /* @internal */
 export function decodeString(stringPointer: number, free = true): string {
 	const arraySize = getArrayLength(stringPointer);
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 8, arraySize);
 	const result = new TextDecoder("utf-8").decode(memoryView);
 
 	if (free) {
@@ -313,7 +334,7 @@ export class CommonBase {
 	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
 		this.ptr = ptr;
 		if (Number.isFinite(ptr) && ptr != 0){
-			finalizer.register(this, get_freeer(ptr, free_fn));
+			finalizer.register(this, get_freeer(ptr, free_fn), this);
 		}
 	}
 	// In Java, protected means "any subclass can access fields on any other subclass'"
@@ -327,7 +348,10 @@ export class CommonBase {
 	}
 	protected static set_null_skip_free(o: CommonBase) {
 		o.ptr = 0;
-		finalizer.unregister(o);
+		// @ts-ignore TypeScript is wrong about the returnvalue of unregister here!
+		const did_unregister: boolean = finalizer.unregister(o);
+		if (!did_unregister)
+			throw new Error("FinalizationRegistry unregister should always unregister unless you double-free'd");
 	}
 }
 
@@ -366,7 +390,7 @@ export class UnqualifiedError {
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
+	public static constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
 		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }"""
@@ -557,12 +581,12 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
 #define DECL_ARR_TYPE(ty, name) \\
 	struct name##array { \\
-		uint32_t arr_len; \\
+		uint64_t arr_len; /* uint32_t would suffice but we want to align uint64_ts as well */ \\
 		ty elems[]; \\
 	}; \\
 	typedef struct name##array * name##Array; \\
 	static inline name##Array init_##name##Array(size_t arr_len, int lineno) { \\
-		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), #name" array init", lineno); \\
+		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint64_t), #name" array init", lineno); \\
 		arr->arr_len = arr_len; \\
 		return arr; \\
 	}
@@ -657,8 +681,8 @@ import * as bindings from '../bindings.mjs'
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 4)"
-        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 4)"
+            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 8)"
+        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 8)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
@@ -720,8 +744,12 @@ import * as bindings from '../bindings.mjs'
             assert False
 
     def primitive_arr_to_hu(self, mapped_ty, fixed_len, arr_name, conv_name):
-        assert mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t"
-        return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+        if mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+            return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
+            return "const " + conv_name + ": bigint[] = bindings.decodeUint64Array(" + arr_name + ");"
+        else:
+            assert False
 
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
@@ -1008,15 +1036,14 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 fn_suffix = ""
-                if fn_line.ret_ty_info.c_ty == "uint64_t" or fn_line.ret_ty_info.c_ty == "int64_t":
-                    fn_suffix += "b_"
-                else:
-                    fn_suffix += "u_"
-                for arg in fn_line.args_ty:
+                assert len(fn_line.args_ty) < 6
+                for arg_info in fn_line.args_ty:
                     if arg_info.c_ty == "uint64_t" or arg_info.c_ty == "int64_t":
                         fn_suffix += "b"
                     else:
                         fn_suffix += "u"
+                for i in range(0, 6 - len(fn_line.args_ty)):
+                    fn_suffix += "u"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
                     out_c += "js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
@@ -1034,9 +1061,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c = out_c + ", (uint32_t)" + arg_info.ret_conv_name
+                        out_c += ", (uint32_t)" + arg_info.ret_conv_name
                     else:
-                        out_c = out_c + ", (uint32_t)" + arg_info.arg_name
+                        out_c += ", (uint32_t)" + arg_info.arg_name
+                for i in range(0, 6 - len(fn_line.args_ty)):
+                    out_c += ", 0"
                 out_c = out_c + ");\n"
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
@@ -1215,18 +1244,28 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
         out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
+        constructor_body = "super(ptr, bindings." + struct_name.replace("LDK","") + "_free);"
+        extra_docs = ""
+        extra_body = ""
         if struct_name.startswith("LDKLocked") or struct_name.startswith("LDKReadOnly"):
-            out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+            extra_docs = "\n * This type represents a lock and MUST BE MANUALLY FREE'd!"
+            constructor_body = 'super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });'
+            extra_body = f"""
+	/** Releases this lock */
+	public free() {{
+		bindings.{struct_name.replace("LDK","")}_free(this.ptr);
+		CommonBase.set_null_skip_free(this);
+	}}"""
         formatted_doc_comment = struct_doc_comment.replace("\n", "\n * ")
         out_opaque_struct_human += f"""
-/**
+/**{extra_docs}
  * {formatted_doc_comment}
  */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {{
-		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
-	}}
+		{constructor_body}
+	}}{extra_body}
 
 """
         self.obj_defined([hu_name], "structs")

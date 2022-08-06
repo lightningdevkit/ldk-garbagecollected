@@ -385,6 +385,24 @@ export class HolderCommitmentTransaction extends CommonBase {
 
 	/**
 	 * All non-dust counterparty HTLC signatures, in the order they appear in the transaction
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public get_counterparty_htlc_sigs(): Uint8Array[] {
+		const ret: number = bindings.HolderCommitmentTransaction_get_counterparty_htlc_sigs(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
+			ret_conv_12_arr[m] = ret_conv_12_conv;
+		}
+		bindings.freeWasmMemory(ret)
+		return ret_conv_12_arr;
+	}
+
+	/**
+	 * All non-dust counterparty HTLC signatures, in the order they appear in the transaction
 	 */
 	public set_counterparty_htlc_sigs(val: Uint8Array[]): void {
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(val_conv_12, 64))) : null));

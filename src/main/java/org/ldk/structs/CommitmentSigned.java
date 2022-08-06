@@ -58,6 +58,17 @@ public class CommitmentSigned extends CommonBase {
 
 	/**
 	 * Signatures on the HTLC transactions
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public byte[][] get_htlc_signatures() {
+		byte[][] ret = bindings.CommitmentSigned_get_htlc_signatures(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Signatures on the HTLC transactions
 	 */
 	public void set_htlc_signatures(byte[][] val) {
 		bindings.CommitmentSigned_set_htlc_signatures(this.ptr, val != null ? Arrays.stream(val).map(val_conv_8 -> InternalUtils.check_arr_len(val_conv_8, 64)).toArray(byte[][]::new) : null);
