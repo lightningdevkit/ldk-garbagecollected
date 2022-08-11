@@ -1105,7 +1105,7 @@ import javax.annotation.Nullable;
             else:
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
-        out_c = out_c + "\treturn (uint64_t)res_ptr;\n"
+        out_c = out_c + "\treturn tag_ptr(res_ptr, true);\n"
         out_c = out_c + "}\n"
 
         for var in flattened_field_vars:
@@ -1124,10 +1124,8 @@ import javax.annotation.Nullable;
                 out_java += "\tpublic static native long " + struct_name + "_get_" + var[1] + "(long arg);\n"
 
                 out_c += "JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_" + struct_name + "_1get_1" + var[1] + "(JNIEnv *env, jclass clz, int64_t arg) {\n"
-                out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)(arg & ~1);\n"
-                out_c += "\tuint64_t res_ptr = (uint64_t)&inp->" + var[1] + ";\n"
-                out_c += "\tDO_ASSERT((res_ptr & 1) == 0);\n"
-                out_c += "\treturn (int64_t)(res_ptr | 1);\n"
+                out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)untag_ptr(arg);\n"
+                out_c += "\treturn tag_ptr(&inp->" + var[1] + ", false);\n"
                 out_c += "}\n"
 
         return (out_java, out_java_trait, out_c)
@@ -1217,7 +1215,7 @@ import javax.annotation.Nullable;
         out_c += (self.c_complex_enum_pfx(struct_name, [x.var_name for x in variant_list], init_meth_jty_strs))
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
-        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
+        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n")
         out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
             out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")

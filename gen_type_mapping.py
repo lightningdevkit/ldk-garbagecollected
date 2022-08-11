@@ -256,7 +256,7 @@ class TypeMappingGenerator:
             if not ty_info.is_native_primitive:
                 assert(not is_free or ty_info.rust_obj not in self.opaque_structs)
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nFREE((void*)arg);",
+                    arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)untag_ptr(arg);\nFREE(untag_ptr(arg));",
                     arg_conv_name = "arg_conv", arg_conv_cleanup = None,
                     ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 7", to_hu_conv_name = None, from_hu_conv = None)
             else:
@@ -282,14 +282,12 @@ class TypeMappingGenerator:
                 ty_info.var_name = "ret"
 
             if ty_info.rust_obj in self.opaque_structs:
-                from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name) + " & ~1", self.consts.add_ref("this", ty_info.var_name))
+                from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), self.consts.add_ref("this", ty_info.var_name))
                 opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
-                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
-                if ty_info.is_ptr and holds_ref:
-                    opaque_arg_conv += ty_info.var_name + "_conv.is_owned = false;\n"
-                else:
-                    opaque_arg_conv += ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);\n"
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = untag_ptr(" + ty_info.var_name + ");\n"
+                opaque_arg_conv += ty_info.var_name + "_conv.is_owned = ptr_is_owned(" + ty_info.var_name + ");\n"
                 opaque_arg_conv += "CHECK_INNER_FIELD_ACCESS_OR_NULL(" + ty_info.var_name + "_conv);"
+
                 if not is_free and (not ty_info.is_ptr or not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
                     if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
@@ -298,12 +296,11 @@ class TypeMappingGenerator:
                         # In the second case, we need to clone before returning to C (as once we return the GC can free the object),
                         # whereas in the first we prefer to clone in C to avoid additional Java code as much as possible.
                         if holds_ref:
-                            opaque_arg_conv = opaque_arg_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
-                            from_hu_conv = (from_hu_conv[0], "")
+                            opaque_arg_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                         else:
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".clone_ptr()", "")
                     elif ty_info.passed_as_ptr:
-                        opaque_arg_conv = opaque_arg_conv + "\n// WARNING: we need a move here but no clone is available for " + ty_info.rust_obj
+                        opaque_arg_conv += "\n// WARNING: we need a move here but no clone is available for " + ty_info.rust_obj + "\n"
                         # TODO: Once we support features cloning (which just isn't in C yet), we can make this a compile error instead!
                         from_hu_conv = (from_hu_conv[0], from_hu_conv[1] + ";\n" +
                             "// Due to rust's strict-ownership memory model, in some cases we need to \"move\"\n" +
@@ -313,30 +310,21 @@ class TypeMappingGenerator:
                             "// However, in some cases (eg here), there is no way to clone an object, and thus\n" +
                             "// we actually have to pass full ownership to Rust.\n" +
                             "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + self.consts.set_null_skip_free(ty_info.var_name))
+                elif not is_free:
+                    opaque_arg_conv += "\n" + ty_info.var_name + "_conv.is_owned = false;"
 
                 opaque_ret_conv_suf = ";\n"
                 opaque_ret_conv_suf += self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = 0;\n"
-                indent = ""
-                if is_nullable:
-                    opaque_ret_conv_suf += "if ((uintptr_t)" + ty_info.var_name + "_var.inner > 4096) {\n"
-                    indent = "\t"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
-                    opaque_ret_conv_suf += indent + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_var);\n"
+                    opaque_ret_conv_suf += ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_var);\n"
                 elif not holds_ref and ty_info.is_ptr:
-                    opaque_ret_conv_suf += indent + "// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
+                    opaque_ret_conv_suf += "// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 
-                opaque_ret_conv_suf += indent + "CHECK((((uintptr_t)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
-                opaque_ret_conv_suf += indent + "CHECK((((uintptr_t)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
                 opaque_ret_conv_suf += "CHECK_INNER_FIELD_ACCESS_OR_NULL(" + ty_info.var_name + "_var);\n"
                 if holds_ref:
-                    opaque_ret_conv_suf += indent + ty_info.var_name + "_ref = (uintptr_t)" + ty_info.var_name + "_var.inner & ~1;"
+                    opaque_ret_conv_suf += ty_info.var_name + "_ref = tag_ptr(" + ty_info.var_name + "_var.inner, false);"
                 else:
-                    opaque_ret_conv_suf += indent + ty_info.var_name + "_ref = (uintptr_t)" + ty_info.var_name + "_var.inner;\n"
-                    opaque_ret_conv_suf += indent + "if (" + ty_info.var_name + "_var.is_owned) {\n"
-                    opaque_ret_conv_suf += indent + "\t" + ty_info.var_name + "_ref |= 1;\n"
-                    opaque_ret_conv_suf += indent + "}"
-                if is_nullable:
-                    opaque_ret_conv_suf += "\n}"
+                    opaque_ret_conv_suf += ty_info.var_name + "_ref = tag_ptr(" + ty_info.var_name + "_var.inner, " + ty_info.var_name + "_var.is_owned);"
 
                 to_hu_conv_sfx = ""
                 if not ty_info.is_ptr or holds_ref:
@@ -370,7 +358,7 @@ class TypeMappingGenerator:
                         arg_conv_cleanup = None,
                         ret_conv = (ty_info.c_ty + " " + ty_info.var_name + "_conv = " + ret_pfx, ret_sfx + ";"),
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
-                base_conv = "void* " + ty_info.var_name + "_ptr = (void*)(((uintptr_t)" + ty_info.var_name + ") & ~1);\n"
+                base_conv = "void* " + ty_info.var_name + "_ptr = untag_ptr(" + ty_info.var_name + ");\n"
                 base_conv += "CHECK_ACCESS(" + ty_info.var_name + "_ptr);\n"
                 base_conv += ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(" + ty_info.var_name + "_ptr);"
                 from_hu_conv = None
@@ -393,19 +381,19 @@ class TypeMappingGenerator:
                                 base_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                             else:
                                 from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".clone_ptr()", "")
-                                base_conv += "\n" + "FREE((void*)" + ty_info.var_name + ");"
+                                base_conv += "\n" + "FREE(untag_ptr(" + ty_info.var_name + "));"
                         else:
                             base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
                             if needs_full_clone:
-                                base_conv = base_conv + "// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
+                                base_conv += "// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
                     else:
-                        base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
+                        base_conv = base_conv + "\n" + "FREE(untag_ptr(" + ty_info.var_name + "));"
                     if from_hu_conv is None:
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], self.consts.add_ref("this", ty_info.var_name))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(" + self.consts.ptr_c_ty + ")" + ty_info.var_name + "_ret",
+                        ret_conv = ret_conv, ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ret, true)",
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                         to_hu_conv_name = "ret_hu_conv", from_hu_conv = from_hu_conv)
                 needs_full_clone = not is_free and (not ty_info.is_ptr or ty_info.requires_clone == True) and ty_info.requires_clone != False
@@ -418,16 +406,16 @@ class TypeMappingGenerator:
                         # In the second case, we need to clone before returning to C (as once we return the GC can free the object),
                         # whereas in the first we prefer to clone in C to avoid additional Java code as much as possible.
                         if holds_ref:
-                            base_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone((" + ty_info.rust_obj + "*)(((uintptr_t)" + ty_info.var_name + ") & ~1));"
+                            base_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone((" + ty_info.rust_obj + "*)untag_ptr(" + ty_info.var_name + "));"
                         else:
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".clone_ptr()", "")
-                            base_conv += "\n" + "FREE((void*)" + ty_info.var_name + ");"
+                            base_conv += "\n" + "FREE(untag_ptr(" + ty_info.var_name + "));"
                     elif needs_full_clone:
                         base_conv = base_conv + "\n// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj
                 if not needs_full_clone and ty_info.rust_obj != "LDKu8slice" and (not holds_ref or is_free):
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                     # underlying unlike Vecs, and it gives Java more freedom.
-                    base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
+                    base_conv = base_conv + "\nFREE(untag_ptr(" + ty_info.var_name + "));"
                 if ty_info.rust_obj in self.complex_enums:
                     to_hu_conv_sfx = ""
                     if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
@@ -444,11 +432,11 @@ class TypeMappingGenerator:
                             base_conv += self.consts.trait_struct_inc_refcnt(optional_ty_info).\
                                 replace("\n", "\n\t").replace(ty_info.var_name + "_conv", ty_info.var_name + "_conv.some")
                             base_conv += "\n}"
-                    ret_conv = (self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = ((uintptr_t)&", ") | 1;")
+                    ret_conv = (self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = tag_ptr(&", ", false);")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
                         ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "")
-                        ret_conv = (ret_conv[0], ";\n" + self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = (uintptr_t)" + ty_info.var_name + "_copy;")
+                        ret_conv = (ret_conv[0], ";\n" + self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = tag_ptr(" + ty_info.var_name + "_copy, true);")
                     if from_hu_conv is None:
                         from_hu_conv = (self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], to_hu_conv_sfx)
@@ -471,22 +459,24 @@ class TypeMappingGenerator:
                         from_hu_conv = (ty_info.var_name + " != null ? " + self.consts.get_ptr(ty_info.var_name) + " : 0", "")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(" + self.consts.ptr_c_ty + ")" + ty_info.var_name + "_conv",
+                        ret_conv = ret_conv, ret_conv_name = "tag_ptr(" + ty_info.var_name + "_conv, true)",
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = from_hu_conv)
                 if ty_info.rust_obj in self.tuple_types:
-                    ret_conv_name = "((" + self.consts.ptr_c_ty + ")" + ty_info.var_name + "_conv)"
+                    ret_conv_name = "tag_ptr(" + ty_info.var_name + "_conv, "
                     if holds_ref:
                         # If we're trying to return a ref, we have to clone.
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
                             ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = &", "")
                             ret_conv = (ret_conv[0], ";\n// WARNING: we really need to clone here, but no clone is available for " + ty_info.rust_obj)
-                            ret_conv_name += " | 1"
+                            ret_conv_name += "false)"
                         else:
                             ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
                             ret_conv = (ret_conv[0], ret_conv[1] + "\n*" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + "_conv);")
+                            ret_conv_name += "true)"
                     else:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
+                        ret_conv_name += "true)"
                     if not ty_info.is_ptr or holds_ref:
                         to_hu_conv_sfx = "\n" + self.consts.add_ref(ty_info.var_name + "_hu_conv", "this") + ";"
                     else:
@@ -519,34 +509,37 @@ class TypeMappingGenerator:
                 assert ty_info.rust_obj == "LDKTxOut"
                 if not ty_info.is_ptr and not holds_ref:
                     ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = MALLOC(sizeof(LDKTxOut), \"LDKTxOut\");\n*" + ty_info.var_name + "_ref = ", ";")
+                    ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ref, true)"
                 else:
-                    ret_conv = (self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = ((uintptr_t)&", ") | 1;")
+                    ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = &", ";")
+                    ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ref, false)"
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                    ret_conv = ret_conv, ret_conv_name = "(" + self.consts.ptr_c_ty + ")" + ty_info.var_name + "_ref",
+                    ret_conv = ret_conv, ret_conv_name = ret_conv_name,
                     to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";",
                     to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (self.consts.get_ptr(ty_info.var_name), ""))
             elif ty_info.is_ptr:
                 assert(not is_free)
                 if ty_info.rust_obj in self.complex_enums:
-                    ret_conv = (self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = (uintptr_t)", " | 1; // WARNING: We should clone here!")
+                    ret_conv = (self.consts.ptr_c_ty + " ref_" + ty_info.var_name + " = tag_ptr(", ", false); // WARNING: We should clone here!")
                     from_hu_sfx = self.consts.add_ref("this", ty_info.var_name)
                     if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
                         ret_conv_pfx = ty_info.rust_obj + " *ret_" + ty_info.var_name + " = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + " ret conversion\");\n"
                         ret_conv_pfx += "*ret_" + ty_info.var_name + " = " + ty_info.rust_obj.replace("LDK", "") + "_clone("
-                        ret_conv = (ret_conv_pfx, ");")
+                        ret_conv_sfx = ");\n" + self.consts.ptr_c_ty + " ref_" + ty_info.var_name + " = tag_ptr(ret_" + ty_info.var_name + ", true);"
+                        ret_conv = (ret_conv_pfx, ret_conv_sfx)
                         from_hu_sfx = ""
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
+                        arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)untag_ptr(" + ty_info.var_name + ");",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(" + self.consts.ptr_c_ty + ")ret_" + ty_info.var_name,
+                        ret_conv = ret_conv, ret_conv_name = "ref_" + ty_info.var_name,
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name) + " & ~1", from_hu_sfx))
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), from_hu_sfx))
                 elif ty_info.rust_obj in self.trait_structs:
                     if ty_info.nonnull_ptr:
-                        arg_conv = "void* " + ty_info.var_name + "_ptr = (void*)(((uintptr_t)" + ty_info.var_name + ") & ~1);\n"
-                        arg_conv += "if (!(" + ty_info.var_name + " & 1)) { CHECK_ACCESS(" + ty_info.var_name + "_ptr); }\n"
+                        arg_conv = "void* " + ty_info.var_name + "_ptr = untag_ptr(" + ty_info.var_name + ");\n"
+                        arg_conv += "if (ptr_is_owned(" + ty_info.var_name + ")) { CHECK_ACCESS(" + ty_info.var_name + "_ptr); }\n"
                         arg_conv += ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + "_ptr;"
                         arg_conv_name = ty_info.var_name + "_conv"
                     else:
@@ -555,7 +548,7 @@ class TypeMappingGenerator:
                         arg_conv = ty_info.rust_obj + " *" + ty_info.var_name + "_conv_ptr = NULL;\n"
                         arg_conv += "if (" + ty_info.var_name + " != 0) {\n"
                         arg_conv += "\t" + ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
-                        arg_conv += "void* " + ty_info.var_name + "_ptr = (void*)(((uintptr_t)" + ty_info.var_name + ") & ~1);\n"
+                        arg_conv += "void* " + ty_info.var_name + "_ptr = untag_ptr(" + ty_info.var_name + ");\n"
                         arg_conv += "CHECK_ACCESS(" + ty_info.var_name + "_ptr);\n"
                         arg_conv += "\t" + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + "_ptr;"
                         arg_conv += self.consts.trait_struct_inc_refcnt(ty_info).replace("\n", "\n\t")
@@ -568,23 +561,23 @@ class TypeMappingGenerator:
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                             ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_clone = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n" +
                                 "*" + ty_info.var_name + "_clone = " + ty_info.rust_obj.replace("LDK", "") + "_clone(", ");"),
-                            ret_conv_name = "(" + self.consts.ptr_c_ty + ")" + ty_info.var_name + "_clone",
+                            ret_conv_name = "tag_ptr(" + ty_info.var_name + "_clone, true)",
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), ""))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
-                            ret_conv = ("// WARNING: This object doesn't live past this scope, needs clone!\n" + self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = ((uintptr_t)", ") | 1;"),
+                            ret_conv = ("// WARNING: This object doesn't live past this scope, needs clone!\n" + self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = tag_ptr(", ", false);"),
                             ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), self.consts.add_ref("this", ty_info.var_name)))
-                ret_conv = (self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = (uintptr_t)", ";")
+                ret_conv = (self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = tag_ptr(", ", true);")
                 if holds_ref:
-                    ret_conv = (ret_conv[0], " | 1;")
+                    ret_conv = (ret_conv[0], ", false);")
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(" + ty_info.var_name + " & ~1);",
+                    arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)untag_ptr(" + ty_info.var_name + ");",
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                     ret_conv = ret_conv, ret_conv_name = "ret_" + ty_info.var_name,
                     to_hu_conv = "TODO 3", to_hu_conv_name = None, from_hu_conv = None) # its a pointer, no conv needed

@@ -1148,7 +1148,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
             else:
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
-        out_c = out_c + "\treturn (long)res_ptr;\n"
+        out_c = out_c + "\treturn tag_ptr(res_ptr, true);\n"
         out_c = out_c + "}\n"
 
         return (out_typescript_bindings, out_typescript_human, out_c)
@@ -1176,7 +1176,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
         java_hu_class += f"\t\tconst raw_ty: number = bindings." + struct_name + "_ty_from_ptr(ptr);\n"
         out_c += self.c_fn_ty_pfx + "uint32_t" + self.c_fn_name_define_pfx(struct_name + "_ty_from_ptr", True) + self.ptr_c_ty + " ptr) {\n"
-        out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+        out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n"
         out_c += "\tswitch(obj->tag) {\n"
         java_hu_class += "\t\tswitch (raw_ty) {\n"
         java_hu_subclasses = ""
@@ -1216,7 +1216,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
             for idx, (field_map, _) in enumerate(var.fields):
                 fn_name = f"{struct_name}_{var.var_name}_get_{field_map.arg_name}"
                 out_c += self.c_fn_ty_pfx + field_map.c_ty + self.c_fn_name_define_pfx(fn_name, True) + self.ptr_c_ty + " ptr) {\n"
-                out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+                out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n"
                 out_c += f"\tassert(obj->tag == {struct_name}_{var.var_name});\n"
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
