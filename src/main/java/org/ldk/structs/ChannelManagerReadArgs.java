@@ -201,9 +201,10 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
 	public void set_default_config(UserConfig val) {
-		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -212,7 +213,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * populate a HashMap directly from C.
 	 */
 	public static ChannelManagerReadArgs of(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr & ~1).toArray() : null);
+		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(chain_monitor);
@@ -228,6 +229,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 		ret_hu_conv.ptrs_to.add(chain_monitor);
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(default_config);
 		for (ChannelMonitor channel_monitors_conv_16: channel_monitors) { ret_hu_conv.ptrs_to.add(channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}

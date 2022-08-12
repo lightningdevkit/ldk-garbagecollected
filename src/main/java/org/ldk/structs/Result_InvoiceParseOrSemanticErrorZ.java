@@ -46,10 +46,11 @@ public class Result_InvoiceParseOrSemanticErrorZ extends CommonBase {
 	 * Creates a new CResult_InvoiceParseOrSemanticErrorZ in the success state.
 	 */
 	public static Result_InvoiceParseOrSemanticErrorZ ok(Invoice o) {
-		long ret = bindings.CResult_InvoiceParseOrSemanticErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_InvoiceParseOrSemanticErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceParseOrSemanticErrorZ ret_hu_conv = Result_InvoiceParseOrSemanticErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

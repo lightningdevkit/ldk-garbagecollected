@@ -71,7 +71,7 @@ public class GossipSync extends CommonBase {
 	 * Utility method to constructs a new P2P-variant GossipSync
 	 */
 	public static GossipSync p2_p(P2PGossipSync a) {
-		long ret = bindings.GossipSync_p2_p(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.GossipSync_p2_p(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GossipSync ret_hu_conv = org.ldk.structs.GossipSync.constr_from_ptr(ret);
@@ -84,7 +84,7 @@ public class GossipSync extends CommonBase {
 	 * Utility method to constructs a new Rapid-variant GossipSync
 	 */
 	public static GossipSync rapid(RapidGossipSync a) {
-		long ret = bindings.GossipSync_rapid(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.GossipSync_rapid(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GossipSync ret_hu_conv = org.ldk.structs.GossipSync.constr_from_ptr(ret);

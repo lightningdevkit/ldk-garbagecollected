@@ -263,7 +263,7 @@ public class InMemorySigner extends CommonBase {
 	 * or if an output descriptor script_pubkey does not match the one we can spend.
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, StaticPaymentOutputDescriptor descriptor) {
-		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
+		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);
 		Reference.reachabilityFence(input_idx);
@@ -284,7 +284,7 @@ public class InMemorySigner extends CommonBase {
 	 * script_pubkey does not match the one we can spend.
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, DelayedPaymentOutputDescriptor descriptor) {
-		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
+		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);
 		Reference.reachabilityFence(input_idx);

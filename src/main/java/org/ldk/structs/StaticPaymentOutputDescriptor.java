@@ -37,9 +37,10 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	 * The outpoint which is spendable
 	 */
 	public void set_outpoint(OutPoint val) {
-		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	 * Constructs a new StaticPaymentOutputDescriptor given each field
 	 */
 	public static StaticPaymentOutputDescriptor of(OutPoint outpoint_arg, TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
-		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(output_arg);
 		Reference.reachabilityFence(channel_keys_id_arg);
@@ -116,6 +117,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.StaticPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.StaticPaymentOutputDescriptor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

@@ -59,7 +59,7 @@ public class Description extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(Description b) {
-		boolean ret = bindings.Description_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.Description_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
@@ -90,7 +90,7 @@ public class Description extends CommonBase {
 	public String into_inner() {
 		String ret = bindings.Description_into_inner(this.ptr);
 		Reference.reachabilityFence(this);
-		;
+		this.ptrs_to.add(this);
 		return ret;
 	}
 

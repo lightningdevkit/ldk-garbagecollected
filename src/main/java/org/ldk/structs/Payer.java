@@ -128,7 +128,7 @@ public class Payer extends CommonBase {
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
-		long ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		long ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_hash);
@@ -143,7 +143,7 @@ public class Payer extends CommonBase {
 	 * Sends a spontaneous payment over the Lightning Network using the given [`Route`].
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_spontaneous_payment(Route route, byte[] payment_preimage) {
-		long ret = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
+		long ret = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_preimage);
@@ -157,7 +157,7 @@ public class Payer extends CommonBase {
 	 * Retries a failed payment path for the [`PaymentId`] using the given [`Route`].
 	 */
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
-		long ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
+		long ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_id);

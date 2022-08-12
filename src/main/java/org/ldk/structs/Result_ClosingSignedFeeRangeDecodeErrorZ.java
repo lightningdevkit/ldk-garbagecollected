@@ -46,10 +46,11 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ClosingSignedFeeRangeDecodeErrorZ in the success state.
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ ok(ClosingSignedFeeRange o) {
-		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ClosingSignedFeeRangeDecodeErrorZ in the error state.
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

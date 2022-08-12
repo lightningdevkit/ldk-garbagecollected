@@ -50,7 +50,7 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 	 */
 	@Nullable
 	public NodeInfo node(NodeId node_id) {
-		long ret = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		long ret = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }

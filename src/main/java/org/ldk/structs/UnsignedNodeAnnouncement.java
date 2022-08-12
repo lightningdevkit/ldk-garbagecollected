@@ -36,9 +36,10 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * The advertised features
 	 */
 	public void set_features(NodeFeatures val) {
-		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**

@@ -108,16 +108,17 @@ public class ChannelAnnouncement extends CommonBase {
 	 * The actual announcement
 	 */
 	public void set_contents(UnsignedChannelAnnouncement val) {
-		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
 	 * Constructs a new ChannelAnnouncement given each field
 	 */
 	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
-		long ret = bindings.ChannelAnnouncement_new(InternalUtils.check_arr_len(node_signature_1_arg, 64), InternalUtils.check_arr_len(node_signature_2_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_1_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_2_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		long ret = bindings.ChannelAnnouncement_new(InternalUtils.check_arr_len(node_signature_1_arg, 64), InternalUtils.check_arr_len(node_signature_2_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_1_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_2_arg, 64), contents_arg == null ? 0 : contents_arg.ptr);
 		Reference.reachabilityFence(node_signature_1_arg);
 		Reference.reachabilityFence(node_signature_2_arg);
 		Reference.reachabilityFence(bitcoin_signature_1_arg);
@@ -126,6 +127,7 @@ public class ChannelAnnouncement extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 

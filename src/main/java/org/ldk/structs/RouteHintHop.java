@@ -72,9 +72,10 @@ public class RouteHintHop extends CommonBase {
 	 * The fees which must be paid to use this channel
 	 */
 	public void set_fees(RoutingFees val) {
-		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class RouteHintHop extends CommonBase {
 	 * Constructs a new RouteHintHop given each field
 	 */
 	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
-		long ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		long ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		Reference.reachabilityFence(src_node_id_arg);
 		Reference.reachabilityFence(short_channel_id_arg);
 		Reference.reachabilityFence(fees_arg);
@@ -151,6 +152,7 @@ public class RouteHintHop extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHintHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHintHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(fees_arg);
 		return ret_hu_conv;
 	}
 
@@ -190,7 +192,7 @@ public class RouteHintHop extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(RouteHintHop b) {
-		boolean ret = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);

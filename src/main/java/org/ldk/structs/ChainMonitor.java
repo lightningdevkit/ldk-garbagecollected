@@ -67,7 +67,7 @@ public class ChainMonitor extends CommonBase {
 	 * inclusion in the return value.
 	 */
 	public Balance[] get_claimable_balances(ChannelDetails[] ignored_channels) {
-		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).mapToLong(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr & ~1).toArray() : null);
+		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).mapToLong(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(ignored_channels);
 		int ret_conv_9_len = ret.length;
@@ -78,6 +78,7 @@ public class ChainMonitor extends CommonBase {
 			ret_conv_9_hu_conv.ptrs_to.add(this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
+		for (ChannelDetails ignored_channels_conv_16: ignored_channels) { this.ptrs_to.add(ignored_channels_conv_16); };
 		return ret_conv_9_arr;
 	}
 
@@ -89,11 +90,12 @@ public class ChainMonitor extends CommonBase {
 	 * indefinitely.
 	 */
 	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
-		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1);
+		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(funding_txo);
 		return ret_hu_conv;
 	}
 
@@ -133,12 +135,14 @@ public class ChainMonitor extends CommonBase {
 	 * registered [`ChannelMonitor`]s.
 	 */
 	public Result_NoneAPIErrorZ channel_monitor_updated(OutPoint funding_txo, MonitorUpdateId completed_update_id) {
-		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, completed_update_id == null ? 0 : completed_update_id.ptr & ~1);
+		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, completed_update_id == null ? 0 : completed_update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(completed_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(funding_txo);
+		this.ptrs_to.add(completed_update_id);
 		return ret_hu_conv;
 	}
 

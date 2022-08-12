@@ -46,10 +46,11 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_OutPointDecodeErrorZ in the success state.
 	 */
 	public static Result_OutPointDecodeErrorZ ok(OutPoint o) {
-		long ret = bindings.CResult_OutPointDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_OutPointDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_OutPointDecodeErrorZ in the error state.
 	 */
 	public static Result_OutPointDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_OutPointDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_OutPointDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

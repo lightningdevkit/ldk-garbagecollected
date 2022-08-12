@@ -69,9 +69,10 @@ public class WatchedOutput extends CommonBase {
 	 * Outpoint identifying the transaction output.
 	 */
 	public void set_outpoint(OutPoint val) {
-		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -96,13 +97,14 @@ public class WatchedOutput extends CommonBase {
 	 * Constructs a new WatchedOutput given each field
 	 */
 	public static WatchedOutput of(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
-		long ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
+		long ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
 		Reference.reachabilityFence(block_hash_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(script_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.WatchedOutput(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

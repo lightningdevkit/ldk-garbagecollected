@@ -79,13 +79,16 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * Creates a new C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ from the contained elements.
 	 */
 	public static ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ of(ChannelAnnouncement a, ChannelUpdate b, ChannelUpdate c) {
-		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0 : a.ptr & ~1, b == null ? 0 : b.ptr & ~1, c == null ? 0 : c.ptr & ~1);
+		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0 : a.ptr, b == null ? 0 : b.ptr, c == null ? 0 : c.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);
 		Reference.reachabilityFence(c);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		ret_hu_conv.ptrs_to.add(b);
+		ret_hu_conv.ptrs_to.add(c);
 		return ret_hu_conv;
 	}
 

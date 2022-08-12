@@ -41,7 +41,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the success state.
 	 */
 	public static Result_TrustedCommitmentTransactionNoneZ ok(TrustedCommitmentTransaction o) {
-		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);

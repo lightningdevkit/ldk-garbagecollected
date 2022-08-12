@@ -46,10 +46,11 @@ public class Result_ShutdownDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ShutdownDecodeErrorZ in the success state.
 	 */
 	public static Result_ShutdownDecodeErrorZ ok(Shutdown o) {
-		long ret = bindings.CResult_ShutdownDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_ShutdownDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_ShutdownDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ShutdownDecodeErrorZ in the error state.
 	 */
 	public static Result_ShutdownDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_ShutdownDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_ShutdownDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

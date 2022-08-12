@@ -36,9 +36,10 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Counter-party public keys
 	 */
 	public void set_pubkeys(ChannelPublicKeys val) {
-		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -63,12 +64,13 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Constructs a new CounterpartyChannelTransactionParameters given each field
 	 */
 	public static CounterpartyChannelTransactionParameters of(ChannelPublicKeys pubkeys_arg, short selected_contest_delay_arg) {
-		long ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr & ~1, selected_contest_delay_arg);
+		long ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr, selected_contest_delay_arg);
 		Reference.reachabilityFence(pubkeys_arg);
 		Reference.reachabilityFence(selected_contest_delay_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.CounterpartyChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CounterpartyChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(pubkeys_arg);
 		return ret_hu_conv;
 	}
 

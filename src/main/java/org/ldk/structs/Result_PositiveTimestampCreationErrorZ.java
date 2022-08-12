@@ -43,10 +43,11 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	 * Creates a new CResult_PositiveTimestampCreationErrorZ in the success state.
 	 */
 	public static Result_PositiveTimestampCreationErrorZ ok(PositiveTimestamp o) {
-		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

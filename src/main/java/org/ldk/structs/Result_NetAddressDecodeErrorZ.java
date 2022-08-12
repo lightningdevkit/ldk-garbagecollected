@@ -57,10 +57,11 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_NetAddressDecodeErrorZ in the error state.
 	 */
 	public static Result_NetAddressDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_NetAddressDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_NetAddressDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

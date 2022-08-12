@@ -46,10 +46,11 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the success state.
 	 */
 	public static Result_RevokeAndACKDecodeErrorZ ok(RevokeAndACK o) {
-		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the error state.
 	 */
 	public static Result_RevokeAndACKDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

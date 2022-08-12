@@ -46,10 +46,11 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the success state.
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ ok(ReplyChannelRange o) {
-		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the error state.
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

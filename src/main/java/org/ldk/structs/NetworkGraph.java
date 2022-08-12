@@ -113,7 +113,7 @@ public class NetworkGraph extends CommonBase {
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 */
 	public Result_NoneLightningErrorZ update_node_from_announcement(NodeAnnouncement msg) {
-		long ret = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -129,7 +129,7 @@ public class NetworkGraph extends CommonBase {
 	 * peers.
 	 */
 	public Result_NoneLightningErrorZ update_node_from_unsigned_announcement(UnsignedNodeAnnouncement msg) {
-		long ret = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -149,7 +149,7 @@ public class NetworkGraph extends CommonBase {
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
 	public Result_NoneLightningErrorZ update_channel_from_announcement(ChannelAnnouncement msg, Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
+		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(chain_access);
@@ -169,7 +169,7 @@ public class NetworkGraph extends CommonBase {
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
 	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(UnsignedChannelAnnouncement msg, Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
+		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(chain_access);
@@ -189,7 +189,7 @@ public class NetworkGraph extends CommonBase {
 	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
 	 */
 	public Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
-		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr & ~1, InternalUtils.check_arr_len(node_id_1, 33), InternalUtils.check_arr_len(node_id_2, 33));
+		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr, InternalUtils.check_arr_len(node_id_1, 33), InternalUtils.check_arr_len(node_id_2, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(timestamp);
@@ -198,6 +198,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(node_id_2);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(features);
 		return ret_hu_conv;
 	}
 
@@ -274,7 +275,7 @@ public class NetworkGraph extends CommonBase {
 	 * materially in the future will be rejected.
 	 */
 	public Result_NoneLightningErrorZ update_channel(ChannelUpdate msg) {
-		long ret = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -292,7 +293,7 @@ public class NetworkGraph extends CommonBase {
 	 * materially in the future will be rejected.
 	 */
 	public Result_NoneLightningErrorZ update_channel_unsigned(UnsignedChannelUpdate msg) {
-		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -145,12 +145,13 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new StaticOutput-variant SpendableOutputDescriptor
 	 */
 	public static SpendableOutputDescriptor static_output(OutPoint outpoint, TxOut output) {
-		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr & ~1, output.ptr);
+		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr, output.ptr);
 		Reference.reachabilityFence(outpoint);
 		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(outpoint);
 		return ret_hu_conv;
 	}
 
@@ -158,11 +159,12 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new DelayedPaymentOutput-variant SpendableOutputDescriptor
 	 */
 	public static SpendableOutputDescriptor delayed_payment_output(DelayedPaymentOutputDescriptor a) {
-		long ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 
@@ -170,11 +172,12 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new StaticPaymentOutput-variant SpendableOutputDescriptor
 	 */
 	public static SpendableOutputDescriptor static_payment_output(StaticPaymentOutputDescriptor a) {
-		long ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

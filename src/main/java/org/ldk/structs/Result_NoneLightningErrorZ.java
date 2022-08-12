@@ -51,10 +51,11 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 	 * Creates a new CResult_NoneLightningErrorZ in the error state.
 	 */
 	public static Result_NoneLightningErrorZ err(LightningError e) {
-		long ret = bindings.CResult_NoneLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_NoneLightningErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

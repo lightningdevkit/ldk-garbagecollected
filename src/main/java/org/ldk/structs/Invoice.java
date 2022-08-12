@@ -31,7 +31,7 @@ public class Invoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(Invoice b) {
-		boolean ret = bindings.Invoice_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.Invoice_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
@@ -69,7 +69,7 @@ public class Invoice extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SignedRawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.SignedRawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
-		;
+		this.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -107,10 +107,11 @@ public class Invoice extends CommonBase {
 	 * ```
 	 */
 	public static Result_InvoiceSemanticErrorZ from_signed(SignedRawInvoice signed_invoice) {
-		long ret = bindings.Invoice_from_signed(signed_invoice == null ? 0 : signed_invoice.ptr & ~1);
+		long ret = bindings.Invoice_from_signed(signed_invoice == null ? 0 : signed_invoice.ptr);
 		Reference.reachabilityFence(signed_invoice);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(signed_invoice);
 		return ret_hu_conv;
 	}
 

@@ -69,7 +69,7 @@ public class ChannelMonitor extends CommonBase {
 	 * panics if the given update is not the next update by update_id.
 	 */
 	public Result_NoneNoneZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(updates);
 		Reference.reachabilityFence(broadcaster);

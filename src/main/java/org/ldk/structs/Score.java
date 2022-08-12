@@ -139,7 +139,7 @@ public class Score extends CommonBase {
 	 * Thus, implementations should be overflow-safe.
 	 */
 	public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) {
-		long ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : source.ptr & ~1, target == null ? 0 : target.ptr & ~1, usage == null ? 0 : usage.ptr & ~1);
+		long ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : source.ptr, target == null ? 0 : target.ptr, usage == null ? 0 : usage.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(source);
@@ -147,6 +147,7 @@ public class Score extends CommonBase {
 		Reference.reachabilityFence(usage);
 		this.ptrs_to.add(source);
 		this.ptrs_to.add(target);
+		this.ptrs_to.add(usage);
 		return ret;
 	}
 
@@ -154,38 +155,42 @@ public class Score extends CommonBase {
 	 * Handles updating channel penalties after failing to route through a channel.
 	 */
 	public void payment_path_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Score_payment_path_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id);
+		bindings.Score_payment_path_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
+		for (RouteHop path_conv_10: path) { this.ptrs_to.add(path_conv_10); };
 	}
 
 	/**
 	 * Handles updating channel penalties after successfully routing along a path.
 	 */
 	public void payment_path_successful(RouteHop[] path) {
-		bindings.Score_payment_path_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		bindings.Score_payment_path_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
+		for (RouteHop path_conv_10: path) { this.ptrs_to.add(path_conv_10); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path failed.
 	 */
 	public void probe_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Score_probe_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id);
+		bindings.Score_probe_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
+		for (RouteHop path_conv_10: path) { this.ptrs_to.add(path_conv_10); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path succeeded.
 	 */
 	public void probe_successful(RouteHop[] path) {
-		bindings.Score_probe_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		bindings.Score_probe_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
+		for (RouteHop path_conv_10: path) { this.ptrs_to.add(path_conv_10); };
 	}
 
 	/**

@@ -54,10 +54,11 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 	 * Creates a new CResult_boolPeerHandleErrorZ in the error state.
 	 */
 	public static Result_boolPeerHandleErrorZ err(PeerHandleError e) {
-		long ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

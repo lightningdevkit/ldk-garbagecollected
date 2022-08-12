@@ -57,10 +57,11 @@ public class Result_PaymentPurposeDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_PaymentPurposeDecodeErrorZ in the error state.
 	 */
 	public static Result_PaymentPurposeDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_PaymentPurposeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_PaymentPurposeDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentPurposeDecodeErrorZ ret_hu_conv = Result_PaymentPurposeDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

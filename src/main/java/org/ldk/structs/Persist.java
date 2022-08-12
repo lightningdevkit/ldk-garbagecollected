@@ -148,14 +148,16 @@ public class Persist extends CommonBase {
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id) {
-		long ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr & ~1, data == null ? 0 : data.ptr & ~1, update_id == null ? 0 : update_id.ptr & ~1);
+		long ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(data);
 		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		this.ptrs_to.add(channel_id);
 		this.ptrs_to.add(data);
+		this.ptrs_to.add(update_id);
 		return ret_hu_conv;
 	}
 
@@ -197,7 +199,7 @@ public class Persist extends CommonBase {
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint channel_id, @Nullable ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
-		long ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr & ~1, update == null ? 0 : update.ptr & ~1, data == null ? 0 : data.ptr & ~1, update_id == null ? 0 : update_id.ptr & ~1);
+		long ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, update == null ? 0 : update.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(update);
@@ -205,8 +207,10 @@ public class Persist extends CommonBase {
 		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		this.ptrs_to.add(channel_id);
 		this.ptrs_to.add(update);
 		this.ptrs_to.add(data);
+		this.ptrs_to.add(update_id);
 		return ret_hu_conv;
 	}
 

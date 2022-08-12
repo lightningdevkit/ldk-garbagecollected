@@ -132,7 +132,7 @@ public class UtilMethods {
 	 * Read a C2Tuple_BlockHashChannelManagerZ from a byte array, created by C2Tuple_BlockHashChannelManagerZ_write
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, KeysInterface arg_keys_manager, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
-		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr & ~1, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr & ~1).toArray() : null));
+		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr).toArray() : null));
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg_keys_manager);
 		Reference.reachabilityFence(arg_fee_estimator);
@@ -148,7 +148,7 @@ public class UtilMethods {
 		ret_hu_conv.ptrs_to.add(arg_chain_monitor);
 		ret_hu_conv.ptrs_to.add(arg_tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(arg_logger);
-		;
+		ret_hu_conv.ptrs_to.add(arg_default_config);
 		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}
@@ -167,7 +167,7 @@ public class UtilMethods {
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
 	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create(ExpandedKey keys, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, KeysInterface keys_manager, long current_time) {
-		long ret = bindings.create(keys == null ? 0 : keys.ptr & ~1, min_value_msat.ptr, invoice_expiry_delta_secs, keys_manager == null ? 0 : keys_manager.ptr, current_time);
+		long ret = bindings.create(keys == null ? 0 : keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, keys_manager == null ? 0 : keys_manager.ptr, current_time);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
@@ -190,7 +190,7 @@ public class UtilMethods {
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
 	public static Result_PaymentSecretNoneZ create_from_hash(ExpandedKey keys, Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time) {
-		long ret = bindings.create_from_hash(keys == null ? 0 : keys.ptr & ~1, min_value_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, current_time);
+		long ret = bindings.create_from_hash(keys == null ? 0 : keys.ptr, min_value_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, current_time);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
 		Reference.reachabilityFence(payment_hash);
@@ -234,7 +234,7 @@ public class UtilMethods {
 	 * Build a closing transaction
 	 */
 	public static byte[] build_closing_transaction(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
-		byte[] ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
+		byte[] ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(to_holder_value_sat);
 		Reference.reachabilityFence(to_counterparty_value_sat);
 		Reference.reachabilityFence(to_holder_script);
@@ -336,7 +336,7 @@ public class UtilMethods {
 	 * does not need to have its previous_output_index filled.
 	 */
 	public static byte[] get_htlc_redeemscript(HTLCOutputInCommitment htlc, boolean opt_anchors, TxCreationKeys keys) {
-		byte[] ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, keys == null ? 0 : keys.ptr & ~1);
+		byte[] ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr, opt_anchors, keys == null ? 0 : keys.ptr);
 		Reference.reachabilityFence(htlc);
 		Reference.reachabilityFence(opt_anchors);
 		Reference.reachabilityFence(keys);
@@ -364,7 +364,7 @@ public class UtilMethods {
 	 * commitment transaction).
 	 */
 	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, HTLCOutputInCommitment htlc, boolean opt_anchors, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
-		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
+		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
 		Reference.reachabilityFence(commitment_txid);
 		Reference.reachabilityFence(feerate_per_kw);
 		Reference.reachabilityFence(contest_delay);
@@ -450,7 +450,7 @@ public class UtilMethods {
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters route_params, NetworkGraph network_graph, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer, byte[] random_seed_bytes) {
-		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), route_params == null ? 0 : route_params.ptr & ~1, network_graph == null ? 0 : network_graph.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
+		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), route_params == null ? 0 : route_params.ptr, network_graph == null ? 0 : network_graph.ptr, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(our_node_pubkey);
 		Reference.reachabilityFence(route_params);
 		Reference.reachabilityFence(network_graph);
@@ -475,7 +475,7 @@ public class UtilMethods {
 	 * Re-uses logic from `find_route`, so the restrictions described there also apply here.
 	 */
 	public static Result_RouteLightningErrorZ build_route_from_hops(byte[] our_node_pubkey, byte[][] hops, RouteParameters route_params, NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes) {
-		long ret = bindings.build_route_from_hops(InternalUtils.check_arr_len(our_node_pubkey, 33), hops != null ? Arrays.stream(hops).map(hops_conv_8 -> InternalUtils.check_arr_len(hops_conv_8, 33)).toArray(byte[][]::new) : null, route_params == null ? 0 : route_params.ptr & ~1, network_graph == null ? 0 : network_graph.ptr & ~1, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
+		long ret = bindings.build_route_from_hops(InternalUtils.check_arr_len(our_node_pubkey, 33), hops != null ? Arrays.stream(hops).map(hops_conv_8 -> InternalUtils.check_arr_len(hops_conv_8, 33)).toArray(byte[][]::new) : null, route_params == null ? 0 : route_params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(our_node_pubkey);
 		Reference.reachabilityFence(hops);
 		Reference.reachabilityFence(route_params);
@@ -524,7 +524,7 @@ public class UtilMethods {
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(Option_u64Z amt_msat, @Nullable byte[] payment_hash, java.lang.String description, int invoice_expiry_delta_secs, PhantomRouteHints[] phantom_route_hints, KeysInterface keys_manager, org.ldk.enums.Currency network) {
-		long ret = bindings.create_phantom_invoice(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), description, invoice_expiry_delta_secs, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr & ~1).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, network);
+		long ret = bindings.create_phantom_invoice(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), description, invoice_expiry_delta_secs, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(description);
@@ -534,6 +534,7 @@ public class UtilMethods {
 		Reference.reachabilityFence(network);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); };
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		return ret_hu_conv;
 	}
@@ -574,7 +575,7 @@ public class UtilMethods {
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(Option_u64Z amt_msat, @Nullable byte[] payment_hash, int invoice_expiry_delta_secs, Sha256 description_hash, PhantomRouteHints[] phantom_route_hints, KeysInterface keys_manager, org.ldk.enums.Currency network) {
-		long ret = bindings.create_phantom_invoice_with_description_hash(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, description_hash == null ? 0 : description_hash.ptr & ~1, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr & ~1).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, network);
+		long ret = bindings.create_phantom_invoice_with_description_hash(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, description_hash == null ? 0 : description_hash.ptr, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
@@ -584,6 +585,8 @@ public class UtilMethods {
 		Reference.reachabilityFence(network);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(description_hash);
+		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); };
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		return ret_hu_conv;
 	}
@@ -599,7 +602,7 @@ public class UtilMethods {
 	 * in excess of the current time.
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description, invoice_expiry_delta_secs);
+		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(network);
@@ -625,7 +628,7 @@ public class UtilMethods {
 	 * in excess of the current time.
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, Sha256 description_hash, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr & ~1, invoice_expiry_delta_secs);
+		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(network);
@@ -636,6 +639,7 @@ public class UtilMethods {
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);
 		ret_hu_conv.ptrs_to.add(keys_manager);
+		ret_hu_conv.ptrs_to.add(description_hash);
 		return ret_hu_conv;
 	}
 
@@ -645,7 +649,7 @@ public class UtilMethods {
 	 * available and the current time is supplied by the caller.
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, Sha256 description_hash, long duration_since_epoch, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr & ~1, duration_since_epoch, invoice_expiry_delta_secs);
+		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, duration_since_epoch, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(network);
@@ -657,6 +661,7 @@ public class UtilMethods {
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);
 		ret_hu_conv.ptrs_to.add(keys_manager);
+		ret_hu_conv.ptrs_to.add(description_hash);
 		return ret_hu_conv;
 	}
 
@@ -666,7 +671,7 @@ public class UtilMethods {
 	 * available and the current time is supplied by the caller.
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs);
+		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(network);

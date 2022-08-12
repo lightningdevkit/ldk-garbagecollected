@@ -36,9 +36,10 @@ public class Init extends CommonBase {
 	 * The relevant features which the sender supports
 	 */
 	public void set_features(InitFeatures val) {
-		bindings.Init_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.Init_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -72,12 +73,13 @@ public class Init extends CommonBase {
 	 * Constructs a new Init given each field
 	 */
 	public static Init of(InitFeatures features_arg, Option_NetAddressZ remote_network_address_arg) {
-		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr & ~1, remote_network_address_arg.ptr);
+		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, remote_network_address_arg.ptr);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(remote_network_address_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(features_arg);
 		return ret_hu_conv;
 	}
 

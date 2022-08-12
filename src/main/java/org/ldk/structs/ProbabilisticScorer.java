@@ -46,13 +46,14 @@ public class ProbabilisticScorer extends CommonBase {
 	 * through a network graph.
 	 */
 	public static ProbabilisticScorer of(ProbabilisticScoringParameters params, NetworkGraph network_graph, Logger logger) {
-		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr & ~1, network_graph == null ? 0 : network_graph.ptr & ~1, logger == null ? 0 : logger.ptr);
+		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(params);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ProbabilisticScorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScorer(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(params);
 		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
@@ -74,7 +75,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * channel with `scid` towards the given `target` node.
 	 */
 	public Option_C2Tuple_u64u64ZZ estimated_channel_liquidity_range(long scid, NodeId target) {
-		long ret = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0 : target.ptr & ~1);
+		long ret = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0 : target.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scid);
 		Reference.reachabilityFence(target);
@@ -90,7 +91,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * it will be avoided during path finding.
 	 */
 	public void add_banned(NodeId node_id) {
-		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		this.ptrs_to.add(node_id);
@@ -100,7 +101,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Removes the node with the given `node_id` from the list of nodes to avoid.
 	 */
 	public void remove_banned(NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		this.ptrs_to.add(node_id);
@@ -110,7 +111,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Sets a manual penalty for the given node.
 	 */
 	public void set_manual_penalty(NodeId node_id, long penalty) {
-		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr & ~1, penalty);
+		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr, penalty);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(penalty);
@@ -121,7 +122,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Removes the node with the given `node_id` from the list of manual penalties.
 	 */
 	public void remove_manual_penalty(NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr & ~1);
+		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		this.ptrs_to.add(node_id);
@@ -161,13 +162,14 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
 	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, ProbabilisticScoringParameters arg_a, NetworkGraph arg_b, Logger arg_c) {
-		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr & ~1, arg_b == null ? 0 : arg_b.ptr & ~1, arg_c == null ? 0 : arg_c.ptr);
+		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c == null ? 0 : arg_c.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg_a);
 		Reference.reachabilityFence(arg_b);
 		Reference.reachabilityFence(arg_c);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ProbabilisticScorerDecodeErrorZ ret_hu_conv = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(arg_a);
 		ret_hu_conv.ptrs_to.add(arg_b);
 		ret_hu_conv.ptrs_to.add(arg_c);
 		return ret_hu_conv;

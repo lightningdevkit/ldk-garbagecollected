@@ -41,9 +41,10 @@ public class RouteParameters extends CommonBase {
 	 * The parameters of the failed payment path.
 	 */
 	public void set_payment_params(PaymentParameters val) {
-		bindings.RouteParameters_set_payment_params(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RouteParameters_set_payment_params(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -86,13 +87,14 @@ public class RouteParameters extends CommonBase {
 	 * Constructs a new RouteParameters given each field
 	 */
 	public static RouteParameters of(PaymentParameters payment_params_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg) {
-		long ret = bindings.RouteParameters_new(payment_params_arg == null ? 0 : payment_params_arg.ptr & ~1, final_value_msat_arg, final_cltv_expiry_delta_arg);
+		long ret = bindings.RouteParameters_new(payment_params_arg == null ? 0 : payment_params_arg.ptr, final_value_msat_arg, final_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		Reference.reachabilityFence(final_value_msat_arg);
 		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(payment_params_arg);
 		return ret_hu_conv;
 	}
 

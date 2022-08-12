@@ -64,12 +64,13 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 * Creates a new C2Tuple_BlockHashChannelMonitorZ from the contained elements.
 	 */
 	public static TwoTuple_BlockHashChannelMonitorZ of(byte[] a, ChannelMonitor b) {
-		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(InternalUtils.check_arr_len(a, 32), b == null ? 0 : b.ptr & ~1);
+		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(InternalUtils.check_arr_len(a, 32), b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(b);
 		return ret_hu_conv;
 	}
 

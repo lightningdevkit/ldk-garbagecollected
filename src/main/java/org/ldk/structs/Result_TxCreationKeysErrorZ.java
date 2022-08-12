@@ -43,10 +43,11 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 * Creates a new CResult_TxCreationKeysErrorZ in the success state.
 	 */
 	public static Result_TxCreationKeysErrorZ ok(TxCreationKeys o) {
-		long ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

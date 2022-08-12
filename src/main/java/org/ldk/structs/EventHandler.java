@@ -50,7 +50,7 @@ public class EventHandler extends CommonBase {
 	 * See [`EventsProvider`] for details that must be considered when implementing this method.
 	 */
 	public void handle_event(Event event) {
-		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr & ~1);
+		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(event);
 	}

@@ -220,11 +220,12 @@ public class APIError extends CommonBase {
 	 * Utility method to constructs a new IncompatibleShutdownScript-variant APIError
 	 */
 	public static APIError incompatible_shutdown_script(ShutdownScript script) {
-		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
+		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr);
 		Reference.reachabilityFence(script);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(script);
 		return ret_hu_conv;
 	}
 

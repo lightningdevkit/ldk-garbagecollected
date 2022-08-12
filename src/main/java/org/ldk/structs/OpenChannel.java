@@ -369,9 +369,10 @@ public class OpenChannel extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_channel_type(@Nullable ChannelTypeFeatures val) {
-		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	long clone_ptr() {

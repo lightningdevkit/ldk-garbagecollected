@@ -62,7 +62,7 @@ public class Router extends CommonBase {
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, byte[] payment_hash, @Nullable ChannelDetails[] first_hops, Score scorer) {
-		long ret = bindings.Router_find_route(this.ptr, InternalUtils.check_arr_len(payer, 33), route_params == null ? 0 : route_params.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, scorer == null ? 0 : scorer.ptr);
+		long ret = bindings.Router_find_route(this.ptr, InternalUtils.check_arr_len(payer, 33), route_params == null ? 0 : route_params.ptr, InternalUtils.check_arr_len(payment_hash, 32), first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr).toArray() : null, scorer == null ? 0 : scorer.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payer);
 		Reference.reachabilityFence(route_params);
