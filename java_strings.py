@@ -555,6 +555,9 @@ import javax.annotation.Nullable;
         self.file_ext = ".java"
         self.ptr_c_ty = "int64_t"
         self.ptr_native_ty = "long"
+        self.usize_c_ty = "int64_t"
+        self.usize_native_ty = "long"
+        self.native_zero_ptr = "0"
         self.result_c_ty = "jclass"
         self.ptr_arr = "jobjectArray"
         self.is_arr_some_check = ("", " != NULL")

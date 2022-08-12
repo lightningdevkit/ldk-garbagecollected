@@ -125,7 +125,8 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
-const fn_list = ["uuuuuu", "buuuuu", "bbbbbb", "ubuuuu", "uubuuu"];
+const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu",
+	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu"];
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
@@ -254,6 +255,12 @@ export function decodeUint64Array (arrayPointer: number, free = true): bigint[] 
 export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 
 /* @internal */
+export function getU64ArrayElem(arrayPointer: number, idx: number): bigint {
+	const actualArrayViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
+	return actualArrayViewer[idx];
+}
+
+/* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
 	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
 	return actualArrayViewer[idx];
@@ -322,18 +329,18 @@ export async function initializeWasmFromBinary(bin: Uint8Array) {
         self.common_base = """
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
-function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
+function get_freeer(ptr: bigint, free_fn: (ptr: bigint) => void) {
 	return () => {
 		free_fn(ptr);
 	}
 }
 
 export class CommonBase {
-	protected ptr: number;
+	protected ptr: bigint;
 	protected ptrs_to: object[] = [];
-	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
+	protected constructor(ptr: bigint, free_fn: (ptr: bigint) => void) {
 		this.ptr = ptr;
-		if (Number.isFinite(ptr) && ptr != 0){
+		if (ptr != 0n){
 			finalizer.register(this, get_freeer(ptr, free_fn), this);
 		}
 	}
@@ -347,7 +354,7 @@ export class CommonBase {
 		return o.ptr;
 	}
 	protected static set_null_skip_free(o: CommonBase) {
-		o.ptr = 0;
+		o.ptr = 0n;
 		// @ts-ignore TypeScript is wrong about the returnvalue of unregister here!
 		const did_unregister: boolean = finalizer.unregister(o);
 		if (!did_unregister)
@@ -385,7 +392,7 @@ export class UnqualifiedError {
 	public value: bigint;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.TxOut_free);
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
@@ -592,6 +599,7 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 	}
 
 DECL_ARR_TYPE(int64_t, int64_t);
+DECL_ARR_TYPE(uint64_t, uint64_t);
 DECL_ARR_TYPE(int8_t, int8_t);
 DECL_ARR_TYPE(uint32_t, uint32_t);
 DECL_ARR_TYPE(void*, ptr);
@@ -650,8 +658,11 @@ import * as bindings from '../bindings.mjs'
         self.util_fn_sfx = "}"
         self.c_fn_ty_pfx = ""
         self.file_ext = ".mts"
-        self.ptr_c_ty = "uint32_t"
-        self.ptr_native_ty = "number"
+        self.ptr_c_ty = "uint64_t"
+        self.ptr_native_ty = "bigint"
+        self.usize_c_ty = "uint32_t"
+        self.usize_native_ty = "number"
+        self.native_zero_ptr = "0n"
         self.result_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
@@ -694,7 +705,7 @@ import * as bindings from '../bindings.mjs'
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
         if elem_ty.rust_obj == "LDKu5":
             return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
-        assert elem_ty.c_ty == "uint32_t" or elem_ty.c_ty.endswith("Array")
+        assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array")
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
 
     def str_ref_to_native_call(self, var_name, str_len):
@@ -715,8 +726,10 @@ import * as bindings from '../bindings.mjs'
     def get_java_arr_len(self, arr_name):
         return "bindings.getArrayLength(" + arr_name + ")"
     def get_java_arr_elem(self, elem_ty, arr_name, idx):
-        if elem_ty.c_ty == "uint32_t" or elem_ty.c_ty == "uintptr_t" or elem_ty.c_ty.endswith("Array"):
+        if elem_ty.c_ty.endswith("Array") or elem_ty.c_ty == "uintptr_t":
             return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.c_ty == "uint64_t":
+            return "bindings.getU64ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.rust_obj == "LDKu5":
             return "bindings.getU8ArrayElem(" + arr_name + ", " + idx + ")"
         else:
@@ -737,7 +750,7 @@ import * as bindings from '../bindings.mjs'
             return ("bindings.encodeUint8Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "uint32_t":
             return ("bindings.encodeUint32Array(" + inner + ")", "")
-        elif mapped_ty.c_ty == "int64_t":
+        elif mapped_ty.c_ty == "int64_t" or mapped_ty.c_ty == "uint64_t":
             return ("bindings.encodeUint64Array(" + inner + ")", "")
         else:
             print(mapped_ty.c_ty)
@@ -938,7 +951,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 	public bindings_instance?: bindings.{struct_name};
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {{
+	constructor(_dummy: object, ptr: bigint) {{
 		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
 		this.bindings_instance = null;
 	}}
@@ -948,7 +961,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
 		let structImplementation = {{
 {out_interface_implementation_overrides}		}} as bindings.{struct_name};
-{super_constructor_statements}		const ptr: number = bindings.{struct_name}_new(structImplementation{bindings_instantiator});
+{super_constructor_statements}		const ptr: bigint = bindings.{struct_name}_new(structImplementation{bindings_instantiator});
 
 		impl_holder.held = new {struct_name.replace("LDK", "")}(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -980,7 +993,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
             else:
                 out_typescript_bindings += f", {var[1]}: {var[0]}"
 
-        out_typescript_bindings += f"""): number {{
+        out_typescript_bindings += f"""): bigint {{
 	if(!isWasmInitialized) {{
 		throw new Error("initializeWasm() must be awaited first!");
 	}}
@@ -1061,8 +1074,12 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c += ", (uint32_t)" + arg_info.ret_conv_name
+                        if arg_info.c_ty.endswith("Array"):
+                            out_c += ", (uint32_t)" + arg_info.ret_conv_name
+                        else:
+                            out_c += ", " + arg_info.ret_conv_name
                     else:
+                        assert False # TODO: Would we need some conversion here?
                         out_c += ", (uint32_t)" + arg_info.arg_name
                 for i in range(0, 6 - len(fn_line.args_ty)):
                     out_c += ", 0"
@@ -1133,7 +1150,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "JSValue o"
+        out_c = out_c + self.c_fn_ty_pfx + "uint64_t " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "JSValue o"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
@@ -1171,9 +1188,9 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         java_hu_class = "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
         java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
-        java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
+        java_hu_class += "\tprotected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
-        java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
+        java_hu_class += f"\tpublic static constr_from_ptr(ptr: bigint): {java_hu_type} {{\n"
         java_hu_class += f"\t\tconst raw_ty: number = bindings." + struct_name + "_ty_from_ptr(ptr);\n"
         out_c += self.c_fn_ty_pfx + "uint32_t" + self.c_fn_name_define_pfx(struct_name + "_ty_from_ptr", True) + self.ptr_c_ty + " ptr) {\n"
         out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n"
@@ -1202,13 +1219,13 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 else:
                     hu_conv_body += f"\t\tthis.{field_ty.arg_name} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
             java_hu_subclasses += "\t/* @internal */\n"
-            java_hu_subclasses += "\tpublic constructor(ptr: number) {\n\t\tsuper(null, ptr);\n"
+            java_hu_subclasses += "\tpublic constructor(ptr: bigint) {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
             var_idx += 1
         out_java += "}\n"
         java_hu_class += "\t\t\tdefault:\n\t\t\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t\t}\n\t}\n\n"
-        out_java += self.fn_call_body(struct_name + "_ty_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
+        out_java += self.fn_call_body(struct_name + "_ty_from_ptr", "uint32_t", "number", "ptr: bigint", "ptr")
         out_c += ("\t\tdefault: abort();\n")
         out_c += ("\t}\n}\n")
 
@@ -1232,7 +1249,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     else:
                         out_c += "\treturn " + "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name + ";\n"
                 out_c += "}\n"
-                out_java += self.fn_call_body(fn_name, field_map.c_ty, field_map.java_ty, "ptr: number", "ptr")
+                out_java += self.fn_call_body(fn_name, field_map.c_ty, field_map.java_ty, "ptr: bigint", "ptr")
         out_java_enum += java_hu_class
         self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
         self.obj_defined([java_hu_type], "structs")
@@ -1263,7 +1280,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
  */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {{
+	public constructor(_dummy: object, ptr: bigint) {{
 		{constructor_body}
 	}}{extra_body}
 
@@ -1282,7 +1299,7 @@ export class {hu_name} extends CommonBase {implementations}{{
             suffixes += "\tpublic res: " + res_map.java_hu_ty + ";\n"
         suffixes += f"""
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {{
+	public constructor(_dummy: object, ptr: bigint) {{
 		super(_dummy, ptr);
 """
         if res_map.java_hu_ty == "void":
@@ -1300,7 +1317,7 @@ export class {hu_name} extends CommonBase {implementations}{{
             suffixes += "\tpublic err: " + err_map.java_hu_ty + ";\n"
         suffixes += f"""
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {{
+	public constructor(_dummy: object, ptr: bigint) {{
 		super(_dummy, ptr);
 """
         if err_map.java_hu_ty == "void":
@@ -1319,11 +1336,11 @@ export class {hu_name} extends CommonBase {implementations}{{
         return f"""{self.hu_struct_file_prefix}
 
 export class {human_ty} extends CommonBase {{
-	protected constructor(_dummy: object, ptr: number) {{
+	protected constructor(_dummy: object, ptr: bigint) {{
 		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
 	}}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): {human_ty} {{
+	public static constr_from_ptr(ptr: bigint): {human_ty} {{
 		if (bindings.{struct_name.replace("LDK", "")}_is_ok(ptr)) {{
 			return new {human_ty}_OK(null, ptr);
 		}} else {{
