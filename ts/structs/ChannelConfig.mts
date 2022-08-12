@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelConfig extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelConfig_free);
 	}
 
@@ -583,14 +583,14 @@ export class ChannelConfig extends CommonBase {
 	 * Constructs a new ChannelConfig given each field
 	 */
 	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, max_dust_htlc_exposure_msat_arg: bigint, force_close_avoidance_max_fee_satoshis_arg: bigint): ChannelConfig {
-		const ret: number = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
+		const ret: bigint = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelConfig_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelConfig_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -598,7 +598,7 @@ export class ChannelConfig extends CommonBase {
 	 * Creates a copy of the ChannelConfig
 	 */
 	public clone(): ChannelConfig {
-		const ret: number = bindings.ChannelConfig_clone(this.ptr);
+		const ret: bigint = bindings.ChannelConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -608,7 +608,7 @@ export class ChannelConfig extends CommonBase {
 	 * Creates a "default" ChannelConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static constructor_default(): ChannelConfig {
-		const ret: number = bindings.ChannelConfig_default();
+		const ret: bigint = bindings.ChannelConfig_default();
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -627,7 +627,7 @@ export class ChannelConfig extends CommonBase {
 	 * Read a ChannelConfig from a byte array, created by ChannelConfig_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelConfigDecodeErrorZ {
-		const ret: number = bindings.ChannelConfig_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelConfig_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelConfigDecodeErrorZ = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RouteHintHop extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RouteHintHop_free);
 	}
 
@@ -400,7 +400,7 @@ export class RouteHintHop extends CommonBase {
 	 * The fees which must be paid to use this channel
 	 */
 	public get_fees(): RoutingFees {
-		const ret: number = bindings.RouteHintHop_get_fees(this.ptr);
+		const ret: bigint = bindings.RouteHintHop_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -410,7 +410,8 @@ export class RouteHintHop extends CommonBase {
 	 * The fees which must be paid to use this channel
 	 */
 	public set_fees(val: RoutingFees): void {
-		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -432,7 +433,7 @@ export class RouteHintHop extends CommonBase {
 	 * The minimum value, in msat, which must be relayed to the next hop.
 	 */
 	public get_htlc_minimum_msat(): Option_u64Z {
-		const ret: number = bindings.RouteHintHop_get_htlc_minimum_msat(this.ptr);
+		const ret: bigint = bindings.RouteHintHop_get_htlc_minimum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -449,7 +450,7 @@ export class RouteHintHop extends CommonBase {
 	 * The maximum value in msat available for routing with a single HTLC.
 	 */
 	public get_htlc_maximum_msat(): Option_u64Z {
-		const ret: number = bindings.RouteHintHop_get_htlc_maximum_msat(this.ptr);
+		const ret: bigint = bindings.RouteHintHop_get_htlc_maximum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -466,14 +467,15 @@ export class RouteHintHop extends CommonBase {
 	 * Constructs a new RouteHintHop given each field
 	 */
 	public static constructor_new(src_node_id_arg: Uint8Array, short_channel_id_arg: bigint, fees_arg: RoutingFees, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: Option_u64Z, htlc_maximum_msat_arg: Option_u64Z): RouteHintHop {
-		const ret: number = bindings.RouteHintHop_new(bindings.encodeUint8Array(bindings.check_arr_len(src_node_id_arg, 33)), short_channel_id_arg, fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, cltv_expiry_delta_arg, CommonBase.get_ptr_of(htlc_minimum_msat_arg), CommonBase.get_ptr_of(htlc_maximum_msat_arg));
+		const ret: bigint = bindings.RouteHintHop_new(bindings.encodeUint8Array(bindings.check_arr_len(src_node_id_arg, 33)), short_channel_id_arg, fees_arg == null ? 0n : CommonBase.get_ptr_of(fees_arg), cltv_expiry_delta_arg, CommonBase.get_ptr_of(htlc_minimum_msat_arg), CommonBase.get_ptr_of(htlc_maximum_msat_arg));
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, fees_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RouteHintHop_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RouteHintHop_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -481,7 +483,7 @@ export class RouteHintHop extends CommonBase {
 	 * Creates a copy of the RouteHintHop
 	 */
 	public clone(): RouteHintHop {
-		const ret: number = bindings.RouteHintHop_clone(this.ptr);
+		const ret: bigint = bindings.RouteHintHop_clone(this.ptr);
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -501,7 +503,7 @@ export class RouteHintHop extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: RouteHintHop): boolean {
-		const ret: boolean = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.RouteHintHop_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -519,7 +521,7 @@ export class RouteHintHop extends CommonBase {
 	 * Read a RouteHintHop from a byte array, created by RouteHintHop_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteHintHopDecodeErrorZ {
-		const ret: number = bindings.RouteHintHop_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.RouteHintHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHintHopDecodeErrorZ = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

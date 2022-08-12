@@ -360,9 +360,9 @@ import * as bindings from '../bindings.mjs'
  * may occur.
  */
 export class SignOrCreationError extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.SignOrCreationError_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.SignOrCreationError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): SignOrCreationError {
+	public static constr_from_ptr(ptr: bigint): SignOrCreationError {
 		const raw_ty: number = bindings.LDKSignOrCreationError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new SignOrCreationError_SignError(ptr);
@@ -372,8 +372,8 @@ export class SignOrCreationError extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.SignOrCreationError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.SignOrCreationError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -381,7 +381,7 @@ export class SignOrCreationError extends CommonBase {
 	 * Creates a copy of the SignOrCreationError
 	 */
 	public clone(): SignOrCreationError {
-		const ret: number = bindings.SignOrCreationError_clone(this.ptr);
+		const ret: bigint = bindings.SignOrCreationError_clone(this.ptr);
 		const ret_hu_conv: SignOrCreationError = SignOrCreationError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -391,7 +391,7 @@ export class SignOrCreationError extends CommonBase {
 	 * Utility method to constructs a new SignError-variant SignOrCreationError
 	 */
 	public static constructor_sign_error(): SignOrCreationError {
-		const ret: number = bindings.SignOrCreationError_sign_error();
+		const ret: bigint = bindings.SignOrCreationError_sign_error();
 		const ret_hu_conv: SignOrCreationError = SignOrCreationError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,7 +401,7 @@ export class SignOrCreationError extends CommonBase {
 	 * Utility method to constructs a new CreationError-variant SignOrCreationError
 	 */
 	public static constructor_creation_error(a: CreationError): SignOrCreationError {
-		const ret: number = bindings.SignOrCreationError_creation_error(a);
+		const ret: bigint = bindings.SignOrCreationError_creation_error(a);
 		const ret_hu_conv: SignOrCreationError = SignOrCreationError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -412,7 +412,7 @@ export class SignOrCreationError extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public eq(b: SignOrCreationError): boolean {
-		const ret: boolean = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		return ret;
 	}
 
@@ -429,7 +429,7 @@ export class SignOrCreationError extends CommonBase {
 /** A SignOrCreationError of type SignError */
 export class SignOrCreationError_SignError extends SignOrCreationError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -437,7 +437,7 @@ export class SignOrCreationError_SignError extends SignOrCreationError {
 export class SignOrCreationError_CreationError extends SignOrCreationError {
 	public creation_error: CreationError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.creation_error = bindings.LDKSignOrCreationError_CreationError_get_creation_error(ptr);
 	}

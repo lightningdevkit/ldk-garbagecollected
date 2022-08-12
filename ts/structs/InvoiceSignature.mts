@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class InvoiceSignature extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.InvoiceSignature_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.InvoiceSignature_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.InvoiceSignature_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class InvoiceSignature extends CommonBase {
 	 * Creates a copy of the InvoiceSignature
 	 */
 	public clone(): InvoiceSignature {
-		const ret: number = bindings.InvoiceSignature_clone(this.ptr);
+		const ret: bigint = bindings.InvoiceSignature_clone(this.ptr);
 		const ret_hu_conv: InvoiceSignature = new InvoiceSignature(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -386,7 +386,7 @@ export class InvoiceSignature extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: InvoiceSignature): boolean {
-		const ret: boolean = bindings.InvoiceSignature_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.InvoiceSignature_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}

@@ -394,7 +394,7 @@ export class Payer extends CommonBase {
 	public bindings_instance?: bindings.LDKPayer;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Payer_free);
 		this.bindings_instance = null;
 	}
@@ -410,29 +410,29 @@ export class Payer extends CommonBase {
 			},
 			first_hops (): number {
 				const ret: ChannelDetails[] = arg.first_hops();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_16 => ret_conv_16 == null ? 0 : ret_conv_16.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_16 => ret_conv_16 == null ? 0n : ret_conv_16.clone_ptr()) : null);
 				return result;
 			},
-			send_payment (route: number, payment_hash: number, payment_secret: number): number {
+			send_payment (route: bigint, payment_hash: number, payment_secret: number): bigint {
 				const route_hu_conv: Route = new Route(null, route);
 				const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
 				const payment_secret_conv: Uint8Array = bindings.decodeUint8Array(payment_secret);
 				const ret: Result_PaymentIdPaymentSendFailureZ = arg.send_payment(route_hu_conv, payment_hash_conv, payment_secret_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			send_spontaneous_payment (route: number, payment_preimage: number): number {
+			send_spontaneous_payment (route: bigint, payment_preimage: number): bigint {
 				const route_hu_conv: Route = new Route(null, route);
 				const payment_preimage_conv: Uint8Array = bindings.decodeUint8Array(payment_preimage);
 				const ret: Result_PaymentIdPaymentSendFailureZ = arg.send_spontaneous_payment(route_hu_conv, payment_preimage_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			retry_payment (route: number, payment_id: number): number {
+			retry_payment (route: bigint, payment_id: number): bigint {
 				const route_hu_conv: Route = new Route(null, route);
 				const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
 				const ret: Result_NonePaymentSendFailureZ = arg.retry_payment(route_hu_conv, payment_id_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			abandon_payment (payment_id: number): void {
@@ -440,7 +440,7 @@ export class Payer extends CommonBase {
 				arg.abandon_payment(payment_id_conv);
 			},
 		} as bindings.LDKPayer;
-		const ptr: number = bindings.LDKPayer_new(structImplementation);
+		const ptr: bigint = bindings.LDKPayer_new(structImplementation);
 
 		impl_holder.held = new Payer(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -464,7 +464,7 @@ export class Payer extends CommonBase {
 		const ret_conv_16_len: number = bindings.getArrayLength(ret);
 		const ret_conv_16_arr: ChannelDetails[] = new Array(ret_conv_16_len).fill(null);
 		for (var q = 0; q < ret_conv_16_len; q++) {
-			const ret_conv_16: number = bindings.getU32ArrayElem(ret, q);
+			const ret_conv_16: bigint = bindings.getU64ArrayElem(ret, q);
 			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
 			CommonBase.add_ref_from(ret_conv_16_hu_conv, this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
@@ -479,7 +479,7 @@ export class Payer extends CommonBase {
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public send_payment(route: Route, payment_hash: Uint8Array, payment_secret: Uint8Array): Result_PaymentIdPaymentSendFailureZ {
-		const ret: number = bindings.Payer_send_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
+		const ret: bigint = bindings.Payer_send_payment(this.ptr, route == null ? 0n : CommonBase.get_ptr_of(route), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;
@@ -489,7 +489,7 @@ export class Payer extends CommonBase {
 	 * Sends a spontaneous payment over the Lightning Network using the given [`Route`].
 	 */
 	public send_spontaneous_payment(route: Route, payment_preimage: Uint8Array): Result_PaymentIdPaymentSendFailureZ {
-		const ret: number = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
+		const ret: bigint = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0n : CommonBase.get_ptr_of(route), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;
@@ -499,7 +499,7 @@ export class Payer extends CommonBase {
 	 * Retries a failed payment path for the [`PaymentId`] using the given [`Route`].
 	 */
 	public retry_payment(route: Route, payment_id: Uint8Array): Result_NonePaymentSendFailureZ {
-		const ret: number = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
+		const ret: bigint = bindings.Payer_retry_payment(this.ptr, route == null ? 0n : CommonBase.get_ptr_of(route), bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
 		const ret_hu_conv: Result_NonePaymentSendFailureZ = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;

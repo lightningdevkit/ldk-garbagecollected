@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class QueryChannelRange extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.QueryChannelRange_free);
 	}
 
@@ -418,14 +418,14 @@ export class QueryChannelRange extends CommonBase {
 	 * Constructs a new QueryChannelRange given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, first_blocknum_arg: number, number_of_blocks_arg: number): QueryChannelRange {
-		const ret: number = bindings.QueryChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg);
+		const ret: bigint = bindings.QueryChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg);
 		const ret_hu_conv: QueryChannelRange = new QueryChannelRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.QueryChannelRange_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.QueryChannelRange_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -433,7 +433,7 @@ export class QueryChannelRange extends CommonBase {
 	 * Creates a copy of the QueryChannelRange
 	 */
 	public clone(): QueryChannelRange {
-		const ret: number = bindings.QueryChannelRange_clone(this.ptr);
+		const ret: bigint = bindings.QueryChannelRange_clone(this.ptr);
 		const ret_hu_conv: QueryChannelRange = new QueryChannelRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -460,7 +460,7 @@ export class QueryChannelRange extends CommonBase {
 	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_QueryChannelRangeDecodeErrorZ {
-		const ret: number = bindings.QueryChannelRange_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.QueryChannelRange_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_QueryChannelRangeDecodeErrorZ = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

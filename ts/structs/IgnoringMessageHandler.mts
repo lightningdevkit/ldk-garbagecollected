@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class IgnoringMessageHandler extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.IgnoringMessageHandler_free);
 	}
 
@@ -370,7 +370,7 @@ export class IgnoringMessageHandler extends CommonBase {
 	 * Constructs a new IgnoringMessageHandler given each field
 	 */
 	public static constructor_new(): IgnoringMessageHandler {
-		const ret: number = bindings.IgnoringMessageHandler_new();
+		const ret: bigint = bindings.IgnoringMessageHandler_new();
 		const ret_hu_conv: IgnoringMessageHandler = new IgnoringMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -381,7 +381,7 @@ export class IgnoringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
 	public as_MessageSendEventsProvider(): MessageSendEventsProvider {
-		const ret: number = bindings.IgnoringMessageHandler_as_MessageSendEventsProvider(this.ptr);
+		const ret: bigint = bindings.IgnoringMessageHandler_as_MessageSendEventsProvider(this.ptr);
 		const ret_hu_conv: MessageSendEventsProvider = new MessageSendEventsProvider(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -392,7 +392,7 @@ export class IgnoringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned RoutingMessageHandler must be freed before this_arg is
 	 */
 	public as_RoutingMessageHandler(): RoutingMessageHandler {
-		const ret: number = bindings.IgnoringMessageHandler_as_RoutingMessageHandler(this.ptr);
+		const ret: bigint = bindings.IgnoringMessageHandler_as_RoutingMessageHandler(this.ptr);
 		const ret_hu_conv: RoutingMessageHandler = new RoutingMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -403,7 +403,7 @@ export class IgnoringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned CustomMessageReader must be freed before this_arg is
 	 */
 	public as_CustomMessageReader(): CustomMessageReader {
-		const ret: number = bindings.IgnoringMessageHandler_as_CustomMessageReader(this.ptr);
+		const ret: bigint = bindings.IgnoringMessageHandler_as_CustomMessageReader(this.ptr);
 		const ret_hu_conv: CustomMessageReader = new CustomMessageReader(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class IgnoringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned CustomMessageHandler must be freed before this_arg is
 	 */
 	public as_CustomMessageHandler(): CustomMessageHandler {
-		const ret: number = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ptr);
+		const ret: bigint = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ptr);
 		const ret_hu_conv: CustomMessageHandler = new CustomMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

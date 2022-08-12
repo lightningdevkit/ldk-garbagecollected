@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class AnnouncementSignatures extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.AnnouncementSignatures_free);
 	}
 
@@ -432,14 +432,14 @@ export class AnnouncementSignatures extends CommonBase {
 	 * Constructs a new AnnouncementSignatures given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, short_channel_id_arg: bigint, node_signature_arg: Uint8Array, bitcoin_signature_arg: Uint8Array): AnnouncementSignatures {
-		const ret: number = bindings.AnnouncementSignatures_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), short_channel_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(node_signature_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_arg, 64)));
+		const ret: bigint = bindings.AnnouncementSignatures_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), short_channel_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(node_signature_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_arg, 64)));
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.AnnouncementSignatures_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.AnnouncementSignatures_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -447,7 +447,7 @@ export class AnnouncementSignatures extends CommonBase {
 	 * Creates a copy of the AnnouncementSignatures
 	 */
 	public clone(): AnnouncementSignatures {
-		const ret: number = bindings.AnnouncementSignatures_clone(this.ptr);
+		const ret: bigint = bindings.AnnouncementSignatures_clone(this.ptr);
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -466,7 +466,7 @@ export class AnnouncementSignatures extends CommonBase {
 	 * Read a AnnouncementSignatures from a byte array, created by AnnouncementSignatures_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_AnnouncementSignaturesDecodeErrorZ {
-		const ret: number = bindings.AnnouncementSignatures_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.AnnouncementSignatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_AnnouncementSignaturesDecodeErrorZ = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

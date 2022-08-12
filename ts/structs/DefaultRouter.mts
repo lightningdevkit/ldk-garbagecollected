@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class DefaultRouter extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.DefaultRouter_free);
 	}
 
@@ -370,7 +370,7 @@ export class DefaultRouter extends CommonBase {
 	 * `random_seed_bytes`.
 	 */
 	public static constructor_new(network_graph: NetworkGraph, logger: Logger, random_seed_bytes: Uint8Array): DefaultRouter {
-		const ret: number = bindings.DefaultRouter_new(network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1, logger == null ? 0 : CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
+		const ret: bigint = bindings.DefaultRouter_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
 		const ret_hu_conv: DefaultRouter = new DefaultRouter(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
@@ -383,7 +383,7 @@ export class DefaultRouter extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Router must be freed before this_arg is
 	 */
 	public as_Router(): Router {
-		const ret: number = bindings.DefaultRouter_as_Router(this.ptr);
+		const ret: bigint = bindings.DefaultRouter_as_Router(this.ptr);
 		const ret_hu_conv: Router = new Router(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

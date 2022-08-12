@@ -363,7 +363,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class PhantomRouteHints extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PhantomRouteHints_free);
 	}
 
@@ -375,7 +375,7 @@ export class PhantomRouteHints extends CommonBase {
 		const ret_conv_16_len: number = bindings.getArrayLength(ret);
 		const ret_conv_16_arr: ChannelDetails[] = new Array(ret_conv_16_len).fill(null);
 		for (var q = 0; q < ret_conv_16_len; q++) {
-			const ret_conv_16: number = bindings.getU32ArrayElem(ret, q);
+			const ret_conv_16: bigint = bindings.getU64ArrayElem(ret, q);
 			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
 			CommonBase.add_ref_from(ret_conv_16_hu_conv, this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
@@ -388,7 +388,8 @@ export class PhantomRouteHints extends CommonBase {
 	 * The list of channels to be included in the invoice route hints.
 	 */
 	public set_channels(val: ChannelDetails[]): void {
-		bindings.PhantomRouteHints_set_channels(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_16 => val_conv_16 == null ? 0 : CommonBase.get_ptr_of(val_conv_16) & ~1) : null));
+		bindings.PhantomRouteHints_set_channels(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_16 => val_conv_16 == null ? 0n : CommonBase.get_ptr_of(val_conv_16)) : null));
+		val.forEach((val_conv_16: ChannelDetails) => { CommonBase.add_ref_from(this, val_conv_16); });
 	}
 
 	/**
@@ -428,14 +429,15 @@ export class PhantomRouteHints extends CommonBase {
 	 * Constructs a new PhantomRouteHints given each field
 	 */
 	public static constructor_new(channels_arg: ChannelDetails[], phantom_scid_arg: bigint, real_node_pubkey_arg: Uint8Array): PhantomRouteHints {
-		const ret: number = bindings.PhantomRouteHints_new(bindings.encodeUint32Array(channels_arg != null ? channels_arg.map(channels_arg_conv_16 => channels_arg_conv_16 == null ? 0 : CommonBase.get_ptr_of(channels_arg_conv_16) & ~1) : null), phantom_scid_arg, bindings.encodeUint8Array(bindings.check_arr_len(real_node_pubkey_arg, 33)));
+		const ret: bigint = bindings.PhantomRouteHints_new(bindings.encodeUint64Array(channels_arg != null ? channels_arg.map(channels_arg_conv_16 => channels_arg_conv_16 == null ? 0n : CommonBase.get_ptr_of(channels_arg_conv_16)) : null), phantom_scid_arg, bindings.encodeUint8Array(bindings.check_arr_len(real_node_pubkey_arg, 33)));
 		const ret_hu_conv: PhantomRouteHints = new PhantomRouteHints(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		channels_arg.forEach((channels_arg_conv_16: ChannelDetails) => { CommonBase.add_ref_from(ret_hu_conv, channels_arg_conv_16); });
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PhantomRouteHints_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PhantomRouteHints_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -443,7 +445,7 @@ export class PhantomRouteHints extends CommonBase {
 	 * Creates a copy of the PhantomRouteHints
 	 */
 	public clone(): PhantomRouteHints {
-		const ret: number = bindings.PhantomRouteHints_clone(this.ptr);
+		const ret: bigint = bindings.PhantomRouteHints_clone(this.ptr);
 		const ret_hu_conv: PhantomRouteHints = new PhantomRouteHints(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -462,7 +464,7 @@ export class PhantomRouteHints extends CommonBase {
 	 * Read a PhantomRouteHints from a byte array, created by PhantomRouteHints_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_PhantomRouteHintsDecodeErrorZ {
-		const ret: number = bindings.PhantomRouteHints_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.PhantomRouteHints_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PhantomRouteHintsDecodeErrorZ = Result_PhantomRouteHintsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

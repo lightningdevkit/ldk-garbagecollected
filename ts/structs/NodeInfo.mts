@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class NodeInfo extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NodeInfo_free);
 	}
 
@@ -391,7 +391,7 @@ export class NodeInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_lowest_inbound_channel_fees(): RoutingFees {
-		const ret: number = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
+		const ret: bigint = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -405,7 +405,8 @@ export class NodeInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_lowest_inbound_channel_fees(val: RoutingFees): void {
-		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -416,7 +417,7 @@ export class NodeInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_announcement_info(): NodeAnnouncementInfo {
-		const ret: number = bindings.NodeInfo_get_announcement_info(this.ptr);
+		const ret: bigint = bindings.NodeInfo_get_announcement_info(this.ptr);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -430,21 +431,24 @@ export class NodeInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_announcement_info(val: NodeAnnouncementInfo): void {
-		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new NodeInfo given each field
 	 */
 	public static constructor_new(channels_arg: bigint[], lowest_inbound_channel_fees_arg: RoutingFees, announcement_info_arg: NodeAnnouncementInfo): NodeInfo {
-		const ret: number = bindings.NodeInfo_new(bindings.encodeUint64Array(channels_arg), lowest_inbound_channel_fees_arg == null ? 0 : CommonBase.get_ptr_of(lowest_inbound_channel_fees_arg) & ~1, announcement_info_arg == null ? 0 : CommonBase.get_ptr_of(announcement_info_arg) & ~1);
+		const ret: bigint = bindings.NodeInfo_new(bindings.encodeUint64Array(channels_arg), lowest_inbound_channel_fees_arg == null ? 0n : CommonBase.get_ptr_of(lowest_inbound_channel_fees_arg), announcement_info_arg == null ? 0n : CommonBase.get_ptr_of(announcement_info_arg));
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, lowest_inbound_channel_fees_arg);
+		CommonBase.add_ref_from(ret_hu_conv, announcement_info_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NodeInfo_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NodeInfo_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -452,7 +456,7 @@ export class NodeInfo extends CommonBase {
 	 * Creates a copy of the NodeInfo
 	 */
 	public clone(): NodeInfo {
-		const ret: number = bindings.NodeInfo_clone(this.ptr);
+		const ret: bigint = bindings.NodeInfo_clone(this.ptr);
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -471,7 +475,7 @@ export class NodeInfo extends CommonBase {
 	 * Read a NodeInfo from a byte array, created by NodeInfo_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeInfoDecodeErrorZ {
-		const ret: number = bindings.NodeInfo_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NodeInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeInfoDecodeErrorZ = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -381,7 +381,7 @@ export class Sign extends CommonBase {
 	public bindings_instance?: bindings.LDKSign;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Sign_free);
 		this.bindings_instance = null;
 	}
@@ -397,7 +397,7 @@ export class Sign extends CommonBase {
 			},
 		} as bindings.LDKSign;
 		const baseSign = BaseSign.new_impl(baseSign_impl, pubkeys, );
-		const ptr: number = bindings.LDKSign_new(structImplementation, baseSign.bindings_instance, pubkeys == null ? 0 : pubkeys.clone_ptr());
+		const ptr: bigint = bindings.LDKSign_new(structImplementation, baseSign.bindings_instance, pubkeys == null ? 0n : pubkeys.clone_ptr());
 
 		impl_holder.held = new Sign(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -414,8 +414,8 @@ export class Sign extends CommonBase {
 		return ret_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Sign_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Sign_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -423,7 +423,7 @@ export class Sign extends CommonBase {
 	 * Creates a copy of a Sign
 	 */
 	public clone(): Sign {
-		const ret: number = bindings.Sign_clone(this.ptr);
+		const ret: bigint = bindings.Sign_clone(this.ptr);
 		const ret_hu_conv: Sign = new Sign(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

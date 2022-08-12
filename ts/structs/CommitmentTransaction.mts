@@ -366,12 +366,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class CommitmentTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CommitmentTransaction_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CommitmentTransaction_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CommitmentTransaction_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -379,7 +379,7 @@ export class CommitmentTransaction extends CommonBase {
 	 * Creates a copy of the CommitmentTransaction
 	 */
 	public clone(): CommitmentTransaction {
-		const ret: number = bindings.CommitmentTransaction_clone(this.ptr);
+		const ret: bigint = bindings.CommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -398,7 +398,7 @@ export class CommitmentTransaction extends CommonBase {
 	 * Read a CommitmentTransaction from a byte array, created by CommitmentTransaction_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_CommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.CommitmentTransaction_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.CommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CommitmentTransactionDecodeErrorZ = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -444,7 +444,7 @@ export class CommitmentTransaction extends CommonBase {
 	 * be used by an external signer - instead use the verify function.
 	 */
 	public trust(): TrustedCommitmentTransaction {
-		const ret: number = bindings.CommitmentTransaction_trust(this.ptr);
+		const ret: bigint = bindings.CommitmentTransaction_trust(this.ptr);
 		const ret_hu_conv: TrustedCommitmentTransaction = new TrustedCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -459,7 +459,7 @@ export class CommitmentTransaction extends CommonBase {
 	 * or using the built transaction.
 	 */
 	public verify(channel_parameters: DirectedChannelTransactionParameters, broadcaster_keys: ChannelPublicKeys, countersignatory_keys: ChannelPublicKeys): Result_TrustedCommitmentTransactionNoneZ {
-		const ret: number = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1, broadcaster_keys == null ? 0 : CommonBase.get_ptr_of(broadcaster_keys) & ~1, countersignatory_keys == null ? 0 : CommonBase.get_ptr_of(countersignatory_keys) & ~1);
+		const ret: bigint = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters), broadcaster_keys == null ? 0n : CommonBase.get_ptr_of(broadcaster_keys), countersignatory_keys == null ? 0n : CommonBase.get_ptr_of(countersignatory_keys));
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, channel_parameters);
 		CommonBase.add_ref_from(this, broadcaster_keys);

@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_NoneChannelMonitorUpdateErrZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_NoneChannelMonitorUpdateErrZ {
+	public static constr_from_ptr(ptr: bigint): Result_NoneChannelMonitorUpdateErrZ {
 		if (bindings.CResult_NoneChannelMonitorUpdateErrZ_is_ok(ptr)) {
 			return new Result_NoneChannelMonitorUpdateErrZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	 * Creates a new CResult_NoneChannelMonitorUpdateErrZ in the success state.
 	 */
 	public static constructor_ok(): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	 * Creates a new CResult_NoneChannelMonitorUpdateErrZ in the error state.
 	 */
 	public static constructor_err(e: ChannelMonitorUpdateErr): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
+		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -414,7 +414,7 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 export class Result_NoneChannelMonitorUpdateErrZ_OK extends Result_NoneChannelMonitorUpdateErrZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }
@@ -422,7 +422,7 @@ export class Result_NoneChannelMonitorUpdateErrZ_Err extends Result_NoneChannelM
 	public err: ChannelMonitorUpdateErr;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.err = bindings.CResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
 	}

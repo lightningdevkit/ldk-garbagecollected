@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * Fallback address in case no LN payment is possible
  */
 export class Fallback extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Fallback_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.Fallback_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Fallback {
+	public static constr_from_ptr(ptr: bigint): Fallback {
 		const raw_ty: number = bindings.LDKFallback_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Fallback_SegWitProgram(ptr);
@@ -372,8 +372,8 @@ export class Fallback extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Fallback_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Fallback_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -381,7 +381,7 @@ export class Fallback extends CommonBase {
 	 * Creates a copy of the Fallback
 	 */
 	public clone(): Fallback {
-		const ret: number = bindings.Fallback_clone(this.ptr);
+		const ret: bigint = bindings.Fallback_clone(this.ptr);
 		const ret_hu_conv: Fallback = Fallback.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -391,7 +391,7 @@ export class Fallback extends CommonBase {
 	 * Utility method to constructs a new SegWitProgram-variant Fallback
 	 */
 	public static constructor_seg_wit_program(version: UInt5, program: Uint8Array): Fallback {
-		const ret: number = bindings.Fallback_seg_wit_program(version.getVal(), bindings.encodeUint8Array(program));
+		const ret: bigint = bindings.Fallback_seg_wit_program(version.getVal(), bindings.encodeUint8Array(program));
 		const ret_hu_conv: Fallback = Fallback.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,7 +401,7 @@ export class Fallback extends CommonBase {
 	 * Utility method to constructs a new PubKeyHash-variant Fallback
 	 */
 	public static constructor_pub_key_hash(a: Uint8Array): Fallback {
-		const ret: number = bindings.Fallback_pub_key_hash(bindings.encodeUint8Array(bindings.check_arr_len(a, 20)));
+		const ret: bigint = bindings.Fallback_pub_key_hash(bindings.encodeUint8Array(bindings.check_arr_len(a, 20)));
 		const ret_hu_conv: Fallback = Fallback.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -411,7 +411,7 @@ export class Fallback extends CommonBase {
 	 * Utility method to constructs a new ScriptHash-variant Fallback
 	 */
 	public static constructor_script_hash(a: Uint8Array): Fallback {
-		const ret: number = bindings.Fallback_script_hash(bindings.encodeUint8Array(bindings.check_arr_len(a, 20)));
+		const ret: bigint = bindings.Fallback_script_hash(bindings.encodeUint8Array(bindings.check_arr_len(a, 20)));
 		const ret_hu_conv: Fallback = Fallback.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -430,7 +430,7 @@ export class Fallback extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public eq(b: Fallback): boolean {
-		const ret: boolean = bindings.Fallback_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.Fallback_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		return ret;
 	}
 
@@ -440,7 +440,7 @@ export class Fallback_SegWitProgram extends Fallback {
 	public version: UInt5;
 	public program: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const version: number = bindings.LDKFallback_SegWitProgram_get_version(ptr);
 		const version_conv: UInt5 = new UInt5(version);
@@ -454,7 +454,7 @@ export class Fallback_SegWitProgram extends Fallback {
 export class Fallback_PubKeyHash extends Fallback {
 	public pub_key_hash: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const pub_key_hash: number = bindings.LDKFallback_PubKeyHash_get_pub_key_hash(ptr);
 		const pub_key_hash_conv: Uint8Array = bindings.decodeUint8Array(pub_key_hash);
@@ -465,7 +465,7 @@ export class Fallback_PubKeyHash extends Fallback {
 export class Fallback_ScriptHash extends Fallback {
 	public script_hash: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const script_hash: number = bindings.LDKFallback_ScriptHash_get_script_hash(ptr);
 		const script_hash_conv: Uint8Array = bindings.decodeUint8Array(script_hash);

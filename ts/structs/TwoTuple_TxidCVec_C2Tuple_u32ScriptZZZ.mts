@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free);
 	}
 
@@ -382,7 +382,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		const ret_conv_21_len: number = bindings.getArrayLength(ret);
 		const ret_conv_21_arr: TwoTuple_u32ScriptZ[] = new Array(ret_conv_21_len).fill(null);
 		for (var v = 0; v < ret_conv_21_len; v++) {
-			const ret_conv_21: number = bindings.getU32ArrayElem(ret, v);
+			const ret_conv_21: bigint = bindings.getU64ArrayElem(ret, v);
 			const ret_conv_21_hu_conv: TwoTuple_u32ScriptZ = new TwoTuple_u32ScriptZ(null, ret_conv_21);
 			CommonBase.add_ref_from(ret_conv_21_hu_conv, this);
 			ret_conv_21_arr[v] = ret_conv_21_hu_conv;
@@ -391,8 +391,8 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		return ret_conv_21_arr;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ {
-		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -411,7 +411,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	 * Creates a new C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ from the contained elements.
 	 */
 	public static constructor_new(a: Uint8Array, b: TwoTuple_u32ScriptZ[]): TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ {
-		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint32Array(b != null ? b.map(b_conv_21 => b_conv_21 != null ? CommonBase.get_ptr_of(b_conv_21) : 0) : null));
+		const ret: bigint = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint64Array(b != null ? b.map(b_conv_21 => b_conv_21 != null ? CommonBase.get_ptr_of(b_conv_21) : 0n) : null));
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

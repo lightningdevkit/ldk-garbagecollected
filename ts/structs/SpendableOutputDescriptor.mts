@@ -363,9 +363,9 @@ import * as bindings from '../bindings.mjs'
  * that txid/index, and any keys or other information required to sign.
  */
 export class SpendableOutputDescriptor extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.SpendableOutputDescriptor_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.SpendableOutputDescriptor_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): SpendableOutputDescriptor {
+	public static constr_from_ptr(ptr: bigint): SpendableOutputDescriptor {
 		const raw_ty: number = bindings.LDKSpendableOutputDescriptor_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new SpendableOutputDescriptor_StaticOutput(ptr);
@@ -376,8 +376,8 @@ export class SpendableOutputDescriptor extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.SpendableOutputDescriptor_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.SpendableOutputDescriptor_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -385,7 +385,7 @@ export class SpendableOutputDescriptor extends CommonBase {
 	 * Creates a copy of the SpendableOutputDescriptor
 	 */
 	public clone(): SpendableOutputDescriptor {
-		const ret: number = bindings.SpendableOutputDescriptor_clone(this.ptr);
+		const ret: bigint = bindings.SpendableOutputDescriptor_clone(this.ptr);
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,9 +395,10 @@ export class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new StaticOutput-variant SpendableOutputDescriptor
 	 */
 	public static constructor_static_output(outpoint: OutPoint, output: TxOut): SpendableOutputDescriptor {
-		const ret: number = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : CommonBase.get_ptr_of(outpoint) & ~1, CommonBase.get_ptr_of(output));
+		const ret: bigint = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0n : CommonBase.get_ptr_of(outpoint), CommonBase.get_ptr_of(output));
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, outpoint);
 		return ret_hu_conv;
 	}
 
@@ -405,9 +406,10 @@ export class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new DelayedPaymentOutput-variant SpendableOutputDescriptor
 	 */
 	public static constructor_delayed_payment_output(a: DelayedPaymentOutputDescriptor): SpendableOutputDescriptor {
-		const ret: number = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -415,9 +417,10 @@ export class SpendableOutputDescriptor extends CommonBase {
 	 * Utility method to constructs a new StaticPaymentOutput-variant SpendableOutputDescriptor
 	 */
 	public static constructor_static_payment_output(a: StaticPaymentOutputDescriptor): SpendableOutputDescriptor {
-		const ret: number = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -434,7 +437,7 @@ export class SpendableOutputDescriptor extends CommonBase {
 	 * Read a SpendableOutputDescriptor from a byte array, created by SpendableOutputDescriptor_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_SpendableOutputDescriptorDecodeErrorZ {
-		const ret: number = bindings.SpendableOutputDescriptor_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.SpendableOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_SpendableOutputDescriptorDecodeErrorZ = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -451,13 +454,13 @@ export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescr
 	 */
 	public output: TxOut;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const outpoint: number = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_outpoint(ptr);
+		const outpoint: bigint = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_outpoint(ptr);
 		const outpoint_hu_conv: OutPoint = new OutPoint(null, outpoint);
 			CommonBase.add_ref_from(outpoint_hu_conv, this);
 		this.outpoint = outpoint_hu_conv;
-		const output: number = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_output(ptr);
+		const output: bigint = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_output(ptr);
 		const output_conv: TxOut = new TxOut(null, output);
 		this.output = output_conv;
 	}
@@ -466,9 +469,9 @@ export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescr
 export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOutputDescriptor {
 	public delayed_payment_output: DelayedPaymentOutputDescriptor;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const delayed_payment_output: number = bindings.LDKSpendableOutputDescriptor_DelayedPaymentOutput_get_delayed_payment_output(ptr);
+		const delayed_payment_output: bigint = bindings.LDKSpendableOutputDescriptor_DelayedPaymentOutput_get_delayed_payment_output(ptr);
 		const delayed_payment_output_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, delayed_payment_output);
 			CommonBase.add_ref_from(delayed_payment_output_hu_conv, this);
 		this.delayed_payment_output = delayed_payment_output_hu_conv;
@@ -478,9 +481,9 @@ export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOut
 export class SpendableOutputDescriptor_StaticPaymentOutput extends SpendableOutputDescriptor {
 	public static_payment_output: StaticPaymentOutputDescriptor;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const static_payment_output: number = bindings.LDKSpendableOutputDescriptor_StaticPaymentOutput_get_static_payment_output(ptr);
+		const static_payment_output: bigint = bindings.LDKSpendableOutputDescriptor_StaticPaymentOutput_get_static_payment_output(ptr);
 		const static_payment_output_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, static_payment_output);
 			CommonBase.add_ref_from(static_payment_output_hu_conv, this);
 		this.static_payment_output = static_payment_output_hu_conv;

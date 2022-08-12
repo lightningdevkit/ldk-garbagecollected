@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_SignatureCVec_SignatureZZ_free);
 	}
 
@@ -390,8 +390,8 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 		return ret_conv_12_arr;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -400,7 +400,7 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_SignatureCVec_SignatureZZ {
-		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -410,7 +410,7 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	 * Creates a new C2Tuple_SignatureCVec_SignatureZZ from the contained elements.
 	 */
 	public static constructor_new(a: Uint8Array, b: Uint8Array[]): TwoTuple_SignatureCVec_SignatureZZ {
-		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint32Array(b != null ? b.map(b_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(b_conv_12, 64))) : null));
+		const ret: bigint = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint32Array(b != null ? b.map(b_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(b_conv_12, 64))) : null));
 		const ret_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

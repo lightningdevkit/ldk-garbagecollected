@@ -401,7 +401,7 @@ export class Score extends CommonBase {
 	public bindings_instance?: bindings.LDKScore;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Score_free);
 		this.bindings_instance = null;
 	}
@@ -410,7 +410,7 @@ export class Score extends CommonBase {
 	public static new_impl(arg: ScoreInterface): Score {
 		const impl_holder: LDKScoreHolder = new LDKScoreHolder();
 		let structImplementation = {
-			channel_penalty_msat (short_channel_id: bigint, source: number, target: number, usage: number): bigint {
+			channel_penalty_msat (short_channel_id: bigint, source: bigint, target: bigint, usage: bigint): bigint {
 				const source_hu_conv: NodeId = new NodeId(null, source);
 				const target_hu_conv: NodeId = new NodeId(null, target);
 				const usage_hu_conv: ChannelUsage = new ChannelUsage(null, usage);
@@ -422,7 +422,7 @@ export class Score extends CommonBase {
 				const path_conv_10_len: number = bindings.getArrayLength(path);
 				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
 				for (var k = 0; k < path_conv_10_len; k++) {
-					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10: bigint = bindings.getU64ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
@@ -434,7 +434,7 @@ export class Score extends CommonBase {
 				const path_conv_10_len: number = bindings.getArrayLength(path);
 				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
 				for (var k = 0; k < path_conv_10_len; k++) {
-					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10: bigint = bindings.getU64ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
@@ -446,7 +446,7 @@ export class Score extends CommonBase {
 				const path_conv_10_len: number = bindings.getArrayLength(path);
 				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
 				for (var k = 0; k < path_conv_10_len; k++) {
-					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10: bigint = bindings.getU64ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
@@ -458,7 +458,7 @@ export class Score extends CommonBase {
 				const path_conv_10_len: number = bindings.getArrayLength(path);
 				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
 				for (var k = 0; k < path_conv_10_len; k++) {
-					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
+					const path_conv_10: bigint = bindings.getU64ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
@@ -472,7 +472,7 @@ export class Score extends CommonBase {
 				return result;
 			},
 		} as bindings.LDKScore;
-		const ptr: number = bindings.LDKScore_new(structImplementation);
+		const ptr: bigint = bindings.LDKScore_new(structImplementation);
 
 		impl_holder.held = new Score(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -490,9 +490,10 @@ export class Score extends CommonBase {
 	 * Thus, implementations should be overflow-safe.
 	 */
 	public channel_penalty_msat(short_channel_id: bigint, source: NodeId, target: NodeId, usage: ChannelUsage): bigint {
-		const ret: bigint = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : CommonBase.get_ptr_of(source) & ~1, target == null ? 0 : CommonBase.get_ptr_of(target) & ~1, usage == null ? 0 : CommonBase.get_ptr_of(usage) & ~1);
+		const ret: bigint = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0n : CommonBase.get_ptr_of(source), target == null ? 0n : CommonBase.get_ptr_of(target), usage == null ? 0n : CommonBase.get_ptr_of(usage));
 		CommonBase.add_ref_from(this, source);
 		CommonBase.add_ref_from(this, target);
+		CommonBase.add_ref_from(this, usage);
 		return ret;
 	}
 
@@ -500,28 +501,32 @@ export class Score extends CommonBase {
 	 * Handles updating channel penalties after failing to route through a channel.
 	 */
 	public payment_path_failed(path: RouteHop[], short_channel_id: bigint): void {
-		bindings.Score_payment_path_failed(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), short_channel_id);
+		bindings.Score_payment_path_failed(this.ptr, bindings.encodeUint64Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0n : CommonBase.get_ptr_of(path_conv_10)) : null), short_channel_id);
+		path.forEach((path_conv_10: RouteHop) => { CommonBase.add_ref_from(this, path_conv_10); });
 	}
 
 	/**
 	 * Handles updating channel penalties after successfully routing along a path.
 	 */
 	public payment_path_successful(path: RouteHop[]): void {
-		bindings.Score_payment_path_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
+		bindings.Score_payment_path_successful(this.ptr, bindings.encodeUint64Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0n : CommonBase.get_ptr_of(path_conv_10)) : null));
+		path.forEach((path_conv_10: RouteHop) => { CommonBase.add_ref_from(this, path_conv_10); });
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path failed.
 	 */
 	public probe_failed(path: RouteHop[], short_channel_id: bigint): void {
-		bindings.Score_probe_failed(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), short_channel_id);
+		bindings.Score_probe_failed(this.ptr, bindings.encodeUint64Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0n : CommonBase.get_ptr_of(path_conv_10)) : null), short_channel_id);
+		path.forEach((path_conv_10: RouteHop) => { CommonBase.add_ref_from(this, path_conv_10); });
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path succeeded.
 	 */
 	public probe_successful(path: RouteHop[]): void {
-		bindings.Score_probe_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
+		bindings.Score_probe_successful(this.ptr, bindings.encodeUint64Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0n : CommonBase.get_ptr_of(path_conv_10)) : null));
+		path.forEach((path_conv_10: RouteHop) => { CommonBase.add_ref_from(this, path_conv_10); });
 	}
 
 	/**

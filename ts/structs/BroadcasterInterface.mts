@@ -377,7 +377,7 @@ export class BroadcasterInterface extends CommonBase {
 	public bindings_instance?: bindings.LDKBroadcasterInterface;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.BroadcasterInterface_free);
 		this.bindings_instance = null;
 	}
@@ -391,7 +391,7 @@ export class BroadcasterInterface extends CommonBase {
 				arg.broadcast_transaction(tx_conv);
 			},
 		} as bindings.LDKBroadcasterInterface;
-		const ptr: number = bindings.LDKBroadcasterInterface_new(structImplementation);
+		const ptr: bigint = bindings.LDKBroadcasterInterface_new(structImplementation);
 
 		impl_holder.held = new BroadcasterInterface(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;

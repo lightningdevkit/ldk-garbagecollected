@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class CommitmentSigned extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CommitmentSigned_free);
 	}
 
@@ -426,14 +426,14 @@ export class CommitmentSigned extends CommonBase {
 	 * Constructs a new CommitmentSigned given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, signature_arg: Uint8Array, htlc_signatures_arg: Uint8Array[]): CommitmentSigned {
-		const ret: number = bindings.CommitmentSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), bindings.encodeUint32Array(htlc_signatures_arg != null ? htlc_signatures_arg.map(htlc_signatures_arg_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(htlc_signatures_arg_conv_12, 64))) : null));
+		const ret: bigint = bindings.CommitmentSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), bindings.encodeUint32Array(htlc_signatures_arg != null ? htlc_signatures_arg.map(htlc_signatures_arg_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(htlc_signatures_arg_conv_12, 64))) : null));
 		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CommitmentSigned_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CommitmentSigned_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -441,7 +441,7 @@ export class CommitmentSigned extends CommonBase {
 	 * Creates a copy of the CommitmentSigned
 	 */
 	public clone(): CommitmentSigned {
-		const ret: number = bindings.CommitmentSigned_clone(this.ptr);
+		const ret: bigint = bindings.CommitmentSigned_clone(this.ptr);
 		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -460,7 +460,7 @@ export class CommitmentSigned extends CommonBase {
 	 * Read a CommitmentSigned from a byte array, created by CommitmentSigned_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_CommitmentSignedDecodeErrorZ {
-		const ret: number = bindings.CommitmentSigned_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.CommitmentSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CommitmentSignedDecodeErrorZ = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

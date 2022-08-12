@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
+	public static constr_from_ptr(ptr: bigint): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
 		if (bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_is_ok(ptr)) {
 			return new Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ in the success state.
 	 */
 	public static constructor_ok(o: TwoTuple_PaymentHashPaymentIdZ): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
-		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0);
+		const ret: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0n);
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ in the error state.
 	 */
 	public static constructor_err(e: PaymentSendFailure): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
-		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(CommonBase.get_ptr_of(e));
+		const ret: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
-		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(this.ptr);
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +415,9 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_OK extends 
 	public res: TwoTuple_PaymentHashPaymentIdZ;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_ok(ptr);
 		const res_hu_conv: TwoTuple_PaymentHashPaymentIdZ = new TwoTuple_PaymentHashPaymentIdZ(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -427,9 +427,9 @@ export class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_Err extends
 	public err: PaymentSendFailure;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(ptr);
+		const err: bigint = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(ptr);
 		const err_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

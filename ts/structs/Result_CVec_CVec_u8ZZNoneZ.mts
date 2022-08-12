@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_CVec_CVec_u8ZZNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_CVec_CVec_u8ZZNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_CVec_CVec_u8ZZNoneZ {
 		if (bindings.CResult_CVec_CVec_u8ZZNoneZ_is_ok(ptr)) {
 			return new Result_CVec_CVec_u8ZZNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the success state.
 	 */
 	public static constructor_ok(o: Uint8Array[]): Result_CVec_CVec_u8ZZNoneZ {
-		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => bindings.encodeUint8Array(o_conv_12)) : null));
+		const ret: bigint = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => bindings.encodeUint8Array(o_conv_12)) : null));
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_CVec_CVec_u8ZZNoneZ {
-		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
+		const ret: bigint = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_CVec_CVec_u8ZZNoneZ {
-		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,7 +415,7 @@ export class Result_CVec_CVec_u8ZZNoneZ_OK extends Result_CVec_CVec_u8ZZNoneZ {
 	public res: Uint8Array[];
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		const res: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_get_ok(ptr);
 		const res_conv_12_len: number = bindings.getArrayLength(res);
@@ -432,7 +432,7 @@ export class Result_CVec_CVec_u8ZZNoneZ_OK extends Result_CVec_CVec_u8ZZNoneZ {
 export class Result_CVec_CVec_u8ZZNoneZ_Err extends Result_CVec_CVec_u8ZZNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

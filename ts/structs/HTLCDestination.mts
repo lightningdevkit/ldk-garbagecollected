@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * Intended destination of a failed HTLC as indicated in [`Event::HTLCHandlingFailed`].
  */
 export class HTLCDestination extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.HTLCDestination_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.HTLCDestination_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): HTLCDestination {
+	public static constr_from_ptr(ptr: bigint): HTLCDestination {
 		const raw_ty: number = bindings.LDKHTLCDestination_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new HTLCDestination_NextHopChannel(ptr);
@@ -372,8 +372,8 @@ export class HTLCDestination extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.HTLCDestination_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.HTLCDestination_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -381,7 +381,7 @@ export class HTLCDestination extends CommonBase {
 	 * Creates a copy of the HTLCDestination
 	 */
 	public clone(): HTLCDestination {
-		const ret: number = bindings.HTLCDestination_clone(this.ptr);
+		const ret: bigint = bindings.HTLCDestination_clone(this.ptr);
 		const ret_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -391,7 +391,7 @@ export class HTLCDestination extends CommonBase {
 	 * Utility method to constructs a new NextHopChannel-variant HTLCDestination
 	 */
 	public static constructor_next_hop_channel(node_id: Uint8Array, channel_id: Uint8Array): HTLCDestination {
-		const ret: number = bindings.HTLCDestination_next_hop_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
+		const ret: bigint = bindings.HTLCDestination_next_hop_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
 		const ret_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,7 +401,7 @@ export class HTLCDestination extends CommonBase {
 	 * Utility method to constructs a new UnknownNextHop-variant HTLCDestination
 	 */
 	public static constructor_unknown_next_hop(requested_forward_scid: bigint): HTLCDestination {
-		const ret: number = bindings.HTLCDestination_unknown_next_hop(requested_forward_scid);
+		const ret: bigint = bindings.HTLCDestination_unknown_next_hop(requested_forward_scid);
 		const ret_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -411,7 +411,7 @@ export class HTLCDestination extends CommonBase {
 	 * Utility method to constructs a new FailedPayment-variant HTLCDestination
 	 */
 	public static constructor_failed_payment(payment_hash: Uint8Array): HTLCDestination {
-		const ret: number = bindings.HTLCDestination_failed_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
+		const ret: bigint = bindings.HTLCDestination_failed_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 		const ret_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -442,7 +442,7 @@ export class HTLCDestination_NextHopChannel extends HTLCDestination {
 	 */
 	public channel_id: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKHTLCDestination_NextHopChannel_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
@@ -459,7 +459,7 @@ export class HTLCDestination_UnknownNextHop extends HTLCDestination {
 	 */
 	public requested_forward_scid: bigint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.requested_forward_scid = bindings.LDKHTLCDestination_UnknownNextHop_get_requested_forward_scid(ptr);
 	}
@@ -471,7 +471,7 @@ export class HTLCDestination_FailedPayment extends HTLCDestination {
 	 */
 	public payment_hash: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const payment_hash: number = bindings.LDKHTLCDestination_FailedPayment_get_payment_hash(ptr);
 		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);

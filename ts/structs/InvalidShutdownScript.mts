@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class InvalidShutdownScript extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.InvalidShutdownScript_free);
 	}
 
@@ -389,14 +389,14 @@ export class InvalidShutdownScript extends CommonBase {
 	 * Constructs a new InvalidShutdownScript given each field
 	 */
 	public static constructor_new(script_arg: Uint8Array): InvalidShutdownScript {
-		const ret: number = bindings.InvalidShutdownScript_new(bindings.encodeUint8Array(script_arg));
+		const ret: bigint = bindings.InvalidShutdownScript_new(bindings.encodeUint8Array(script_arg));
 		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.InvalidShutdownScript_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.InvalidShutdownScript_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -404,7 +404,7 @@ export class InvalidShutdownScript extends CommonBase {
 	 * Creates a copy of the InvalidShutdownScript
 	 */
 	public clone(): InvalidShutdownScript {
-		const ret: number = bindings.InvalidShutdownScript_clone(this.ptr);
+		const ret: bigint = bindings.InvalidShutdownScript_clone(this.ptr);
 		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

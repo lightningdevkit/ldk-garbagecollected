@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class LightningError extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.LightningError_free);
 	}
 
@@ -385,7 +385,7 @@ export class LightningError extends CommonBase {
 	 * The action which should be taken against the offending peer.
 	 */
 	public get_action(): ErrorAction {
-		const ret: number = bindings.LightningError_get_action(this.ptr);
+		const ret: bigint = bindings.LightningError_get_action(this.ptr);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -402,14 +402,14 @@ export class LightningError extends CommonBase {
 	 * Constructs a new LightningError given each field
 	 */
 	public static constructor_new(err_arg: string, action_arg: ErrorAction): LightningError {
-		const ret: number = bindings.LightningError_new(bindings.encodeString(err_arg), CommonBase.get_ptr_of(action_arg));
+		const ret: bigint = bindings.LightningError_new(bindings.encodeString(err_arg), CommonBase.get_ptr_of(action_arg));
 		const ret_hu_conv: LightningError = new LightningError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.LightningError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.LightningError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -417,7 +417,7 @@ export class LightningError extends CommonBase {
 	 * Creates a copy of the LightningError
 	 */
 	public clone(): LightningError {
-		const ret: number = bindings.LightningError_clone(this.ptr);
+		const ret: bigint = bindings.LightningError_clone(this.ptr);
 		const ret_hu_conv: LightningError = new LightningError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

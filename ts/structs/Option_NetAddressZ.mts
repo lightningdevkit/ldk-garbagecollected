@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::lightning::ln::msgs::NetAddress or not
  */
 export class Option_NetAddressZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_NetAddressZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_NetAddressZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_NetAddressZ {
+	public static constr_from_ptr(ptr: bigint): Option_NetAddressZ {
 		const raw_ty: number = bindings.LDKCOption_NetAddressZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_NetAddressZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_NetAddressZ extends CommonBase {
 	 * Constructs a new COption_NetAddressZ containing a crate::lightning::ln::msgs::NetAddress
 	 */
 	public static constructor_some(o: NetAddress): Option_NetAddressZ {
-		const ret: number = bindings.COption_NetAddressZ_some(CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_NetAddressZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_NetAddressZ extends CommonBase {
 	 * Constructs a new COption_NetAddressZ containing nothing
 	 */
 	public static constructor_none(): Option_NetAddressZ {
-		const ret: number = bindings.COption_NetAddressZ_none();
+		const ret: bigint = bindings.COption_NetAddressZ_none();
 		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_NetAddressZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_NetAddressZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_NetAddressZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_NetAddressZ {
-		const ret: number = bindings.COption_NetAddressZ_clone(this.ptr);
+		const ret: bigint = bindings.COption_NetAddressZ_clone(this.ptr);
 		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,9 +412,9 @@ export class Option_NetAddressZ extends CommonBase {
 export class Option_NetAddressZ_Some extends Option_NetAddressZ {
 	public some: NetAddress;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_NetAddressZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_NetAddressZ_Some_get_some(ptr);
 		const some_hu_conv: NetAddress = NetAddress.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -423,7 +423,7 @@ export class Option_NetAddressZ_Some extends Option_NetAddressZ {
 /** A Option_NetAddressZ of type None */
 export class Option_NetAddressZ_None extends Option_NetAddressZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

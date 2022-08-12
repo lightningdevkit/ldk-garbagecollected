@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelUsage extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelUsage_free);
 	}
 
@@ -401,7 +401,7 @@ export class ChannelUsage extends CommonBase {
 	 * The effective capacity of the channel.
 	 */
 	public get_effective_capacity(): EffectiveCapacity {
-		const ret: number = bindings.ChannelUsage_get_effective_capacity(this.ptr);
+		const ret: bigint = bindings.ChannelUsage_get_effective_capacity(this.ptr);
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -418,14 +418,14 @@ export class ChannelUsage extends CommonBase {
 	 * Constructs a new ChannelUsage given each field
 	 */
 	public static constructor_new(amount_msat_arg: bigint, inflight_htlc_msat_arg: bigint, effective_capacity_arg: EffectiveCapacity): ChannelUsage {
-		const ret: number = bindings.ChannelUsage_new(amount_msat_arg, inflight_htlc_msat_arg, CommonBase.get_ptr_of(effective_capacity_arg));
+		const ret: bigint = bindings.ChannelUsage_new(amount_msat_arg, inflight_htlc_msat_arg, CommonBase.get_ptr_of(effective_capacity_arg));
 		const ret_hu_conv: ChannelUsage = new ChannelUsage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelUsage_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelUsage_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -433,7 +433,7 @@ export class ChannelUsage extends CommonBase {
 	 * Creates a copy of the ChannelUsage
 	 */
 	public clone(): ChannelUsage {
-		const ret: number = bindings.ChannelUsage_clone(this.ptr);
+		const ret: bigint = bindings.ChannelUsage_clone(this.ptr);
 		const ret_hu_conv: ChannelUsage = new ChannelUsage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

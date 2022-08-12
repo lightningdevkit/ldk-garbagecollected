@@ -371,7 +371,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class WatchedOutput extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.WatchedOutput_free);
 	}
 
@@ -399,7 +399,7 @@ export class WatchedOutput extends CommonBase {
 	 * Outpoint identifying the transaction output.
 	 */
 	public get_outpoint(): OutPoint {
-		const ret: number = bindings.WatchedOutput_get_outpoint(this.ptr);
+		const ret: bigint = bindings.WatchedOutput_get_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -409,7 +409,8 @@ export class WatchedOutput extends CommonBase {
 	 * Outpoint identifying the transaction output.
 	 */
 	public set_outpoint(val: OutPoint): void {
-		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -432,14 +433,15 @@ export class WatchedOutput extends CommonBase {
 	 * Constructs a new WatchedOutput given each field
 	 */
 	public static constructor_new(block_hash_arg: Uint8Array, outpoint_arg: OutPoint, script_pubkey_arg: Uint8Array): WatchedOutput {
-		const ret: number = bindings.WatchedOutput_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash_arg, 32)), outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, bindings.encodeUint8Array(script_pubkey_arg));
+		const ret: bigint = bindings.WatchedOutput_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash_arg, 32)), outpoint_arg == null ? 0n : CommonBase.get_ptr_of(outpoint_arg), bindings.encodeUint8Array(script_pubkey_arg));
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, outpoint_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.WatchedOutput_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.WatchedOutput_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -447,7 +449,7 @@ export class WatchedOutput extends CommonBase {
 	 * Creates a copy of the WatchedOutput
 	 */
 	public clone(): WatchedOutput {
-		const ret: number = bindings.WatchedOutput_clone(this.ptr);
+		const ret: bigint = bindings.WatchedOutput_clone(this.ptr);
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

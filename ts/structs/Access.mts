@@ -382,7 +382,7 @@ export class Access extends CommonBase {
 	public bindings_instance?: bindings.LDKAccess;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Access_free);
 		this.bindings_instance = null;
 	}
@@ -391,14 +391,14 @@ export class Access extends CommonBase {
 	public static new_impl(arg: AccessInterface): Access {
 		const impl_holder: LDKAccessHolder = new LDKAccessHolder();
 		let structImplementation = {
-			get_utxo (genesis_hash: number, short_channel_id: bigint): number {
+			get_utxo (genesis_hash: number, short_channel_id: bigint): bigint {
 				const genesis_hash_conv: Uint8Array = bindings.decodeUint8Array(genesis_hash);
 				const ret: Result_TxOutAccessErrorZ = arg.get_utxo(genesis_hash_conv, short_channel_id);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKAccess;
-		const ptr: number = bindings.LDKAccess_new(structImplementation);
+		const ptr: bigint = bindings.LDKAccess_new(structImplementation);
 
 		impl_holder.held = new Access(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -413,7 +413,7 @@ export class Access extends CommonBase {
 	 * [`short_channel_id`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 	 */
 	public get_utxo(genesis_hash: Uint8Array, short_channel_id: bigint): Result_TxOutAccessErrorZ {
-		const ret: number = bindings.Access_get_utxo(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), short_channel_id);
+		const ret: bigint = bindings.Access_get_utxo(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), short_channel_id);
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

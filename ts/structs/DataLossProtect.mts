@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class DataLossProtect extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.DataLossProtect_free);
 	}
 
@@ -406,14 +406,14 @@ export class DataLossProtect extends CommonBase {
 	 * Constructs a new DataLossProtect given each field
 	 */
 	public static constructor_new(your_last_per_commitment_secret_arg: Uint8Array, my_current_per_commitment_point_arg: Uint8Array): DataLossProtect {
-		const ret: number = bindings.DataLossProtect_new(bindings.encodeUint8Array(bindings.check_arr_len(your_last_per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(my_current_per_commitment_point_arg, 33)));
+		const ret: bigint = bindings.DataLossProtect_new(bindings.encodeUint8Array(bindings.check_arr_len(your_last_per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(my_current_per_commitment_point_arg, 33)));
 		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.DataLossProtect_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.DataLossProtect_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -421,7 +421,7 @@ export class DataLossProtect extends CommonBase {
 	 * Creates a copy of the DataLossProtect
 	 */
 	public clone(): DataLossProtect {
-		const ret: number = bindings.DataLossProtect_clone(this.ptr);
+		const ret: bigint = bindings.DataLossProtect_clone(this.ptr);
 		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

@@ -361,9 +361,9 @@ import * as bindings from '../bindings.mjs'
  * like wrong signatures, missing fields etc. could mean that someone tampered with the invoice.
  */
 export class ParseOrSemanticError extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ParseOrSemanticError_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.ParseOrSemanticError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): ParseOrSemanticError {
+	public static constr_from_ptr(ptr: bigint): ParseOrSemanticError {
 		const raw_ty: number = bindings.LDKParseOrSemanticError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ParseOrSemanticError_ParseError(ptr);
@@ -373,8 +373,8 @@ export class ParseOrSemanticError extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ParseOrSemanticError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ParseOrSemanticError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -382,7 +382,7 @@ export class ParseOrSemanticError extends CommonBase {
 	 * Creates a copy of the ParseOrSemanticError
 	 */
 	public clone(): ParseOrSemanticError {
-		const ret: number = bindings.ParseOrSemanticError_clone(this.ptr);
+		const ret: bigint = bindings.ParseOrSemanticError_clone(this.ptr);
 		const ret_hu_conv: ParseOrSemanticError = ParseOrSemanticError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -392,7 +392,7 @@ export class ParseOrSemanticError extends CommonBase {
 	 * Utility method to constructs a new ParseError-variant ParseOrSemanticError
 	 */
 	public static constructor_parse_error(a: ParseError): ParseOrSemanticError {
-		const ret: number = bindings.ParseOrSemanticError_parse_error(CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.ParseOrSemanticError_parse_error(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: ParseOrSemanticError = ParseOrSemanticError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -402,7 +402,7 @@ export class ParseOrSemanticError extends CommonBase {
 	 * Utility method to constructs a new SemanticError-variant ParseOrSemanticError
 	 */
 	public static constructor_semantic_error(a: SemanticError): ParseOrSemanticError {
-		const ret: number = bindings.ParseOrSemanticError_semantic_error(a);
+		const ret: bigint = bindings.ParseOrSemanticError_semantic_error(a);
 		const ret_hu_conv: ParseOrSemanticError = ParseOrSemanticError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -422,9 +422,9 @@ export class ParseOrSemanticError extends CommonBase {
 export class ParseOrSemanticError_ParseError extends ParseOrSemanticError {
 	public parse_error: ParseError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const parse_error: number = bindings.LDKParseOrSemanticError_ParseError_get_parse_error(ptr);
+		const parse_error: bigint = bindings.LDKParseOrSemanticError_ParseError_get_parse_error(ptr);
 		const parse_error_hu_conv: ParseError = ParseError.constr_from_ptr(parse_error);
 			CommonBase.add_ref_from(parse_error_hu_conv, this);
 		this.parse_error = parse_error_hu_conv;
@@ -434,7 +434,7 @@ export class ParseOrSemanticError_ParseError extends ParseOrSemanticError {
 export class ParseOrSemanticError_SemanticError extends ParseOrSemanticError {
 	public semantic_error: SemanticError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.semantic_error = bindings.LDKParseOrSemanticError_SemanticError_get_semantic_error(ptr);
 	}

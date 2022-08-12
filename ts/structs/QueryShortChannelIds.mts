@@ -368,7 +368,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class QueryShortChannelIds extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.QueryShortChannelIds_free);
 	}
 
@@ -410,14 +410,14 @@ export class QueryShortChannelIds extends CommonBase {
 	 * Constructs a new QueryShortChannelIds given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, short_channel_ids_arg: bigint[]): QueryShortChannelIds {
-		const ret: number = bindings.QueryShortChannelIds_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), bindings.encodeUint64Array(short_channel_ids_arg));
+		const ret: bigint = bindings.QueryShortChannelIds_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), bindings.encodeUint64Array(short_channel_ids_arg));
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.QueryShortChannelIds_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.QueryShortChannelIds_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -425,7 +425,7 @@ export class QueryShortChannelIds extends CommonBase {
 	 * Creates a copy of the QueryShortChannelIds
 	 */
 	public clone(): QueryShortChannelIds {
-		const ret: number = bindings.QueryShortChannelIds_clone(this.ptr);
+		const ret: bigint = bindings.QueryShortChannelIds_clone(this.ptr);
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -435,7 +435,7 @@ export class QueryShortChannelIds extends CommonBase {
 	 * Read a QueryShortChannelIds from a byte array, created by QueryShortChannelIds_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_QueryShortChannelIdsDecodeErrorZ {
-		const ret: number = bindings.QueryShortChannelIds_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.QueryShortChannelIds_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_QueryShortChannelIdsDecodeErrorZ = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

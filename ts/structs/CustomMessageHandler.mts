@@ -384,7 +384,7 @@ export class CustomMessageHandler extends CommonBase {
 	public bindings_instance?: bindings.LDKCustomMessageHandler;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CustomMessageHandler_free);
 		this.bindings_instance = null;
 	}
@@ -393,22 +393,22 @@ export class CustomMessageHandler extends CommonBase {
 	public static new_impl(arg: CustomMessageHandlerInterface, customMessageReader_impl: CustomMessageReaderInterface): CustomMessageHandler {
 		const impl_holder: LDKCustomMessageHandlerHolder = new LDKCustomMessageHandlerHolder();
 		let structImplementation = {
-			handle_custom_message (msg: number, sender_node_id: number): number {
+			handle_custom_message (msg: bigint, sender_node_id: number): bigint {
 				const ret_hu_conv: Type = new Type(null, msg);
 				CommonBase.add_ref_from(ret_hu_conv, this);
 				const sender_node_id_conv: Uint8Array = bindings.decodeUint8Array(sender_node_id);
 				const ret: Result_NoneLightningErrorZ = arg.handle_custom_message(ret_hu_conv, sender_node_id_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			get_and_clear_pending_msg (): number {
 				const ret: TwoTuple_PublicKeyTypeZ[] = arg.get_and_clear_pending_msg();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_25 => ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_25 => ret_conv_25 == null ? 0n : ret_conv_25.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKCustomMessageHandler;
 		const customMessageReader = CustomMessageReader.new_impl(customMessageReader_impl, );
-		const ptr: number = bindings.LDKCustomMessageHandler_new(structImplementation, customMessageReader.bindings_instance);
+		const ptr: bigint = bindings.LDKCustomMessageHandler_new(structImplementation, customMessageReader.bindings_instance);
 
 		impl_holder.held = new CustomMessageHandler(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -421,7 +421,7 @@ export class CustomMessageHandler extends CommonBase {
 	 * Can return a `MessageHandlingError` if the message could not be handled.
 	 */
 	public handle_custom_message(msg: Type, sender_node_id: Uint8Array): Result_NoneLightningErrorZ {
-		const ret: number = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg), bindings.encodeUint8Array(bindings.check_arr_len(sender_node_id, 33)));
+		const ret: bigint = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg), bindings.encodeUint8Array(bindings.check_arr_len(sender_node_id, 33)));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -438,7 +438,7 @@ export class CustomMessageHandler extends CommonBase {
 		const ret_conv_25_len: number = bindings.getArrayLength(ret);
 		const ret_conv_25_arr: TwoTuple_PublicKeyTypeZ[] = new Array(ret_conv_25_len).fill(null);
 		for (var z = 0; z < ret_conv_25_len; z++) {
-			const ret_conv_25: number = bindings.getU32ArrayElem(ret, z);
+			const ret_conv_25: bigint = bindings.getU64ArrayElem(ret, z);
 			const ret_conv_25_hu_conv: TwoTuple_PublicKeyTypeZ = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
 			CommonBase.add_ref_from(ret_conv_25_hu_conv, this);
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;

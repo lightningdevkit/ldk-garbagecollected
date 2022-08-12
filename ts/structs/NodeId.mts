@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class NodeId extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NodeId_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NodeId_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NodeId_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class NodeId extends CommonBase {
 	 * Creates a copy of the NodeId
 	 */
 	public clone(): NodeId {
-		const ret: number = bindings.NodeId_clone(this.ptr);
+		const ret: bigint = bindings.NodeId_clone(this.ptr);
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -384,7 +384,7 @@ export class NodeId extends CommonBase {
 	 * Create a new NodeId from a public key
 	 */
 	public static constructor_from_pubkey(pubkey: Uint8Array): NodeId {
-		const ret: number = bindings.NodeId_from_pubkey(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
+		const ret: bigint = bindings.NodeId_from_pubkey(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -420,7 +420,7 @@ export class NodeId extends CommonBase {
 	 * Read a NodeId from a byte array, created by NodeId_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeIdDecodeErrorZ {
-		const ret: number = bindings.NodeId_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NodeId_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeIdDecodeErrorZ = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

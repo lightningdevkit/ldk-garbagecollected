@@ -417,7 +417,7 @@ export class SocketDescriptor extends CommonBase {
 	public bindings_instance?: bindings.LDKSocketDescriptor;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.SocketDescriptor_free);
 		this.bindings_instance = null;
 	}
@@ -434,7 +434,7 @@ export class SocketDescriptor extends CommonBase {
 			disconnect_socket (): void {
 				arg.disconnect_socket();
 			},
-			eq (other_arg: number): boolean {
+			eq (other_arg: bigint): boolean {
 				const ret_hu_conv: SocketDescriptor = new SocketDescriptor(null, other_arg);
 				CommonBase.add_ref_from(ret_hu_conv, this);
 				const ret: boolean = arg.eq(ret_hu_conv);
@@ -445,7 +445,7 @@ export class SocketDescriptor extends CommonBase {
 				return ret;
 			},
 		} as bindings.LDKSocketDescriptor;
-		const ptr: number = bindings.LDKSocketDescriptor_new(structImplementation);
+		const ptr: bigint = bindings.LDKSocketDescriptor_new(structImplementation);
 
 		impl_holder.held = new SocketDescriptor(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -495,8 +495,8 @@ export class SocketDescriptor extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.SocketDescriptor_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.SocketDescriptor_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -504,7 +504,7 @@ export class SocketDescriptor extends CommonBase {
 	 * Creates a copy of a SocketDescriptor
 	 */
 	public clone(): SocketDescriptor {
-		const ret: number = bindings.SocketDescriptor_clone(this.ptr);
+		const ret: bigint = bindings.SocketDescriptor_clone(this.ptr);
 		const ret_hu_conv: SocketDescriptor = new SocketDescriptor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

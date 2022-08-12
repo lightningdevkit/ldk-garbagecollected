@@ -440,7 +440,7 @@ export class ChannelMessageHandler extends CommonBase {
 	public bindings_instance?: bindings.LDKChannelMessageHandler;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelMessageHandler_free);
 		this.bindings_instance = null;
 	}
@@ -449,82 +449,82 @@ export class ChannelMessageHandler extends CommonBase {
 	public static new_impl(arg: ChannelMessageHandlerInterface, messageSendEventsProvider_impl: MessageSendEventsProviderInterface): ChannelMessageHandler {
 		const impl_holder: LDKChannelMessageHandlerHolder = new LDKChannelMessageHandlerHolder();
 		let structImplementation = {
-			handle_open_channel (their_node_id: number, their_features: number, msg: number): void {
+			handle_open_channel (their_node_id: number, their_features: bigint, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 				CommonBase.add_ref_from(their_features_hu_conv, this);
 				const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
 				arg.handle_open_channel(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
 			},
-			handle_accept_channel (their_node_id: number, their_features: number, msg: number): void {
+			handle_accept_channel (their_node_id: number, their_features: bigint, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 				CommonBase.add_ref_from(their_features_hu_conv, this);
 				const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
 				arg.handle_accept_channel(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
 			},
-			handle_funding_created (their_node_id: number, msg: number): void {
+			handle_funding_created (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: FundingCreated = new FundingCreated(null, msg);
 				arg.handle_funding_created(their_node_id_conv, msg_hu_conv);
 			},
-			handle_funding_signed (their_node_id: number, msg: number): void {
+			handle_funding_signed (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
 				arg.handle_funding_signed(their_node_id_conv, msg_hu_conv);
 			},
-			handle_channel_ready (their_node_id: number, msg: number): void {
+			handle_channel_ready (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ChannelReady = new ChannelReady(null, msg);
 				arg.handle_channel_ready(their_node_id_conv, msg_hu_conv);
 			},
-			handle_shutdown (their_node_id: number, their_features: number, msg: number): void {
+			handle_shutdown (their_node_id: number, their_features: bigint, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 				const msg_hu_conv: Shutdown = new Shutdown(null, msg);
 				arg.handle_shutdown(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
 			},
-			handle_closing_signed (their_node_id: number, msg: number): void {
+			handle_closing_signed (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ClosingSigned = new ClosingSigned(null, msg);
 				arg.handle_closing_signed(their_node_id_conv, msg_hu_conv);
 			},
-			handle_update_add_htlc (their_node_id: number, msg: number): void {
+			handle_update_add_htlc (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, msg);
 				arg.handle_update_add_htlc(their_node_id_conv, msg_hu_conv);
 			},
-			handle_update_fulfill_htlc (their_node_id: number, msg: number): void {
+			handle_update_fulfill_htlc (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, msg);
 				arg.handle_update_fulfill_htlc(their_node_id_conv, msg_hu_conv);
 			},
-			handle_update_fail_htlc (their_node_id: number, msg: number): void {
+			handle_update_fail_htlc (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, msg);
 				arg.handle_update_fail_htlc(their_node_id_conv, msg_hu_conv);
 			},
-			handle_update_fail_malformed_htlc (their_node_id: number, msg: number): void {
+			handle_update_fail_malformed_htlc (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, msg);
 				arg.handle_update_fail_malformed_htlc(their_node_id_conv, msg_hu_conv);
 			},
-			handle_commitment_signed (their_node_id: number, msg: number): void {
+			handle_commitment_signed (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: CommitmentSigned = new CommitmentSigned(null, msg);
 				arg.handle_commitment_signed(their_node_id_conv, msg_hu_conv);
 			},
-			handle_revoke_and_ack (their_node_id: number, msg: number): void {
+			handle_revoke_and_ack (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: RevokeAndACK = new RevokeAndACK(null, msg);
 				arg.handle_revoke_and_ack(their_node_id_conv, msg_hu_conv);
 			},
-			handle_update_fee (their_node_id: number, msg: number): void {
+			handle_update_fee (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: UpdateFee = new UpdateFee(null, msg);
 				arg.handle_update_fee(their_node_id_conv, msg_hu_conv);
 			},
-			handle_announcement_signatures (their_node_id: number, msg: number): void {
+			handle_announcement_signatures (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
 				arg.handle_announcement_signatures(their_node_id_conv, msg_hu_conv);
@@ -533,29 +533,29 @@ export class ChannelMessageHandler extends CommonBase {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				arg.peer_disconnected(their_node_id_conv, no_connection_possible);
 			},
-			peer_connected (their_node_id: number, msg: number): void {
+			peer_connected (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: Init = new Init(null, msg);
 				arg.peer_connected(their_node_id_conv, msg_hu_conv);
 			},
-			handle_channel_reestablish (their_node_id: number, msg: number): void {
+			handle_channel_reestablish (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ChannelReestablish = new ChannelReestablish(null, msg);
 				arg.handle_channel_reestablish(their_node_id_conv, msg_hu_conv);
 			},
-			handle_channel_update (their_node_id: number, msg: number): void {
+			handle_channel_update (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 				arg.handle_channel_update(their_node_id_conv, msg_hu_conv);
 			},
-			handle_error (their_node_id: number, msg: number): void {
+			handle_error (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 				arg.handle_error(their_node_id_conv, msg_hu_conv);
 			},
 		} as bindings.LDKChannelMessageHandler;
 		const messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl, );
-		const ptr: number = bindings.LDKChannelMessageHandler_new(structImplementation, messageSendEventsProvider.bindings_instance);
+		const ptr: bigint = bindings.LDKChannelMessageHandler_new(structImplementation, messageSendEventsProvider.bindings_instance);
 
 		impl_holder.held = new ChannelMessageHandler(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -567,7 +567,8 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming open_channel message from the given peer.
 	 */
 	public handle_open_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: OpenChannel): void {
-		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		CommonBase.add_ref_from(this, their_features);
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -575,7 +576,8 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming accept_channel message from the given peer.
 	 */
 	public handle_accept_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: AcceptChannel): void {
-		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		CommonBase.add_ref_from(this, their_features);
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -583,7 +585,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming funding_created message from the given peer.
 	 */
 	public handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void {
-		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -591,7 +593,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming funding_signed message from the given peer.
 	 */
 	public handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void {
-		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -599,7 +601,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming channel_ready message from the given peer.
 	 */
 	public handle_channel_ready(their_node_id: Uint8Array, msg: ChannelReady): void {
-		bindings.ChannelMessageHandler_handle_channel_ready(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_channel_ready(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -607,7 +609,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming shutdown message from the given peer.
 	 */
 	public handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, their_features);
 		CommonBase.add_ref_from(this, msg);
 	}
@@ -616,7 +618,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming closing_signed message from the given peer.
 	 */
 	public handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void {
-		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -624,7 +626,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming update_add_htlc message from the given peer.
 	 */
 	public handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void {
-		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -632,7 +634,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming update_fulfill_htlc message from the given peer.
 	 */
 	public handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void {
-		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -640,7 +642,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming update_fail_htlc message from the given peer.
 	 */
 	public handle_update_fail_htlc(their_node_id: Uint8Array, msg: UpdateFailHTLC): void {
-		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -648,7 +650,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming update_fail_malformed_htlc message from the given peer.
 	 */
 	public handle_update_fail_malformed_htlc(their_node_id: Uint8Array, msg: UpdateFailMalformedHTLC): void {
-		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -656,7 +658,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming commitment_signed message from the given peer.
 	 */
 	public handle_commitment_signed(their_node_id: Uint8Array, msg: CommitmentSigned): void {
-		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -664,7 +666,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming revoke_and_ack message from the given peer.
 	 */
 	public handle_revoke_and_ack(their_node_id: Uint8Array, msg: RevokeAndACK): void {
-		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -672,7 +674,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming update_fee message from the given peer.
 	 */
 	public handle_update_fee(their_node_id: Uint8Array, msg: UpdateFee): void {
-		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -680,7 +682,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming announcement_signatures message from the given peer.
 	 */
 	public handle_announcement_signatures(their_node_id: Uint8Array, msg: AnnouncementSignatures): void {
-		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -698,7 +700,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
 	 */
 	public peer_connected(their_node_id: Uint8Array, msg: Init): void {
-		bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -706,7 +708,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming channel_reestablish message from the given peer.
 	 */
 	public handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void {
-		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -714,7 +716,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming channel update from the given peer.
 	 */
 	public handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void {
-		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
@@ -722,7 +724,7 @@ export class ChannelMessageHandler extends CommonBase {
 	 * Handle an incoming error message from the given peer.
 	 */
 	public handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void {
-		bindings.ChannelMessageHandler_handle_error(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		bindings.ChannelMessageHandler_handle_error(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 

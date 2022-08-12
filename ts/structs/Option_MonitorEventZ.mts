@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::lightning::chain::channelmonitor::MonitorEvent or not
  */
 export class Option_MonitorEventZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_MonitorEventZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_MonitorEventZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_MonitorEventZ {
+	public static constr_from_ptr(ptr: bigint): Option_MonitorEventZ {
 		const raw_ty: number = bindings.LDKCOption_MonitorEventZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_MonitorEventZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_MonitorEventZ extends CommonBase {
 	 * Constructs a new COption_MonitorEventZ containing a crate::lightning::chain::channelmonitor::MonitorEvent
 	 */
 	public static constructor_some(o: MonitorEvent): Option_MonitorEventZ {
-		const ret: number = bindings.COption_MonitorEventZ_some(CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_MonitorEventZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_MonitorEventZ extends CommonBase {
 	 * Constructs a new COption_MonitorEventZ containing nothing
 	 */
 	public static constructor_none(): Option_MonitorEventZ {
-		const ret: number = bindings.COption_MonitorEventZ_none();
+		const ret: bigint = bindings.COption_MonitorEventZ_none();
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_MonitorEventZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_MonitorEventZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_MonitorEventZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_MonitorEventZ {
-		const ret: number = bindings.COption_MonitorEventZ_clone(this.ptr);
+		const ret: bigint = bindings.COption_MonitorEventZ_clone(this.ptr);
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,9 +412,9 @@ export class Option_MonitorEventZ extends CommonBase {
 export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 	public some: MonitorEvent;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_MonitorEventZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_MonitorEventZ_Some_get_some(ptr);
 		const some_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -423,7 +423,7 @@ export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 /** A Option_MonitorEventZ of type None */
 export class Option_MonitorEventZ_None extends Option_MonitorEventZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

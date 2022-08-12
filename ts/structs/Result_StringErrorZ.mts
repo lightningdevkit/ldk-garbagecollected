@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_StringErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_StringErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_StringErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_StringErrorZ {
 		if (bindings.CResult_StringErrorZ_is_ok(ptr)) {
 			return new Result_StringErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_StringErrorZ extends CommonBase {
 	 * Creates a new CResult_StringErrorZ in the success state.
 	 */
 	public static constructor_ok(o: string): Result_StringErrorZ {
-		const ret: number = bindings.CResult_StringErrorZ_ok(bindings.encodeString(o));
+		const ret: bigint = bindings.CResult_StringErrorZ_ok(bindings.encodeString(o));
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_StringErrorZ extends CommonBase {
 	 * Creates a new CResult_StringErrorZ in the error state.
 	 */
 	public static constructor_err(e: Secp256k1Error): Result_StringErrorZ {
-		const ret: number = bindings.CResult_StringErrorZ_err(e);
+		const ret: bigint = bindings.CResult_StringErrorZ_err(e);
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_StringErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_StringErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_StringErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_StringErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_StringErrorZ {
-		const ret: number = bindings.CResult_StringErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_StringErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,7 +415,7 @@ export class Result_StringErrorZ_OK extends Result_StringErrorZ {
 	public res: string;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		const res: number = bindings.CResult_StringErrorZ_get_ok(ptr);
 		const res_conv: string = bindings.decodeString(res);
@@ -426,7 +426,7 @@ export class Result_StringErrorZ_Err extends Result_StringErrorZ {
 	public err: Secp256k1Error;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.err = bindings.CResult_StringErrorZ_get_err(ptr);
 	}

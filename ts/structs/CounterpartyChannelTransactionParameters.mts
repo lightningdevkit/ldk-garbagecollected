@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class CounterpartyChannelTransactionParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CounterpartyChannelTransactionParameters_free);
 	}
 
@@ -369,7 +369,7 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Counter-party public keys
 	 */
 	public get_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
+		const ret: bigint = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Counter-party public keys
 	 */
 	public set_pubkeys(val: ChannelPublicKeys): void {
-		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -401,14 +402,15 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Constructs a new CounterpartyChannelTransactionParameters given each field
 	 */
 	public static constructor_new(pubkeys_arg: ChannelPublicKeys, selected_contest_delay_arg: number): CounterpartyChannelTransactionParameters {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : CommonBase.get_ptr_of(pubkeys_arg) & ~1, selected_contest_delay_arg);
+		const ret: bigint = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0n : CommonBase.get_ptr_of(pubkeys_arg), selected_contest_delay_arg);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, pubkeys_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CounterpartyChannelTransactionParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -416,7 +418,7 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Creates a copy of the CounterpartyChannelTransactionParameters
 	 */
 	public clone(): CounterpartyChannelTransactionParameters {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
+		const ret: bigint = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -435,7 +437,7 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	 * Read a CounterpartyChannelTransactionParameters from a byte array, created by CounterpartyChannelTransactionParameters_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_CounterpartyChannelTransactionParametersDecodeErrorZ {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.CounterpartyChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CounterpartyChannelTransactionParametersDecodeErrorZ = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

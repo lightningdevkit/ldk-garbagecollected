@@ -429,7 +429,7 @@ export class RoutingMessageHandler extends CommonBase {
 	public bindings_instance?: bindings.LDKRoutingMessageHandler;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RoutingMessageHandler_free);
 		this.bindings_instance = null;
 	}
@@ -438,75 +438,75 @@ export class RoutingMessageHandler extends CommonBase {
 	public static new_impl(arg: RoutingMessageHandlerInterface, messageSendEventsProvider_impl: MessageSendEventsProviderInterface): RoutingMessageHandler {
 		const impl_holder: LDKRoutingMessageHandlerHolder = new LDKRoutingMessageHandlerHolder();
 		let structImplementation = {
-			handle_node_announcement (msg: number): number {
+			handle_node_announcement (msg: bigint): bigint {
 				const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
 				const ret: Result_boolLightningErrorZ = arg.handle_node_announcement(msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			handle_channel_announcement (msg: number): number {
+			handle_channel_announcement (msg: bigint): bigint {
 				const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
 				const ret: Result_boolLightningErrorZ = arg.handle_channel_announcement(msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			handle_channel_update (msg: number): number {
+			handle_channel_update (msg: bigint): bigint {
 				const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 				const ret: Result_boolLightningErrorZ = arg.handle_channel_update(msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			get_next_channel_announcements (starting_point: bigint, batch_amount: number): number {
 				const ret: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] = arg.get_next_channel_announcements(starting_point, batch_amount);
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_59 => ret_conv_59 == null ? 0 : ret_conv_59.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_59 => ret_conv_59 == null ? 0n : ret_conv_59.clone_ptr()) : null);
 				return result;
 			},
 			get_next_node_announcements (starting_point: number, batch_amount: number): number {
 				const starting_point_conv: Uint8Array = bindings.decodeUint8Array(starting_point);
 				const ret: NodeAnnouncement[] = arg.get_next_node_announcements(starting_point_conv, batch_amount);
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0n : ret_conv_18.clone_ptr()) : null);
 				return result;
 			},
-			peer_connected (their_node_id: number, init: number): void {
+			peer_connected (their_node_id: number, init: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const init_hu_conv: Init = new Init(null, init);
 				arg.peer_connected(their_node_id_conv, init_hu_conv);
 			},
-			handle_reply_channel_range (their_node_id: number, msg: number): number {
+			handle_reply_channel_range (their_node_id: number, msg: bigint): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
 				CommonBase.add_ref_from(msg_hu_conv, this);
 				const ret: Result_NoneLightningErrorZ = arg.handle_reply_channel_range(their_node_id_conv, msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			handle_reply_short_channel_ids_end (their_node_id: number, msg: number): number {
+			handle_reply_short_channel_ids_end (their_node_id: number, msg: bigint): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, msg);
 				CommonBase.add_ref_from(msg_hu_conv, this);
 				const ret: Result_NoneLightningErrorZ = arg.handle_reply_short_channel_ids_end(their_node_id_conv, msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			handle_query_channel_range (their_node_id: number, msg: number): number {
+			handle_query_channel_range (their_node_id: number, msg: bigint): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
 				CommonBase.add_ref_from(msg_hu_conv, this);
 				const ret: Result_NoneLightningErrorZ = arg.handle_query_channel_range(their_node_id_conv, msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			handle_query_short_channel_ids (their_node_id: number, msg: number): number {
+			handle_query_short_channel_ids (their_node_id: number, msg: bigint): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
 				CommonBase.add_ref_from(msg_hu_conv, this);
 				const ret: Result_NoneLightningErrorZ = arg.handle_query_short_channel_ids(their_node_id_conv, msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKRoutingMessageHandler;
 		const messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl, );
-		const ptr: number = bindings.LDKRoutingMessageHandler_new(structImplementation, messageSendEventsProvider.bindings_instance);
+		const ptr: bigint = bindings.LDKRoutingMessageHandler_new(structImplementation, messageSendEventsProvider.bindings_instance);
 
 		impl_holder.held = new RoutingMessageHandler(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -519,7 +519,7 @@ export class RoutingMessageHandler extends CommonBase {
 	 * false or returning an Err otherwise.
 	 */
 	public handle_node_announcement(msg: NodeAnnouncement): Result_boolLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -530,7 +530,7 @@ export class RoutingMessageHandler extends CommonBase {
 	 * or returning an Err otherwise.
 	 */
 	public handle_channel_announcement(msg: ChannelAnnouncement): Result_boolLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -541,7 +541,7 @@ export class RoutingMessageHandler extends CommonBase {
 	 * false or returning an Err otherwise.
 	 */
 	public handle_channel_update(msg: ChannelUpdate): Result_boolLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -557,7 +557,7 @@ export class RoutingMessageHandler extends CommonBase {
 		const ret_conv_59_len: number = bindings.getArrayLength(ret);
 		const ret_conv_59_arr: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] = new Array(ret_conv_59_len).fill(null);
 		for (var h = 0; h < ret_conv_59_len; h++) {
-			const ret_conv_59: number = bindings.getU32ArrayElem(ret, h);
+			const ret_conv_59: bigint = bindings.getU64ArrayElem(ret, h);
 			const ret_conv_59_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
 			CommonBase.add_ref_from(ret_conv_59_hu_conv, this);
 			ret_conv_59_arr[h] = ret_conv_59_hu_conv;
@@ -579,7 +579,7 @@ export class RoutingMessageHandler extends CommonBase {
 		const ret_conv_18_len: number = bindings.getArrayLength(ret);
 		const ret_conv_18_arr: NodeAnnouncement[] = new Array(ret_conv_18_len).fill(null);
 		for (var s = 0; s < ret_conv_18_len; s++) {
-			const ret_conv_18: number = bindings.getU32ArrayElem(ret, s);
+			const ret_conv_18: bigint = bindings.getU64ArrayElem(ret, s);
 			const ret_conv_18_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret_conv_18);
 			CommonBase.add_ref_from(ret_conv_18_hu_conv, this);
 			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
@@ -594,7 +594,7 @@ export class RoutingMessageHandler extends CommonBase {
 	 * implementor.
 	 */
 	public peer_connected(their_node_id: Uint8Array, init: Init): void {
-		bindings.RoutingMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), init == null ? 0 : CommonBase.get_ptr_of(init) & ~1);
+		bindings.RoutingMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), init == null ? 0n : CommonBase.get_ptr_of(init));
 		CommonBase.add_ref_from(this, init);
 	}
 
@@ -604,8 +604,9 @@ export class RoutingMessageHandler extends CommonBase {
 	 * replies to a single query.
 	 */
 	public handle_reply_channel_range(their_node_id: Uint8Array, msg: ReplyChannelRange): Result_NoneLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 
@@ -616,8 +617,9 @@ export class RoutingMessageHandler extends CommonBase {
 	 * gossip messages.
 	 */
 	public handle_reply_short_channel_ids_end(their_node_id: Uint8Array, msg: ReplyShortChannelIdsEnd): Result_NoneLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 
@@ -626,8 +628,9 @@ export class RoutingMessageHandler extends CommonBase {
 	 * for the requested range of blocks.
 	 */
 	public handle_query_channel_range(their_node_id: Uint8Array, msg: QueryChannelRange): Result_NoneLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 
@@ -636,8 +639,9 @@ export class RoutingMessageHandler extends CommonBase {
 	 * list of short_channel_ids.
 	 */
 	public handle_query_short_channel_ids(their_node_id: Uint8Array, msg: QueryShortChannelIds): Result_NoneLightningErrorZ {
-		const ret: number = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 

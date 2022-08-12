@@ -435,7 +435,7 @@ export class KeysInterface extends CommonBase {
 	public bindings_instance?: bindings.LDKKeysInterface;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.KeysInterface_free);
 		this.bindings_instance = null;
 	}
@@ -444,9 +444,9 @@ export class KeysInterface extends CommonBase {
 	public static new_impl(arg: KeysInterfaceInterface): KeysInterface {
 		const impl_holder: LDKKeysInterfaceHolder = new LDKKeysInterfaceHolder();
 		let structImplementation = {
-			get_node_secret (recipient: Recipient): number {
+			get_node_secret (recipient: Recipient): bigint {
 				const ret: Result_SecretKeyNoneZ = arg.get_node_secret(recipient);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			get_destination_script (): number {
@@ -454,14 +454,14 @@ export class KeysInterface extends CommonBase {
 				const result: number = bindings.encodeUint8Array(ret);
 				return result;
 			},
-			get_shutdown_scriptpubkey (): number {
+			get_shutdown_scriptpubkey (): bigint {
 				const ret: ShutdownScript = arg.get_shutdown_scriptpubkey();
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			get_channel_signer (inbound: boolean, channel_value_satoshis: bigint): number {
+			get_channel_signer (inbound: boolean, channel_value_satoshis: bigint): bigint {
 				const ret: Sign = arg.get_channel_signer(inbound, channel_value_satoshis);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				CommonBase.add_ref_from(impl_holder.held, ret);
 				return result;
 			},
@@ -470,13 +470,13 @@ export class KeysInterface extends CommonBase {
 				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
-			read_chan_signer (reader: number): number {
+			read_chan_signer (reader: number): bigint {
 				const reader_conv: Uint8Array = bindings.decodeUint8Array(reader);
 				const ret: Result_SignDecodeErrorZ = arg.read_chan_signer(reader_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_invoice (hrp_bytes: number, invoice_data: number, receipient: Recipient): number {
+			sign_invoice (hrp_bytes: number, invoice_data: number, receipient: Recipient): bigint {
 				const hrp_bytes_conv: Uint8Array = bindings.decodeUint8Array(hrp_bytes);
 				const invoice_data_conv_7_len: number = bindings.getArrayLength(invoice_data);
 				const invoice_data_conv_7_arr: UInt5[] = new Array(invoice_data_conv_7_len).fill(null);
@@ -487,7 +487,7 @@ export class KeysInterface extends CommonBase {
 				}
 				bindings.freeWasmMemory(invoice_data)
 				const ret: Result_RecoverableSignatureNoneZ = arg.sign_invoice(hrp_bytes_conv, invoice_data_conv_7_arr, receipient);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			get_inbound_payment_key_material (): number {
@@ -496,7 +496,7 @@ export class KeysInterface extends CommonBase {
 				return result;
 			},
 		} as bindings.LDKKeysInterface;
-		const ptr: number = bindings.LDKKeysInterface_new(structImplementation);
+		const ptr: bigint = bindings.LDKKeysInterface_new(structImplementation);
 
 		impl_holder.held = new KeysInterface(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -512,7 +512,7 @@ export class KeysInterface extends CommonBase {
 	 * parameter.
 	 */
 	public get_node_secret(recipient: Recipient): Result_SecretKeyNoneZ {
-		const ret: number = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
+		const ret: bigint = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
 		const ret_hu_conv: Result_SecretKeyNoneZ = Result_SecretKeyNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -536,7 +536,7 @@ export class KeysInterface extends CommonBase {
 	 * on-chain funds across channels as controlled to the same user.
 	 */
 	public get_shutdown_scriptpubkey(): ShutdownScript {
-		const ret: number = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
+		const ret: bigint = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -549,7 +549,7 @@ export class KeysInterface extends CommonBase {
 	 * This method must return a different value each time it is called.
 	 */
 	public get_channel_signer(inbound: boolean, channel_value_satoshis: bigint): Sign {
-		const ret: number = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
+		const ret: bigint = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
 		const ret_hu_conv: Sign = new Sign(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -577,7 +577,7 @@ export class KeysInterface extends CommonBase {
 	 * you've read all of the provided bytes to ensure no corruption occurred.
 	 */
 	public read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ {
-		const ret: number = bindings.KeysInterface_read_chan_signer(this.ptr, bindings.encodeUint8Array(reader));
+		const ret: bigint = bindings.KeysInterface_read_chan_signer(this.ptr, bindings.encodeUint8Array(reader));
 		const ret_hu_conv: Result_SignDecodeErrorZ = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -592,7 +592,7 @@ export class KeysInterface extends CommonBase {
 	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
 	 */
 	public sign_invoice(hrp_bytes: Uint8Array, invoice_data: UInt5[], receipient: Recipient): Result_RecoverableSignatureNoneZ {
-		const ret: number = bindings.KeysInterface_sign_invoice(this.ptr, bindings.encodeUint8Array(hrp_bytes), bindings.encodeUint8Array(invoice_data != null ? bindings.uint5ArrToBytes(invoice_data) : null), receipient);
+		const ret: bigint = bindings.KeysInterface_sign_invoice(this.ptr, bindings.encodeUint8Array(hrp_bytes), bindings.encodeUint8Array(invoice_data != null ? bindings.uint5ArrToBytes(invoice_data) : null), receipient);
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

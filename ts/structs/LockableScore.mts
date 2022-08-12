@@ -384,7 +384,7 @@ export class LockableScore extends CommonBase {
 	public bindings_instance?: bindings.LDKLockableScore;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.LockableScore_free);
 		this.bindings_instance = null;
 	}
@@ -393,14 +393,14 @@ export class LockableScore extends CommonBase {
 	public static new_impl(arg: LockableScoreInterface): LockableScore {
 		const impl_holder: LDKLockableScoreHolder = new LDKLockableScoreHolder();
 		let structImplementation = {
-			lock (): number {
+			lock (): bigint {
 				const ret: Score = arg.lock();
-				const result: number = ret == null ? 0 : CommonBase.get_ptr_of(ret);
+				const result: bigint = ret == null ? 0n : CommonBase.get_ptr_of(ret);
 				CommonBase.add_ref_from(impl_holder.held, ret);
 				return result;
 			},
 		} as bindings.LDKLockableScore;
-		const ptr: number = bindings.LDKLockableScore_new(structImplementation);
+		const ptr: bigint = bindings.LDKLockableScore_new(structImplementation);
 
 		impl_holder.held = new LockableScore(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -411,7 +411,7 @@ export class LockableScore extends CommonBase {
 	 * Returns the locked scorer.
 	 */
 	public lock(): Score {
-		const ret: number = bindings.LockableScore_lock(this.ptr);
+		const ret: bigint = bindings.LockableScore_lock(this.ptr);
 		const ret_hu_conv: Score = new Score(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

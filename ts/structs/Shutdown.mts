@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Shutdown extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Shutdown_free);
 	}
 
@@ -403,14 +403,14 @@ export class Shutdown extends CommonBase {
 	 * Constructs a new Shutdown given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, scriptpubkey_arg: Uint8Array): Shutdown {
-		const ret: number = bindings.Shutdown_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(scriptpubkey_arg));
+		const ret: bigint = bindings.Shutdown_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(scriptpubkey_arg));
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Shutdown_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Shutdown_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -418,7 +418,7 @@ export class Shutdown extends CommonBase {
 	 * Creates a copy of the Shutdown
 	 */
 	public clone(): Shutdown {
-		const ret: number = bindings.Shutdown_clone(this.ptr);
+		const ret: bigint = bindings.Shutdown_clone(this.ptr);
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -437,7 +437,7 @@ export class Shutdown extends CommonBase {
 	 * Read a Shutdown from a byte array, created by Shutdown_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ShutdownDecodeErrorZ {
-		const ret: number = bindings.Shutdown_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Shutdown_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

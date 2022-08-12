@@ -363,7 +363,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class GossipTimestampFilter extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.GossipTimestampFilter_free);
 	}
 
@@ -417,14 +417,14 @@ export class GossipTimestampFilter extends CommonBase {
 	 * Constructs a new GossipTimestampFilter given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, first_timestamp_arg: number, timestamp_range_arg: number): GossipTimestampFilter {
-		const ret: number = bindings.GossipTimestampFilter_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_timestamp_arg, timestamp_range_arg);
+		const ret: bigint = bindings.GossipTimestampFilter_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_timestamp_arg, timestamp_range_arg);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.GossipTimestampFilter_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.GossipTimestampFilter_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -432,7 +432,7 @@ export class GossipTimestampFilter extends CommonBase {
 	 * Creates a copy of the GossipTimestampFilter
 	 */
 	public clone(): GossipTimestampFilter {
-		const ret: number = bindings.GossipTimestampFilter_clone(this.ptr);
+		const ret: bigint = bindings.GossipTimestampFilter_clone(this.ptr);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -451,7 +451,7 @@ export class GossipTimestampFilter extends CommonBase {
 	 * Read a GossipTimestampFilter from a byte array, created by GossipTimestampFilter_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_GossipTimestampFilterDecodeErrorZ {
-		const ret: number = bindings.GossipTimestampFilter_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.GossipTimestampFilter_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_GossipTimestampFilterDecodeErrorZ = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

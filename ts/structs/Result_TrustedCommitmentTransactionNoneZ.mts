@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_TrustedCommitmentTransactionNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_TrustedCommitmentTransactionNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_TrustedCommitmentTransactionNoneZ {
 		if (bindings.CResult_TrustedCommitmentTransactionNoneZ_is_ok(ptr)) {
 			return new Result_TrustedCommitmentTransactionNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the success state.
 	 */
 	public static constructor_ok(o: TrustedCommitmentTransaction): Result_TrustedCommitmentTransactionNoneZ {
-		const ret: number = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -391,7 +391,7 @@ export class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_TrustedCommitmentTransactionNoneZ {
-		const ret: number = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
+		const ret: bigint = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -409,9 +409,9 @@ export class Result_TrustedCommitmentTransactionNoneZ_OK extends Result_TrustedC
 	public res: TrustedCommitmentTransaction;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
 		const res_hu_conv: TrustedCommitmentTransaction = new TrustedCommitmentTransaction(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -420,7 +420,7 @@ export class Result_TrustedCommitmentTransactionNoneZ_OK extends Result_TrustedC
 export class Result_TrustedCommitmentTransactionNoneZ_Err extends Result_TrustedCommitmentTransactionNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

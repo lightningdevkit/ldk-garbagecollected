@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UnsignedChannelUpdate extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UnsignedChannelUpdate_free);
 	}
 
@@ -541,14 +541,14 @@ export class UnsignedChannelUpdate extends CommonBase {
 	 * Constructs a new UnsignedChannelUpdate given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, short_channel_id_arg: bigint, timestamp_arg: number, flags_arg: number, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: bigint, htlc_maximum_msat_arg: bigint, fee_base_msat_arg: number, fee_proportional_millionths_arg: number, excess_data_arg: Uint8Array): UnsignedChannelUpdate {
-		const ret: number = bindings.UnsignedChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), short_channel_id_arg, timestamp_arg, flags_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fee_base_msat_arg, fee_proportional_millionths_arg, bindings.encodeUint8Array(excess_data_arg));
+		const ret: bigint = bindings.UnsignedChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), short_channel_id_arg, timestamp_arg, flags_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fee_base_msat_arg, fee_proportional_millionths_arg, bindings.encodeUint8Array(excess_data_arg));
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -556,7 +556,7 @@ export class UnsignedChannelUpdate extends CommonBase {
 	 * Creates a copy of the UnsignedChannelUpdate
 	 */
 	public clone(): UnsignedChannelUpdate {
-		const ret: number = bindings.UnsignedChannelUpdate_clone(this.ptr);
+		const ret: bigint = bindings.UnsignedChannelUpdate_clone(this.ptr);
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -575,7 +575,7 @@ export class UnsignedChannelUpdate extends CommonBase {
 	 * Read a UnsignedChannelUpdate from a byte array, created by UnsignedChannelUpdate_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UnsignedChannelUpdateDecodeErrorZ {
-		const ret: number = bindings.UnsignedChannelUpdate_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UnsignedChannelUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedChannelUpdateDecodeErrorZ = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class MonitorUpdateId extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.MonitorUpdateId_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.MonitorUpdateId_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.MonitorUpdateId_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class MonitorUpdateId extends CommonBase {
 	 * Creates a copy of the MonitorUpdateId
 	 */
 	public clone(): MonitorUpdateId {
-		const ret: number = bindings.MonitorUpdateId_clone(this.ptr);
+		const ret: bigint = bindings.MonitorUpdateId_clone(this.ptr);
 		const ret_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -394,7 +394,7 @@ export class MonitorUpdateId extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: MonitorUpdateId): boolean {
-		const ret: boolean = bindings.MonitorUpdateId_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.MonitorUpdateId_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}

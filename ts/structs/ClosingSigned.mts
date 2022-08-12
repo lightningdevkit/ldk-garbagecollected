@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ClosingSigned extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ClosingSigned_free);
 	}
 
@@ -419,7 +419,7 @@ export class ClosingSigned extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_fee_range(): ClosingSignedFeeRange {
-		const ret: number = bindings.ClosingSigned_get_fee_range(this.ptr);
+		const ret: bigint = bindings.ClosingSigned_get_fee_range(this.ptr);
 		const ret_hu_conv: ClosingSignedFeeRange = new ClosingSignedFeeRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -432,21 +432,23 @@ export class ClosingSigned extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_fee_range(val: ClosingSignedFeeRange): void {
-		bindings.ClosingSigned_set_fee_range(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ClosingSigned_set_fee_range(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new ClosingSigned given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, fee_satoshis_arg: bigint, signature_arg: Uint8Array, fee_range_arg: ClosingSignedFeeRange): ClosingSigned {
-		const ret: number = bindings.ClosingSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), fee_satoshis_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), fee_range_arg == null ? 0 : CommonBase.get_ptr_of(fee_range_arg) & ~1);
+		const ret: bigint = bindings.ClosingSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), fee_satoshis_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), fee_range_arg == null ? 0n : CommonBase.get_ptr_of(fee_range_arg));
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, fee_range_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ClosingSigned_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ClosingSigned_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -454,7 +456,7 @@ export class ClosingSigned extends CommonBase {
 	 * Creates a copy of the ClosingSigned
 	 */
 	public clone(): ClosingSigned {
-		const ret: number = bindings.ClosingSigned_clone(this.ptr);
+		const ret: bigint = bindings.ClosingSigned_clone(this.ptr);
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -473,7 +475,7 @@ export class ClosingSigned extends CommonBase {
 	 * Read a ClosingSigned from a byte array, created by ClosingSigned_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ClosingSignedDecodeErrorZ {
-		const ret: number = bindings.ClosingSigned_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ClosingSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ClosingSignedDecodeErrorZ = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

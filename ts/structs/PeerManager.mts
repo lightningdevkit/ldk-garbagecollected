@@ -379,7 +379,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class PeerManager extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PeerManager_free);
 	}
 
@@ -389,7 +389,7 @@ export class PeerManager extends CommonBase {
 	 * cryptographically secure random bytes.
 	 */
 	public static constructor_new(message_handler_chan_handler_arg: ChannelMessageHandler, message_handler_route_handler_arg: RoutingMessageHandler, our_node_secret: Uint8Array, ephemeral_random_data: Uint8Array, logger: Logger, custom_message_handler: CustomMessageHandler): PeerManager {
-		const ret: number = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_chan_handler_arg), message_handler_route_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_route_handler_arg)), bindings.encodeUint8Array(bindings.check_arr_len(our_node_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(ephemeral_random_data, 32)), logger == null ? 0 : CommonBase.get_ptr_of(logger), custom_message_handler == null ? 0 : CommonBase.get_ptr_of(custom_message_handler));
+		const ret: bigint = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0n : CommonBase.get_ptr_of(message_handler_chan_handler_arg), message_handler_route_handler_arg == null ? 0n : CommonBase.get_ptr_of(message_handler_route_handler_arg)), bindings.encodeUint8Array(bindings.check_arr_len(our_node_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(ephemeral_random_data, 32)), logger == null ? 0n : CommonBase.get_ptr_of(logger), custom_message_handler == null ? 0n : CommonBase.get_ptr_of(custom_message_handler));
 		const ret_hu_conv: PeerManager = new PeerManager(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, message_handler_chan_handler_arg);
@@ -437,7 +437,7 @@ export class PeerManager extends CommonBase {
 	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
 	public new_outbound_connection(their_node_id: Uint8Array, descriptor: SocketDescriptor, remote_network_address: Option_NetAddressZ): Result_CVec_u8ZPeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_new_outbound_connection(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor), CommonBase.get_ptr_of(remote_network_address));
+		const ret: bigint = bindings.PeerManager_new_outbound_connection(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor), CommonBase.get_ptr_of(remote_network_address));
 		const ret_hu_conv: Result_CVec_u8ZPeerHandleErrorZ = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, descriptor);
 		return ret_hu_conv;
@@ -461,7 +461,7 @@ export class PeerManager extends CommonBase {
 	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
 	public new_inbound_connection(descriptor: SocketDescriptor, remote_network_address: Option_NetAddressZ): Result_NonePeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor), CommonBase.get_ptr_of(remote_network_address));
+		const ret: bigint = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor), CommonBase.get_ptr_of(remote_network_address));
 		const ret_hu_conv: Result_NonePeerHandleErrorZ = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, descriptor);
 		return ret_hu_conv;
@@ -482,7 +482,7 @@ export class PeerManager extends CommonBase {
 	 * [`write_buffer_space_avail`]: PeerManager::write_buffer_space_avail
 	 */
 	public write_buffer_space_avail(descriptor: SocketDescriptor): Result_NonePeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor));
+		const ret: bigint = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor));
 		const ret_hu_conv: Result_NonePeerHandleErrorZ = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -504,7 +504,7 @@ export class PeerManager extends CommonBase {
 	 * [`process_events`]: PeerManager::process_events
 	 */
 	public read_event(peer_descriptor: SocketDescriptor, data: Uint8Array): Result_boolPeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : CommonBase.get_ptr_of(peer_descriptor), bindings.encodeUint8Array(data));
+		const ret: bigint = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0n : CommonBase.get_ptr_of(peer_descriptor), bindings.encodeUint8Array(data));
 		const ret_hu_conv: Result_boolPeerHandleErrorZ = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -536,7 +536,7 @@ export class PeerManager extends CommonBase {
 	 * Indicates that the given socket descriptor's connection is now closed.
 	 */
 	public socket_disconnected(descriptor: SocketDescriptor): void {
-		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor));
+		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor));
 	}
 
 	/**

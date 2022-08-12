@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An address which can be used to connect to a remote peer
  */
 export class NetAddress extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetAddress_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.NetAddress_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): NetAddress {
+	public static constr_from_ptr(ptr: bigint): NetAddress {
 		const raw_ty: number = bindings.LDKNetAddress_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new NetAddress_IPv4(ptr);
@@ -374,8 +374,8 @@ export class NetAddress extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NetAddress_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NetAddress_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -383,7 +383,7 @@ export class NetAddress extends CommonBase {
 	 * Creates a copy of the NetAddress
 	 */
 	public clone(): NetAddress {
-		const ret: number = bindings.NetAddress_clone(this.ptr);
+		const ret: bigint = bindings.NetAddress_clone(this.ptr);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -393,7 +393,7 @@ export class NetAddress extends CommonBase {
 	 * Utility method to constructs a new IPv4-variant NetAddress
 	 */
 	public static constructor_ipv4(addr: Uint8Array, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_ipv4(bindings.encodeUint8Array(bindings.check_arr_len(addr, 4)), port);
+		const ret: bigint = bindings.NetAddress_ipv4(bindings.encodeUint8Array(bindings.check_arr_len(addr, 4)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -403,7 +403,7 @@ export class NetAddress extends CommonBase {
 	 * Utility method to constructs a new IPv6-variant NetAddress
 	 */
 	public static constructor_ipv6(addr: Uint8Array, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_ipv6(bindings.encodeUint8Array(bindings.check_arr_len(addr, 16)), port);
+		const ret: bigint = bindings.NetAddress_ipv6(bindings.encodeUint8Array(bindings.check_arr_len(addr, 16)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -413,7 +413,7 @@ export class NetAddress extends CommonBase {
 	 * Utility method to constructs a new OnionV2-variant NetAddress
 	 */
 	public static constructor_onion_v2(a: Uint8Array): NetAddress {
-		const ret: number = bindings.NetAddress_onion_v2(bindings.encodeUint8Array(bindings.check_arr_len(a, 12)));
+		const ret: bigint = bindings.NetAddress_onion_v2(bindings.encodeUint8Array(bindings.check_arr_len(a, 12)));
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -423,7 +423,7 @@ export class NetAddress extends CommonBase {
 	 * Utility method to constructs a new OnionV3-variant NetAddress
 	 */
 	public static constructor_onion_v3(ed25519_pubkey: Uint8Array, checksum: number, version: number, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_onion_v3(bindings.encodeUint8Array(bindings.check_arr_len(ed25519_pubkey, 32)), checksum, version, port);
+		const ret: bigint = bindings.NetAddress_onion_v3(bindings.encodeUint8Array(bindings.check_arr_len(ed25519_pubkey, 32)), checksum, version, port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -433,9 +433,10 @@ export class NetAddress extends CommonBase {
 	 * Utility method to constructs a new Hostname-variant NetAddress
 	 */
 	public static constructor_hostname(hostname: Hostname, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_hostname(hostname == null ? 0 : CommonBase.get_ptr_of(hostname) & ~1, port);
+		const ret: bigint = bindings.NetAddress_hostname(hostname == null ? 0n : CommonBase.get_ptr_of(hostname), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, hostname);
 		return ret_hu_conv;
 	}
 
@@ -452,7 +453,7 @@ export class NetAddress extends CommonBase {
 	 * Read a NetAddress from a byte array, created by NetAddress_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NetAddressDecodeErrorZ {
-		const ret: number = bindings.NetAddress_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NetAddress_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NetAddressDecodeErrorZ = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -469,7 +470,7 @@ export class NetAddress_IPv4 extends NetAddress {
 	 */
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const addr: number = bindings.LDKNetAddress_IPv4_get_addr(ptr);
 		const addr_conv: Uint8Array = bindings.decodeUint8Array(addr);
@@ -488,7 +489,7 @@ export class NetAddress_IPv6 extends NetAddress {
 	 */
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const addr: number = bindings.LDKNetAddress_IPv6_get_addr(ptr);
 		const addr_conv: Uint8Array = bindings.decodeUint8Array(addr);
@@ -500,7 +501,7 @@ export class NetAddress_IPv6 extends NetAddress {
 export class NetAddress_OnionV2 extends NetAddress {
 	public onion_v2: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const onion_v2: number = bindings.LDKNetAddress_OnionV2_get_onion_v2(ptr);
 		const onion_v2_conv: Uint8Array = bindings.decodeUint8Array(onion_v2);
@@ -526,7 +527,7 @@ export class NetAddress_OnionV3 extends NetAddress {
 	 */
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const ed25519_pubkey: number = bindings.LDKNetAddress_OnionV3_get_ed25519_pubkey(ptr);
 		const ed25519_pubkey_conv: Uint8Array = bindings.decodeUint8Array(ed25519_pubkey);
@@ -547,9 +548,9 @@ export class NetAddress_Hostname extends NetAddress {
 	 */
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const hostname: number = bindings.LDKNetAddress_Hostname_get_hostname(ptr);
+		const hostname: bigint = bindings.LDKNetAddress_Hostname_get_hostname(ptr);
 		const hostname_hu_conv: Hostname = new Hostname(null, hostname);
 			CommonBase.add_ref_from(hostname_hu_conv, this);
 		this.hostname = hostname_hu_conv;

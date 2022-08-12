@@ -362,9 +362,9 @@ import * as bindings from '../bindings.mjs'
  * [`Self::as_msat`] should not be routed through the channel.
  */
 export class EffectiveCapacity extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.EffectiveCapacity_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.EffectiveCapacity_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): EffectiveCapacity {
+	public static constr_from_ptr(ptr: bigint): EffectiveCapacity {
 		const raw_ty: number = bindings.LDKEffectiveCapacity_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new EffectiveCapacity_ExactLiquidity(ptr);
@@ -377,8 +377,8 @@ export class EffectiveCapacity extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.EffectiveCapacity_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.EffectiveCapacity_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -386,7 +386,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Creates a copy of the EffectiveCapacity
 	 */
 	public clone(): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_clone(this.ptr);
+		const ret: bigint = bindings.EffectiveCapacity_clone(this.ptr);
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -396,7 +396,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Utility method to constructs a new ExactLiquidity-variant EffectiveCapacity
 	 */
 	public static constructor_exact_liquidity(liquidity_msat: bigint): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_exact_liquidity(liquidity_msat);
+		const ret: bigint = bindings.EffectiveCapacity_exact_liquidity(liquidity_msat);
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -406,7 +406,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Utility method to constructs a new MaximumHTLC-variant EffectiveCapacity
 	 */
 	public static constructor_maximum_htlc(amount_msat: bigint): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_maximum_htlc(amount_msat);
+		const ret: bigint = bindings.EffectiveCapacity_maximum_htlc(amount_msat);
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -416,7 +416,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Utility method to constructs a new Total-variant EffectiveCapacity
 	 */
 	public static constructor_total(capacity_msat: bigint, htlc_maximum_msat: Option_u64Z): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_total(capacity_msat, CommonBase.get_ptr_of(htlc_maximum_msat));
+		const ret: bigint = bindings.EffectiveCapacity_total(capacity_msat, CommonBase.get_ptr_of(htlc_maximum_msat));
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -426,7 +426,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Utility method to constructs a new Infinite-variant EffectiveCapacity
 	 */
 	public static constructor_infinite(): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_infinite();
+		const ret: bigint = bindings.EffectiveCapacity_infinite();
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -436,7 +436,7 @@ export class EffectiveCapacity extends CommonBase {
 	 * Utility method to constructs a new Unknown-variant EffectiveCapacity
 	 */
 	public static constructor_unknown(): EffectiveCapacity {
-		const ret: number = bindings.EffectiveCapacity_unknown();
+		const ret: bigint = bindings.EffectiveCapacity_unknown();
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -459,7 +459,7 @@ export class EffectiveCapacity_ExactLiquidity extends EffectiveCapacity {
 	 */
 	public liquidity_msat: bigint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.liquidity_msat = bindings.LDKEffectiveCapacity_ExactLiquidity_get_liquidity_msat(ptr);
 	}
@@ -471,7 +471,7 @@ export class EffectiveCapacity_MaximumHTLC extends EffectiveCapacity {
 	 */
 	public amount_msat: bigint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.amount_msat = bindings.LDKEffectiveCapacity_MaximumHTLC_get_amount_msat(ptr);
 	}
@@ -487,10 +487,10 @@ export class EffectiveCapacity_Total extends EffectiveCapacity {
 	 */
 	public htlc_maximum_msat: Option_u64Z;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.capacity_msat = bindings.LDKEffectiveCapacity_Total_get_capacity_msat(ptr);
-		const htlc_maximum_msat: number = bindings.LDKEffectiveCapacity_Total_get_htlc_maximum_msat(ptr);
+		const htlc_maximum_msat: bigint = bindings.LDKEffectiveCapacity_Total_get_htlc_maximum_msat(ptr);
 		const htlc_maximum_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(htlc_maximum_msat);
 			CommonBase.add_ref_from(htlc_maximum_msat_hu_conv, this);
 		this.htlc_maximum_msat = htlc_maximum_msat_hu_conv;
@@ -499,14 +499,14 @@ export class EffectiveCapacity_Total extends EffectiveCapacity {
 /** A EffectiveCapacity of type Infinite */
 export class EffectiveCapacity_Infinite extends EffectiveCapacity {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A EffectiveCapacity of type Unknown */
 export class EffectiveCapacity_Unknown extends EffectiveCapacity {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

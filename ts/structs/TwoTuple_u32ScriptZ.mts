@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_u32ScriptZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_u32ScriptZ_free);
 	}
 
@@ -382,8 +382,8 @@ export class TwoTuple_u32ScriptZ extends CommonBase {
 		return ret_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_u32ScriptZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_u32ScriptZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -392,7 +392,7 @@ export class TwoTuple_u32ScriptZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_u32ScriptZ {
-		const ret: number = bindings.C2Tuple_u32ScriptZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_u32ScriptZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_u32ScriptZ = new TwoTuple_u32ScriptZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -402,7 +402,7 @@ export class TwoTuple_u32ScriptZ extends CommonBase {
 	 * Creates a new C2Tuple_u32ScriptZ from the contained elements.
 	 */
 	public static constructor_new(a: number, b: Uint8Array): TwoTuple_u32ScriptZ {
-		const ret: number = bindings.C2Tuple_u32ScriptZ_new(a, bindings.encodeUint8Array(b));
+		const ret: bigint = bindings.C2Tuple_u32ScriptZ_new(a, bindings.encodeUint8Array(b));
 		const ret_hu_conv: TwoTuple_u32ScriptZ = new TwoTuple_u32ScriptZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

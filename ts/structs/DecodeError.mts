@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class DecodeError extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.DecodeError_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.DecodeError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.DecodeError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class DecodeError extends CommonBase {
 	 * Creates a copy of the DecodeError
 	 */
 	public clone(): DecodeError {
-		const ret: number = bindings.DecodeError_clone(this.ptr);
+		const ret: bigint = bindings.DecodeError_clone(this.ptr);
 		const ret_hu_conv: DecodeError = new DecodeError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

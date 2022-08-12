@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelPublicKeys extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelPublicKeys_free);
 	}
 
@@ -467,14 +467,14 @@ export class ChannelPublicKeys extends CommonBase {
 	 * Constructs a new ChannelPublicKeys given each field
 	 */
 	public static constructor_new(funding_pubkey_arg: Uint8Array, revocation_basepoint_arg: Uint8Array, payment_point_arg: Uint8Array, delayed_payment_basepoint_arg: Uint8Array, htlc_basepoint_arg: Uint8Array): ChannelPublicKeys {
-		const ret: number = bindings.ChannelPublicKeys_new(bindings.encodeUint8Array(bindings.check_arr_len(funding_pubkey_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(payment_point_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(delayed_payment_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(htlc_basepoint_arg, 33)));
+		const ret: bigint = bindings.ChannelPublicKeys_new(bindings.encodeUint8Array(bindings.check_arr_len(funding_pubkey_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(payment_point_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(delayed_payment_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(htlc_basepoint_arg, 33)));
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelPublicKeys_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelPublicKeys_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -482,7 +482,7 @@ export class ChannelPublicKeys extends CommonBase {
 	 * Creates a copy of the ChannelPublicKeys
 	 */
 	public clone(): ChannelPublicKeys {
-		const ret: number = bindings.ChannelPublicKeys_clone(this.ptr);
+		const ret: bigint = bindings.ChannelPublicKeys_clone(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -501,7 +501,7 @@ export class ChannelPublicKeys extends CommonBase {
 	 * Read a ChannelPublicKeys from a byte array, created by ChannelPublicKeys_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelPublicKeysDecodeErrorZ {
-		const ret: number = bindings.ChannelPublicKeys_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelPublicKeys_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelPublicKeysDecodeErrorZ = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

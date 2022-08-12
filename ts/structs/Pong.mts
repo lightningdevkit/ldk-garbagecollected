@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Pong extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Pong_free);
 	}
 
@@ -386,14 +386,14 @@ export class Pong extends CommonBase {
 	 * Constructs a new Pong given each field
 	 */
 	public static constructor_new(byteslen_arg: number): Pong {
-		const ret: number = bindings.Pong_new(byteslen_arg);
+		const ret: bigint = bindings.Pong_new(byteslen_arg);
 		const ret_hu_conv: Pong = new Pong(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Pong_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Pong_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Pong extends CommonBase {
 	 * Creates a copy of the Pong
 	 */
 	public clone(): Pong {
-		const ret: number = bindings.Pong_clone(this.ptr);
+		const ret: bigint = bindings.Pong_clone(this.ptr);
 		const ret_hu_conv: Pong = new Pong(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -420,7 +420,7 @@ export class Pong extends CommonBase {
 	 * Read a Pong from a byte array, created by Pong_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_PongDecodeErrorZ {
-		const ret: number = bindings.Pong_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Pong_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PongDecodeErrorZ = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -363,12 +363,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class ShutdownScript extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ShutdownScript_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ShutdownScript_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ShutdownScript_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -376,7 +376,7 @@ export class ShutdownScript extends CommonBase {
 	 * Creates a copy of the ShutdownScript
 	 */
 	public clone(): ShutdownScript {
-		const ret: number = bindings.ShutdownScript_clone(this.ptr);
+		const ret: bigint = bindings.ShutdownScript_clone(this.ptr);
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class ShutdownScript extends CommonBase {
 	 * Read a ShutdownScript from a byte array, created by ShutdownScript_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ShutdownScriptDecodeErrorZ {
-		const ret: number = bindings.ShutdownScript_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ShutdownScript_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ShutdownScriptDecodeErrorZ = Result_ShutdownScriptDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -404,7 +404,7 @@ export class ShutdownScript extends CommonBase {
 	 * Generates a P2WPKH script pubkey from the given [`WPubkeyHash`].
 	 */
 	public static constructor_new_p2wpkh(pubkey_hash: Uint8Array): ShutdownScript {
-		const ret: number = bindings.ShutdownScript_new_p2wpkh(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_hash, 20)));
+		const ret: bigint = bindings.ShutdownScript_new_p2wpkh(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_hash, 20)));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class ShutdownScript extends CommonBase {
 	 * Generates a P2WSH script pubkey from the given [`WScriptHash`].
 	 */
 	public static constructor_new_p2wsh(script_hash: Uint8Array): ShutdownScript {
-		const ret: number = bindings.ShutdownScript_new_p2wsh(bindings.encodeUint8Array(bindings.check_arr_len(script_hash, 32)));
+		const ret: bigint = bindings.ShutdownScript_new_p2wsh(bindings.encodeUint8Array(bindings.check_arr_len(script_hash, 32)));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -431,7 +431,7 @@ export class ShutdownScript extends CommonBase {
 	 * This function may return an error if `program` is invalid for the segwit `version`.
 	 */
 	public static constructor_new_witness_program(version: WitnessVersion, program: Uint8Array): Result_ShutdownScriptInvalidShutdownScriptZ {
-		const ret: number = bindings.ShutdownScript_new_witness_program(version.getVal(), bindings.encodeUint8Array(program));
+		const ret: bigint = bindings.ShutdownScript_new_witness_program(version.getVal(), bindings.encodeUint8Array(program));
 		const ret_hu_conv: Result_ShutdownScriptInvalidShutdownScriptZ = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -462,7 +462,7 @@ export class ShutdownScript extends CommonBase {
 	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit`.
 	 */
 	public is_compatible(features: InitFeatures): boolean {
-		const ret: boolean = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : CommonBase.get_ptr_of(features) & ~1);
+		const ret: boolean = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0n : CommonBase.get_ptr_of(features));
 		CommonBase.add_ref_from(this, features);
 		return ret;
 	}

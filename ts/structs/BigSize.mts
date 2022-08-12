@@ -367,7 +367,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class BigSize extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.BigSize_free);
 	}
 
@@ -384,7 +384,7 @@ export class BigSize extends CommonBase {
 	 * Constructs a new BigSize given each field
 	 */
 	public static constructor_new(a_arg: bigint): BigSize {
-		const ret: number = bindings.BigSize_new(a_arg);
+		const ret: bigint = bindings.BigSize_new(a_arg);
 		const ret_hu_conv: BigSize = new BigSize(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

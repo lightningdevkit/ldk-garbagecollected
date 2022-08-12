@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class AcceptChannel extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.AcceptChannel_free);
 	}
 
@@ -592,7 +592,7 @@ export class AcceptChannel extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_channel_type(): ChannelTypeFeatures {
-		const ret: number = bindings.AcceptChannel_get_channel_type(this.ptr);
+		const ret: bigint = bindings.AcceptChannel_get_channel_type(this.ptr);
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -608,11 +608,12 @@ export class AcceptChannel extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_channel_type(val: ChannelTypeFeatures): void {
-		bindings.AcceptChannel_set_channel_type(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.AcceptChannel_set_channel_type(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.AcceptChannel_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.AcceptChannel_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -620,7 +621,7 @@ export class AcceptChannel extends CommonBase {
 	 * Creates a copy of the AcceptChannel
 	 */
 	public clone(): AcceptChannel {
-		const ret: number = bindings.AcceptChannel_clone(this.ptr);
+		const ret: bigint = bindings.AcceptChannel_clone(this.ptr);
 		const ret_hu_conv: AcceptChannel = new AcceptChannel(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -639,7 +640,7 @@ export class AcceptChannel extends CommonBase {
 	 * Read a AcceptChannel from a byte array, created by AcceptChannel_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_AcceptChannelDecodeErrorZ {
-		const ret: number = bindings.AcceptChannel_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.AcceptChannel_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_AcceptChannelDecodeErrorZ = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

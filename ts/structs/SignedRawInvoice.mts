@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class SignedRawInvoice extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.SignedRawInvoice_free);
 	}
 
@@ -375,13 +375,13 @@ export class SignedRawInvoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: SignedRawInvoice): boolean {
-		const ret: boolean = bindings.SignedRawInvoice_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.SignedRawInvoice_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.SignedRawInvoice_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.SignedRawInvoice_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -389,7 +389,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * Creates a copy of the SignedRawInvoice
 	 */
 	public clone(): SignedRawInvoice {
-		const ret: number = bindings.SignedRawInvoice_clone(this.ptr);
+		const ret: bigint = bindings.SignedRawInvoice_clone(this.ptr);
 		const ret_hu_conv: SignedRawInvoice = new SignedRawInvoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -402,7 +402,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * 3. signature
 	 */
 	public into_parts(): ThreeTuple_RawInvoice_u832InvoiceSignatureZ {
-		const ret: number = bindings.SignedRawInvoice_into_parts(this.ptr);
+		const ret: bigint = bindings.SignedRawInvoice_into_parts(this.ptr);
 		const ret_hu_conv: ThreeTuple_RawInvoice_u832InvoiceSignatureZ = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,7 +412,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * The `RawInvoice` which was signed.
 	 */
 	public raw_invoice(): RawInvoice {
-		const ret: number = bindings.SignedRawInvoice_raw_invoice(this.ptr);
+		const ret: bigint = bindings.SignedRawInvoice_raw_invoice(this.ptr);
 		const ret_hu_conv: RawInvoice = new RawInvoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -431,7 +431,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * InvoiceSignature for the invoice.
 	 */
 	public signature(): InvoiceSignature {
-		const ret: number = bindings.SignedRawInvoice_signature(this.ptr);
+		const ret: bigint = bindings.SignedRawInvoice_signature(this.ptr);
 		const ret_hu_conv: InvoiceSignature = new InvoiceSignature(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -441,7 +441,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * Recovers the public key used for signing the invoice from the recoverable signature.
 	 */
 	public recover_payee_pub_key(): Result_PayeePubKeyErrorZ {
-		const ret: number = bindings.SignedRawInvoice_recover_payee_pub_key(this.ptr);
+		const ret: bigint = bindings.SignedRawInvoice_recover_payee_pub_key(this.ptr);
 		const ret_hu_conv: Result_PayeePubKeyErrorZ = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -459,7 +459,7 @@ export class SignedRawInvoice extends CommonBase {
 	 * Read a SignedRawInvoice object from a string
 	 */
 	public static constructor_from_str(s: string): Result_SignedRawInvoiceParseErrorZ {
-		const ret: number = bindings.SignedRawInvoice_from_str(bindings.encodeString(s));
+		const ret: bigint = bindings.SignedRawInvoice_from_str(bindings.encodeString(s));
 		const ret_hu_conv: Result_SignedRawInvoiceParseErrorZ = Result_SignedRawInvoiceParseErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -368,7 +368,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class P2PGossipSync extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.P2PGossipSync_free);
 	}
 
@@ -380,7 +380,7 @@ export class P2PGossipSync extends CommonBase {
 	 * channel owners' keys.
 	 */
 	public static constructor_new(network_graph: NetworkGraph, chain_access: Option_AccessZ, logger: Logger): P2PGossipSync {
-		const ret: number = bindings.P2PGossipSync_new(network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1, CommonBase.get_ptr_of(chain_access), logger == null ? 0 : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.P2PGossipSync_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(chain_access), logger == null ? 0n : CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: P2PGossipSync = new P2PGossipSync(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
@@ -404,7 +404,7 @@ export class P2PGossipSync extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned RoutingMessageHandler must be freed before this_arg is
 	 */
 	public as_RoutingMessageHandler(): RoutingMessageHandler {
-		const ret: number = bindings.P2PGossipSync_as_RoutingMessageHandler(this.ptr);
+		const ret: bigint = bindings.P2PGossipSync_as_RoutingMessageHandler(this.ptr);
 		const ret_hu_conv: RoutingMessageHandler = new RoutingMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -415,7 +415,7 @@ export class P2PGossipSync extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
 	public as_MessageSendEventsProvider(): MessageSendEventsProvider {
-		const ret: number = bindings.P2PGossipSync_as_MessageSendEventsProvider(this.ptr);
+		const ret: bigint = bindings.P2PGossipSync_as_MessageSendEventsProvider(this.ptr);
 		const ret_hu_conv: MessageSendEventsProvider = new MessageSendEventsProvider(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

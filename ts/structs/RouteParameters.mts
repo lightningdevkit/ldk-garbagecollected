@@ -366,7 +366,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RouteParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RouteParameters_free);
 	}
 
@@ -374,7 +374,7 @@ export class RouteParameters extends CommonBase {
 	 * The parameters of the failed payment path.
 	 */
 	public get_payment_params(): PaymentParameters {
-		const ret: number = bindings.RouteParameters_get_payment_params(this.ptr);
+		const ret: bigint = bindings.RouteParameters_get_payment_params(this.ptr);
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -384,7 +384,8 @@ export class RouteParameters extends CommonBase {
 	 * The parameters of the failed payment path.
 	 */
 	public set_payment_params(val: PaymentParameters): void {
-		bindings.RouteParameters_set_payment_params(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RouteParameters_set_payment_params(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -421,14 +422,15 @@ export class RouteParameters extends CommonBase {
 	 * Constructs a new RouteParameters given each field
 	 */
 	public static constructor_new(payment_params_arg: PaymentParameters, final_value_msat_arg: bigint, final_cltv_expiry_delta_arg: number): RouteParameters {
-		const ret: number = bindings.RouteParameters_new(payment_params_arg == null ? 0 : CommonBase.get_ptr_of(payment_params_arg) & ~1, final_value_msat_arg, final_cltv_expiry_delta_arg);
+		const ret: bigint = bindings.RouteParameters_new(payment_params_arg == null ? 0n : CommonBase.get_ptr_of(payment_params_arg), final_value_msat_arg, final_cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteParameters = new RouteParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, payment_params_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RouteParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RouteParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -436,7 +438,7 @@ export class RouteParameters extends CommonBase {
 	 * Creates a copy of the RouteParameters
 	 */
 	public clone(): RouteParameters {
-		const ret: number = bindings.RouteParameters_clone(this.ptr);
+		const ret: bigint = bindings.RouteParameters_clone(this.ptr);
 		const ret_hu_conv: RouteParameters = new RouteParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -455,7 +457,7 @@ export class RouteParameters extends CommonBase {
 	 * Read a RouteParameters from a byte array, created by RouteParameters_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteParametersDecodeErrorZ {
-		const ret: number = bindings.RouteParameters_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.RouteParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteParametersDecodeErrorZ = Result_RouteParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * Strategies available to retry payment path failures for an [`Invoice`].
  */
 export class Retry extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Retry_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.Retry_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Retry {
+	public static constr_from_ptr(ptr: bigint): Retry {
 		const raw_ty: number = bindings.LDKRetry_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Retry_Attempts(ptr);
@@ -370,8 +370,8 @@ export class Retry extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Retry_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Retry_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -379,7 +379,7 @@ export class Retry extends CommonBase {
 	 * Creates a copy of the Retry
 	 */
 	public clone(): Retry {
-		const ret: number = bindings.Retry_clone(this.ptr);
+		const ret: bigint = bindings.Retry_clone(this.ptr);
 		const ret_hu_conv: Retry = Retry.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -389,7 +389,7 @@ export class Retry extends CommonBase {
 	 * Utility method to constructs a new Attempts-variant Retry
 	 */
 	public static constructor_attempts(a: number): Retry {
-		const ret: number = bindings.Retry_attempts(a);
+		const ret: bigint = bindings.Retry_attempts(a);
 		const ret_hu_conv: Retry = Retry.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -400,7 +400,7 @@ export class Retry extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public eq(b: Retry): boolean {
-		const ret: boolean = bindings.Retry_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.Retry_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		return ret;
 	}
 
@@ -417,7 +417,7 @@ export class Retry extends CommonBase {
 export class Retry_Attempts extends Retry {
 	public attempts: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.attempts = bindings.LDKRetry_Attempts_get_attempts(ptr);
 	}

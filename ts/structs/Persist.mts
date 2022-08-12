@@ -446,7 +446,7 @@ export class Persist extends CommonBase {
 	public bindings_instance?: bindings.LDKPersist;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Persist_free);
 		this.bindings_instance = null;
 	}
@@ -455,17 +455,17 @@ export class Persist extends CommonBase {
 	public static new_impl(arg: PersistInterface): Persist {
 		const impl_holder: LDKPersistHolder = new LDKPersistHolder();
 		let structImplementation = {
-			persist_new_channel (channel_id: number, data: number, update_id: number): number {
+			persist_new_channel (channel_id: bigint, data: bigint, update_id: bigint): bigint {
 				const channel_id_hu_conv: OutPoint = new OutPoint(null, channel_id);
 				CommonBase.add_ref_from(channel_id_hu_conv, this);
 				const data_hu_conv: ChannelMonitor = new ChannelMonitor(null, data);
 				const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				CommonBase.add_ref_from(update_id_hu_conv, this);
 				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			update_persisted_channel (channel_id: number, update: number, data: number, update_id: number): number {
+			update_persisted_channel (channel_id: bigint, update: bigint, data: bigint, update_id: bigint): bigint {
 				const channel_id_hu_conv: OutPoint = new OutPoint(null, channel_id);
 				CommonBase.add_ref_from(channel_id_hu_conv, this);
 				const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
@@ -473,11 +473,11 @@ export class Persist extends CommonBase {
 				const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				CommonBase.add_ref_from(update_id_hu_conv, this);
 				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKPersist;
-		const ptr: number = bindings.LDKPersist_new(structImplementation);
+		const ptr: bigint = bindings.LDKPersist_new(structImplementation);
 
 		impl_holder.held = new Persist(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -502,9 +502,11 @@ export class Persist extends CommonBase {
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
 	public persist_new_channel(channel_id: OutPoint, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : CommonBase.get_ptr_of(channel_id) & ~1, data == null ? 0 : CommonBase.get_ptr_of(data) & ~1, update_id == null ? 0 : CommonBase.get_ptr_of(update_id) & ~1);
+		const ret: bigint = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, channel_id);
 		CommonBase.add_ref_from(this, data);
+		CommonBase.add_ref_from(this, update_id);
 		return ret_hu_conv;
 	}
 
@@ -546,10 +548,12 @@ export class Persist extends CommonBase {
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public update_persisted_channel(channel_id: OutPoint, update: ChannelMonitorUpdate, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : CommonBase.get_ptr_of(channel_id) & ~1, update == null ? 0 : CommonBase.get_ptr_of(update) & ~1, data == null ? 0 : CommonBase.get_ptr_of(data) & ~1, update_id == null ? 0 : CommonBase.get_ptr_of(update_id) & ~1);
+		const ret: bigint = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), update == null ? 0n : CommonBase.get_ptr_of(update), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, channel_id);
 		CommonBase.add_ref_from(this, update);
 		CommonBase.add_ref_from(this, data);
+		CommonBase.add_ref_from(this, update_id);
 		return ret_hu_conv;
 	}
 

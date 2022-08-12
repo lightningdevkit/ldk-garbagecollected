@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_COption_HTLCDestinationZDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_COption_HTLCDestinationZDecodeErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_COption_HTLCDestinationZDecodeErrorZ {
 		if (bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_is_ok(ptr)) {
 			return new Result_COption_HTLCDestinationZDecodeErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_COption_HTLCDestinationZDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o: Option_HTLCDestinationZ): Result_COption_HTLCDestinationZDecodeErrorZ {
-		const ret: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_ok(CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_ok(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_COption_HTLCDestinationZDecodeErrorZ = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,8 +382,9 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_COption_HTLCDestinationZDecodeErrorZ in the error state.
 	 */
 	public static constructor_err(e: DecodeError): Result_COption_HTLCDestinationZDecodeErrorZ {
-		const ret: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
+		const ret: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_err(e == null ? 0n : CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_COption_HTLCDestinationZDecodeErrorZ = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, e);
 		return ret_hu_conv;
 	}
 
@@ -395,8 +396,8 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +406,7 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_COption_HTLCDestinationZDecodeErrorZ {
-		const ret: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_COption_HTLCDestinationZDecodeErrorZ = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +416,9 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ_OK extends Result_COpti
 	public res: Option_HTLCDestinationZ;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_get_ok(ptr);
 		const res_hu_conv: Option_HTLCDestinationZ = Option_HTLCDestinationZ.constr_from_ptr(res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -427,9 +428,9 @@ export class Result_COption_HTLCDestinationZDecodeErrorZ_Err extends Result_COpt
 	public err: DecodeError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_COption_HTLCDestinationZDecodeErrorZ_get_err(ptr);
 		const err_hu_conv: DecodeError = new DecodeError(null, err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_LockedChannelMonitorNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_LockedChannelMonitorNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_LockedChannelMonitorNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_LockedChannelMonitorNoneZ {
 		if (bindings.CResult_LockedChannelMonitorNoneZ_is_ok(ptr)) {
 			return new Result_LockedChannelMonitorNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	 * Creates a new CResult_LockedChannelMonitorNoneZ in the success state.
 	 */
 	public static constructor_ok(o: LockedChannelMonitor): Result_LockedChannelMonitorNoneZ {
-		const ret: number = bindings.CResult_LockedChannelMonitorNoneZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_LockedChannelMonitorNoneZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -391,7 +391,7 @@ export class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	 * Creates a new CResult_LockedChannelMonitorNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_LockedChannelMonitorNoneZ {
-		const ret: number = bindings.CResult_LockedChannelMonitorNoneZ_err();
+		const ret: bigint = bindings.CResult_LockedChannelMonitorNoneZ_err();
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -409,9 +409,9 @@ export class Result_LockedChannelMonitorNoneZ_OK extends Result_LockedChannelMon
 	public res: LockedChannelMonitor;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_LockedChannelMonitorNoneZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_LockedChannelMonitorNoneZ_get_ok(ptr);
 		const res_hu_conv: LockedChannelMonitor = new LockedChannelMonitor(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -420,7 +420,7 @@ export class Result_LockedChannelMonitorNoneZ_OK extends Result_LockedChannelMon
 export class Result_LockedChannelMonitorNoneZ_Err extends Result_LockedChannelMonitorNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

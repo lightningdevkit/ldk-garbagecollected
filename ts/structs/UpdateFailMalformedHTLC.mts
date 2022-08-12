@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UpdateFailMalformedHTLC extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UpdateFailMalformedHTLC_free);
 	}
 
@@ -411,8 +411,8 @@ export class UpdateFailMalformedHTLC extends CommonBase {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UpdateFailMalformedHTLC_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UpdateFailMalformedHTLC_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -420,7 +420,7 @@ export class UpdateFailMalformedHTLC extends CommonBase {
 	 * Creates a copy of the UpdateFailMalformedHTLC
 	 */
 	public clone(): UpdateFailMalformedHTLC {
-		const ret: number = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		const ret: bigint = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -439,7 +439,7 @@ export class UpdateFailMalformedHTLC extends CommonBase {
 	 * Read a UpdateFailMalformedHTLC from a byte array, created by UpdateFailMalformedHTLC_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFailMalformedHTLCDecodeErrorZ {
-		const ret: number = bindings.UpdateFailMalformedHTLC_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UpdateFailMalformedHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFailMalformedHTLCDecodeErrorZ = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

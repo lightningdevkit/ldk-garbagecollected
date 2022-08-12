@@ -362,12 +362,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class ExpiryTime extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ExpiryTime_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ExpiryTime_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ExpiryTime_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -375,7 +375,7 @@ export class ExpiryTime extends CommonBase {
 	 * Creates a copy of the ExpiryTime
 	 */
 	public clone(): ExpiryTime {
-		const ret: number = bindings.ExpiryTime_clone(this.ptr);
+		const ret: bigint = bindings.ExpiryTime_clone(this.ptr);
 		const ret_hu_conv: ExpiryTime = new ExpiryTime(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class ExpiryTime extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: ExpiryTime): boolean {
-		const ret: boolean = bindings.ExpiryTime_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.ExpiryTime_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -404,7 +404,7 @@ export class ExpiryTime extends CommonBase {
 	 * Construct an `ExpiryTime` from seconds.
 	 */
 	public static constructor_from_seconds(seconds: bigint): ExpiryTime {
-		const ret: number = bindings.ExpiryTime_from_seconds(seconds);
+		const ret: bigint = bindings.ExpiryTime_from_seconds(seconds);
 		const ret_hu_conv: ExpiryTime = new ExpiryTime(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class ExpiryTime extends CommonBase {
 	 * Construct an `ExpiryTime` from a `Duration`.
 	 */
 	public static constructor_from_duration(duration: bigint): ExpiryTime {
-		const ret: number = bindings.ExpiryTime_from_duration(duration);
+		const ret: bigint = bindings.ExpiryTime_from_duration(duration);
 		const ret_hu_conv: ExpiryTime = new ExpiryTime(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

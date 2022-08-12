@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UpdateAddHTLC extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UpdateAddHTLC_free);
 	}
 
@@ -442,8 +442,8 @@ export class UpdateAddHTLC extends CommonBase {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -451,7 +451,7 @@ export class UpdateAddHTLC extends CommonBase {
 	 * Creates a copy of the UpdateAddHTLC
 	 */
 	public clone(): UpdateAddHTLC {
-		const ret: number = bindings.UpdateAddHTLC_clone(this.ptr);
+		const ret: bigint = bindings.UpdateAddHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -470,7 +470,7 @@ export class UpdateAddHTLC extends CommonBase {
 	 * Read a UpdateAddHTLC from a byte array, created by UpdateAddHTLC_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateAddHTLCDecodeErrorZ {
-		const ret: number = bindings.UpdateAddHTLC_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UpdateAddHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateAddHTLCDecodeErrorZ = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

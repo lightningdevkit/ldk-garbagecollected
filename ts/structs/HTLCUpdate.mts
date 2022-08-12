@@ -363,12 +363,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class HTLCUpdate extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.HTLCUpdate_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.HTLCUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.HTLCUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -376,7 +376,7 @@ export class HTLCUpdate extends CommonBase {
 	 * Creates a copy of the HTLCUpdate
 	 */
 	public clone(): HTLCUpdate {
-		const ret: number = bindings.HTLCUpdate_clone(this.ptr);
+		const ret: bigint = bindings.HTLCUpdate_clone(this.ptr);
 		const ret_hu_conv: HTLCUpdate = new HTLCUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class HTLCUpdate extends CommonBase {
 	 * Read a HTLCUpdate from a byte array, created by HTLCUpdate_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_HTLCUpdateDecodeErrorZ {
-		const ret: number = bindings.HTLCUpdate_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.HTLCUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_HTLCUpdateDecodeErrorZ = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

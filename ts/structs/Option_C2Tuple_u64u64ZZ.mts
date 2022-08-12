@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::c_types::derived::C2Tuple_u64u64Z or not
  */
 export class Option_C2Tuple_u64u64ZZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_C2Tuple_u64u64ZZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_C2Tuple_u64u64ZZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_C2Tuple_u64u64ZZ {
+	public static constr_from_ptr(ptr: bigint): Option_C2Tuple_u64u64ZZ {
 		const raw_ty: number = bindings.LDKCOption_C2Tuple_u64u64ZZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_C2Tuple_u64u64ZZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_C2Tuple_u64u64ZZ extends CommonBase {
 	 * Constructs a new COption_C2Tuple_u64u64ZZ containing a crate::c_types::derived::C2Tuple_u64u64Z
 	 */
 	public static constructor_some(o: TwoTuple_u64u64Z): Option_C2Tuple_u64u64ZZ {
-		const ret: number = bindings.COption_C2Tuple_u64u64ZZ_some(o != null ? CommonBase.get_ptr_of(o) : 0);
+		const ret: bigint = bindings.COption_C2Tuple_u64u64ZZ_some(o != null ? CommonBase.get_ptr_of(o) : 0n);
 		const ret_hu_conv: Option_C2Tuple_u64u64ZZ = Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_C2Tuple_u64u64ZZ extends CommonBase {
 	 * Constructs a new COption_C2Tuple_u64u64ZZ containing nothing
 	 */
 	public static constructor_none(): Option_C2Tuple_u64u64ZZ {
-		const ret: number = bindings.COption_C2Tuple_u64u64ZZ_none();
+		const ret: bigint = bindings.COption_C2Tuple_u64u64ZZ_none();
 		const ret_hu_conv: Option_C2Tuple_u64u64ZZ = Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_C2Tuple_u64u64ZZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_C2Tuple_u64u64ZZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_C2Tuple_u64u64ZZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_C2Tuple_u64u64ZZ {
-		const ret: number = bindings.COption_C2Tuple_u64u64ZZ_clone(this.ptr);
+		const ret: bigint = bindings.COption_C2Tuple_u64u64ZZ_clone(this.ptr);
 		const ret_hu_conv: Option_C2Tuple_u64u64ZZ = Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,9 +412,9 @@ export class Option_C2Tuple_u64u64ZZ extends CommonBase {
 export class Option_C2Tuple_u64u64ZZ_Some extends Option_C2Tuple_u64u64ZZ {
 	public some: TwoTuple_u64u64Z;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_C2Tuple_u64u64ZZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_C2Tuple_u64u64ZZ_Some_get_some(ptr);
 		const some_hu_conv: TwoTuple_u64u64Z = new TwoTuple_u64u64Z(null, some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -423,7 +423,7 @@ export class Option_C2Tuple_u64u64ZZ_Some extends Option_C2Tuple_u64u64ZZ {
 /** A Option_C2Tuple_u64u64ZZ of type None */
 export class Option_C2Tuple_u64u64ZZ_None extends Option_C2Tuple_u64u64ZZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

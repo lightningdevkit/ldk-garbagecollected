@@ -382,7 +382,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ProbabilisticScorer extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ProbabilisticScorer_free);
 	}
 
@@ -391,9 +391,10 @@ export class ProbabilisticScorer extends CommonBase {
 	 * through a network graph.
 	 */
 	public static constructor_new(params: ProbabilisticScoringParameters, network_graph: NetworkGraph, logger: Logger): ProbabilisticScorer {
-		const ret: number = bindings.ProbabilisticScorer_new(params == null ? 0 : CommonBase.get_ptr_of(params) & ~1, network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1, logger == null ? 0 : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.ProbabilisticScorer_new(params == null ? 0n : CommonBase.get_ptr_of(params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: ProbabilisticScorer = new ProbabilisticScorer(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, params);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
 		CommonBase.add_ref_from(ret_hu_conv, logger);
 		return ret_hu_conv;
@@ -414,7 +415,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * channel with `scid` towards the given `target` node.
 	 */
 	public estimated_channel_liquidity_range(scid: bigint, target: NodeId): Option_C2Tuple_u64u64ZZ {
-		const ret: number = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0 : CommonBase.get_ptr_of(target) & ~1);
+		const ret: bigint = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0n : CommonBase.get_ptr_of(target));
 		const ret_hu_conv: Option_C2Tuple_u64u64ZZ = Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		CommonBase.add_ref_from(this, target);
@@ -426,7 +427,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * it will be avoided during path finding.
 	 */
 	public add_banned(node_id: NodeId): void {
-		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1);
+		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0n : CommonBase.get_ptr_of(node_id));
 		CommonBase.add_ref_from(this, node_id);
 	}
 
@@ -434,7 +435,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * Removes the node with the given `node_id` from the list of nodes to avoid.
 	 */
 	public remove_banned(node_id: NodeId): void {
-		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1);
+		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0n : CommonBase.get_ptr_of(node_id));
 		CommonBase.add_ref_from(this, node_id);
 	}
 
@@ -442,7 +443,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * Sets a manual penalty for the given node.
 	 */
 	public set_manual_penalty(node_id: NodeId, penalty: bigint): void {
-		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1, penalty);
+		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0n : CommonBase.get_ptr_of(node_id), penalty);
 		CommonBase.add_ref_from(this, node_id);
 	}
 
@@ -450,7 +451,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * Removes the node with the given `node_id` from the list of manual penalties.
 	 */
 	public remove_manual_penalty(node_id: NodeId): void {
-		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1);
+		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0n : CommonBase.get_ptr_of(node_id));
 		CommonBase.add_ref_from(this, node_id);
 	}
 
@@ -466,7 +467,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
 	 */
 	public as_Score(): Score {
-		const ret: number = bindings.ProbabilisticScorer_as_Score(this.ptr);
+		const ret: bigint = bindings.ProbabilisticScorer_as_Score(this.ptr);
 		const ret_hu_conv: Score = new Score(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -485,8 +486,9 @@ export class ProbabilisticScorer extends CommonBase {
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg_a: ProbabilisticScoringParameters, arg_b: NetworkGraph, arg_c: Logger): Result_ProbabilisticScorerDecodeErrorZ {
-		const ret: number = bindings.ProbabilisticScorer_read(bindings.encodeUint8Array(ser), arg_a == null ? 0 : CommonBase.get_ptr_of(arg_a) & ~1, arg_b == null ? 0 : CommonBase.get_ptr_of(arg_b) & ~1, arg_c == null ? 0 : CommonBase.get_ptr_of(arg_c));
+		const ret: bigint = bindings.ProbabilisticScorer_read(bindings.encodeUint8Array(ser), arg_a == null ? 0n : CommonBase.get_ptr_of(arg_a), arg_b == null ? 0n : CommonBase.get_ptr_of(arg_b), arg_c == null ? 0n : CommonBase.get_ptr_of(arg_c));
 		const ret_hu_conv: Result_ProbabilisticScorerDecodeErrorZ = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, arg_a);
 		CommonBase.add_ref_from(ret_hu_conv, arg_b);
 		CommonBase.add_ref_from(ret_hu_conv, arg_c);
 		return ret_hu_conv;

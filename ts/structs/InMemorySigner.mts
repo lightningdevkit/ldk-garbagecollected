@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class InMemorySigner extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.InMemorySigner_free);
 	}
 
@@ -464,8 +464,8 @@ export class InMemorySigner extends CommonBase {
 		bindings.InMemorySigner_set_commitment_seed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.InMemorySigner_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.InMemorySigner_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -473,7 +473,7 @@ export class InMemorySigner extends CommonBase {
 	 * Creates a copy of the InMemorySigner
 	 */
 	public clone(): InMemorySigner {
-		const ret: number = bindings.InMemorySigner_clone(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_clone(this.ptr);
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -483,7 +483,7 @@ export class InMemorySigner extends CommonBase {
 	 * Create a new InMemorySigner
 	 */
 	public static constructor_new(node_secret: Uint8Array, funding_key: Uint8Array, revocation_base_key: Uint8Array, payment_key: Uint8Array, delayed_payment_base_key: Uint8Array, htlc_base_key: Uint8Array, commitment_seed: Uint8Array, channel_value_satoshis: bigint, channel_keys_id: Uint8Array): InMemorySigner {
-		const ret: number = bindings.InMemorySigner_new(bindings.encodeUint8Array(bindings.check_arr_len(node_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(delayed_payment_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(commitment_seed, 32)), channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id, 32)));
+		const ret: bigint = bindings.InMemorySigner_new(bindings.encodeUint8Array(bindings.check_arr_len(node_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(delayed_payment_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), bindings.encodeUint8Array(bindings.check_arr_len(commitment_seed, 32)), channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id, 32)));
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -494,7 +494,7 @@ export class InMemorySigner extends CommonBase {
 	 * Will panic if ready_channel wasn't called.
 	 */
 	public counterparty_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -536,7 +536,7 @@ export class InMemorySigner extends CommonBase {
 	 * Will panic if ready_channel wasn't called.
 	 */
 	public funding_outpoint(): OutPoint {
-		const ret: number = bindings.InMemorySigner_funding_outpoint(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_funding_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -549,7 +549,7 @@ export class InMemorySigner extends CommonBase {
 	 * Will panic if ready_channel wasn't called.
 	 */
 	public get_channel_parameters(): ChannelTransactionParameters {
-		const ret: number = bindings.InMemorySigner_get_channel_parameters(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_get_channel_parameters(this.ptr);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -573,7 +573,7 @@ export class InMemorySigner extends CommonBase {
 	 * or if an output descriptor script_pubkey does not match the one we can spend.
 	 */
 	public sign_counterparty_payment_input(spend_tx: Uint8Array, input_idx: number, descriptor: StaticPaymentOutputDescriptor): Result_CVec_CVec_u8ZZNoneZ {
-		const ret: number = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, bindings.encodeUint8Array(spend_tx), input_idx, descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor) & ~1);
+		const ret: bigint = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, bindings.encodeUint8Array(spend_tx), input_idx, descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor));
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, descriptor);
 		return ret_hu_conv;
@@ -589,7 +589,7 @@ export class InMemorySigner extends CommonBase {
 	 * script_pubkey does not match the one we can spend.
 	 */
 	public sign_dynamic_p2wsh_input(spend_tx: Uint8Array, input_idx: number, descriptor: DelayedPaymentOutputDescriptor): Result_CVec_CVec_u8ZZNoneZ {
-		const ret: number = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, bindings.encodeUint8Array(spend_tx), input_idx, descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor) & ~1);
+		const ret: bigint = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, bindings.encodeUint8Array(spend_tx), input_idx, descriptor == null ? 0n : CommonBase.get_ptr_of(descriptor));
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, descriptor);
 		return ret_hu_conv;
@@ -600,7 +600,7 @@ export class InMemorySigner extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned BaseSign must be freed before this_arg is
 	 */
 	public as_BaseSign(): BaseSign {
-		const ret: number = bindings.InMemorySigner_as_BaseSign(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_as_BaseSign(this.ptr);
 		const ret_hu_conv: BaseSign = new BaseSign(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -611,7 +611,7 @@ export class InMemorySigner extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Sign must be freed before this_arg is
 	 */
 	public as_Sign(): Sign {
-		const ret: number = bindings.InMemorySigner_as_Sign(this.ptr);
+		const ret: bigint = bindings.InMemorySigner_as_Sign(this.ptr);
 		const ret_hu_conv: Sign = new Sign(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -630,7 +630,7 @@ export class InMemorySigner extends CommonBase {
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg: Uint8Array): Result_InMemorySignerDecodeErrorZ {
-		const ret: number = bindings.InMemorySigner_read(bindings.encodeUint8Array(ser), bindings.encodeUint8Array(bindings.check_arr_len(arg, 32)));
+		const ret: bigint = bindings.InMemorySigner_read(bindings.encodeUint8Array(ser), bindings.encodeUint8Array(bindings.check_arr_len(arg, 32)));
 		const ret_hu_conv: Result_InMemorySignerDecodeErrorZ = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

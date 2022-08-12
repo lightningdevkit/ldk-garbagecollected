@@ -360,9 +360,9 @@ import * as bindings from '../bindings.mjs'
  * too-high values)
  */
 export class APIError extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.APIError_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.APIError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): APIError {
+	public static constr_from_ptr(ptr: bigint): APIError {
 		const raw_ty: number = bindings.LDKAPIError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new APIError_APIMisuseError(ptr);
@@ -376,8 +376,8 @@ export class APIError extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.APIError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.APIError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -385,7 +385,7 @@ export class APIError extends CommonBase {
 	 * Creates a copy of the APIError
 	 */
 	public clone(): APIError {
-		const ret: number = bindings.APIError_clone(this.ptr);
+		const ret: bigint = bindings.APIError_clone(this.ptr);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new APIMisuseError-variant APIError
 	 */
 	public static constructor_apimisuse_error(err: string): APIError {
-		const ret: number = bindings.APIError_apimisuse_error(bindings.encodeString(err));
+		const ret: bigint = bindings.APIError_apimisuse_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -405,7 +405,7 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new FeeRateTooHigh-variant APIError
 	 */
 	public static constructor_fee_rate_too_high(err: string, feerate: number): APIError {
-		const ret: number = bindings.APIError_fee_rate_too_high(bindings.encodeString(err), feerate);
+		const ret: bigint = bindings.APIError_fee_rate_too_high(bindings.encodeString(err), feerate);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -415,7 +415,7 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new RouteError-variant APIError
 	 */
 	public static constructor_route_error(err: string): APIError {
-		const ret: number = bindings.APIError_route_error(bindings.encodeString(err));
+		const ret: bigint = bindings.APIError_route_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -425,7 +425,7 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new ChannelUnavailable-variant APIError
 	 */
 	public static constructor_channel_unavailable(err: string): APIError {
-		const ret: number = bindings.APIError_channel_unavailable(bindings.encodeString(err));
+		const ret: bigint = bindings.APIError_channel_unavailable(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -435,7 +435,7 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new MonitorUpdateFailed-variant APIError
 	 */
 	public static constructor_monitor_update_failed(): APIError {
-		const ret: number = bindings.APIError_monitor_update_failed();
+		const ret: bigint = bindings.APIError_monitor_update_failed();
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -445,9 +445,10 @@ export class APIError extends CommonBase {
 	 * Utility method to constructs a new IncompatibleShutdownScript-variant APIError
 	 */
 	public static constructor_incompatible_shutdown_script(script: ShutdownScript): APIError {
-		const ret: number = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : CommonBase.get_ptr_of(script) & ~1);
+		const ret: bigint = bindings.APIError_incompatible_shutdown_script(script == null ? 0n : CommonBase.get_ptr_of(script));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, script);
 		return ret_hu_conv;
 	}
 
@@ -459,7 +460,7 @@ export class APIError_APIMisuseError extends APIError {
 	 */
 	public err: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const err: number = bindings.LDKAPIError_APIMisuseError_get_err(ptr);
 		const err_conv: string = bindings.decodeString(err);
@@ -477,7 +478,7 @@ export class APIError_FeeRateTooHigh extends APIError {
 	 */
 	public feerate: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const err: number = bindings.LDKAPIError_FeeRateTooHigh_get_err(ptr);
 		const err_conv: string = bindings.decodeString(err);
@@ -492,7 +493,7 @@ export class APIError_RouteError extends APIError {
 	 */
 	public err: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const err: number = bindings.LDKAPIError_RouteError_get_err(ptr);
 		const err_conv: string = bindings.decodeString(err);
@@ -506,7 +507,7 @@ export class APIError_ChannelUnavailable extends APIError {
 	 */
 	public err: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const err: number = bindings.LDKAPIError_ChannelUnavailable_get_err(ptr);
 		const err_conv: string = bindings.decodeString(err);
@@ -516,7 +517,7 @@ export class APIError_ChannelUnavailable extends APIError {
 /** A APIError of type MonitorUpdateFailed */
 export class APIError_MonitorUpdateFailed extends APIError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -527,9 +528,9 @@ export class APIError_IncompatibleShutdownScript extends APIError {
 	 */
 	public script: ShutdownScript;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const script: number = bindings.LDKAPIError_IncompatibleShutdownScript_get_script(ptr);
+		const script: bigint = bindings.LDKAPIError_IncompatibleShutdownScript_get_script(ptr);
 		const script_hu_conv: ShutdownScript = new ShutdownScript(null, script);
 			CommonBase.add_ref_from(script_hu_conv, this);
 		this.script = script_hu_conv;

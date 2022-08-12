@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_SiPrefixParseErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_SiPrefixParseErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_SiPrefixParseErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_SiPrefixParseErrorZ {
 		if (bindings.CResult_SiPrefixParseErrorZ_is_ok(ptr)) {
 			return new Result_SiPrefixParseErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_SiPrefixParseErrorZ extends CommonBase {
 	 * Creates a new CResult_SiPrefixParseErrorZ in the success state.
 	 */
 	public static constructor_ok(o: SiPrefix): Result_SiPrefixParseErrorZ {
-		const ret: number = bindings.CResult_SiPrefixParseErrorZ_ok(o);
+		const ret: bigint = bindings.CResult_SiPrefixParseErrorZ_ok(o);
 		const ret_hu_conv: Result_SiPrefixParseErrorZ = Result_SiPrefixParseErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_SiPrefixParseErrorZ extends CommonBase {
 	 * Creates a new CResult_SiPrefixParseErrorZ in the error state.
 	 */
 	public static constructor_err(e: ParseError): Result_SiPrefixParseErrorZ {
-		const ret: number = bindings.CResult_SiPrefixParseErrorZ_err(CommonBase.get_ptr_of(e));
+		const ret: bigint = bindings.CResult_SiPrefixParseErrorZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_SiPrefixParseErrorZ = Result_SiPrefixParseErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_SiPrefixParseErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_SiPrefixParseErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_SiPrefixParseErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_SiPrefixParseErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_SiPrefixParseErrorZ {
-		const ret: number = bindings.CResult_SiPrefixParseErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_SiPrefixParseErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_SiPrefixParseErrorZ = Result_SiPrefixParseErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,7 +415,7 @@ export class Result_SiPrefixParseErrorZ_OK extends Result_SiPrefixParseErrorZ {
 	public res: SiPrefix;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.res = bindings.CResult_SiPrefixParseErrorZ_get_ok(ptr);
 	}
@@ -424,9 +424,9 @@ export class Result_SiPrefixParseErrorZ_Err extends Result_SiPrefixParseErrorZ {
 	public err: ParseError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_SiPrefixParseErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_SiPrefixParseErrorZ_get_err(ptr);
 		const err_hu_conv: ParseError = ParseError.constr_from_ptr(err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

@@ -355,18 +355,18 @@ import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
-function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
+function get_freeer(ptr: bigint, free_fn: (ptr: bigint) => void) {
 	return () => {
 		free_fn(ptr);
 	}
 }
 
 export class CommonBase {
-	protected ptr: number;
+	protected ptr: bigint;
 	protected ptrs_to: object[] = [];
-	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
+	protected constructor(ptr: bigint, free_fn: (ptr: bigint) => void) {
 		this.ptr = ptr;
-		if (Number.isFinite(ptr) && ptr != 0){
+		if (ptr != 0n){
 			finalizer.register(this, get_freeer(ptr, free_fn), this);
 		}
 	}
@@ -380,7 +380,7 @@ export class CommonBase {
 		return o.ptr;
 	}
 	protected static set_null_skip_free(o: CommonBase) {
-		o.ptr = 0;
+		o.ptr = 0n;
 		// @ts-ignore TypeScript is wrong about the returnvalue of unregister here!
 		const did_unregister: boolean = finalizer.unregister(o);
 		if (!did_unregister)

@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class LockedChannelMonitor extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });
 	}
 	/** Releases this lock */

@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * The reason the channel was closed. See individual variants more details.
  */
 export class ClosureReason extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ClosureReason_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.ClosureReason_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): ClosureReason {
+	public static constr_from_ptr(ptr: bigint): ClosureReason {
 		const raw_ty: number = bindings.LDKClosureReason_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ClosureReason_CounterpartyForceClosed(ptr);
@@ -377,8 +377,8 @@ export class ClosureReason extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ClosureReason_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ClosureReason_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -386,7 +386,7 @@ export class ClosureReason extends CommonBase {
 	 * Creates a copy of the ClosureReason
 	 */
 	public clone(): ClosureReason {
-		const ret: number = bindings.ClosureReason_clone(this.ptr);
+		const ret: bigint = bindings.ClosureReason_clone(this.ptr);
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -396,7 +396,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new CounterpartyForceClosed-variant ClosureReason
 	 */
 	public static constructor_counterparty_force_closed(peer_msg: string): ClosureReason {
-		const ret: number = bindings.ClosureReason_counterparty_force_closed(bindings.encodeString(peer_msg));
+		const ret: bigint = bindings.ClosureReason_counterparty_force_closed(bindings.encodeString(peer_msg));
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -406,7 +406,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new HolderForceClosed-variant ClosureReason
 	 */
 	public static constructor_holder_force_closed(): ClosureReason {
-		const ret: number = bindings.ClosureReason_holder_force_closed();
+		const ret: bigint = bindings.ClosureReason_holder_force_closed();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -416,7 +416,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new CooperativeClosure-variant ClosureReason
 	 */
 	public static constructor_cooperative_closure(): ClosureReason {
-		const ret: number = bindings.ClosureReason_cooperative_closure();
+		const ret: bigint = bindings.ClosureReason_cooperative_closure();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -426,7 +426,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new CommitmentTxConfirmed-variant ClosureReason
 	 */
 	public static constructor_commitment_tx_confirmed(): ClosureReason {
-		const ret: number = bindings.ClosureReason_commitment_tx_confirmed();
+		const ret: bigint = bindings.ClosureReason_commitment_tx_confirmed();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -436,7 +436,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new FundingTimedOut-variant ClosureReason
 	 */
 	public static constructor_funding_timed_out(): ClosureReason {
-		const ret: number = bindings.ClosureReason_funding_timed_out();
+		const ret: bigint = bindings.ClosureReason_funding_timed_out();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -446,7 +446,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new ProcessingError-variant ClosureReason
 	 */
 	public static constructor_processing_error(err: string): ClosureReason {
-		const ret: number = bindings.ClosureReason_processing_error(bindings.encodeString(err));
+		const ret: bigint = bindings.ClosureReason_processing_error(bindings.encodeString(err));
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -456,7 +456,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new DisconnectedPeer-variant ClosureReason
 	 */
 	public static constructor_disconnected_peer(): ClosureReason {
-		const ret: number = bindings.ClosureReason_disconnected_peer();
+		const ret: bigint = bindings.ClosureReason_disconnected_peer();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -466,7 +466,7 @@ export class ClosureReason extends CommonBase {
 	 * Utility method to constructs a new OutdatedChannelManager-variant ClosureReason
 	 */
 	public static constructor_outdated_channel_manager(): ClosureReason {
-		const ret: number = bindings.ClosureReason_outdated_channel_manager();
+		const ret: bigint = bindings.ClosureReason_outdated_channel_manager();
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -493,7 +493,7 @@ export class ClosureReason_CounterpartyForceClosed extends ClosureReason {
 	 */
 	public peer_msg: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const peer_msg: number = bindings.LDKClosureReason_CounterpartyForceClosed_get_peer_msg(ptr);
 		const peer_msg_conv: string = bindings.decodeString(peer_msg);
@@ -503,28 +503,28 @@ export class ClosureReason_CounterpartyForceClosed extends ClosureReason {
 /** A ClosureReason of type HolderForceClosed */
 export class ClosureReason_HolderForceClosed extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ClosureReason of type CooperativeClosure */
 export class ClosureReason_CooperativeClosure extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ClosureReason of type CommitmentTxConfirmed */
 export class ClosureReason_CommitmentTxConfirmed extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ClosureReason of type FundingTimedOut */
 export class ClosureReason_FundingTimedOut extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -535,7 +535,7 @@ export class ClosureReason_ProcessingError extends ClosureReason {
 	 */
 	public err: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const err: number = bindings.LDKClosureReason_ProcessingError_get_err(ptr);
 		const err_conv: string = bindings.decodeString(err);
@@ -545,14 +545,14 @@ export class ClosureReason_ProcessingError extends ClosureReason {
 /** A ClosureReason of type DisconnectedPeer */
 export class ClosureReason_DisconnectedPeer extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ClosureReason of type OutdatedChannelManager */
 export class ClosureReason_OutdatedChannelManager extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

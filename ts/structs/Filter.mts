@@ -408,7 +408,7 @@ export class Filter extends CommonBase {
 	public bindings_instance?: bindings.LDKFilter;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Filter_free);
 		this.bindings_instance = null;
 	}
@@ -422,15 +422,15 @@ export class Filter extends CommonBase {
 				const script_pubkey_conv: Uint8Array = bindings.decodeUint8Array(script_pubkey);
 				arg.register_tx(txid_conv, script_pubkey_conv);
 			},
-			register_output (output: number): number {
+			register_output (output: bigint): bigint {
 				const output_hu_conv: WatchedOutput = new WatchedOutput(null, output);
 				CommonBase.add_ref_from(output_hu_conv, this);
 				const ret: Option_C2Tuple_usizeTransactionZZ = arg.register_output(output_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKFilter;
-		const ptr: number = bindings.LDKFilter_new(structImplementation);
+		const ptr: bigint = bindings.LDKFilter_new(structImplementation);
 
 		impl_holder.held = new Filter(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -457,9 +457,10 @@ export class Filter extends CommonBase {
 	 * full block).
 	 */
 	public register_output(output: WatchedOutput): Option_C2Tuple_usizeTransactionZZ {
-		const ret: number = bindings.Filter_register_output(this.ptr, output == null ? 0 : CommonBase.get_ptr_of(output) & ~1);
+		const ret: bigint = bindings.Filter_register_output(this.ptr, output == null ? 0n : CommonBase.get_ptr_of(output));
 		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
+		CommonBase.add_ref_from(this, output);
 		return ret_hu_conv;
 	}
 

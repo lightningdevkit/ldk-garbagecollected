@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An event to be processed by the ChannelManager.
  */
 export class MonitorEvent extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.MonitorEvent_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.MonitorEvent_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): MonitorEvent {
+	public static constr_from_ptr(ptr: bigint): MonitorEvent {
 		const raw_ty: number = bindings.LDKMonitorEvent_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new MonitorEvent_HTLCEvent(ptr);
@@ -373,8 +373,8 @@ export class MonitorEvent extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.MonitorEvent_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.MonitorEvent_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -382,7 +382,7 @@ export class MonitorEvent extends CommonBase {
 	 * Creates a copy of the MonitorEvent
 	 */
 	public clone(): MonitorEvent {
-		const ret: number = bindings.MonitorEvent_clone(this.ptr);
+		const ret: bigint = bindings.MonitorEvent_clone(this.ptr);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -392,9 +392,10 @@ export class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new HTLCEvent-variant MonitorEvent
 	 */
 	public static constructor_htlcevent(a: HTLCUpdate): MonitorEvent {
-		const ret: number = bindings.MonitorEvent_htlcevent(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.MonitorEvent_htlcevent(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -402,9 +403,10 @@ export class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
 	 */
 	public static constructor_commitment_tx_confirmed(a: OutPoint): MonitorEvent {
-		const ret: number = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -412,9 +414,10 @@ export class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateCompleted-variant MonitorEvent
 	 */
 	public static constructor_update_completed(funding_txo: OutPoint, monitor_update_id: bigint): MonitorEvent {
-		const ret: number = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, monitor_update_id);
+		const ret: bigint = bindings.MonitorEvent_update_completed(funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor_update_id);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, funding_txo);
 		return ret_hu_conv;
 	}
 
@@ -422,9 +425,10 @@ export class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
 	 */
 	public static constructor_update_failed(a: OutPoint): MonitorEvent {
-		const ret: number = bindings.MonitorEvent_update_failed(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.MonitorEvent_update_failed(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -442,9 +446,9 @@ export class MonitorEvent extends CommonBase {
 export class MonitorEvent_HTLCEvent extends MonitorEvent {
 	public htlc_event: HTLCUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const htlc_event: number = bindings.LDKMonitorEvent_HTLCEvent_get_htlc_event(ptr);
+		const htlc_event: bigint = bindings.LDKMonitorEvent_HTLCEvent_get_htlc_event(ptr);
 		const htlc_event_hu_conv: HTLCUpdate = new HTLCUpdate(null, htlc_event);
 			CommonBase.add_ref_from(htlc_event_hu_conv, this);
 		this.htlc_event = htlc_event_hu_conv;
@@ -454,9 +458,9 @@ export class MonitorEvent_HTLCEvent extends MonitorEvent {
 export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 	public commitment_tx_confirmed: OutPoint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const commitment_tx_confirmed: number = bindings.LDKMonitorEvent_CommitmentTxConfirmed_get_commitment_tx_confirmed(ptr);
+		const commitment_tx_confirmed: bigint = bindings.LDKMonitorEvent_CommitmentTxConfirmed_get_commitment_tx_confirmed(ptr);
 		const commitment_tx_confirmed_hu_conv: OutPoint = new OutPoint(null, commitment_tx_confirmed);
 			CommonBase.add_ref_from(commitment_tx_confirmed_hu_conv, this);
 		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
@@ -477,9 +481,9 @@ export class MonitorEvent_UpdateCompleted extends MonitorEvent {
 	 */
 	public monitor_update_id: bigint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const funding_txo: number = bindings.LDKMonitorEvent_UpdateCompleted_get_funding_txo(ptr);
+		const funding_txo: bigint = bindings.LDKMonitorEvent_UpdateCompleted_get_funding_txo(ptr);
 		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 			CommonBase.add_ref_from(funding_txo_hu_conv, this);
 		this.funding_txo = funding_txo_hu_conv;
@@ -490,9 +494,9 @@ export class MonitorEvent_UpdateCompleted extends MonitorEvent {
 export class MonitorEvent_UpdateFailed extends MonitorEvent {
 	public update_failed: OutPoint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const update_failed: number = bindings.LDKMonitorEvent_UpdateFailed_get_update_failed(ptr);
+		const update_failed: bigint = bindings.LDKMonitorEvent_UpdateFailed_get_update_failed(ptr);
 		const update_failed_hu_conv: OutPoint = new OutPoint(null, update_failed);
 			CommonBase.add_ref_from(update_failed_hu_conv, this);
 		this.update_failed = update_failed_hu_conv;

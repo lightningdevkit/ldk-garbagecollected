@@ -365,12 +365,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class CounterpartyCommitmentSecrets extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CounterpartyCommitmentSecrets_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CounterpartyCommitmentSecrets_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CounterpartyCommitmentSecrets_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -378,7 +378,7 @@ export class CounterpartyCommitmentSecrets extends CommonBase {
 	 * Creates a copy of the CounterpartyCommitmentSecrets
 	 */
 	public clone(): CounterpartyCommitmentSecrets {
-		const ret: number = bindings.CounterpartyCommitmentSecrets_clone(this.ptr);
+		const ret: bigint = bindings.CounterpartyCommitmentSecrets_clone(this.ptr);
 		const ret_hu_conv: CounterpartyCommitmentSecrets = new CounterpartyCommitmentSecrets(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -388,7 +388,7 @@ export class CounterpartyCommitmentSecrets extends CommonBase {
 	 * Creates a new empty `CounterpartyCommitmentSecrets` structure.
 	 */
 	public static constructor_new(): CounterpartyCommitmentSecrets {
-		const ret: number = bindings.CounterpartyCommitmentSecrets_new();
+		const ret: bigint = bindings.CounterpartyCommitmentSecrets_new();
 		const ret_hu_conv: CounterpartyCommitmentSecrets = new CounterpartyCommitmentSecrets(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -408,7 +408,7 @@ export class CounterpartyCommitmentSecrets extends CommonBase {
 	 * was generated in accordance with BOLT 3 and is consistent with previous secrets.
 	 */
 	public provide_secret(idx: bigint, secret: Uint8Array): Result_NoneNoneZ {
-		const ret: number = bindings.CounterpartyCommitmentSecrets_provide_secret(this.ptr, idx, bindings.encodeUint8Array(bindings.check_arr_len(secret, 32)));
+		const ret: bigint = bindings.CounterpartyCommitmentSecrets_provide_secret(this.ptr, idx, bindings.encodeUint8Array(bindings.check_arr_len(secret, 32)));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -438,7 +438,7 @@ export class CounterpartyCommitmentSecrets extends CommonBase {
 	 * Read a CounterpartyCommitmentSecrets from a byte array, created by CounterpartyCommitmentSecrets_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_CounterpartyCommitmentSecretsDecodeErrorZ {
-		const ret: number = bindings.CounterpartyCommitmentSecrets_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.CounterpartyCommitmentSecrets_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CounterpartyCommitmentSecretsDecodeErrorZ = Result_CounterpartyCommitmentSecretsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

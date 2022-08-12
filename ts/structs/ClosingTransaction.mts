@@ -365,12 +365,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class ClosingTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ClosingTransaction_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ClosingTransaction_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ClosingTransaction_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -378,7 +378,7 @@ export class ClosingTransaction extends CommonBase {
 	 * Creates a copy of the ClosingTransaction
 	 */
 	public clone(): ClosingTransaction {
-		const ret: number = bindings.ClosingTransaction_clone(this.ptr);
+		const ret: bigint = bindings.ClosingTransaction_clone(this.ptr);
 		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -396,9 +396,10 @@ export class ClosingTransaction extends CommonBase {
 	 * Construct an object of the class
 	 */
 	public static constructor_new(to_holder_value_sat: bigint, to_counterparty_value_sat: bigint, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): ClosingTransaction {
-		const ret: number = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
+		const ret: bigint = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0n : CommonBase.get_ptr_of(funding_outpoint));
 		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, funding_outpoint);
 		return ret_hu_conv;
 	}
 
@@ -411,7 +412,7 @@ export class ClosingTransaction extends CommonBase {
 	 * be used by an external signer - instead use the verify function.
 	 */
 	public trust(): TrustedClosingTransaction {
-		const ret: number = bindings.ClosingTransaction_trust(this.ptr);
+		const ret: bigint = bindings.ClosingTransaction_trust(this.ptr);
 		const ret_hu_conv: TrustedClosingTransaction = new TrustedClosingTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -426,8 +427,9 @@ export class ClosingTransaction extends CommonBase {
 	 * or using the built transaction.
 	 */
 	public verify(funding_outpoint: OutPoint): Result_TrustedClosingTransactionNoneZ {
-		const ret: number = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
+		const ret: bigint = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0n : CommonBase.get_ptr_of(funding_outpoint));
 		const ret_hu_conv: Result_TrustedClosingTransactionNoneZ = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, funding_outpoint);
 		return ret_hu_conv;
 	}
 

@@ -362,9 +362,9 @@ import * as bindings from '../bindings.mjs'
  * be provided.
  */
 export class Balance extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Balance_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.Balance_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Balance {
+	public static constr_from_ptr(ptr: bigint): Balance {
 		const raw_ty: number = bindings.LDKBalance_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Balance_ClaimableOnChannelClose(ptr);
@@ -376,8 +376,8 @@ export class Balance extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Balance_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Balance_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -385,7 +385,7 @@ export class Balance extends CommonBase {
 	 * Creates a copy of the Balance
 	 */
 	public clone(): Balance {
-		const ret: number = bindings.Balance_clone(this.ptr);
+		const ret: bigint = bindings.Balance_clone(this.ptr);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class Balance extends CommonBase {
 	 * Utility method to constructs a new ClaimableOnChannelClose-variant Balance
 	 */
 	public static constructor_claimable_on_channel_close(claimable_amount_satoshis: bigint): Balance {
-		const ret: number = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
+		const ret: bigint = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -405,7 +405,7 @@ export class Balance extends CommonBase {
 	 * Utility method to constructs a new ClaimableAwaitingConfirmations-variant Balance
 	 */
 	public static constructor_claimable_awaiting_confirmations(claimable_amount_satoshis: bigint, confirmation_height: number): Balance {
-		const ret: number = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
+		const ret: bigint = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -415,7 +415,7 @@ export class Balance extends CommonBase {
 	 * Utility method to constructs a new ContentiousClaimable-variant Balance
 	 */
 	public static constructor_contentious_claimable(claimable_amount_satoshis: bigint, timeout_height: number): Balance {
-		const ret: number = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
+		const ret: bigint = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -425,7 +425,7 @@ export class Balance extends CommonBase {
 	 * Utility method to constructs a new MaybeClaimableHTLCAwaitingTimeout-variant Balance
 	 */
 	public static constructor_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis: bigint, claimable_height: number): Balance {
-		const ret: number = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
+		const ret: bigint = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -436,7 +436,7 @@ export class Balance extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public eq(b: Balance): boolean {
-		const ret: boolean = bindings.Balance_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.Balance_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		return ret;
 	}
 
@@ -449,7 +449,7 @@ export class Balance_ClaimableOnChannelClose extends Balance {
 	 */
 	public claimable_amount_satoshis: bigint;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.claimable_amount_satoshis = bindings.LDKBalance_ClaimableOnChannelClose_get_claimable_amount_satoshis(ptr);
 	}
@@ -467,7 +467,7 @@ export class Balance_ClaimableAwaitingConfirmations extends Balance {
 	 */
 	public confirmation_height: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.claimable_amount_satoshis = bindings.LDKBalance_ClaimableAwaitingConfirmations_get_claimable_amount_satoshis(ptr);
 		this.confirmation_height = bindings.LDKBalance_ClaimableAwaitingConfirmations_get_confirmation_height(ptr);
@@ -486,7 +486,7 @@ export class Balance_ContentiousClaimable extends Balance {
 	 */
 	public timeout_height: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.claimable_amount_satoshis = bindings.LDKBalance_ContentiousClaimable_get_claimable_amount_satoshis(ptr);
 		this.timeout_height = bindings.LDKBalance_ContentiousClaimable_get_timeout_height(ptr);
@@ -505,7 +505,7 @@ export class Balance_MaybeClaimableHTLCAwaitingTimeout extends Balance {
 	 */
 	public claimable_height: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.claimable_amount_satoshis = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_amount_satoshis(ptr);
 		this.claimable_height = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_height(ptr);

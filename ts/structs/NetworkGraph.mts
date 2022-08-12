@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class NetworkGraph extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NetworkGraph_free);
 	}
 
@@ -370,7 +370,7 @@ export class NetworkGraph extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
 	 */
 	public as_EventHandler(): EventHandler {
-		const ret: number = bindings.NetworkGraph_as_EventHandler(this.ptr);
+		const ret: bigint = bindings.NetworkGraph_as_EventHandler(this.ptr);
 		const ret_hu_conv: EventHandler = new EventHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -389,7 +389,7 @@ export class NetworkGraph extends CommonBase {
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg: Logger): Result_NetworkGraphDecodeErrorZ {
-		const ret: number = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser), arg == null ? 0 : CommonBase.get_ptr_of(arg));
+		const ret: bigint = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser), arg == null ? 0n : CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_NetworkGraphDecodeErrorZ = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;
@@ -399,7 +399,7 @@ export class NetworkGraph extends CommonBase {
 	 * Creates a new, empty, network graph.
 	 */
 	public static constructor_new(genesis_hash: Uint8Array, logger: Logger): NetworkGraph {
-		const ret: number = bindings.NetworkGraph_new(bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), logger == null ? 0 : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.NetworkGraph_new(bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), logger == null ? 0n : CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, logger);
@@ -410,7 +410,7 @@ export class NetworkGraph extends CommonBase {
 	 * Returns a read-only view of the network graph.
 	 */
 	public read_only(): ReadOnlyNetworkGraph {
-		const ret: number = bindings.NetworkGraph_read_only(this.ptr);
+		const ret: bigint = bindings.NetworkGraph_read_only(this.ptr);
 		const ret_hu_conv: ReadOnlyNetworkGraph = new ReadOnlyNetworkGraph(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -421,7 +421,7 @@ export class NetworkGraph extends CommonBase {
 	 * It will be set by the rapid sync process after every sync completion.
 	 */
 	public get_last_rapid_gossip_sync_timestamp(): Option_u32Z {
-		const ret: number = bindings.NetworkGraph_get_last_rapid_gossip_sync_timestamp(this.ptr);
+		const ret: bigint = bindings.NetworkGraph_get_last_rapid_gossip_sync_timestamp(this.ptr);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -444,7 +444,7 @@ export class NetworkGraph extends CommonBase {
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 */
 	public update_node_from_announcement(msg: NodeAnnouncement): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -457,7 +457,7 @@ export class NetworkGraph extends CommonBase {
 	 * peers.
 	 */
 	public update_node_from_unsigned_announcement(msg: UnsignedNodeAnnouncement): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -474,7 +474,7 @@ export class NetworkGraph extends CommonBase {
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
 	public update_channel_from_announcement(msg: ChannelAnnouncement, chain_access: Option_AccessZ): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1, CommonBase.get_ptr_of(chain_access));
+		const ret: bigint = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(chain_access));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		CommonBase.add_ref_from(this, chain_access);
@@ -490,7 +490,7 @@ export class NetworkGraph extends CommonBase {
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
 	public update_channel_from_unsigned_announcement(msg: UnsignedChannelAnnouncement, chain_access: Option_AccessZ): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1, CommonBase.get_ptr_of(chain_access));
+		const ret: bigint = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(chain_access));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		CommonBase.add_ref_from(this, chain_access);
@@ -506,8 +506,9 @@ export class NetworkGraph extends CommonBase {
 	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
 	 */
 	public add_channel_from_partial_announcement(short_channel_id: bigint, timestamp: bigint, features: ChannelFeatures, node_id_1: Uint8Array, node_id_2: Uint8Array): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : CommonBase.get_ptr_of(features) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(node_id_1, 33)), bindings.encodeUint8Array(bindings.check_arr_len(node_id_2, 33)));
+		const ret: bigint = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0n : CommonBase.get_ptr_of(features), bindings.encodeUint8Array(bindings.check_arr_len(node_id_1, 33)), bindings.encodeUint8Array(bindings.check_arr_len(node_id_2, 33)));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, features);
 		return ret_hu_conv;
 	}
 
@@ -556,7 +557,7 @@ export class NetworkGraph extends CommonBase {
 	 * materially in the future will be rejected.
 	 */
 	public update_channel(msg: ChannelUpdate): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -571,7 +572,7 @@ export class NetworkGraph extends CommonBase {
 	 * materially in the future will be rejected.
 	 */
 	public update_channel_unsigned(msg: UnsignedChannelUpdate): Result_NoneLightningErrorZ {
-		const ret: number = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;

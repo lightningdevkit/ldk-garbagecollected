@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Init extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Init_free);
 	}
 
@@ -369,7 +369,7 @@ export class Init extends CommonBase {
 	 * The relevant features which the sender supports
 	 */
 	public get_features(): InitFeatures {
-		const ret: number = bindings.Init_get_features(this.ptr);
+		const ret: bigint = bindings.Init_get_features(this.ptr);
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class Init extends CommonBase {
 	 * The relevant features which the sender supports
 	 */
 	public set_features(val: InitFeatures): void {
-		bindings.Init_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.Init_set_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -389,7 +390,7 @@ export class Init extends CommonBase {
 	 * that for a node_announcement update message containing the new address.
 	 */
 	public get_remote_network_address(): Option_NetAddressZ {
-		const ret: number = bindings.Init_get_remote_network_address(this.ptr);
+		const ret: bigint = bindings.Init_get_remote_network_address(this.ptr);
 		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -409,14 +410,15 @@ export class Init extends CommonBase {
 	 * Constructs a new Init given each field
 	 */
 	public static constructor_new(features_arg: InitFeatures, remote_network_address_arg: Option_NetAddressZ): Init {
-		const ret: number = bindings.Init_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, CommonBase.get_ptr_of(remote_network_address_arg));
+		const ret: bigint = bindings.Init_new(features_arg == null ? 0n : CommonBase.get_ptr_of(features_arg), CommonBase.get_ptr_of(remote_network_address_arg));
 		const ret_hu_conv: Init = new Init(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, features_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Init_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Init_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -424,7 +426,7 @@ export class Init extends CommonBase {
 	 * Creates a copy of the Init
 	 */
 	public clone(): Init {
-		const ret: number = bindings.Init_clone(this.ptr);
+		const ret: bigint = bindings.Init_clone(this.ptr);
 		const ret_hu_conv: Init = new Init(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -443,7 +445,7 @@ export class Init extends CommonBase {
 	 * Read a Init from a byte array, created by Init_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_InitDecodeErrorZ {
-		const ret: number = bindings.Init_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Init_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_InitDecodeErrorZ = Result_InitDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

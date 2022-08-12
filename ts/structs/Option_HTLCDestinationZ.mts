@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::lightning::util::events::HTLCDestination or not
  */
 export class Option_HTLCDestinationZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_HTLCDestinationZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_HTLCDestinationZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_HTLCDestinationZ {
+	public static constr_from_ptr(ptr: bigint): Option_HTLCDestinationZ {
 		const raw_ty: number = bindings.LDKCOption_HTLCDestinationZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_HTLCDestinationZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_HTLCDestinationZ extends CommonBase {
 	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::util::events::HTLCDestination
 	 */
 	public static constructor_some(o: HTLCDestination): Option_HTLCDestinationZ {
-		const ret: number = bindings.COption_HTLCDestinationZ_some(CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_HTLCDestinationZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_HTLCDestinationZ = Option_HTLCDestinationZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_HTLCDestinationZ extends CommonBase {
 	 * Constructs a new COption_HTLCDestinationZ containing nothing
 	 */
 	public static constructor_none(): Option_HTLCDestinationZ {
-		const ret: number = bindings.COption_HTLCDestinationZ_none();
+		const ret: bigint = bindings.COption_HTLCDestinationZ_none();
 		const ret_hu_conv: Option_HTLCDestinationZ = Option_HTLCDestinationZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_HTLCDestinationZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_HTLCDestinationZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_HTLCDestinationZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_HTLCDestinationZ {
-		const ret: number = bindings.COption_HTLCDestinationZ_clone(this.ptr);
+		const ret: bigint = bindings.COption_HTLCDestinationZ_clone(this.ptr);
 		const ret_hu_conv: Option_HTLCDestinationZ = Option_HTLCDestinationZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,9 +412,9 @@ export class Option_HTLCDestinationZ extends CommonBase {
 export class Option_HTLCDestinationZ_Some extends Option_HTLCDestinationZ {
 	public some: HTLCDestination;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_HTLCDestinationZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_HTLCDestinationZ_Some_get_some(ptr);
 		const some_hu_conv: HTLCDestination = HTLCDestination.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -423,7 +423,7 @@ export class Option_HTLCDestinationZ_Some extends Option_HTLCDestinationZ {
 /** A Option_HTLCDestinationZ of type None */
 export class Option_HTLCDestinationZ_None extends Option_HTLCDestinationZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

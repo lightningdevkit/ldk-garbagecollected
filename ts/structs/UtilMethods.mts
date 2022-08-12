@@ -378,7 +378,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a ClosureReason from a byte array, created by ClosureReason_write
 	 */
 	public static constructor_ClosureReason_read(ser: Uint8Array): Result_COption_ClosureReasonZDecodeErrorZ {
-		const ret: number = bindings.ClosureReason_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ClosureReason_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -387,7 +387,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a HTLCDestination from a byte array, created by HTLCDestination_write
 	 */
 	public static constructor_HTLCDestination_read(ser: Uint8Array): Result_COption_HTLCDestinationZDecodeErrorZ {
-		const ret: number = bindings.HTLCDestination_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.HTLCDestination_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_HTLCDestinationZDecodeErrorZ = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -396,7 +396,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a Event from a byte array, created by Event_write
 	 */
 	public static constructor_Event_read(ser: Uint8Array): Result_COption_EventZDecodeErrorZ {
-		const ret: number = bindings.Event_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Event_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_EventZDecodeErrorZ = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -407,7 +407,7 @@ export class UtilMethods extends CommonBase {
 	 * Signatures are EC recoverable, meaning that given the message and the signature the PublicKey of the signer can be extracted.
 	 */
 	public static constructor_sign(msg: Uint8Array, sk: Uint8Array): Result_StringErrorZ {
-		const ret: number = bindings.sign(bindings.encodeUint8Array(msg), bindings.encodeUint8Array(bindings.check_arr_len(sk, 32)));
+		const ret: bigint = bindings.sign(bindings.encodeUint8Array(msg), bindings.encodeUint8Array(bindings.check_arr_len(sk, 32)));
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -416,7 +416,7 @@ export class UtilMethods extends CommonBase {
 	 * Recovers the PublicKey of the signer of the message given the message and the signature.
 	 */
 	public static constructor_recover_pk(msg: Uint8Array, sig: string): Result_PublicKeyErrorZ {
-		const ret: number = bindings.recover_pk(bindings.encodeUint8Array(msg), bindings.encodeString(sig));
+		const ret: bigint = bindings.recover_pk(bindings.encodeUint8Array(msg), bindings.encodeString(sig));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -443,7 +443,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a MonitorEvent from a byte array, created by MonitorEvent_write
 	 */
 	public static constructor_MonitorEvent_read(ser: Uint8Array): Result_COption_MonitorEventZDecodeErrorZ {
-		const ret: number = bindings.MonitorEvent_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.MonitorEvent_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_MonitorEventZDecodeErrorZ = Result_COption_MonitorEventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -452,7 +452,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a C2Tuple_BlockHashChannelMonitorZ from a byte array, created by C2Tuple_BlockHashChannelMonitorZ_write
 	 */
 	public static constructor_C2Tuple_BlockHashChannelMonitorZ_read(ser: Uint8Array, arg: KeysInterface): Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_read(bindings.encodeUint8Array(ser), arg == null ? 0 : CommonBase.get_ptr_of(arg));
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_read(bindings.encodeUint8Array(ser), arg == null ? 0n : CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;
@@ -462,14 +462,14 @@ export class UtilMethods extends CommonBase {
 	 * Read a C2Tuple_BlockHashChannelManagerZ from a byte array, created by C2Tuple_BlockHashChannelManagerZ_write
 	 */
 	public static constructor_C2Tuple_BlockHashChannelManagerZ_read(ser: Uint8Array, arg_keys_manager: KeysInterface, arg_fee_estimator: FeeEstimator, arg_chain_monitor: Watch, arg_tx_broadcaster: BroadcasterInterface, arg_logger: Logger, arg_default_config: UserConfig, arg_channel_monitors: ChannelMonitor[]): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_read(bindings.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : CommonBase.get_ptr_of(arg_keys_manager), arg_fee_estimator == null ? 0 : CommonBase.get_ptr_of(arg_fee_estimator), arg_chain_monitor == null ? 0 : CommonBase.get_ptr_of(arg_chain_monitor), arg_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(arg_tx_broadcaster), arg_logger == null ? 0 : CommonBase.get_ptr_of(arg_logger), arg_default_config == null ? 0 : CommonBase.get_ptr_of(arg_default_config) & ~1, bindings.encodeUint32Array(arg_channel_monitors != null ? arg_channel_monitors.map(arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(arg_channel_monitors_conv_16) & ~1) : null)));
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelManagerZ_read(bindings.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0n : CommonBase.get_ptr_of(arg_keys_manager), arg_fee_estimator == null ? 0n : CommonBase.get_ptr_of(arg_fee_estimator), arg_chain_monitor == null ? 0n : CommonBase.get_ptr_of(arg_chain_monitor), arg_tx_broadcaster == null ? 0n : CommonBase.get_ptr_of(arg_tx_broadcaster), arg_logger == null ? 0n : CommonBase.get_ptr_of(arg_logger), arg_default_config == null ? 0n : CommonBase.get_ptr_of(arg_default_config), bindings.encodeUint64Array(arg_channel_monitors != null ? arg_channel_monitors.map(arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16 == null ? 0n : CommonBase.get_ptr_of(arg_channel_monitors_conv_16)) : null)));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg_keys_manager);
 		CommonBase.add_ref_from(ret_hu_conv, arg_fee_estimator);
 		CommonBase.add_ref_from(ret_hu_conv, arg_chain_monitor);
 		CommonBase.add_ref_from(ret_hu_conv, arg_tx_broadcaster);
 		CommonBase.add_ref_from(ret_hu_conv, arg_logger);
-		;
+		CommonBase.add_ref_from(ret_hu_conv, arg_default_config);
 		arg_channel_monitors.forEach((arg_channel_monitors_conv_16: ChannelMonitor) => { CommonBase.add_ref_from(ret_hu_conv, arg_channel_monitors_conv_16); });
 		return ret_hu_conv;
 	}
@@ -488,7 +488,7 @@ export class UtilMethods extends CommonBase {
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
 	public static constructor_create(keys: ExpandedKey, min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number, keys_manager: KeysInterface, current_time: bigint): Result_C2Tuple_PaymentHashPaymentSecretZNoneZ {
-		const ret: number = bindings.create(keys == null ? 0 : CommonBase.get_ptr_of(keys) & ~1, CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs, keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), current_time);
+		const ret: bigint = bindings.create(keys == null ? 0n : CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs, keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), current_time);
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentSecretZNoneZ = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, keys);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
@@ -505,7 +505,7 @@ export class UtilMethods extends CommonBase {
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
 	public static constructor_create_from_hash(keys: ExpandedKey, min_value_msat: Option_u64Z, payment_hash: Uint8Array, invoice_expiry_delta_secs: number, current_time: bigint): Result_PaymentSecretNoneZ {
-		const ret: number = bindings.create_from_hash(keys == null ? 0 : CommonBase.get_ptr_of(keys) & ~1, CommonBase.get_ptr_of(min_value_msat), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), invoice_expiry_delta_secs, current_time);
+		const ret: bigint = bindings.create_from_hash(keys == null ? 0n : CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), invoice_expiry_delta_secs, current_time);
 		const ret_hu_conv: Result_PaymentSecretNoneZ = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, keys);
 		return ret_hu_conv;
@@ -540,7 +540,7 @@ export class UtilMethods extends CommonBase {
 	 * Build a closing transaction
 	 */
 	public static constructor_build_closing_transaction(to_holder_value_sat: bigint, to_counterparty_value_sat: bigint, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): Uint8Array {
-		const ret: number = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
+		const ret: number = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0n : CommonBase.get_ptr_of(funding_outpoint));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -553,7 +553,7 @@ export class UtilMethods extends CommonBase {
 	 * generated (ie our own).
 	 */
 	public static constructor_derive_private_key(per_commitment_point: Uint8Array, base_secret: Uint8Array): Result_SecretKeyErrorZ {
-		const ret: number = bindings.derive_private_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_secret, 32)));
+		const ret: bigint = bindings.derive_private_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_secret, 32)));
 		const ret_hu_conv: Result_SecretKeyErrorZ = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -567,7 +567,7 @@ export class UtilMethods extends CommonBase {
 	 * generated (ie our own).
 	 */
 	public static constructor_derive_public_key(per_commitment_point: Uint8Array, base_point: Uint8Array): Result_PublicKeyErrorZ {
-		const ret: number = bindings.derive_public_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_point, 33)));
+		const ret: bigint = bindings.derive_public_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_point, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -584,7 +584,7 @@ export class UtilMethods extends CommonBase {
 	 * generated (ie our own).
 	 */
 	public static constructor_derive_private_revocation_key(per_commitment_secret: Uint8Array, countersignatory_revocation_base_secret: Uint8Array): Result_SecretKeyErrorZ {
-		const ret: number = bindings.derive_private_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_secret, 32)));
+		const ret: bigint = bindings.derive_private_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_secret, 32)));
 		const ret_hu_conv: Result_SecretKeyErrorZ = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -603,7 +603,7 @@ export class UtilMethods extends CommonBase {
 	 * generated (ie our own).
 	 */
 	public static constructor_derive_public_revocation_key(per_commitment_point: Uint8Array, countersignatory_revocation_base_point: Uint8Array): Result_PublicKeyErrorZ {
-		const ret: number = bindings.derive_public_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_point, 33)));
+		const ret: bigint = bindings.derive_public_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_point, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -624,7 +624,7 @@ export class UtilMethods extends CommonBase {
 	 * does not need to have its previous_output_index filled.
 	 */
 	public static constructor_get_htlc_redeemscript(htlc: HTLCOutputInCommitment, opt_anchors: boolean, keys: TxCreationKeys): Uint8Array {
-		const ret: number = bindings.get_htlc_redeemscript(htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, keys == null ? 0 : CommonBase.get_ptr_of(keys) & ~1);
+		const ret: number = bindings.get_htlc_redeemscript(htlc == null ? 0n : CommonBase.get_ptr_of(htlc), opt_anchors, keys == null ? 0n : CommonBase.get_ptr_of(keys));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -649,7 +649,7 @@ export class UtilMethods extends CommonBase {
 	 * commitment transaction).
 	 */
 	public static constructor_build_htlc_transaction(commitment_txid: Uint8Array, feerate_per_kw: number, contest_delay: number, htlc: HTLCOutputInCommitment, opt_anchors: boolean, broadcaster_delayed_payment_key: Uint8Array, revocation_key: Uint8Array): Uint8Array {
-		const ret: number = bindings.build_htlc_transaction(bindings.encodeUint8Array(bindings.check_arr_len(commitment_txid, 32)), feerate_per_kw, contest_delay, htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, bindings.encodeUint8Array(bindings.check_arr_len(broadcaster_delayed_payment_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_key, 33)));
+		const ret: number = bindings.build_htlc_transaction(bindings.encodeUint8Array(bindings.check_arr_len(commitment_txid, 32)), feerate_per_kw, contest_delay, htlc == null ? 0n : CommonBase.get_ptr_of(htlc), opt_anchors, bindings.encodeUint8Array(bindings.check_arr_len(broadcaster_delayed_payment_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_key, 33)));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -685,7 +685,7 @@ export class UtilMethods extends CommonBase {
 	 * Read a NetworkUpdate from a byte array, created by NetworkUpdate_write
 	 */
 	public static constructor_NetworkUpdate_read(ser: Uint8Array): Result_COption_NetworkUpdateZDecodeErrorZ {
-		const ret: number = bindings.NetworkUpdate_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NetworkUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_NetworkUpdateZDecodeErrorZ = Result_COption_NetworkUpdateZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -724,7 +724,7 @@ export class UtilMethods extends CommonBase {
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static constructor_find_route(our_node_pubkey: Uint8Array, route_params: RouteParameters, network_graph: NetworkGraph, first_hops: ChannelDetails[], logger: Logger, scorer: Score, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
-		const ret: number = bindings.find_route(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), route_params == null ? 0 : CommonBase.get_ptr_of(route_params) & ~1, network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1, bindings.encodeUint32Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0 : CommonBase.get_ptr_of(first_hops_conv_16) & ~1) : null), logger == null ? 0 : CommonBase.get_ptr_of(logger), scorer == null ? 0 : CommonBase.get_ptr_of(scorer), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
+		const ret: bigint = bindings.find_route(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), route_params == null ? 0n : CommonBase.get_ptr_of(route_params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), bindings.encodeUint64Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0n : CommonBase.get_ptr_of(first_hops_conv_16)) : null), logger == null ? 0n : CommonBase.get_ptr_of(logger), scorer == null ? 0n : CommonBase.get_ptr_of(scorer), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, route_params);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
@@ -741,7 +741,7 @@ export class UtilMethods extends CommonBase {
 	 * Re-uses logic from `find_route`, so the restrictions described there also apply here.
 	 */
 	public static constructor_build_route_from_hops(our_node_pubkey: Uint8Array, hops: Uint8Array[], route_params: RouteParameters, network_graph: NetworkGraph, logger: Logger, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
-		const ret: number = bindings.build_route_from_hops(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), bindings.encodeUint32Array(hops != null ? hops.map(hops_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(hops_conv_12, 33))) : null), route_params == null ? 0 : CommonBase.get_ptr_of(route_params) & ~1, network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1, logger == null ? 0 : CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
+		const ret: bigint = bindings.build_route_from_hops(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), bindings.encodeUint32Array(hops != null ? hops.map(hops_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(hops_conv_12, 33))) : null), route_params == null ? 0n : CommonBase.get_ptr_of(route_params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, route_params);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
@@ -755,10 +755,11 @@ export class UtilMethods extends CommonBase {
 	 * available and the current time is supplied by the caller.
 	 */
 	public static constructor_create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, network: Currency, amt_msat: Option_u64Z, description_hash: Sha256, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
-		const ret: number = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : CommonBase.get_ptr_of(channelmanager) & ~1, keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), description_hash == null ? 0 : CommonBase.get_ptr_of(description_hash) & ~1, duration_since_epoch, invoice_expiry_delta_secs);
+		const ret: bigint = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), description_hash == null ? 0n : CommonBase.get_ptr_of(description_hash), duration_since_epoch, invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_InvoiceSignOrCreationErrorZ = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
+		CommonBase.add_ref_from(ret_hu_conv, description_hash);
 		return ret_hu_conv;
 	}
 
@@ -768,7 +769,7 @@ export class UtilMethods extends CommonBase {
 	 * available and the current time is supplied by the caller.
 	 */
 	public static constructor_create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, network: Currency, amt_msat: Option_u64Z, description: string, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
-		const ret: number = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : CommonBase.get_ptr_of(channelmanager) & ~1, keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), duration_since_epoch, invoice_expiry_delta_secs);
+		const ret: bigint = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), duration_since_epoch, invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_InvoiceSignOrCreationErrorZ = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);

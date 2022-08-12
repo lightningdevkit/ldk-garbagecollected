@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a u32 or not
  */
 export class Option_u32Z extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_u32Z_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_u32Z_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_u32Z {
+	public static constr_from_ptr(ptr: bigint): Option_u32Z {
 		const raw_ty: number = bindings.LDKCOption_u32Z_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_u32Z_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_u32Z extends CommonBase {
 	 * Constructs a new COption_u32Z containing a u32
 	 */
 	public static constructor_some(o: number): Option_u32Z {
-		const ret: number = bindings.COption_u32Z_some(o);
+		const ret: bigint = bindings.COption_u32Z_some(o);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_u32Z extends CommonBase {
 	 * Constructs a new COption_u32Z containing nothing
 	 */
 	public static constructor_none(): Option_u32Z {
-		const ret: number = bindings.COption_u32Z_none();
+		const ret: bigint = bindings.COption_u32Z_none();
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_u32Z_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_u32Z_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_u32Z extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_u32Z {
-		const ret: number = bindings.COption_u32Z_clone(this.ptr);
+		const ret: bigint = bindings.COption_u32Z_clone(this.ptr);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,7 +412,7 @@ export class Option_u32Z extends CommonBase {
 export class Option_u32Z_Some extends Option_u32Z {
 	public some: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.some = bindings.LDKCOption_u32Z_Some_get_some(ptr);
 	}
@@ -420,7 +420,7 @@ export class Option_u32Z_Some extends Option_u32Z {
 /** A Option_u32Z of type None */
 export class Option_u32Z_None extends Option_u32Z {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

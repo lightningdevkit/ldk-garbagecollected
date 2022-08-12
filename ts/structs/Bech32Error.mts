@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * Represents an error returned from the bech32 library during validation of some bech32 data
  */
 export class Bech32Error extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Bech32Error_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.Bech32Error_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Bech32Error {
+	public static constr_from_ptr(ptr: bigint): Bech32Error {
 		const raw_ty: number = bindings.LDKBech32Error_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Bech32Error_MissingSeparator(ptr);
@@ -376,8 +376,8 @@ export class Bech32Error extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Bech32Error_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Bech32Error_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -385,7 +385,7 @@ export class Bech32Error extends CommonBase {
 	 * Creates a new Bech32Error which has the same data as `orig`
 	 */
 	public clone(): Bech32Error {
-		const ret: number = bindings.Bech32Error_clone(this.ptr);
+		const ret: bigint = bindings.Bech32Error_clone(this.ptr);
 		const ret_hu_conv: Bech32Error = Bech32Error.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,21 +395,21 @@ export class Bech32Error extends CommonBase {
 /** A Bech32Error of type MissingSeparator */
 export class Bech32Error_MissingSeparator extends Bech32Error {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A Bech32Error of type InvalidChecksum */
 export class Bech32Error_InvalidChecksum extends Bech32Error {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A Bech32Error of type InvalidLength */
 export class Bech32Error_InvalidLength extends Bech32Error {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -417,7 +417,7 @@ export class Bech32Error_InvalidLength extends Bech32Error {
 export class Bech32Error_InvalidChar extends Bech32Error {
 	public invalid_char: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.invalid_char = bindings.LDKBech32Error_InvalidChar_get_invalid_char(ptr);
 	}
@@ -426,7 +426,7 @@ export class Bech32Error_InvalidChar extends Bech32Error {
 export class Bech32Error_InvalidData extends Bech32Error {
 	public invalid_data: number;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.invalid_data = bindings.LDKBech32Error_InvalidData_get_invalid_data(ptr);
 	}
@@ -434,14 +434,14 @@ export class Bech32Error_InvalidData extends Bech32Error {
 /** A Bech32Error of type InvalidPadding */
 export class Bech32Error_InvalidPadding extends Bech32Error {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A Bech32Error of type MixedCase */
 export class Bech32Error_MixedCase extends Bech32Error {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
