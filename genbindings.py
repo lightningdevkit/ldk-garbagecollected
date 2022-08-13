@@ -816,7 +816,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         owned_fn_defn = field_decl + " " + struct_name.replace("LDK", "") + "_get_" + field_name + "(" + struct_name + " *NONNULL_PTR owner)"
 
         holds_ref = False
-        if field_ty.rust_obj is not None and field_ty.rust_obj.replace("LDK", "") + "_clone" in clone_fns:
+        if field_ty.rust_obj is not None and field_ty.rust_obj in opaque_structs:
+            fn_defn = owned_fn_defn
+            write_c("static inline " + fn_defn + "{\n")
+            write_c("\t" + field_ty.rust_obj + " ret = " + accessor[0] + "owner" + accessor[1] + ";\n")
+            write_c("\tret.is_owned = false;\n")
+            write_c("\treturn ret;\n")
+        elif field_ty.rust_obj is not None and field_ty.rust_obj.replace("LDK", "") + "_clone" in clone_fns:
             fn_defn = owned_fn_defn
             write_c("static inline " + fn_defn + "{\n")
             if check_sfx is not None:
