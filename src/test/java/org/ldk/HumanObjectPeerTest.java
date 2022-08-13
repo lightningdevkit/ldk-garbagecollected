@@ -211,12 +211,17 @@ class HumanObjectPeerTestInstance {
             // ChannelMonitor is. This used to be broken.
             Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+            must_free_objs.add(new WeakReference<>(roundtrip_monitor));
             TwoTuple_OutPointScriptZ funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
+            must_free_objs.add(new WeakReference<>(funding_txo));
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
             assert Arrays.equals(funding_txo.get_a().get_txid(), expected_id.get_txid());
             assert funding_txo.get_a().get_index() == expected_id.get_index();
             Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_two = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
             assert roundtrip_two instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b()));
+            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res));
+            must_free_objs.add(new WeakReference<>(roundtrip_two));
             return ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b();
         }
 
@@ -399,11 +404,25 @@ class HumanObjectPeerTestInstance {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
                         public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            // Take a read lock on the NetworkGraph just to make sure we even can.
-                            try (ReadOnlyNetworkGraph graph = router.read_only()) {
-                                assert graph.channel(424242) == null;
-                                return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            while (true) {
+                                try (ReadOnlyNetworkGraph graph = router.read_only()) {
+                                    assert graph.channel(424242) == null;
+                                    long[] channels = graph.list_channels();
+                                    if (channels.length != 1) {
+                                        // If we're using a NioPeerHandler, the handling of announcement signatures and
+                                        // channel broadcasting may be done async, so just wait until the channel shows up.
+                                        // TODO: Once https://github.com/lightningdevkit/rust-lightning/pull/1666 lands swap this for a continue and add the assertion
+                                        //assert !use_nio_peer_handler;
+                                        break;
+                                    }
+                                    ChannelInfo chan = graph.channel(channels[0]);
+                                    assert Arrays.equals(chan.get_node_one().as_slice(), chan.get_node_one().write());
+                                    assert Arrays.equals(chan.get_node_one().as_slice(), chan_manager.get_our_node_id()) ||
+                                            Arrays.equals(chan.get_node_two().as_slice(), chan_manager.get_our_node_id());
+                                    break;
+                                }
                             }
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
