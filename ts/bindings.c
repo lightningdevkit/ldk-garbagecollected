@@ -493,8 +493,9 @@ void  __attribute__((export_name("TS_CResult_NoneNoneZ_get_err"))) TS_CResult_No
 }
 
 static inline struct LDKCounterpartyCommitmentSecrets CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_ok(LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyCommitmentSecrets_clone(&*owner->contents.result);
+	LDKCounterpartyCommitmentSecrets ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_ok"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)untag_ptr(owner);
@@ -506,8 +507,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDe
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_err(LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_err"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)untag_ptr(owner);
@@ -561,8 +563,9 @@ uint32_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_get_err"))) TS_
 }
 
 static inline struct LDKTxCreationKeys CResult_TxCreationKeysDecodeErrorZ_get_ok(LDKCResult_TxCreationKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return TxCreationKeys_clone(&*owner->contents.result);
+	LDKTxCreationKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_get_ok"))) TS_CResult_TxCreationKeysDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* owner_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)untag_ptr(owner);
@@ -574,8 +577,9 @@ uint64_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_TxCreationKeysDecodeErrorZ_get_err(LDKCResult_TxCreationKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_get_err"))) TS_CResult_TxCreationKeysDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* owner_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)untag_ptr(owner);
@@ -587,8 +591,9 @@ uint64_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_get_
 }
 
 static inline struct LDKChannelPublicKeys CResult_ChannelPublicKeysDecodeErrorZ_get_ok(LDKCResult_ChannelPublicKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelPublicKeys_clone(&*owner->contents.result);
+	LDKChannelPublicKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_get_ok"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* owner_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)untag_ptr(owner);
@@ -600,8 +605,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_ChannelPublicKeysDecodeErrorZ_get_err(LDKCResult_ChannelPublicKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_get_err"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* owner_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)untag_ptr(owner);
@@ -613,8 +619,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_g
 }
 
 static inline struct LDKTxCreationKeys CResult_TxCreationKeysErrorZ_get_ok(LDKCResult_TxCreationKeysErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return TxCreationKeys_clone(&*owner->contents.result);
+	LDKTxCreationKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_get_ok"))) TS_CResult_TxCreationKeysErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_TxCreationKeysErrorZ* owner_conv = (LDKCResult_TxCreationKeysErrorZ*)untag_ptr(owner);
@@ -650,8 +657,9 @@ int32_t __attribute__((export_name("TS_LDKCOption_u32Z_Some_get_some"))) TS_LDKC
 	return some_conv;
 }
 static inline struct LDKHTLCOutputInCommitment CResult_HTLCOutputInCommitmentDecodeErrorZ_get_ok(LDKCResult_HTLCOutputInCommitmentDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HTLCOutputInCommitment_clone(&*owner->contents.result);
+	LDKHTLCOutputInCommitment ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_get_ok"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* owner_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)untag_ptr(owner);
@@ -663,8 +671,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_HTLCOutputInCommitmentDecodeErrorZ_get_err(LDKCResult_HTLCOutputInCommitmentDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_get_err"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* owner_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)untag_ptr(owner);
@@ -676,8 +685,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErr
 }
 
 static inline struct LDKCounterpartyChannelTransactionParameters CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_ok(LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyChannelTransactionParameters_clone(&*owner->contents.result);
+	LDKCounterpartyChannelTransactionParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_ok"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -689,8 +699,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionP
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_err(LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_err"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -702,8 +713,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionP
 }
 
 static inline struct LDKChannelTransactionParameters CResult_ChannelTransactionParametersDecodeErrorZ_get_ok(LDKCResult_ChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelTransactionParameters_clone(&*owner->contents.result);
+	LDKChannelTransactionParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_get_ok"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -715,8 +727,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDec
 }
 
 static inline struct LDKDecodeError CResult_ChannelTransactionParametersDecodeErrorZ_get_err(LDKCResult_ChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_get_err"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -728,8 +741,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDec
 }
 
 static inline struct LDKHolderCommitmentTransaction CResult_HolderCommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_HolderCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HolderCommitmentTransaction_clone(&*owner->contents.result);
+	LDKHolderCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_get_ok"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -741,8 +755,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDeco
 }
 
 static inline struct LDKDecodeError CResult_HolderCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_HolderCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_get_err"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -754,8 +769,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDeco
 }
 
 static inline struct LDKBuiltCommitmentTransaction CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return BuiltCommitmentTransaction_clone(&*owner->contents.result);
+	LDKBuiltCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -767,8 +783,9 @@ uint64_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecod
 }
 
 static inline struct LDKDecodeError CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -779,16 +796,17 @@ uint64_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecod
 	return ret_ref;
 }
 
-static inline struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKTrustedClosingTransaction CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
+	LDKTrustedClosingTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_TrustedClosingTransactionNoneZ_get_ok"))) TS_CResult_TrustedClosingTransactionNoneZ_get_ok(uint64_t owner) {
 	LDKCResult_TrustedClosingTransactionNoneZ* owner_conv = (LDKCResult_TrustedClosingTransactionNoneZ*)untag_ptr(owner);
-	LDKTrustedClosingTransaction ret_var = *CResult_TrustedClosingTransactionNoneZ_get_ok(owner_conv);
+	LDKTrustedClosingTransaction ret_var = CResult_TrustedClosingTransactionNoneZ_get_ok(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -802,8 +820,9 @@ void  __attribute__((export_name("TS_CResult_TrustedClosingTransactionNoneZ_get_
 }
 
 static inline struct LDKCommitmentTransaction CResult_CommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CommitmentTransaction_clone(&*owner->contents.result);
+	LDKCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_get_ok"))) TS_CResult_CommitmentTransactionDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -815,8 +834,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_CommitmentTransactionDecodeErrorZ_get_err(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_get_err"))) TS_CResult_CommitmentTransactionDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -827,16 +847,17 @@ uint64_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErro
 	return ret_ref;
 }
 
-static inline struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKTrustedCommitmentTransaction CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
+	LDKTrustedCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_TrustedCommitmentTransactionNoneZ_get_ok"))) TS_CResult_TrustedCommitmentTransactionNoneZ_get_ok(uint64_t owner) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ* owner_conv = (LDKCResult_TrustedCommitmentTransactionNoneZ*)untag_ptr(owner);
-	LDKTrustedCommitmentTransaction ret_var = *CResult_TrustedCommitmentTransactionNoneZ_get_ok(owner_conv);
+	LDKTrustedCommitmentTransaction ret_var = CResult_TrustedCommitmentTransactionNoneZ_get_ok(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -878,8 +899,9 @@ void  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_get_err"))) TS
 }
 
 static inline struct LDKShutdownScript CResult_ShutdownScriptDecodeErrorZ_get_ok(LDKCResult_ShutdownScriptDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ShutdownScript_clone(&*owner->contents.result);
+	LDKShutdownScript ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_get_ok"))) TS_CResult_ShutdownScriptDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* owner_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)untag_ptr(owner);
@@ -891,8 +913,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_ShutdownScriptDecodeErrorZ_get_err(LDKCResult_ShutdownScriptDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_get_err"))) TS_CResult_ShutdownScriptDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* owner_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)untag_ptr(owner);
@@ -904,8 +927,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_get_
 }
 
 static inline struct LDKShutdownScript CResult_ShutdownScriptInvalidShutdownScriptZ_get_ok(LDKCResult_ShutdownScriptInvalidShutdownScriptZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ShutdownScript_clone(&*owner->contents.result);
+	LDKShutdownScript ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_get_ok"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_get_ok(uint64_t owner) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* owner_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)untag_ptr(owner);
@@ -917,8 +941,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownSc
 }
 
 static inline struct LDKInvalidShutdownScript CResult_ShutdownScriptInvalidShutdownScriptZ_get_err(LDKCResult_ShutdownScriptInvalidShutdownScriptZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return InvalidShutdownScript_clone(&*owner->contents.err);
+	LDKInvalidShutdownScript ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_get_err"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_get_err(uint64_t owner) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* owner_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)untag_ptr(owner);
@@ -930,8 +955,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownSc
 }
 
 static inline struct LDKRouteHop CResult_RouteHopDecodeErrorZ_get_ok(LDKCResult_RouteHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHop_clone(&*owner->contents.result);
+	LDKRouteHop ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_get_ok"))) TS_CResult_RouteHopDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHopDecodeErrorZ*)untag_ptr(owner);
@@ -943,8 +969,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_get_ok")))
 }
 
 static inline struct LDKDecodeError CResult_RouteHopDecodeErrorZ_get_err(LDKCResult_RouteHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_get_err"))) TS_CResult_RouteHopDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHopDecodeErrorZ*)untag_ptr(owner);
@@ -970,8 +997,9 @@ static inline LDKCVec_CVec_RouteHopZZ CVec_CVec_RouteHopZZ_clone(const LDKCVec_C
 	return ret;
 }
 static inline struct LDKRoute CResult_RouteDecodeErrorZ_get_ok(LDKCResult_RouteDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Route_clone(&*owner->contents.result);
+	LDKRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_get_ok"))) TS_CResult_RouteDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteDecodeErrorZ* owner_conv = (LDKCResult_RouteDecodeErrorZ*)untag_ptr(owner);
@@ -983,8 +1011,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_get_ok"))) TS
 }
 
 static inline struct LDKDecodeError CResult_RouteDecodeErrorZ_get_err(LDKCResult_RouteDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_get_err"))) TS_CResult_RouteDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteDecodeErrorZ* owner_conv = (LDKCResult_RouteDecodeErrorZ*)untag_ptr(owner);
@@ -996,8 +1025,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_get_err"))) T
 }
 
 static inline struct LDKRouteParameters CResult_RouteParametersDecodeErrorZ_get_ok(LDKCResult_RouteParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteParameters_clone(&*owner->contents.result);
+	LDKRouteParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_get_ok"))) TS_CResult_RouteParametersDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteParametersDecodeErrorZ* owner_conv = (LDKCResult_RouteParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1009,8 +1039,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_get
 }
 
 static inline struct LDKDecodeError CResult_RouteParametersDecodeErrorZ_get_err(LDKCResult_RouteParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_get_err"))) TS_CResult_RouteParametersDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteParametersDecodeErrorZ* owner_conv = (LDKCResult_RouteParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1048,8 +1079,9 @@ static inline LDKCVec_u64Z CVec_u64Z_clone(const LDKCVec_u64Z *orig) {
 	return ret;
 }
 static inline struct LDKPaymentParameters CResult_PaymentParametersDecodeErrorZ_get_ok(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PaymentParameters_clone(&*owner->contents.result);
+	LDKPaymentParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_get_ok"))) TS_CResult_PaymentParametersDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PaymentParametersDecodeErrorZ* owner_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1061,8 +1093,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_PaymentParametersDecodeErrorZ_get_err(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_get_err"))) TS_CResult_PaymentParametersDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_PaymentParametersDecodeErrorZ* owner_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1081,8 +1114,9 @@ static inline LDKCVec_RouteHintHopZ CVec_RouteHintHopZ_clone(const LDKCVec_Route
 	return ret;
 }
 static inline struct LDKRouteHint CResult_RouteHintDecodeErrorZ_get_ok(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHint_clone(&*owner->contents.result);
+	LDKRouteHint ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_get_ok"))) TS_CResult_RouteHintDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteHintDecodeErrorZ* owner_conv = (LDKCResult_RouteHintDecodeErrorZ*)untag_ptr(owner);
@@ -1094,8 +1128,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_get_ok"))
 }
 
 static inline struct LDKDecodeError CResult_RouteHintDecodeErrorZ_get_err(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_get_err"))) TS_CResult_RouteHintDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteHintDecodeErrorZ* owner_conv = (LDKCResult_RouteHintDecodeErrorZ*)untag_ptr(owner);
@@ -1107,8 +1142,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_get_err")
 }
 
 static inline struct LDKRouteHintHop CResult_RouteHintHopDecodeErrorZ_get_ok(LDKCResult_RouteHintHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHintHop_clone(&*owner->contents.result);
+	LDKRouteHintHop ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_get_ok"))) TS_CResult_RouteHintHopDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteHintHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)untag_ptr(owner);
@@ -1120,8 +1156,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_RouteHintHopDecodeErrorZ_get_err(LDKCResult_RouteHintHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_get_err"))) TS_CResult_RouteHintHopDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteHintHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)untag_ptr(owner);
@@ -1140,8 +1177,9 @@ static inline LDKCVec_ChannelDetailsZ CVec_ChannelDetailsZ_clone(const LDKCVec_C
 	return ret;
 }
 static inline struct LDKRoute CResult_RouteLightningErrorZ_get_ok(LDKCResult_RouteLightningErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Route_clone(&*owner->contents.result);
+	LDKRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_get_ok"))) TS_CResult_RouteLightningErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RouteLightningErrorZ* owner_conv = (LDKCResult_RouteLightningErrorZ*)untag_ptr(owner);
@@ -1153,8 +1191,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_get_ok")))
 }
 
 static inline struct LDKLightningError CResult_RouteLightningErrorZ_get_err(LDKCResult_RouteLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_get_err"))) TS_CResult_RouteLightningErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RouteLightningErrorZ* owner_conv = (LDKCResult_RouteLightningErrorZ*)untag_ptr(owner);
@@ -1207,8 +1246,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PaymentPurposeDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_PaymentPurposeDecodeErrorZ_get_err(LDKCResult_PaymentPurposeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PaymentPurposeDecodeErrorZ_get_err"))) TS_CResult_PaymentPurposeDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_PaymentPurposeDecodeErrorZ* owner_conv = (LDKCResult_PaymentPurposeDecodeErrorZ*)untag_ptr(owner);
@@ -1274,8 +1314,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_COption_ClosureReasonZDecodeErrorZ_get_err(LDKCResult_COption_ClosureReasonZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_get_err"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_ClosureReasonZDecodeErrorZ* owner_conv = (LDKCResult_COption_ClosureReasonZDecodeErrorZ*)untag_ptr(owner);
@@ -1349,8 +1390,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_HTLCDestinationZDecodeE
 }
 
 static inline struct LDKDecodeError CResult_COption_HTLCDestinationZDecodeErrorZ_get_err(LDKCResult_COption_HTLCDestinationZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_HTLCDestinationZDecodeErrorZ_get_err"))) TS_CResult_COption_HTLCDestinationZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_HTLCDestinationZDecodeErrorZ* owner_conv = (LDKCResult_COption_HTLCDestinationZDecodeErrorZ*)untag_ptr(owner);
@@ -1920,8 +1962,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_COption_EventZDecodeErrorZ_get_err(LDKCResult_COption_EventZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_get_err"))) TS_CResult_COption_EventZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_EventZDecodeErrorZ* owner_conv = (LDKCResult_COption_EventZDecodeErrorZ*)untag_ptr(owner);
@@ -2455,7 +2498,9 @@ static inline LDKCVec_MonitorEventZ CVec_MonitorEventZ_clone(const LDKCVec_Monit
 	return ret;
 }
 static inline struct LDKOutPoint C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a(LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ *NONNULL_PTR owner){
-	return OutPoint_clone(&owner->a);
+	LDKOutPoint ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a"))) TS_C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a(uint64_t owner) {
 	LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ* owner_conv = (LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ*)untag_ptr(owner);
@@ -2520,8 +2565,9 @@ uint64_t __attribute__((export_name("TS_LDKCOption_C2Tuple_usizeTransactionZZ_So
 	return tag_ptr(some_conv, true);
 }
 static inline struct LDKFixedPenaltyScorer CResult_FixedPenaltyScorerDecodeErrorZ_get_ok(LDKCResult_FixedPenaltyScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FixedPenaltyScorer_clone(&*owner->contents.result);
+	LDKFixedPenaltyScorer ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_get_ok"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* owner_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)untag_ptr(owner);
@@ -2533,8 +2579,9 @@ uint64_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_
 }
 
 static inline struct LDKDecodeError CResult_FixedPenaltyScorerDecodeErrorZ_get_err(LDKCResult_FixedPenaltyScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_get_err"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* owner_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)untag_ptr(owner);
@@ -2626,22 +2673,24 @@ uint64_t  __attribute__((export_name("TS_LDKLogger_new"))) TS_LDKLogger_new(JSVa
 	*res_ptr = LDKLogger_init(o);
 	return tag_ptr(res_ptr, true);
 }
-static inline struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKProbabilisticScorer CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
+	LDKProbabilisticScorer ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ_get_ok"))) TS_CResult_ProbabilisticScorerDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)untag_ptr(owner);
-	LDKProbabilisticScorer ret_var = *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner_conv);
+	LDKProbabilisticScorer ret_var = CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
 static inline struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ_get_err"))) TS_CResult_ProbabilisticScorerDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)untag_ptr(owner);
@@ -2653,8 +2702,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ProbabilisticScorerDecodeErrorZ
 }
 
 static inline struct LDKInitFeatures CResult_InitFeaturesDecodeErrorZ_get_ok(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InitFeatures_clone(&*owner->contents.result);
+	LDKInitFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_get_ok"))) TS_CResult_InitFeaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InitFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InitFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2666,8 +2716,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_InitFeaturesDecodeErrorZ_get_err(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_get_err"))) TS_CResult_InitFeaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_InitFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InitFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2679,8 +2730,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InitFeaturesDecodeErrorZ_get_er
 }
 
 static inline struct LDKChannelFeatures CResult_ChannelFeaturesDecodeErrorZ_get_ok(LDKCResult_ChannelFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelFeatures_clone(&*owner->contents.result);
+	LDKChannelFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_get_ok"))) TS_CResult_ChannelFeaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2692,8 +2744,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_get
 }
 
 static inline struct LDKDecodeError CResult_ChannelFeaturesDecodeErrorZ_get_err(LDKCResult_ChannelFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_get_err"))) TS_CResult_ChannelFeaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2705,8 +2758,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelFeaturesDecodeErrorZ_get
 }
 
 static inline struct LDKNodeFeatures CResult_NodeFeaturesDecodeErrorZ_get_ok(LDKCResult_NodeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeFeatures_clone(&*owner->contents.result);
+	LDKNodeFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_get_ok"))) TS_CResult_NodeFeaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_NodeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2718,8 +2772,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_NodeFeaturesDecodeErrorZ_get_err(LDKCResult_NodeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_get_err"))) TS_CResult_NodeFeaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_NodeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2731,8 +2786,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeFeaturesDecodeErrorZ_get_er
 }
 
 static inline struct LDKInvoiceFeatures CResult_InvoiceFeaturesDecodeErrorZ_get_ok(LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InvoiceFeatures_clone(&*owner->contents.result);
+	LDKInvoiceFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_get_ok"))) TS_CResult_InvoiceFeaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InvoiceFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InvoiceFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2744,8 +2800,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_get
 }
 
 static inline struct LDKDecodeError CResult_InvoiceFeaturesDecodeErrorZ_get_err(LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_get_err"))) TS_CResult_InvoiceFeaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_InvoiceFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InvoiceFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2757,8 +2814,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InvoiceFeaturesDecodeErrorZ_get
 }
 
 static inline struct LDKChannelTypeFeatures CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelTypeFeatures_clone(&*owner->contents.result);
+	LDKChannelTypeFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok"))) TS_CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelTypeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelTypeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2770,8 +2828,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ
 }
 
 static inline struct LDKDecodeError CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ_get_err"))) TS_CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelTypeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelTypeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -2783,8 +2842,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelTypeFeaturesDecodeErrorZ
 }
 
 static inline struct LDKNodeId CResult_NodeIdDecodeErrorZ_get_ok(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeId_clone(&*owner->contents.result);
+	LDKNodeId ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_get_ok"))) TS_CResult_NodeIdDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeIdDecodeErrorZ* owner_conv = (LDKCResult_NodeIdDecodeErrorZ*)untag_ptr(owner);
@@ -2796,8 +2856,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_get_ok"))) T
 }
 
 static inline struct LDKDecodeError CResult_NodeIdDecodeErrorZ_get_err(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_get_err"))) TS_CResult_NodeIdDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeIdDecodeErrorZ* owner_conv = (LDKCResult_NodeIdDecodeErrorZ*)untag_ptr(owner);
@@ -2821,8 +2882,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(LDKCResult_COption_NetworkUpdateZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_get_err"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_NetworkUpdateZDecodeErrorZ* owner_conv = (LDKCResult_COption_NetworkUpdateZDecodeErrorZ*)untag_ptr(owner);
@@ -2920,8 +2982,9 @@ jboolean  __attribute__((export_name("TS_CResult_boolLightningErrorZ_get_ok"))) 
 }
 
 static inline struct LDKLightningError CResult_boolLightningErrorZ_get_err(LDKCResult_boolLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_get_err"))) TS_CResult_boolLightningErrorZ_get_err(uint64_t owner) {
 	LDKCResult_boolLightningErrorZ* owner_conv = (LDKCResult_boolLightningErrorZ*)untag_ptr(owner);
@@ -2933,7 +2996,9 @@ uint64_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_get_err")))
 }
 
 static inline struct LDKChannelAnnouncement C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelAnnouncement_clone(&owner->a);
+	LDKChannelAnnouncement ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(uint64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -2945,7 +3010,9 @@ uint64_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdat
 }
 
 static inline struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelUpdate_clone(&owner->b);
+	LDKChannelUpdate ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(uint64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -2957,7 +3024,9 @@ uint64_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdat
 }
 
 static inline struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelUpdate_clone(&owner->c);
+	LDKChannelUpdate ret = owner->c;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(uint64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -2992,8 +3061,9 @@ void  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_get_ok"))) TS_C
 }
 
 static inline struct LDKLightningError CResult_NoneLightningErrorZ_get_err(LDKCResult_NoneLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_get_err"))) TS_CResult_NoneLightningErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NoneLightningErrorZ* owner_conv = (LDKCResult_NoneLightningErrorZ*)untag_ptr(owner);
@@ -3005,8 +3075,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_get_err")))
 }
 
 static inline struct LDKChannelUpdateInfo CResult_ChannelUpdateInfoDecodeErrorZ_get_ok(LDKCResult_ChannelUpdateInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelUpdateInfo_clone(&*owner->contents.result);
+	LDKChannelUpdateInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_get_ok"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3018,8 +3089,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_ChannelUpdateInfoDecodeErrorZ_get_err(LDKCResult_ChannelUpdateInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_get_err"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3031,8 +3103,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_g
 }
 
 static inline struct LDKChannelInfo CResult_ChannelInfoDecodeErrorZ_get_ok(LDKCResult_ChannelInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelInfo_clone(&*owner->contents.result);
+	LDKChannelInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_get_ok"))) TS_CResult_ChannelInfoDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3044,8 +3117,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_get_ok"
 }
 
 static inline struct LDKDecodeError CResult_ChannelInfoDecodeErrorZ_get_err(LDKCResult_ChannelInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_get_err"))) TS_CResult_ChannelInfoDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3057,8 +3131,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_get_err
 }
 
 static inline struct LDKRoutingFees CResult_RoutingFeesDecodeErrorZ_get_ok(LDKCResult_RoutingFeesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RoutingFees_clone(&*owner->contents.result);
+	LDKRoutingFees ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_get_ok"))) TS_CResult_RoutingFeesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RoutingFeesDecodeErrorZ* owner_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)untag_ptr(owner);
@@ -3070,8 +3145,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_get_ok"
 }
 
 static inline struct LDKDecodeError CResult_RoutingFeesDecodeErrorZ_get_err(LDKCResult_RoutingFeesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_get_err"))) TS_CResult_RoutingFeesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RoutingFeesDecodeErrorZ* owner_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)untag_ptr(owner);
@@ -3174,8 +3250,9 @@ static inline LDKCVec_NetAddressZ CVec_NetAddressZ_clone(const LDKCVec_NetAddres
 	return ret;
 }
 static inline struct LDKNodeAnnouncementInfo CResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(LDKCResult_NodeAnnouncementInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAnnouncementInfo_clone(&*owner->contents.result);
+	LDKNodeAnnouncementInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_ok"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3187,8 +3264,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeError
 }
 
 static inline struct LDKDecodeError CResult_NodeAnnouncementInfoDecodeErrorZ_get_err(LDKCResult_NodeAnnouncementInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_err"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3200,8 +3278,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeError
 }
 
 static inline struct LDKNodeAlias CResult_NodeAliasDecodeErrorZ_get_ok(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAlias_clone(&*owner->contents.result);
+	LDKNodeAlias ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_ok"))) TS_CResult_NodeAliasDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)untag_ptr(owner);
@@ -3213,8 +3292,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_ok"))
 }
 
 static inline struct LDKDecodeError CResult_NodeAliasDecodeErrorZ_get_err(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_err"))) TS_CResult_NodeAliasDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)untag_ptr(owner);
@@ -3226,8 +3306,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAliasDecodeErrorZ_get_err")
 }
 
 static inline struct LDKNodeInfo CResult_NodeInfoDecodeErrorZ_get_ok(LDKCResult_NodeInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeInfo_clone(&*owner->contents.result);
+	LDKNodeInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_get_ok"))) TS_CResult_NodeInfoDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3239,8 +3320,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_get_ok")))
 }
 
 static inline struct LDKDecodeError CResult_NodeInfoDecodeErrorZ_get_err(LDKCResult_NodeInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_get_err"))) TS_CResult_NodeInfoDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3251,22 +3333,24 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_get_err"))
 	return ret_ref;
 }
 
-static inline struct LDKNetworkGraph *CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKNetworkGraph CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
+	LDKNetworkGraph ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_get_ok"))) TS_CResult_NetworkGraphDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NetworkGraphDecodeErrorZ* owner_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)untag_ptr(owner);
-	LDKNetworkGraph ret_var = *CResult_NetworkGraphDecodeErrorZ_get_ok(owner_conv);
+	LDKNetworkGraph ret_var = CResult_NetworkGraphDecodeErrorZ_get_ok(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
 static inline struct LDKDecodeError CResult_NetworkGraphDecodeErrorZ_get_err(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_get_err"))) TS_CResult_NetworkGraphDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NetworkGraphDecodeErrorZ* owner_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)untag_ptr(owner);
@@ -3300,8 +3384,9 @@ uint64_tArray __attribute__((export_name("TS_LDKCOption_CVec_NetAddressZZ_Some_g
 	return some_arr;
 }
 static inline struct LDKDelayedPaymentOutputDescriptor CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_ok(LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return DelayedPaymentOutputDescriptor_clone(&*owner->contents.result);
+	LDKDelayedPaymentOutputDescriptor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_ok"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -3313,8 +3398,9 @@ uint64_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorD
 }
 
 static inline struct LDKDecodeError CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_err(LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_err"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -3326,8 +3412,9 @@ uint64_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorD
 }
 
 static inline struct LDKStaticPaymentOutputDescriptor CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_ok(LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return StaticPaymentOutputDescriptor_clone(&*owner->contents.result);
+	LDKStaticPaymentOutputDescriptor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_ok"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -3339,8 +3426,9 @@ uint64_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDe
 }
 
 static inline struct LDKDecodeError CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_err(LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_err"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -3364,8 +3452,9 @@ uint64_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecode
 }
 
 static inline struct LDKDecodeError CResult_SpendableOutputDescriptorDecodeErrorZ_get_err(LDKCResult_SpendableOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_get_err"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -4065,8 +4154,9 @@ uint64_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_get_ok"))) TS_
 }
 
 static inline struct LDKDecodeError CResult_SignDecodeErrorZ_get_err(LDKCResult_SignDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_get_err"))) TS_CResult_SignDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_SignDecodeErrorZ* owner_conv = (LDKCResult_SignDecodeErrorZ*)untag_ptr(owner);
@@ -4136,8 +4226,9 @@ void  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_get_err"))) TS_
 }
 
 static inline struct LDKInMemorySigner CResult_InMemorySignerDecodeErrorZ_get_ok(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InMemorySigner_clone(&*owner->contents.result);
+	LDKInMemorySigner ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_get_ok"))) TS_CResult_InMemorySignerDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InMemorySignerDecodeErrorZ* owner_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)untag_ptr(owner);
@@ -4149,8 +4240,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_InMemorySignerDecodeErrorZ_get_err(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_get_err"))) TS_CResult_InMemorySignerDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_InMemorySignerDecodeErrorZ* owner_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)untag_ptr(owner);
@@ -4618,8 +4710,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_get_er
 }
 
 static inline struct LDKCounterpartyForwardingInfo CResult_CounterpartyForwardingInfoDecodeErrorZ_get_ok(LDKCResult_CounterpartyForwardingInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyForwardingInfo_clone(&*owner->contents.result);
+	LDKCounterpartyForwardingInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_get_ok"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)untag_ptr(owner);
@@ -4631,8 +4724,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecod
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyForwardingInfoDecodeErrorZ_get_err(LDKCResult_CounterpartyForwardingInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_get_err"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)untag_ptr(owner);
@@ -4644,8 +4738,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecod
 }
 
 static inline struct LDKChannelCounterparty CResult_ChannelCounterpartyDecodeErrorZ_get_ok(LDKCResult_ChannelCounterpartyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelCounterparty_clone(&*owner->contents.result);
+	LDKChannelCounterparty ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_get_ok"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* owner_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)untag_ptr(owner);
@@ -4657,8 +4752,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ
 }
 
 static inline struct LDKDecodeError CResult_ChannelCounterpartyDecodeErrorZ_get_err(LDKCResult_ChannelCounterpartyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_get_err"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* owner_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)untag_ptr(owner);
@@ -4670,8 +4766,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ
 }
 
 static inline struct LDKChannelDetails CResult_ChannelDetailsDecodeErrorZ_get_ok(LDKCResult_ChannelDetailsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelDetails_clone(&*owner->contents.result);
+	LDKChannelDetails ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_get_ok"))) TS_CResult_ChannelDetailsDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* owner_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)untag_ptr(owner);
@@ -4683,8 +4780,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_ChannelDetailsDecodeErrorZ_get_err(LDKCResult_ChannelDetailsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_get_err"))) TS_CResult_ChannelDetailsDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* owner_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)untag_ptr(owner);
@@ -4696,8 +4794,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_get_
 }
 
 static inline struct LDKPhantomRouteHints CResult_PhantomRouteHintsDecodeErrorZ_get_ok(LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PhantomRouteHints_clone(&*owner->contents.result);
+	LDKPhantomRouteHints ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_get_ok"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* owner_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)untag_ptr(owner);
@@ -4709,8 +4808,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_PhantomRouteHintsDecodeErrorZ_get_err(LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_get_err"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* owner_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)untag_ptr(owner);
@@ -5205,15 +5305,17 @@ int8_tArray  __attribute__((export_name("TS_C2Tuple_BlockHashChannelManagerZ_get
 	return ret_arr;
 }
 
-static inline struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
-	return &owner->b;
+static inline struct LDKChannelManager C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
+	LDKChannelManager ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelManagerZ_get_b"))) TS_C2Tuple_BlockHashChannelManagerZ_get_b(uint64_t owner) {
 	LDKC2Tuple_BlockHashChannelManagerZ* owner_conv = (LDKC2Tuple_BlockHashChannelManagerZ*)untag_ptr(owner);
-	LDKChannelManager ret_var = *C2Tuple_BlockHashChannelManagerZ_get_b(owner_conv);
+	LDKChannelManager ret_var = C2Tuple_BlockHashChannelManagerZ_get_b(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -5228,8 +5330,9 @@ uint64_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManager
 }
 
 static inline struct LDKDecodeError CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ* owner_conv = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)untag_ptr(owner);
@@ -5241,8 +5344,9 @@ uint64_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelManager
 }
 
 static inline struct LDKChannelConfig CResult_ChannelConfigDecodeErrorZ_get_ok(LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelConfig_clone(&*owner->contents.result);
+	LDKChannelConfig ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_get_ok"))) TS_CResult_ChannelConfigDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelConfigDecodeErrorZ* owner_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)untag_ptr(owner);
@@ -5254,8 +5358,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_ChannelConfigDecodeErrorZ_get_err(LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_get_err"))) TS_CResult_ChannelConfigDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelConfigDecodeErrorZ* owner_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)untag_ptr(owner);
@@ -5267,8 +5372,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_get_e
 }
 
 static inline struct LDKOutPoint CResult_OutPointDecodeErrorZ_get_ok(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return OutPoint_clone(&*owner->contents.result);
+	LDKOutPoint ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_get_ok"))) TS_CResult_OutPointDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_OutPointDecodeErrorZ* owner_conv = (LDKCResult_OutPointDecodeErrorZ*)untag_ptr(owner);
@@ -5280,8 +5386,9 @@ uint64_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_get_ok")))
 }
 
 static inline struct LDKDecodeError CResult_OutPointDecodeErrorZ_get_err(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_get_err"))) TS_CResult_OutPointDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_OutPointDecodeErrorZ* owner_conv = (LDKCResult_OutPointDecodeErrorZ*)untag_ptr(owner);
@@ -5402,8 +5509,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_COption_TypeZDecodeErrorZ_get_err(LDKCResult_COption_TypeZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_get_err"))) TS_CResult_COption_TypeZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_TypeZDecodeErrorZ* owner_conv = (LDKCResult_COption_TypeZDecodeErrorZ*)untag_ptr(owner);
@@ -5566,8 +5674,9 @@ uint32_t __attribute__((export_name("TS_LDKParseOrSemanticError_SemanticError_ge
 	return semantic_error_conv;
 }
 static inline struct LDKInvoice CResult_InvoiceParseOrSemanticErrorZ_get_ok(LDKCResult_InvoiceParseOrSemanticErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_get_ok"))) TS_CResult_InvoiceParseOrSemanticErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InvoiceParseOrSemanticErrorZ* owner_conv = (LDKCResult_InvoiceParseOrSemanticErrorZ*)untag_ptr(owner);
@@ -5591,8 +5700,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InvoiceParseOrSemanticErrorZ_ge
 }
 
 static inline struct LDKSignedRawInvoice CResult_SignedRawInvoiceParseErrorZ_get_ok(LDKCResult_SignedRawInvoiceParseErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return SignedRawInvoice_clone(&*owner->contents.result);
+	LDKSignedRawInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_get_ok"))) TS_CResult_SignedRawInvoiceParseErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_SignedRawInvoiceParseErrorZ* owner_conv = (LDKCResult_SignedRawInvoiceParseErrorZ*)untag_ptr(owner);
@@ -5616,7 +5726,9 @@ uint64_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceParseErrorZ_get
 }
 
 static inline struct LDKRawInvoice C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR owner){
-	return RawInvoice_clone(&owner->a);
+	LDKRawInvoice ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(uint64_t owner) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* owner_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)untag_ptr(owner);
@@ -5638,7 +5750,9 @@ int8_tArray  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignat
 }
 
 static inline struct LDKInvoiceSignature C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR owner){
-	return InvoiceSignature_clone(&owner->c);
+	LDKInvoiceSignature ret = owner->c;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(uint64_t owner) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* owner_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)untag_ptr(owner);
@@ -5650,8 +5764,9 @@ uint64_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignature
 }
 
 static inline struct LDKPayeePubKey CResult_PayeePubKeyErrorZ_get_ok(LDKCResult_PayeePubKeyErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PayeePubKey_clone(&*owner->contents.result);
+	LDKPayeePubKey ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_get_ok"))) TS_CResult_PayeePubKeyErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PayeePubKeyErrorZ* owner_conv = (LDKCResult_PayeePubKeyErrorZ*)untag_ptr(owner);
@@ -5680,8 +5795,9 @@ static inline LDKCVec_PrivateRouteZ CVec_PrivateRouteZ_clone(const LDKCVec_Priva
 	return ret;
 }
 static inline struct LDKPositiveTimestamp CResult_PositiveTimestampCreationErrorZ_get_ok(LDKCResult_PositiveTimestampCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PositiveTimestamp_clone(&*owner->contents.result);
+	LDKPositiveTimestamp ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_get_ok"))) TS_CResult_PositiveTimestampCreationErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PositiveTimestampCreationErrorZ* owner_conv = (LDKCResult_PositiveTimestampCreationErrorZ*)untag_ptr(owner);
@@ -5722,8 +5838,9 @@ uint32_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_get_err"))) 
 }
 
 static inline struct LDKInvoice CResult_InvoiceSemanticErrorZ_get_ok(LDKCResult_InvoiceSemanticErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_get_ok"))) TS_CResult_InvoiceSemanticErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InvoiceSemanticErrorZ* owner_conv = (LDKCResult_InvoiceSemanticErrorZ*)untag_ptr(owner);
@@ -5745,8 +5862,9 @@ uint32_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_get_err")
 }
 
 static inline struct LDKDescription CResult_DescriptionCreationErrorZ_get_ok(LDKCResult_DescriptionCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Description_clone(&*owner->contents.result);
+	LDKDescription ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_get_ok"))) TS_CResult_DescriptionCreationErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_DescriptionCreationErrorZ* owner_conv = (LDKCResult_DescriptionCreationErrorZ*)untag_ptr(owner);
@@ -5768,8 +5886,9 @@ uint32_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_get_e
 }
 
 static inline struct LDKPrivateRoute CResult_PrivateRouteCreationErrorZ_get_ok(LDKCResult_PrivateRouteCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PrivateRoute_clone(&*owner->contents.result);
+	LDKPrivateRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_get_ok"))) TS_CResult_PrivateRouteCreationErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PrivateRouteCreationErrorZ* owner_conv = (LDKCResult_PrivateRouteCreationErrorZ*)untag_ptr(owner);
@@ -5812,8 +5931,9 @@ uint32_t  __attribute__((export_name("TS_CResult_StringErrorZ_get_err"))) TS_CRe
 }
 
 static inline struct LDKChannelMonitorUpdate CResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelMonitorUpdate_clone(&*owner->contents.result);
+	LDKChannelMonitorUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_get_ok"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -5825,8 +5945,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeError
 }
 
 static inline struct LDKDecodeError CResult_ChannelMonitorUpdateDecodeErrorZ_get_err(LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_get_err"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -5864,8 +5985,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_COption_MonitorEventZDecodeErrorZ_get_err(LDKCResult_COption_MonitorEventZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_get_err"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_COption_MonitorEventZDecodeErrorZ* owner_conv = (LDKCResult_COption_MonitorEventZDecodeErrorZ*)untag_ptr(owner);
@@ -5877,8 +5999,9 @@ uint64_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErro
 }
 
 static inline struct LDKHTLCUpdate CResult_HTLCUpdateDecodeErrorZ_get_ok(LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HTLCUpdate_clone(&*owner->contents.result);
+	LDKHTLCUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_get_ok"))) TS_CResult_HTLCUpdateDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* owner_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -5890,8 +6013,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_get_ok")
 }
 
 static inline struct LDKDecodeError CResult_HTLCUpdateDecodeErrorZ_get_err(LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_get_err"))) TS_CResult_HTLCUpdateDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* owner_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -5903,7 +6027,9 @@ uint64_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_get_err"
 }
 
 static inline struct LDKOutPoint C2Tuple_OutPointScriptZ_get_a(LDKC2Tuple_OutPointScriptZ *NONNULL_PTR owner){
-	return OutPoint_clone(&owner->a);
+	LDKOutPoint ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C2Tuple_OutPointScriptZ_get_a"))) TS_C2Tuple_OutPointScriptZ_get_a(uint64_t owner) {
 	LDKC2Tuple_OutPointScriptZ* owner_conv = (LDKC2Tuple_OutPointScriptZ*)untag_ptr(owner);
@@ -6129,7 +6255,9 @@ int8_tArray  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_get
 }
 
 static inline struct LDKChannelMonitor C2Tuple_BlockHashChannelMonitorZ_get_b(LDKC2Tuple_BlockHashChannelMonitorZ *NONNULL_PTR owner){
-	return ChannelMonitor_clone(&owner->b);
+	LDKChannelMonitor ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_get_b"))) TS_C2Tuple_BlockHashChannelMonitorZ_get_b(uint64_t owner) {
 	LDKC2Tuple_BlockHashChannelMonitorZ* owner_conv = (LDKC2Tuple_BlockHashChannelMonitorZ*)untag_ptr(owner);
@@ -6152,8 +6280,9 @@ uint64_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitor
 }
 
 static inline struct LDKDecodeError CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* owner_conv = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)untag_ptr(owner);
@@ -6219,8 +6348,9 @@ int8_tArray  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_get
 }
 
 static inline struct LDKPeerHandleError CResult_CVec_u8ZPeerHandleErrorZ_get_err(LDKCResult_CVec_u8ZPeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_get_err"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* owner_conv = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)untag_ptr(owner);
@@ -6241,8 +6371,9 @@ void  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_get_ok"))) TS_
 }
 
 static inline struct LDKPeerHandleError CResult_NonePeerHandleErrorZ_get_err(LDKCResult_NonePeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_get_err"))) TS_CResult_NonePeerHandleErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NonePeerHandleErrorZ* owner_conv = (LDKCResult_NonePeerHandleErrorZ*)untag_ptr(owner);
@@ -6264,8 +6395,9 @@ jboolean  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_get_ok")))
 }
 
 static inline struct LDKPeerHandleError CResult_boolPeerHandleErrorZ_get_err(LDKCResult_boolPeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_get_err"))) TS_CResult_boolPeerHandleErrorZ_get_err(uint64_t owner) {
 	LDKCResult_boolPeerHandleErrorZ* owner_conv = (LDKCResult_boolPeerHandleErrorZ*)untag_ptr(owner);
@@ -6308,8 +6440,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_get_ok")
 }
 
 static inline struct LDKDecodeError CResult_NetAddressDecodeErrorZ_get_err(LDKCResult_NetAddressDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_get_err"))) TS_CResult_NetAddressDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NetAddressDecodeErrorZ* owner_conv = (LDKCResult_NetAddressDecodeErrorZ*)untag_ptr(owner);
@@ -6349,8 +6482,9 @@ static inline LDKCVec_UpdateFailMalformedHTLCZ CVec_UpdateFailMalformedHTLCZ_clo
 	return ret;
 }
 static inline struct LDKAcceptChannel CResult_AcceptChannelDecodeErrorZ_get_ok(LDKCResult_AcceptChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return AcceptChannel_clone(&*owner->contents.result);
+	LDKAcceptChannel ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_get_ok"))) TS_CResult_AcceptChannelDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_AcceptChannelDecodeErrorZ* owner_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)untag_ptr(owner);
@@ -6362,8 +6496,9 @@ uint64_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_AcceptChannelDecodeErrorZ_get_err(LDKCResult_AcceptChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_get_err"))) TS_CResult_AcceptChannelDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_AcceptChannelDecodeErrorZ* owner_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)untag_ptr(owner);
@@ -6375,8 +6510,9 @@ uint64_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_get_e
 }
 
 static inline struct LDKAnnouncementSignatures CResult_AnnouncementSignaturesDecodeErrorZ_get_ok(LDKCResult_AnnouncementSignaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return AnnouncementSignatures_clone(&*owner->contents.result);
+	LDKAnnouncementSignatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_get_ok"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* owner_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)untag_ptr(owner);
@@ -6388,8 +6524,9 @@ uint64_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_AnnouncementSignaturesDecodeErrorZ_get_err(LDKCResult_AnnouncementSignaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_get_err"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* owner_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)untag_ptr(owner);
@@ -6401,8 +6538,9 @@ uint64_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErr
 }
 
 static inline struct LDKChannelReestablish CResult_ChannelReestablishDecodeErrorZ_get_ok(LDKCResult_ChannelReestablishDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelReestablish_clone(&*owner->contents.result);
+	LDKChannelReestablish ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_get_ok"))) TS_CResult_ChannelReestablishDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* owner_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)untag_ptr(owner);
@@ -6414,8 +6552,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_
 }
 
 static inline struct LDKDecodeError CResult_ChannelReestablishDecodeErrorZ_get_err(LDKCResult_ChannelReestablishDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_get_err"))) TS_CResult_ChannelReestablishDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* owner_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)untag_ptr(owner);
@@ -6427,8 +6566,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_
 }
 
 static inline struct LDKClosingSigned CResult_ClosingSignedDecodeErrorZ_get_ok(LDKCResult_ClosingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ClosingSigned_clone(&*owner->contents.result);
+	LDKClosingSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_get_ok"))) TS_CResult_ClosingSignedDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ClosingSignedDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6440,8 +6580,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_ClosingSignedDecodeErrorZ_get_err(LDKCResult_ClosingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_get_err"))) TS_CResult_ClosingSignedDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ClosingSignedDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6453,8 +6594,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_get_e
 }
 
 static inline struct LDKClosingSignedFeeRange CResult_ClosingSignedFeeRangeDecodeErrorZ_get_ok(LDKCResult_ClosingSignedFeeRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ClosingSignedFeeRange_clone(&*owner->contents.result);
+	LDKClosingSignedFeeRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_get_ok"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)untag_ptr(owner);
@@ -6466,8 +6608,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_ClosingSignedFeeRangeDecodeErrorZ_get_err(LDKCResult_ClosingSignedFeeRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_get_err"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)untag_ptr(owner);
@@ -6479,8 +6622,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErro
 }
 
 static inline struct LDKCommitmentSigned CResult_CommitmentSignedDecodeErrorZ_get_ok(LDKCResult_CommitmentSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CommitmentSigned_clone(&*owner->contents.result);
+	LDKCommitmentSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_get_ok"))) TS_CResult_CommitmentSignedDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* owner_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6492,8 +6636,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_ge
 }
 
 static inline struct LDKDecodeError CResult_CommitmentSignedDecodeErrorZ_get_err(LDKCResult_CommitmentSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_get_err"))) TS_CResult_CommitmentSignedDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* owner_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6505,8 +6650,9 @@ uint64_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_ge
 }
 
 static inline struct LDKFundingCreated CResult_FundingCreatedDecodeErrorZ_get_ok(LDKCResult_FundingCreatedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FundingCreated_clone(&*owner->contents.result);
+	LDKFundingCreated ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_get_ok"))) TS_CResult_FundingCreatedDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_FundingCreatedDecodeErrorZ* owner_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)untag_ptr(owner);
@@ -6518,8 +6664,9 @@ uint64_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_FundingCreatedDecodeErrorZ_get_err(LDKCResult_FundingCreatedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_get_err"))) TS_CResult_FundingCreatedDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_FundingCreatedDecodeErrorZ* owner_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)untag_ptr(owner);
@@ -6531,8 +6678,9 @@ uint64_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_get_
 }
 
 static inline struct LDKFundingSigned CResult_FundingSignedDecodeErrorZ_get_ok(LDKCResult_FundingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FundingSigned_clone(&*owner->contents.result);
+	LDKFundingSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_get_ok"))) TS_CResult_FundingSignedDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_FundingSignedDecodeErrorZ* owner_conv = (LDKCResult_FundingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6544,8 +6692,9 @@ uint64_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_FundingSignedDecodeErrorZ_get_err(LDKCResult_FundingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_get_err"))) TS_CResult_FundingSignedDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_FundingSignedDecodeErrorZ* owner_conv = (LDKCResult_FundingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -6557,8 +6706,9 @@ uint64_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_get_e
 }
 
 static inline struct LDKChannelReady CResult_ChannelReadyDecodeErrorZ_get_ok(LDKCResult_ChannelReadyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelReady_clone(&*owner->contents.result);
+	LDKChannelReady ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelReadyDecodeErrorZ_get_ok"))) TS_CResult_ChannelReadyDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelReadyDecodeErrorZ* owner_conv = (LDKCResult_ChannelReadyDecodeErrorZ*)untag_ptr(owner);
@@ -6570,8 +6720,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelReadyDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_ChannelReadyDecodeErrorZ_get_err(LDKCResult_ChannelReadyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelReadyDecodeErrorZ_get_err"))) TS_CResult_ChannelReadyDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelReadyDecodeErrorZ* owner_conv = (LDKCResult_ChannelReadyDecodeErrorZ*)untag_ptr(owner);
@@ -6583,8 +6734,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelReadyDecodeErrorZ_get_er
 }
 
 static inline struct LDKInit CResult_InitDecodeErrorZ_get_ok(LDKCResult_InitDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Init_clone(&*owner->contents.result);
+	LDKInit ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_get_ok"))) TS_CResult_InitDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InitDecodeErrorZ* owner_conv = (LDKCResult_InitDecodeErrorZ*)untag_ptr(owner);
@@ -6596,8 +6748,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_get_ok"))) TS_
 }
 
 static inline struct LDKDecodeError CResult_InitDecodeErrorZ_get_err(LDKCResult_InitDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_get_err"))) TS_CResult_InitDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_InitDecodeErrorZ* owner_conv = (LDKCResult_InitDecodeErrorZ*)untag_ptr(owner);
@@ -6609,8 +6762,9 @@ uint64_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_get_err"))) TS
 }
 
 static inline struct LDKOpenChannel CResult_OpenChannelDecodeErrorZ_get_ok(LDKCResult_OpenChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return OpenChannel_clone(&*owner->contents.result);
+	LDKOpenChannel ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_get_ok"))) TS_CResult_OpenChannelDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_OpenChannelDecodeErrorZ* owner_conv = (LDKCResult_OpenChannelDecodeErrorZ*)untag_ptr(owner);
@@ -6622,8 +6776,9 @@ uint64_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_get_ok"
 }
 
 static inline struct LDKDecodeError CResult_OpenChannelDecodeErrorZ_get_err(LDKCResult_OpenChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_get_err"))) TS_CResult_OpenChannelDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_OpenChannelDecodeErrorZ* owner_conv = (LDKCResult_OpenChannelDecodeErrorZ*)untag_ptr(owner);
@@ -6635,8 +6790,9 @@ uint64_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_get_err
 }
 
 static inline struct LDKRevokeAndACK CResult_RevokeAndACKDecodeErrorZ_get_ok(LDKCResult_RevokeAndACKDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RevokeAndACK_clone(&*owner->contents.result);
+	LDKRevokeAndACK ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_get_ok"))) TS_CResult_RevokeAndACKDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* owner_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)untag_ptr(owner);
@@ -6648,8 +6804,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_RevokeAndACKDecodeErrorZ_get_err(LDKCResult_RevokeAndACKDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_get_err"))) TS_CResult_RevokeAndACKDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* owner_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)untag_ptr(owner);
@@ -6661,8 +6818,9 @@ uint64_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_get_er
 }
 
 static inline struct LDKShutdown CResult_ShutdownDecodeErrorZ_get_ok(LDKCResult_ShutdownDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Shutdown_clone(&*owner->contents.result);
+	LDKShutdown ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_get_ok"))) TS_CResult_ShutdownDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ShutdownDecodeErrorZ* owner_conv = (LDKCResult_ShutdownDecodeErrorZ*)untag_ptr(owner);
@@ -6674,8 +6832,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_get_ok")))
 }
 
 static inline struct LDKDecodeError CResult_ShutdownDecodeErrorZ_get_err(LDKCResult_ShutdownDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_get_err"))) TS_CResult_ShutdownDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ShutdownDecodeErrorZ* owner_conv = (LDKCResult_ShutdownDecodeErrorZ*)untag_ptr(owner);
@@ -6687,8 +6846,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_get_err"))
 }
 
 static inline struct LDKUpdateFailHTLC CResult_UpdateFailHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFailHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFailHTLC_clone(&*owner->contents.result);
+	LDKUpdateFailHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_get_ok"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6700,8 +6860,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_UpdateFailHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFailHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_get_err"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6713,8 +6874,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_get_
 }
 
 static inline struct LDKUpdateFailMalformedHTLC CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFailMalformedHTLC_clone(&*owner->contents.result);
+	LDKUpdateFailMalformedHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_ok"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6726,8 +6888,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeEr
 }
 
 static inline struct LDKDecodeError CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_err"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6739,8 +6902,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeEr
 }
 
 static inline struct LDKUpdateFee CResult_UpdateFeeDecodeErrorZ_get_ok(LDKCResult_UpdateFeeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFee_clone(&*owner->contents.result);
+	LDKUpdateFee ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_get_ok"))) TS_CResult_UpdateFeeDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UpdateFeeDecodeErrorZ* owner_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)untag_ptr(owner);
@@ -6752,8 +6916,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_get_ok"))
 }
 
 static inline struct LDKDecodeError CResult_UpdateFeeDecodeErrorZ_get_err(LDKCResult_UpdateFeeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_get_err"))) TS_CResult_UpdateFeeDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UpdateFeeDecodeErrorZ* owner_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)untag_ptr(owner);
@@ -6765,8 +6930,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_get_err")
 }
 
 static inline struct LDKUpdateFulfillHTLC CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFulfillHTLC_clone(&*owner->contents.result);
+	LDKUpdateFulfillHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6778,8 +6944,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_UpdateFulfillHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_get_err"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6791,8 +6958,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_g
 }
 
 static inline struct LDKUpdateAddHTLC CResult_UpdateAddHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateAddHTLC_clone(&*owner->contents.result);
+	LDKUpdateAddHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_get_ok"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6804,8 +6972,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_UpdateAddHTLCDecodeErrorZ_get_err(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_get_err"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -6817,8 +6986,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_get_e
 }
 
 static inline struct LDKPing CResult_PingDecodeErrorZ_get_ok(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Ping_clone(&*owner->contents.result);
+	LDKPing ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_get_ok"))) TS_CResult_PingDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PingDecodeErrorZ* owner_conv = (LDKCResult_PingDecodeErrorZ*)untag_ptr(owner);
@@ -6830,8 +7000,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_get_ok"))) TS_
 }
 
 static inline struct LDKDecodeError CResult_PingDecodeErrorZ_get_err(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_get_err"))) TS_CResult_PingDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_PingDecodeErrorZ* owner_conv = (LDKCResult_PingDecodeErrorZ*)untag_ptr(owner);
@@ -6843,8 +7014,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_get_err"))) TS
 }
 
 static inline struct LDKPong CResult_PongDecodeErrorZ_get_ok(LDKCResult_PongDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Pong_clone(&*owner->contents.result);
+	LDKPong ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_get_ok"))) TS_CResult_PongDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_PongDecodeErrorZ* owner_conv = (LDKCResult_PongDecodeErrorZ*)untag_ptr(owner);
@@ -6856,8 +7028,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_get_ok"))) TS_
 }
 
 static inline struct LDKDecodeError CResult_PongDecodeErrorZ_get_err(LDKCResult_PongDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_get_err"))) TS_CResult_PongDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_PongDecodeErrorZ* owner_conv = (LDKCResult_PongDecodeErrorZ*)untag_ptr(owner);
@@ -6869,8 +7042,9 @@ uint64_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_get_err"))) TS
 }
 
 static inline struct LDKUnsignedChannelAnnouncement CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedChannelAnnouncement_clone(&*owner->contents.result);
+	LDKUnsignedChannelAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -6882,8 +7056,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDeco
 }
 
 static inline struct LDKDecodeError CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -6895,8 +7070,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDeco
 }
 
 static inline struct LDKChannelAnnouncement CResult_ChannelAnnouncementDecodeErrorZ_get_ok(LDKCResult_ChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelAnnouncement_clone(&*owner->contents.result);
+	LDKChannelAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_get_ok"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -6908,8 +7084,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ
 }
 
 static inline struct LDKDecodeError CResult_ChannelAnnouncementDecodeErrorZ_get_err(LDKCResult_ChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_get_err"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -6921,8 +7098,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ
 }
 
 static inline struct LDKUnsignedChannelUpdate CResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(LDKCResult_UnsignedChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedChannelUpdate_clone(&*owner->contents.result);
+	LDKUnsignedChannelUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_get_ok"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -6934,8 +7112,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_UnsignedChannelUpdateDecodeErrorZ_get_err(LDKCResult_UnsignedChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_get_err"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -6947,8 +7126,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErro
 }
 
 static inline struct LDKChannelUpdate CResult_ChannelUpdateDecodeErrorZ_get_ok(LDKCResult_ChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelUpdate_clone(&*owner->contents.result);
+	LDKChannelUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_get_ok"))) TS_CResult_ChannelUpdateDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -6960,8 +7140,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_get_o
 }
 
 static inline struct LDKDecodeError CResult_ChannelUpdateDecodeErrorZ_get_err(LDKCResult_ChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_get_err"))) TS_CResult_ChannelUpdateDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -6973,8 +7154,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_get_e
 }
 
 static inline struct LDKErrorMessage CResult_ErrorMessageDecodeErrorZ_get_ok(LDKCResult_ErrorMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ErrorMessage_clone(&*owner->contents.result);
+	LDKErrorMessage ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_get_ok"))) TS_CResult_ErrorMessageDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ErrorMessageDecodeErrorZ* owner_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)untag_ptr(owner);
@@ -6986,8 +7168,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_get_ok
 }
 
 static inline struct LDKDecodeError CResult_ErrorMessageDecodeErrorZ_get_err(LDKCResult_ErrorMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_get_err"))) TS_CResult_ErrorMessageDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ErrorMessageDecodeErrorZ* owner_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)untag_ptr(owner);
@@ -6999,8 +7182,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_get_er
 }
 
 static inline struct LDKWarningMessage CResult_WarningMessageDecodeErrorZ_get_ok(LDKCResult_WarningMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return WarningMessage_clone(&*owner->contents.result);
+	LDKWarningMessage ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_get_ok"))) TS_CResult_WarningMessageDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_WarningMessageDecodeErrorZ* owner_conv = (LDKCResult_WarningMessageDecodeErrorZ*)untag_ptr(owner);
@@ -7012,8 +7196,9 @@ uint64_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_get_
 }
 
 static inline struct LDKDecodeError CResult_WarningMessageDecodeErrorZ_get_err(LDKCResult_WarningMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_get_err"))) TS_CResult_WarningMessageDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_WarningMessageDecodeErrorZ* owner_conv = (LDKCResult_WarningMessageDecodeErrorZ*)untag_ptr(owner);
@@ -7025,8 +7210,9 @@ uint64_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_get_
 }
 
 static inline struct LDKUnsignedNodeAnnouncement CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedNodeAnnouncement_clone(&*owner->contents.result);
+	LDKUnsignedNodeAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -7038,8 +7224,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeE
 }
 
 static inline struct LDKDecodeError CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -7051,8 +7238,9 @@ uint64_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeE
 }
 
 static inline struct LDKNodeAnnouncement CResult_NodeAnnouncementDecodeErrorZ_get_ok(LDKCResult_NodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAnnouncement_clone(&*owner->contents.result);
+	LDKNodeAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_get_ok"))) TS_CResult_NodeAnnouncementDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -7064,8 +7252,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_ge
 }
 
 static inline struct LDKDecodeError CResult_NodeAnnouncementDecodeErrorZ_get_err(LDKCResult_NodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_get_err"))) TS_CResult_NodeAnnouncementDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -7077,8 +7266,9 @@ uint64_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_ge
 }
 
 static inline struct LDKQueryShortChannelIds CResult_QueryShortChannelIdsDecodeErrorZ_get_ok(LDKCResult_QueryShortChannelIdsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return QueryShortChannelIds_clone(&*owner->contents.result);
+	LDKQueryShortChannelIds ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_get_ok"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* owner_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)untag_ptr(owner);
@@ -7090,8 +7280,9 @@ uint64_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeError
 }
 
 static inline struct LDKDecodeError CResult_QueryShortChannelIdsDecodeErrorZ_get_err(LDKCResult_QueryShortChannelIdsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_get_err"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* owner_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)untag_ptr(owner);
@@ -7103,8 +7294,9 @@ uint64_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeError
 }
 
 static inline struct LDKReplyShortChannelIdsEnd CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ReplyShortChannelIdsEnd_clone(&*owner->contents.result);
+	LDKReplyShortChannelIdsEnd ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* owner_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)untag_ptr(owner);
@@ -7116,8 +7308,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeEr
 }
 
 static inline struct LDKDecodeError CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* owner_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)untag_ptr(owner);
@@ -7129,8 +7322,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeEr
 }
 
 static inline struct LDKQueryChannelRange CResult_QueryChannelRangeDecodeErrorZ_get_ok(LDKCResult_QueryChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return QueryChannelRange_clone(&*owner->contents.result);
+	LDKQueryChannelRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_get_ok"))) TS_CResult_QueryChannelRangeDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -7142,8 +7336,9 @@ uint64_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_QueryChannelRangeDecodeErrorZ_get_err(LDKCResult_QueryChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_get_err"))) TS_CResult_QueryChannelRangeDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -7155,8 +7350,9 @@ uint64_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_g
 }
 
 static inline struct LDKReplyChannelRange CResult_ReplyChannelRangeDecodeErrorZ_get_ok(LDKCResult_ReplyChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ReplyChannelRange_clone(&*owner->contents.result);
+	LDKReplyChannelRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_get_ok"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -7168,8 +7364,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_g
 }
 
 static inline struct LDKDecodeError CResult_ReplyChannelRangeDecodeErrorZ_get_err(LDKCResult_ReplyChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_get_err"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -7181,8 +7378,9 @@ uint64_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_g
 }
 
 static inline struct LDKGossipTimestampFilter CResult_GossipTimestampFilterDecodeErrorZ_get_ok(LDKCResult_GossipTimestampFilterDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return GossipTimestampFilter_clone(&*owner->contents.result);
+	LDKGossipTimestampFilter ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_get_ok"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* owner_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)untag_ptr(owner);
@@ -7194,8 +7392,9 @@ uint64_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_GossipTimestampFilterDecodeErrorZ_get_err(LDKCResult_GossipTimestampFilterDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_get_err"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_get_err(uint64_t owner) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* owner_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)untag_ptr(owner);
@@ -7221,8 +7420,9 @@ uint32_t __attribute__((export_name("TS_LDKSignOrCreationError_CreationError_get
 	return creation_error_conv;
 }
 static inline struct LDKInvoice CResult_InvoiceSignOrCreationErrorZ_get_ok(LDKCResult_InvoiceSignOrCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_get_ok"))) TS_CResult_InvoiceSignOrCreationErrorZ_get_ok(uint64_t owner) {
 	LDKCResult_InvoiceSignOrCreationErrorZ* owner_conv = (LDKCResult_InvoiceSignOrCreationErrorZ*)untag_ptr(owner);
@@ -7349,16 +7549,17 @@ uint64_t __attribute__((export_name("TS_LDKCOption_FilterZ_Some_get_some"))) TS_
 			}
 	return tag_ptr(some_ret, true);
 }
-static inline struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKLockedChannelMonitor CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
+	LDKLockedChannelMonitor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 uint64_t  __attribute__((export_name("TS_CResult_LockedChannelMonitorNoneZ_get_ok"))) TS_CResult_LockedChannelMonitorNoneZ_get_ok(uint64_t owner) {
 	LDKCResult_LockedChannelMonitorNoneZ* owner_conv = (LDKCResult_LockedChannelMonitorNoneZ*)untag_ptr(owner);
-	LDKLockedChannelMonitor ret_var = *CResult_LockedChannelMonitorNoneZ_get_ok(owner_conv);
+	LDKLockedChannelMonitor ret_var = CResult_LockedChannelMonitorNoneZ_get_ok(owner_conv);
 	uint64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
