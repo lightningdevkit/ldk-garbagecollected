@@ -360,9 +360,9 @@ import * as bindings from '../bindings.mjs'
  * spontaneous payment or a \"conventional\" lightning payment that's paying an invoice.
  */
 export class PaymentPurpose extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentPurpose_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.PaymentPurpose_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): PaymentPurpose {
+	public static constr_from_ptr(ptr: bigint): PaymentPurpose {
 		const raw_ty: number = bindings.LDKPaymentPurpose_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PaymentPurpose_InvoicePayment(ptr);
@@ -372,8 +372,8 @@ export class PaymentPurpose extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PaymentPurpose_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PaymentPurpose_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -381,7 +381,7 @@ export class PaymentPurpose extends CommonBase {
 	 * Creates a copy of the PaymentPurpose
 	 */
 	public clone(): PaymentPurpose {
-		const ret: number = bindings.PaymentPurpose_clone(this.ptr);
+		const ret: bigint = bindings.PaymentPurpose_clone(this.ptr);
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -391,7 +391,7 @@ export class PaymentPurpose extends CommonBase {
 	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
 	 */
 	public static constructor_invoice_payment(payment_preimage: Uint8Array, payment_secret: Uint8Array): PaymentPurpose {
-		const ret: number = bindings.PaymentPurpose_invoice_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
+		const ret: bigint = bindings.PaymentPurpose_invoice_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,7 +401,7 @@ export class PaymentPurpose extends CommonBase {
 	 * Utility method to constructs a new SpontaneousPayment-variant PaymentPurpose
 	 */
 	public static constructor_spontaneous_payment(a: Uint8Array): PaymentPurpose {
-		const ret: number = bindings.PaymentPurpose_spontaneous_payment(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)));
+		const ret: bigint = bindings.PaymentPurpose_spontaneous_payment(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -420,7 +420,7 @@ export class PaymentPurpose extends CommonBase {
 	 * Read a PaymentPurpose from a byte array, created by PaymentPurpose_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_PaymentPurposeDecodeErrorZ {
-		const ret: number = bindings.PaymentPurpose_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.PaymentPurpose_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PaymentPurposeDecodeErrorZ = Result_PaymentPurposeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -453,7 +453,7 @@ export class PaymentPurpose_InvoicePayment extends PaymentPurpose {
 	 */
 	public payment_secret: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const payment_preimage: number = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_preimage(ptr);
 		const payment_preimage_conv: Uint8Array = bindings.decodeUint8Array(payment_preimage);
@@ -467,7 +467,7 @@ export class PaymentPurpose_InvoicePayment extends PaymentPurpose {
 export class PaymentPurpose_SpontaneousPayment extends PaymentPurpose {
 	public spontaneous_payment: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const spontaneous_payment: number = bindings.LDKPaymentPurpose_SpontaneousPayment_get_spontaneous_payment(ptr);
 		const spontaneous_payment_conv: Uint8Array = bindings.decodeUint8Array(spontaneous_payment);

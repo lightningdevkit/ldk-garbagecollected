@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_NoneAPIErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_NoneAPIErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_NoneAPIErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_NoneAPIErrorZ {
 		if (bindings.CResult_NoneAPIErrorZ_is_ok(ptr)) {
 			return new Result_NoneAPIErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 	 * Creates a new CResult_NoneAPIErrorZ in the success state.
 	 */
 	public static constructor_ok(): Result_NoneAPIErrorZ {
-		const ret: number = bindings.CResult_NoneAPIErrorZ_ok();
+		const ret: bigint = bindings.CResult_NoneAPIErrorZ_ok();
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 	 * Creates a new CResult_NoneAPIErrorZ in the error state.
 	 */
 	public static constructor_err(e: APIError): Result_NoneAPIErrorZ {
-		const ret: number = bindings.CResult_NoneAPIErrorZ_err(CommonBase.get_ptr_of(e));
+		const ret: bigint = bindings.CResult_NoneAPIErrorZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_NoneAPIErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_NoneAPIErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_NoneAPIErrorZ {
-		const ret: number = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -414,7 +414,7 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 export class Result_NoneAPIErrorZ_OK extends Result_NoneAPIErrorZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }
@@ -422,9 +422,9 @@ export class Result_NoneAPIErrorZ_Err extends Result_NoneAPIErrorZ {
 	public err: APIError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_NoneAPIErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_NoneAPIErrorZ_get_err(ptr);
 		const err_hu_conv: APIError = APIError.constr_from_ptr(err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

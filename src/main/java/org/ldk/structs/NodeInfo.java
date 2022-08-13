@@ -65,9 +65,10 @@ public class NodeInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_lowest_inbound_channel_fees(@Nullable RoutingFees val) {
-		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -95,22 +96,25 @@ public class NodeInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_announcement_info(@Nullable NodeAnnouncementInfo val) {
-		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
 	 * Constructs a new NodeInfo given each field
 	 */
 	public static NodeInfo of(long[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
-		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr & ~1, announcement_info_arg == null ? 0 : announcement_info_arg.ptr & ~1);
+		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr, announcement_info_arg == null ? 0 : announcement_info_arg.ptr);
 		Reference.reachabilityFence(channels_arg);
 		Reference.reachabilityFence(lowest_inbound_channel_fees_arg);
 		Reference.reachabilityFence(announcement_info_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg);
+		ret_hu_conv.ptrs_to.add(announcement_info_arg);
 		return ret_hu_conv;
 	}
 

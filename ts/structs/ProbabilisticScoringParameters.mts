@@ -367,7 +367,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ProbabilisticScoringParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ProbabilisticScoringParameters_free);
 	}
 
@@ -624,8 +624,8 @@ export class ProbabilisticScoringParameters extends CommonBase {
 		bindings.ProbabilisticScoringParameters_set_considered_impossible_penalty_msat(this.ptr, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ProbabilisticScoringParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -633,7 +633,7 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * Creates a copy of the ProbabilisticScoringParameters
 	 */
 	public clone(): ProbabilisticScoringParameters {
-		const ret: number = bindings.ProbabilisticScoringParameters_clone(this.ptr);
+		const ret: bigint = bindings.ProbabilisticScoringParameters_clone(this.ptr);
 		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -644,14 +644,15 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	 * they will be avoided during path finding.
 	 */
 	public add_banned_from_list(node_ids: NodeId[]): void {
-		bindings.ProbabilisticScoringParameters_add_banned_from_list(this.ptr, bindings.encodeUint32Array(node_ids != null ? node_ids.map(node_ids_conv_8 => node_ids_conv_8 == null ? 0 : CommonBase.get_ptr_of(node_ids_conv_8) & ~1) : null));
+		bindings.ProbabilisticScoringParameters_add_banned_from_list(this.ptr, bindings.encodeUint64Array(node_ids != null ? node_ids.map(node_ids_conv_8 => node_ids_conv_8 == null ? 0n : CommonBase.get_ptr_of(node_ids_conv_8)) : null));
+		node_ids.forEach((node_ids_conv_8: NodeId) => { CommonBase.add_ref_from(this, node_ids_conv_8); });
 	}
 
 	/**
 	 * Creates a "default" ProbabilisticScoringParameters. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static constructor_default(): ProbabilisticScoringParameters {
-		const ret: number = bindings.ProbabilisticScoringParameters_default();
+		const ret: bigint = bindings.ProbabilisticScoringParameters_default();
 		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

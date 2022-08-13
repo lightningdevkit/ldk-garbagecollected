@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_PrivateRouteCreationErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_PrivateRouteCreationErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_PrivateRouteCreationErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_PrivateRouteCreationErrorZ {
 		if (bindings.CResult_PrivateRouteCreationErrorZ_is_ok(ptr)) {
 			return new Result_PrivateRouteCreationErrorZ_OK(null, ptr);
 		} else {
@@ -373,8 +373,9 @@ export class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 * Creates a new CResult_PrivateRouteCreationErrorZ in the success state.
 	 */
 	public static constructor_ok(o: PrivateRoute): Result_PrivateRouteCreationErrorZ {
-		const ret: number = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_PrivateRouteCreationErrorZ = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, o);
 		return ret_hu_conv;
 	}
 
@@ -382,7 +383,7 @@ export class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 * Creates a new CResult_PrivateRouteCreationErrorZ in the error state.
 	 */
 	public static constructor_err(e: CreationError): Result_PrivateRouteCreationErrorZ {
-		const ret: number = bindings.CResult_PrivateRouteCreationErrorZ_err(e);
+		const ret: bigint = bindings.CResult_PrivateRouteCreationErrorZ_err(e);
 		const ret_hu_conv: Result_PrivateRouteCreationErrorZ = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +396,8 @@ export class Result_PrivateRouteCreationErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_PrivateRouteCreationErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_PrivateRouteCreationErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +406,7 @@ export class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_PrivateRouteCreationErrorZ {
-		const ret: number = bindings.CResult_PrivateRouteCreationErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_PrivateRouteCreationErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_PrivateRouteCreationErrorZ = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +416,9 @@ export class Result_PrivateRouteCreationErrorZ_OK extends Result_PrivateRouteCre
 	public res: PrivateRoute;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_PrivateRouteCreationErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_PrivateRouteCreationErrorZ_get_ok(ptr);
 		const res_hu_conv: PrivateRoute = new PrivateRoute(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -427,7 +428,7 @@ export class Result_PrivateRouteCreationErrorZ_Err extends Result_PrivateRouteCr
 	public err: CreationError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.err = bindings.CResult_PrivateRouteCreationErrorZ_get_err(ptr);
 	}

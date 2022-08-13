@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RawInvoice extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RawInvoice_free);
 	}
 
@@ -373,7 +373,7 @@ export class RawInvoice extends CommonBase {
 	 * data part
 	 */
 	public get_data(): RawDataPart {
-		const ret: number = bindings.RawInvoice_get_data(this.ptr);
+		const ret: bigint = bindings.RawInvoice_get_data(this.ptr);
 		const ret_hu_conv: RawDataPart = new RawDataPart(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -383,7 +383,8 @@ export class RawInvoice extends CommonBase {
 	 * data part
 	 */
 	public set_data(val: RawDataPart): void {
-		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RawInvoice_set_data(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -392,13 +393,13 @@ export class RawInvoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: RawInvoice): boolean {
-		const ret: boolean = bindings.RawInvoice_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.RawInvoice_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RawInvoice_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RawInvoice_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -406,7 +407,7 @@ export class RawInvoice extends CommonBase {
 	 * Creates a copy of the RawInvoice
 	 */
 	public clone(): RawInvoice {
-		const ret: number = bindings.RawInvoice_clone(this.ptr);
+		const ret: bigint = bindings.RawInvoice_clone(this.ptr);
 		const ret_hu_conv: RawInvoice = new RawInvoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -425,7 +426,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public payment_hash(): Sha256 {
-		const ret: number = bindings.RawInvoice_payment_hash(this.ptr);
+		const ret: bigint = bindings.RawInvoice_payment_hash(this.ptr);
 		const ret_hu_conv: Sha256 = new Sha256(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -435,7 +436,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public description(): Description {
-		const ret: number = bindings.RawInvoice_description(this.ptr);
+		const ret: bigint = bindings.RawInvoice_description(this.ptr);
 		const ret_hu_conv: Description = new Description(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -445,7 +446,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public payee_pub_key(): PayeePubKey {
-		const ret: number = bindings.RawInvoice_payee_pub_key(this.ptr);
+		const ret: bigint = bindings.RawInvoice_payee_pub_key(this.ptr);
 		const ret_hu_conv: PayeePubKey = new PayeePubKey(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -455,7 +456,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public description_hash(): Sha256 {
-		const ret: number = bindings.RawInvoice_description_hash(this.ptr);
+		const ret: bigint = bindings.RawInvoice_description_hash(this.ptr);
 		const ret_hu_conv: Sha256 = new Sha256(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -465,7 +466,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public expiry_time(): ExpiryTime {
-		const ret: number = bindings.RawInvoice_expiry_time(this.ptr);
+		const ret: bigint = bindings.RawInvoice_expiry_time(this.ptr);
 		const ret_hu_conv: ExpiryTime = new ExpiryTime(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -475,7 +476,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public min_final_cltv_expiry(): MinFinalCltvExpiry {
-		const ret: number = bindings.RawInvoice_min_final_cltv_expiry(this.ptr);
+		const ret: bigint = bindings.RawInvoice_min_final_cltv_expiry(this.ptr);
 		const ret_hu_conv: MinFinalCltvExpiry = new MinFinalCltvExpiry(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -494,7 +495,7 @@ export class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public features(): InvoiceFeatures {
-		const ret: number = bindings.RawInvoice_features(this.ptr);
+		const ret: bigint = bindings.RawInvoice_features(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -505,7 +506,7 @@ export class RawInvoice extends CommonBase {
 		const ret_conv_14_len: number = bindings.getArrayLength(ret);
 		const ret_conv_14_arr: PrivateRoute[] = new Array(ret_conv_14_len).fill(null);
 		for (var o = 0; o < ret_conv_14_len; o++) {
-			const ret_conv_14: number = bindings.getU32ArrayElem(ret, o);
+			const ret_conv_14: bigint = bindings.getU64ArrayElem(ret, o);
 			const ret_conv_14_hu_conv: PrivateRoute = new PrivateRoute(null, ret_conv_14);
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
@@ -515,7 +516,7 @@ export class RawInvoice extends CommonBase {
 	}
 
 	public amount_pico_btc(): Option_u64Z {
-		const ret: number = bindings.RawInvoice_amount_pico_btc(this.ptr);
+		const ret: bigint = bindings.RawInvoice_amount_pico_btc(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

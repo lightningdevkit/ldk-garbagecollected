@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_OutPointScriptZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_OutPointScriptZ_free);
 	}
 
@@ -369,7 +369,7 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 	 * 
 	 */
 	public get_a(): OutPoint {
-		const ret: number = bindings.C2Tuple_OutPointScriptZ_get_a(this.ptr);
+		const ret: bigint = bindings.C2Tuple_OutPointScriptZ_get_a(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -384,8 +384,8 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 		return ret_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_OutPointScriptZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_OutPointScriptZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -394,7 +394,7 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_OutPointScriptZ {
-		const ret: number = bindings.C2Tuple_OutPointScriptZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_OutPointScriptZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_OutPointScriptZ = new TwoTuple_OutPointScriptZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -404,9 +404,10 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 	 * Creates a new C2Tuple_OutPointScriptZ from the contained elements.
 	 */
 	public static constructor_new(a: OutPoint, b: Uint8Array): TwoTuple_OutPointScriptZ {
-		const ret: number = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint8Array(b));
+		const ret: bigint = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0n : CommonBase.get_ptr_of(a), bindings.encodeUint8Array(b));
 		const ret_hu_conv: TwoTuple_OutPointScriptZ = new TwoTuple_OutPointScriptZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 

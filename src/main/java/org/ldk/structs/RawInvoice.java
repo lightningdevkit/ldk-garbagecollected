@@ -40,9 +40,10 @@ public class RawInvoice extends CommonBase {
 	 * data part
 	 */
 	public void set_data(RawDataPart val) {
-		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class RawInvoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(RawInvoice b) {
-		boolean ret = bindings.RawInvoice_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.RawInvoice_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);

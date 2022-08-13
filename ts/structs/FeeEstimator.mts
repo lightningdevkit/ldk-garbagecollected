@@ -388,7 +388,7 @@ export class FeeEstimator extends CommonBase {
 	public bindings_instance?: bindings.LDKFeeEstimator;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.FeeEstimator_free);
 		this.bindings_instance = null;
 	}
@@ -402,7 +402,7 @@ export class FeeEstimator extends CommonBase {
 				return ret;
 			},
 		} as bindings.LDKFeeEstimator;
-		const ptr: number = bindings.LDKFeeEstimator_new(structImplementation);
+		const ptr: bigint = bindings.LDKFeeEstimator_new(structImplementation);
 
 		impl_holder.held = new FeeEstimator(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;

@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Route extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Route_free);
 	}
 
@@ -382,7 +382,7 @@ export class Route extends CommonBase {
 			const ret_conv_12_conv_10_len: number = bindings.getArrayLength(ret_conv_12);
 			const ret_conv_12_conv_10_arr: RouteHop[] = new Array(ret_conv_12_conv_10_len).fill(null);
 			for (var k = 0; k < ret_conv_12_conv_10_len; k++) {
-				const ret_conv_12_conv_10: number = bindings.getU32ArrayElem(ret_conv_12, k);
+				const ret_conv_12_conv_10: bigint = bindings.getU64ArrayElem(ret_conv_12, k);
 				const ret_conv_12_conv_10_hu_conv: RouteHop = new RouteHop(null, ret_conv_12_conv_10);
 				CommonBase.add_ref_from(ret_conv_12_conv_10_hu_conv, this);
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
@@ -402,7 +402,8 @@ export class Route extends CommonBase {
 	 * of any path less or equal to 19 should currently ensure it is viable.
 	 */
 	public set_paths(val: RouteHop[][]): void {
-		bindings.Route_set_paths(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint32Array(val_conv_12 != null ? val_conv_12.map(val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(val_conv_12_conv_10) & ~1) : null)) : null));
+		bindings.Route_set_paths(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint64Array(val_conv_12 != null ? val_conv_12.map(val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0n : CommonBase.get_ptr_of(val_conv_12_conv_10)) : null)) : null));
+		val.forEach((val_conv_12: RouteHop[]) => { val_conv_12.forEach((val_conv_12_conv_10: RouteHop) => { CommonBase.add_ref_from(this, val_conv_12_conv_10); }); });
 	}
 
 	/**
@@ -415,7 +416,7 @@ export class Route extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_payment_params(): PaymentParameters {
-		const ret: number = bindings.Route_get_payment_params(this.ptr);
+		const ret: bigint = bindings.Route_get_payment_params(this.ptr);
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -431,21 +432,24 @@ export class Route extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_payment_params(val: PaymentParameters): void {
-		bindings.Route_set_payment_params(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.Route_set_payment_params(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new Route given each field
 	 */
 	public static constructor_new(paths_arg: RouteHop[][], payment_params_arg: PaymentParameters): Route {
-		const ret: number = bindings.Route_new(bindings.encodeUint32Array(paths_arg != null ? paths_arg.map(paths_arg_conv_12 => bindings.encodeUint32Array(paths_arg_conv_12 != null ? paths_arg_conv_12.map(paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(paths_arg_conv_12_conv_10) & ~1) : null)) : null), payment_params_arg == null ? 0 : CommonBase.get_ptr_of(payment_params_arg) & ~1);
+		const ret: bigint = bindings.Route_new(bindings.encodeUint32Array(paths_arg != null ? paths_arg.map(paths_arg_conv_12 => bindings.encodeUint64Array(paths_arg_conv_12 != null ? paths_arg_conv_12.map(paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0n : CommonBase.get_ptr_of(paths_arg_conv_12_conv_10)) : null)) : null), payment_params_arg == null ? 0n : CommonBase.get_ptr_of(payment_params_arg));
 		const ret_hu_conv: Route = new Route(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		paths_arg.forEach((paths_arg_conv_12: RouteHop[]) => { paths_arg_conv_12.forEach((paths_arg_conv_12_conv_10: RouteHop) => { CommonBase.add_ref_from(ret_hu_conv, paths_arg_conv_12_conv_10); }); });
+		CommonBase.add_ref_from(ret_hu_conv, payment_params_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Route_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Route_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -453,7 +457,7 @@ export class Route extends CommonBase {
 	 * Creates a copy of the Route
 	 */
 	public clone(): Route {
-		const ret: number = bindings.Route_clone(this.ptr);
+		const ret: bigint = bindings.Route_clone(this.ptr);
 		const ret_hu_conv: Route = new Route(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -473,7 +477,7 @@ export class Route extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: Route): boolean {
-		const ret: boolean = bindings.Route_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.Route_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -510,7 +514,7 @@ export class Route extends CommonBase {
 	 * Read a Route from a byte array, created by Route_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteDecodeErrorZ {
-		const ret: number = bindings.Route_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Route_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteDecodeErrorZ = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

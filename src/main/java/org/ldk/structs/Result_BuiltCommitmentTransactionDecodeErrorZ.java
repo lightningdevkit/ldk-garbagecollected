@@ -46,10 +46,11 @@ public class Result_BuiltCommitmentTransactionDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_BuiltCommitmentTransactionDecodeErrorZ in the success state.
 	 */
 	public static Result_BuiltCommitmentTransactionDecodeErrorZ ok(BuiltCommitmentTransaction o) {
-		long ret = bindings.CResult_BuiltCommitmentTransactionDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_BuiltCommitmentTransactionDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_BuiltCommitmentTransactionDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_BuiltCommitmentTransactionDecodeErrorZ in the error state.
 	 */
 	public static Result_BuiltCommitmentTransactionDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_BuiltCommitmentTransactionDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_BuiltCommitmentTransactionDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

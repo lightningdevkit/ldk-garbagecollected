@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class BuiltCommitmentTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.BuiltCommitmentTransaction_free);
 	}
 
@@ -407,14 +407,14 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	 * Constructs a new BuiltCommitmentTransaction given each field
 	 */
 	public static constructor_new(transaction_arg: Uint8Array, txid_arg: Uint8Array): BuiltCommitmentTransaction {
-		const ret: number = bindings.BuiltCommitmentTransaction_new(bindings.encodeUint8Array(transaction_arg), bindings.encodeUint8Array(bindings.check_arr_len(txid_arg, 32)));
+		const ret: bigint = bindings.BuiltCommitmentTransaction_new(bindings.encodeUint8Array(transaction_arg), bindings.encodeUint8Array(bindings.check_arr_len(txid_arg, 32)));
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.BuiltCommitmentTransaction_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.BuiltCommitmentTransaction_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -422,7 +422,7 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	 * Creates a copy of the BuiltCommitmentTransaction
 	 */
 	public clone(): BuiltCommitmentTransaction {
-		const ret: number = bindings.BuiltCommitmentTransaction_clone(this.ptr);
+		const ret: bigint = bindings.BuiltCommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -441,7 +441,7 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	 * Read a BuiltCommitmentTransaction from a byte array, created by BuiltCommitmentTransaction_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_BuiltCommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.BuiltCommitmentTransaction_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.BuiltCommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_BuiltCommitmentTransactionDecodeErrorZ = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

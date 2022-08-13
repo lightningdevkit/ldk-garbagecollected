@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Ping extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Ping_free);
 	}
 
@@ -401,14 +401,14 @@ export class Ping extends CommonBase {
 	 * Constructs a new Ping given each field
 	 */
 	public static constructor_new(ponglen_arg: number, byteslen_arg: number): Ping {
-		const ret: number = bindings.Ping_new(ponglen_arg, byteslen_arg);
+		const ret: bigint = bindings.Ping_new(ponglen_arg, byteslen_arg);
 		const ret_hu_conv: Ping = new Ping(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Ping_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Ping_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -416,7 +416,7 @@ export class Ping extends CommonBase {
 	 * Creates a copy of the Ping
 	 */
 	public clone(): Ping {
-		const ret: number = bindings.Ping_clone(this.ptr);
+		const ret: bigint = bindings.Ping_clone(this.ptr);
 		const ret_hu_conv: Ping = new Ping(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -435,7 +435,7 @@ export class Ping extends CommonBase {
 	 * Read a Ping from a byte array, created by Ping_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_PingDecodeErrorZ {
-		const ret: number = bindings.Ping_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.Ping_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PingDecodeErrorZ = Result_PingDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

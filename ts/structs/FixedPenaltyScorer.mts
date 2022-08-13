@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class FixedPenaltyScorer extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.FixedPenaltyScorer_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.FixedPenaltyScorer_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.FixedPenaltyScorer_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class FixedPenaltyScorer extends CommonBase {
 	 * Creates a copy of the FixedPenaltyScorer
 	 */
 	public clone(): FixedPenaltyScorer {
-		const ret: number = bindings.FixedPenaltyScorer_clone(this.ptr);
+		const ret: bigint = bindings.FixedPenaltyScorer_clone(this.ptr);
 		const ret_hu_conv: FixedPenaltyScorer = new FixedPenaltyScorer(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -384,7 +384,7 @@ export class FixedPenaltyScorer extends CommonBase {
 	 * Creates a new scorer using `penalty_msat`.
 	 */
 	public static constructor_with_penalty(penalty_msat: bigint): FixedPenaltyScorer {
-		const ret: number = bindings.FixedPenaltyScorer_with_penalty(penalty_msat);
+		const ret: bigint = bindings.FixedPenaltyScorer_with_penalty(penalty_msat);
 		const ret_hu_conv: FixedPenaltyScorer = new FixedPenaltyScorer(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class FixedPenaltyScorer extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
 	 */
 	public as_Score(): Score {
-		const ret: number = bindings.FixedPenaltyScorer_as_Score(this.ptr);
+		const ret: bigint = bindings.FixedPenaltyScorer_as_Score(this.ptr);
 		const ret_hu_conv: Score = new Score(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class FixedPenaltyScorer extends CommonBase {
 	 * Read a FixedPenaltyScorer from a byte array, created by FixedPenaltyScorer_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg: bigint): Result_FixedPenaltyScorerDecodeErrorZ {
-		const ret: number = bindings.FixedPenaltyScorer_read(bindings.encodeUint8Array(ser), arg);
+		const ret: bigint = bindings.FixedPenaltyScorer_read(bindings.encodeUint8Array(ser), arg);
 		const ret_hu_conv: Result_FixedPenaltyScorerDecodeErrorZ = Result_FixedPenaltyScorerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

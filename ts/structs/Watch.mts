@@ -425,7 +425,7 @@ export class Watch extends CommonBase {
 	public bindings_instance?: bindings.LDKWatch;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Watch_free);
 		this.bindings_instance = null;
 	}
@@ -434,31 +434,31 @@ export class Watch extends CommonBase {
 	public static new_impl(arg: WatchInterface): Watch {
 		const impl_holder: LDKWatchHolder = new LDKWatchHolder();
 		let structImplementation = {
-			watch_channel (funding_txo: number, monitor: number): number {
+			watch_channel (funding_txo: bigint, monitor: bigint): bigint {
 				const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 				CommonBase.add_ref_from(funding_txo_hu_conv, this);
 				const monitor_hu_conv: ChannelMonitor = new ChannelMonitor(null, monitor);
 				CommonBase.add_ref_from(monitor_hu_conv, this);
 				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			update_channel (funding_txo: number, update: number): number {
+			update_channel (funding_txo: bigint, update: bigint): bigint {
 				const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 				CommonBase.add_ref_from(funding_txo_hu_conv, this);
 				const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
 				CommonBase.add_ref_from(update_hu_conv, this);
 				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			release_pending_monitor_events (): number {
 				const ret: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] = arg.release_pending_monitor_events();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_49 => ret_conv_49 == null ? 0 : ret_conv_49.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_49 => ret_conv_49 == null ? 0n : ret_conv_49.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKWatch;
-		const ptr: number = bindings.LDKWatch_new(structImplementation);
+		const ptr: bigint = bindings.LDKWatch_new(structImplementation);
 
 		impl_holder.held = new Watch(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -480,8 +480,10 @@ export class Watch extends CommonBase {
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
 	public watch_channel(funding_txo: OutPoint, monitor: ChannelMonitor): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, monitor == null ? 0 : CommonBase.get_ptr_of(monitor) & ~1);
+		const ret: bigint = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor == null ? 0n : CommonBase.get_ptr_of(monitor));
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, funding_txo);
+		CommonBase.add_ref_from(this, monitor);
 		return ret_hu_conv;
 	}
 
@@ -494,8 +496,10 @@ export class Watch extends CommonBase {
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 	 */
 	public update_channel(funding_txo: OutPoint, update: ChannelMonitorUpdate): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: number = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, update == null ? 0 : CommonBase.get_ptr_of(update) & ~1);
+		const ret: bigint = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), update == null ? 0n : CommonBase.get_ptr_of(update));
 		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, funding_txo);
+		CommonBase.add_ref_from(this, update);
 		return ret_hu_conv;
 	}
 
@@ -515,7 +519,7 @@ export class Watch extends CommonBase {
 		const ret_conv_49_len: number = bindings.getArrayLength(ret);
 		const ret_conv_49_arr: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] = new Array(ret_conv_49_len).fill(null);
 		for (var x = 0; x < ret_conv_49_len; x++) {
-			const ret_conv_49: number = bindings.getU32ArrayElem(ret, x);
+			const ret_conv_49: bigint = bindings.getU64ArrayElem(ret, x);
 			const ret_conv_49_hu_conv: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret_conv_49);
 			CommonBase.add_ref_from(ret_conv_49_hu_conv, this);
 			ret_conv_49_arr[x] = ret_conv_49_hu_conv;

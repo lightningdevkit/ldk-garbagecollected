@@ -70,7 +70,7 @@ public class Persister extends CommonBase {
 	 * Persist the given ['ChannelManager'] to disk, returning an error if persistence failed.
 	 */
 	public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
-		long ret = bindings.Persister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr & ~1);
+		long ret = bindings.Persister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_manager);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -83,7 +83,7 @@ public class Persister extends CommonBase {
 	 * Persist the given [`NetworkGraph`] to disk, returning an error if persistence failed.
 	 */
 	public Result_NoneErrorZ persist_graph(NetworkGraph network_graph) {
-		long ret = bindings.Persister_persist_graph(this.ptr, network_graph == null ? 0 : network_graph.ptr & ~1);
+		long ret = bindings.Persister_persist_graph(this.ptr, network_graph == null ? 0 : network_graph.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(network_graph);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -96,7 +96,7 @@ public class Persister extends CommonBase {
 	 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
 	 */
 	public Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer) {
-		long ret = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : scorer.ptr & ~1);
+		long ret = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : scorer.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }

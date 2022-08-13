@@ -542,7 +542,7 @@ export class BaseSign extends CommonBase {
 	public bindings_instance?: bindings.LDKBaseSign;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.BaseSign_free);
 		this.bindings_instance = null;
 	}
@@ -561,7 +561,7 @@ export class BaseSign extends CommonBase {
 				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
-			validate_holder_commitment (holder_tx: number, preimages: number): number {
+			validate_holder_commitment (holder_tx: bigint, preimages: number): bigint {
 				const holder_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, holder_tx);
 				const preimages_conv_12_len: number = bindings.getArrayLength(preimages);
 				const preimages_conv_12_arr: Uint8Array[] = new Array(preimages_conv_12_len).fill(null);
@@ -572,7 +572,7 @@ export class BaseSign extends CommonBase {
 				}
 				bindings.freeWasmMemory(preimages)
 				const ret: Result_NoneNoneZ = arg.validate_holder_commitment(holder_tx_hu_conv, preimages_conv_12_arr);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			channel_keys_id (): number {
@@ -580,7 +580,7 @@ export class BaseSign extends CommonBase {
 				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
-			sign_counterparty_commitment (commitment_tx: number, preimages: number): number {
+			sign_counterparty_commitment (commitment_tx: bigint, preimages: number): bigint {
 				const commitment_tx_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, commitment_tx);
 				const preimages_conv_12_len: number = bindings.getArrayLength(preimages);
 				const preimages_conv_12_arr: Uint8Array[] = new Array(preimages_conv_12_len).fill(null);
@@ -591,62 +591,62 @@ export class BaseSign extends CommonBase {
 				}
 				bindings.freeWasmMemory(preimages)
 				const ret: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = arg.sign_counterparty_commitment(commitment_tx_hu_conv, preimages_conv_12_arr);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			validate_counterparty_revocation (idx: bigint, secret: number): number {
+			validate_counterparty_revocation (idx: bigint, secret: number): bigint {
 				const secret_conv: Uint8Array = bindings.decodeUint8Array(secret);
 				const ret: Result_NoneNoneZ = arg.validate_counterparty_revocation(idx, secret_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_holder_commitment_and_htlcs (commitment_tx: number): number {
+			sign_holder_commitment_and_htlcs (commitment_tx: bigint): bigint {
 				const commitment_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, commitment_tx);
 				const ret: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_justice_revoked_output (justice_tx: number, input: number, amount: bigint, per_commitment_key: number): number {
+			sign_justice_revoked_output (justice_tx: number, input: number, amount: bigint, per_commitment_key: number): bigint {
 				const justice_tx_conv: Uint8Array = bindings.decodeUint8Array(justice_tx);
 				const per_commitment_key_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_key);
 				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_output(justice_tx_conv, input, amount, per_commitment_key_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_justice_revoked_htlc (justice_tx: number, input: number, amount: bigint, per_commitment_key: number, htlc: number): number {
+			sign_justice_revoked_htlc (justice_tx: number, input: number, amount: bigint, per_commitment_key: number, htlc: bigint): bigint {
 				const justice_tx_conv: Uint8Array = bindings.decodeUint8Array(justice_tx);
 				const per_commitment_key_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_key);
 				const htlc_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, htlc);
 				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_htlc(justice_tx_conv, input, amount, per_commitment_key_conv, htlc_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_counterparty_htlc_transaction (htlc_tx: number, input: number, amount: bigint, per_commitment_point: number, htlc: number): number {
+			sign_counterparty_htlc_transaction (htlc_tx: number, input: number, amount: bigint, per_commitment_point: number, htlc: bigint): bigint {
 				const htlc_tx_conv: Uint8Array = bindings.decodeUint8Array(htlc_tx);
 				const per_commitment_point_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_point);
 				const htlc_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, htlc);
 				const ret: Result_SignatureNoneZ = arg.sign_counterparty_htlc_transaction(htlc_tx_conv, input, amount, per_commitment_point_conv, htlc_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_closing_transaction (closing_tx: number): number {
+			sign_closing_transaction (closing_tx: bigint): bigint {
 				const closing_tx_hu_conv: ClosingTransaction = new ClosingTransaction(null, closing_tx);
 				const ret: Result_SignatureNoneZ = arg.sign_closing_transaction(closing_tx_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_channel_announcement (msg: number): number {
+			sign_channel_announcement (msg: bigint): bigint {
 				const msg_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, msg);
 				const ret: Result_C2Tuple_SignatureSignatureZNoneZ = arg.sign_channel_announcement(msg_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			ready_channel (channel_parameters: number): void {
+			ready_channel (channel_parameters: bigint): void {
 				const channel_parameters_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, channel_parameters);
 				arg.ready_channel(channel_parameters_hu_conv);
 			},
 		} as bindings.LDKBaseSign;
-		const ptr: number = bindings.LDKBaseSign_new(structImplementation, pubkeys == null ? 0 : pubkeys.clone_ptr());
+		const ptr: bigint = bindings.LDKBaseSign_new(structImplementation, pubkeys == null ? 0n : pubkeys.clone_ptr());
 
 		impl_holder.held = new BaseSign(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -696,7 +696,7 @@ export class BaseSign extends CommonBase {
 	 * irrelevant or duplicate preimages.
 	 */
 	public validate_holder_commitment(holder_tx: HolderCommitmentTransaction, preimages: Uint8Array[]): Result_NoneNoneZ {
-		const ret: number = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : CommonBase.get_ptr_of(holder_tx) & ~1, bindings.encodeUint32Array(preimages != null ? preimages.map(preimages_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(preimages_conv_12, 32))) : null));
+		const ret: bigint = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0n : CommonBase.get_ptr_of(holder_tx), bindings.encodeUint32Array(preimages != null ? preimages.map(preimages_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(preimages_conv_12, 32))) : null));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, holder_tx);
 		return ret_hu_conv;
@@ -729,7 +729,7 @@ export class BaseSign extends CommonBase {
 	 * irrelevant or duplicate preimages.
 	 */
 	public sign_counterparty_commitment(commitment_tx: CommitmentTransaction, preimages: Uint8Array[]): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		const ret: number = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : CommonBase.get_ptr_of(commitment_tx) & ~1, bindings.encodeUint32Array(preimages != null ? preimages.map(preimages_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(preimages_conv_12, 32))) : null));
+		const ret: bigint = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx), bindings.encodeUint32Array(preimages != null ? preimages.map(preimages_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(preimages_conv_12, 32))) : null));
 		const ret_hu_conv: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, commitment_tx);
 		return ret_hu_conv;
@@ -742,7 +742,7 @@ export class BaseSign extends CommonBase {
 	 * forward and it is safe to sign the next counterparty commitment.
 	 */
 	public validate_counterparty_revocation(idx: bigint, secret: Uint8Array): Result_NoneNoneZ {
-		const ret: number = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, bindings.encodeUint8Array(bindings.check_arr_len(secret, 32)));
+		const ret: bigint = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, bindings.encodeUint8Array(bindings.check_arr_len(secret, 32)));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -761,7 +761,7 @@ export class BaseSign extends CommonBase {
 	 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
 	 */
 	public sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		const ret: number = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : CommonBase.get_ptr_of(commitment_tx) & ~1);
+		const ret: bigint = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx));
 		const ret_hu_conv: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, commitment_tx);
 		return ret_hu_conv;
@@ -784,7 +784,7 @@ export class BaseSign extends CommonBase {
 	 * so).
 	 */
 	public sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_justice_revoked_output(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)));
+		const ret: bigint = bindings.BaseSign_sign_justice_revoked_output(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -809,7 +809,7 @@ export class BaseSign extends CommonBase {
 	 * (which is committed to in the BIP 143 signatures).
 	 */
 	public sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
+		const ret: bigint = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)), htlc == null ? 0n : CommonBase.get_ptr_of(htlc));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, htlc);
 		return ret_hu_conv;
@@ -835,7 +835,7 @@ export class BaseSign extends CommonBase {
 	 * BIP 143 signature.
 	 */
 	public sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: bigint, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, bindings.encodeUint8Array(htlc_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
+		const ret: bigint = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, bindings.encodeUint8Array(htlc_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), htlc == null ? 0n : CommonBase.get_ptr_of(htlc));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, htlc);
 		return ret_hu_conv;
@@ -848,7 +848,7 @@ export class BaseSign extends CommonBase {
 	 * chosen to forgo their output as dust.
 	 */
 	public sign_closing_transaction(closing_tx: ClosingTransaction): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : CommonBase.get_ptr_of(closing_tx) & ~1);
+		const ret: bigint = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0n : CommonBase.get_ptr_of(closing_tx));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, closing_tx);
 		return ret_hu_conv;
@@ -866,7 +866,7 @@ export class BaseSign extends CommonBase {
 	 * protocol.
 	 */
 	public sign_channel_announcement(msg: UnsignedChannelAnnouncement): Result_C2Tuple_SignatureSignatureZNoneZ {
-		const ret: number = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_C2Tuple_SignatureSignatureZNoneZ = Result_C2Tuple_SignatureSignatureZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
@@ -885,7 +885,7 @@ export class BaseSign extends CommonBase {
 	 * Will be called before any signatures are applied.
 	 */
 	public ready_channel(channel_parameters: ChannelTransactionParameters): void {
-		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1);
+		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters));
 		CommonBase.add_ref_from(this, channel_parameters);
 	}
 
@@ -894,7 +894,7 @@ export class BaseSign extends CommonBase {
 	 * Does not need to free the outer struct containing function pointers and may be NULL is no resources need to be freed.
 	 */
 	public get_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.BaseSign_get_pubkeys(this.ptr);
+		const ret: bigint = bindings.BaseSign_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An error that may occur when making a payment.
  */
 export class PaymentError extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentError_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.PaymentError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): PaymentError {
+	public static constr_from_ptr(ptr: bigint): PaymentError {
 		const raw_ty: number = bindings.LDKPaymentError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PaymentError_Invoice(ptr);
@@ -372,8 +372,8 @@ export class PaymentError extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PaymentError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PaymentError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -381,7 +381,7 @@ export class PaymentError extends CommonBase {
 	 * Creates a copy of the PaymentError
 	 */
 	public clone(): PaymentError {
-		const ret: number = bindings.PaymentError_clone(this.ptr);
+		const ret: bigint = bindings.PaymentError_clone(this.ptr);
 		const ret_hu_conv: PaymentError = PaymentError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -391,7 +391,7 @@ export class PaymentError extends CommonBase {
 	 * Utility method to constructs a new Invoice-variant PaymentError
 	 */
 	public static constructor_invoice(a: string): PaymentError {
-		const ret: number = bindings.PaymentError_invoice(bindings.encodeString(a));
+		const ret: bigint = bindings.PaymentError_invoice(bindings.encodeString(a));
 		const ret_hu_conv: PaymentError = PaymentError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -401,9 +401,10 @@ export class PaymentError extends CommonBase {
 	 * Utility method to constructs a new Routing-variant PaymentError
 	 */
 	public static constructor_routing(a: LightningError): PaymentError {
-		const ret: number = bindings.PaymentError_routing(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
+		const ret: bigint = bindings.PaymentError_routing(a == null ? 0n : CommonBase.get_ptr_of(a));
 		const ret_hu_conv: PaymentError = PaymentError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -411,7 +412,7 @@ export class PaymentError extends CommonBase {
 	 * Utility method to constructs a new Sending-variant PaymentError
 	 */
 	public static constructor_sending(a: PaymentSendFailure): PaymentError {
-		const ret: number = bindings.PaymentError_sending(CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.PaymentError_sending(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: PaymentError = PaymentError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -422,7 +423,7 @@ export class PaymentError extends CommonBase {
 export class PaymentError_Invoice extends PaymentError {
 	public invoice: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const invoice: number = bindings.LDKPaymentError_Invoice_get_invoice(ptr);
 		const invoice_conv: string = bindings.decodeString(invoice);
@@ -433,9 +434,9 @@ export class PaymentError_Invoice extends PaymentError {
 export class PaymentError_Routing extends PaymentError {
 	public routing: LightningError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const routing: number = bindings.LDKPaymentError_Routing_get_routing(ptr);
+		const routing: bigint = bindings.LDKPaymentError_Routing_get_routing(ptr);
 		const routing_hu_conv: LightningError = new LightningError(null, routing);
 			CommonBase.add_ref_from(routing_hu_conv, this);
 		this.routing = routing_hu_conv;
@@ -445,9 +446,9 @@ export class PaymentError_Routing extends PaymentError {
 export class PaymentError_Sending extends PaymentError {
 	public sending: PaymentSendFailure;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const sending: number = bindings.LDKPaymentError_Sending_get_sending(ptr);
+		const sending: bigint = bindings.LDKPaymentError_Sending_get_sending(ptr);
 		const sending_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(sending);
 			CommonBase.add_ref_from(sending_hu_conv, this);
 		this.sending = sending_hu_conv;

@@ -76,13 +76,15 @@ public class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	 * Creates a new C3Tuple_RawInvoice_u832InvoiceSignatureZ from the contained elements.
 	 */
 	public static ThreeTuple_RawInvoice_u832InvoiceSignatureZ of(RawInvoice a, byte[] b, InvoiceSignature c) {
-		long ret = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a == null ? 0 : a.ptr & ~1, InternalUtils.check_arr_len(b, 32), c == null ? 0 : c.ptr & ~1);
+		long ret = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a == null ? 0 : a.ptr, InternalUtils.check_arr_len(b, 32), c == null ? 0 : c.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);
 		Reference.reachabilityFence(c);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_RawInvoice_u832InvoiceSignatureZ ret_hu_conv = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		ret_hu_conv.ptrs_to.add(c);
 		return ret_hu_conv;
 	}
 

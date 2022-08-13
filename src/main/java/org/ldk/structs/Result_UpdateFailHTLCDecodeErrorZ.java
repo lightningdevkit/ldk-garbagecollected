@@ -46,10 +46,11 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_UpdateFailHTLCDecodeErrorZ in the success state.
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ ok(UpdateFailHTLC o) {
-		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_UpdateFailHTLCDecodeErrorZ in the error state.
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

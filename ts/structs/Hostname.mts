@@ -365,12 +365,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class Hostname extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Hostname_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Hostname_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Hostname_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -378,7 +378,7 @@ export class Hostname extends CommonBase {
 	 * Creates a copy of the Hostname
 	 */
 	public clone(): Hostname {
-		const ret: number = bindings.Hostname_clone(this.ptr);
+		const ret: bigint = bindings.Hostname_clone(this.ptr);
 		const ret_hu_conv: Hostname = new Hostname(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

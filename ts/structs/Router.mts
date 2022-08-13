@@ -379,7 +379,7 @@ export class Router extends CommonBase {
 	public bindings_instance?: bindings.LDKRouter;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Router_free);
 		this.bindings_instance = null;
 	}
@@ -388,14 +388,14 @@ export class Router extends CommonBase {
 	public static new_impl(arg: RouterInterface): Router {
 		const impl_holder: LDKRouterHolder = new LDKRouterHolder();
 		let structImplementation = {
-			find_route (payer: number, route_params: number, payment_hash: number, first_hops: number, scorer: number): number {
+			find_route (payer: number, route_params: bigint, payment_hash: number, first_hops: number, scorer: bigint): bigint {
 				const payer_conv: Uint8Array = bindings.decodeUint8Array(payer);
 				const route_params_hu_conv: RouteParameters = new RouteParameters(null, route_params);
 				const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
 				const first_hops_conv_16_len: number = bindings.getArrayLength(first_hops);
 				const first_hops_conv_16_arr: ChannelDetails[] = new Array(first_hops_conv_16_len).fill(null);
 				for (var q = 0; q < first_hops_conv_16_len; q++) {
-					const first_hops_conv_16: number = bindings.getU32ArrayElem(first_hops, q);
+					const first_hops_conv_16: bigint = bindings.getU64ArrayElem(first_hops, q);
 					const first_hops_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, first_hops_conv_16);
 					CommonBase.add_ref_from(first_hops_conv_16_hu_conv, this);
 					first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
@@ -404,11 +404,11 @@ export class Router extends CommonBase {
 				const ret_hu_conv: Score = new Score(null, scorer);
 				CommonBase.add_ref_from(ret_hu_conv, this);
 				const ret: Result_RouteLightningErrorZ = arg.find_route(payer_conv, route_params_hu_conv, payment_hash_conv, first_hops_conv_16_arr, ret_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKRouter;
-		const ptr: number = bindings.LDKRouter_new(structImplementation);
+		const ptr: bigint = bindings.LDKRouter_new(structImplementation);
 
 		impl_holder.held = new Router(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -421,7 +421,7 @@ export class Router extends CommonBase {
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public find_route(payer: Uint8Array, route_params: RouteParameters, payment_hash: Uint8Array, first_hops: ChannelDetails[], scorer: Score): Result_RouteLightningErrorZ {
-		const ret: number = bindings.Router_find_route(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payer, 33)), route_params == null ? 0 : CommonBase.get_ptr_of(route_params) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0 : CommonBase.get_ptr_of(first_hops_conv_16) & ~1) : null), scorer == null ? 0 : CommonBase.get_ptr_of(scorer));
+		const ret: bigint = bindings.Router_find_route(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payer, 33)), route_params == null ? 0n : CommonBase.get_ptr_of(route_params), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint64Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0n : CommonBase.get_ptr_of(first_hops_conv_16)) : null), scorer == null ? 0n : CommonBase.get_ptr_of(scorer));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route_params);
 		first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(this, first_hops_conv_16); });

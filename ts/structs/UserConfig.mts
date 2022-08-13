@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UserConfig extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UserConfig_free);
 	}
 
@@ -372,7 +372,7 @@ export class UserConfig extends CommonBase {
 	 * Channel handshake config that we propose to our counterparty.
 	 */
 	public get_channel_handshake_config(): ChannelHandshakeConfig {
-		const ret: number = bindings.UserConfig_get_channel_handshake_config(this.ptr);
+		const ret: bigint = bindings.UserConfig_get_channel_handshake_config(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -382,14 +382,15 @@ export class UserConfig extends CommonBase {
 	 * Channel handshake config that we propose to our counterparty.
 	 */
 	public set_channel_handshake_config(val: ChannelHandshakeConfig): void {
-		bindings.UserConfig_set_channel_handshake_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.UserConfig_set_channel_handshake_config(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
 	public get_channel_handshake_limits(): ChannelHandshakeLimits {
-		const ret: number = bindings.UserConfig_get_channel_handshake_limits(this.ptr);
+		const ret: bigint = bindings.UserConfig_get_channel_handshake_limits(this.ptr);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -399,14 +400,15 @@ export class UserConfig extends CommonBase {
 	 * Limits applied to our counterparty's proposed channel handshake config settings.
 	 */
 	public set_channel_handshake_limits(val: ChannelHandshakeLimits): void {
-		bindings.UserConfig_set_channel_handshake_limits(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.UserConfig_set_channel_handshake_limits(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Channel config which affects behavior during channel lifetime.
 	 */
 	public get_channel_config(): ChannelConfig {
-		const ret: number = bindings.UserConfig_get_channel_config(this.ptr);
+		const ret: bigint = bindings.UserConfig_get_channel_config(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -416,7 +418,8 @@ export class UserConfig extends CommonBase {
 	 * Channel config which affects behavior during channel lifetime.
 	 */
 	public set_channel_config(val: ChannelConfig): void {
-		bindings.UserConfig_set_channel_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.UserConfig_set_channel_config(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -524,14 +527,17 @@ export class UserConfig extends CommonBase {
 	 * Constructs a new UserConfig given each field
 	 */
 	public static constructor_new(channel_handshake_config_arg: ChannelHandshakeConfig, channel_handshake_limits_arg: ChannelHandshakeLimits, channel_config_arg: ChannelConfig, accept_forwards_to_priv_channels_arg: boolean, accept_inbound_channels_arg: boolean, manually_accept_inbound_channels_arg: boolean): UserConfig {
-		const ret: number = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0 : CommonBase.get_ptr_of(channel_handshake_config_arg) & ~1, channel_handshake_limits_arg == null ? 0 : CommonBase.get_ptr_of(channel_handshake_limits_arg) & ~1, channel_config_arg == null ? 0 : CommonBase.get_ptr_of(channel_config_arg) & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
+		const ret: bigint = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0n : CommonBase.get_ptr_of(channel_handshake_config_arg), channel_handshake_limits_arg == null ? 0n : CommonBase.get_ptr_of(channel_handshake_limits_arg), channel_config_arg == null ? 0n : CommonBase.get_ptr_of(channel_config_arg), accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, channel_handshake_config_arg);
+		CommonBase.add_ref_from(ret_hu_conv, channel_handshake_limits_arg);
+		CommonBase.add_ref_from(ret_hu_conv, channel_config_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UserConfig_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UserConfig_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -539,7 +545,7 @@ export class UserConfig extends CommonBase {
 	 * Creates a copy of the UserConfig
 	 */
 	public clone(): UserConfig {
-		const ret: number = bindings.UserConfig_clone(this.ptr);
+		const ret: bigint = bindings.UserConfig_clone(this.ptr);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -549,7 +555,7 @@ export class UserConfig extends CommonBase {
 	 * Creates a "default" UserConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static constructor_default(): UserConfig {
-		const ret: number = bindings.UserConfig_default();
+		const ret: bigint = bindings.UserConfig_default();
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

@@ -371,7 +371,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelHandshakeLimits extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelHandshakeLimits_free);
 	}
 
@@ -635,14 +635,14 @@ export class ChannelHandshakeLimits extends CommonBase {
 	 * Constructs a new ChannelHandshakeLimits given each field
 	 */
 	public static constructor_new(min_funding_satoshis_arg: bigint, max_funding_satoshis_arg: bigint, max_htlc_minimum_msat_arg: bigint, min_max_htlc_value_in_flight_msat_arg: bigint, max_channel_reserve_satoshis_arg: bigint, min_max_accepted_htlcs_arg: number, max_minimum_depth_arg: number, trust_own_funding_0conf_arg: boolean, force_announced_channel_preference_arg: boolean, their_to_self_delay_arg: number): ChannelHandshakeLimits {
-		const ret: number = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, trust_own_funding_0conf_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
+		const ret: bigint = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, trust_own_funding_0conf_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelHandshakeLimits_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeLimits_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -650,7 +650,7 @@ export class ChannelHandshakeLimits extends CommonBase {
 	 * Creates a copy of the ChannelHandshakeLimits
 	 */
 	public clone(): ChannelHandshakeLimits {
-		const ret: number = bindings.ChannelHandshakeLimits_clone(this.ptr);
+		const ret: bigint = bindings.ChannelHandshakeLimits_clone(this.ptr);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -660,7 +660,7 @@ export class ChannelHandshakeLimits extends CommonBase {
 	 * Creates a "default" ChannelHandshakeLimits. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static constructor_default(): ChannelHandshakeLimits {
-		const ret: number = bindings.ChannelHandshakeLimits_default();
+		const ret: bigint = bindings.ChannelHandshakeLimits_default();
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

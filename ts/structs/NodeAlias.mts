@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class NodeAlias extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NodeAlias_free);
 	}
 
@@ -382,14 +382,14 @@ export class NodeAlias extends CommonBase {
 	 * Constructs a new NodeAlias given each field
 	 */
 	public static constructor_new(a_arg: Uint8Array): NodeAlias {
-		const ret: number = bindings.NodeAlias_new(bindings.encodeUint8Array(bindings.check_arr_len(a_arg, 32)));
+		const ret: bigint = bindings.NodeAlias_new(bindings.encodeUint8Array(bindings.check_arr_len(a_arg, 32)));
 		const ret_hu_conv: NodeAlias = new NodeAlias(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NodeAlias_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NodeAlias_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -397,7 +397,7 @@ export class NodeAlias extends CommonBase {
 	 * Creates a copy of the NodeAlias
 	 */
 	public clone(): NodeAlias {
-		const ret: number = bindings.NodeAlias_clone(this.ptr);
+		const ret: bigint = bindings.NodeAlias_clone(this.ptr);
 		const ret_hu_conv: NodeAlias = new NodeAlias(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -416,7 +416,7 @@ export class NodeAlias extends CommonBase {
 	 * Read a NodeAlias from a byte array, created by NodeAlias_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeAliasDecodeErrorZ {
-		const ret: number = bindings.NodeAlias_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NodeAlias_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeAliasDecodeErrorZ = Result_NodeAliasDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -150,11 +150,12 @@ public class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new DisconnectPeer-variant ErrorAction
 	 */
 	public static ErrorAction disconnect_peer(ErrorMessage msg) {
-		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -196,11 +197,12 @@ public class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new SendErrorMessage-variant ErrorAction
 	 */
 	public static ErrorAction send_error_message(ErrorMessage msg) {
-		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -208,12 +210,13 @@ public class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new SendWarningMessage-variant ErrorAction
 	 */
 	public static ErrorAction send_warning_message(WarningMessage msg, org.ldk.enums.Level log_level) {
-		long ret = bindings.ErrorAction_send_warning_message(msg == null ? 0 : msg.ptr & ~1, log_level);
+		long ret = bindings.ErrorAction_send_warning_message(msg == null ? 0 : msg.ptr, log_level);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(log_level);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

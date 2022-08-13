@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UnsignedNodeAnnouncement extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UnsignedNodeAnnouncement_free);
 	}
 
@@ -369,7 +369,7 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 	 * The advertised features
 	 */
 	public get_features(): NodeFeatures {
-		const ret: number = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
+		const ret: bigint = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 	 * The advertised features
 	 */
 	public set_features(val: NodeFeatures): void {
-		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -459,7 +460,7 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
 		const ret_conv_12_arr: NetAddress[] = new Array(ret_conv_12_len).fill(null);
 		for (var m = 0; m < ret_conv_12_len; m++) {
-			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12: bigint = bindings.getU64ArrayElem(ret, m);
 			const ret_conv_12_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret_conv_12);
 			CommonBase.add_ref_from(ret_conv_12_hu_conv, this);
 			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
@@ -472,11 +473,11 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 	 * List of addresses on which this node is reachable
 	 */
 	public set_addresses(val: NetAddress[]): void {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UnsignedNodeAnnouncement_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UnsignedNodeAnnouncement_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -484,7 +485,7 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 	 * Creates a copy of the UnsignedNodeAnnouncement
 	 */
 	public clone(): UnsignedNodeAnnouncement {
-		const ret: number = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
+		const ret: bigint = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
 		const ret_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -503,7 +504,7 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 	 * Read a UnsignedNodeAnnouncement from a byte array, created by UnsignedNodeAnnouncement_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UnsignedNodeAnnouncementDecodeErrorZ {
-		const ret: number = bindings.UnsignedNodeAnnouncement_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UnsignedNodeAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedNodeAnnouncementDecodeErrorZ = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

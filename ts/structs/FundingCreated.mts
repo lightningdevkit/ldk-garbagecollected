@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class FundingCreated extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.FundingCreated_free);
 	}
 
@@ -432,14 +432,14 @@ export class FundingCreated extends CommonBase {
 	 * Constructs a new FundingCreated given each field
 	 */
 	public static constructor_new(temporary_channel_id_arg: Uint8Array, funding_txid_arg: Uint8Array, funding_output_index_arg: number, signature_arg: Uint8Array): FundingCreated {
-		const ret: number = bindings.FundingCreated_new(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_txid_arg, 32)), funding_output_index_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)));
+		const ret: bigint = bindings.FundingCreated_new(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_txid_arg, 32)), funding_output_index_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)));
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.FundingCreated_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.FundingCreated_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -447,7 +447,7 @@ export class FundingCreated extends CommonBase {
 	 * Creates a copy of the FundingCreated
 	 */
 	public clone(): FundingCreated {
-		const ret: number = bindings.FundingCreated_clone(this.ptr);
+		const ret: bigint = bindings.FundingCreated_clone(this.ptr);
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -466,7 +466,7 @@ export class FundingCreated extends CommonBase {
 	 * Read a FundingCreated from a byte array, created by FundingCreated_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_FundingCreatedDecodeErrorZ {
-		const ret: number = bindings.FundingCreated_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.FundingCreated_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingCreatedDecodeErrorZ = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

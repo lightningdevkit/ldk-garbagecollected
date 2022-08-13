@@ -392,7 +392,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelManagerReadArgs extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelManagerReadArgs_free);
 	}
 
@@ -402,7 +402,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * signing data.
 	 */
 	public get_keys_manager(): KeysInterface {
-		const ret: number = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
 		const ret_hu_conv: KeysInterface = new KeysInterface(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * signing data.
 	 */
 	public set_keys_manager(val: KeysInterface): void {
-		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -424,7 +424,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
 	public get_fee_estimator(): FeeEstimator {
-		const ret: number = bindings.ChannelManagerReadArgs_get_fee_estimator(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_fee_estimator(this.ptr);
 		const ret_hu_conv: FeeEstimator = new FeeEstimator(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -436,7 +436,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
 	public set_fee_estimator(val: FeeEstimator): void {
-		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -448,7 +448,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
 	public get_chain_monitor(): Watch {
-		const ret: number = bindings.ChannelManagerReadArgs_get_chain_monitor(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_chain_monitor(this.ptr);
 		const ret_hu_conv: Watch = new Watch(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -462,7 +462,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
 	public set_chain_monitor(val: Watch): void {
-		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -472,7 +472,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * force-closed during deserialization.
 	 */
 	public get_tx_broadcaster(): BroadcasterInterface {
-		const ret: number = bindings.ChannelManagerReadArgs_get_tx_broadcaster(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_tx_broadcaster(this.ptr);
 		const ret_hu_conv: BroadcasterInterface = new BroadcasterInterface(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -484,7 +484,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * force-closed during deserialization.
 	 */
 	public set_tx_broadcaster(val: BroadcasterInterface): void {
-		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -493,7 +493,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization.
 	 */
 	public get_logger(): Logger {
-		const ret: number = bindings.ChannelManagerReadArgs_get_logger(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_logger(this.ptr);
 		const ret_hu_conv: Logger = new Logger(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -504,7 +504,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization.
 	 */
 	public set_logger(val: Logger): void {
-		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -513,7 +513,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
 	public get_default_config(): UserConfig {
-		const ret: number = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
+		const ret: bigint = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -524,7 +524,8 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
 	public set_default_config(val: UserConfig): void {
-		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -533,7 +534,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * populate a HashMap directly from C.
 	 */
 	public static constructor_new(keys_manager: KeysInterface, fee_estimator: FeeEstimator, chain_monitor: Watch, tx_broadcaster: BroadcasterInterface, logger: Logger, default_config: UserConfig, channel_monitors: ChannelMonitor[]): ChannelManagerReadArgs {
-		const ret: number = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), chain_monitor == null ? 0 : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(tx_broadcaster), logger == null ? 0 : CommonBase.get_ptr_of(logger), default_config == null ? 0 : CommonBase.get_ptr_of(default_config) & ~1, bindings.encodeUint32Array(channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(channel_monitors_conv_16) & ~1) : null));
+		const ret: bigint = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), chain_monitor == null ? 0n : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0n : CommonBase.get_ptr_of(tx_broadcaster), logger == null ? 0n : CommonBase.get_ptr_of(logger), default_config == null ? 0n : CommonBase.get_ptr_of(default_config), bindings.encodeUint64Array(channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0n : CommonBase.get_ptr_of(channel_monitors_conv_16)) : null));
 		const ret_hu_conv: ChannelManagerReadArgs = new ChannelManagerReadArgs(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
@@ -541,6 +542,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 		CommonBase.add_ref_from(ret_hu_conv, chain_monitor);
 		CommonBase.add_ref_from(ret_hu_conv, tx_broadcaster);
 		CommonBase.add_ref_from(ret_hu_conv, logger);
+		CommonBase.add_ref_from(ret_hu_conv, default_config);
 		channel_monitors.forEach((channel_monitors_conv_16: ChannelMonitor) => { CommonBase.add_ref_from(ret_hu_conv, channel_monitors_conv_16); });
 		return ret_hu_conv;
 	}

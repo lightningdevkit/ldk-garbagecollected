@@ -115,11 +115,12 @@ public class NetworkUpdate extends CommonBase {
 	 * Utility method to constructs a new ChannelUpdateMessage-variant NetworkUpdate
 	 */
 	public static NetworkUpdate channel_update_message(ChannelUpdate msg) {
-		long ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkUpdate ret_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

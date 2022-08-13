@@ -36,9 +36,10 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * The advertised channel features
 	 */
 	public void set_features(ChannelFeatures val) {
-		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**

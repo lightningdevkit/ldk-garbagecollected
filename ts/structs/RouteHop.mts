@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RouteHop extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RouteHop_free);
 	}
 
@@ -386,7 +386,7 @@ export class RouteHop extends CommonBase {
 	 * amended to match the features present in the invoice this node generated.
 	 */
 	public get_node_features(): NodeFeatures {
-		const ret: number = bindings.RouteHop_get_node_features(this.ptr);
+		const ret: bigint = bindings.RouteHop_get_node_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -397,7 +397,8 @@ export class RouteHop extends CommonBase {
 	 * amended to match the features present in the invoice this node generated.
 	 */
 	public set_node_features(val: NodeFeatures): void {
-		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -420,7 +421,7 @@ export class RouteHop extends CommonBase {
 	 * to reach this node.
 	 */
 	public get_channel_features(): ChannelFeatures {
-		const ret: number = bindings.RouteHop_get_channel_features(this.ptr);
+		const ret: bigint = bindings.RouteHop_get_channel_features(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -431,7 +432,8 @@ export class RouteHop extends CommonBase {
 	 * to reach this node.
 	 */
 	public set_channel_features(val: ChannelFeatures): void {
-		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -474,14 +476,16 @@ export class RouteHop extends CommonBase {
 	 * Constructs a new RouteHop given each field
 	 */
 	public static constructor_new(pubkey_arg: Uint8Array, node_features_arg: NodeFeatures, short_channel_id_arg: bigint, channel_features_arg: ChannelFeatures, fee_msat_arg: bigint, cltv_expiry_delta_arg: number): RouteHop {
-		const ret: number = bindings.RouteHop_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), node_features_arg == null ? 0 : CommonBase.get_ptr_of(node_features_arg) & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : CommonBase.get_ptr_of(channel_features_arg) & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+		const ret: bigint = bindings.RouteHop_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), node_features_arg == null ? 0n : CommonBase.get_ptr_of(node_features_arg), short_channel_id_arg, channel_features_arg == null ? 0n : CommonBase.get_ptr_of(channel_features_arg), fee_msat_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, node_features_arg);
+		CommonBase.add_ref_from(ret_hu_conv, channel_features_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RouteHop_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RouteHop_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -489,7 +493,7 @@ export class RouteHop extends CommonBase {
 	 * Creates a copy of the RouteHop
 	 */
 	public clone(): RouteHop {
-		const ret: number = bindings.RouteHop_clone(this.ptr);
+		const ret: bigint = bindings.RouteHop_clone(this.ptr);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -509,7 +513,7 @@ export class RouteHop extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: RouteHop): boolean {
-		const ret: boolean = bindings.RouteHop_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.RouteHop_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -527,7 +531,7 @@ export class RouteHop extends CommonBase {
 	 * Read a RouteHop from a byte array, created by RouteHop_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteHopDecodeErrorZ {
-		const ret: number = bindings.RouteHop_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.RouteHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHopDecodeErrorZ = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

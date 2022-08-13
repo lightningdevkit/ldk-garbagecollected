@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class NodeAnnouncementInfo extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NodeAnnouncementInfo_free);
 	}
 
@@ -369,7 +369,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Protocol features the node announced support for
 	 */
 	public get_features(): NodeFeatures {
-		const ret: number = bindings.NodeAnnouncementInfo_get_features(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncementInfo_get_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Protocol features the node announced support for
 	 */
 	public set_features(val: NodeFeatures): void {
-		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -421,7 +422,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * should not be exposed to the user.
 	 */
 	public get_alias(): NodeAlias {
-		const ret: number = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
 		const ret_hu_conv: NodeAlias = new NodeAlias(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -433,7 +434,8 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * should not be exposed to the user.
 	 */
 	public set_alias(val: NodeAlias): void {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -446,7 +448,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
 		const ret_conv_12_arr: NetAddress[] = new Array(ret_conv_12_len).fill(null);
 		for (var m = 0; m < ret_conv_12_len; m++) {
-			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12: bigint = bindings.getU64ArrayElem(ret, m);
 			const ret_conv_12_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret_conv_12);
 			CommonBase.add_ref_from(ret_conv_12_hu_conv, this);
 			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
@@ -459,7 +461,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Internet-level addresses via which one can connect to the node
 	 */
 	public set_addresses(val: NetAddress[]): void {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
 	}
 
 	/**
@@ -471,7 +473,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_announcement_message(): NodeAnnouncement {
-		const ret: number = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -486,21 +488,25 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_announcement_message(val: NodeAnnouncement): void {
-		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
 	public static constructor_new(features_arg: NodeFeatures, last_update_arg: number, rgb_arg: Uint8Array, alias_arg: NodeAlias, addresses_arg: NetAddress[], announcement_message_arg: NodeAnnouncement): NodeAnnouncementInfo {
-		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), alias_arg == null ? 0 : CommonBase.get_ptr_of(alias_arg) & ~1, bindings.encodeUint32Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
+		const ret: bigint = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0n : CommonBase.get_ptr_of(features_arg), last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), alias_arg == null ? 0n : CommonBase.get_ptr_of(alias_arg), bindings.encodeUint64Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0n : CommonBase.get_ptr_of(announcement_message_arg));
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, features_arg);
+		CommonBase.add_ref_from(ret_hu_conv, alias_arg);
+		CommonBase.add_ref_from(ret_hu_conv, announcement_message_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NodeAnnouncementInfo_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NodeAnnouncementInfo_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -508,7 +514,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Creates a copy of the NodeAnnouncementInfo
 	 */
 	public clone(): NodeAnnouncementInfo {
-		const ret: number = bindings.NodeAnnouncementInfo_clone(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncementInfo_clone(this.ptr);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -527,7 +533,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	 * Read a NodeAnnouncementInfo from a byte array, created by NodeAnnouncementInfo_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeAnnouncementInfoDecodeErrorZ {
-		const ret: number = bindings.NodeAnnouncementInfo_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NodeAnnouncementInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeAnnouncementInfoDecodeErrorZ = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_free);
 	}
 
@@ -369,7 +369,7 @@ export class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	 * 
 	 */
 	public get_a(): RawInvoice {
-		const ret: number = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(this.ptr);
+		const ret: bigint = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(this.ptr);
 		const ret_hu_conv: RawInvoice = new RawInvoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -388,14 +388,14 @@ export class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	 * 
 	 */
 	public get_c(): InvoiceSignature {
-		const ret: number = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(this.ptr);
+		const ret: bigint = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(this.ptr);
 		const ret_hu_conv: InvoiceSignature = new InvoiceSignature(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -404,7 +404,7 @@ export class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): ThreeTuple_RawInvoice_u832InvoiceSignatureZ {
-		const ret: number = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(this.ptr);
+		const ret: bigint = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(this.ptr);
 		const ret_hu_conv: ThreeTuple_RawInvoice_u832InvoiceSignatureZ = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -414,9 +414,11 @@ export class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	 * Creates a new C3Tuple_RawInvoice_u832InvoiceSignatureZ from the contained elements.
 	 */
 	public static constructor_new(a: RawInvoice, b: Uint8Array, c: InvoiceSignature): ThreeTuple_RawInvoice_u832InvoiceSignatureZ {
-		const ret: number = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(b, 32)), c == null ? 0 : CommonBase.get_ptr_of(c) & ~1);
+		const ret: bigint = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a == null ? 0n : CommonBase.get_ptr_of(a), bindings.encodeUint8Array(bindings.check_arr_len(b, 32)), c == null ? 0n : CommonBase.get_ptr_of(c));
 		const ret_hu_conv: ThreeTuple_RawInvoice_u832InvoiceSignatureZ = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
+		CommonBase.add_ref_from(ret_hu_conv, c);
 		return ret_hu_conv;
 	}
 

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UpdateFee extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UpdateFee_free);
 	}
 
@@ -400,14 +400,14 @@ export class UpdateFee extends CommonBase {
 	 * Constructs a new UpdateFee given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, feerate_per_kw_arg: number): UpdateFee {
-		const ret: number = bindings.UpdateFee_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), feerate_per_kw_arg);
+		const ret: bigint = bindings.UpdateFee_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), feerate_per_kw_arg);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UpdateFee_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UpdateFee_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -415,7 +415,7 @@ export class UpdateFee extends CommonBase {
 	 * Creates a copy of the UpdateFee
 	 */
 	public clone(): UpdateFee {
-		const ret: number = bindings.UpdateFee_clone(this.ptr);
+		const ret: bigint = bindings.UpdateFee_clone(this.ptr);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -434,7 +434,7 @@ export class UpdateFee extends CommonBase {
 	 * Read a UpdateFee from a byte array, created by UpdateFee_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFeeDecodeErrorZ {
-		const ret: number = bindings.UpdateFee_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UpdateFee_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFeeDecodeErrorZ = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UnsignedChannelAnnouncement extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UnsignedChannelAnnouncement_free);
 	}
 
@@ -369,7 +369,7 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	 * The advertised channel features
 	 */
 	public get_features(): ChannelFeatures {
-		const ret: number = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
+		const ret: bigint = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	 * The advertised channel features
 	 */
 	public set_features(val: ChannelFeatures): void {
-		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -477,8 +478,8 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -486,7 +487,7 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	 * Creates a copy of the UnsignedChannelAnnouncement
 	 */
 	public clone(): UnsignedChannelAnnouncement {
-		const ret: number = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
+		const ret: bigint = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
 		const ret_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -505,7 +506,7 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	 * Read a UnsignedChannelAnnouncement from a byte array, created by UnsignedChannelAnnouncement_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UnsignedChannelAnnouncementDecodeErrorZ {
-		const ret: number = bindings.UnsignedChannelAnnouncement_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UnsignedChannelAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedChannelAnnouncementDecodeErrorZ = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

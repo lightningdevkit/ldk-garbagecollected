@@ -109,7 +109,7 @@ public class ShutdownScript extends CommonBase {
 	public byte[] into_inner() {
 		byte[] ret = bindings.ShutdownScript_into_inner(this.ptr);
 		Reference.reachabilityFence(this);
-		;
+		this.ptrs_to.add(this);
 		return ret;
 	}
 
@@ -131,7 +131,7 @@ public class ShutdownScript extends CommonBase {
 	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit`.
 	 */
 	public boolean is_compatible(InitFeatures features) {
-		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : features.ptr & ~1);
+		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : features.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(features);
 		this.ptrs_to.add(features);

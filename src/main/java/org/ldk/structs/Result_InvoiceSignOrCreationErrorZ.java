@@ -46,10 +46,11 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 	 * Creates a new CResult_InvoiceSignOrCreationErrorZ in the success state.
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ ok(Invoice o) {
-		long ret = bindings.CResult_InvoiceSignOrCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_InvoiceSignOrCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

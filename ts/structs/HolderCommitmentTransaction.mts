@@ -363,7 +363,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class HolderCommitmentTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.HolderCommitmentTransaction_free);
 	}
 
@@ -408,8 +408,8 @@ export class HolderCommitmentTransaction extends CommonBase {
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(val_conv_12, 64))) : null));
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.HolderCommitmentTransaction_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.HolderCommitmentTransaction_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -417,7 +417,7 @@ export class HolderCommitmentTransaction extends CommonBase {
 	 * Creates a copy of the HolderCommitmentTransaction
 	 */
 	public clone(): HolderCommitmentTransaction {
-		const ret: number = bindings.HolderCommitmentTransaction_clone(this.ptr);
+		const ret: bigint = bindings.HolderCommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -436,7 +436,7 @@ export class HolderCommitmentTransaction extends CommonBase {
 	 * Read a HolderCommitmentTransaction from a byte array, created by HolderCommitmentTransaction_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_HolderCommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.HolderCommitmentTransaction_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.HolderCommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_HolderCommitmentTransactionDecodeErrorZ = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -446,9 +446,10 @@ export class HolderCommitmentTransaction extends CommonBase {
 	 * The funding keys are used to figure out which signature should go first when building the transaction for broadcast.
 	 */
 	public static constructor_new(commitment_tx: CommitmentTransaction, counterparty_sig: Uint8Array, counterparty_htlc_sigs: Uint8Array[], holder_funding_key: Uint8Array, counterparty_funding_key: Uint8Array): HolderCommitmentTransaction {
-		const ret: number = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : CommonBase.get_ptr_of(commitment_tx) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(counterparty_sig, 64)), bindings.encodeUint32Array(counterparty_htlc_sigs != null ? counterparty_htlc_sigs.map(counterparty_htlc_sigs_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(counterparty_htlc_sigs_conv_12, 64))) : null), bindings.encodeUint8Array(bindings.check_arr_len(holder_funding_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_funding_key, 33)));
+		const ret: bigint = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_sig, 64)), bindings.encodeUint32Array(counterparty_htlc_sigs != null ? counterparty_htlc_sigs.map(counterparty_htlc_sigs_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(counterparty_htlc_sigs_conv_12, 64))) : null), bindings.encodeUint8Array(bindings.check_arr_len(holder_funding_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_funding_key, 33)));
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, commitment_tx);
 		return ret_hu_conv;
 	}
 

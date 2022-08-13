@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ErroringMessageHandler extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ErroringMessageHandler_free);
 	}
 
@@ -370,7 +370,7 @@ export class ErroringMessageHandler extends CommonBase {
 	 * Constructs a new ErroringMessageHandler
 	 */
 	public static constructor_new(): ErroringMessageHandler {
-		const ret: number = bindings.ErroringMessageHandler_new();
+		const ret: bigint = bindings.ErroringMessageHandler_new();
 		const ret_hu_conv: ErroringMessageHandler = new ErroringMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -381,7 +381,7 @@ export class ErroringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
 	public as_MessageSendEventsProvider(): MessageSendEventsProvider {
-		const ret: number = bindings.ErroringMessageHandler_as_MessageSendEventsProvider(this.ptr);
+		const ret: bigint = bindings.ErroringMessageHandler_as_MessageSendEventsProvider(this.ptr);
 		const ret_hu_conv: MessageSendEventsProvider = new MessageSendEventsProvider(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -392,7 +392,7 @@ export class ErroringMessageHandler extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned ChannelMessageHandler must be freed before this_arg is
 	 */
 	public as_ChannelMessageHandler(): ChannelMessageHandler {
-		const ret: number = bindings.ErroringMessageHandler_as_ChannelMessageHandler(this.ptr);
+		const ret: bigint = bindings.ErroringMessageHandler_as_ChannelMessageHandler(this.ptr);
 		const ret_hu_conv: ChannelMessageHandler = new ChannelMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

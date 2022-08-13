@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class InvoicePayer extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.InvoicePayer_free);
 	}
 
@@ -376,7 +376,7 @@ export class InvoicePayer extends CommonBase {
 	 * `retry` has been exceeded for a given [`Invoice`].
 	 */
 	public static constructor_new(payer: Payer, router: Router, scorer: MultiThreadedLockableScore, logger: Logger, event_handler: EventHandler, retry: Retry): InvoicePayer {
-		const ret: number = bindings.InvoicePayer_new(payer == null ? 0 : CommonBase.get_ptr_of(payer), router == null ? 0 : CommonBase.get_ptr_of(router), scorer == null ? 0 : CommonBase.get_ptr_of(scorer) & ~1, logger == null ? 0 : CommonBase.get_ptr_of(logger), event_handler == null ? 0 : CommonBase.get_ptr_of(event_handler), CommonBase.get_ptr_of(retry));
+		const ret: bigint = bindings.InvoicePayer_new(payer == null ? 0n : CommonBase.get_ptr_of(payer), router == null ? 0n : CommonBase.get_ptr_of(router), scorer == null ? 0n : CommonBase.get_ptr_of(scorer), logger == null ? 0n : CommonBase.get_ptr_of(logger), event_handler == null ? 0n : CommonBase.get_ptr_of(event_handler), CommonBase.get_ptr_of(retry));
 		const ret_hu_conv: InvoicePayer = new InvoicePayer(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, payer);
@@ -395,7 +395,7 @@ export class InvoicePayer extends CommonBase {
 	 * for you.
 	 */
 	public pay_invoice(invoice: Invoice): Result_PaymentIdPaymentErrorZ {
-		const ret: number = bindings.InvoicePayer_pay_invoice(this.ptr, invoice == null ? 0 : CommonBase.get_ptr_of(invoice) & ~1);
+		const ret: bigint = bindings.InvoicePayer_pay_invoice(this.ptr, invoice == null ? 0n : CommonBase.get_ptr_of(invoice));
 		const ret_hu_conv: Result_PaymentIdPaymentErrorZ = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, invoice);
 		return ret_hu_conv;
@@ -410,7 +410,7 @@ export class InvoicePayer extends CommonBase {
 	 * for you.
 	 */
 	public pay_zero_value_invoice(invoice: Invoice, amount_msats: bigint): Result_PaymentIdPaymentErrorZ {
-		const ret: number = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0 : CommonBase.get_ptr_of(invoice) & ~1, amount_msats);
+		const ret: bigint = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0n : CommonBase.get_ptr_of(invoice), amount_msats);
 		const ret_hu_conv: Result_PaymentIdPaymentErrorZ = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, invoice);
 		return ret_hu_conv;
@@ -424,7 +424,7 @@ export class InvoicePayer extends CommonBase {
 	 * been paid before. Because [`InvoicePayer`] is stateless no effort is made to do so for you.
 	 */
 	public pay_pubkey(pubkey: Uint8Array, payment_preimage: Uint8Array, amount_msats: bigint, final_cltv_expiry_delta: number): Result_PaymentIdPaymentErrorZ {
-		const ret: number = bindings.InvoicePayer_pay_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), amount_msats, final_cltv_expiry_delta);
+		const ret: bigint = bindings.InvoicePayer_pay_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), amount_msats, final_cltv_expiry_delta);
 		const ret_hu_conv: Result_PaymentIdPaymentErrorZ = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -444,7 +444,7 @@ export class InvoicePayer extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
 	 */
 	public as_EventHandler(): EventHandler {
-		const ret: number = bindings.InvoicePayer_as_EventHandler(this.ptr);
+		const ret: bigint = bindings.InvoicePayer_as_EventHandler(this.ptr);
 		const ret_hu_conv: EventHandler = new EventHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

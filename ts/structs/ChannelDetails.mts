@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelDetails extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelDetails_free);
 	}
 
@@ -391,7 +391,7 @@ export class ChannelDetails extends CommonBase {
 	 * Parameters which apply to our counterparty. See individual fields for more information.
 	 */
 	public get_counterparty(): ChannelCounterparty {
-		const ret: number = bindings.ChannelDetails_get_counterparty(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_counterparty(this.ptr);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -401,7 +401,8 @@ export class ChannelDetails extends CommonBase {
 	 * Parameters which apply to our counterparty. See individual fields for more information.
 	 */
 	public set_counterparty(val: ChannelCounterparty): void {
-		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -414,7 +415,7 @@ export class ChannelDetails extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_funding_txo(): OutPoint {
-		const ret: number = bindings.ChannelDetails_get_funding_txo(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_funding_txo(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -430,7 +431,8 @@ export class ChannelDetails extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_funding_txo(val: OutPoint): void {
-		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -441,7 +443,7 @@ export class ChannelDetails extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_channel_type(): ChannelTypeFeatures {
-		const ret: number = bindings.ChannelDetails_get_channel_type(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_channel_type(this.ptr);
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -455,7 +457,8 @@ export class ChannelDetails extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_channel_type(val: ChannelTypeFeatures): void {
-		bindings.ChannelDetails_set_channel_type(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelDetails_set_channel_type(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -475,7 +478,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`confirmations_required`]: Self::confirmations_required
 	 */
 	public get_short_channel_id(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_short_channel_id(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_short_channel_id(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -513,7 +516,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`confirmations_required`]: Self::confirmations_required
 	 */
 	public get_outbound_scid_alias(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_outbound_scid_alias(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_outbound_scid_alias(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -546,7 +549,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`short_channel_id`]: Self::short_channel_id
 	 */
 	public get_inbound_scid_alias(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_inbound_scid_alias(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_inbound_scid_alias(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -594,7 +597,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
 	 */
 	public get_unspendable_punishment_reserve(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -766,7 +769,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
 	 */
 	public get_confirmations_required(): Option_u32Z {
-		const ret: number = bindings.ChannelDetails_get_confirmations_required(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_confirmations_required(this.ptr);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -799,7 +802,7 @@ export class ChannelDetails extends CommonBase {
 	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
 	 */
 	public get_force_close_spend_delay(): Option_u16Z {
-		const ret: number = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
 		const ret_hu_conv: Option_u16Z = Option_u16Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -901,7 +904,7 @@ export class ChannelDetails extends CommonBase {
 	 * is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.107
 	 */
 	public get_inbound_htlc_minimum_msat(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_inbound_htlc_minimum_msat(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_inbound_htlc_minimum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -919,7 +922,7 @@ export class ChannelDetails extends CommonBase {
 	 * The largest value HTLC (in msat) we currently will accept, for this channel.
 	 */
 	public get_inbound_htlc_maximum_msat(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_inbound_htlc_maximum_msat(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_inbound_htlc_maximum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -940,7 +943,7 @@ export class ChannelDetails extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_config(): ChannelConfig {
-		const ret: number = bindings.ChannelDetails_get_config(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_config(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -954,21 +957,26 @@ export class ChannelDetails extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_config(val: ChannelConfig): void {
-		bindings.ChannelDetails_set_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelDetails_set_config(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, channel_type_arg: ChannelTypeFeatures, short_channel_id_arg: Option_u64Z, outbound_scid_alias_arg: Option_u64Z, inbound_scid_alias_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, next_outbound_htlc_limit_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_channel_ready_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean, inbound_htlc_minimum_msat_arg: Option_u64Z, inbound_htlc_maximum_msat_arg: Option_u64Z, config_arg: ChannelConfig): ChannelDetails {
-		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, channel_type_arg == null ? 0 : CommonBase.get_ptr_of(channel_type_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), CommonBase.get_ptr_of(outbound_scid_alias_arg), CommonBase.get_ptr_of(inbound_scid_alias_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, CommonBase.get_ptr_of(inbound_htlc_minimum_msat_arg), CommonBase.get_ptr_of(inbound_htlc_maximum_msat_arg), config_arg == null ? 0 : CommonBase.get_ptr_of(config_arg) & ~1);
+		const ret: bigint = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0n : CommonBase.get_ptr_of(counterparty_arg), funding_txo_arg == null ? 0n : CommonBase.get_ptr_of(funding_txo_arg), channel_type_arg == null ? 0n : CommonBase.get_ptr_of(channel_type_arg), CommonBase.get_ptr_of(short_channel_id_arg), CommonBase.get_ptr_of(outbound_scid_alias_arg), CommonBase.get_ptr_of(inbound_scid_alias_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, CommonBase.get_ptr_of(inbound_htlc_minimum_msat_arg), CommonBase.get_ptr_of(inbound_htlc_maximum_msat_arg), config_arg == null ? 0n : CommonBase.get_ptr_of(config_arg));
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, counterparty_arg);
+		CommonBase.add_ref_from(ret_hu_conv, funding_txo_arg);
+		CommonBase.add_ref_from(ret_hu_conv, channel_type_arg);
+		CommonBase.add_ref_from(ret_hu_conv, config_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelDetails_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelDetails_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -976,7 +984,7 @@ export class ChannelDetails extends CommonBase {
 	 * Creates a copy of the ChannelDetails
 	 */
 	public clone(): ChannelDetails {
-		const ret: number = bindings.ChannelDetails_clone(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_clone(this.ptr);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -991,7 +999,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`ChannelDetails::short_channel_id`]. See those for more information.
 	 */
 	public get_inbound_payment_scid(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_inbound_payment_scid(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_inbound_payment_scid(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -1006,7 +1014,7 @@ export class ChannelDetails extends CommonBase {
 	 * [`ChannelDetails::outbound_scid_alias`]. See those for more information.
 	 */
 	public get_outbound_payment_scid(): Option_u64Z {
-		const ret: number = bindings.ChannelDetails_get_outbound_payment_scid(this.ptr);
+		const ret: bigint = bindings.ChannelDetails_get_outbound_payment_scid(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -1025,7 +1033,7 @@ export class ChannelDetails extends CommonBase {
 	 * Read a ChannelDetails from a byte array, created by ChannelDetails_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelDetailsDecodeErrorZ {
-		const ret: number = bindings.ChannelDetails_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelDetails_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelDetailsDecodeErrorZ = Result_ChannelDetailsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ReadOnlyNetworkGraph extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, () => { throw new Error("Locks must be manually freed with free()"); });
 	}
 	/** Releases this lock */
@@ -377,7 +377,7 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public channel(short_channel_id: bigint): ChannelInfo {
-		const ret: number = bindings.ReadOnlyNetworkGraph_channel(this.ptr, short_channel_id);
+		const ret: bigint = bindings.ReadOnlyNetworkGraph_channel(this.ptr, short_channel_id);
 		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -398,7 +398,7 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public node(node_id: NodeId): NodeInfo {
-		const ret: number = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0 : CommonBase.get_ptr_of(node_id) & ~1);
+		const ret: bigint = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0n : CommonBase.get_ptr_of(node_id));
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		CommonBase.add_ref_from(this, node_id);
@@ -413,7 +413,7 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 		const ret_conv_8_len: number = bindings.getArrayLength(ret);
 		const ret_conv_8_arr: NodeId[] = new Array(ret_conv_8_len).fill(null);
 		for (var i = 0; i < ret_conv_8_len; i++) {
-			const ret_conv_8: number = bindings.getU32ArrayElem(ret, i);
+			const ret_conv_8: bigint = bindings.getU64ArrayElem(ret, i);
 			const ret_conv_8_hu_conv: NodeId = new NodeId(null, ret_conv_8);
 			CommonBase.add_ref_from(ret_conv_8_hu_conv, this);
 			ret_conv_8_arr[i] = ret_conv_8_hu_conv;
@@ -428,7 +428,7 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 	 * or if node announcement for the node was never received.
 	 */
 	public get_addresses(pubkey: Uint8Array): Option_CVec_NetAddressZZ {
-		const ret: number = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
+		const ret: bigint = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

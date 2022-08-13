@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
 		if (bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(ptr)) {
 			return new Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ in the success state.
 	 */
 	public static constructor_ok(o: TwoTuple_SignatureCVec_SignatureZZ): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		const ret: number = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0);
+		const ret: bigint = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0n);
 		const ret_hu_conv: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		const ret: number = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
+		const ret: bigint = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
 		const ret_hu_conv: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		const ret: number = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_C2Tuple_SignatureCVec_SignatureZZNoneZ = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +415,9 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2T
 	public res: TwoTuple_SignatureCVec_SignatureZZ;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
 		const res_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -426,7 +426,7 @@ export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2T
 export class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

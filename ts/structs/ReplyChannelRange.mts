@@ -367,7 +367,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ReplyChannelRange extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ReplyChannelRange_free);
 	}
 
@@ -454,14 +454,14 @@ export class ReplyChannelRange extends CommonBase {
 	 * Constructs a new ReplyChannelRange given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, first_blocknum_arg: number, number_of_blocks_arg: number, sync_complete_arg: boolean, short_channel_ids_arg: bigint[]): ReplyChannelRange {
-		const ret: number = bindings.ReplyChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, bindings.encodeUint64Array(short_channel_ids_arg));
+		const ret: bigint = bindings.ReplyChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, bindings.encodeUint64Array(short_channel_ids_arg));
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ReplyChannelRange_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ReplyChannelRange_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -469,7 +469,7 @@ export class ReplyChannelRange extends CommonBase {
 	 * Creates a copy of the ReplyChannelRange
 	 */
 	public clone(): ReplyChannelRange {
-		const ret: number = bindings.ReplyChannelRange_clone(this.ptr);
+		const ret: bigint = bindings.ReplyChannelRange_clone(this.ptr);
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -479,7 +479,7 @@ export class ReplyChannelRange extends CommonBase {
 	 * Read a ReplyChannelRange from a byte array, created by ReplyChannelRange_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ReplyChannelRangeDecodeErrorZ {
-		const ret: number = bindings.ReplyChannelRange_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ReplyChannelRange_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ReplyChannelRangeDecodeErrorZ = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

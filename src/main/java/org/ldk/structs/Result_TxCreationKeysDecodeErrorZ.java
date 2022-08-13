@@ -46,10 +46,11 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the success state.
 	 */
 	public static Result_TxCreationKeysDecodeErrorZ ok(TxCreationKeys o) {
-		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the error state.
 	 */
 	public static Result_TxCreationKeysDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

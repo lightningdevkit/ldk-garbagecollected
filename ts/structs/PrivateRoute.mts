@@ -364,12 +364,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class PrivateRoute extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PrivateRoute_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PrivateRoute_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PrivateRoute_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -377,7 +377,7 @@ export class PrivateRoute extends CommonBase {
 	 * Creates a copy of the PrivateRoute
 	 */
 	public clone(): PrivateRoute {
-		const ret: number = bindings.PrivateRoute_clone(this.ptr);
+		const ret: bigint = bindings.PrivateRoute_clone(this.ptr);
 		const ret_hu_conv: PrivateRoute = new PrivateRoute(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -397,7 +397,7 @@ export class PrivateRoute extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: PrivateRoute): boolean {
-		const ret: boolean = bindings.PrivateRoute_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.PrivateRoute_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -406,8 +406,9 @@ export class PrivateRoute extends CommonBase {
 	 * Creates a new (partial) route from a list of hops
 	 */
 	public static constructor_new(hops: RouteHint): Result_PrivateRouteCreationErrorZ {
-		const ret: number = bindings.PrivateRoute_new(hops == null ? 0 : CommonBase.get_ptr_of(hops) & ~1);
+		const ret: bigint = bindings.PrivateRoute_new(hops == null ? 0n : CommonBase.get_ptr_of(hops));
 		const ret_hu_conv: Result_PrivateRouteCreationErrorZ = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, hops);
 		return ret_hu_conv;
 	}
 
@@ -415,7 +416,7 @@ export class PrivateRoute extends CommonBase {
 	 * Returns the underlying list of hops
 	 */
 	public into_inner(): RouteHint {
-		const ret: number = bindings.PrivateRoute_into_inner(this.ptr);
+		const ret: bigint = bindings.PrivateRoute_into_inner(this.ptr);
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

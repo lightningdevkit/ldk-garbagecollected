@@ -363,7 +363,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class PeerHandleError extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PeerHandleError_free);
 	}
 
@@ -398,14 +398,14 @@ export class PeerHandleError extends CommonBase {
 	 * Constructs a new PeerHandleError given each field
 	 */
 	public static constructor_new(no_connection_possible_arg: boolean): PeerHandleError {
-		const ret: number = bindings.PeerHandleError_new(no_connection_possible_arg);
+		const ret: bigint = bindings.PeerHandleError_new(no_connection_possible_arg);
 		const ret_hu_conv: PeerHandleError = new PeerHandleError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PeerHandleError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PeerHandleError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -413,7 +413,7 @@ export class PeerHandleError extends CommonBase {
 	 * Creates a copy of the PeerHandleError
 	 */
 	public clone(): PeerHandleError {
-		const ret: number = bindings.PeerHandleError_clone(this.ptr);
+		const ret: bigint = bindings.PeerHandleError_clone(this.ptr);
 		const ret_hu_conv: PeerHandleError = new PeerHandleError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

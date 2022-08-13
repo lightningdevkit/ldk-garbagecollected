@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class CommitmentUpdate extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CommitmentUpdate_free);
 	}
 
@@ -374,7 +374,7 @@ export class CommitmentUpdate extends CommonBase {
 		const ret_conv_15_len: number = bindings.getArrayLength(ret);
 		const ret_conv_15_arr: UpdateAddHTLC[] = new Array(ret_conv_15_len).fill(null);
 		for (var p = 0; p < ret_conv_15_len; p++) {
-			const ret_conv_15: number = bindings.getU32ArrayElem(ret, p);
+			const ret_conv_15: bigint = bindings.getU64ArrayElem(ret, p);
 			const ret_conv_15_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret_conv_15);
 			CommonBase.add_ref_from(ret_conv_15_hu_conv, this);
 			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
@@ -387,7 +387,8 @@ export class CommitmentUpdate extends CommonBase {
 	 * update_add_htlc messages which should be sent
 	 */
 	public set_update_add_htlcs(val: UpdateAddHTLC[]): void {
-		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_15 => val_conv_15 == null ? 0 : CommonBase.get_ptr_of(val_conv_15) & ~1) : null));
+		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_15 => val_conv_15 == null ? 0n : CommonBase.get_ptr_of(val_conv_15)) : null));
+		val.forEach((val_conv_15: UpdateAddHTLC) => { CommonBase.add_ref_from(this, val_conv_15); });
 	}
 
 	/**
@@ -398,7 +399,7 @@ export class CommitmentUpdate extends CommonBase {
 		const ret_conv_19_len: number = bindings.getArrayLength(ret);
 		const ret_conv_19_arr: UpdateFulfillHTLC[] = new Array(ret_conv_19_len).fill(null);
 		for (var t = 0; t < ret_conv_19_len; t++) {
-			const ret_conv_19: number = bindings.getU32ArrayElem(ret, t);
+			const ret_conv_19: bigint = bindings.getU64ArrayElem(ret, t);
 			const ret_conv_19_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret_conv_19);
 			CommonBase.add_ref_from(ret_conv_19_hu_conv, this);
 			ret_conv_19_arr[t] = ret_conv_19_hu_conv;
@@ -411,7 +412,8 @@ export class CommitmentUpdate extends CommonBase {
 	 * update_fulfill_htlc messages which should be sent
 	 */
 	public set_update_fulfill_htlcs(val: UpdateFulfillHTLC[]): void {
-		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_19 => val_conv_19 == null ? 0 : CommonBase.get_ptr_of(val_conv_19) & ~1) : null));
+		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_19 => val_conv_19 == null ? 0n : CommonBase.get_ptr_of(val_conv_19)) : null));
+		val.forEach((val_conv_19: UpdateFulfillHTLC) => { CommonBase.add_ref_from(this, val_conv_19); });
 	}
 
 	/**
@@ -422,7 +424,7 @@ export class CommitmentUpdate extends CommonBase {
 		const ret_conv_16_len: number = bindings.getArrayLength(ret);
 		const ret_conv_16_arr: UpdateFailHTLC[] = new Array(ret_conv_16_len).fill(null);
 		for (var q = 0; q < ret_conv_16_len; q++) {
-			const ret_conv_16: number = bindings.getU32ArrayElem(ret, q);
+			const ret_conv_16: bigint = bindings.getU64ArrayElem(ret, q);
 			const ret_conv_16_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, ret_conv_16);
 			CommonBase.add_ref_from(ret_conv_16_hu_conv, this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
@@ -435,7 +437,8 @@ export class CommitmentUpdate extends CommonBase {
 	 * update_fail_htlc messages which should be sent
 	 */
 	public set_update_fail_htlcs(val: UpdateFailHTLC[]): void {
-		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_16 => val_conv_16 == null ? 0 : CommonBase.get_ptr_of(val_conv_16) & ~1) : null));
+		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_16 => val_conv_16 == null ? 0n : CommonBase.get_ptr_of(val_conv_16)) : null));
+		val.forEach((val_conv_16: UpdateFailHTLC) => { CommonBase.add_ref_from(this, val_conv_16); });
 	}
 
 	/**
@@ -446,7 +449,7 @@ export class CommitmentUpdate extends CommonBase {
 		const ret_conv_25_len: number = bindings.getArrayLength(ret);
 		const ret_conv_25_arr: UpdateFailMalformedHTLC[] = new Array(ret_conv_25_len).fill(null);
 		for (var z = 0; z < ret_conv_25_len; z++) {
-			const ret_conv_25: number = bindings.getU32ArrayElem(ret, z);
+			const ret_conv_25: bigint = bindings.getU64ArrayElem(ret, z);
 			const ret_conv_25_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret_conv_25);
 			CommonBase.add_ref_from(ret_conv_25_hu_conv, this);
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
@@ -459,7 +462,8 @@ export class CommitmentUpdate extends CommonBase {
 	 * update_fail_malformed_htlc messages which should be sent
 	 */
 	public set_update_fail_malformed_htlcs(val: UpdateFailMalformedHTLC[]): void {
-		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_25 => val_conv_25 == null ? 0 : CommonBase.get_ptr_of(val_conv_25) & ~1) : null));
+		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_25 => val_conv_25 == null ? 0n : CommonBase.get_ptr_of(val_conv_25)) : null));
+		val.forEach((val_conv_25: UpdateFailMalformedHTLC) => { CommonBase.add_ref_from(this, val_conv_25); });
 	}
 
 	/**
@@ -468,7 +472,7 @@ export class CommitmentUpdate extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_update_fee(): UpdateFee {
-		const ret: number = bindings.CommitmentUpdate_get_update_fee(this.ptr);
+		const ret: bigint = bindings.CommitmentUpdate_get_update_fee(this.ptr);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -480,14 +484,15 @@ export class CommitmentUpdate extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_update_fee(val: UpdateFee): void {
-		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Finally, the commitment_signed message which should be sent
 	 */
 	public get_commitment_signed(): CommitmentSigned {
-		const ret: number = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
+		const ret: bigint = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
 		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -497,21 +502,28 @@ export class CommitmentUpdate extends CommonBase {
 	 * Finally, the commitment_signed message which should be sent
 	 */
 	public set_commitment_signed(val: CommitmentSigned): void {
-		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new CommitmentUpdate given each field
 	 */
 	public static constructor_new(update_add_htlcs_arg: UpdateAddHTLC[], update_fulfill_htlcs_arg: UpdateFulfillHTLC[], update_fail_htlcs_arg: UpdateFailHTLC[], update_fail_malformed_htlcs_arg: UpdateFailMalformedHTLC[], update_fee_arg: UpdateFee, commitment_signed_arg: CommitmentSigned): CommitmentUpdate {
-		const ret: number = bindings.CommitmentUpdate_new(bindings.encodeUint32Array(update_add_htlcs_arg != null ? update_add_htlcs_arg.map(update_add_htlcs_arg_conv_15 => update_add_htlcs_arg_conv_15 == null ? 0 : CommonBase.get_ptr_of(update_add_htlcs_arg_conv_15) & ~1) : null), bindings.encodeUint32Array(update_fulfill_htlcs_arg != null ? update_fulfill_htlcs_arg.map(update_fulfill_htlcs_arg_conv_19 => update_fulfill_htlcs_arg_conv_19 == null ? 0 : CommonBase.get_ptr_of(update_fulfill_htlcs_arg_conv_19) & ~1) : null), bindings.encodeUint32Array(update_fail_htlcs_arg != null ? update_fail_htlcs_arg.map(update_fail_htlcs_arg_conv_16 => update_fail_htlcs_arg_conv_16 == null ? 0 : CommonBase.get_ptr_of(update_fail_htlcs_arg_conv_16) & ~1) : null), bindings.encodeUint32Array(update_fail_malformed_htlcs_arg != null ? update_fail_malformed_htlcs_arg.map(update_fail_malformed_htlcs_arg_conv_25 => update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : CommonBase.get_ptr_of(update_fail_malformed_htlcs_arg_conv_25) & ~1) : null), update_fee_arg == null ? 0 : CommonBase.get_ptr_of(update_fee_arg) & ~1, commitment_signed_arg == null ? 0 : CommonBase.get_ptr_of(commitment_signed_arg) & ~1);
+		const ret: bigint = bindings.CommitmentUpdate_new(bindings.encodeUint64Array(update_add_htlcs_arg != null ? update_add_htlcs_arg.map(update_add_htlcs_arg_conv_15 => update_add_htlcs_arg_conv_15 == null ? 0n : CommonBase.get_ptr_of(update_add_htlcs_arg_conv_15)) : null), bindings.encodeUint64Array(update_fulfill_htlcs_arg != null ? update_fulfill_htlcs_arg.map(update_fulfill_htlcs_arg_conv_19 => update_fulfill_htlcs_arg_conv_19 == null ? 0n : CommonBase.get_ptr_of(update_fulfill_htlcs_arg_conv_19)) : null), bindings.encodeUint64Array(update_fail_htlcs_arg != null ? update_fail_htlcs_arg.map(update_fail_htlcs_arg_conv_16 => update_fail_htlcs_arg_conv_16 == null ? 0n : CommonBase.get_ptr_of(update_fail_htlcs_arg_conv_16)) : null), bindings.encodeUint64Array(update_fail_malformed_htlcs_arg != null ? update_fail_malformed_htlcs_arg.map(update_fail_malformed_htlcs_arg_conv_25 => update_fail_malformed_htlcs_arg_conv_25 == null ? 0n : CommonBase.get_ptr_of(update_fail_malformed_htlcs_arg_conv_25)) : null), update_fee_arg == null ? 0n : CommonBase.get_ptr_of(update_fee_arg), commitment_signed_arg == null ? 0n : CommonBase.get_ptr_of(commitment_signed_arg));
 		const ret_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		update_add_htlcs_arg.forEach((update_add_htlcs_arg_conv_15: UpdateAddHTLC) => { CommonBase.add_ref_from(ret_hu_conv, update_add_htlcs_arg_conv_15); });
+		update_fulfill_htlcs_arg.forEach((update_fulfill_htlcs_arg_conv_19: UpdateFulfillHTLC) => { CommonBase.add_ref_from(ret_hu_conv, update_fulfill_htlcs_arg_conv_19); });
+		update_fail_htlcs_arg.forEach((update_fail_htlcs_arg_conv_16: UpdateFailHTLC) => { CommonBase.add_ref_from(ret_hu_conv, update_fail_htlcs_arg_conv_16); });
+		update_fail_malformed_htlcs_arg.forEach((update_fail_malformed_htlcs_arg_conv_25: UpdateFailMalformedHTLC) => { CommonBase.add_ref_from(ret_hu_conv, update_fail_malformed_htlcs_arg_conv_25); });
+		CommonBase.add_ref_from(ret_hu_conv, update_fee_arg);
+		CommonBase.add_ref_from(ret_hu_conv, commitment_signed_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CommitmentUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CommitmentUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -519,7 +531,7 @@ export class CommitmentUpdate extends CommonBase {
 	 * Creates a copy of the CommitmentUpdate
 	 */
 	public clone(): CommitmentUpdate {
-		const ret: number = bindings.CommitmentUpdate_clone(this.ptr);
+		const ret: bigint = bindings.CommitmentUpdate_clone(this.ptr);
 		const ret_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_SignatureNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_SignatureNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_SignatureNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_SignatureNoneZ {
 		if (bindings.CResult_SignatureNoneZ_is_ok(ptr)) {
 			return new Result_SignatureNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_SignatureNoneZ extends CommonBase {
 	 * Creates a new CResult_SignatureNoneZ in the success state.
 	 */
 	public static constructor_ok(o: Uint8Array): Result_SignatureNoneZ {
-		const ret: number = bindings.CResult_SignatureNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 64)));
+		const ret: bigint = bindings.CResult_SignatureNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 64)));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_SignatureNoneZ extends CommonBase {
 	 * Creates a new CResult_SignatureNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_SignatureNoneZ {
-		const ret: number = bindings.CResult_SignatureNoneZ_err();
+		const ret: bigint = bindings.CResult_SignatureNoneZ_err();
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_SignatureNoneZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_SignatureNoneZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_SignatureNoneZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_SignatureNoneZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_SignatureNoneZ {
-		const ret: number = bindings.CResult_SignatureNoneZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_SignatureNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,7 +415,7 @@ export class Result_SignatureNoneZ_OK extends Result_SignatureNoneZ {
 	public res: Uint8Array;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		const res: number = bindings.CResult_SignatureNoneZ_get_ok(ptr);
 		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
@@ -425,7 +425,7 @@ export class Result_SignatureNoneZ_OK extends Result_SignatureNoneZ {
 export class Result_SignatureNoneZ_Err extends Result_SignatureNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

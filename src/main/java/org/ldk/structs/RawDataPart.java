@@ -36,9 +36,10 @@ public class RawDataPart extends CommonBase {
 	 * generation time of the invoice
 	 */
 	public void set_timestamp(PositiveTimestamp val) {
-		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class RawDataPart extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(RawDataPart b) {
-		boolean ret = bindings.RawDataPart_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.RawDataPart_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);

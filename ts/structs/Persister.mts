@@ -383,7 +383,7 @@ export class Persister extends CommonBase {
 	public bindings_instance?: bindings.LDKPersister;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Persister_free);
 		this.bindings_instance = null;
 	}
@@ -392,26 +392,26 @@ export class Persister extends CommonBase {
 	public static new_impl(arg: PersisterInterface): Persister {
 		const impl_holder: LDKPersisterHolder = new LDKPersisterHolder();
 		let structImplementation = {
-			persist_manager (channel_manager: number): number {
+			persist_manager (channel_manager: bigint): bigint {
 				const channel_manager_hu_conv: ChannelManager = new ChannelManager(null, channel_manager);
 				const ret: Result_NoneErrorZ = arg.persist_manager(channel_manager_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			persist_graph (network_graph: number): number {
+			persist_graph (network_graph: bigint): bigint {
 				const network_graph_hu_conv: NetworkGraph = new NetworkGraph(null, network_graph);
 				const ret: Result_NoneErrorZ = arg.persist_graph(network_graph_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			persist_scorer (scorer: number): number {
+			persist_scorer (scorer: bigint): bigint {
 				const scorer_hu_conv: MultiThreadedLockableScore = new MultiThreadedLockableScore(null, scorer);
 				const ret: Result_NoneErrorZ = arg.persist_scorer(scorer_hu_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKPersister;
-		const ptr: number = bindings.LDKPersister_new(structImplementation);
+		const ptr: bigint = bindings.LDKPersister_new(structImplementation);
 
 		impl_holder.held = new Persister(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -422,7 +422,7 @@ export class Persister extends CommonBase {
 	 * Persist the given ['ChannelManager'] to disk, returning an error if persistence failed.
 	 */
 	public persist_manager(channel_manager: ChannelManager): Result_NoneErrorZ {
-		const ret: number = bindings.Persister_persist_manager(this.ptr, channel_manager == null ? 0 : CommonBase.get_ptr_of(channel_manager) & ~1);
+		const ret: bigint = bindings.Persister_persist_manager(this.ptr, channel_manager == null ? 0n : CommonBase.get_ptr_of(channel_manager));
 		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, channel_manager);
 		return ret_hu_conv;
@@ -432,7 +432,7 @@ export class Persister extends CommonBase {
 	 * Persist the given [`NetworkGraph`] to disk, returning an error if persistence failed.
 	 */
 	public persist_graph(network_graph: NetworkGraph): Result_NoneErrorZ {
-		const ret: number = bindings.Persister_persist_graph(this.ptr, network_graph == null ? 0 : CommonBase.get_ptr_of(network_graph) & ~1);
+		const ret: bigint = bindings.Persister_persist_graph(this.ptr, network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph));
 		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, network_graph);
 		return ret_hu_conv;
@@ -442,7 +442,7 @@ export class Persister extends CommonBase {
 	 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
 	 */
 	public persist_scorer(scorer: MultiThreadedLockableScore): Result_NoneErrorZ {
-		const ret: number = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : CommonBase.get_ptr_of(scorer) & ~1);
+		const ret: bigint = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0n : CommonBase.get_ptr_of(scorer));
 		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, scorer);
 		return ret_hu_conv;

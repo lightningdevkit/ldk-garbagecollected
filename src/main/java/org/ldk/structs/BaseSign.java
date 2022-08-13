@@ -343,7 +343,7 @@ public class BaseSign extends CommonBase {
 	 * irrelevant or duplicate preimages.
 	 */
 	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
-		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr & ~1, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
+		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(holder_tx);
 		Reference.reachabilityFence(preimages);
@@ -380,7 +380,7 @@ public class BaseSign extends CommonBase {
 	 * irrelevant or duplicate preimages.
 	 */
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
-		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
+		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
 		Reference.reachabilityFence(preimages);
@@ -420,7 +420,7 @@ public class BaseSign extends CommonBase {
 	 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
 	 */
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
-		long ret = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		long ret = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -477,7 +477,7 @@ public class BaseSign extends CommonBase {
 	 * (which is committed to in the BIP 143 signatures).
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
-		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : htlc.ptr & ~1);
+		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(justice_tx);
 		Reference.reachabilityFence(input);
@@ -510,7 +510,7 @@ public class BaseSign extends CommonBase {
 	 * BIP 143 signature.
 	 */
 	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
-		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : htlc.ptr & ~1);
+		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_tx);
 		Reference.reachabilityFence(input);
@@ -530,7 +530,7 @@ public class BaseSign extends CommonBase {
 	 * chosen to forgo their output as dust.
 	 */
 	public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
-		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr & ~1);
+		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(closing_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -551,7 +551,7 @@ public class BaseSign extends CommonBase {
 	 * protocol.
 	 */
 	public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
-		long ret = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -573,7 +573,7 @@ public class BaseSign extends CommonBase {
 	 * Will be called before any signatures are applied.
 	 */
 	public void ready_channel(ChannelTransactionParameters channel_parameters) {
-		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_parameters);
 		this.ptrs_to.add(channel_parameters);

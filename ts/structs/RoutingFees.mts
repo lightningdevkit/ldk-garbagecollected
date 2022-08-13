@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RoutingFees extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RoutingFees_free);
 	}
 
@@ -401,7 +401,7 @@ export class RoutingFees extends CommonBase {
 	 * Constructs a new RoutingFees given each field
 	 */
 	public static constructor_new(base_msat_arg: number, proportional_millionths_arg: number): RoutingFees {
-		const ret: number = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
+		const ret: bigint = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -413,13 +413,13 @@ export class RoutingFees extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: RoutingFees): boolean {
-		const ret: boolean = bindings.RoutingFees_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.RoutingFees_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RoutingFees_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RoutingFees_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -427,7 +427,7 @@ export class RoutingFees extends CommonBase {
 	 * Creates a copy of the RoutingFees
 	 */
 	public clone(): RoutingFees {
-		const ret: number = bindings.RoutingFees_clone(this.ptr);
+		const ret: bigint = bindings.RoutingFees_clone(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -454,7 +454,7 @@ export class RoutingFees extends CommonBase {
 	 * Read a RoutingFees from a byte array, created by RoutingFees_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RoutingFeesDecodeErrorZ {
-		const ret: number = bindings.RoutingFees_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.RoutingFees_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RoutingFeesDecodeErrorZ = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -302,8 +302,8 @@ def java_c_types(fn_arg, ret_arr_len):
             arr_ty = "uint64_t"
             fn_arg = fn_arg[8:].strip()
         else:
-            java_ty = consts.ptr_native_ty
-            c_ty = consts.ptr_c_ty
+            java_ty = consts.usize_native_ty
+            c_ty = consts.usize_c_ty
             arr_ty = "uintptr_t"
             rust_obj = "uintptr_t"
             fn_arg = fn_arg[9:].strip()
@@ -434,7 +434,66 @@ with open(sys.argv[1]) as in_h:
 
 # Define some manual clones...
 clone_fns.add("ThirtyTwoBytes_clone")
-write_c("static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }\n")
+write_c("static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }\n\n")
+
+
+write_c("static inline void* untag_ptr(uint64_t ptr) {\n")
+write_c("\tif (ptr < 4096) return (void*)ptr;\n")
+write_c("\tif (sizeof(void*) == 4) {\n")
+write_c("\t\t// For 32-bit systems, store pointers as 64-bit ints and use the 31st bit\n")
+write_c("\t\treturn (void*)(uintptr_t)ptr;\n")
+write_c("\t} else {\n")
+write_c("\t\t// For 64-bit systems, assume the top byte is used for tagging, then\n")
+write_c("\t\t// use bit 9 ^ bit 10.\n")
+write_c("\t\tuint64_t tenth_bit = (((uintptr_t)ptr) & (1ULL << 54)) >> 54;\n")
+write_c("\t\tuintptr_t p = (ptr & ~(1ULL << 55)) | (tenth_bit << 55);\n")
+write_c("#ifdef LDK_DEBUG_BUILD\n")
+write_c("\t\t// On debug builds we also use the 11th bit as a debug flag\n")
+write_c("\t\tuintptr_t eleventh_bit = (((uintptr_t)ptr) & (1ULL << 53)) >> 53;\n")
+write_c("\t\tCHECK(tenth_bit != eleventh_bit);\n")
+write_c("\t\tp ^= 1ULL << 53;\n")
+write_c("#endif\n")
+write_c("\t\treturn (void*)p;\n")
+write_c("\t}\n")
+write_c("}\n")
+
+write_c("static inline bool ptr_is_owned(uint64_t ptr) {\n")
+write_c("\tif(ptr < 4096) return true;\n")
+write_c("\tif (sizeof(void*) == 4) {\n")
+write_c("\t\treturn ptr & (1ULL << 32);\n")
+write_c("\t} else {\n")
+write_c("\t\tuintptr_t ninth_bit = (((uintptr_t)ptr) & (1ULL << 55)) >> 55;\n")
+write_c("\t\tuintptr_t tenth_bit = (((uintptr_t)ptr) & (1ULL << 54)) >> 54;\n")
+write_c("#ifdef LDK_DEBUG_BUILD\n")
+write_c("\t\t// On debug builds we also use the 11th bit as a debug flag\n")
+write_c("\t\tuintptr_t eleventh_bit = (((uintptr_t)ptr) & (1ULL << 53)) >> 53;\n")
+write_c("\t\tCHECK(tenth_bit != eleventh_bit);\n")
+write_c("#endif\n")
+write_c("\t\treturn (ninth_bit ^ tenth_bit) ? true : false;\n")
+write_c("\t}\n")
+write_c("}\n")
+
+write_c("static inline uint64_t tag_ptr(const void* ptr, bool is_owned) {\n")
+write_c("\tif ((uintptr_t)ptr < 4096) return (uint64_t)ptr;\n")
+write_c("\tif (sizeof(void*) == 4) {\n")
+write_c("\t\treturn (((uint64_t)ptr) | ((is_owned ? 1ULL : 0) << 32));\n")
+write_c("\t} else {\n")
+write_c("\t\tCHECK(sizeof(uintptr_t) == 8);\n")
+write_c("\t\tuintptr_t tenth_bit = (((uintptr_t)ptr) & (1ULL << 54)) >> 54;\n")
+write_c("\t\tuintptr_t t = (((uintptr_t)ptr) | (((is_owned ? 1ULL : 0ULL) ^ tenth_bit) << 55));\n")
+write_c("#ifdef LDK_DEBUG_BUILD\n")
+write_c("\t\tuintptr_t ninth_bit = (((uintptr_t)ptr) & (1ULL << 55)) >> 55;\n")
+write_c("\t\tuintptr_t eleventh_bit = (((uintptr_t)ptr) & (1ULL << 53)) >> 53;\n")
+write_c("\t\tCHECK(ninth_bit == tenth_bit);\n")
+write_c("\t\tCHECK(ninth_bit == eleventh_bit);\n")
+write_c("\t\tt ^= 1ULL << 53;\n")
+write_c("#endif\n")
+write_c("\t\tCHECK(ptr_is_owned(t) == is_owned);\n")
+write_c("\t\tCHECK(untag_ptr(t) == ptr);\n")
+#write_c("\t\tCHECK(untag_ptr((uintptr_t)untag_ptr(t)) == ptr);\n")
+write_c("\t\treturn t;\n")
+write_c("\t}\n")
+write_c("}\n\n")
 
 java_c_types_none_allowed = False # C structs created by cbindgen are declared in dependency order
 
@@ -480,13 +539,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
 
         if method_name.endswith("_clone") and expected_struct not in unitary_enums:
-            meth_line = "uintptr_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
+            meth_line = "uint64_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
             write_c("static inline " + meth_line + " {\n")
             write_c("\t" + return_type_info.ret_conv[0].replace("\n", "\n\t"))
             write_c(method_name + "(arg)")
-            write_c(return_type_info.ret_conv[1])
+            write_c(return_type_info.ret_conv[1].replace("\n", "\n\t"))
             write_c("\n\treturn " + return_type_info.ret_conv_name + ";\n}\n")
-            map_fn(meth_line + ";\n", re.compile("(uintptr_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
+            map_fn(meth_line + ";\n", re.compile("(uint64_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
 
         argument_types = []
         default_constructor_args = {}
@@ -575,7 +634,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             assert return_type_info.c_ty == "void"
             write_c(consts.c_fn_ty_pfx + "void " + consts.c_fn_name_define_pfx(method_name, True) + argument_types[0].c_ty + " " + argument_types[0].ty_info.var_name + ") {\n")
             if argument_types[0].ty_info.passed_as_ptr and not argument_types[0].ty_info.rust_obj in opaque_structs:
-                write_c("\tif ((" + argument_types[0].ty_info.var_name + " & 1) != 0) return;\n")
+                write_c("\tif (!ptr_is_owned(" + argument_types[0].ty_info.var_name + ")) return;\n")
 
             for info in argument_types:
                 if info.arg_conv is not None:

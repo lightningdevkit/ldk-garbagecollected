@@ -103,7 +103,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 * The funding keys are used to figure out which signature should go first when building the transaction for broadcast.
 	 */
 	public static HolderCommitmentTransaction of(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
-		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, InternalUtils.check_arr_len(counterparty_sig, 64), counterparty_htlc_sigs != null ? Arrays.stream(counterparty_htlc_sigs).map(counterparty_htlc_sigs_conv_8 -> InternalUtils.check_arr_len(counterparty_htlc_sigs_conv_8, 64)).toArray(byte[][]::new) : null, InternalUtils.check_arr_len(holder_funding_key, 33), InternalUtils.check_arr_len(counterparty_funding_key, 33));
+		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr, InternalUtils.check_arr_len(counterparty_sig, 64), counterparty_htlc_sigs != null ? Arrays.stream(counterparty_htlc_sigs).map(counterparty_htlc_sigs_conv_8 -> InternalUtils.check_arr_len(counterparty_htlc_sigs_conv_8, 64)).toArray(byte[][]::new) : null, InternalUtils.check_arr_len(holder_funding_key, 33), InternalUtils.check_arr_len(counterparty_funding_key, 33));
 		Reference.reachabilityFence(commitment_tx);
 		Reference.reachabilityFence(counterparty_sig);
 		Reference.reachabilityFence(counterparty_htlc_sigs);
@@ -112,6 +112,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.HolderCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 

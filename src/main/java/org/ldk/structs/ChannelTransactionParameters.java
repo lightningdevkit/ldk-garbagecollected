@@ -40,9 +40,10 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * Holder public keys
 	 */
 	public void set_holder_pubkeys(ChannelPublicKeys val) {
-		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -106,9 +107,10 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_counterparty_parameters(@Nullable CounterpartyChannelTransactionParameters val) {
-		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -132,9 +134,10 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_funding_outpoint(@Nullable OutPoint val) {
-		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -159,7 +162,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
 	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg, org.ldk.enums.COption_NoneZ opt_anchors_arg) {
-		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1, opt_anchors_arg);
+		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, opt_anchors_arg);
 		Reference.reachabilityFence(holder_pubkeys_arg);
 		Reference.reachabilityFence(holder_selected_contest_delay_arg);
 		Reference.reachabilityFence(is_outbound_from_holder_arg);
@@ -169,6 +172,9 @@ public class ChannelTransactionParameters extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(holder_pubkeys_arg);
+		ret_hu_conv.ptrs_to.add(counterparty_parameters_arg);
+		ret_hu_conv.ptrs_to.add(funding_outpoint_arg);
 		return ret_hu_conv;
 	}
 

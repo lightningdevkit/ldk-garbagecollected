@@ -379,7 +379,7 @@ export class EventHandler extends CommonBase {
 	public bindings_instance?: bindings.LDKEventHandler;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.EventHandler_free);
 		this.bindings_instance = null;
 	}
@@ -388,12 +388,12 @@ export class EventHandler extends CommonBase {
 	public static new_impl(arg: EventHandlerInterface): EventHandler {
 		const impl_holder: LDKEventHandlerHolder = new LDKEventHandlerHolder();
 		let structImplementation = {
-			handle_event (event: number): void {
+			handle_event (event: bigint): void {
 				const event_hu_conv: Event = Event.constr_from_ptr(event);
 				arg.handle_event(event_hu_conv);
 			},
 		} as bindings.LDKEventHandler;
-		const ptr: number = bindings.LDKEventHandler_new(structImplementation);
+		const ptr: bigint = bindings.LDKEventHandler_new(structImplementation);
 
 		impl_holder.held = new EventHandler(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -406,7 +406,7 @@ export class EventHandler extends CommonBase {
 	 * See [`EventsProvider`] for details that must be considered when implementing this method.
 	 */
 	public handle_event(event: Event): void {
-		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : CommonBase.get_ptr_of(event) & ~1);
+		bindings.EventHandler_handle_event(this.ptr, event == null ? 0n : CommonBase.get_ptr_of(event));
 	}
 
 }

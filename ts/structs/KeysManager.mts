@@ -373,7 +373,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class KeysManager extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.KeysManager_free);
 	}
 
@@ -399,7 +399,7 @@ export class KeysManager extends CommonBase {
 	 * detailed description of the guarantee.
 	 */
 	public static constructor_new(seed: Uint8Array, starting_time_secs: bigint, starting_time_nanos: number): KeysManager {
-		const ret: number = bindings.KeysManager_new(bindings.encodeUint8Array(bindings.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos);
+		const ret: bigint = bindings.KeysManager_new(bindings.encodeUint8Array(bindings.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos);
 		const ret_hu_conv: KeysManager = new KeysManager(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -413,7 +413,7 @@ export class KeysManager extends CommonBase {
 	 * onchain output detection for which a corresponding delayed_payment_key must be derived.
 	 */
 	public derive_channel_keys(channel_value_satoshis: bigint, params: Uint8Array): InMemorySigner {
-		const ret: number = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(params, 32)));
+		const ret: bigint = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(params, 32)));
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -434,7 +434,7 @@ export class KeysManager extends CommonBase {
 	 * this KeysManager or one of the `InMemorySigner` created by this KeysManager.
 	 */
 	public spend_spendable_outputs(descriptors: SpendableOutputDescriptor[], outputs: TxOut[], change_destination_script: Uint8Array, feerate_sat_per_1000_weight: number): Result_TransactionNoneZ {
-		const ret: number = bindings.KeysManager_spend_spendable_outputs(this.ptr, bindings.encodeUint32Array(descriptors != null ? descriptors.map(descriptors_conv_27 => CommonBase.get_ptr_of(descriptors_conv_27)) : null), bindings.encodeUint32Array(outputs != null ? outputs.map(outputs_conv_7 => CommonBase.get_ptr_of(outputs_conv_7)) : null), bindings.encodeUint8Array(change_destination_script), feerate_sat_per_1000_weight);
+		const ret: bigint = bindings.KeysManager_spend_spendable_outputs(this.ptr, bindings.encodeUint64Array(descriptors != null ? descriptors.map(descriptors_conv_27 => CommonBase.get_ptr_of(descriptors_conv_27)) : null), bindings.encodeUint64Array(outputs != null ? outputs.map(outputs_conv_7 => CommonBase.get_ptr_of(outputs_conv_7)) : null), bindings.encodeUint8Array(change_destination_script), feerate_sat_per_1000_weight);
 		const ret_hu_conv: Result_TransactionNoneZ = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -444,7 +444,7 @@ export class KeysManager extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned KeysInterface must be freed before this_arg is
 	 */
 	public as_KeysInterface(): KeysInterface {
-		const ret: number = bindings.KeysManager_as_KeysInterface(this.ptr);
+		const ret: bigint = bindings.KeysManager_as_KeysInterface(this.ptr);
 		const ret_hu_conv: KeysInterface = new KeysInterface(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

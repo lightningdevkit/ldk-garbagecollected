@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RawDataPart extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RawDataPart_free);
 	}
 
@@ -369,7 +369,7 @@ export class RawDataPart extends CommonBase {
 	 * generation time of the invoice
 	 */
 	public get_timestamp(): PositiveTimestamp {
-		const ret: number = bindings.RawDataPart_get_timestamp(this.ptr);
+		const ret: bigint = bindings.RawDataPart_get_timestamp(this.ptr);
 		const ret_hu_conv: PositiveTimestamp = new PositiveTimestamp(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,8 @@ export class RawDataPart extends CommonBase {
 	 * generation time of the invoice
 	 */
 	public set_timestamp(val: PositiveTimestamp): void {
-		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -388,13 +389,13 @@ export class RawDataPart extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: RawDataPart): boolean {
-		const ret: boolean = bindings.RawDataPart_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.RawDataPart_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RawDataPart_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RawDataPart_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -402,7 +403,7 @@ export class RawDataPart extends CommonBase {
 	 * Creates a copy of the RawDataPart
 	 */
 	public clone(): RawDataPart {
-		const ret: number = bindings.RawDataPart_clone(this.ptr);
+		const ret: bigint = bindings.RawDataPart_clone(this.ptr);
 		const ret_hu_conv: RawDataPart = new RawDataPart(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

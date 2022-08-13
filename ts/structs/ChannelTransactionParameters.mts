@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelTransactionParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelTransactionParameters_free);
 	}
 
@@ -373,7 +373,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Holder public keys
 	 */
 	public get_holder_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -383,7 +383,8 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Holder public keys
 	 */
 	public set_holder_pubkeys(val: ChannelPublicKeys): void {
-		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -425,7 +426,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_counterparty_parameters(): CounterpartyChannelTransactionParameters {
-		const ret: number = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -438,7 +439,8 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_counterparty_parameters(val: CounterpartyChannelTransactionParameters): void {
-		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -447,7 +449,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_funding_outpoint(): OutPoint {
-		const ret: number = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -459,7 +461,8 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_funding_outpoint(val: OutPoint): void {
-		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -481,14 +484,17 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
 	public static constructor_new(holder_pubkeys_arg: ChannelPublicKeys, holder_selected_contest_delay_arg: number, is_outbound_from_holder_arg: boolean, counterparty_parameters_arg: CounterpartyChannelTransactionParameters, funding_outpoint_arg: OutPoint, opt_anchors_arg: COption_NoneZ): ChannelTransactionParameters {
-		const ret: number = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : CommonBase.get_ptr_of(holder_pubkeys_arg) & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_parameters_arg) & ~1, funding_outpoint_arg == null ? 0 : CommonBase.get_ptr_of(funding_outpoint_arg) & ~1, opt_anchors_arg);
+		const ret: bigint = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0n : CommonBase.get_ptr_of(holder_pubkeys_arg), holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0n : CommonBase.get_ptr_of(counterparty_parameters_arg), funding_outpoint_arg == null ? 0n : CommonBase.get_ptr_of(funding_outpoint_arg), opt_anchors_arg);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, holder_pubkeys_arg);
+		CommonBase.add_ref_from(ret_hu_conv, counterparty_parameters_arg);
+		CommonBase.add_ref_from(ret_hu_conv, funding_outpoint_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelTransactionParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelTransactionParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -496,7 +502,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Creates a copy of the ChannelTransactionParameters
 	 */
 	public clone(): ChannelTransactionParameters {
-		const ret: number = bindings.ChannelTransactionParameters_clone(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -517,7 +523,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * self.is_populated() must be true before calling this function.
 	 */
 	public as_holder_broadcastable(): DirectedChannelTransactionParameters {
-		const ret: number = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
 		const ret_hu_conv: DirectedChannelTransactionParameters = new DirectedChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -530,7 +536,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * self.is_populated() must be true before calling this function.
 	 */
 	public as_counterparty_broadcastable(): DirectedChannelTransactionParameters {
-		const ret: number = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
+		const ret: bigint = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
 		const ret_hu_conv: DirectedChannelTransactionParameters = new DirectedChannelTransactionParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -549,7 +555,7 @@ export class ChannelTransactionParameters extends CommonBase {
 	 * Read a ChannelTransactionParameters from a byte array, created by ChannelTransactionParameters_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelTransactionParametersDecodeErrorZ {
-		const ret: number = bindings.ChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelTransactionParametersDecodeErrorZ = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

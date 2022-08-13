@@ -362,9 +362,9 @@ import * as bindings from '../bindings.mjs'
  * [BOLT #4]: https://github.com/lightning/bolts/blob/master/04-onion-routing.md
  */
 export class NetworkUpdate extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetworkUpdate_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.NetworkUpdate_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): NetworkUpdate {
+	public static constr_from_ptr(ptr: bigint): NetworkUpdate {
 		const raw_ty: number = bindings.LDKNetworkUpdate_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new NetworkUpdate_ChannelUpdateMessage(ptr);
@@ -375,8 +375,8 @@ export class NetworkUpdate extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NetworkUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NetworkUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -384,7 +384,7 @@ export class NetworkUpdate extends CommonBase {
 	 * Creates a copy of the NetworkUpdate
 	 */
 	public clone(): NetworkUpdate {
-		const ret: number = bindings.NetworkUpdate_clone(this.ptr);
+		const ret: bigint = bindings.NetworkUpdate_clone(this.ptr);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -394,9 +394,10 @@ export class NetworkUpdate extends CommonBase {
 	 * Utility method to constructs a new ChannelUpdateMessage-variant NetworkUpdate
 	 */
 	public static constructor_channel_update_message(msg: ChannelUpdate): NetworkUpdate {
-		const ret: number = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.NetworkUpdate_channel_update_message(msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -404,7 +405,7 @@ export class NetworkUpdate extends CommonBase {
 	 * Utility method to constructs a new ChannelFailure-variant NetworkUpdate
 	 */
 	public static constructor_channel_failure(short_channel_id: bigint, is_permanent: boolean): NetworkUpdate {
-		const ret: number = bindings.NetworkUpdate_channel_failure(short_channel_id, is_permanent);
+		const ret: bigint = bindings.NetworkUpdate_channel_failure(short_channel_id, is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -414,7 +415,7 @@ export class NetworkUpdate extends CommonBase {
 	 * Utility method to constructs a new NodeFailure-variant NetworkUpdate
 	 */
 	public static constructor_node_failure(node_id: Uint8Array, is_permanent: boolean): NetworkUpdate {
-		const ret: number = bindings.NetworkUpdate_node_failure(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), is_permanent);
+		const ret: bigint = bindings.NetworkUpdate_node_failure(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -437,9 +438,9 @@ export class NetworkUpdate_ChannelUpdateMessage extends NetworkUpdate {
 	 */
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKNetworkUpdate_ChannelUpdateMessage_get_msg(ptr);
+		const msg: bigint = bindings.LDKNetworkUpdate_ChannelUpdateMessage_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -457,7 +458,7 @@ export class NetworkUpdate_ChannelFailure extends NetworkUpdate {
 	 */
 	public is_permanent: boolean;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.short_channel_id = bindings.LDKNetworkUpdate_ChannelFailure_get_short_channel_id(ptr);
 		this.is_permanent = bindings.LDKNetworkUpdate_ChannelFailure_get_is_permanent(ptr);
@@ -475,7 +476,7 @@ export class NetworkUpdate_NodeFailure extends NetworkUpdate {
 	 */
 	public is_permanent: boolean;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKNetworkUpdate_NodeFailure_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);

@@ -35,7 +35,7 @@ public class P2PGossipSync extends CommonBase {
 	 * channel owners' keys.
 	 */
 	public static P2PGossipSync of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
-		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
+		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, chain_access.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(chain_access);
 		Reference.reachabilityFence(logger);

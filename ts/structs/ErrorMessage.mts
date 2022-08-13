@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ErrorMessage extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ErrorMessage_free);
 	}
 
@@ -413,14 +413,14 @@ export class ErrorMessage extends CommonBase {
 	 * Constructs a new ErrorMessage given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, data_arg: string): ErrorMessage {
-		const ret: number = bindings.ErrorMessage_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeString(data_arg));
+		const ret: bigint = bindings.ErrorMessage_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeString(data_arg));
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ErrorMessage_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ErrorMessage_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -428,7 +428,7 @@ export class ErrorMessage extends CommonBase {
 	 * Creates a copy of the ErrorMessage
 	 */
 	public clone(): ErrorMessage {
-		const ret: number = bindings.ErrorMessage_clone(this.ptr);
+		const ret: bigint = bindings.ErrorMessage_clone(this.ptr);
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -447,7 +447,7 @@ export class ErrorMessage extends CommonBase {
 	 * Read a ErrorMessage from a byte array, created by ErrorMessage_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ErrorMessageDecodeErrorZ {
-		const ret: number = bindings.ErrorMessage_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ErrorMessage_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ErrorMessageDecodeErrorZ = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

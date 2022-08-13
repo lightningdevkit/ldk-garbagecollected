@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class DirectedChannelTransactionParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.DirectedChannelTransactionParameters_free);
 	}
 
@@ -373,7 +373,7 @@ export class DirectedChannelTransactionParameters extends CommonBase {
 	 * Get the channel pubkeys for the broadcaster
 	 */
 	public broadcaster_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.DirectedChannelTransactionParameters_broadcaster_pubkeys(this.ptr);
+		const ret: bigint = bindings.DirectedChannelTransactionParameters_broadcaster_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -383,7 +383,7 @@ export class DirectedChannelTransactionParameters extends CommonBase {
 	 * Get the channel pubkeys for the countersignatory
 	 */
 	public countersignatory_pubkeys(): ChannelPublicKeys {
-		const ret: number = bindings.DirectedChannelTransactionParameters_countersignatory_pubkeys(this.ptr);
+		const ret: bigint = bindings.DirectedChannelTransactionParameters_countersignatory_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -413,7 +413,7 @@ export class DirectedChannelTransactionParameters extends CommonBase {
 	 * The funding outpoint
 	 */
 	public funding_outpoint(): OutPoint {
-		const ret: number = bindings.DirectedChannelTransactionParameters_funding_outpoint(this.ptr);
+		const ret: bigint = bindings.DirectedChannelTransactionParameters_funding_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

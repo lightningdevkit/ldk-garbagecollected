@@ -56,9 +56,10 @@ public class RouteHop extends CommonBase {
 	 * amended to match the features present in the invoice this node generated.
 	 */
 	public void set_node_features(NodeFeatures val) {
-		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -97,9 +98,10 @@ public class RouteHop extends CommonBase {
 	 * to reach this node.
 	 */
 	public void set_channel_features(ChannelFeatures val) {
-		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -148,7 +150,7 @@ public class RouteHop extends CommonBase {
 	 * Constructs a new RouteHop given each field
 	 */
 	public static RouteHop of(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
-		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr, fee_msat_arg, cltv_expiry_delta_arg);
 		Reference.reachabilityFence(pubkey_arg);
 		Reference.reachabilityFence(node_features_arg);
 		Reference.reachabilityFence(short_channel_id_arg);
@@ -158,6 +160,8 @@ public class RouteHop extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(node_features_arg);
+		ret_hu_conv.ptrs_to.add(channel_features_arg);
 		return ret_hu_conv;
 	}
 
@@ -197,7 +201,7 @@ public class RouteHop extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(RouteHop b) {
-		boolean ret = bindings.RouteHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.RouteHop_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);

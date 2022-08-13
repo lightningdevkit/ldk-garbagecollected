@@ -59,9 +59,10 @@ public class ChannelCounterparty extends CommonBase {
 	 * many routing-relevant features are present in the init context.
 	 */
 	public void set_features(InitFeatures val) {
-		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -117,9 +118,10 @@ public class ChannelCounterparty extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_forwarding_info(@Nullable CounterpartyForwardingInfo val) {
-		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -172,7 +174,7 @@ public class ChannelCounterparty extends CommonBase {
 	 * Constructs a new ChannelCounterparty given each field
 	 */
 	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg, Option_u64Z outbound_htlc_minimum_msat_arg, Option_u64Z outbound_htlc_maximum_msat_arg) {
-		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
+		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
 		Reference.reachabilityFence(node_id_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(unspendable_punishment_reserve_arg);
@@ -182,6 +184,8 @@ public class ChannelCounterparty extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(features_arg);
+		ret_hu_conv.ptrs_to.add(forwarding_info_arg);
 		return ret_hu_conv;
 	}
 

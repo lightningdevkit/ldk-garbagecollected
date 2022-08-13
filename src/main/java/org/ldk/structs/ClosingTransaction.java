@@ -58,7 +58,7 @@ public class ClosingTransaction extends CommonBase {
 	 * Construct an object of the class
 	 */
 	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
-		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
+		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(to_holder_value_sat);
 		Reference.reachabilityFence(to_counterparty_value_sat);
 		Reference.reachabilityFence(to_holder_script);
@@ -67,6 +67,7 @@ public class ClosingTransaction extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 
@@ -96,11 +97,12 @@ public class ClosingTransaction extends CommonBase {
 	 * or using the built transaction.
 	 */
 	public Result_TrustedClosingTransactionNoneZ verify(OutPoint funding_outpoint) {
-		long ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
+		long ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_outpoint);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 

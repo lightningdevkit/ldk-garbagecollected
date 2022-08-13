@@ -378,7 +378,7 @@ export class MessageSendEventsProvider extends CommonBase {
 	public bindings_instance?: bindings.LDKMessageSendEventsProvider;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.MessageSendEventsProvider_free);
 		this.bindings_instance = null;
 	}
@@ -389,11 +389,11 @@ export class MessageSendEventsProvider extends CommonBase {
 		let structImplementation = {
 			get_and_clear_pending_msg_events (): number {
 				const ret: MessageSendEvent[] = arg.get_and_clear_pending_msg_events();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()) : null);
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0n : ret_conv_18.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKMessageSendEventsProvider;
-		const ptr: number = bindings.LDKMessageSendEventsProvider_new(structImplementation);
+		const ptr: bigint = bindings.LDKMessageSendEventsProvider_new(structImplementation);
 
 		impl_holder.held = new MessageSendEventsProvider(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -409,7 +409,7 @@ export class MessageSendEventsProvider extends CommonBase {
 		const ret_conv_18_len: number = bindings.getArrayLength(ret);
 		const ret_conv_18_arr: MessageSendEvent[] = new Array(ret_conv_18_len).fill(null);
 		for (var s = 0; s < ret_conv_18_len; s++) {
-			const ret_conv_18: number = bindings.getU32ArrayElem(ret, s);
+			const ret_conv_18: bigint = bindings.getU64ArrayElem(ret, s);
 			const ret_conv_18_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret_conv_18);
 			CommonBase.add_ref_from(ret_conv_18_hu_conv, this);
 			ret_conv_18_arr[s] = ret_conv_18_hu_conv;

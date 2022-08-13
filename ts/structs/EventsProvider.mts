@@ -404,7 +404,7 @@ export class EventsProvider extends CommonBase {
 	public bindings_instance?: bindings.LDKEventsProvider;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.EventsProvider_free);
 		this.bindings_instance = null;
 	}
@@ -413,13 +413,13 @@ export class EventsProvider extends CommonBase {
 	public static new_impl(arg: EventsProviderInterface): EventsProvider {
 		const impl_holder: LDKEventsProviderHolder = new LDKEventsProviderHolder();
 		let structImplementation = {
-			process_pending_events (handler: number): void {
+			process_pending_events (handler: bigint): void {
 				const ret_hu_conv: EventHandler = new EventHandler(null, handler);
 				CommonBase.add_ref_from(ret_hu_conv, this);
 				arg.process_pending_events(ret_hu_conv);
 			},
 		} as bindings.LDKEventsProvider;
-		const ptr: number = bindings.LDKEventsProvider_new(structImplementation);
+		const ptr: bigint = bindings.LDKEventsProvider_new(structImplementation);
 
 		impl_holder.held = new EventsProvider(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -434,7 +434,7 @@ export class EventsProvider extends CommonBase {
 	 * an old state (i.e., it hadn't been successfully persisted after processing pending events).
 	 */
 	public process_pending_events(handler: EventHandler): void {
-		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : CommonBase.get_ptr_of(handler));
+		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0n : CommonBase.get_ptr_of(handler));
 		CommonBase.add_ref_from(this, handler);
 	}
 

@@ -366,7 +366,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TrustedCommitmentTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.TrustedCommitmentTransaction_free);
 	}
 
@@ -383,7 +383,7 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	 * The pre-built Bitcoin commitment transaction
 	 */
 	public built_transaction(): BuiltCommitmentTransaction {
-		const ret: number = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
+		const ret: bigint = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -393,7 +393,7 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	 * The pre-calculated transaction creation public keys.
 	 */
 	public keys(): TxCreationKeys {
-		const ret: number = bindings.TrustedCommitmentTransaction_keys(this.ptr);
+		const ret: bigint = bindings.TrustedCommitmentTransaction_keys(this.ptr);
 		const ret_hu_conv: TxCreationKeys = new TxCreationKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -416,7 +416,7 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
 	public get_htlc_sigs(htlc_base_key: Uint8Array, channel_parameters: DirectedChannelTransactionParameters): Result_CVec_SignatureZNoneZ {
-		const ret: number = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1);
+		const ret: bigint = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters));
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, channel_parameters);
 		return ret_hu_conv;

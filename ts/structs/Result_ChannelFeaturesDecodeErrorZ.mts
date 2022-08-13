@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_ChannelFeaturesDecodeErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_ChannelFeaturesDecodeErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_ChannelFeaturesDecodeErrorZ {
 		if (bindings.CResult_ChannelFeaturesDecodeErrorZ_is_ok(ptr)) {
 			return new Result_ChannelFeaturesDecodeErrorZ_OK(null, ptr);
 		} else {
@@ -373,8 +373,9 @@ export class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ChannelFeaturesDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o: ChannelFeatures): Result_ChannelFeaturesDecodeErrorZ {
-		const ret: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_ChannelFeaturesDecodeErrorZ = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, o);
 		return ret_hu_conv;
 	}
 
@@ -382,8 +383,9 @@ export class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ChannelFeaturesDecodeErrorZ in the error state.
 	 */
 	public static constructor_err(e: DecodeError): Result_ChannelFeaturesDecodeErrorZ {
-		const ret: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
+		const ret: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_err(e == null ? 0n : CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_ChannelFeaturesDecodeErrorZ = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, e);
 		return ret_hu_conv;
 	}
 
@@ -395,8 +397,8 @@ export class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +407,7 @@ export class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_ChannelFeaturesDecodeErrorZ {
-		const ret: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_ChannelFeaturesDecodeErrorZ = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +417,9 @@ export class Result_ChannelFeaturesDecodeErrorZ_OK extends Result_ChannelFeature
 	public res: ChannelFeatures;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
 		const res_hu_conv: ChannelFeatures = new ChannelFeatures(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -427,9 +429,9 @@ export class Result_ChannelFeaturesDecodeErrorZ_Err extends Result_ChannelFeatur
 	public err: DecodeError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
 		const err_hu_conv: DecodeError = new DecodeError(null, err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

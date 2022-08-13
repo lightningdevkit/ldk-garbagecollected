@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free);
 	}
 
@@ -369,7 +369,7 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * 
 	 */
 	public get_a(): ChannelAnnouncement {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(this.ptr);
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(this.ptr);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -379,7 +379,7 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * 
 	 */
 	public get_b(): ChannelUpdate {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(this.ptr);
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -389,14 +389,14 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * 
 	 */
 	public get_c(): ChannelUpdate {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(this.ptr);
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(this.ptr);
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(this.ptr);
 		const ret_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -415,9 +415,12 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 * Creates a new C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ from the contained elements.
 	 */
 	public static constructor_new(a: ChannelAnnouncement, b: ChannelUpdate, c: ChannelUpdate): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ {
-		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1, c == null ? 0 : CommonBase.get_ptr_of(c) & ~1);
+		const ret: bigint = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0n : CommonBase.get_ptr_of(a), b == null ? 0n : CommonBase.get_ptr_of(b), c == null ? 0n : CommonBase.get_ptr_of(c));
 		const ret_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
+		CommonBase.add_ref_from(ret_hu_conv, b);
+		CommonBase.add_ref_from(ret_hu_conv, c);
 		return ret_hu_conv;
 	}
 

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class NodeAnnouncement extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.NodeAnnouncement_free);
 	}
 
@@ -385,7 +385,7 @@ export class NodeAnnouncement extends CommonBase {
 	 * The actual content of the announcement
 	 */
 	public get_contents(): UnsignedNodeAnnouncement {
-		const ret: number = bindings.NodeAnnouncement_get_contents(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncement_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,21 +395,23 @@ export class NodeAnnouncement extends CommonBase {
 	 * The actual content of the announcement
 	 */
 	public set_contents(val: UnsignedNodeAnnouncement): void {
-		bindings.NodeAnnouncement_set_contents(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.NodeAnnouncement_set_contents(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new NodeAnnouncement given each field
 	 */
 	public static constructor_new(signature_arg: Uint8Array, contents_arg: UnsignedNodeAnnouncement): NodeAnnouncement {
-		const ret: number = bindings.NodeAnnouncement_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
+		const ret: bigint = bindings.NodeAnnouncement_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0n : CommonBase.get_ptr_of(contents_arg));
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, contents_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.NodeAnnouncement_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.NodeAnnouncement_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -417,7 +419,7 @@ export class NodeAnnouncement extends CommonBase {
 	 * Creates a copy of the NodeAnnouncement
 	 */
 	public clone(): NodeAnnouncement {
-		const ret: number = bindings.NodeAnnouncement_clone(this.ptr);
+		const ret: bigint = bindings.NodeAnnouncement_clone(this.ptr);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -436,7 +438,7 @@ export class NodeAnnouncement extends CommonBase {
 	 * Read a NodeAnnouncement from a byte array, created by NodeAnnouncement_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeAnnouncementDecodeErrorZ {
-		const ret: number = bindings.NodeAnnouncement_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.NodeAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeAnnouncementDecodeErrorZ = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

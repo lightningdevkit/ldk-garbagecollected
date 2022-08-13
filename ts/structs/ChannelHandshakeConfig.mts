@@ -363,7 +363,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelHandshakeConfig extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelHandshakeConfig_free);
 	}
 
@@ -664,14 +664,14 @@ export class ChannelHandshakeConfig extends CommonBase {
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
 	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: bigint, max_inbound_htlc_value_in_flight_percent_of_channel_arg: number, negotiate_scid_privacy_arg: boolean, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean): ChannelHandshakeConfig {
-		const ret: number = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+		const ret: bigint = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelHandshakeConfig_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeConfig_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -679,7 +679,7 @@ export class ChannelHandshakeConfig extends CommonBase {
 	 * Creates a copy of the ChannelHandshakeConfig
 	 */
 	public clone(): ChannelHandshakeConfig {
-		const ret: number = bindings.ChannelHandshakeConfig_clone(this.ptr);
+		const ret: bigint = bindings.ChannelHandshakeConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -689,7 +689,7 @@ export class ChannelHandshakeConfig extends CommonBase {
 	 * Creates a "default" ChannelHandshakeConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static constructor_default(): ChannelHandshakeConfig {
-		const ret: number = bindings.ChannelHandshakeConfig_default();
+		const ret: bigint = bindings.ChannelHandshakeConfig_default();
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

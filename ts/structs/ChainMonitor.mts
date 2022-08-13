@@ -369,7 +369,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChainMonitor extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChainMonitor_free);
 	}
 
@@ -383,7 +383,7 @@ export class ChainMonitor extends CommonBase {
 	 * transactions relevant to the watched channels.
 	 */
 	public static constructor_new(chain_source: Option_FilterZ, broadcaster: BroadcasterInterface, logger: Logger, feeest: FeeEstimator, persister: Persist): ChainMonitor {
-		const ret: number = bindings.ChainMonitor_new(CommonBase.get_ptr_of(chain_source), broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), logger == null ? 0 : CommonBase.get_ptr_of(logger), feeest == null ? 0 : CommonBase.get_ptr_of(feeest), persister == null ? 0 : CommonBase.get_ptr_of(persister));
+		const ret: bigint = bindings.ChainMonitor_new(CommonBase.get_ptr_of(chain_source), broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), logger == null ? 0n : CommonBase.get_ptr_of(logger), feeest == null ? 0n : CommonBase.get_ptr_of(feeest), persister == null ? 0n : CommonBase.get_ptr_of(persister));
 		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, chain_source);
@@ -406,16 +406,17 @@ export class ChainMonitor extends CommonBase {
 	 * inclusion in the return value.
 	 */
 	public get_claimable_balances(ignored_channels: ChannelDetails[]): Balance[] {
-		const ret: number = bindings.ChainMonitor_get_claimable_balances(this.ptr, bindings.encodeUint32Array(ignored_channels != null ? ignored_channels.map(ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : CommonBase.get_ptr_of(ignored_channels_conv_16) & ~1) : null));
+		const ret: number = bindings.ChainMonitor_get_claimable_balances(this.ptr, bindings.encodeUint64Array(ignored_channels != null ? ignored_channels.map(ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0n : CommonBase.get_ptr_of(ignored_channels_conv_16)) : null));
 		const ret_conv_9_len: number = bindings.getArrayLength(ret);
 		const ret_conv_9_arr: Balance[] = new Array(ret_conv_9_len).fill(null);
 		for (var j = 0; j < ret_conv_9_len; j++) {
-			const ret_conv_9: number = bindings.getU32ArrayElem(ret, j);
+			const ret_conv_9: bigint = bindings.getU64ArrayElem(ret, j);
 			const ret_conv_9_hu_conv: Balance = Balance.constr_from_ptr(ret_conv_9);
 			CommonBase.add_ref_from(ret_conv_9_hu_conv, this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
 		bindings.freeWasmMemory(ret)
+		ignored_channels.forEach((ignored_channels_conv_16: ChannelDetails) => { CommonBase.add_ref_from(this, ignored_channels_conv_16); });
 		return ret_conv_9_arr;
 	}
 
@@ -427,8 +428,9 @@ export class ChainMonitor extends CommonBase {
 	 * indefinitely.
 	 */
 	public get_monitor(funding_txo: OutPoint): Result_LockedChannelMonitorNoneZ {
-		const ret: number = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1);
+		const ret: bigint = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo));
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, funding_txo);
 		return ret_hu_conv;
 	}
 
@@ -443,7 +445,7 @@ export class ChainMonitor extends CommonBase {
 		const ret_conv_10_len: number = bindings.getArrayLength(ret);
 		const ret_conv_10_arr: OutPoint[] = new Array(ret_conv_10_len).fill(null);
 		for (var k = 0; k < ret_conv_10_len; k++) {
-			const ret_conv_10: number = bindings.getU32ArrayElem(ret, k);
+			const ret_conv_10: bigint = bindings.getU64ArrayElem(ret, k);
 			const ret_conv_10_hu_conv: OutPoint = new OutPoint(null, ret_conv_10);
 			CommonBase.add_ref_from(ret_conv_10_hu_conv, this);
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
@@ -468,8 +470,10 @@ export class ChainMonitor extends CommonBase {
 	 * registered [`ChannelMonitor`]s.
 	 */
 	public channel_monitor_updated(funding_txo: OutPoint, completed_update_id: MonitorUpdateId): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, completed_update_id == null ? 0 : CommonBase.get_ptr_of(completed_update_id) & ~1);
+		const ret: bigint = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), completed_update_id == null ? 0n : CommonBase.get_ptr_of(completed_update_id));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, funding_txo);
+		CommonBase.add_ref_from(this, completed_update_id);
 		return ret_hu_conv;
 	}
 
@@ -478,7 +482,7 @@ export class ChainMonitor extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Listen must be freed before this_arg is
 	 */
 	public as_Listen(): Listen {
-		const ret: number = bindings.ChainMonitor_as_Listen(this.ptr);
+		const ret: bigint = bindings.ChainMonitor_as_Listen(this.ptr);
 		const ret_hu_conv: Listen = new Listen(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -489,7 +493,7 @@ export class ChainMonitor extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Confirm must be freed before this_arg is
 	 */
 	public as_Confirm(): Confirm {
-		const ret: number = bindings.ChainMonitor_as_Confirm(this.ptr);
+		const ret: bigint = bindings.ChainMonitor_as_Confirm(this.ptr);
 		const ret_hu_conv: Confirm = new Confirm(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -500,7 +504,7 @@ export class ChainMonitor extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned Watch must be freed before this_arg is
 	 */
 	public as_Watch(): Watch {
-		const ret: number = bindings.ChainMonitor_as_Watch(this.ptr);
+		const ret: bigint = bindings.ChainMonitor_as_Watch(this.ptr);
 		const ret_hu_conv: Watch = new Watch(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -511,7 +515,7 @@ export class ChainMonitor extends CommonBase {
 	 * This copies the `inner` pointer in this_arg and thus the returned EventsProvider must be freed before this_arg is
 	 */
 	public as_EventsProvider(): EventsProvider {
-		const ret: number = bindings.ChainMonitor_as_EventsProvider(this.ptr);
+		const ret: bigint = bindings.ChainMonitor_as_EventsProvider(this.ptr);
 		const ret_hu_conv: EventsProvider = new EventsProvider(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

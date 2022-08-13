@@ -366,7 +366,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Invoice extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Invoice_free);
 	}
 
@@ -376,13 +376,13 @@ export class Invoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: Invoice): boolean {
-		const ret: boolean = bindings.Invoice_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.Invoice_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Invoice_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Invoice_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -390,7 +390,7 @@ export class Invoice extends CommonBase {
 	 * Creates a copy of the Invoice
 	 */
 	public clone(): Invoice {
-		const ret: number = bindings.Invoice_clone(this.ptr);
+		const ret: bigint = bindings.Invoice_clone(this.ptr);
 		const ret_hu_conv: Invoice = new Invoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -400,7 +400,7 @@ export class Invoice extends CommonBase {
 	 * Transform the `Invoice` into it's unchecked version
 	 */
 	public into_signed_raw(): SignedRawInvoice {
-		const ret: number = bindings.Invoice_into_signed_raw(this.ptr);
+		const ret: bigint = bindings.Invoice_into_signed_raw(this.ptr);
 		const ret_hu_conv: SignedRawInvoice = new SignedRawInvoice(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -410,7 +410,7 @@ export class Invoice extends CommonBase {
 	 * Check that the invoice is signed correctly and that key recovery works
 	 */
 	public check_signature(): Result_NoneSemanticErrorZ {
-		const ret: number = bindings.Invoice_check_signature(this.ptr);
+		const ret: bigint = bindings.Invoice_check_signature(this.ptr);
 		const ret_hu_conv: Result_NoneSemanticErrorZ = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -438,8 +438,9 @@ export class Invoice extends CommonBase {
 	 * ```
 	 */
 	public static constructor_from_signed(signed_invoice: SignedRawInvoice): Result_InvoiceSemanticErrorZ {
-		const ret: number = bindings.Invoice_from_signed(signed_invoice == null ? 0 : CommonBase.get_ptr_of(signed_invoice) & ~1);
+		const ret: bigint = bindings.Invoice_from_signed(signed_invoice == null ? 0n : CommonBase.get_ptr_of(signed_invoice));
 		const ret_hu_conv: Result_InvoiceSemanticErrorZ = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, signed_invoice);
 		return ret_hu_conv;
 	}
 
@@ -486,7 +487,7 @@ export class Invoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public features(): InvoiceFeatures {
-		const ret: number = bindings.Invoice_features(this.ptr);
+		const ret: bigint = bindings.Invoice_features(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -535,7 +536,7 @@ export class Invoice extends CommonBase {
 		const ret_conv_14_len: number = bindings.getArrayLength(ret);
 		const ret_conv_14_arr: PrivateRoute[] = new Array(ret_conv_14_len).fill(null);
 		for (var o = 0; o < ret_conv_14_len; o++) {
-			const ret_conv_14: number = bindings.getU32ArrayElem(ret, o);
+			const ret_conv_14: bigint = bindings.getU64ArrayElem(ret, o);
 			const ret_conv_14_hu_conv: PrivateRoute = new PrivateRoute(null, ret_conv_14);
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
@@ -552,7 +553,7 @@ export class Invoice extends CommonBase {
 		const ret_conv_11_len: number = bindings.getArrayLength(ret);
 		const ret_conv_11_arr: RouteHint[] = new Array(ret_conv_11_len).fill(null);
 		for (var l = 0; l < ret_conv_11_len; l++) {
-			const ret_conv_11: number = bindings.getU32ArrayElem(ret, l);
+			const ret_conv_11: bigint = bindings.getU64ArrayElem(ret, l);
 			const ret_conv_11_hu_conv: RouteHint = new RouteHint(null, ret_conv_11);
 			CommonBase.add_ref_from(ret_conv_11_hu_conv, this);
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
@@ -573,7 +574,7 @@ export class Invoice extends CommonBase {
 	 * Returns the amount if specified in the invoice as millisatoshis.
 	 */
 	public amount_milli_satoshis(): Option_u64Z {
-		const ret: number = bindings.Invoice_amount_milli_satoshis(this.ptr);
+		const ret: bigint = bindings.Invoice_amount_milli_satoshis(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -583,7 +584,7 @@ export class Invoice extends CommonBase {
 	 * Read a Invoice object from a string
 	 */
 	public static constructor_from_str(s: string): Result_InvoiceParseOrSemanticErrorZ {
-		const ret: number = bindings.Invoice_from_str(bindings.encodeString(s));
+		const ret: bigint = bindings.Invoice_from_str(bindings.encodeString(s));
 		const ret_hu_conv: Result_InvoiceParseOrSemanticErrorZ = Result_InvoiceParseOrSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

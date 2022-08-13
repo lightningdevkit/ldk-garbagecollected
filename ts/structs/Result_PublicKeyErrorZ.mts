@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_PublicKeyErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_PublicKeyErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_PublicKeyErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_PublicKeyErrorZ {
 		if (bindings.CResult_PublicKeyErrorZ_is_ok(ptr)) {
 			return new Result_PublicKeyErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 	 * Creates a new CResult_PublicKeyErrorZ in the success state.
 	 */
 	public static constructor_ok(o: Uint8Array): Result_PublicKeyErrorZ {
-		const ret: number = bindings.CResult_PublicKeyErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 33)));
+		const ret: bigint = bindings.CResult_PublicKeyErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 	 * Creates a new CResult_PublicKeyErrorZ in the error state.
 	 */
 	public static constructor_err(e: Secp256k1Error): Result_PublicKeyErrorZ {
-		const ret: number = bindings.CResult_PublicKeyErrorZ_err(e);
+		const ret: bigint = bindings.CResult_PublicKeyErrorZ_err(e);
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_PublicKeyErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_PublicKeyErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_PublicKeyErrorZ {
-		const ret: number = bindings.CResult_PublicKeyErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_PublicKeyErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,7 +415,7 @@ export class Result_PublicKeyErrorZ_OK extends Result_PublicKeyErrorZ {
 	public res: Uint8Array;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		const res: number = bindings.CResult_PublicKeyErrorZ_get_ok(ptr);
 		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
@@ -426,7 +426,7 @@ export class Result_PublicKeyErrorZ_Err extends Result_PublicKeyErrorZ {
 	public err: Secp256k1Error;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.err = bindings.CResult_PublicKeyErrorZ_get_err(ptr);
 	}

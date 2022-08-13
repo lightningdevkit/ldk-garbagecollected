@@ -360,9 +360,9 @@ import * as bindings from '../bindings.mjs'
  * reasons, but should generally result in an \"invalid BOLT11 invoice\" message for the user.
  */
 export class ParseError extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ParseError_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.ParseError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): ParseError {
+	public static constr_from_ptr(ptr: bigint): ParseError {
 		const raw_ty: number = bindings.LDKParseError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ParseError_Bech32Error(ptr);
@@ -388,8 +388,8 @@ export class ParseError extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ParseError_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ParseError_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -397,7 +397,7 @@ export class ParseError extends CommonBase {
 	 * Creates a copy of the ParseError
 	 */
 	public clone(): ParseError {
-		const ret: number = bindings.ParseError_clone(this.ptr);
+		const ret: bigint = bindings.ParseError_clone(this.ptr);
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -407,7 +407,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new Bech32Error-variant ParseError
 	 */
 	public static constructor_bech32_error(a: Bech32Error): ParseError {
-		const ret: number = bindings.ParseError_bech32_error(CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.ParseError_bech32_error(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -417,7 +417,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new ParseAmountError-variant ParseError
 	 */
 	public static constructor_parse_amount_error(a: UnqualifiedError): ParseError {
-		const ret: number = bindings.ParseError_parse_amount_error(0);
+		const ret: bigint = bindings.ParseError_parse_amount_error(0);
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -427,7 +427,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new MalformedSignature-variant ParseError
 	 */
 	public static constructor_malformed_signature(a: Secp256k1Error): ParseError {
-		const ret: number = bindings.ParseError_malformed_signature(a);
+		const ret: bigint = bindings.ParseError_malformed_signature(a);
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -437,7 +437,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new BadPrefix-variant ParseError
 	 */
 	public static constructor_bad_prefix(): ParseError {
-		const ret: number = bindings.ParseError_bad_prefix();
+		const ret: bigint = bindings.ParseError_bad_prefix();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -447,7 +447,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new UnknownCurrency-variant ParseError
 	 */
 	public static constructor_unknown_currency(): ParseError {
-		const ret: number = bindings.ParseError_unknown_currency();
+		const ret: bigint = bindings.ParseError_unknown_currency();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -457,7 +457,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new UnknownSiPrefix-variant ParseError
 	 */
 	public static constructor_unknown_si_prefix(): ParseError {
-		const ret: number = bindings.ParseError_unknown_si_prefix();
+		const ret: bigint = bindings.ParseError_unknown_si_prefix();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -467,7 +467,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new MalformedHRP-variant ParseError
 	 */
 	public static constructor_malformed_hrp(): ParseError {
-		const ret: number = bindings.ParseError_malformed_hrp();
+		const ret: bigint = bindings.ParseError_malformed_hrp();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -477,7 +477,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new TooShortDataPart-variant ParseError
 	 */
 	public static constructor_too_short_data_part(): ParseError {
-		const ret: number = bindings.ParseError_too_short_data_part();
+		const ret: bigint = bindings.ParseError_too_short_data_part();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -487,7 +487,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new UnexpectedEndOfTaggedFields-variant ParseError
 	 */
 	public static constructor_unexpected_end_of_tagged_fields(): ParseError {
-		const ret: number = bindings.ParseError_unexpected_end_of_tagged_fields();
+		const ret: bigint = bindings.ParseError_unexpected_end_of_tagged_fields();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -497,7 +497,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new DescriptionDecodeError-variant ParseError
 	 */
 	public static constructor_description_decode_error(a: UnqualifiedError): ParseError {
-		const ret: number = bindings.ParseError_description_decode_error(0);
+		const ret: bigint = bindings.ParseError_description_decode_error(0);
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -507,7 +507,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new PaddingError-variant ParseError
 	 */
 	public static constructor_padding_error(): ParseError {
-		const ret: number = bindings.ParseError_padding_error();
+		const ret: bigint = bindings.ParseError_padding_error();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -517,7 +517,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new IntegerOverflowError-variant ParseError
 	 */
 	public static constructor_integer_overflow_error(): ParseError {
-		const ret: number = bindings.ParseError_integer_overflow_error();
+		const ret: bigint = bindings.ParseError_integer_overflow_error();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -527,7 +527,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new InvalidSegWitProgramLength-variant ParseError
 	 */
 	public static constructor_invalid_seg_wit_program_length(): ParseError {
-		const ret: number = bindings.ParseError_invalid_seg_wit_program_length();
+		const ret: bigint = bindings.ParseError_invalid_seg_wit_program_length();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -537,7 +537,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new InvalidPubKeyHashLength-variant ParseError
 	 */
 	public static constructor_invalid_pub_key_hash_length(): ParseError {
-		const ret: number = bindings.ParseError_invalid_pub_key_hash_length();
+		const ret: bigint = bindings.ParseError_invalid_pub_key_hash_length();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -547,7 +547,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new InvalidScriptHashLength-variant ParseError
 	 */
 	public static constructor_invalid_script_hash_length(): ParseError {
-		const ret: number = bindings.ParseError_invalid_script_hash_length();
+		const ret: bigint = bindings.ParseError_invalid_script_hash_length();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -557,7 +557,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new InvalidRecoveryId-variant ParseError
 	 */
 	public static constructor_invalid_recovery_id(): ParseError {
-		const ret: number = bindings.ParseError_invalid_recovery_id();
+		const ret: bigint = bindings.ParseError_invalid_recovery_id();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -567,7 +567,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new InvalidSliceLength-variant ParseError
 	 */
 	public static constructor_invalid_slice_length(a: string): ParseError {
-		const ret: number = bindings.ParseError_invalid_slice_length(bindings.encodeString(a));
+		const ret: bigint = bindings.ParseError_invalid_slice_length(bindings.encodeString(a));
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -577,7 +577,7 @@ export class ParseError extends CommonBase {
 	 * Utility method to constructs a new Skip-variant ParseError
 	 */
 	public static constructor_skip(): ParseError {
-		const ret: number = bindings.ParseError_skip();
+		const ret: bigint = bindings.ParseError_skip();
 		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -597,9 +597,9 @@ export class ParseError extends CommonBase {
 export class ParseError_Bech32Error extends ParseError {
 	public bech32_error: Bech32Error;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const bech32_error: number = bindings.LDKParseError_Bech32Error_get_bech32_error(ptr);
+		const bech32_error: bigint = bindings.LDKParseError_Bech32Error_get_bech32_error(ptr);
 		const bech32_error_hu_conv: Bech32Error = Bech32Error.constr_from_ptr(bech32_error);
 			CommonBase.add_ref_from(bech32_error_hu_conv, this);
 		this.bech32_error = bech32_error_hu_conv;
@@ -609,7 +609,7 @@ export class ParseError_Bech32Error extends ParseError {
 export class ParseError_ParseAmountError extends ParseError {
 	public parse_amount_error: UnqualifiedError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const parse_amount_error: number = bindings.LDKParseError_ParseAmountError_get_parse_amount_error(ptr);
 		const parse_amount_error_conv: UnqualifiedError = new UnqualifiedError(parse_amount_error);
@@ -620,7 +620,7 @@ export class ParseError_ParseAmountError extends ParseError {
 export class ParseError_MalformedSignature extends ParseError {
 	public malformed_signature: Secp256k1Error;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.malformed_signature = bindings.LDKParseError_MalformedSignature_get_malformed_signature(ptr);
 	}
@@ -628,42 +628,42 @@ export class ParseError_MalformedSignature extends ParseError {
 /** A ParseError of type BadPrefix */
 export class ParseError_BadPrefix extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type UnknownCurrency */
 export class ParseError_UnknownCurrency extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type UnknownSiPrefix */
 export class ParseError_UnknownSiPrefix extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type MalformedHRP */
 export class ParseError_MalformedHRP extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type TooShortDataPart */
 export class ParseError_TooShortDataPart extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type UnexpectedEndOfTaggedFields */
 export class ParseError_UnexpectedEndOfTaggedFields extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -671,7 +671,7 @@ export class ParseError_UnexpectedEndOfTaggedFields extends ParseError {
 export class ParseError_DescriptionDecodeError extends ParseError {
 	public description_decode_error: UnqualifiedError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const description_decode_error: number = bindings.LDKParseError_DescriptionDecodeError_get_description_decode_error(ptr);
 		const description_decode_error_conv: UnqualifiedError = new UnqualifiedError(description_decode_error);
@@ -681,42 +681,42 @@ export class ParseError_DescriptionDecodeError extends ParseError {
 /** A ParseError of type PaddingError */
 export class ParseError_PaddingError extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type IntegerOverflowError */
 export class ParseError_IntegerOverflowError extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type InvalidSegWitProgramLength */
 export class ParseError_InvalidSegWitProgramLength extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type InvalidPubKeyHashLength */
 export class ParseError_InvalidPubKeyHashLength extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type InvalidScriptHashLength */
 export class ParseError_InvalidScriptHashLength extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
 /** A ParseError of type InvalidRecoveryId */
 export class ParseError_InvalidRecoveryId extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -724,7 +724,7 @@ export class ParseError_InvalidRecoveryId extends ParseError {
 export class ParseError_InvalidSliceLength extends ParseError {
 	public invalid_slice_length: string;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const invalid_slice_length: number = bindings.LDKParseError_InvalidSliceLength_get_invalid_slice_length(ptr);
 		const invalid_slice_length_conv: string = bindings.decodeString(invalid_slice_length);
@@ -734,7 +734,7 @@ export class ParseError_InvalidSliceLength extends ParseError {
 /** A ParseError of type Skip */
 export class ParseError_Skip extends ParseError {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

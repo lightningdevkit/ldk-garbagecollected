@@ -451,7 +451,7 @@ export class Confirm extends CommonBase {
 	public bindings_instance?: bindings.LDKConfirm;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Confirm_free);
 		this.bindings_instance = null;
 	}
@@ -465,7 +465,7 @@ export class Confirm extends CommonBase {
 				const txdata_conv_28_len: number = bindings.getArrayLength(txdata);
 				const txdata_conv_28_arr: TwoTuple_usizeTransactionZ[] = new Array(txdata_conv_28_len).fill(null);
 				for (var c = 0; c < txdata_conv_28_len; c++) {
-					const txdata_conv_28: number = bindings.getU32ArrayElem(txdata, c);
+					const txdata_conv_28: bigint = bindings.getU64ArrayElem(txdata, c);
 					const txdata_conv_28_hu_conv: TwoTuple_usizeTransactionZ = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
 					CommonBase.add_ref_from(txdata_conv_28_hu_conv, this);
 					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
@@ -487,7 +487,7 @@ export class Confirm extends CommonBase {
 				return result;
 			},
 		} as bindings.LDKConfirm;
-		const ptr: number = bindings.LDKConfirm_new(structImplementation);
+		const ptr: bigint = bindings.LDKConfirm_new(structImplementation);
 
 		impl_holder.held = new Confirm(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -510,7 +510,7 @@ export class Confirm extends CommonBase {
 	 * [`best_block_updated`]: Self::best_block_updated
 	 */
 	public transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number): void {
-		bindings.Confirm_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint32Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null), height);
+		bindings.Confirm_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height);
 	}
 
 	/**

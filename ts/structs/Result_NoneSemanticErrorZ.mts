@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_NoneSemanticErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_NoneSemanticErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_NoneSemanticErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_NoneSemanticErrorZ {
 		if (bindings.CResult_NoneSemanticErrorZ_is_ok(ptr)) {
 			return new Result_NoneSemanticErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_NoneSemanticErrorZ extends CommonBase {
 	 * Creates a new CResult_NoneSemanticErrorZ in the success state.
 	 */
 	public static constructor_ok(): Result_NoneSemanticErrorZ {
-		const ret: number = bindings.CResult_NoneSemanticErrorZ_ok();
+		const ret: bigint = bindings.CResult_NoneSemanticErrorZ_ok();
 		const ret_hu_conv: Result_NoneSemanticErrorZ = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_NoneSemanticErrorZ extends CommonBase {
 	 * Creates a new CResult_NoneSemanticErrorZ in the error state.
 	 */
 	public static constructor_err(e: SemanticError): Result_NoneSemanticErrorZ {
-		const ret: number = bindings.CResult_NoneSemanticErrorZ_err(e);
+		const ret: bigint = bindings.CResult_NoneSemanticErrorZ_err(e);
 		const ret_hu_conv: Result_NoneSemanticErrorZ = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_NoneSemanticErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_NoneSemanticErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_NoneSemanticErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_NoneSemanticErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_NoneSemanticErrorZ {
-		const ret: number = bindings.CResult_NoneSemanticErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_NoneSemanticErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneSemanticErrorZ = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -414,7 +414,7 @@ export class Result_NoneSemanticErrorZ extends CommonBase {
 export class Result_NoneSemanticErrorZ_OK extends Result_NoneSemanticErrorZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }
@@ -422,7 +422,7 @@ export class Result_NoneSemanticErrorZ_Err extends Result_NoneSemanticErrorZ {
 	public err: SemanticError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 		this.err = bindings.CResult_NoneSemanticErrorZ_get_err(ptr);
 	}

@@ -361,9 +361,9 @@ import * as bindings from '../bindings.mjs'
  * These events are handled by PeerManager::process_events if you are using a PeerManager.
  */
 export class MessageSendEvent extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.MessageSendEvent_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.MessageSendEvent_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): MessageSendEvent {
+	public static constr_from_ptr(ptr: bigint): MessageSendEvent {
 		const raw_ty: number = bindings.LDKMessageSendEvent_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new MessageSendEvent_SendAcceptChannel(ptr);
@@ -391,8 +391,8 @@ export class MessageSendEvent extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.MessageSendEvent_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.MessageSendEvent_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -400,7 +400,7 @@ export class MessageSendEvent extends CommonBase {
 	 * Creates a copy of the MessageSendEvent
 	 */
 	public clone(): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_clone(this.ptr);
+		const ret: bigint = bindings.MessageSendEvent_clone(this.ptr);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -410,9 +410,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendAcceptChannel-variant MessageSendEvent
 	 */
 	public static constructor_send_accept_channel(node_id: Uint8Array, msg: AcceptChannel): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_accept_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_accept_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -420,9 +421,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
 	 */
 	public static constructor_send_open_channel(node_id: Uint8Array, msg: OpenChannel): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_open_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_open_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -430,9 +432,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendFundingCreated-variant MessageSendEvent
 	 */
 	public static constructor_send_funding_created(node_id: Uint8Array, msg: FundingCreated): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_funding_created(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_funding_created(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -440,9 +443,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendFundingSigned-variant MessageSendEvent
 	 */
 	public static constructor_send_funding_signed(node_id: Uint8Array, msg: FundingSigned): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_funding_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_funding_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -450,9 +454,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelReady-variant MessageSendEvent
 	 */
 	public static constructor_send_channel_ready(node_id: Uint8Array, msg: ChannelReady): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_ready(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_channel_ready(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -460,9 +465,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendAnnouncementSignatures-variant MessageSendEvent
 	 */
 	public static constructor_send_announcement_signatures(node_id: Uint8Array, msg: AnnouncementSignatures): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_announcement_signatures(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_announcement_signatures(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -470,9 +476,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateHTLCs-variant MessageSendEvent
 	 */
 	public static constructor_update_htlcs(node_id: Uint8Array, updates: CommitmentUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_update_htlcs(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), updates == null ? 0 : CommonBase.get_ptr_of(updates) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_update_htlcs(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), updates == null ? 0n : CommonBase.get_ptr_of(updates));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, updates);
 		return ret_hu_conv;
 	}
 
@@ -480,9 +487,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendRevokeAndACK-variant MessageSendEvent
 	 */
 	public static constructor_send_revoke_and_ack(node_id: Uint8Array, msg: RevokeAndACK): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_revoke_and_ack(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_revoke_and_ack(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -490,9 +498,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendClosingSigned-variant MessageSendEvent
 	 */
 	public static constructor_send_closing_signed(node_id: Uint8Array, msg: ClosingSigned): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_closing_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_closing_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -500,9 +509,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendShutdown-variant MessageSendEvent
 	 */
 	public static constructor_send_shutdown(node_id: Uint8Array, msg: Shutdown): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_shutdown(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_shutdown(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -510,9 +520,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelReestablish-variant MessageSendEvent
 	 */
 	public static constructor_send_channel_reestablish(node_id: Uint8Array, msg: ChannelReestablish): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_reestablish(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_channel_reestablish(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -520,9 +531,11 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new BroadcastChannelAnnouncement-variant MessageSendEvent
 	 */
 	public static constructor_broadcast_channel_announcement(msg: ChannelAnnouncement, update_msg: ChannelUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1, update_msg == null ? 0 : CommonBase.get_ptr_of(update_msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0n : CommonBase.get_ptr_of(msg), update_msg == null ? 0n : CommonBase.get_ptr_of(update_msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		CommonBase.add_ref_from(ret_hu_conv, update_msg);
 		return ret_hu_conv;
 	}
 
@@ -530,9 +543,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new BroadcastNodeAnnouncement-variant MessageSendEvent
 	 */
 	public static constructor_broadcast_node_announcement(msg: NodeAnnouncement): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -540,9 +554,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new BroadcastChannelUpdate-variant MessageSendEvent
 	 */
 	public static constructor_broadcast_channel_update(msg: ChannelUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -550,9 +565,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelUpdate-variant MessageSendEvent
 	 */
 	public static constructor_send_channel_update(node_id: Uint8Array, msg: ChannelUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_update(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_channel_update(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -560,7 +576,7 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new HandleError-variant MessageSendEvent
 	 */
 	public static constructor_handle_error(node_id: Uint8Array, action: ErrorAction): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_handle_error(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), CommonBase.get_ptr_of(action));
+		const ret: bigint = bindings.MessageSendEvent_handle_error(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), CommonBase.get_ptr_of(action));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -570,9 +586,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelRangeQuery-variant MessageSendEvent
 	 */
 	public static constructor_send_channel_range_query(node_id: Uint8Array, msg: QueryChannelRange): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_range_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_channel_range_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -580,9 +597,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendShortIdsQuery-variant MessageSendEvent
 	 */
 	public static constructor_send_short_ids_query(node_id: Uint8Array, msg: QueryShortChannelIds): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_short_ids_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_short_ids_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -590,9 +608,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendReplyChannelRange-variant MessageSendEvent
 	 */
 	public static constructor_send_reply_channel_range(node_id: Uint8Array, msg: ReplyChannelRange): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_reply_channel_range(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_reply_channel_range(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -600,9 +619,10 @@ export class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendGossipTimestampFilter-variant MessageSendEvent
 	 */
 	public static constructor_send_gossip_timestamp_filter(node_id: Uint8Array, msg: GossipTimestampFilter): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_gossip_timestamp_filter(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.MessageSendEvent_send_gossip_timestamp_filter(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -618,12 +638,12 @@ export class MessageSendEvent_SendAcceptChannel extends MessageSendEvent {
 	 */
 	public msg: AcceptChannel;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendAcceptChannel_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendAcceptChannel_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendAcceptChannel_get_msg(ptr);
 		const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -640,12 +660,12 @@ export class MessageSendEvent_SendOpenChannel extends MessageSendEvent {
 	 */
 	public msg: OpenChannel;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendOpenChannel_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendOpenChannel_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendOpenChannel_get_msg(ptr);
 		const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -662,12 +682,12 @@ export class MessageSendEvent_SendFundingCreated extends MessageSendEvent {
 	 */
 	public msg: FundingCreated;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendFundingCreated_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendFundingCreated_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendFundingCreated_get_msg(ptr);
 		const msg_hu_conv: FundingCreated = new FundingCreated(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -684,12 +704,12 @@ export class MessageSendEvent_SendFundingSigned extends MessageSendEvent {
 	 */
 	public msg: FundingSigned;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendFundingSigned_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendFundingSigned_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendFundingSigned_get_msg(ptr);
 		const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -706,12 +726,12 @@ export class MessageSendEvent_SendChannelReady extends MessageSendEvent {
 	 */
 	public msg: ChannelReady;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendChannelReady_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendChannelReady_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendChannelReady_get_msg(ptr);
 		const msg_hu_conv: ChannelReady = new ChannelReady(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -728,12 +748,12 @@ export class MessageSendEvent_SendAnnouncementSignatures extends MessageSendEven
 	 */
 	public msg: AnnouncementSignatures;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendAnnouncementSignatures_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendAnnouncementSignatures_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendAnnouncementSignatures_get_msg(ptr);
 		const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -750,12 +770,12 @@ export class MessageSendEvent_UpdateHTLCs extends MessageSendEvent {
 	 */
 	public updates: CommitmentUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_UpdateHTLCs_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const updates: number = bindings.LDKMessageSendEvent_UpdateHTLCs_get_updates(ptr);
+		const updates: bigint = bindings.LDKMessageSendEvent_UpdateHTLCs_get_updates(ptr);
 		const updates_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, updates);
 			CommonBase.add_ref_from(updates_hu_conv, this);
 		this.updates = updates_hu_conv;
@@ -772,12 +792,12 @@ export class MessageSendEvent_SendRevokeAndACK extends MessageSendEvent {
 	 */
 	public msg: RevokeAndACK;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendRevokeAndACK_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendRevokeAndACK_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendRevokeAndACK_get_msg(ptr);
 		const msg_hu_conv: RevokeAndACK = new RevokeAndACK(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -794,12 +814,12 @@ export class MessageSendEvent_SendClosingSigned extends MessageSendEvent {
 	 */
 	public msg: ClosingSigned;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendClosingSigned_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendClosingSigned_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendClosingSigned_get_msg(ptr);
 		const msg_hu_conv: ClosingSigned = new ClosingSigned(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -816,12 +836,12 @@ export class MessageSendEvent_SendShutdown extends MessageSendEvent {
 	 */
 	public msg: Shutdown;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendShutdown_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendShutdown_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendShutdown_get_msg(ptr);
 		const msg_hu_conv: Shutdown = new Shutdown(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -838,12 +858,12 @@ export class MessageSendEvent_SendChannelReestablish extends MessageSendEvent {
 	 */
 	public msg: ChannelReestablish;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendChannelReestablish_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendChannelReestablish_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendChannelReestablish_get_msg(ptr);
 		const msg_hu_conv: ChannelReestablish = new ChannelReestablish(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -860,13 +880,13 @@ export class MessageSendEvent_BroadcastChannelAnnouncement extends MessageSendEv
 	 */
 	public update_msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_msg(ptr);
 		const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
-		const update_msg: number = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_update_msg(ptr);
+		const update_msg: bigint = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_update_msg(ptr);
 		const update_msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, update_msg);
 			CommonBase.add_ref_from(update_msg_hu_conv, this);
 		this.update_msg = update_msg_hu_conv;
@@ -879,9 +899,9 @@ export class MessageSendEvent_BroadcastNodeAnnouncement extends MessageSendEvent
 	 */
 	public msg: NodeAnnouncement;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKMessageSendEvent_BroadcastNodeAnnouncement_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_BroadcastNodeAnnouncement_get_msg(ptr);
 		const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -894,9 +914,9 @@ export class MessageSendEvent_BroadcastChannelUpdate extends MessageSendEvent {
 	 */
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKMessageSendEvent_BroadcastChannelUpdate_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_BroadcastChannelUpdate_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -913,12 +933,12 @@ export class MessageSendEvent_SendChannelUpdate extends MessageSendEvent {
 	 */
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendChannelUpdate_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendChannelUpdate_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendChannelUpdate_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -935,12 +955,12 @@ export class MessageSendEvent_HandleError extends MessageSendEvent {
 	 */
 	public action: ErrorAction;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_HandleError_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const action: number = bindings.LDKMessageSendEvent_HandleError_get_action(ptr);
+		const action: bigint = bindings.LDKMessageSendEvent_HandleError_get_action(ptr);
 		const action_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(action);
 			CommonBase.add_ref_from(action_hu_conv, this);
 		this.action = action_hu_conv;
@@ -957,12 +977,12 @@ export class MessageSendEvent_SendChannelRangeQuery extends MessageSendEvent {
 	 */
 	public msg: QueryChannelRange;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendChannelRangeQuery_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendChannelRangeQuery_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendChannelRangeQuery_get_msg(ptr);
 		const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -979,12 +999,12 @@ export class MessageSendEvent_SendShortIdsQuery extends MessageSendEvent {
 	 */
 	public msg: QueryShortChannelIds;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendShortIdsQuery_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendShortIdsQuery_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendShortIdsQuery_get_msg(ptr);
 		const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -1001,12 +1021,12 @@ export class MessageSendEvent_SendReplyChannelRange extends MessageSendEvent {
 	 */
 	public msg: ReplyChannelRange;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_msg(ptr);
 		const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -1023,12 +1043,12 @@ export class MessageSendEvent_SendGossipTimestampFilter extends MessageSendEvent
 	 */
 	public msg: GossipTimestampFilter;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const node_id: number = bindings.LDKMessageSendEvent_SendGossipTimestampFilter_get_node_id(ptr);
 		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
 		this.node_id = node_id_conv;
-		const msg: number = bindings.LDKMessageSendEvent_SendGossipTimestampFilter_get_msg(ptr);
+		const msg: bigint = bindings.LDKMessageSendEvent_SendGossipTimestampFilter_get_msg(ptr);
 		const msg_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;

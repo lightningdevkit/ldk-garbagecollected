@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::lightning::routing::gossip::NetworkUpdate or not
  */
 export class Option_NetworkUpdateZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_NetworkUpdateZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_NetworkUpdateZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_NetworkUpdateZ {
+	public static constr_from_ptr(ptr: bigint): Option_NetworkUpdateZ {
 		const raw_ty: number = bindings.LDKCOption_NetworkUpdateZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_NetworkUpdateZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_NetworkUpdateZ extends CommonBase {
 	 * Constructs a new COption_NetworkUpdateZ containing a crate::lightning::routing::gossip::NetworkUpdate
 	 */
 	public static constructor_some(o: NetworkUpdate): Option_NetworkUpdateZ {
-		const ret: number = bindings.COption_NetworkUpdateZ_some(CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_NetworkUpdateZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -385,14 +385,14 @@ export class Option_NetworkUpdateZ extends CommonBase {
 	 * Constructs a new COption_NetworkUpdateZ containing nothing
 	 */
 	public static constructor_none(): Option_NetworkUpdateZ {
-		const ret: number = bindings.COption_NetworkUpdateZ_none();
+		const ret: bigint = bindings.COption_NetworkUpdateZ_none();
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.COption_NetworkUpdateZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_NetworkUpdateZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -401,7 +401,7 @@ export class Option_NetworkUpdateZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Option_NetworkUpdateZ {
-		const ret: number = bindings.COption_NetworkUpdateZ_clone(this.ptr);
+		const ret: bigint = bindings.COption_NetworkUpdateZ_clone(this.ptr);
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -412,9 +412,9 @@ export class Option_NetworkUpdateZ extends CommonBase {
 export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 	public some: NetworkUpdate;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_NetworkUpdateZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_NetworkUpdateZ_Some_get_some(ptr);
 		const some_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -423,7 +423,7 @@ export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 /** A Option_NetworkUpdateZ of type None */
 export class Option_NetworkUpdateZ_None extends Option_NetworkUpdateZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

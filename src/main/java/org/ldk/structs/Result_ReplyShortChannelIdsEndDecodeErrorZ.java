@@ -46,10 +46,11 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ReplyShortChannelIdsEndDecodeErrorZ in the success state.
 	 */
 	public static Result_ReplyShortChannelIdsEndDecodeErrorZ ok(ReplyShortChannelIdsEnd o) {
-		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -57,10 +58,11 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ReplyShortChannelIdsEndDecodeErrorZ in the error state.
 	 */
 	public static Result_ReplyShortChannelIdsEndDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ExpandedKey extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ExpandedKey_free);
 	}
 
@@ -374,7 +374,7 @@ export class ExpandedKey extends CommonBase {
 	 * It is recommended to cache this value and not regenerate it for each new inbound payment.
 	 */
 	public static constructor_new(key_material: Uint8Array): ExpandedKey {
-		const ret: number = bindings.ExpandedKey_new(bindings.encodeUint8Array(bindings.check_arr_len(key_material, 32)));
+		const ret: bigint = bindings.ExpandedKey_new(bindings.encodeUint8Array(bindings.check_arr_len(key_material, 32)));
 		const ret_hu_conv: ExpandedKey = new ExpandedKey(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class RevokeAndACK extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.RevokeAndACK_free);
 	}
 
@@ -417,14 +417,14 @@ export class RevokeAndACK extends CommonBase {
 	 * Constructs a new RevokeAndACK given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, per_commitment_secret_arg: Uint8Array, next_per_commitment_point_arg: Uint8Array): RevokeAndACK {
-		const ret: number = bindings.RevokeAndACK_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)));
+		const ret: bigint = bindings.RevokeAndACK_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)));
 		const ret_hu_conv: RevokeAndACK = new RevokeAndACK(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.RevokeAndACK_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.RevokeAndACK_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -432,7 +432,7 @@ export class RevokeAndACK extends CommonBase {
 	 * Creates a copy of the RevokeAndACK
 	 */
 	public clone(): RevokeAndACK {
-		const ret: number = bindings.RevokeAndACK_clone(this.ptr);
+		const ret: bigint = bindings.RevokeAndACK_clone(this.ptr);
 		const ret_hu_conv: RevokeAndACK = new RevokeAndACK(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -451,7 +451,7 @@ export class RevokeAndACK extends CommonBase {
 	 * Read a RevokeAndACK from a byte array, created by RevokeAndACK_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_RevokeAndACKDecodeErrorZ {
-		const ret: number = bindings.RevokeAndACK_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.RevokeAndACK_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RevokeAndACKDecodeErrorZ = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

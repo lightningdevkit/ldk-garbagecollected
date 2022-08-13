@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_BlockHashChannelMonitorZ_free);
 	}
 
@@ -378,14 +378,14 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 * 
 	 */
 	public get_b(): ChannelMonitor {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_get_b(this.ptr);
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_get_b(this.ptr);
 		const ret_hu_conv: ChannelMonitor = new ChannelMonitor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -394,7 +394,7 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_BlockHashChannelMonitorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_BlockHashChannelMonitorZ = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -404,9 +404,10 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 * Creates a new C2Tuple_BlockHashChannelMonitorZ from the contained elements.
 	 */
 	public static constructor_new(a: Uint8Array, b: ChannelMonitor): TwoTuple_BlockHashChannelMonitorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), b == null ? 0n : CommonBase.get_ptr_of(b));
 		const ret_hu_conv: TwoTuple_BlockHashChannelMonitorZ = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, b);
 		return ret_hu_conv;
 	}
 

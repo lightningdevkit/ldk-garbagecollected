@@ -103,11 +103,12 @@ public class PaymentError extends CommonBase {
 	 * Utility method to constructs a new Routing-variant PaymentError
 	 */
 	public static PaymentError routing(LightningError a) {
-		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

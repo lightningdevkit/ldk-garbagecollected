@@ -43,10 +43,11 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 	 * Creates a new CResult_DescriptionCreationErrorZ in the success state.
 	 */
 	public static Result_DescriptionCreationErrorZ ok(Description o) {
-		long ret = bindings.CResult_DescriptionCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		long ret = bindings.CResult_DescriptionCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

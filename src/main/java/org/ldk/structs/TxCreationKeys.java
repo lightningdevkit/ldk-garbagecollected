@@ -199,7 +199,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
 	public static Result_TxCreationKeysErrorZ from_channel_static_keys(byte[] per_commitment_point, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
-		long ret = bindings.TxCreationKeys_from_channel_static_keys(InternalUtils.check_arr_len(per_commitment_point, 33), broadcaster_keys == null ? 0 : broadcaster_keys.ptr & ~1, countersignatory_keys == null ? 0 : countersignatory_keys.ptr & ~1);
+		long ret = bindings.TxCreationKeys_from_channel_static_keys(InternalUtils.check_arr_len(per_commitment_point, 33), broadcaster_keys == null ? 0 : broadcaster_keys.ptr, countersignatory_keys == null ? 0 : countersignatory_keys.ptr);
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(broadcaster_keys);
 		Reference.reachabilityFence(countersignatory_keys);

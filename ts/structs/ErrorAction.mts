@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * Used to put an error message in a LightningError
  */
 export class ErrorAction extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ErrorAction_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.ErrorAction_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): ErrorAction {
+	public static constr_from_ptr(ptr: bigint): ErrorAction {
 		const raw_ty: number = bindings.LDKErrorAction_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ErrorAction_DisconnectPeer(ptr);
@@ -375,8 +375,8 @@ export class ErrorAction extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ErrorAction_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ErrorAction_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -384,7 +384,7 @@ export class ErrorAction extends CommonBase {
 	 * Creates a copy of the ErrorAction
 	 */
 	public clone(): ErrorAction {
-		const ret: number = bindings.ErrorAction_clone(this.ptr);
+		const ret: bigint = bindings.ErrorAction_clone(this.ptr);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -394,9 +394,10 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new DisconnectPeer-variant ErrorAction
 	 */
 	public static constructor_disconnect_peer(msg: ErrorMessage): ErrorAction {
-		const ret: number = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.ErrorAction_disconnect_peer(msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -404,7 +405,7 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new IgnoreError-variant ErrorAction
 	 */
 	public static constructor_ignore_error(): ErrorAction {
-		const ret: number = bindings.ErrorAction_ignore_error();
+		const ret: bigint = bindings.ErrorAction_ignore_error();
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -414,7 +415,7 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new IgnoreAndLog-variant ErrorAction
 	 */
 	public static constructor_ignore_and_log(a: Level): ErrorAction {
-		const ret: number = bindings.ErrorAction_ignore_and_log(a);
+		const ret: bigint = bindings.ErrorAction_ignore_and_log(a);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -424,7 +425,7 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new IgnoreDuplicateGossip-variant ErrorAction
 	 */
 	public static constructor_ignore_duplicate_gossip(): ErrorAction {
-		const ret: number = bindings.ErrorAction_ignore_duplicate_gossip();
+		const ret: bigint = bindings.ErrorAction_ignore_duplicate_gossip();
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -434,9 +435,10 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new SendErrorMessage-variant ErrorAction
 	 */
 	public static constructor_send_error_message(msg: ErrorMessage): ErrorAction {
-		const ret: number = bindings.ErrorAction_send_error_message(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: bigint = bindings.ErrorAction_send_error_message(msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -444,9 +446,10 @@ export class ErrorAction extends CommonBase {
 	 * Utility method to constructs a new SendWarningMessage-variant ErrorAction
 	 */
 	public static constructor_send_warning_message(msg: WarningMessage, log_level: Level): ErrorAction {
-		const ret: number = bindings.ErrorAction_send_warning_message(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1, log_level);
+		const ret: bigint = bindings.ErrorAction_send_warning_message(msg == null ? 0n : CommonBase.get_ptr_of(msg), log_level);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -460,9 +463,9 @@ export class ErrorAction_DisconnectPeer extends ErrorAction {
 	 */
 	public msg: ErrorMessage;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKErrorAction_DisconnectPeer_get_msg(ptr);
+		const msg: bigint = bindings.LDKErrorAction_DisconnectPeer_get_msg(ptr);
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -471,7 +474,7 @@ export class ErrorAction_DisconnectPeer extends ErrorAction {
 /** A ErrorAction of type IgnoreError */
 export class ErrorAction_IgnoreError extends ErrorAction {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -479,7 +482,7 @@ export class ErrorAction_IgnoreError extends ErrorAction {
 export class ErrorAction_IgnoreAndLog extends ErrorAction {
 	public ignore_and_log: Level;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		this.ignore_and_log = bindings.LDKErrorAction_IgnoreAndLog_get_ignore_and_log(ptr);
 	}
@@ -487,7 +490,7 @@ export class ErrorAction_IgnoreAndLog extends ErrorAction {
 /** A ErrorAction of type IgnoreDuplicateGossip */
 export class ErrorAction_IgnoreDuplicateGossip extends ErrorAction {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }
@@ -498,9 +501,9 @@ export class ErrorAction_SendErrorMessage extends ErrorAction {
 	 */
 	public msg: ErrorMessage;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKErrorAction_SendErrorMessage_get_msg(ptr);
+		const msg: bigint = bindings.LDKErrorAction_SendErrorMessage_get_msg(ptr);
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -519,9 +522,9 @@ export class ErrorAction_SendWarningMessage extends ErrorAction {
 	 */
 	public log_level: Level;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const msg: number = bindings.LDKErrorAction_SendWarningMessage_get_msg(ptr);
+		const msg: bigint = bindings.LDKErrorAction_SendWarningMessage_get_msg(ptr);
 		const msg_hu_conv: WarningMessage = new WarningMessage(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;

@@ -68,7 +68,7 @@ public class ChannelManager extends CommonBase {
 	 * from after `params.latest_hash`.
 	 */
 	public static ChannelManager of(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, ChainParameters params) {
-		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, params == null ? 0 : params.ptr & ~1);
+		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr, params == null ? 0 : params.ptr);
 		Reference.reachabilityFence(fee_est);
 		Reference.reachabilityFence(chain_monitor);
 		Reference.reachabilityFence(tx_broadcaster);
@@ -84,6 +84,8 @@ public class ChannelManager extends CommonBase {
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(keys_manager);
+		ret_hu_conv.ptrs_to.add(config);
+		ret_hu_conv.ptrs_to.add(params);
 		return ret_hu_conv;
 	}
 
@@ -130,7 +132,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result__u832APIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_channel_id, @Nullable UserConfig override_config) {
-		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
+		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_network_key);
 		Reference.reachabilityFence(channel_value_satoshis);
@@ -139,6 +141,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(override_config);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(override_config);
 		return ret_hu_conv;
 	}
 
@@ -341,7 +344,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
-		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_hash);
@@ -365,7 +368,7 @@ public class ChannelManager extends CommonBase {
 	 * [`abandon_payment`]: [`ChannelManager::abandon_payment`]
 	 */
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
-		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
+		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_id);
@@ -416,7 +419,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
-		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
+		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_preimage);
@@ -432,11 +435,12 @@ public class ChannelManager extends CommonBase {
 	 * us to easily discern them from real payments.
 	 */
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(RouteHop[] hops) {
-		long ret = bindings.ChannelManager_send_probe(this.ptr, hops != null ? Arrays.stream(hops).mapToLong(hops_conv_10 -> hops_conv_10 == null ? 0 : hops_conv_10.ptr & ~1).toArray() : null);
+		long ret = bindings.ChannelManager_send_probe(this.ptr, hops != null ? Arrays.stream(hops).mapToLong(hops_conv_10 -> hops_conv_10 == null ? 0 : hops_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(hops);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
+		for (RouteHop hops_conv_10: hops) { this.ptrs_to.add(hops_conv_10); };
 		return ret_hu_conv;
 	}
 
@@ -536,7 +540,7 @@ public class ChannelManager extends CommonBase {
 	 * [`APIMisuseError`]: APIError::APIMisuseError
 	 */
 	public Result_NoneAPIErrorZ update_channel_config(byte[] counterparty_node_id, byte[][] channel_ids, ChannelConfig config) {
-		long ret = bindings.ChannelManager_update_channel_config(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_ids != null ? Arrays.stream(channel_ids).map(channel_ids_conv_8 -> InternalUtils.check_arr_len(channel_ids_conv_8, 32)).toArray(byte[][]::new) : null, config == null ? 0 : config.ptr & ~1);
+		long ret = bindings.ChannelManager_update_channel_config(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_ids != null ? Arrays.stream(channel_ids).map(channel_ids_conv_8 -> InternalUtils.check_arr_len(channel_ids_conv_8, 32)).toArray(byte[][]::new) : null, config == null ? 0 : config.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(channel_ids);

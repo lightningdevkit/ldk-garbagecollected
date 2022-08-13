@@ -361,9 +361,9 @@ import * as bindings from '../bindings.mjs'
  * states for more.
  */
 export class PaymentSendFailure extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentSendFailure_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.PaymentSendFailure_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): PaymentSendFailure {
+	public static constr_from_ptr(ptr: bigint): PaymentSendFailure {
 		const raw_ty: number = bindings.LDKPaymentSendFailure_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PaymentSendFailure_ParameterError(ptr);
@@ -375,8 +375,8 @@ export class PaymentSendFailure extends CommonBase {
 		}
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PaymentSendFailure_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PaymentSendFailure_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -384,7 +384,7 @@ export class PaymentSendFailure extends CommonBase {
 	 * Creates a copy of the PaymentSendFailure
 	 */
 	public clone(): PaymentSendFailure {
-		const ret: number = bindings.PaymentSendFailure_clone(this.ptr);
+		const ret: bigint = bindings.PaymentSendFailure_clone(this.ptr);
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -394,7 +394,7 @@ export class PaymentSendFailure extends CommonBase {
 	 * Utility method to constructs a new ParameterError-variant PaymentSendFailure
 	 */
 	public static constructor_parameter_error(a: APIError): PaymentSendFailure {
-		const ret: number = bindings.PaymentSendFailure_parameter_error(CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.PaymentSendFailure_parameter_error(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -404,7 +404,7 @@ export class PaymentSendFailure extends CommonBase {
 	 * Utility method to constructs a new PathParameterError-variant PaymentSendFailure
 	 */
 	public static constructor_path_parameter_error(a: Result_NoneAPIErrorZ[]): PaymentSendFailure {
-		const ret: number = bindings.PaymentSendFailure_path_parameter_error(bindings.encodeUint32Array(a != null ? a.map(a_conv_22 => a_conv_22 != null ? CommonBase.get_ptr_of(a_conv_22) : 0) : null));
+		const ret: bigint = bindings.PaymentSendFailure_path_parameter_error(bindings.encodeUint64Array(a != null ? a.map(a_conv_22 => a_conv_22 != null ? CommonBase.get_ptr_of(a_conv_22) : 0n) : null));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -414,7 +414,7 @@ export class PaymentSendFailure extends CommonBase {
 	 * Utility method to constructs a new AllFailedRetrySafe-variant PaymentSendFailure
 	 */
 	public static constructor_all_failed_retry_safe(a: APIError[]): PaymentSendFailure {
-		const ret: number = bindings.PaymentSendFailure_all_failed_retry_safe(bindings.encodeUint32Array(a != null ? a.map(a_conv_10 => CommonBase.get_ptr_of(a_conv_10)) : null));
+		const ret: bigint = bindings.PaymentSendFailure_all_failed_retry_safe(bindings.encodeUint64Array(a != null ? a.map(a_conv_10 => CommonBase.get_ptr_of(a_conv_10)) : null));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -424,9 +424,10 @@ export class PaymentSendFailure extends CommonBase {
 	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
 	 */
 	public static constructor_partial_failure(results: Result_NoneAPIErrorZ[], failed_paths_retry: RouteParameters, payment_id: Uint8Array): PaymentSendFailure {
-		const ret: number = bindings.PaymentSendFailure_partial_failure(bindings.encodeUint32Array(results != null ? results.map(results_conv_22 => results_conv_22 != null ? CommonBase.get_ptr_of(results_conv_22) : 0) : null), failed_paths_retry == null ? 0 : CommonBase.get_ptr_of(failed_paths_retry) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
+		const ret: bigint = bindings.PaymentSendFailure_partial_failure(bindings.encodeUint64Array(results != null ? results.map(results_conv_22 => results_conv_22 != null ? CommonBase.get_ptr_of(results_conv_22) : 0n) : null), failed_paths_retry == null ? 0n : CommonBase.get_ptr_of(failed_paths_retry), bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, failed_paths_retry);
 		return ret_hu_conv;
 	}
 
@@ -435,9 +436,9 @@ export class PaymentSendFailure extends CommonBase {
 export class PaymentSendFailure_ParameterError extends PaymentSendFailure {
 	public parameter_error: APIError;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const parameter_error: number = bindings.LDKPaymentSendFailure_ParameterError_get_parameter_error(ptr);
+		const parameter_error: bigint = bindings.LDKPaymentSendFailure_ParameterError_get_parameter_error(ptr);
 		const parameter_error_hu_conv: APIError = APIError.constr_from_ptr(parameter_error);
 			CommonBase.add_ref_from(parameter_error_hu_conv, this);
 		this.parameter_error = parameter_error_hu_conv;
@@ -447,13 +448,13 @@ export class PaymentSendFailure_ParameterError extends PaymentSendFailure {
 export class PaymentSendFailure_PathParameterError extends PaymentSendFailure {
 	public path_parameter_error: Result_NoneAPIErrorZ[];
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const path_parameter_error: number = bindings.LDKPaymentSendFailure_PathParameterError_get_path_parameter_error(ptr);
 		const path_parameter_error_conv_22_len: number = bindings.getArrayLength(path_parameter_error);
 			const path_parameter_error_conv_22_arr: Result_NoneAPIErrorZ[] = new Array(path_parameter_error_conv_22_len).fill(null);
 			for (var w = 0; w < path_parameter_error_conv_22_len; w++) {
-				const path_parameter_error_conv_22: number = bindings.getU32ArrayElem(path_parameter_error, w);
+				const path_parameter_error_conv_22: bigint = bindings.getU64ArrayElem(path_parameter_error, w);
 				const path_parameter_error_conv_22_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(path_parameter_error_conv_22);
 				path_parameter_error_conv_22_arr[w] = path_parameter_error_conv_22_hu_conv;
 			}
@@ -465,13 +466,13 @@ export class PaymentSendFailure_PathParameterError extends PaymentSendFailure {
 export class PaymentSendFailure_AllFailedRetrySafe extends PaymentSendFailure {
 	public all_failed_retry_safe: APIError[];
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const all_failed_retry_safe: number = bindings.LDKPaymentSendFailure_AllFailedRetrySafe_get_all_failed_retry_safe(ptr);
 		const all_failed_retry_safe_conv_10_len: number = bindings.getArrayLength(all_failed_retry_safe);
 			const all_failed_retry_safe_conv_10_arr: APIError[] = new Array(all_failed_retry_safe_conv_10_len).fill(null);
 			for (var k = 0; k < all_failed_retry_safe_conv_10_len; k++) {
-				const all_failed_retry_safe_conv_10: number = bindings.getU32ArrayElem(all_failed_retry_safe, k);
+				const all_failed_retry_safe_conv_10: bigint = bindings.getU64ArrayElem(all_failed_retry_safe, k);
 				const all_failed_retry_safe_conv_10_hu_conv: APIError = APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
 				CommonBase.add_ref_from(all_failed_retry_safe_conv_10_hu_conv, this);
 				all_failed_retry_safe_conv_10_arr[k] = all_failed_retry_safe_conv_10_hu_conv;
@@ -499,19 +500,19 @@ export class PaymentSendFailure_PartialFailure extends PaymentSendFailure {
 	 */
 	public payment_id: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const results: number = bindings.LDKPaymentSendFailure_PartialFailure_get_results(ptr);
 		const results_conv_22_len: number = bindings.getArrayLength(results);
 			const results_conv_22_arr: Result_NoneAPIErrorZ[] = new Array(results_conv_22_len).fill(null);
 			for (var w = 0; w < results_conv_22_len; w++) {
-				const results_conv_22: number = bindings.getU32ArrayElem(results, w);
+				const results_conv_22: bigint = bindings.getU64ArrayElem(results, w);
 				const results_conv_22_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
 				results_conv_22_arr[w] = results_conv_22_hu_conv;
 			}
 			bindings.freeWasmMemory(results)
 		this.results = results_conv_22_arr;
-		const failed_paths_retry: number = bindings.LDKPaymentSendFailure_PartialFailure_get_failed_paths_retry(ptr);
+		const failed_paths_retry: bigint = bindings.LDKPaymentSendFailure_PartialFailure_get_failed_paths_retry(ptr);
 		const failed_paths_retry_hu_conv: RouteParameters = new RouteParameters(null, failed_paths_retry);
 			CommonBase.add_ref_from(failed_paths_retry_hu_conv, this);
 		this.failed_paths_retry = failed_paths_retry_hu_conv;

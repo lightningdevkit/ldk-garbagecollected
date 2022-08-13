@@ -364,7 +364,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ReplyShortChannelIdsEnd extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ReplyShortChannelIdsEnd_free);
 	}
 
@@ -405,14 +405,14 @@ export class ReplyShortChannelIdsEnd extends CommonBase {
 	 * Constructs a new ReplyShortChannelIdsEnd given each field
 	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, full_information_arg: boolean): ReplyShortChannelIdsEnd {
-		const ret: number = bindings.ReplyShortChannelIdsEnd_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), full_information_arg);
+		const ret: bigint = bindings.ReplyShortChannelIdsEnd_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), full_information_arg);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ReplyShortChannelIdsEnd_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ReplyShortChannelIdsEnd_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -420,7 +420,7 @@ export class ReplyShortChannelIdsEnd extends CommonBase {
 	 * Creates a copy of the ReplyShortChannelIdsEnd
 	 */
 	public clone(): ReplyShortChannelIdsEnd {
-		const ret: number = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
+		const ret: bigint = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -439,7 +439,7 @@ export class ReplyShortChannelIdsEnd extends CommonBase {
 	 * Read a ReplyShortChannelIdsEnd from a byte array, created by ReplyShortChannelIdsEnd_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ReplyShortChannelIdsEndDecodeErrorZ {
-		const ret: number = bindings.ReplyShortChannelIdsEnd_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ReplyShortChannelIdsEnd_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ReplyShortChannelIdsEndDecodeErrorZ = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

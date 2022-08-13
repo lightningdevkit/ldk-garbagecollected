@@ -361,12 +361,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class BestBlock extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.BestBlock_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.BestBlock_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.BestBlock_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -374,7 +374,7 @@ export class BestBlock extends CommonBase {
 	 * Creates a copy of the BestBlock
 	 */
 	public clone(): BestBlock {
-		const ret: number = bindings.BestBlock_clone(this.ptr);
+		const ret: bigint = bindings.BestBlock_clone(this.ptr);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -385,7 +385,7 @@ export class BestBlock extends CommonBase {
 	 * network.
 	 */
 	public static constructor_from_genesis(network: Network): BestBlock {
-		const ret: number = bindings.BestBlock_from_genesis(network);
+		const ret: bigint = bindings.BestBlock_from_genesis(network);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class BestBlock extends CommonBase {
 	 * Returns a `BestBlock` as identified by the given block hash and height.
 	 */
 	public static constructor_new(block_hash: Uint8Array, height: number): BestBlock {
-		const ret: number = bindings.BestBlock_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash, 32)), height);
+		const ret: bigint = bindings.BestBlock_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash, 32)), height);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

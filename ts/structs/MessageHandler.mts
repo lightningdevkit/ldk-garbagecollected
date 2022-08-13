@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class MessageHandler extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.MessageHandler_free);
 	}
 
@@ -372,7 +372,7 @@ export class MessageHandler extends CommonBase {
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public get_chan_handler(): ChannelMessageHandler {
-		const ret: number = bindings.MessageHandler_get_chan_handler(this.ptr);
+		const ret: bigint = bindings.MessageHandler_get_chan_handler(this.ptr);
 		const ret_hu_conv: ChannelMessageHandler = new ChannelMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -385,7 +385,7 @@ export class MessageHandler extends CommonBase {
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public set_chan_handler(val: ChannelMessageHandler): void {
-		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -396,7 +396,7 @@ export class MessageHandler extends CommonBase {
 	 * [`P2PGossipSync`]: crate::routing::gossip::P2PGossipSync
 	 */
 	public get_route_handler(): RoutingMessageHandler {
-		const ret: number = bindings.MessageHandler_get_route_handler(this.ptr);
+		const ret: bigint = bindings.MessageHandler_get_route_handler(this.ptr);
 		const ret_hu_conv: RoutingMessageHandler = new RoutingMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -409,7 +409,7 @@ export class MessageHandler extends CommonBase {
 	 * [`P2PGossipSync`]: crate::routing::gossip::P2PGossipSync
 	 */
 	public set_route_handler(val: RoutingMessageHandler): void {
-		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
+		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -417,7 +417,7 @@ export class MessageHandler extends CommonBase {
 	 * Constructs a new MessageHandler given each field
 	 */
 	public static constructor_new(chan_handler_arg: ChannelMessageHandler, route_handler_arg: RoutingMessageHandler): MessageHandler {
-		const ret: number = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : CommonBase.get_ptr_of(chan_handler_arg), route_handler_arg == null ? 0 : CommonBase.get_ptr_of(route_handler_arg));
+		const ret: bigint = bindings.MessageHandler_new(chan_handler_arg == null ? 0n : CommonBase.get_ptr_of(chan_handler_arg), route_handler_arg == null ? 0n : CommonBase.get_ptr_of(route_handler_arg));
 		const ret_hu_conv: MessageHandler = new MessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, chan_handler_arg);

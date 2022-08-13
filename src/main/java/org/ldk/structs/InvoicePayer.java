@@ -31,7 +31,7 @@ public class InvoicePayer extends CommonBase {
 	 * `retry` has been exceeded for a given [`Invoice`].
 	 */
 	public static InvoicePayer of(Payer payer, Router router, MultiThreadedLockableScore scorer, Logger logger, EventHandler event_handler, Retry retry) {
-		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr & ~1, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
+		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
 		Reference.reachabilityFence(payer);
 		Reference.reachabilityFence(router);
 		Reference.reachabilityFence(scorer);
@@ -57,7 +57,7 @@ public class InvoicePayer extends CommonBase {
 	 * for you.
 	 */
 	public Result_PaymentIdPaymentErrorZ pay_invoice(Invoice invoice) {
-		long ret = bindings.InvoicePayer_pay_invoice(this.ptr, invoice == null ? 0 : invoice.ptr & ~1);
+		long ret = bindings.InvoicePayer_pay_invoice(this.ptr, invoice == null ? 0 : invoice.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(invoice);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -75,7 +75,7 @@ public class InvoicePayer extends CommonBase {
 	 * for you.
 	 */
 	public Result_PaymentIdPaymentErrorZ pay_zero_value_invoice(Invoice invoice, long amount_msats) {
-		long ret = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0 : invoice.ptr & ~1, amount_msats);
+		long ret = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0 : invoice.ptr, amount_msats);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(invoice);
 		Reference.reachabilityFence(amount_msats);

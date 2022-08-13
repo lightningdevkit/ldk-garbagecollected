@@ -30,7 +30,7 @@ public class SignedRawInvoice extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(SignedRawInvoice b) {
-		boolean ret = bindings.SignedRawInvoice_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.SignedRawInvoice_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
@@ -71,7 +71,7 @@ public class SignedRawInvoice extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_RawInvoice_u832InvoiceSignatureZ ret_hu_conv = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
-		;
+		this.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

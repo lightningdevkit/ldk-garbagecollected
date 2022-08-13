@@ -366,7 +366,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TrustedClosingTransaction extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.TrustedClosingTransaction_free);
 	}
 

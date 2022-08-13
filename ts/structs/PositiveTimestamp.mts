@@ -366,7 +366,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class PositiveTimestamp extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PositiveTimestamp_free);
 	}
 
@@ -376,13 +376,13 @@ export class PositiveTimestamp extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: PositiveTimestamp): boolean {
-		const ret: boolean = bindings.PositiveTimestamp_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.PositiveTimestamp_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PositiveTimestamp_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PositiveTimestamp_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -390,7 +390,7 @@ export class PositiveTimestamp extends CommonBase {
 	 * Creates a copy of the PositiveTimestamp
 	 */
 	public clone(): PositiveTimestamp {
-		const ret: number = bindings.PositiveTimestamp_clone(this.ptr);
+		const ret: bigint = bindings.PositiveTimestamp_clone(this.ptr);
 		const ret_hu_conv: PositiveTimestamp = new PositiveTimestamp(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -402,7 +402,7 @@ export class PositiveTimestamp extends CommonBase {
 	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */
 	public static constructor_from_unix_timestamp(unix_seconds: bigint): Result_PositiveTimestampCreationErrorZ {
-		const ret: number = bindings.PositiveTimestamp_from_unix_timestamp(unix_seconds);
+		const ret: bigint = bindings.PositiveTimestamp_from_unix_timestamp(unix_seconds);
 		const ret_hu_conv: Result_PositiveTimestampCreationErrorZ = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -414,7 +414,7 @@ export class PositiveTimestamp extends CommonBase {
 	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */
 	public static constructor_from_duration_since_epoch(duration: bigint): Result_PositiveTimestampCreationErrorZ {
-		const ret: number = bindings.PositiveTimestamp_from_duration_since_epoch(duration);
+		const ret: bigint = bindings.PositiveTimestamp_from_duration_since_epoch(duration);
 		const ret_hu_conv: Result_PositiveTimestampCreationErrorZ = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

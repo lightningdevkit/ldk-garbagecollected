@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelUpdateInfo extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelUpdateInfo_free);
 	}
 
@@ -446,7 +446,7 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Fees charged when the channel is used for routing
 	 */
 	public get_fees(): RoutingFees {
-		const ret: number = bindings.ChannelUpdateInfo_get_fees(this.ptr);
+		const ret: bigint = bindings.ChannelUpdateInfo_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -456,7 +456,8 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Fees charged when the channel is used for routing
 	 */
 	public set_fees(val: RoutingFees): void {
-		bindings.ChannelUpdateInfo_set_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelUpdateInfo_set_fees(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -468,7 +469,7 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_last_update_message(): ChannelUpdate {
-		const ret: number = bindings.ChannelUpdateInfo_get_last_update_message(this.ptr);
+		const ret: bigint = bindings.ChannelUpdateInfo_get_last_update_message(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -483,21 +484,24 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_last_update_message(val: ChannelUpdate): void {
-		bindings.ChannelUpdateInfo_set_last_update_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelUpdateInfo_set_last_update_message(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new ChannelUpdateInfo given each field
 	 */
 	public static constructor_new(last_update_arg: number, enabled_arg: boolean, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: bigint, htlc_maximum_msat_arg: bigint, fees_arg: RoutingFees, last_update_message_arg: ChannelUpdate): ChannelUpdateInfo {
-		const ret: number = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, last_update_message_arg == null ? 0 : CommonBase.get_ptr_of(last_update_message_arg) & ~1);
+		const ret: bigint = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0n : CommonBase.get_ptr_of(fees_arg), last_update_message_arg == null ? 0n : CommonBase.get_ptr_of(last_update_message_arg));
 		const ret_hu_conv: ChannelUpdateInfo = new ChannelUpdateInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, fees_arg);
+		CommonBase.add_ref_from(ret_hu_conv, last_update_message_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelUpdateInfo_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelUpdateInfo_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -505,7 +509,7 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Creates a copy of the ChannelUpdateInfo
 	 */
 	public clone(): ChannelUpdateInfo {
-		const ret: number = bindings.ChannelUpdateInfo_clone(this.ptr);
+		const ret: bigint = bindings.ChannelUpdateInfo_clone(this.ptr);
 		const ret_hu_conv: ChannelUpdateInfo = new ChannelUpdateInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -524,7 +528,7 @@ export class ChannelUpdateInfo extends CommonBase {
 	 * Read a ChannelUpdateInfo from a byte array, created by ChannelUpdateInfo_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelUpdateInfoDecodeErrorZ {
-		const ret: number = bindings.ChannelUpdateInfo_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelUpdateInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelUpdateInfoDecodeErrorZ = Result_ChannelUpdateInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

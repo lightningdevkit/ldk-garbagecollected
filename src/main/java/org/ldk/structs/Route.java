@@ -56,9 +56,10 @@ public class Route extends CommonBase {
 	 * of any path less or equal to 19 should currently ensure it is viable.
 	 */
 	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
+		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr).toArray() : null).toArray(long[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		for (RouteHop[] val_conv_12: val) { for (RouteHop val_conv_12_conv_10: val_conv_12) { this.ptrs_to.add(val_conv_12_conv_10); }; };
 	}
 
 	/**
@@ -90,21 +91,24 @@ public class Route extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_payment_params(@Nullable PaymentParameters val) {
-		bindings.Route_set_payment_params(this.ptr, val == null ? 0 : val.ptr & ~1);
+		bindings.Route_set_payment_params(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		this.ptrs_to.add(val);
 	}
 
 	/**
 	 * Constructs a new Route given each field
 	 */
 	public static Route of(RouteHop[][] paths_arg, PaymentParameters payment_params_arg) {
-		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr & ~1);
+		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr).toArray() : null).toArray(long[][]::new) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
 		Reference.reachabilityFence(paths_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop[] paths_arg_conv_12: paths_arg) { for (RouteHop paths_arg_conv_12_conv_10: paths_arg_conv_12) { ret_hu_conv.ptrs_to.add(paths_arg_conv_12_conv_10); }; };
+		ret_hu_conv.ptrs_to.add(payment_params_arg);
 		return ret_hu_conv;
 	}
 
@@ -144,7 +148,7 @@ public class Route extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public boolean eq(Route b) {
-		boolean ret = bindings.Route_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		boolean ret = bindings.Route_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);

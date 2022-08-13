@@ -25,7 +25,7 @@ public class DefaultRouter extends CommonBase {
 	 * `random_seed_bytes`.
 	 */
 	public static DefaultRouter of(NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes) {
-		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr & ~1, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
+		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(random_seed_bytes);

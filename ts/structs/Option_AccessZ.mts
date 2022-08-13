@@ -359,9 +359,9 @@ import * as bindings from '../bindings.mjs'
  * An enum which can either contain a crate::lightning::chain::Access or not
  */
 export class Option_AccessZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_AccessZ_free); }
+	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_AccessZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Option_AccessZ {
+	public static constr_from_ptr(ptr: bigint): Option_AccessZ {
 		const raw_ty: number = bindings.LDKCOption_AccessZ_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new Option_AccessZ_Some(ptr);
@@ -375,7 +375,7 @@ export class Option_AccessZ extends CommonBase {
 	 * Constructs a new COption_AccessZ containing a crate::lightning::chain::Access
 	 */
 	public static constructor_some(o: Access): Option_AccessZ {
-		const ret: number = bindings.COption_AccessZ_some(o == null ? 0 : CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_AccessZ_some(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_AccessZ = Option_AccessZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, o);
@@ -386,7 +386,7 @@ export class Option_AccessZ extends CommonBase {
 	 * Constructs a new COption_AccessZ containing nothing
 	 */
 	public static constructor_none(): Option_AccessZ {
-		const ret: number = bindings.COption_AccessZ_none();
+		const ret: bigint = bindings.COption_AccessZ_none();
 		const ret_hu_conv: Option_AccessZ = Option_AccessZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -397,9 +397,9 @@ export class Option_AccessZ extends CommonBase {
 export class Option_AccessZ_Some extends Option_AccessZ {
 	public some: Access;
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const some: number = bindings.LDKCOption_AccessZ_Some_get_some(ptr);
+		const some: bigint = bindings.LDKCOption_AccessZ_Some_get_some(ptr);
 		const ret_hu_conv: Access = new Access(null, some);
 			CommonBase.add_ref_from(ret_hu_conv, this);
 		this.some = ret_hu_conv;
@@ -408,7 +408,7 @@ export class Option_AccessZ_Some extends Option_AccessZ {
 /** A Option_AccessZ of type None */
 export class Option_AccessZ_None extends Option_AccessZ {
 	/* @internal */
-	public constructor(ptr: number) {
+	public constructor(ptr: bigint) {
 		super(null, ptr);
 	}
 }

@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_TrustedClosingTransactionNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_TrustedClosingTransactionNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_TrustedClosingTransactionNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_TrustedClosingTransactionNoneZ {
 		if (bindings.CResult_TrustedClosingTransactionNoneZ_is_ok(ptr)) {
 			return new Result_TrustedClosingTransactionNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	 * Creates a new CResult_TrustedClosingTransactionNoneZ in the success state.
 	 */
 	public static constructor_ok(o: TrustedClosingTransaction): Result_TrustedClosingTransactionNoneZ {
-		const ret: number = bindings.CResult_TrustedClosingTransactionNoneZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_TrustedClosingTransactionNoneZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_TrustedClosingTransactionNoneZ = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -391,7 +391,7 @@ export class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	 * Creates a new CResult_TrustedClosingTransactionNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_TrustedClosingTransactionNoneZ {
-		const ret: number = bindings.CResult_TrustedClosingTransactionNoneZ_err();
+		const ret: bigint = bindings.CResult_TrustedClosingTransactionNoneZ_err();
 		const ret_hu_conv: Result_TrustedClosingTransactionNoneZ = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -409,9 +409,9 @@ export class Result_TrustedClosingTransactionNoneZ_OK extends Result_TrustedClos
 	public res: TrustedClosingTransaction;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_TrustedClosingTransactionNoneZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_TrustedClosingTransactionNoneZ_get_ok(ptr);
 		const res_hu_conv: TrustedClosingTransaction = new TrustedClosingTransaction(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -420,7 +420,7 @@ export class Result_TrustedClosingTransactionNoneZ_OK extends Result_TrustedClos
 export class Result_TrustedClosingTransactionNoneZ_Err extends Result_TrustedClosingTransactionNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

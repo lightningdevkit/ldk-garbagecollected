@@ -43,9 +43,10 @@ public class PhantomRouteHints extends CommonBase {
 	 * The list of channels to be included in the invoice route hints.
 	 */
 	public void set_channels(ChannelDetails[] val) {
-		bindings.PhantomRouteHints_set_channels(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr & ~1).toArray() : null);
+		bindings.PhantomRouteHints_set_channels(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		for (ChannelDetails val_conv_16: val) { this.ptrs_to.add(val_conv_16); };
 	}
 
 	/**
@@ -90,13 +91,14 @@ public class PhantomRouteHints extends CommonBase {
 	 * Constructs a new PhantomRouteHints given each field
 	 */
 	public static PhantomRouteHints of(ChannelDetails[] channels_arg, long phantom_scid_arg, byte[] real_node_pubkey_arg) {
-		long ret = bindings.PhantomRouteHints_new(channels_arg != null ? Arrays.stream(channels_arg).mapToLong(channels_arg_conv_16 -> channels_arg_conv_16 == null ? 0 : channels_arg_conv_16.ptr & ~1).toArray() : null, phantom_scid_arg, InternalUtils.check_arr_len(real_node_pubkey_arg, 33));
+		long ret = bindings.PhantomRouteHints_new(channels_arg != null ? Arrays.stream(channels_arg).mapToLong(channels_arg_conv_16 -> channels_arg_conv_16 == null ? 0 : channels_arg_conv_16.ptr).toArray() : null, phantom_scid_arg, InternalUtils.check_arr_len(real_node_pubkey_arg, 33));
 		Reference.reachabilityFence(channels_arg);
 		Reference.reachabilityFence(phantom_scid_arg);
 		Reference.reachabilityFence(real_node_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (ChannelDetails channels_arg_conv_16: channels_arg) { ret_hu_conv.ptrs_to.add(channels_arg_conv_16); };
 		return ret_hu_conv;
 	}
 

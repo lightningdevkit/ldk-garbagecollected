@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_NodeAnnouncementDecodeErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_NodeAnnouncementDecodeErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_NodeAnnouncementDecodeErrorZ {
 		if (bindings.CResult_NodeAnnouncementDecodeErrorZ_is_ok(ptr)) {
 			return new Result_NodeAnnouncementDecodeErrorZ_OK(null, ptr);
 		} else {
@@ -373,8 +373,9 @@ export class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_NodeAnnouncementDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o: NodeAnnouncement): Result_NodeAnnouncementDecodeErrorZ {
-		const ret: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
+		const ret: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_NodeAnnouncementDecodeErrorZ = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, o);
 		return ret_hu_conv;
 	}
 
@@ -382,8 +383,9 @@ export class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_NodeAnnouncementDecodeErrorZ in the error state.
 	 */
 	public static constructor_err(e: DecodeError): Result_NodeAnnouncementDecodeErrorZ {
-		const ret: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
+		const ret: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_err(e == null ? 0n : CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_NodeAnnouncementDecodeErrorZ = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, e);
 		return ret_hu_conv;
 	}
 
@@ -395,8 +397,8 @@ export class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +407,7 @@ export class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_NodeAnnouncementDecodeErrorZ {
-		const ret: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_NodeAnnouncementDecodeErrorZ = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -415,9 +417,9 @@ export class Result_NodeAnnouncementDecodeErrorZ_OK extends Result_NodeAnnouncem
 	public res: NodeAnnouncement;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_get_ok(ptr);
 		const res_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -427,9 +429,9 @@ export class Result_NodeAnnouncementDecodeErrorZ_Err extends Result_NodeAnnounce
 	public err: DecodeError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_NodeAnnouncementDecodeErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_NodeAnnouncementDecodeErrorZ_get_err(ptr);
 		const err_hu_conv: DecodeError = new DecodeError(null, err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

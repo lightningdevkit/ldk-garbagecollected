@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class TwoTuple_SignatureSignatureZ extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.C2Tuple_SignatureSignatureZ_free);
 	}
 
@@ -383,8 +383,8 @@ export class TwoTuple_SignatureSignatureZ extends CommonBase {
 		return ret_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.C2Tuple_SignatureSignatureZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_SignatureSignatureZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -393,7 +393,7 @@ export class TwoTuple_SignatureSignatureZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): TwoTuple_SignatureSignatureZ {
-		const ret: number = bindings.C2Tuple_SignatureSignatureZ_clone(this.ptr);
+		const ret: bigint = bindings.C2Tuple_SignatureSignatureZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_SignatureSignatureZ = new TwoTuple_SignatureSignatureZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -403,7 +403,7 @@ export class TwoTuple_SignatureSignatureZ extends CommonBase {
 	 * Creates a new C2Tuple_SignatureSignatureZ from the contained elements.
 	 */
 	public static constructor_new(a: Uint8Array, b: Uint8Array): TwoTuple_SignatureSignatureZ {
-		const ret: number = bindings.C2Tuple_SignatureSignatureZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint8Array(bindings.check_arr_len(b, 64)));
+		const ret: bigint = bindings.C2Tuple_SignatureSignatureZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint8Array(bindings.check_arr_len(b, 64)));
 		const ret_hu_conv: TwoTuple_SignatureSignatureZ = new TwoTuple_SignatureSignatureZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

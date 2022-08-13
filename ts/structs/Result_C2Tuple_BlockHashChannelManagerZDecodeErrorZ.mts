@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
 		if (bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok(ptr)) {
 			return new Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o: TwoTuple_BlockHashChannelManagerZ): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		const ret: number = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0);
+		const ret: bigint = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0n);
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,8 +382,9 @@ export class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the error state.
 	 */
 	public static constructor_err(e: DecodeError): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		const ret: number = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
+		const ret: bigint = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0n : CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, e);
 		return ret_hu_conv;
 	}
 
@@ -400,9 +401,9 @@ export class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK extends Resu
 	public res: TwoTuple_BlockHashChannelManagerZ;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(ptr);
 		const res_hu_conv: TwoTuple_BlockHashChannelManagerZ = new TwoTuple_BlockHashChannelManagerZ(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -412,9 +413,9 @@ export class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err extends Res
 	public err: DecodeError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(ptr);
 		const err_hu_conv: DecodeError = new DecodeError(null, err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

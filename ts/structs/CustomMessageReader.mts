@@ -381,7 +381,7 @@ export class CustomMessageReader extends CommonBase {
 	public bindings_instance?: bindings.LDKCustomMessageReader;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CustomMessageReader_free);
 		this.bindings_instance = null;
 	}
@@ -390,14 +390,14 @@ export class CustomMessageReader extends CommonBase {
 	public static new_impl(arg: CustomMessageReaderInterface): CustomMessageReader {
 		const impl_holder: LDKCustomMessageReaderHolder = new LDKCustomMessageReaderHolder();
 		let structImplementation = {
-			read (message_type: number, buffer: number): number {
+			read (message_type: number, buffer: number): bigint {
 				const buffer_conv: Uint8Array = bindings.decodeUint8Array(buffer);
 				const ret: Result_COption_TypeZDecodeErrorZ = arg.read(message_type, buffer_conv);
-				const result: number = ret == null ? 0 : ret.clone_ptr();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 		} as bindings.LDKCustomMessageReader;
-		const ptr: number = bindings.LDKCustomMessageReader_new(structImplementation);
+		const ptr: bigint = bindings.LDKCustomMessageReader_new(structImplementation);
 
 		impl_holder.held = new CustomMessageReader(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -411,7 +411,7 @@ export class CustomMessageReader extends CommonBase {
 	 * occur, must return `Err(DecodeError::X)` where `X` details the encountered error.
 	 */
 	public read(message_type: number, buffer: Uint8Array): Result_COption_TypeZDecodeErrorZ {
-		const ret: number = bindings.CustomMessageReader_read(this.ptr, message_type, bindings.encodeUint8Array(buffer));
+		const ret: bigint = bindings.CustomMessageReader_read(this.ptr, message_type, bindings.encodeUint8Array(buffer));
 		const ret_hu_conv: Result_COption_TypeZDecodeErrorZ = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

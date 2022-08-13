@@ -365,7 +365,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChainParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChainParameters_free);
 	}
 
@@ -390,7 +390,7 @@ export class ChainParameters extends CommonBase {
 	 * Used to track on-chain channel funding outputs and send payments with reliable timelocks.
 	 */
 	public get_best_block(): BestBlock {
-		const ret: number = bindings.ChainParameters_get_best_block(this.ptr);
+		const ret: bigint = bindings.ChainParameters_get_best_block(this.ptr);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -402,21 +402,23 @@ export class ChainParameters extends CommonBase {
 	 * Used to track on-chain channel funding outputs and send payments with reliable timelocks.
 	 */
 	public set_best_block(val: BestBlock): void {
-		bindings.ChainParameters_set_best_block(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChainParameters_set_best_block(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new ChainParameters given each field
 	 */
 	public static constructor_new(network_arg: Network, best_block_arg: BestBlock): ChainParameters {
-		const ret: number = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0 : CommonBase.get_ptr_of(best_block_arg) & ~1);
+		const ret: bigint = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0n : CommonBase.get_ptr_of(best_block_arg));
 		const ret_hu_conv: ChainParameters = new ChainParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, best_block_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChainParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChainParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -424,7 +426,7 @@ export class ChainParameters extends CommonBase {
 	 * Creates a copy of the ChainParameters
 	 */
 	public clone(): ChainParameters {
-		const ret: number = bindings.ChainParameters_clone(this.ptr);
+		const ret: bigint = bindings.ChainParameters_clone(this.ptr);
 		const ret_hu_conv: ChainParameters = new ChainParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

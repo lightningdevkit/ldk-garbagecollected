@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelUpdate extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelUpdate_free);
 	}
 
@@ -385,7 +385,7 @@ export class ChannelUpdate extends CommonBase {
 	 * The actual channel update
 	 */
 	public get_contents(): UnsignedChannelUpdate {
-		const ret: number = bindings.ChannelUpdate_get_contents(this.ptr);
+		const ret: bigint = bindings.ChannelUpdate_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,21 +395,23 @@ export class ChannelUpdate extends CommonBase {
 	 * The actual channel update
 	 */
 	public set_contents(val: UnsignedChannelUpdate): void {
-		bindings.ChannelUpdate_set_contents(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.ChannelUpdate_set_contents(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
 	 * Constructs a new ChannelUpdate given each field
 	 */
 	public static constructor_new(signature_arg: Uint8Array, contents_arg: UnsignedChannelUpdate): ChannelUpdate {
-		const ret: number = bindings.ChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
+		const ret: bigint = bindings.ChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0n : CommonBase.get_ptr_of(contents_arg));
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, contents_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -417,7 +419,7 @@ export class ChannelUpdate extends CommonBase {
 	 * Creates a copy of the ChannelUpdate
 	 */
 	public clone(): ChannelUpdate {
-		const ret: number = bindings.ChannelUpdate_clone(this.ptr);
+		const ret: bigint = bindings.ChannelUpdate_clone(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -436,7 +438,7 @@ export class ChannelUpdate extends CommonBase {
 	 * Read a ChannelUpdate from a byte array, created by ChannelUpdate_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelUpdateDecodeErrorZ {
-		const ret: number = bindings.ChannelUpdate_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelUpdateDecodeErrorZ = Result_ChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

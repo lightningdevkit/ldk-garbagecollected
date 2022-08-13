@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class CounterpartyForwardingInfo extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CounterpartyForwardingInfo_free);
 	}
 
@@ -418,14 +418,14 @@ export class CounterpartyForwardingInfo extends CommonBase {
 	 * Constructs a new CounterpartyForwardingInfo given each field
 	 */
 	public static constructor_new(fee_base_msat_arg: number, fee_proportional_millionths_arg: number, cltv_expiry_delta_arg: number): CounterpartyForwardingInfo {
-		const ret: number = bindings.CounterpartyForwardingInfo_new(fee_base_msat_arg, fee_proportional_millionths_arg, cltv_expiry_delta_arg);
+		const ret: bigint = bindings.CounterpartyForwardingInfo_new(fee_base_msat_arg, fee_proportional_millionths_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: CounterpartyForwardingInfo = new CounterpartyForwardingInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CounterpartyForwardingInfo_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CounterpartyForwardingInfo_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -433,7 +433,7 @@ export class CounterpartyForwardingInfo extends CommonBase {
 	 * Creates a copy of the CounterpartyForwardingInfo
 	 */
 	public clone(): CounterpartyForwardingInfo {
-		const ret: number = bindings.CounterpartyForwardingInfo_clone(this.ptr);
+		const ret: bigint = bindings.CounterpartyForwardingInfo_clone(this.ptr);
 		const ret_hu_conv: CounterpartyForwardingInfo = new CounterpartyForwardingInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -452,7 +452,7 @@ export class CounterpartyForwardingInfo extends CommonBase {
 	 * Read a CounterpartyForwardingInfo from a byte array, created by CounterpartyForwardingInfo_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_CounterpartyForwardingInfoDecodeErrorZ {
-		const ret: number = bindings.CounterpartyForwardingInfo_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.CounterpartyForwardingInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CounterpartyForwardingInfoDecodeErrorZ = Result_CounterpartyForwardingInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -214,12 +214,13 @@ public class NetAddress extends CommonBase {
 	 * Utility method to constructs a new Hostname-variant NetAddress
 	 */
 	public static NetAddress hostname(Hostname hostname, short port) {
-		long ret = bindings.NetAddress_hostname(hostname == null ? 0 : hostname.ptr & ~1, port);
+		long ret = bindings.NetAddress_hostname(hostname == null ? 0 : hostname.ptr, port);
 		Reference.reachabilityFence(hostname);
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(hostname);
 		return ret_hu_conv;
 	}
 

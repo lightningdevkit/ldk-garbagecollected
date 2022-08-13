@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class InvoiceFeatures extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.InvoiceFeatures_free);
 	}
 
@@ -371,13 +371,13 @@ export class InvoiceFeatures extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: InvoiceFeatures): boolean {
-		const ret: boolean = bindings.InvoiceFeatures_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.InvoiceFeatures_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.InvoiceFeatures_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.InvoiceFeatures_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -385,7 +385,7 @@ export class InvoiceFeatures extends CommonBase {
 	 * Creates a copy of the InvoiceFeatures
 	 */
 	public clone(): InvoiceFeatures {
-		const ret: number = bindings.InvoiceFeatures_clone(this.ptr);
+		const ret: bigint = bindings.InvoiceFeatures_clone(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -395,7 +395,7 @@ export class InvoiceFeatures extends CommonBase {
 	 * Create a blank Features with no features set
 	 */
 	public static constructor_empty(): InvoiceFeatures {
-		const ret: number = bindings.InvoiceFeatures_empty();
+		const ret: bigint = bindings.InvoiceFeatures_empty();
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -405,7 +405,7 @@ export class InvoiceFeatures extends CommonBase {
 	 * Creates a Features with the bits set which are known by the implementation
 	 */
 	public static constructor_known(): InvoiceFeatures {
-		const ret: number = bindings.InvoiceFeatures_known();
+		const ret: bigint = bindings.InvoiceFeatures_known();
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -433,7 +433,7 @@ export class InvoiceFeatures extends CommonBase {
 	 * Read a InvoiceFeatures from a byte array, created by InvoiceFeatures_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_InvoiceFeaturesDecodeErrorZ {
-		const ret: number = bindings.InvoiceFeatures_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.InvoiceFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_InvoiceFeaturesDecodeErrorZ = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

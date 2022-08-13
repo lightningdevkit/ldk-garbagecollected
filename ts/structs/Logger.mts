@@ -377,7 +377,7 @@ export class Logger extends CommonBase {
 	public bindings_instance?: bindings.LDKLogger;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Logger_free);
 		this.bindings_instance = null;
 	}
@@ -386,12 +386,12 @@ export class Logger extends CommonBase {
 	public static new_impl(arg: LoggerInterface): Logger {
 		const impl_holder: LDKLoggerHolder = new LDKLoggerHolder();
 		let structImplementation = {
-			log (record: number): void {
+			log (record: bigint): void {
 				const record_hu_conv: Record = new Record(null, record);
 				arg.log(record_hu_conv);
 			},
 		} as bindings.LDKLogger;
-		const ptr: number = bindings.LDKLogger_new(structImplementation);
+		const ptr: bigint = bindings.LDKLogger_new(structImplementation);
 
 		impl_holder.held = new Logger(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;

@@ -45,7 +45,7 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	 * Creates a new C2Tuple_BlockHashChannelManagerZ from the contained elements.
 	 */
 	public static TwoTuple_BlockHashChannelManagerZ of(byte[] a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Logger b_logger, KeysInterface b_keys_manager, UserConfig b_config, ChainParameters b_params) {
-		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_logger == null ? 0 : b_logger.ptr, b_keys_manager == null ? 0 : b_keys_manager.ptr, b_config == null ? 0 : b_config.ptr & ~1, b_params == null ? 0 : b_params.ptr & ~1));
+		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_logger == null ? 0 : b_logger.ptr, b_keys_manager == null ? 0 : b_keys_manager.ptr, b_config == null ? 0 : b_config.ptr, b_params == null ? 0 : b_params.ptr));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b_fee_est);
 		Reference.reachabilityFence(b_chain_monitor);
@@ -62,8 +62,8 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		ret_hu_conv.ptrs_to.add(b_tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(b_logger);
 		ret_hu_conv.ptrs_to.add(b_keys_manager);
-		;
-		;
+		ret_hu_conv.ptrs_to.add(b_config);
+		ret_hu_conv.ptrs_to.add(b_params);
 		return ret_hu_conv;
 	}
 

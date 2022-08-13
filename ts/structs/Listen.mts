@@ -394,7 +394,7 @@ export class Listen extends CommonBase {
 	public bindings_instance?: bindings.LDKListen;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Listen_free);
 		this.bindings_instance = null;
 	}
@@ -408,7 +408,7 @@ export class Listen extends CommonBase {
 				const txdata_conv_28_len: number = bindings.getArrayLength(txdata);
 				const txdata_conv_28_arr: TwoTuple_usizeTransactionZ[] = new Array(txdata_conv_28_len).fill(null);
 				for (var c = 0; c < txdata_conv_28_len; c++) {
-					const txdata_conv_28: number = bindings.getU32ArrayElem(txdata, c);
+					const txdata_conv_28: bigint = bindings.getU64ArrayElem(txdata, c);
 					const txdata_conv_28_hu_conv: TwoTuple_usizeTransactionZ = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
 					CommonBase.add_ref_from(txdata_conv_28_hu_conv, this);
 					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
@@ -425,7 +425,7 @@ export class Listen extends CommonBase {
 				arg.block_disconnected(header_conv, height);
 			},
 		} as bindings.LDKListen;
-		const ptr: number = bindings.LDKListen_new(structImplementation);
+		const ptr: bigint = bindings.LDKListen_new(structImplementation);
 
 		impl_holder.held = new Listen(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -437,7 +437,7 @@ export class Listen extends CommonBase {
 	 * possibly filtered.
 	 */
 	public filtered_block_connected(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number): void {
-		bindings.Listen_filtered_block_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint32Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null), height);
+		bindings.Listen_filtered_block_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height);
 	}
 
 	/**

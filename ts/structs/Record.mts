@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class Record extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Record_free);
 	}
 
@@ -444,8 +444,8 @@ export class Record extends CommonBase {
 		bindings.Record_set_line(this.ptr, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Record_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Record_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -453,7 +453,7 @@ export class Record extends CommonBase {
 	 * Creates a copy of the Record
 	 */
 	public clone(): Record {
-		const ret: number = bindings.Record_clone(this.ptr);
+		const ret: bigint = bindings.Record_clone(this.ptr);
 		const ret_hu_conv: Record = new Record(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

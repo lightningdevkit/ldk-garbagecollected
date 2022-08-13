@@ -385,7 +385,7 @@ export class Type extends CommonBase {
 	public bindings_instance?: bindings.LDKType;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: number) {
+	constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.Type_free);
 		this.bindings_instance = null;
 	}
@@ -409,7 +409,7 @@ export class Type extends CommonBase {
 				return result;
 			},
 		} as bindings.LDKType;
-		const ptr: number = bindings.LDKType_new(structImplementation);
+		const ptr: bigint = bindings.LDKType_new(structImplementation);
 
 		impl_holder.held = new Type(null, ptr);
 		impl_holder.held.bindings_instance = structImplementation;
@@ -442,8 +442,8 @@ export class Type extends CommonBase {
 		return ret_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.Type_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.Type_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -451,7 +451,7 @@ export class Type extends CommonBase {
 	 * Creates a copy of a Type
 	 */
 	public clone(): Type {
-		const ret: number = bindings.Type_clone(this.ptr);
+		const ret: bigint = bindings.Type_clone(this.ptr);
 		const ret_hu_conv: Type = new Type(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

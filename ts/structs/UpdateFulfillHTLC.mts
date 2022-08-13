@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class UpdateFulfillHTLC extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.UpdateFulfillHTLC_free);
 	}
 
@@ -416,14 +416,14 @@ export class UpdateFulfillHTLC extends CommonBase {
 	 * Constructs a new UpdateFulfillHTLC given each field
 	 */
 	public static constructor_new(channel_id_arg: Uint8Array, htlc_id_arg: bigint, payment_preimage_arg: Uint8Array): UpdateFulfillHTLC {
-		const ret: number = bindings.UpdateFulfillHTLC_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), htlc_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage_arg, 32)));
+		const ret: bigint = bindings.UpdateFulfillHTLC_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), htlc_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage_arg, 32)));
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.UpdateFulfillHTLC_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.UpdateFulfillHTLC_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -431,7 +431,7 @@ export class UpdateFulfillHTLC extends CommonBase {
 	 * Creates a copy of the UpdateFulfillHTLC
 	 */
 	public clone(): UpdateFulfillHTLC {
-		const ret: number = bindings.UpdateFulfillHTLC_clone(this.ptr);
+		const ret: bigint = bindings.UpdateFulfillHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -450,7 +450,7 @@ export class UpdateFulfillHTLC extends CommonBase {
 	 * Read a UpdateFulfillHTLC from a byte array, created by UpdateFulfillHTLC_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFulfillHTLCDecodeErrorZ {
-		const ret: number = bindings.UpdateFulfillHTLC_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.UpdateFulfillHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFulfillHTLCDecodeErrorZ = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

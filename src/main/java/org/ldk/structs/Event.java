@@ -894,13 +894,14 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
 	 */
 	public static Event payment_path_successful(byte[] payment_id, byte[] payment_hash, RouteHop[] path) {
-		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 
@@ -908,7 +909,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
 	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
-		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
+		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(rejected_by_dest);
@@ -920,6 +921,8 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
+		ret_hu_conv.ptrs_to.add(retry);
 		return ret_hu_conv;
 	}
 
@@ -927,13 +930,14 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new ProbeSuccessful-variant Event
 	 */
 	public static Event probe_successful(byte[] payment_id, byte[] payment_hash, RouteHop[] path) {
-		long ret = bindings.Event_probe_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		long ret = bindings.Event_probe_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 
@@ -941,7 +945,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new ProbeFailed-variant Event
 	 */
 	public static Event probe_failed(byte[] payment_id, byte[] payment_hash, RouteHop[] path, Option_u64Z short_channel_id) {
-		long ret = bindings.Event_probe_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr);
+		long ret = bindings.Event_probe_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
@@ -949,6 +953,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 
@@ -1022,7 +1027,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new OpenChannelRequest-variant Event
 	 */
 	public static Event open_channel_request(byte[] temporary_channel_id, byte[] counterparty_node_id, long funding_satoshis, long push_msat, ChannelTypeFeatures channel_type) {
-		long ret = bindings.Event_open_channel_request(InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_satoshis, push_msat, channel_type == null ? 0 : channel_type.ptr & ~1);
+		long ret = bindings.Event_open_channel_request(InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_satoshis, push_msat, channel_type == null ? 0 : channel_type.ptr);
 		Reference.reachabilityFence(temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(funding_satoshis);
@@ -1031,6 +1036,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(channel_type);
 		return ret_hu_conv;
 	}
 

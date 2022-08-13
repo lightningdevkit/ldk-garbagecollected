@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_ProbabilisticScorerDecodeErrorZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_ProbabilisticScorerDecodeErrorZ {
+	public static constr_from_ptr(ptr: bigint): Result_ProbabilisticScorerDecodeErrorZ {
 		if (bindings.CResult_ProbabilisticScorerDecodeErrorZ_is_ok(ptr)) {
 			return new Result_ProbabilisticScorerDecodeErrorZ_OK(null, ptr);
 		} else {
@@ -373,9 +373,9 @@ export class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o_params: ProbabilisticScoringParameters, o_network_graph: NetworkGraph, o_logger: Logger): Result_ProbabilisticScorerDecodeErrorZ {
-		const ret: number = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : CommonBase.get_ptr_of(o_params) & ~1, o_network_graph == null ? 0 : CommonBase.get_ptr_of(o_network_graph) & ~1, o_logger == null ? 0 : CommonBase.get_ptr_of(o_logger)));
+		const ret: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0n : CommonBase.get_ptr_of(o_params), o_network_graph == null ? 0n : CommonBase.get_ptr_of(o_network_graph), o_logger == null ? 0n : CommonBase.get_ptr_of(o_logger)));
 		const ret_hu_conv: Result_ProbabilisticScorerDecodeErrorZ = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
-		;
+		CommonBase.add_ref_from(ret_hu_conv, o_params);
 		CommonBase.add_ref_from(ret_hu_conv, o_network_graph);
 		CommonBase.add_ref_from(ret_hu_conv, o_logger);
 		return ret_hu_conv;
@@ -385,8 +385,9 @@ export class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the error state.
 	 */
 	public static constructor_err(e: DecodeError): Result_ProbabilisticScorerDecodeErrorZ {
-		const ret: number = bindings.CResult_ProbabilisticScorerDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
+		const ret: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_err(e == null ? 0n : CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_ProbabilisticScorerDecodeErrorZ = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, e);
 		return ret_hu_conv;
 	}
 
@@ -403,9 +404,9 @@ export class Result_ProbabilisticScorerDecodeErrorZ_OK extends Result_Probabilis
 	public res: ProbabilisticScorer;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const res: number = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_ok(ptr);
+		const res: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_ok(ptr);
 		const res_hu_conv: ProbabilisticScorer = new ProbabilisticScorer(null, res);
 		CommonBase.add_ref_from(res_hu_conv, this);
 		this.res = res_hu_conv;
@@ -415,9 +416,9 @@ export class Result_ProbabilisticScorerDecodeErrorZ_Err extends Result_Probabili
 	public err: DecodeError;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
-		const err: number = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_err(ptr);
+		const err: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_get_err(ptr);
 		const err_hu_conv: DecodeError = new DecodeError(null, err);
 		CommonBase.add_ref_from(err_hu_conv, this);
 		this.err = err_hu_conv;

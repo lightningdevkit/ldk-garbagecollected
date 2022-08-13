@@ -362,12 +362,12 @@ import * as bindings from '../bindings.mjs'
  */
 export class DirectedChannelInfo extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.DirectedChannelInfo_free);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.DirectedChannelInfo_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.DirectedChannelInfo_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -375,7 +375,7 @@ export class DirectedChannelInfo extends CommonBase {
 	 * Creates a copy of the DirectedChannelInfo
 	 */
 	public clone(): DirectedChannelInfo {
-		const ret: number = bindings.DirectedChannelInfo_clone(this.ptr);
+		const ret: bigint = bindings.DirectedChannelInfo_clone(this.ptr);
 		const ret_hu_conv: DirectedChannelInfo = new DirectedChannelInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -385,7 +385,7 @@ export class DirectedChannelInfo extends CommonBase {
 	 * Returns information for the channel.
 	 */
 	public channel(): ChannelInfo {
-		const ret: number = bindings.DirectedChannelInfo_channel(this.ptr);
+		const ret: bigint = bindings.DirectedChannelInfo_channel(this.ptr);
 		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -397,7 +397,7 @@ export class DirectedChannelInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public direction(): ChannelUpdateInfo {
-		const ret: number = bindings.DirectedChannelInfo_direction(this.ptr);
+		const ret: bigint = bindings.DirectedChannelInfo_direction(this.ptr);
 		const ret_hu_conv: ChannelUpdateInfo = new ChannelUpdateInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -419,7 +419,7 @@ export class DirectedChannelInfo extends CommonBase {
 	 * otherwise.
 	 */
 	public effective_capacity(): EffectiveCapacity {
-		const ret: number = bindings.DirectedChannelInfo_effective_capacity(this.ptr);
+		const ret: bigint = bindings.DirectedChannelInfo_effective_capacity(this.ptr);
 		const ret_hu_conv: EffectiveCapacity = EffectiveCapacity.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

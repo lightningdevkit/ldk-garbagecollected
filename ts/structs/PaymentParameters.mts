@@ -361,7 +361,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class PaymentParameters extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.PaymentParameters_free);
 	}
 
@@ -392,7 +392,7 @@ export class PaymentParameters extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public get_features(): InvoiceFeatures {
-		const ret: number = bindings.PaymentParameters_get_features(this.ptr);
+		const ret: bigint = bindings.PaymentParameters_get_features(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -409,7 +409,8 @@ export class PaymentParameters extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public set_features(val: InvoiceFeatures): void {
-		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -420,7 +421,7 @@ export class PaymentParameters extends CommonBase {
 		const ret_conv_11_len: number = bindings.getArrayLength(ret);
 		const ret_conv_11_arr: RouteHint[] = new Array(ret_conv_11_len).fill(null);
 		for (var l = 0; l < ret_conv_11_len; l++) {
-			const ret_conv_11: number = bindings.getU32ArrayElem(ret, l);
+			const ret_conv_11: bigint = bindings.getU64ArrayElem(ret, l);
 			const ret_conv_11_hu_conv: RouteHint = new RouteHint(null, ret_conv_11);
 			CommonBase.add_ref_from(ret_conv_11_hu_conv, this);
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
@@ -433,14 +434,15 @@ export class PaymentParameters extends CommonBase {
 	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
 	 */
 	public set_route_hints(val: RouteHint[]): void {
-		bindings.PaymentParameters_set_route_hints(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_11 => val_conv_11 == null ? 0 : CommonBase.get_ptr_of(val_conv_11) & ~1) : null));
+		bindings.PaymentParameters_set_route_hints(this.ptr, bindings.encodeUint64Array(val != null ? val.map(val_conv_11 => val_conv_11 == null ? 0n : CommonBase.get_ptr_of(val_conv_11)) : null));
+		val.forEach((val_conv_11: RouteHint) => { CommonBase.add_ref_from(this, val_conv_11); });
 	}
 
 	/**
 	 * Expiration of a payment to the payee, in seconds relative to the UNIX epoch.
 	 */
 	public get_expiry_time(): Option_u64Z {
-		const ret: number = bindings.PaymentParameters_get_expiry_time(this.ptr);
+		const ret: bigint = bindings.PaymentParameters_get_expiry_time(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -552,14 +554,16 @@ export class PaymentParameters extends CommonBase {
 	 * Constructs a new PaymentParameters given each field
 	 */
 	public static constructor_new(payee_pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z, max_total_cltv_expiry_delta_arg: number, max_path_count_arg: number, max_channel_saturation_power_of_half_arg: number, previously_failed_channels_arg: bigint[]): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, bindings.encodeUint64Array(previously_failed_channels_arg));
+		const ret: bigint = bindings.PaymentParameters_new(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey_arg, 33)), features_arg == null ? 0n : CommonBase.get_ptr_of(features_arg), bindings.encodeUint64Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0n : CommonBase.get_ptr_of(route_hints_arg_conv_11)) : null), CommonBase.get_ptr_of(expiry_time_arg), max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, bindings.encodeUint64Array(previously_failed_channels_arg));
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, features_arg);
+		route_hints_arg.forEach((route_hints_arg_conv_11: RouteHint) => { CommonBase.add_ref_from(ret_hu_conv, route_hints_arg_conv_11); });
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.PaymentParameters_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.PaymentParameters_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -567,7 +571,7 @@ export class PaymentParameters extends CommonBase {
 	 * Creates a copy of the PaymentParameters
 	 */
 	public clone(): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_clone(this.ptr);
+		const ret: bigint = bindings.PaymentParameters_clone(this.ptr);
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -587,7 +591,7 @@ export class PaymentParameters extends CommonBase {
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
 	public eq(b: PaymentParameters): boolean {
-		const ret: boolean = bindings.PaymentParameters_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: boolean = bindings.PaymentParameters_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
@@ -605,7 +609,7 @@ export class PaymentParameters extends CommonBase {
 	 * Read a PaymentParameters from a byte array, created by PaymentParameters_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_PaymentParametersDecodeErrorZ {
-		const ret: number = bindings.PaymentParameters_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.PaymentParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PaymentParametersDecodeErrorZ = Result_PaymentParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -614,7 +618,7 @@ export class PaymentParameters extends CommonBase {
 	 * Creates a payee with the node id of the given `pubkey`.
 	 */
 	public static constructor_from_node_id(payee_pubkey: Uint8Array): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_from_node_id(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey, 33)));
+		const ret: bigint = bindings.PaymentParameters_from_node_id(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey, 33)));
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -624,7 +628,7 @@ export class PaymentParameters extends CommonBase {
 	 * Creates a payee with the node id of the given `pubkey` to use for keysend payments.
 	 */
 	public static constructor_for_keysend(payee_pubkey: Uint8Array): PaymentParameters {
-		const ret: number = bindings.PaymentParameters_for_keysend(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey, 33)));
+		const ret: bigint = bindings.PaymentParameters_for_keysend(bindings.encodeUint8Array(bindings.check_arr_len(payee_pubkey, 33)));
 		const ret_hu_conv: PaymentParameters = new PaymentParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class StaticPaymentOutputDescriptor extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.StaticPaymentOutputDescriptor_free);
 	}
 
@@ -370,7 +370,7 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * The outpoint which is spendable
 	 */
 	public get_outpoint(): OutPoint {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_get_outpoint(this.ptr);
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_get_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -380,7 +380,8 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * The outpoint which is spendable
 	 */
 	public set_outpoint(val: OutPoint): void {
-		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		CommonBase.add_ref_from(this, val);
 	}
 
 	/**
@@ -389,7 +390,7 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * Returns a copy of the field.
 	 */
 	public get_output(): TxOut {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_get_output(this.ptr);
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_get_output(this.ptr);
 		const ret_conv: TxOut = new TxOut(null, ret);
 		return ret_conv;
 	}
@@ -440,14 +441,15 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * Constructs a new StaticPaymentOutputDescriptor given each field
 	 */
 	public static constructor_new(outpoint_arg: OutPoint, output_arg: TxOut, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: bigint): StaticPaymentOutputDescriptor {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0n : CommonBase.get_ptr_of(outpoint_arg), CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, outpoint_arg);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -455,7 +457,7 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * Creates a copy of the StaticPaymentOutputDescriptor
 	 */
 	public clone(): StaticPaymentOutputDescriptor {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_clone(this.ptr);
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_clone(this.ptr);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -474,7 +476,7 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	 * Read a StaticPaymentOutputDescriptor from a byte array, created by StaticPaymentOutputDescriptor_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_StaticPaymentOutputDescriptorDecodeErrorZ {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_StaticPaymentOutputDescriptorDecodeErrorZ = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

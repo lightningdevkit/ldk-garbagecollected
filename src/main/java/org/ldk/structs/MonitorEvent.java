@@ -128,11 +128,12 @@ public class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new HTLCEvent-variant MonitorEvent
 	 */
 	public static MonitorEvent htlcevent(HTLCUpdate a) {
-		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 
@@ -140,11 +141,12 @@ public class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
 	 */
 	public static MonitorEvent commitment_tx_confirmed(OutPoint a) {
-		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 
@@ -152,12 +154,13 @@ public class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateCompleted-variant MonitorEvent
 	 */
 	public static MonitorEvent update_completed(OutPoint funding_txo, long monitor_update_id) {
-		long ret = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor_update_id);
+		long ret = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : funding_txo.ptr, monitor_update_id);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(funding_txo);
 		return ret_hu_conv;
 	}
 
@@ -165,11 +168,12 @@ public class MonitorEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
 	 */
 	public static MonitorEvent update_failed(OutPoint a) {
-		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr & ~1);
+		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

@@ -358,11 +358,11 @@ import * as bindings from '../bindings.mjs'
 
 
 export class Result_NoneNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
+	protected constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.CResult_NoneNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_NoneNoneZ {
+	public static constr_from_ptr(ptr: bigint): Result_NoneNoneZ {
 		if (bindings.CResult_NoneNoneZ_is_ok(ptr)) {
 			return new Result_NoneNoneZ_OK(null, ptr);
 		} else {
@@ -373,7 +373,7 @@ export class Result_NoneNoneZ extends CommonBase {
 	 * Creates a new CResult_NoneNoneZ in the success state.
 	 */
 	public static constructor_ok(): Result_NoneNoneZ {
-		const ret: number = bindings.CResult_NoneNoneZ_ok();
+		const ret: bigint = bindings.CResult_NoneNoneZ_ok();
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -382,7 +382,7 @@ export class Result_NoneNoneZ extends CommonBase {
 	 * Creates a new CResult_NoneNoneZ in the error state.
 	 */
 	public static constructor_err(): Result_NoneNoneZ {
-		const ret: number = bindings.CResult_NoneNoneZ_err();
+		const ret: bigint = bindings.CResult_NoneNoneZ_err();
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -395,8 +395,8 @@ export class Result_NoneNoneZ extends CommonBase {
 		return ret;
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.CResult_NoneNoneZ_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.CResult_NoneNoneZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -405,7 +405,7 @@ export class Result_NoneNoneZ extends CommonBase {
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
 	public clone(): Result_NoneNoneZ {
-		const ret: number = bindings.CResult_NoneNoneZ_clone(this.ptr);
+		const ret: bigint = bindings.CResult_NoneNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -414,14 +414,14 @@ export class Result_NoneNoneZ extends CommonBase {
 export class Result_NoneNoneZ_OK extends Result_NoneNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }
 export class Result_NoneNoneZ_Err extends Result_NoneNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(_dummy, ptr);
 	}
 }

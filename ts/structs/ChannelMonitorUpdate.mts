@@ -362,7 +362,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelMonitorUpdate extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
+	public constructor(_dummy: object, ptr: bigint) {
 		super(ptr, bindings.ChannelMonitorUpdate_free);
 	}
 
@@ -401,8 +401,8 @@ export class ChannelMonitorUpdate extends CommonBase {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
 	}
 
-	public clone_ptr(): number {
-		const ret: number = bindings.ChannelMonitorUpdate_clone_ptr(this.ptr);
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.ChannelMonitorUpdate_clone_ptr(this.ptr);
 		return ret;
 	}
 
@@ -410,7 +410,7 @@ export class ChannelMonitorUpdate extends CommonBase {
 	 * Creates a copy of the ChannelMonitorUpdate
 	 */
 	public clone(): ChannelMonitorUpdate {
-		const ret: number = bindings.ChannelMonitorUpdate_clone(this.ptr);
+		const ret: bigint = bindings.ChannelMonitorUpdate_clone(this.ptr);
 		const ret_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
@@ -429,7 +429,7 @@ export class ChannelMonitorUpdate extends CommonBase {
 	 * Read a ChannelMonitorUpdate from a byte array, created by ChannelMonitorUpdate_write
 	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelMonitorUpdateDecodeErrorZ {
-		const ret: number = bindings.ChannelMonitorUpdate_read(bindings.encodeUint8Array(ser));
+		const ret: bigint = bindings.ChannelMonitorUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelMonitorUpdateDecodeErrorZ = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
