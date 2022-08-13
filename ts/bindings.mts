@@ -937,7 +937,7 @@ export function CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(owner: bi
 	const nativeResponseValue = wasm.TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(owner);
 	return nativeResponseValue;
 }
-	// struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedClosingTransaction CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_TrustedClosingTransactionNoneZ_get_ok(owner: bigint): bigint {
 	if(!isWasmInitialized) {
@@ -973,7 +973,7 @@ export function CResult_CommitmentTransactionDecodeErrorZ_get_err(owner: bigint)
 	const nativeResponseValue = wasm.TS_CResult_CommitmentTransactionDecodeErrorZ_get_err(owner);
 	return nativeResponseValue;
 }
-	// struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedCommitmentTransaction CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_TrustedCommitmentTransactionNoneZ_get_ok(owner: bigint): bigint {
 	if(!isWasmInitialized) {
@@ -2577,7 +2577,7 @@ export function LDKLogger_new(impl: LDKLogger): bigint {
 	js_objs[i] = new WeakRef(impl);
 	return wasm.TS_LDKLogger_new(i);
 }
-	// struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKProbabilisticScorer CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner: bigint): bigint {
 	if(!isWasmInitialized) {
@@ -3038,7 +3038,7 @@ export function CResult_NodeInfoDecodeErrorZ_get_err(owner: bigint): bigint {
 	const nativeResponseValue = wasm.TS_CResult_NodeInfoDecodeErrorZ_get_err(owner);
 	return nativeResponseValue;
 }
-	// struct LDKNetworkGraph *CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKNetworkGraph CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_NetworkGraphDecodeErrorZ_get_ok(owner: bigint): bigint {
 	if(!isWasmInitialized) {
@@ -4140,7 +4140,7 @@ export function C2Tuple_BlockHashChannelManagerZ_get_a(owner: bigint): number {
 	const nativeResponseValue = wasm.TS_C2Tuple_BlockHashChannelManagerZ_get_a(owner);
 	return nativeResponseValue;
 }
-	// struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
+	// struct LDKChannelManager C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 /* @internal */
 export function C2Tuple_BlockHashChannelManagerZ_get_b(owner: bigint): bigint {
 	if(!isWasmInitialized) {
@@ -5712,7 +5712,7 @@ export function LDKCOption_FilterZ_Some_get_some(ptr: bigint): bigint {
 	const nativeResponseValue = wasm.TS_LDKCOption_FilterZ_Some_get_some(ptr);
 	return nativeResponseValue;
 }
-	// struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
+	// struct LDKLockedChannelMonitor CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_LockedChannelMonitorNoneZ_get_ok(owner: bigint): bigint {
 	if(!isWasmInitialized) {

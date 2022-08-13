@@ -173,7 +173,7 @@ public class bindings {
 	public static native long CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(long owner);
-	// struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedClosingTransaction CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
 	public static native long CResult_TrustedClosingTransactionNoneZ_get_ok(long owner);
 	// void CResult_TrustedClosingTransactionNoneZ_get_err(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
 	public static native void CResult_TrustedClosingTransactionNoneZ_get_err(long owner);
@@ -181,7 +181,7 @@ public class bindings {
 	public static native long CResult_CommitmentTransactionDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_CommitmentTransactionDecodeErrorZ_get_err(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_CommitmentTransactionDecodeErrorZ_get_err(long owner);
-	// struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedCommitmentTransaction CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
 	public static native long CResult_TrustedCommitmentTransactionNoneZ_get_ok(long owner);
 	// void CResult_TrustedCommitmentTransactionNoneZ_get_err(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
 	public static native void CResult_TrustedCommitmentTransactionNoneZ_get_err(long owner);
@@ -734,7 +734,7 @@ public class bindings {
 		 void log(long record);
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
-	// struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKProbabilisticScorer CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ProbabilisticScorerDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ProbabilisticScorerDecodeErrorZ_get_err(long owner);
@@ -855,7 +855,7 @@ public class bindings {
 	public static native long CResult_NodeInfoDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_NodeInfoDecodeErrorZ_get_err(LDKCResult_NodeInfoDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_NodeInfoDecodeErrorZ_get_err(long owner);
-	// struct LDKNetworkGraph *CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKNetworkGraph CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_NetworkGraphDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_NetworkGraphDecodeErrorZ_get_err(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_NetworkGraphDecodeErrorZ_get_err(long owner);
@@ -1171,7 +1171,7 @@ public class bindings {
 	public static native int FeeEstimator_get_est_sat_per_1000_weight(long this_arg, ConfirmationTarget confirmation_target);
 	// struct LDKThirtyTwoBytes C2Tuple_BlockHashChannelManagerZ_get_a(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 	public static native byte[] C2Tuple_BlockHashChannelManagerZ_get_a(long owner);
-	// struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
+	// struct LDKChannelManager C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 	public static native long C2Tuple_BlockHashChannelManagerZ_get_b(long owner);
 	// struct LDKC2Tuple_BlockHashChannelManagerZ *CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(long owner);
@@ -1657,7 +1657,7 @@ public class bindings {
 	}
 	static { LDKCOption_FilterZ.init(); }
 	public static native LDKCOption_FilterZ LDKCOption_FilterZ_ref_from_ptr(long ptr);
-	// struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
+	// struct LDKLockedChannelMonitor CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
 	public static native long CResult_LockedChannelMonitorNoneZ_get_ok(long owner);
 	// void CResult_LockedChannelMonitorNoneZ_get_err(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
 	public static native void CResult_LockedChannelMonitorNoneZ_get_err(long owner);

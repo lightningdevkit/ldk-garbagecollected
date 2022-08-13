@@ -1060,8 +1060,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneNoneZ_1get_1err(J
 }
 
 static inline struct LDKCounterpartyCommitmentSecrets CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_ok(LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyCommitmentSecrets_clone(&*owner->contents.result);
+	LDKCounterpartyCommitmentSecrets ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyCommitmentSecretsDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)untag_ptr(owner);
@@ -1073,8 +1074,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyCommit
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyCommitmentSecretsDecodeErrorZ_get_err(LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyCommitmentSecretsDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)untag_ptr(owner);
@@ -1128,8 +1130,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1PublicKeyErrorZ_1ge
 }
 
 static inline struct LDKTxCreationKeys CResult_TxCreationKeysDecodeErrorZ_get_ok(LDKCResult_TxCreationKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return TxCreationKeys_clone(&*owner->contents.result);
+	LDKTxCreationKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* owner_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)untag_ptr(owner);
@@ -1141,8 +1144,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysDeco
 }
 
 static inline struct LDKDecodeError CResult_TxCreationKeysDecodeErrorZ_get_err(LDKCResult_TxCreationKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* owner_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)untag_ptr(owner);
@@ -1154,8 +1158,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysDeco
 }
 
 static inline struct LDKChannelPublicKeys CResult_ChannelPublicKeysDecodeErrorZ_get_ok(LDKCResult_ChannelPublicKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelPublicKeys_clone(&*owner->contents.result);
+	LDKChannelPublicKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelPublicKeysDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* owner_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)untag_ptr(owner);
@@ -1167,8 +1172,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelPublicKeysD
 }
 
 static inline struct LDKDecodeError CResult_ChannelPublicKeysDecodeErrorZ_get_err(LDKCResult_ChannelPublicKeysDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelPublicKeysDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* owner_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)untag_ptr(owner);
@@ -1180,8 +1186,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelPublicKeysD
 }
 
 static inline struct LDKTxCreationKeys CResult_TxCreationKeysErrorZ_get_ok(LDKCResult_TxCreationKeysErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return TxCreationKeys_clone(&*owner->contents.result);
+	LDKTxCreationKeys ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_TxCreationKeysErrorZ* owner_conv = (LDKCResult_TxCreationKeysErrorZ*)untag_ptr(owner);
@@ -1232,8 +1239,9 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1u32Z_1ref_1from
 	}
 }
 static inline struct LDKHTLCOutputInCommitment CResult_HTLCOutputInCommitmentDecodeErrorZ_get_ok(LDKCResult_HTLCOutputInCommitmentDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HTLCOutputInCommitment_clone(&*owner->contents.result);
+	LDKHTLCOutputInCommitment ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCOutputInCommitmentDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* owner_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)untag_ptr(owner);
@@ -1245,8 +1253,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCOutputInCommit
 }
 
 static inline struct LDKDecodeError CResult_HTLCOutputInCommitmentDecodeErrorZ_get_err(LDKCResult_HTLCOutputInCommitmentDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCOutputInCommitmentDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* owner_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)untag_ptr(owner);
@@ -1258,8 +1267,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCOutputInCommit
 }
 
 static inline struct LDKCounterpartyChannelTransactionParameters CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_ok(LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyChannelTransactionParameters_clone(&*owner->contents.result);
+	LDKCounterpartyChannelTransactionParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyChannelTransactionParametersDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1271,8 +1281,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyChanne
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_get_err(LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyChannelTransactionParametersDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1284,8 +1295,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyChanne
 }
 
 static inline struct LDKChannelTransactionParameters CResult_ChannelTransactionParametersDecodeErrorZ_get_ok(LDKCResult_ChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelTransactionParameters_clone(&*owner->contents.result);
+	LDKChannelTransactionParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTransactionParametersDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1297,8 +1309,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTransaction
 }
 
 static inline struct LDKDecodeError CResult_ChannelTransactionParametersDecodeErrorZ_get_err(LDKCResult_ChannelTransactionParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTransactionParametersDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* owner_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1310,8 +1323,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTransaction
 }
 
 static inline struct LDKHolderCommitmentTransaction CResult_HolderCommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_HolderCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HolderCommitmentTransaction_clone(&*owner->contents.result);
+	LDKHolderCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HolderCommitmentTransactionDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1323,8 +1337,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HolderCommitmentTr
 }
 
 static inline struct LDKDecodeError CResult_HolderCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_HolderCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HolderCommitmentTransactionDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1336,8 +1351,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HolderCommitmentTr
 }
 
 static inline struct LDKBuiltCommitmentTransaction CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return BuiltCommitmentTransaction_clone(&*owner->contents.result);
+	LDKBuiltCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTransactionDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1349,8 +1365,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTra
 }
 
 static inline struct LDKDecodeError CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTransactionDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1361,16 +1378,17 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTra
 	return ret_ref;
 }
 
-static inline struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKTrustedClosingTransaction CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
+	LDKTrustedClosingTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TrustedClosingTransactionNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_TrustedClosingTransactionNoneZ* owner_conv = (LDKCResult_TrustedClosingTransactionNoneZ*)untag_ptr(owner);
-	LDKTrustedClosingTransaction ret_var = *CResult_TrustedClosingTransactionNoneZ_get_ok(owner_conv);
+	LDKTrustedClosingTransaction ret_var = CResult_TrustedClosingTransactionNoneZ_get_ok(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -1384,8 +1402,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1TrustedClosingTransac
 }
 
 static inline struct LDKCommitmentTransaction CResult_CommitmentTransactionDecodeErrorZ_get_ok(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CommitmentTransaction_clone(&*owner->contents.result);
+	LDKCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransactionDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1397,8 +1416,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransact
 }
 
 static inline struct LDKDecodeError CResult_CommitmentTransactionDecodeErrorZ_get_err(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransactionDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* owner_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)untag_ptr(owner);
@@ -1409,16 +1429,17 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransact
 	return ret_ref;
 }
 
-static inline struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKTrustedCommitmentTransaction CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
+	LDKTrustedCommitmentTransaction ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1TrustedCommitmentTransactionNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ* owner_conv = (LDKCResult_TrustedCommitmentTransactionNoneZ*)untag_ptr(owner);
-	LDKTrustedCommitmentTransaction ret_var = *CResult_TrustedCommitmentTransactionNoneZ_get_ok(owner_conv);
+	LDKTrustedCommitmentTransaction ret_var = CResult_TrustedCommitmentTransactionNoneZ_get_ok(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -1460,8 +1481,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1SignatureZNoneZ
 }
 
 static inline struct LDKShutdownScript CResult_ShutdownScriptDecodeErrorZ_get_ok(LDKCResult_ShutdownScriptDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ShutdownScript_clone(&*owner->contents.result);
+	LDKShutdownScript ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* owner_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)untag_ptr(owner);
@@ -1473,8 +1495,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptDeco
 }
 
 static inline struct LDKDecodeError CResult_ShutdownScriptDecodeErrorZ_get_err(LDKCResult_ShutdownScriptDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* owner_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)untag_ptr(owner);
@@ -1486,8 +1509,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptDeco
 }
 
 static inline struct LDKShutdownScript CResult_ShutdownScriptInvalidShutdownScriptZ_get_ok(LDKCResult_ShutdownScriptInvalidShutdownScriptZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ShutdownScript_clone(&*owner->contents.result);
+	LDKShutdownScript ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInvalidShutdownScriptZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* owner_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)untag_ptr(owner);
@@ -1499,8 +1523,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInva
 }
 
 static inline struct LDKInvalidShutdownScript CResult_ShutdownScriptInvalidShutdownScriptZ_get_err(LDKCResult_ShutdownScriptInvalidShutdownScriptZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return InvalidShutdownScript_clone(&*owner->contents.err);
+	LDKInvalidShutdownScript ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInvalidShutdownScriptZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* owner_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)untag_ptr(owner);
@@ -1531,8 +1556,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1NoneErrorZ_1get_1er
 }
 
 static inline struct LDKRouteHop CResult_RouteHopDecodeErrorZ_get_ok(LDKCResult_RouteHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHop_clone(&*owner->contents.result);
+	LDKRouteHop ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHopDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHopDecodeErrorZ*)untag_ptr(owner);
@@ -1544,8 +1570,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHopDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_RouteHopDecodeErrorZ_get_err(LDKCResult_RouteHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHopDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHopDecodeErrorZ*)untag_ptr(owner);
@@ -1571,8 +1598,9 @@ static inline LDKCVec_CVec_RouteHopZZ CVec_CVec_RouteHopZZ_clone(const LDKCVec_C
 	return ret;
 }
 static inline struct LDKRoute CResult_RouteDecodeErrorZ_get_ok(LDKCResult_RouteDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Route_clone(&*owner->contents.result);
+	LDKRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteDecodeErrorZ* owner_conv = (LDKCResult_RouteDecodeErrorZ*)untag_ptr(owner);
@@ -1584,8 +1612,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteDecodeErrorZ_
 }
 
 static inline struct LDKDecodeError CResult_RouteDecodeErrorZ_get_err(LDKCResult_RouteDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteDecodeErrorZ* owner_conv = (LDKCResult_RouteDecodeErrorZ*)untag_ptr(owner);
@@ -1597,8 +1626,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteDecodeErrorZ_
 }
 
 static inline struct LDKRouteParameters CResult_RouteParametersDecodeErrorZ_get_ok(LDKCResult_RouteParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteParameters_clone(&*owner->contents.result);
+	LDKRouteParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteParametersDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteParametersDecodeErrorZ* owner_conv = (LDKCResult_RouteParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1610,8 +1640,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteParametersDec
 }
 
 static inline struct LDKDecodeError CResult_RouteParametersDecodeErrorZ_get_err(LDKCResult_RouteParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteParametersDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteParametersDecodeErrorZ* owner_conv = (LDKCResult_RouteParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1664,8 +1695,9 @@ static inline LDKCVec_u64Z CVec_u64Z_clone(const LDKCVec_u64Z *orig) {
 	return ret;
 }
 static inline struct LDKPaymentParameters CResult_PaymentParametersDecodeErrorZ_get_ok(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PaymentParameters_clone(&*owner->contents.result);
+	LDKPaymentParameters ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentParametersDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PaymentParametersDecodeErrorZ* owner_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1677,8 +1709,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentParametersD
 }
 
 static inline struct LDKDecodeError CResult_PaymentParametersDecodeErrorZ_get_err(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentParametersDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PaymentParametersDecodeErrorZ* owner_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)untag_ptr(owner);
@@ -1697,8 +1730,9 @@ static inline LDKCVec_RouteHintHopZ CVec_RouteHintHopZ_clone(const LDKCVec_Route
 	return ret;
 }
 static inline struct LDKRouteHint CResult_RouteHintDecodeErrorZ_get_ok(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHint_clone(&*owner->contents.result);
+	LDKRouteHint ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHintDecodeErrorZ* owner_conv = (LDKCResult_RouteHintDecodeErrorZ*)untag_ptr(owner);
@@ -1710,8 +1744,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_RouteHintDecodeErrorZ_get_err(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHintDecodeErrorZ* owner_conv = (LDKCResult_RouteHintDecodeErrorZ*)untag_ptr(owner);
@@ -1723,8 +1758,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintDecodeErr
 }
 
 static inline struct LDKRouteHintHop CResult_RouteHintHopDecodeErrorZ_get_ok(LDKCResult_RouteHintHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RouteHintHop_clone(&*owner->contents.result);
+	LDKRouteHintHop ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintHopDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHintHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)untag_ptr(owner);
@@ -1736,8 +1772,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintHopDecode
 }
 
 static inline struct LDKDecodeError CResult_RouteHintHopDecodeErrorZ_get_err(LDKCResult_RouteHintHopDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteHintHopDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteHintHopDecodeErrorZ* owner_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)untag_ptr(owner);
@@ -1756,8 +1793,9 @@ static inline LDKCVec_ChannelDetailsZ CVec_ChannelDetailsZ_clone(const LDKCVec_C
 	return ret;
 }
 static inline struct LDKRoute CResult_RouteLightningErrorZ_get_ok(LDKCResult_RouteLightningErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Route_clone(&*owner->contents.result);
+	LDKRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteLightningErrorZ* owner_conv = (LDKCResult_RouteLightningErrorZ*)untag_ptr(owner);
@@ -1769,8 +1807,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteLightningErro
 }
 
 static inline struct LDKLightningError CResult_RouteLightningErrorZ_get_err(LDKCResult_RouteLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RouteLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RouteLightningErrorZ* owner_conv = (LDKCResult_RouteLightningErrorZ*)untag_ptr(owner);
@@ -1828,8 +1867,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentPurposeDeco
 }
 
 static inline struct LDKDecodeError CResult_PaymentPurposeDecodeErrorZ_get_err(LDKCResult_PaymentPurposeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentPurposeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PaymentPurposeDecodeErrorZ* owner_conv = (LDKCResult_PaymentPurposeDecodeErrorZ*)untag_ptr(owner);
@@ -1974,8 +2014,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1ClosureRe
 }
 
 static inline struct LDKDecodeError CResult_COption_ClosureReasonZDecodeErrorZ_get_err(LDKCResult_COption_ClosureReasonZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1ClosureReasonZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_ClosureReasonZDecodeErrorZ* owner_conv = (LDKCResult_COption_ClosureReasonZDecodeErrorZ*)untag_ptr(owner);
@@ -2073,8 +2114,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1HTLCDesti
 }
 
 static inline struct LDKDecodeError CResult_COption_HTLCDestinationZDecodeErrorZ_get_err(LDKCResult_COption_HTLCDestinationZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1HTLCDestinationZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_HTLCDestinationZDecodeErrorZ* owner_conv = (LDKCResult_COption_HTLCDestinationZDecodeErrorZ*)untag_ptr(owner);
@@ -2568,8 +2610,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1EventZDec
 }
 
 static inline struct LDKDecodeError CResult_COption_EventZDecodeErrorZ_get_err(LDKCResult_COption_EventZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1EventZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_EventZDecodeErrorZ* owner_conv = (LDKCResult_COption_EventZDecodeErrorZ*)untag_ptr(owner);
@@ -3139,7 +3182,9 @@ static inline LDKCVec_MonitorEventZ CVec_MonitorEventZ_clone(const LDKCVec_Monit
 	return ret;
 }
 static inline struct LDKOutPoint C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_a(LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ *NONNULL_PTR owner){
-	return OutPoint_clone(&owner->a);
+	LDKOutPoint ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1OutPointCVec_1MonitorEventZPublicKeyZ_1get_1a(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ* owner_conv = (LDKC3Tuple_OutPointCVec_MonitorEventZPublicKeyZ*)untag_ptr(owner);
@@ -3219,8 +3264,9 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1C2Tuple_1usizeT
 	}
 }
 static inline struct LDKFixedPenaltyScorer CResult_FixedPenaltyScorerDecodeErrorZ_get_ok(LDKCResult_FixedPenaltyScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FixedPenaltyScorer_clone(&*owner->contents.result);
+	LDKFixedPenaltyScorer ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FixedPenaltyScorerDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* owner_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)untag_ptr(owner);
@@ -3232,8 +3278,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FixedPenaltyScorer
 }
 
 static inline struct LDKDecodeError CResult_FixedPenaltyScorerDecodeErrorZ_get_err(LDKCResult_FixedPenaltyScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FixedPenaltyScorerDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* owner_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)untag_ptr(owner);
@@ -3374,22 +3421,24 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new(JNIEnv *env,
 	*res_ptr = LDKLogger_init(env, clz, o);
 	return tag_ptr(res_ptr, true);
 }
-static inline struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKProbabilisticScorer CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
+	LDKProbabilisticScorer ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)untag_ptr(owner);
-	LDKProbabilisticScorer ret_var = *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner_conv);
+	LDKProbabilisticScorer ret_var = CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
 static inline struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)untag_ptr(owner);
@@ -3401,8 +3450,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScore
 }
 
 static inline struct LDKInitFeatures CResult_InitFeaturesDecodeErrorZ_get_ok(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InitFeatures_clone(&*owner->contents.result);
+	LDKInitFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InitFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InitFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3414,8 +3464,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitFeaturesDecode
 }
 
 static inline struct LDKDecodeError CResult_InitFeaturesDecodeErrorZ_get_err(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InitFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InitFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3427,8 +3478,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitFeaturesDecode
 }
 
 static inline struct LDKChannelFeatures CResult_ChannelFeaturesDecodeErrorZ_get_ok(LDKCResult_ChannelFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelFeatures_clone(&*owner->contents.result);
+	LDKChannelFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3440,8 +3492,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDec
 }
 
 static inline struct LDKDecodeError CResult_ChannelFeaturesDecodeErrorZ_get_err(LDKCResult_ChannelFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3453,8 +3506,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDec
 }
 
 static inline struct LDKNodeFeatures CResult_NodeFeaturesDecodeErrorZ_get_ok(LDKCResult_NodeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeFeatures_clone(&*owner->contents.result);
+	LDKNodeFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_NodeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3466,8 +3520,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeFeaturesDecode
 }
 
 static inline struct LDKDecodeError CResult_NodeFeaturesDecodeErrorZ_get_err(LDKCResult_NodeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_NodeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3479,8 +3534,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeFeaturesDecode
 }
 
 static inline struct LDKInvoiceFeatures CResult_InvoiceFeaturesDecodeErrorZ_get_ok(LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InvoiceFeatures_clone(&*owner->contents.result);
+	LDKInvoiceFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InvoiceFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InvoiceFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3492,8 +3548,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDec
 }
 
 static inline struct LDKDecodeError CResult_InvoiceFeaturesDecodeErrorZ_get_err(LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InvoiceFeaturesDecodeErrorZ* owner_conv = (LDKCResult_InvoiceFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3505,8 +3562,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDec
 }
 
 static inline struct LDKChannelTypeFeatures CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelTypeFeatures_clone(&*owner->contents.result);
+	LDKChannelTypeFeatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTypeFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelTypeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelTypeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3518,8 +3576,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTypeFeature
 }
 
 static inline struct LDKDecodeError CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTypeFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelTypeFeaturesDecodeErrorZ* owner_conv = (LDKCResult_ChannelTypeFeaturesDecodeErrorZ*)untag_ptr(owner);
@@ -3531,8 +3590,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelTypeFeature
 }
 
 static inline struct LDKNodeId CResult_NodeIdDecodeErrorZ_get_ok(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeId_clone(&*owner->contents.result);
+	LDKNodeId ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeIdDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeIdDecodeErrorZ* owner_conv = (LDKCResult_NodeIdDecodeErrorZ*)untag_ptr(owner);
@@ -3544,8 +3604,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeIdDecodeErrorZ
 }
 
 static inline struct LDKDecodeError CResult_NodeIdDecodeErrorZ_get_err(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeIdDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeIdDecodeErrorZ* owner_conv = (LDKCResult_NodeIdDecodeErrorZ*)untag_ptr(owner);
@@ -3569,8 +3630,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1NetworkUp
 }
 
 static inline struct LDKDecodeError CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(LDKCResult_COption_NetworkUpdateZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1NetworkUpdateZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_NetworkUpdateZDecodeErrorZ* owner_conv = (LDKCResult_COption_NetworkUpdateZDecodeErrorZ*)untag_ptr(owner);
@@ -3717,8 +3779,9 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErro
 }
 
 static inline struct LDKLightningError CResult_boolLightningErrorZ_get_err(LDKCResult_boolLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_boolLightningErrorZ* owner_conv = (LDKCResult_boolLightningErrorZ*)untag_ptr(owner);
@@ -3730,7 +3793,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningError
 }
 
 static inline struct LDKChannelAnnouncement C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelAnnouncement_clone(&owner->a);
+	LDKChannelAnnouncement ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -3742,7 +3807,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncemen
 }
 
 static inline struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelUpdate_clone(&owner->b);
+	LDKChannelUpdate ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -3754,7 +3821,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncemen
 }
 
 static inline struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR owner){
-	return ChannelUpdate_clone(&owner->c);
+	LDKChannelUpdate ret = owner->c;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1c(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* owner_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)untag_ptr(owner);
@@ -3789,8 +3858,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1
 }
 
 static inline struct LDKLightningError CResult_NoneLightningErrorZ_get_err(LDKCResult_NoneLightningErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return LightningError_clone(&*owner->contents.err);
+	LDKLightningError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NoneLightningErrorZ* owner_conv = (LDKCResult_NoneLightningErrorZ*)untag_ptr(owner);
@@ -3802,8 +3872,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningError
 }
 
 static inline struct LDKChannelUpdateInfo CResult_ChannelUpdateInfoDecodeErrorZ_get_ok(LDKCResult_ChannelUpdateInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelUpdateInfo_clone(&*owner->contents.result);
+	LDKChannelUpdateInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3815,8 +3886,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateInfoD
 }
 
 static inline struct LDKDecodeError CResult_ChannelUpdateInfoDecodeErrorZ_get_err(LDKCResult_ChannelUpdateInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3828,8 +3900,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateInfoD
 }
 
 static inline struct LDKChannelInfo CResult_ChannelInfoDecodeErrorZ_get_ok(LDKCResult_ChannelInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelInfo_clone(&*owner->contents.result);
+	LDKChannelInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3841,8 +3914,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelInfoDecodeE
 }
 
 static inline struct LDKDecodeError CResult_ChannelInfoDecodeErrorZ_get_err(LDKCResult_ChannelInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelInfoDecodeErrorZ* owner_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3854,8 +3928,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelInfoDecodeE
 }
 
 static inline struct LDKRoutingFees CResult_RoutingFeesDecodeErrorZ_get_ok(LDKCResult_RoutingFeesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RoutingFees_clone(&*owner->contents.result);
+	LDKRoutingFees ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RoutingFeesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RoutingFeesDecodeErrorZ* owner_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)untag_ptr(owner);
@@ -3867,8 +3942,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RoutingFeesDecodeE
 }
 
 static inline struct LDKDecodeError CResult_RoutingFeesDecodeErrorZ_get_err(LDKCResult_RoutingFeesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RoutingFeesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RoutingFeesDecodeErrorZ* owner_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)untag_ptr(owner);
@@ -3963,8 +4039,9 @@ static inline LDKCVec_NetAddressZ CVec_NetAddressZ_clone(const LDKCVec_NetAddres
 	return ret;
 }
 static inline struct LDKNodeAnnouncementInfo CResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(LDKCResult_NodeAnnouncementInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAnnouncementInfo_clone(&*owner->contents.result);
+	LDKNodeAnnouncementInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3976,8 +4053,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementIn
 }
 
 static inline struct LDKDecodeError CResult_NodeAnnouncementInfoDecodeErrorZ_get_err(LDKCResult_NodeAnnouncementInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)untag_ptr(owner);
@@ -3989,8 +4067,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementIn
 }
 
 static inline struct LDKNodeAlias CResult_NodeAliasDecodeErrorZ_get_ok(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAlias_clone(&*owner->contents.result);
+	LDKNodeAlias ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAliasDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)untag_ptr(owner);
@@ -4002,8 +4081,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAliasDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_NodeAliasDecodeErrorZ_get_err(LDKCResult_NodeAliasDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAliasDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAliasDecodeErrorZ* owner_conv = (LDKCResult_NodeAliasDecodeErrorZ*)untag_ptr(owner);
@@ -4015,8 +4095,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAliasDecodeErr
 }
 
 static inline struct LDKNodeInfo CResult_NodeInfoDecodeErrorZ_get_ok(LDKCResult_NodeInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeInfo_clone(&*owner->contents.result);
+	LDKNodeInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeInfoDecodeErrorZ*)untag_ptr(owner);
@@ -4028,8 +4109,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeInfoDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_NodeInfoDecodeErrorZ_get_err(LDKCResult_NodeInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeInfoDecodeErrorZ* owner_conv = (LDKCResult_NodeInfoDecodeErrorZ*)untag_ptr(owner);
@@ -4040,22 +4122,24 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeInfoDecodeErro
 	return ret_ref;
 }
 
-static inline struct LDKNetworkGraph *CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKNetworkGraph CResult_NetworkGraphDecodeErrorZ_get_ok(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
+	LDKNetworkGraph ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NetworkGraphDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NetworkGraphDecodeErrorZ* owner_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)untag_ptr(owner);
-	LDKNetworkGraph ret_var = *CResult_NetworkGraphDecodeErrorZ_get_ok(owner_conv);
+	LDKNetworkGraph ret_var = CResult_NetworkGraphDecodeErrorZ_get_ok(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
 static inline struct LDKDecodeError CResult_NetworkGraphDecodeErrorZ_get_err(LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NetworkGraphDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NetworkGraphDecodeErrorZ* owner_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)untag_ptr(owner);
@@ -4104,8 +4188,9 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1CVec_1NetAddres
 	}
 }
 static inline struct LDKDelayedPaymentOutputDescriptor CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_ok(LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return DelayedPaymentOutputDescriptor_clone(&*owner->contents.result);
+	LDKDelayedPaymentOutputDescriptor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DelayedPaymentOutputDescriptorDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -4117,8 +4202,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DelayedPaymentOutp
 }
 
 static inline struct LDKDecodeError CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_err(LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DelayedPaymentOutputDescriptorDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -4130,8 +4216,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DelayedPaymentOutp
 }
 
 static inline struct LDKStaticPaymentOutputDescriptor CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_ok(LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return StaticPaymentOutputDescriptor_clone(&*owner->contents.result);
+	LDKStaticPaymentOutputDescriptor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1StaticPaymentOutputDescriptorDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -4143,8 +4230,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1StaticPaymentOutpu
 }
 
 static inline struct LDKDecodeError CResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_err(LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1StaticPaymentOutputDescriptorDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -4168,8 +4256,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SpendableOutputDes
 }
 
 static inline struct LDKDecodeError CResult_SpendableOutputDescriptorDecodeErrorZ_get_err(LDKCResult_SpendableOutputDescriptorDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SpendableOutputDescriptorDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* owner_conv = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)untag_ptr(owner);
@@ -5161,8 +5250,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SignDecodeErrorZ_1
 }
 
 static inline struct LDKDecodeError CResult_SignDecodeErrorZ_get_err(LDKCResult_SignDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SignDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_SignDecodeErrorZ* owner_conv = (LDKCResult_SignDecodeErrorZ*)untag_ptr(owner);
@@ -5232,8 +5322,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1CVec_1u8ZZNoneZ
 }
 
 static inline struct LDKInMemorySigner CResult_InMemorySignerDecodeErrorZ_get_ok(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return InMemorySigner_clone(&*owner->contents.result);
+	LDKInMemorySigner ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InMemorySignerDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InMemorySignerDecodeErrorZ* owner_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)untag_ptr(owner);
@@ -5245,8 +5336,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InMemorySignerDeco
 }
 
 static inline struct LDKDecodeError CResult_InMemorySignerDecodeErrorZ_get_err(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InMemorySignerDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InMemorySignerDecodeErrorZ* owner_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)untag_ptr(owner);
@@ -5296,7 +5388,9 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChann
 }
 
 static inline struct LDKChannelMonitor C2Tuple_BlockHashChannelMonitorZ_get_b(LDKC2Tuple_BlockHashChannelMonitorZ *NONNULL_PTR owner){
-	return ChannelMonitor_clone(&owner->b);
+	LDKChannelMonitor ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMonitorZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC2Tuple_BlockHashChannelMonitorZ* owner_conv = (LDKC2Tuple_BlockHashChannelMonitorZ*)untag_ptr(owner);
@@ -5822,8 +5916,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PaymentPreimageAPI
 }
 
 static inline struct LDKCounterpartyForwardingInfo CResult_CounterpartyForwardingInfoDecodeErrorZ_get_ok(LDKCResult_CounterpartyForwardingInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CounterpartyForwardingInfo_clone(&*owner->contents.result);
+	LDKCounterpartyForwardingInfo ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyForwardingInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)untag_ptr(owner);
@@ -5835,8 +5930,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyForwar
 }
 
 static inline struct LDKDecodeError CResult_CounterpartyForwardingInfoDecodeErrorZ_get_err(LDKCResult_CounterpartyForwardingInfoDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyForwardingInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* owner_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)untag_ptr(owner);
@@ -5848,8 +5944,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CounterpartyForwar
 }
 
 static inline struct LDKChannelCounterparty CResult_ChannelCounterpartyDecodeErrorZ_get_ok(LDKCResult_ChannelCounterpartyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelCounterparty_clone(&*owner->contents.result);
+	LDKChannelCounterparty ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelCounterpartyDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* owner_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)untag_ptr(owner);
@@ -5861,8 +5958,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelCounterpart
 }
 
 static inline struct LDKDecodeError CResult_ChannelCounterpartyDecodeErrorZ_get_err(LDKCResult_ChannelCounterpartyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelCounterpartyDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* owner_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)untag_ptr(owner);
@@ -5874,8 +5972,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelCounterpart
 }
 
 static inline struct LDKChannelDetails CResult_ChannelDetailsDecodeErrorZ_get_ok(LDKCResult_ChannelDetailsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelDetails_clone(&*owner->contents.result);
+	LDKChannelDetails ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelDetailsDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* owner_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)untag_ptr(owner);
@@ -5887,8 +5986,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelDetailsDeco
 }
 
 static inline struct LDKDecodeError CResult_ChannelDetailsDecodeErrorZ_get_err(LDKCResult_ChannelDetailsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelDetailsDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* owner_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)untag_ptr(owner);
@@ -5900,8 +6000,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelDetailsDeco
 }
 
 static inline struct LDKPhantomRouteHints CResult_PhantomRouteHintsDecodeErrorZ_get_ok(LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PhantomRouteHints_clone(&*owner->contents.result);
+	LDKPhantomRouteHints ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PhantomRouteHintsDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* owner_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)untag_ptr(owner);
@@ -5913,8 +6014,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PhantomRouteHintsD
 }
 
 static inline struct LDKDecodeError CResult_PhantomRouteHintsDecodeErrorZ_get_err(LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PhantomRouteHintsDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* owner_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)untag_ptr(owner);
@@ -6717,15 +6819,17 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChann
 	return ret_arr;
 }
 
-static inline struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
-	return &owner->b;
+static inline struct LDKChannelManager C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
+	LDKChannelManager ret = owner->b;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelManagerZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC2Tuple_BlockHashChannelManagerZ* owner_conv = (LDKC2Tuple_BlockHashChannelManagerZ*)untag_ptr(owner);
-	LDKChannelManager ret_var = *C2Tuple_BlockHashChannelManagerZ_get_b(owner_conv);
+	LDKChannelManager ret_var = C2Tuple_BlockHashChannelManagerZ_get_b(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
@@ -6740,8 +6844,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHash
 }
 
 static inline struct LDKDecodeError CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ* owner_conv = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)untag_ptr(owner);
@@ -6753,8 +6858,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHash
 }
 
 static inline struct LDKChannelConfig CResult_ChannelConfigDecodeErrorZ_get_ok(LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelConfig_clone(&*owner->contents.result);
+	LDKChannelConfig ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelConfigDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelConfigDecodeErrorZ* owner_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)untag_ptr(owner);
@@ -6766,8 +6872,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelConfigDecod
 }
 
 static inline struct LDKDecodeError CResult_ChannelConfigDecodeErrorZ_get_err(LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelConfigDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelConfigDecodeErrorZ* owner_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)untag_ptr(owner);
@@ -6779,8 +6886,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelConfigDecod
 }
 
 static inline struct LDKOutPoint CResult_OutPointDecodeErrorZ_get_ok(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return OutPoint_clone(&*owner->contents.result);
+	LDKOutPoint ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OutPointDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_OutPointDecodeErrorZ* owner_conv = (LDKCResult_OutPointDecodeErrorZ*)untag_ptr(owner);
@@ -6792,8 +6900,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OutPointDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_OutPointDecodeErrorZ_get_err(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OutPointDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_OutPointDecodeErrorZ* owner_conv = (LDKCResult_OutPointDecodeErrorZ*)untag_ptr(owner);
@@ -7002,8 +7111,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1TypeZDeco
 }
 
 static inline struct LDKDecodeError CResult_COption_TypeZDecodeErrorZ_get_err(LDKCResult_COption_TypeZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1TypeZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_TypeZDecodeErrorZ* owner_conv = (LDKCResult_COption_TypeZDecodeErrorZ*)untag_ptr(owner);
@@ -7329,8 +7439,9 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKParseOrSemanticError_1re
 	}
 }
 static inline struct LDKInvoice CResult_InvoiceParseOrSemanticErrorZ_get_ok(LDKCResult_InvoiceParseOrSemanticErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceParseOrSemanticErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InvoiceParseOrSemanticErrorZ* owner_conv = (LDKCResult_InvoiceParseOrSemanticErrorZ*)untag_ptr(owner);
@@ -7354,8 +7465,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceParseOrSema
 }
 
 static inline struct LDKSignedRawInvoice CResult_SignedRawInvoiceParseErrorZ_get_ok(LDKCResult_SignedRawInvoiceParseErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return SignedRawInvoice_clone(&*owner->contents.result);
+	LDKSignedRawInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SignedRawInvoiceParseErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_SignedRawInvoiceParseErrorZ* owner_conv = (LDKCResult_SignedRawInvoiceParseErrorZ*)untag_ptr(owner);
@@ -7379,7 +7491,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SignedRawInvoicePa
 }
 
 static inline struct LDKRawInvoice C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR owner){
-	return RawInvoice_clone(&owner->a);
+	LDKRawInvoice ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1a(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* owner_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)untag_ptr(owner);
@@ -7401,7 +7515,9 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u8
 }
 
 static inline struct LDKInvoiceSignature C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR owner){
-	return InvoiceSignature_clone(&owner->c);
+	LDKInvoiceSignature ret = owner->c;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1c(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* owner_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)untag_ptr(owner);
@@ -7413,8 +7529,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832In
 }
 
 static inline struct LDKPayeePubKey CResult_PayeePubKeyErrorZ_get_ok(LDKCResult_PayeePubKeyErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PayeePubKey_clone(&*owner->contents.result);
+	LDKPayeePubKey ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PayeePubKeyErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PayeePubKeyErrorZ* owner_conv = (LDKCResult_PayeePubKeyErrorZ*)untag_ptr(owner);
@@ -7443,8 +7560,9 @@ static inline LDKCVec_PrivateRouteZ CVec_PrivateRouteZ_clone(const LDKCVec_Priva
 	return ret;
 }
 static inline struct LDKPositiveTimestamp CResult_PositiveTimestampCreationErrorZ_get_ok(LDKCResult_PositiveTimestampCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PositiveTimestamp_clone(&*owner->contents.result);
+	LDKPositiveTimestamp ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PositiveTimestampCreationErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PositiveTimestampCreationErrorZ* owner_conv = (LDKCResult_PositiveTimestampCreationErrorZ*)untag_ptr(owner);
@@ -7485,8 +7603,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1NoneSemanticErrorZ_
 }
 
 static inline struct LDKInvoice CResult_InvoiceSemanticErrorZ_get_ok(LDKCResult_InvoiceSemanticErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceSemanticErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InvoiceSemanticErrorZ* owner_conv = (LDKCResult_InvoiceSemanticErrorZ*)untag_ptr(owner);
@@ -7508,8 +7627,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceSemanticErro
 }
 
 static inline struct LDKDescription CResult_DescriptionCreationErrorZ_get_ok(LDKCResult_DescriptionCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Description_clone(&*owner->contents.result);
+	LDKDescription ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DescriptionCreationErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_DescriptionCreationErrorZ* owner_conv = (LDKCResult_DescriptionCreationErrorZ*)untag_ptr(owner);
@@ -7531,8 +7651,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1DescriptionCreation
 }
 
 static inline struct LDKPrivateRoute CResult_PrivateRouteCreationErrorZ_get_ok(LDKCResult_PrivateRouteCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return PrivateRoute_clone(&*owner->contents.result);
+	LDKPrivateRoute ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PrivateRouteCreationErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PrivateRouteCreationErrorZ* owner_conv = (LDKCResult_PrivateRouteCreationErrorZ*)untag_ptr(owner);
@@ -7575,8 +7696,9 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_CResult_1StringErrorZ_1get_1
 }
 
 static inline struct LDKChannelMonitorUpdate CResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelMonitorUpdate_clone(&*owner->contents.result);
+	LDKChannelMonitorUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -7588,8 +7710,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelMonitorUpda
 }
 
 static inline struct LDKDecodeError CResult_ChannelMonitorUpdateDecodeErrorZ_get_err(LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -7642,8 +7765,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1MonitorEv
 }
 
 static inline struct LDKDecodeError CResult_COption_MonitorEventZDecodeErrorZ_get_err(LDKCResult_COption_MonitorEventZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1MonitorEventZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_COption_MonitorEventZDecodeErrorZ* owner_conv = (LDKCResult_COption_MonitorEventZDecodeErrorZ*)untag_ptr(owner);
@@ -7655,8 +7779,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1COption_1MonitorEv
 }
 
 static inline struct LDKHTLCUpdate CResult_HTLCUpdateDecodeErrorZ_get_ok(LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return HTLCUpdate_clone(&*owner->contents.result);
+	LDKHTLCUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* owner_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -7668,8 +7793,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCUpdateDecodeEr
 }
 
 static inline struct LDKDecodeError CResult_HTLCUpdateDecodeErrorZ_get_err(LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* owner_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -7681,7 +7807,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1HTLCUpdateDecodeEr
 }
 
 static inline struct LDKOutPoint C2Tuple_OutPointScriptZ_get_a(LDKC2Tuple_OutPointScriptZ *NONNULL_PTR owner){
-	return OutPoint_clone(&owner->a);
+	LDKOutPoint ret = owner->a;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1get_1a(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKC2Tuple_OutPointScriptZ* owner_conv = (LDKC2Tuple_OutPointScriptZ*)untag_ptr(owner);
@@ -7911,8 +8039,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHash
 }
 
 static inline struct LDKDecodeError CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* owner_conv = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)untag_ptr(owner);
@@ -7993,8 +8122,9 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerH
 }
 
 static inline struct LDKPeerHandleError CResult_CVec_u8ZPeerHandleErrorZ_get_err(LDKCResult_CVec_u8ZPeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* owner_conv = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)untag_ptr(owner);
@@ -8015,8 +8145,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NonePeerHandleErrorZ_
 }
 
 static inline struct LDKPeerHandleError CResult_NonePeerHandleErrorZ_get_err(LDKCResult_NonePeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NonePeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NonePeerHandleErrorZ* owner_conv = (LDKCResult_NonePeerHandleErrorZ*)untag_ptr(owner);
@@ -8038,8 +8169,9 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_CResult_1boolPeerHandleErr
 }
 
 static inline struct LDKPeerHandleError CResult_boolPeerHandleErrorZ_get_err(LDKCResult_boolPeerHandleErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return PeerHandleError_clone(&*owner->contents.err);
+	LDKPeerHandleError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_boolPeerHandleErrorZ* owner_conv = (LDKCResult_boolPeerHandleErrorZ*)untag_ptr(owner);
@@ -8121,8 +8253,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NetAddressDecodeEr
 }
 
 static inline struct LDKDecodeError CResult_NetAddressDecodeErrorZ_get_err(LDKCResult_NetAddressDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NetAddressDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NetAddressDecodeErrorZ* owner_conv = (LDKCResult_NetAddressDecodeErrorZ*)untag_ptr(owner);
@@ -8162,8 +8295,9 @@ static inline LDKCVec_UpdateFailMalformedHTLCZ CVec_UpdateFailMalformedHTLCZ_clo
 	return ret;
 }
 static inline struct LDKAcceptChannel CResult_AcceptChannelDecodeErrorZ_get_ok(LDKCResult_AcceptChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return AcceptChannel_clone(&*owner->contents.result);
+	LDKAcceptChannel ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AcceptChannelDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_AcceptChannelDecodeErrorZ* owner_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)untag_ptr(owner);
@@ -8175,8 +8309,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AcceptChannelDecod
 }
 
 static inline struct LDKDecodeError CResult_AcceptChannelDecodeErrorZ_get_err(LDKCResult_AcceptChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AcceptChannelDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_AcceptChannelDecodeErrorZ* owner_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)untag_ptr(owner);
@@ -8188,8 +8323,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AcceptChannelDecod
 }
 
 static inline struct LDKAnnouncementSignatures CResult_AnnouncementSignaturesDecodeErrorZ_get_ok(LDKCResult_AnnouncementSignaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return AnnouncementSignatures_clone(&*owner->contents.result);
+	LDKAnnouncementSignatures ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AnnouncementSignaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* owner_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)untag_ptr(owner);
@@ -8201,8 +8337,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AnnouncementSignat
 }
 
 static inline struct LDKDecodeError CResult_AnnouncementSignaturesDecodeErrorZ_get_err(LDKCResult_AnnouncementSignaturesDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AnnouncementSignaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* owner_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)untag_ptr(owner);
@@ -8214,8 +8351,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1AnnouncementSignat
 }
 
 static inline struct LDKChannelReestablish CResult_ChannelReestablishDecodeErrorZ_get_ok(LDKCResult_ChannelReestablishDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelReestablish_clone(&*owner->contents.result);
+	LDKChannelReestablish ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReestablishDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* owner_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)untag_ptr(owner);
@@ -8227,8 +8365,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReestablish
 }
 
 static inline struct LDKDecodeError CResult_ChannelReestablishDecodeErrorZ_get_err(LDKCResult_ChannelReestablishDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReestablishDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* owner_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)untag_ptr(owner);
@@ -8240,8 +8379,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReestablish
 }
 
 static inline struct LDKClosingSigned CResult_ClosingSignedDecodeErrorZ_get_ok(LDKCResult_ClosingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ClosingSigned_clone(&*owner->contents.result);
+	LDKClosingSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ClosingSignedDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8253,8 +8393,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedDecod
 }
 
 static inline struct LDKDecodeError CResult_ClosingSignedDecodeErrorZ_get_err(LDKCResult_ClosingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ClosingSignedDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8266,8 +8407,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedDecod
 }
 
 static inline struct LDKClosingSignedFeeRange CResult_ClosingSignedFeeRangeDecodeErrorZ_get_ok(LDKCResult_ClosingSignedFeeRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ClosingSignedFeeRange_clone(&*owner->contents.result);
+	LDKClosingSignedFeeRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedFeeRangeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8279,8 +8421,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedFeeRa
 }
 
 static inline struct LDKDecodeError CResult_ClosingSignedFeeRangeDecodeErrorZ_get_err(LDKCResult_ClosingSignedFeeRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedFeeRangeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* owner_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8292,8 +8435,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ClosingSignedFeeRa
 }
 
 static inline struct LDKCommitmentSigned CResult_CommitmentSignedDecodeErrorZ_get_ok(LDKCResult_CommitmentSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return CommitmentSigned_clone(&*owner->contents.result);
+	LDKCommitmentSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentSignedDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* owner_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8305,8 +8449,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentSignedDe
 }
 
 static inline struct LDKDecodeError CResult_CommitmentSignedDecodeErrorZ_get_err(LDKCResult_CommitmentSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentSignedDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* owner_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8318,8 +8463,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentSignedDe
 }
 
 static inline struct LDKFundingCreated CResult_FundingCreatedDecodeErrorZ_get_ok(LDKCResult_FundingCreatedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FundingCreated_clone(&*owner->contents.result);
+	LDKFundingCreated ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingCreatedDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FundingCreatedDecodeErrorZ* owner_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)untag_ptr(owner);
@@ -8331,8 +8477,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingCreatedDeco
 }
 
 static inline struct LDKDecodeError CResult_FundingCreatedDecodeErrorZ_get_err(LDKCResult_FundingCreatedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingCreatedDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FundingCreatedDecodeErrorZ* owner_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)untag_ptr(owner);
@@ -8344,8 +8491,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingCreatedDeco
 }
 
 static inline struct LDKFundingSigned CResult_FundingSignedDecodeErrorZ_get_ok(LDKCResult_FundingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return FundingSigned_clone(&*owner->contents.result);
+	LDKFundingSigned ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingSignedDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FundingSignedDecodeErrorZ* owner_conv = (LDKCResult_FundingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8357,8 +8505,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingSignedDecod
 }
 
 static inline struct LDKDecodeError CResult_FundingSignedDecodeErrorZ_get_err(LDKCResult_FundingSignedDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingSignedDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_FundingSignedDecodeErrorZ* owner_conv = (LDKCResult_FundingSignedDecodeErrorZ*)untag_ptr(owner);
@@ -8370,8 +8519,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1FundingSignedDecod
 }
 
 static inline struct LDKChannelReady CResult_ChannelReadyDecodeErrorZ_get_ok(LDKCResult_ChannelReadyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelReady_clone(&*owner->contents.result);
+	LDKChannelReady ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReadyDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelReadyDecodeErrorZ* owner_conv = (LDKCResult_ChannelReadyDecodeErrorZ*)untag_ptr(owner);
@@ -8383,8 +8533,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReadyDecode
 }
 
 static inline struct LDKDecodeError CResult_ChannelReadyDecodeErrorZ_get_err(LDKCResult_ChannelReadyDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReadyDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelReadyDecodeErrorZ* owner_conv = (LDKCResult_ChannelReadyDecodeErrorZ*)untag_ptr(owner);
@@ -8396,8 +8547,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelReadyDecode
 }
 
 static inline struct LDKInit CResult_InitDecodeErrorZ_get_ok(LDKCResult_InitDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Init_clone(&*owner->contents.result);
+	LDKInit ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InitDecodeErrorZ* owner_conv = (LDKCResult_InitDecodeErrorZ*)untag_ptr(owner);
@@ -8409,8 +8561,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitDecodeErrorZ_1
 }
 
 static inline struct LDKDecodeError CResult_InitDecodeErrorZ_get_err(LDKCResult_InitDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InitDecodeErrorZ* owner_conv = (LDKCResult_InitDecodeErrorZ*)untag_ptr(owner);
@@ -8422,8 +8575,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitDecodeErrorZ_1
 }
 
 static inline struct LDKOpenChannel CResult_OpenChannelDecodeErrorZ_get_ok(LDKCResult_OpenChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return OpenChannel_clone(&*owner->contents.result);
+	LDKOpenChannel ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OpenChannelDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_OpenChannelDecodeErrorZ* owner_conv = (LDKCResult_OpenChannelDecodeErrorZ*)untag_ptr(owner);
@@ -8435,8 +8589,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OpenChannelDecodeE
 }
 
 static inline struct LDKDecodeError CResult_OpenChannelDecodeErrorZ_get_err(LDKCResult_OpenChannelDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OpenChannelDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_OpenChannelDecodeErrorZ* owner_conv = (LDKCResult_OpenChannelDecodeErrorZ*)untag_ptr(owner);
@@ -8448,8 +8603,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1OpenChannelDecodeE
 }
 
 static inline struct LDKRevokeAndACK CResult_RevokeAndACKDecodeErrorZ_get_ok(LDKCResult_RevokeAndACKDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return RevokeAndACK_clone(&*owner->contents.result);
+	LDKRevokeAndACK ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RevokeAndACKDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* owner_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)untag_ptr(owner);
@@ -8461,8 +8617,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RevokeAndACKDecode
 }
 
 static inline struct LDKDecodeError CResult_RevokeAndACKDecodeErrorZ_get_err(LDKCResult_RevokeAndACKDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RevokeAndACKDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* owner_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)untag_ptr(owner);
@@ -8474,8 +8631,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1RevokeAndACKDecode
 }
 
 static inline struct LDKShutdown CResult_ShutdownDecodeErrorZ_get_ok(LDKCResult_ShutdownDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Shutdown_clone(&*owner->contents.result);
+	LDKShutdown ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownDecodeErrorZ* owner_conv = (LDKCResult_ShutdownDecodeErrorZ*)untag_ptr(owner);
@@ -8487,8 +8645,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownDecodeErro
 }
 
 static inline struct LDKDecodeError CResult_ShutdownDecodeErrorZ_get_err(LDKCResult_ShutdownDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ShutdownDecodeErrorZ* owner_conv = (LDKCResult_ShutdownDecodeErrorZ*)untag_ptr(owner);
@@ -8500,8 +8659,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownDecodeErro
 }
 
 static inline struct LDKUpdateFailHTLC CResult_UpdateFailHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFailHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFailHTLC_clone(&*owner->contents.result);
+	LDKUpdateFailHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailHTLCDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8513,8 +8673,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailHTLCDeco
 }
 
 static inline struct LDKDecodeError CResult_UpdateFailHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFailHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailHTLCDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8526,8 +8687,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailHTLCDeco
 }
 
 static inline struct LDKUpdateFailMalformedHTLC CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFailMalformedHTLC_clone(&*owner->contents.result);
+	LDKUpdateFailMalformedHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailMalformedHTLCDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8539,8 +8701,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailMalforme
 }
 
 static inline struct LDKDecodeError CResult_UpdateFailMalformedHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailMalformedHTLCDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8552,8 +8715,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFailMalforme
 }
 
 static inline struct LDKUpdateFee CResult_UpdateFeeDecodeErrorZ_get_ok(LDKCResult_UpdateFeeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFee_clone(&*owner->contents.result);
+	LDKUpdateFee ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFeeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFeeDecodeErrorZ* owner_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)untag_ptr(owner);
@@ -8565,8 +8729,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFeeDecodeErr
 }
 
 static inline struct LDKDecodeError CResult_UpdateFeeDecodeErrorZ_get_err(LDKCResult_UpdateFeeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFeeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFeeDecodeErrorZ* owner_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)untag_ptr(owner);
@@ -8578,8 +8743,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFeeDecodeErr
 }
 
 static inline struct LDKUpdateFulfillHTLC CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateFulfillHTLC_clone(&*owner->contents.result);
+	LDKUpdateFulfillHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFulfillHTLCDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8591,8 +8757,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFulfillHTLCD
 }
 
 static inline struct LDKDecodeError CResult_UpdateFulfillHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFulfillHTLCDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8604,8 +8771,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateFulfillHTLCD
 }
 
 static inline struct LDKUpdateAddHTLC CResult_UpdateAddHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UpdateAddHTLC_clone(&*owner->contents.result);
+	LDKUpdateAddHTLC ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateAddHTLCDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8617,8 +8785,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateAddHTLCDecod
 }
 
 static inline struct LDKDecodeError CResult_UpdateAddHTLCDecodeErrorZ_get_err(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateAddHTLCDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* owner_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)untag_ptr(owner);
@@ -8630,8 +8799,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UpdateAddHTLCDecod
 }
 
 static inline struct LDKPing CResult_PingDecodeErrorZ_get_ok(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Ping_clone(&*owner->contents.result);
+	LDKPing ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PingDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PingDecodeErrorZ* owner_conv = (LDKCResult_PingDecodeErrorZ*)untag_ptr(owner);
@@ -8643,8 +8813,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PingDecodeErrorZ_1
 }
 
 static inline struct LDKDecodeError CResult_PingDecodeErrorZ_get_err(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PingDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PingDecodeErrorZ* owner_conv = (LDKCResult_PingDecodeErrorZ*)untag_ptr(owner);
@@ -8656,8 +8827,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PingDecodeErrorZ_1
 }
 
 static inline struct LDKPong CResult_PongDecodeErrorZ_get_ok(LDKCResult_PongDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Pong_clone(&*owner->contents.result);
+	LDKPong ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PongDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PongDecodeErrorZ* owner_conv = (LDKCResult_PongDecodeErrorZ*)untag_ptr(owner);
@@ -8669,8 +8841,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PongDecodeErrorZ_1
 }
 
 static inline struct LDKDecodeError CResult_PongDecodeErrorZ_get_err(LDKCResult_PongDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PongDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_PongDecodeErrorZ* owner_conv = (LDKCResult_PongDecodeErrorZ*)untag_ptr(owner);
@@ -8682,8 +8855,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1PongDecodeErrorZ_1
 }
 
 static inline struct LDKUnsignedChannelAnnouncement CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedChannelAnnouncement_clone(&*owner->contents.result);
+	LDKUnsignedChannelAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8695,8 +8869,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelAnn
 }
 
 static inline struct LDKDecodeError CResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8708,8 +8883,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelAnn
 }
 
 static inline struct LDKChannelAnnouncement CResult_ChannelAnnouncementDecodeErrorZ_get_ok(LDKCResult_ChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelAnnouncement_clone(&*owner->contents.result);
+	LDKChannelAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8721,8 +8897,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelAnnouncemen
 }
 
 static inline struct LDKDecodeError CResult_ChannelAnnouncementDecodeErrorZ_get_err(LDKCResult_ChannelAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8734,8 +8911,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelAnnouncemen
 }
 
 static inline struct LDKUnsignedChannelUpdate CResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(LDKCResult_UnsignedChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedChannelUpdate_clone(&*owner->contents.result);
+	LDKUnsignedChannelUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -8747,8 +8925,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelUpd
 }
 
 static inline struct LDKDecodeError CResult_UnsignedChannelUpdateDecodeErrorZ_get_err(LDKCResult_UnsignedChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -8760,8 +8939,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedChannelUpd
 }
 
 static inline struct LDKChannelUpdate CResult_ChannelUpdateDecodeErrorZ_get_ok(LDKCResult_ChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ChannelUpdate_clone(&*owner->contents.result);
+	LDKChannelUpdate ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -8773,8 +8953,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateDecod
 }
 
 static inline struct LDKDecodeError CResult_ChannelUpdateDecodeErrorZ_get_err(LDKCResult_ChannelUpdateDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* owner_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)untag_ptr(owner);
@@ -8786,8 +8967,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelUpdateDecod
 }
 
 static inline struct LDKErrorMessage CResult_ErrorMessageDecodeErrorZ_get_ok(LDKCResult_ErrorMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ErrorMessage_clone(&*owner->contents.result);
+	LDKErrorMessage ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ErrorMessageDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ErrorMessageDecodeErrorZ* owner_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)untag_ptr(owner);
@@ -8799,8 +8981,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ErrorMessageDecode
 }
 
 static inline struct LDKDecodeError CResult_ErrorMessageDecodeErrorZ_get_err(LDKCResult_ErrorMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ErrorMessageDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ErrorMessageDecodeErrorZ* owner_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)untag_ptr(owner);
@@ -8812,8 +8995,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ErrorMessageDecode
 }
 
 static inline struct LDKWarningMessage CResult_WarningMessageDecodeErrorZ_get_ok(LDKCResult_WarningMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return WarningMessage_clone(&*owner->contents.result);
+	LDKWarningMessage ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1WarningMessageDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_WarningMessageDecodeErrorZ* owner_conv = (LDKCResult_WarningMessageDecodeErrorZ*)untag_ptr(owner);
@@ -8825,8 +9009,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1WarningMessageDeco
 }
 
 static inline struct LDKDecodeError CResult_WarningMessageDecodeErrorZ_get_err(LDKCResult_WarningMessageDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1WarningMessageDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_WarningMessageDecodeErrorZ* owner_conv = (LDKCResult_WarningMessageDecodeErrorZ*)untag_ptr(owner);
@@ -8838,8 +9023,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1WarningMessageDeco
 }
 
 static inline struct LDKUnsignedNodeAnnouncement CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return UnsignedNodeAnnouncement_clone(&*owner->contents.result);
+	LDKUnsignedNodeAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8851,8 +9037,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedNodeAnnoun
 }
 
 static inline struct LDKDecodeError CResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8864,8 +9051,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1UnsignedNodeAnnoun
 }
 
 static inline struct LDKNodeAnnouncement CResult_NodeAnnouncementDecodeErrorZ_get_ok(LDKCResult_NodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return NodeAnnouncement_clone(&*owner->contents.result);
+	LDKNodeAnnouncement ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8877,8 +9065,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementDe
 }
 
 static inline struct LDKDecodeError CResult_NodeAnnouncementDecodeErrorZ_get_err(LDKCResult_NodeAnnouncementDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* owner_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)untag_ptr(owner);
@@ -8890,8 +9079,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NodeAnnouncementDe
 }
 
 static inline struct LDKQueryShortChannelIds CResult_QueryShortChannelIdsDecodeErrorZ_get_ok(LDKCResult_QueryShortChannelIdsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return QueryShortChannelIds_clone(&*owner->contents.result);
+	LDKQueryShortChannelIds ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryShortChannelIdsDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* owner_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)untag_ptr(owner);
@@ -8903,8 +9093,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryShortChannelI
 }
 
 static inline struct LDKDecodeError CResult_QueryShortChannelIdsDecodeErrorZ_get_err(LDKCResult_QueryShortChannelIdsDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryShortChannelIdsDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* owner_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)untag_ptr(owner);
@@ -8916,8 +9107,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryShortChannelI
 }
 
 static inline struct LDKReplyShortChannelIdsEnd CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ReplyShortChannelIdsEnd_clone(&*owner->contents.result);
+	LDKReplyShortChannelIdsEnd ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* owner_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)untag_ptr(owner);
@@ -8929,8 +9121,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyShortChannelI
 }
 
 static inline struct LDKDecodeError CResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* owner_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)untag_ptr(owner);
@@ -8942,8 +9135,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyShortChannelI
 }
 
 static inline struct LDKQueryChannelRange CResult_QueryChannelRangeDecodeErrorZ_get_ok(LDKCResult_QueryChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return QueryChannelRange_clone(&*owner->contents.result);
+	LDKQueryChannelRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryChannelRangeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8955,8 +9149,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryChannelRangeD
 }
 
 static inline struct LDKDecodeError CResult_QueryChannelRangeDecodeErrorZ_get_err(LDKCResult_QueryChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryChannelRangeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8968,8 +9163,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1QueryChannelRangeD
 }
 
 static inline struct LDKReplyChannelRange CResult_ReplyChannelRangeDecodeErrorZ_get_ok(LDKCResult_ReplyChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return ReplyChannelRange_clone(&*owner->contents.result);
+	LDKReplyChannelRange ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyChannelRangeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8981,8 +9177,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyChannelRangeD
 }
 
 static inline struct LDKDecodeError CResult_ReplyChannelRangeDecodeErrorZ_get_err(LDKCResult_ReplyChannelRangeDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyChannelRangeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* owner_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)untag_ptr(owner);
@@ -8994,8 +9191,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ReplyChannelRangeD
 }
 
 static inline struct LDKGossipTimestampFilter CResult_GossipTimestampFilterDecodeErrorZ_get_ok(LDKCResult_GossipTimestampFilterDecodeErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return GossipTimestampFilter_clone(&*owner->contents.result);
+	LDKGossipTimestampFilter ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1GossipTimestampFilterDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* owner_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)untag_ptr(owner);
@@ -9007,8 +9205,9 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1GossipTimestampFil
 }
 
 static inline struct LDKDecodeError CResult_GossipTimestampFilterDecodeErrorZ_get_err(LDKCResult_GossipTimestampFilterDecodeErrorZ *NONNULL_PTR owner){
-CHECK(!owner->result_ok);
-	return DecodeError_clone(&*owner->contents.err);
+	LDKDecodeError ret = *owner->contents.err;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1GossipTimestampFilterDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* owner_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)untag_ptr(owner);
@@ -9056,8 +9255,9 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSignOrCreationError_1ref
 	}
 }
 static inline struct LDKInvoice CResult_InvoiceSignOrCreationErrorZ_get_ok(LDKCResult_InvoiceSignOrCreationErrorZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return Invoice_clone(&*owner->contents.result);
+	LDKInvoice ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceSignOrCreationErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_InvoiceSignOrCreationErrorZ* owner_conv = (LDKCResult_InvoiceSignOrCreationErrorZ*)untag_ptr(owner);
@@ -9252,16 +9452,17 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1FilterZ_1ref_1f
 		default: abort();
 	}
 }
-static inline struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
-CHECK(owner->result_ok);
-	return &*owner->contents.result;
+static inline struct LDKLockedChannelMonitor CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
+	LDKLockedChannelMonitor ret = *owner->contents.result;
+	ret.is_owned = false;
+	return ret;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1LockedChannelMonitorNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_LockedChannelMonitorNoneZ* owner_conv = (LDKCResult_LockedChannelMonitorNoneZ*)untag_ptr(owner);
-	LDKLockedChannelMonitor ret_var = *CResult_LockedChannelMonitorNoneZ_get_ok(owner_conv);
+	LDKLockedChannelMonitor ret_var = CResult_LockedChannelMonitorNoneZ_get_ok(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
-	ret_ref = tag_ptr(ret_var.inner, false);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
 	return ret_ref;
 }
 
