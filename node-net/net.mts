@@ -82,6 +82,9 @@ export class NodeLDKNet {
 		socket.on("close", function() {
 			this_pm.socket_disconnected(descriptor);
 		});
+		socket.on("error", function() {
+			this_pm.socket_disconnected(descriptor);
+		});
 
 		return descriptor;
 	}
