@@ -26,7 +26,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_ChannelInfoDecodeErrorZ_get_ok(ptr);
 			org.ldk.structs.ChannelInfo res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.ChannelInfo(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}
@@ -37,7 +37,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ChannelInfoDecodeErrorZ_get_err(ptr);
 			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}
@@ -50,7 +50,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelInfoDecodeErrorZ ret_hu_conv = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o); };
 		return ret_hu_conv;
 	}
 
@@ -62,7 +62,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelInfoDecodeErrorZ ret_hu_conv = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(e); };
 		return ret_hu_conv;
 	}
 

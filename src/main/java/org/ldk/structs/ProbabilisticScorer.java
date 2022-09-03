@@ -52,10 +52,10 @@ public class ProbabilisticScorer extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ProbabilisticScorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScorer(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(params);
-		ret_hu_conv.ptrs_to.add(network_graph);
-		ret_hu_conv.ptrs_to.add(logger);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -81,8 +81,8 @@ public class ProbabilisticScorer extends CommonBase {
 		Reference.reachabilityFence(target);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_C2Tuple_u64u64ZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(target);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		if (this != null) { this.ptrs_to.add(target); };
 		return ret_hu_conv;
 	}
 
@@ -94,7 +94,7 @@ public class ProbabilisticScorer extends CommonBase {
 		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		this.ptrs_to.add(node_id);
+		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class ProbabilisticScorer extends CommonBase {
 		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		this.ptrs_to.add(node_id);
+		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class ProbabilisticScorer extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(penalty);
-		this.ptrs_to.add(node_id);
+		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ProbabilisticScorer extends CommonBase {
 		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		this.ptrs_to.add(node_id);
+		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class ProbabilisticScorer extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Score ret_hu_conv = new Score(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -169,9 +169,9 @@ public class ProbabilisticScorer extends CommonBase {
 		Reference.reachabilityFence(arg_c);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ProbabilisticScorerDecodeErrorZ ret_hu_conv = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(arg_a);
-		ret_hu_conv.ptrs_to.add(arg_b);
-		ret_hu_conv.ptrs_to.add(arg_c);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_a); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_b); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_c); };
 		return ret_hu_conv;
 	}
 

@@ -40,7 +40,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		for (int v = 0; v < ret_conv_21_len; v++) {
 			long ret_conv_21 = ret[v];
 			TwoTuple_u32ScriptZ ret_conv_21_hu_conv = new TwoTuple_u32ScriptZ(null, ret_conv_21);
-			ret_conv_21_hu_conv.ptrs_to.add(this);
+			if (ret_conv_21_hu_conv != null) { ret_conv_21_hu_conv.ptrs_to.add(this); };
 			ret_conv_21_arr[v] = ret_conv_21_hu_conv;
 		}
 		return ret_conv_21_arr;
@@ -61,7 +61,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -74,7 +74,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		Reference.reachabilityFence(b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

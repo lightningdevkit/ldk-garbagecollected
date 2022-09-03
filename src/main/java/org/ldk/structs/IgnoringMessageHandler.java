@@ -28,7 +28,7 @@ public class IgnoringMessageHandler extends CommonBase {
 		long ret = bindings.IgnoringMessageHandler_new();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.IgnoringMessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.IgnoringMessageHandler(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -41,7 +41,7 @@ public class IgnoringMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -54,7 +54,7 @@ public class IgnoringMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -67,7 +67,7 @@ public class IgnoringMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CustomMessageReader ret_hu_conv = new CustomMessageReader(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -80,7 +80,7 @@ public class IgnoringMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CustomMessageHandler ret_hu_conv = new CustomMessageHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

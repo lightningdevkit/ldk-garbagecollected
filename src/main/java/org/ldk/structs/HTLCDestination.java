@@ -102,7 +102,7 @@ public class HTLCDestination extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.HTLCDestination ret_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -115,7 +115,7 @@ public class HTLCDestination extends CommonBase {
 		Reference.reachabilityFence(channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.HTLCDestination ret_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -127,7 +127,7 @@ public class HTLCDestination extends CommonBase {
 		Reference.reachabilityFence(requested_forward_scid);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.HTLCDestination ret_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -139,7 +139,7 @@ public class HTLCDestination extends CommonBase {
 		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.HTLCDestination ret_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

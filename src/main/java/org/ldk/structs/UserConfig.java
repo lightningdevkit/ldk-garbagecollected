@@ -31,7 +31,7 @@ public class UserConfig extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeConfig(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -42,7 +42,7 @@ public class UserConfig extends CommonBase {
 		bindings.UserConfig_set_channel_handshake_config(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class UserConfig extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeLimits ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeLimits(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -64,7 +64,7 @@ public class UserConfig extends CommonBase {
 		bindings.UserConfig_set_channel_handshake_limits(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class UserConfig extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelConfig(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -86,7 +86,7 @@ public class UserConfig extends CommonBase {
 		bindings.UserConfig_set_channel_config(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -212,10 +212,10 @@ public class UserConfig extends CommonBase {
 		Reference.reachabilityFence(manually_accept_inbound_channels_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(channel_handshake_config_arg);
-		ret_hu_conv.ptrs_to.add(channel_handshake_limits_arg);
-		ret_hu_conv.ptrs_to.add(channel_config_arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_handshake_config_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_handshake_limits_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_config_arg); };
 		return ret_hu_conv;
 	}
 
@@ -233,7 +233,7 @@ public class UserConfig extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -244,7 +244,7 @@ public class UserConfig extends CommonBase {
 		long ret = bindings.UserConfig_default();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

@@ -26,7 +26,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_DescriptionCreationErrorZ_get_ok(ptr);
 			org.ldk.structs.Description res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.Description(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}
@@ -47,7 +47,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o); };
 		return ret_hu_conv;
 	}
 

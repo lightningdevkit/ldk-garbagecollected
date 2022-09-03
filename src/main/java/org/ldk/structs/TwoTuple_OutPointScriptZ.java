@@ -28,7 +28,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -56,7 +56,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -69,8 +69,8 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 		Reference.reachabilityFence(b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

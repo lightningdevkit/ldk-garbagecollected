@@ -30,7 +30,7 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 		Reference.reachabilityFence(short_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelInfo(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -55,8 +55,8 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 		Reference.reachabilityFence(node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(node_id);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		if (this != null) { this.ptrs_to.add(node_id); };
 		return ret_hu_conv;
 	}
 
@@ -71,7 +71,7 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 		for (int i = 0; i < ret_conv_8_len; i++) {
 			long ret_conv_8 = ret[i];
 			org.ldk.structs.NodeId ret_conv_8_hu_conv = null; if (ret_conv_8 < 0 || ret_conv_8 > 4096) { ret_conv_8_hu_conv = new org.ldk.structs.NodeId(null, ret_conv_8); }
-			ret_conv_8_hu_conv.ptrs_to.add(this);
+			if (ret_conv_8_hu_conv != null) { ret_conv_8_hu_conv.ptrs_to.add(this); };
 			ret_conv_8_arr[i] = ret_conv_8_hu_conv;
 		}
 		return ret_conv_8_arr;
@@ -88,7 +88,7 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 		Reference.reachabilityFence(pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

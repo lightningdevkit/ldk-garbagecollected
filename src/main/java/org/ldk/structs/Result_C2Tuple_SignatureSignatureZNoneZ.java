@@ -26,7 +26,7 @@ public class Result_C2Tuple_SignatureSignatureZNoneZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_C2Tuple_SignatureSignatureZNoneZ_get_ok(ptr);
 			TwoTuple_SignatureSignatureZ res_hu_conv = new TwoTuple_SignatureSignatureZ(null, res);
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}

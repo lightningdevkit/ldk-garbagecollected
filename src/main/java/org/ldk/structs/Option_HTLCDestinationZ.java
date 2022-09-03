@@ -39,7 +39,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 			super(null, ptr);
 			long some = obj.some;
 			org.ldk.structs.HTLCDestination some_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(some);
-			some_hu_conv.ptrs_to.add(this);
+			if (some_hu_conv != null) { some_hu_conv.ptrs_to.add(this); };
 			this.some = some_hu_conv;
 		}
 	}
@@ -59,7 +59,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_HTLCDestinationZ ret_hu_conv = org.ldk.structs.Option_HTLCDestinationZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -70,7 +70,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 		long ret = bindings.COption_HTLCDestinationZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_HTLCDestinationZ ret_hu_conv = org.ldk.structs.Option_HTLCDestinationZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -89,7 +89,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_HTLCDestinationZ ret_hu_conv = org.ldk.structs.Option_HTLCDestinationZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

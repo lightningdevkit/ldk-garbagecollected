@@ -134,7 +134,7 @@ public class NetAddress extends CommonBase {
 			super(null, ptr);
 			long hostname = obj.hostname;
 			org.ldk.structs.Hostname hostname_hu_conv = null; if (hostname < 0 || hostname > 4096) { hostname_hu_conv = new org.ldk.structs.Hostname(null, hostname); }
-			hostname_hu_conv.ptrs_to.add(this);
+			if (hostname_hu_conv != null) { hostname_hu_conv.ptrs_to.add(this); };
 			this.hostname = hostname_hu_conv;
 			this.port = obj.port;
 		}
@@ -153,7 +153,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -166,7 +166,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -179,7 +179,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -191,7 +191,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -206,7 +206,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -219,8 +219,8 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(hostname);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(hostname); };
 		return ret_hu_conv;
 	}
 

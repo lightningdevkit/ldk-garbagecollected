@@ -120,7 +120,7 @@ public class KeysInterface extends CommonBase {
 				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
-				impl_holder.held.ptrs_to.add(ret);
+				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
 				return result;
 			}
 			@Override public byte[] get_secure_random_bytes() {
@@ -197,7 +197,7 @@ public class KeysInterface extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -214,7 +214,7 @@ public class KeysInterface extends CommonBase {
 		Reference.reachabilityFence(channel_value_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sign ret_hu_conv = new Sign(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

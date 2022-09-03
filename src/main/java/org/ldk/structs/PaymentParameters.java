@@ -54,7 +54,7 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -72,7 +72,7 @@ public class PaymentParameters extends CommonBase {
 		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class PaymentParameters extends CommonBase {
 		for (int l = 0; l < ret_conv_11_len; l++) {
 			long ret_conv_11 = ret[l];
 			org.ldk.structs.RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, ret_conv_11); }
-			ret_conv_11_hu_conv.ptrs_to.add(this);
+			if (ret_conv_11_hu_conv != null) { ret_conv_11_hu_conv.ptrs_to.add(this); };
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
 		}
 		return ret_conv_11_arr;
@@ -99,7 +99,7 @@ public class PaymentParameters extends CommonBase {
 		bindings.PaymentParameters_set_route_hints(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_11 -> val_conv_11 == null ? 0 : val_conv_11.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (RouteHint val_conv_11: val) { this.ptrs_to.add(val_conv_11); };
+		for (RouteHint val_conv_11: val) { if (this != null) { this.ptrs_to.add(val_conv_11); }; };
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -244,9 +244,9 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(previously_failed_channels_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		for (RouteHint route_hints_arg_conv_11: route_hints_arg) { ret_hu_conv.ptrs_to.add(route_hints_arg_conv_11); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
+		for (RouteHint route_hints_arg_conv_11: route_hints_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_hints_arg_conv_11); }; };
 		return ret_hu_conv;
 	}
 
@@ -264,7 +264,7 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -289,7 +289,7 @@ public class PaymentParameters extends CommonBase {
 		boolean ret = bindings.PaymentParameters_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		this.ptrs_to.add(b);
+		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -325,7 +325,7 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(payee_pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -337,7 +337,7 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(payee_pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

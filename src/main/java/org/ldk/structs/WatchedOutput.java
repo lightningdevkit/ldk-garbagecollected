@@ -61,7 +61,7 @@ public class WatchedOutput extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -72,7 +72,7 @@ public class WatchedOutput extends CommonBase {
 		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -103,8 +103,8 @@ public class WatchedOutput extends CommonBase {
 		Reference.reachabilityFence(script_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.WatchedOutput(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint_arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outpoint_arg); };
 		return ret_hu_conv;
 	}
 
@@ -122,7 +122,7 @@ public class WatchedOutput extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.WatchedOutput(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

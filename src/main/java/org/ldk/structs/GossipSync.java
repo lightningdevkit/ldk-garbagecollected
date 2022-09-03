@@ -42,7 +42,7 @@ public class GossipSync extends CommonBase {
 			super(null, ptr);
 			long p2p = obj.p2p;
 			org.ldk.structs.P2PGossipSync p2p_hu_conv = null; if (p2p < 0 || p2p > 4096) { p2p_hu_conv = new org.ldk.structs.P2PGossipSync(null, p2p); }
-			p2p_hu_conv.ptrs_to.add(this);
+			if (p2p_hu_conv != null) { p2p_hu_conv.ptrs_to.add(this); };
 			this.p2p = p2p_hu_conv;
 		}
 	}
@@ -55,7 +55,7 @@ public class GossipSync extends CommonBase {
 			super(null, ptr);
 			long rapid = obj.rapid;
 			org.ldk.structs.RapidGossipSync rapid_hu_conv = null; if (rapid < 0 || rapid > 4096) { rapid_hu_conv = new org.ldk.structs.RapidGossipSync(null, rapid); }
-			rapid_hu_conv.ptrs_to.add(this);
+			if (rapid_hu_conv != null) { rapid_hu_conv.ptrs_to.add(this); };
 			this.rapid = rapid_hu_conv;
 		}
 	}
@@ -75,8 +75,8 @@ public class GossipSync extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GossipSync ret_hu_conv = org.ldk.structs.GossipSync.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 
@@ -88,8 +88,8 @@ public class GossipSync extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GossipSync ret_hu_conv = org.ldk.structs.GossipSync.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 
@@ -100,7 +100,7 @@ public class GossipSync extends CommonBase {
 		long ret = bindings.GossipSync_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GossipSync ret_hu_conv = org.ldk.structs.GossipSync.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

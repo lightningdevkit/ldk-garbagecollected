@@ -104,14 +104,14 @@ public class BackgroundProcessor extends CommonBase {
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BackgroundProcessor(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(persister);
-		ret_hu_conv.ptrs_to.add(event_handler);
-		ret_hu_conv.ptrs_to.add(chain_monitor);
-		ret_hu_conv.ptrs_to.add(channel_manager);
-		ret_hu_conv.ptrs_to.add(peer_manager);
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(scorer);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(persister); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(event_handler); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_monitor); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(peer_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
 		return ret_hu_conv;
 	}
 
@@ -131,7 +131,7 @@ public class BackgroundProcessor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(this);
+		if (this != null) { this.ptrs_to.add(this); };
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.
 		// In most cases, we avoid this being visible in GC'd languages by cloning the object
@@ -159,7 +159,7 @@ public class BackgroundProcessor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(this);
+		if (this != null) { this.ptrs_to.add(this); };
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.
 		// In most cases, we avoid this being visible in GC'd languages by cloning the object

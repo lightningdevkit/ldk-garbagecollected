@@ -34,7 +34,7 @@ public class Result_u32GraphSyncErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_u32GraphSyncErrorZ_get_err(ptr);
 			org.ldk.structs.GraphSyncError err_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(err);
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

@@ -68,7 +68,7 @@ public class OutPoint extends CommonBase {
 		Reference.reachabilityFence(index_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -86,7 +86,7 @@ public class OutPoint extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -99,7 +99,7 @@ public class OutPoint extends CommonBase {
 		boolean ret = bindings.OutPoint_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		this.ptrs_to.add(b);
+		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

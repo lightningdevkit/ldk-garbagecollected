@@ -357,7 +357,7 @@ public class OpenChannel extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -372,7 +372,7 @@ public class OpenChannel extends CommonBase {
 		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	long clone_ptr() {
@@ -389,7 +389,7 @@ public class OpenChannel extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OpenChannel ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OpenChannel(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
