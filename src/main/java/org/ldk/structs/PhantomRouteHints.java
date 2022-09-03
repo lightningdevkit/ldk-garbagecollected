@@ -33,7 +33,7 @@ public class PhantomRouteHints extends CommonBase {
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
-			ret_conv_16_hu_conv.ptrs_to.add(this);
+			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.add(this); };
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
 		return ret_conv_16_arr;
@@ -46,7 +46,7 @@ public class PhantomRouteHints extends CommonBase {
 		bindings.PhantomRouteHints_set_channels(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (ChannelDetails val_conv_16: val) { this.ptrs_to.add(val_conv_16); };
+		for (ChannelDetails val_conv_16: val) { if (this != null) { this.ptrs_to.add(val_conv_16); }; };
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class PhantomRouteHints extends CommonBase {
 		Reference.reachabilityFence(real_node_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (ChannelDetails channels_arg_conv_16: channels_arg) { ret_hu_conv.ptrs_to.add(channels_arg_conv_16); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (ChannelDetails channels_arg_conv_16: channels_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channels_arg_conv_16); }; };
 		return ret_hu_conv;
 	}
 
@@ -116,7 +116,7 @@ public class PhantomRouteHints extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomRouteHints(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

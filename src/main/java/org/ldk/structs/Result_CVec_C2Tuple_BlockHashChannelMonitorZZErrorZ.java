@@ -30,7 +30,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 			for (int j = 0; j < res_conv_35_len; j++) {
 				long res_conv_35 = res[j];
 				TwoTuple_BlockHashChannelMonitorZ res_conv_35_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res_conv_35);
-				res_conv_35_hu_conv.ptrs_to.add(this);
+				if (res_conv_35_hu_conv != null) { res_conv_35_hu_conv.ptrs_to.add(this); };
 				res_conv_35_arr[j] = res_conv_35_hu_conv;
 			}
 			this.res = res_conv_35_arr;

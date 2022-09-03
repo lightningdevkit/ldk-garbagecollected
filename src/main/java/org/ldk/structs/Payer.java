@@ -116,7 +116,7 @@ public class Payer extends CommonBase {
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
-			ret_conv_16_hu_conv.ptrs_to.add(this);
+			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.add(this); };
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
 		return ret_conv_16_arr;
@@ -135,7 +135,7 @@ public class Payer extends CommonBase {
 		Reference.reachabilityFence(payment_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
-		this.ptrs_to.add(route);
+		if (this != null) { this.ptrs_to.add(route); };
 		return ret_hu_conv;
 	}
 
@@ -149,7 +149,7 @@ public class Payer extends CommonBase {
 		Reference.reachabilityFence(payment_preimage);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
-		this.ptrs_to.add(route);
+		if (this != null) { this.ptrs_to.add(route); };
 		return ret_hu_conv;
 	}
 
@@ -163,7 +163,7 @@ public class Payer extends CommonBase {
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
-		this.ptrs_to.add(route);
+		if (this != null) { this.ptrs_to.add(route); };
 		return ret_hu_conv;
 	}
 

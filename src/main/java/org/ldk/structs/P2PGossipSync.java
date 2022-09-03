@@ -41,10 +41,10 @@ public class P2PGossipSync extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.P2PGossipSync ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.P2PGossipSync(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(network_graph);
-		ret_hu_conv.ptrs_to.add(chain_access);
-		ret_hu_conv.ptrs_to.add(logger);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_access); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -57,7 +57,7 @@ public class P2PGossipSync extends CommonBase {
 		bindings.P2PGossipSync_add_chain_access(this.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(chain_access);
-		this.ptrs_to.add(chain_access);
+		if (this != null) { this.ptrs_to.add(chain_access); };
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class P2PGossipSync extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -82,7 +82,7 @@ public class P2PGossipSync extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

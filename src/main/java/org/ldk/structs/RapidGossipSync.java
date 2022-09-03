@@ -31,8 +31,8 @@ public class RapidGossipSync extends CommonBase {
 		Reference.reachabilityFence(network_graph);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RapidGossipSync ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RapidGossipSync(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(network_graph);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
 		return ret_hu_conv;
 	}
 

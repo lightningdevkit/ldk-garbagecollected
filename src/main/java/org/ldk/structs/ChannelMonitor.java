@@ -49,7 +49,7 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelMonitor(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -77,10 +77,10 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(updates);
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(updates); };
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -102,7 +102,7 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -118,7 +118,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int o = 0; o < ret_conv_40_len; o++) {
 			long ret_conv_40 = ret[o];
 			TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_conv_40_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret_conv_40);
-			ret_conv_40_hu_conv.ptrs_to.add(this);
+			if (ret_conv_40_hu_conv != null) { ret_conv_40_hu_conv.ptrs_to.add(this); };
 			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
 		}
 		return ret_conv_40_arr;
@@ -133,7 +133,7 @@ public class ChannelMonitor extends CommonBase {
 		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0 : filter.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(filter);
-		this.ptrs_to.add(filter);
+		if (this != null) { this.ptrs_to.add(filter); };
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			org.ldk.structs.MonitorEvent ret_conv_14_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret_conv_14);
-			ret_conv_14_hu_conv.ptrs_to.add(this);
+			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.add(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
 		return ret_conv_14_arr;
@@ -170,7 +170,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int h = 0; h < ret_conv_7_len; h++) {
 			long ret_conv_7 = ret[h];
 			org.ldk.structs.Event ret_conv_7_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret_conv_7);
-			ret_conv_7_hu_conv.ptrs_to.add(this);
+			if (ret_conv_7_hu_conv != null) { ret_conv_7_hu_conv.ptrs_to.add(this); };
 			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
 		return ret_conv_7_arr;
@@ -206,7 +206,7 @@ public class ChannelMonitor extends CommonBase {
 		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(logger);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(logger); };
 		return ret;
 	}
 
@@ -237,12 +237,12 @@ public class ChannelMonitor extends CommonBase {
 		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			ret_conv_39_hu_conv.ptrs_to.add(this);
+			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_39_arr;
 	}
 
@@ -258,9 +258,9 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -286,12 +286,12 @@ public class ChannelMonitor extends CommonBase {
 		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			ret_conv_39_hu_conv.ptrs_to.add(this);
+			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_39_arr;
 	}
 
@@ -310,9 +310,9 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -337,12 +337,12 @@ public class ChannelMonitor extends CommonBase {
 		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			ret_conv_39_hu_conv.ptrs_to.add(this);
+			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
-		this.ptrs_to.add(broadcaster);
-		this.ptrs_to.add(fee_estimator);
-		this.ptrs_to.add(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_39_arr;
 	}
 
@@ -364,7 +364,7 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BestBlock(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -392,7 +392,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
 			org.ldk.structs.Balance ret_conv_9_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret_conv_9);
-			ret_conv_9_hu_conv.ptrs_to.add(this);
+			if (ret_conv_9_hu_conv != null) { ret_conv_9_hu_conv.ptrs_to.add(this); };
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
 		return ret_conv_9_arr;

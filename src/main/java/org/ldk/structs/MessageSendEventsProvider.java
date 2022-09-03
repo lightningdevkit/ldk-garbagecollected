@@ -56,7 +56,7 @@ public class MessageSendEventsProvider extends CommonBase {
 		for (int s = 0; s < ret_conv_18_len; s++) {
 			long ret_conv_18 = ret[s];
 			org.ldk.structs.MessageSendEvent ret_conv_18_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret_conv_18);
-			ret_conv_18_hu_conv.ptrs_to.add(this);
+			if (ret_conv_18_hu_conv != null) { ret_conv_18_hu_conv.ptrs_to.add(this); };
 			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
 		}
 		return ret_conv_18_arr;

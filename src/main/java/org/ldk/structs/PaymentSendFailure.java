@@ -49,7 +49,7 @@ public class PaymentSendFailure extends CommonBase {
 			super(null, ptr);
 			long parameter_error = obj.parameter_error;
 			org.ldk.structs.APIError parameter_error_hu_conv = org.ldk.structs.APIError.constr_from_ptr(parameter_error);
-			parameter_error_hu_conv.ptrs_to.add(this);
+			if (parameter_error_hu_conv != null) { parameter_error_hu_conv.ptrs_to.add(this); };
 			this.parameter_error = parameter_error_hu_conv;
 		}
 	}
@@ -92,7 +92,7 @@ public class PaymentSendFailure extends CommonBase {
 			for (int k = 0; k < all_failed_retry_safe_conv_10_len; k++) {
 				long all_failed_retry_safe_conv_10 = all_failed_retry_safe[k];
 				org.ldk.structs.APIError all_failed_retry_safe_conv_10_hu_conv = org.ldk.structs.APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
-				all_failed_retry_safe_conv_10_hu_conv.ptrs_to.add(this);
+				if (all_failed_retry_safe_conv_10_hu_conv != null) { all_failed_retry_safe_conv_10_hu_conv.ptrs_to.add(this); };
 				all_failed_retry_safe_conv_10_arr[k] = all_failed_retry_safe_conv_10_hu_conv;
 			}
 			this.all_failed_retry_safe = all_failed_retry_safe_conv_10_arr;
@@ -142,7 +142,7 @@ public class PaymentSendFailure extends CommonBase {
 			this.results = results_conv_22_arr;
 			long failed_paths_retry = obj.failed_paths_retry;
 			org.ldk.structs.RouteParameters failed_paths_retry_hu_conv = null; if (failed_paths_retry < 0 || failed_paths_retry > 4096) { failed_paths_retry_hu_conv = new org.ldk.structs.RouteParameters(null, failed_paths_retry); }
-			failed_paths_retry_hu_conv.ptrs_to.add(this);
+			if (failed_paths_retry_hu_conv != null) { failed_paths_retry_hu_conv.ptrs_to.add(this); };
 			this.failed_paths_retry = failed_paths_retry_hu_conv;
 			this.payment_id = obj.payment_id;
 		}
@@ -161,7 +161,7 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -173,7 +173,7 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -185,7 +185,7 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -197,7 +197,7 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -211,8 +211,8 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(failed_paths_retry);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(failed_paths_retry); };
 		return ret_hu_conv;
 	}
 

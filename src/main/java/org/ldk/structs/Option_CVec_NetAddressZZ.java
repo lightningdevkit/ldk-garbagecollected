@@ -43,7 +43,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 			for (int m = 0; m < some_conv_12_len; m++) {
 				long some_conv_12 = some[m];
 				org.ldk.structs.NetAddress some_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(some_conv_12);
-				some_conv_12_hu_conv.ptrs_to.add(this);
+				if (some_conv_12_hu_conv != null) { some_conv_12_hu_conv.ptrs_to.add(this); };
 				some_conv_12_arr[m] = some_conv_12_hu_conv;
 			}
 			this.some = some_conv_12_arr;
@@ -65,7 +65,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -76,7 +76,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		long ret = bindings.COption_CVec_NetAddressZZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -95,7 +95,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

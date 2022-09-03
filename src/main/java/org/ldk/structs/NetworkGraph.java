@@ -29,7 +29,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventHandler ret_hu_conv = new EventHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -51,7 +51,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg); };
 		return ret_hu_conv;
 	}
 
@@ -64,8 +64,8 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NetworkGraph(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(logger);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -77,7 +77,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ReadOnlyNetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReadOnlyNetworkGraph(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -90,7 +90,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -118,7 +118,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -134,7 +134,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -155,8 +155,8 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(chain_access);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
-		this.ptrs_to.add(chain_access);
+		if (this != null) { this.ptrs_to.add(msg); };
+		if (this != null) { this.ptrs_to.add(chain_access); };
 		return ret_hu_conv;
 	}
 
@@ -175,8 +175,8 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(chain_access);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
-		this.ptrs_to.add(chain_access);
+		if (this != null) { this.ptrs_to.add(msg); };
+		if (this != null) { this.ptrs_to.add(chain_access); };
 		return ret_hu_conv;
 	}
 
@@ -198,7 +198,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(node_id_2);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(features);
+		if (this != null) { this.ptrs_to.add(features); };
 		return ret_hu_conv;
 	}
 
@@ -280,7 +280,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -298,7 +298,7 @@ public class NetworkGraph extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 

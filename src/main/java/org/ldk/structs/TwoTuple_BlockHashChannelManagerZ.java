@@ -37,7 +37,7 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManager(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -56,14 +56,14 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		Reference.reachabilityFence(b_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_BlockHashChannelManagerZ ret_hu_conv = new TwoTuple_BlockHashChannelManagerZ(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(b_fee_est);
-		ret_hu_conv.ptrs_to.add(b_chain_monitor);
-		ret_hu_conv.ptrs_to.add(b_tx_broadcaster);
-		ret_hu_conv.ptrs_to.add(b_logger);
-		ret_hu_conv.ptrs_to.add(b_keys_manager);
-		ret_hu_conv.ptrs_to.add(b_config);
-		ret_hu_conv.ptrs_to.add(b_params);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_fee_est); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_chain_monitor); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_config); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_params); };
 		return ret_hu_conv;
 	}
 

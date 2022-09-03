@@ -34,7 +34,7 @@ public class InvoiceSignature extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InvoiceSignature ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceSignature(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -47,7 +47,7 @@ public class InvoiceSignature extends CommonBase {
 		boolean ret = bindings.InvoiceSignature_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		this.ptrs_to.add(b);
+		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

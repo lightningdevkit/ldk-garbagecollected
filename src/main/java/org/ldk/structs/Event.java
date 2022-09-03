@@ -164,7 +164,7 @@ public class Event extends CommonBase {
 			this.amount_msat = obj.amount_msat;
 			long purpose = obj.purpose;
 			org.ldk.structs.PaymentPurpose purpose_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(purpose);
-			purpose_hu_conv.ptrs_to.add(this);
+			if (purpose_hu_conv != null) { purpose_hu_conv.ptrs_to.add(this); };
 			this.purpose = purpose_hu_conv;
 		}
 	}
@@ -205,7 +205,7 @@ public class Event extends CommonBase {
 			this.amount_msat = obj.amount_msat;
 			long purpose = obj.purpose;
 			org.ldk.structs.PaymentPurpose purpose_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(purpose);
-			purpose_hu_conv.ptrs_to.add(this);
+			if (purpose_hu_conv != null) { purpose_hu_conv.ptrs_to.add(this); };
 			this.purpose = purpose_hu_conv;
 		}
 	}
@@ -258,7 +258,7 @@ public class Event extends CommonBase {
 			this.payment_hash = obj.payment_hash;
 			long fee_paid_msat = obj.fee_paid_msat;
 			org.ldk.structs.Option_u64Z fee_paid_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(fee_paid_msat);
-			fee_paid_msat_hu_conv.ptrs_to.add(this);
+			if (fee_paid_msat_hu_conv != null) { fee_paid_msat_hu_conv.ptrs_to.add(this); };
 			this.fee_paid_msat = fee_paid_msat_hu_conv;
 		}
 	}
@@ -333,7 +333,7 @@ public class Event extends CommonBase {
 			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				path_conv_10_hu_conv.ptrs_to.add(this);
+				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 			this.path = path_conv_10_arr;
@@ -435,7 +435,7 @@ public class Event extends CommonBase {
 			this.rejected_by_dest = obj.rejected_by_dest;
 			long network_update = obj.network_update;
 			org.ldk.structs.Option_NetworkUpdateZ network_update_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(network_update);
-			network_update_hu_conv.ptrs_to.add(this);
+			if (network_update_hu_conv != null) { network_update_hu_conv.ptrs_to.add(this); };
 			this.network_update = network_update_hu_conv;
 			this.all_paths_failed = obj.all_paths_failed;
 			long[] path = obj.path;
@@ -444,17 +444,17 @@ public class Event extends CommonBase {
 			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				path_conv_10_hu_conv.ptrs_to.add(this);
+				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 			this.path = path_conv_10_arr;
 			long short_channel_id = obj.short_channel_id;
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
-			short_channel_id_hu_conv.ptrs_to.add(this);
+			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
 			this.short_channel_id = short_channel_id_hu_conv;
 			long retry = obj.retry;
 			org.ldk.structs.RouteParameters retry_hu_conv = null; if (retry < 0 || retry > 4096) { retry_hu_conv = new org.ldk.structs.RouteParameters(null, retry); }
-			retry_hu_conv.ptrs_to.add(this);
+			if (retry_hu_conv != null) { retry_hu_conv.ptrs_to.add(this); };
 			this.retry = retry_hu_conv;
 		}
 	}
@@ -488,7 +488,7 @@ public class Event extends CommonBase {
 			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				path_conv_10_hu_conv.ptrs_to.add(this);
+				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 			this.path = path_conv_10_arr;
@@ -532,13 +532,13 @@ public class Event extends CommonBase {
 			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				path_conv_10_hu_conv.ptrs_to.add(this);
+				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 			this.path = path_conv_10_arr;
 			long short_channel_id = obj.short_channel_id;
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
-			short_channel_id_hu_conv.ptrs_to.add(this);
+			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
 			this.short_channel_id = short_channel_id_hu_conv;
 		}
 	}
@@ -581,7 +581,7 @@ public class Event extends CommonBase {
 			for (int b = 0; b < outputs_conv_27_len; b++) {
 				long outputs_conv_27 = outputs[b];
 				org.ldk.structs.SpendableOutputDescriptor outputs_conv_27_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
-				outputs_conv_27_hu_conv.ptrs_to.add(this);
+				if (outputs_conv_27_hu_conv != null) { outputs_conv_27_hu_conv.ptrs_to.add(this); };
 				outputs_conv_27_arr[b] = outputs_conv_27_hu_conv;
 			}
 			this.outputs = outputs_conv_27_arr;
@@ -633,7 +633,7 @@ public class Event extends CommonBase {
 			this.next_channel_id = obj.next_channel_id;
 			long fee_earned_msat = obj.fee_earned_msat;
 			org.ldk.structs.Option_u64Z fee_earned_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(fee_earned_msat);
-			fee_earned_msat_hu_conv.ptrs_to.add(this);
+			if (fee_earned_msat_hu_conv != null) { fee_earned_msat_hu_conv.ptrs_to.add(this); };
 			this.fee_earned_msat = fee_earned_msat_hu_conv;
 			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
 		}
@@ -670,7 +670,7 @@ public class Event extends CommonBase {
 			this.user_channel_id = obj.user_channel_id;
 			long reason = obj.reason;
 			org.ldk.structs.ClosureReason reason_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(reason);
-			reason_hu_conv.ptrs_to.add(this);
+			if (reason_hu_conv != null) { reason_hu_conv.ptrs_to.add(this); };
 			this.reason = reason_hu_conv;
 		}
 	}
@@ -764,7 +764,7 @@ public class Event extends CommonBase {
 			this.push_msat = obj.push_msat;
 			long channel_type = obj.channel_type;
 			org.ldk.structs.ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, channel_type); }
-			channel_type_hu_conv.ptrs_to.add(this);
+			if (channel_type_hu_conv != null) { channel_type_hu_conv.ptrs_to.add(this); };
 			this.channel_type = channel_type_hu_conv;
 		}
 	}
@@ -796,7 +796,7 @@ public class Event extends CommonBase {
 			this.prev_channel_id = obj.prev_channel_id;
 			long failed_next_destination = obj.failed_next_destination;
 			org.ldk.structs.HTLCDestination failed_next_destination_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(failed_next_destination);
-			failed_next_destination_hu_conv.ptrs_to.add(this);
+			if (failed_next_destination_hu_conv != null) { failed_next_destination_hu_conv.ptrs_to.add(this); };
 			this.failed_next_destination = failed_next_destination_hu_conv;
 		}
 	}
@@ -814,7 +814,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -830,7 +830,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -844,7 +844,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(purpose);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -858,7 +858,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(purpose);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -873,7 +873,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(fee_paid_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -886,7 +886,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -900,8 +900,8 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
 		return ret_hu_conv;
 	}
 
@@ -920,9 +920,9 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
-		ret_hu_conv.ptrs_to.add(retry);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry); };
 		return ret_hu_conv;
 	}
 
@@ -936,8 +936,8 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
 		return ret_hu_conv;
 	}
 
@@ -952,8 +952,8 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(short_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
 		return ret_hu_conv;
 	}
 
@@ -965,7 +965,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(time_forwardable);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -977,7 +977,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(outputs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -992,7 +992,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(claim_from_onchain_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -1006,7 +1006,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(reason);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -1019,7 +1019,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -1035,8 +1035,8 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(channel_type);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(channel_type);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_type); };
 		return ret_hu_conv;
 	}
 
@@ -1049,7 +1049,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(failed_next_destination);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

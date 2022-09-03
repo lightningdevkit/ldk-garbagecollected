@@ -45,7 +45,7 @@ public class CustomMessageHandler extends CommonBase {
 		impl_holder.held = new CustomMessageHandler(new bindings.LDKCustomMessageHandler() {
 			@Override public long handle_custom_message(long msg, byte[] sender_node_id) {
 				Type ret_hu_conv = new Type(null, msg);
-				ret_hu_conv.ptrs_to.add(this);
+				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_custom_message(ret_hu_conv, sender_node_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -81,7 +81,7 @@ public class CustomMessageHandler extends CommonBase {
 		Reference.reachabilityFence(sender_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -99,7 +99,7 @@ public class CustomMessageHandler extends CommonBase {
 		for (int z = 0; z < ret_conv_25_len; z++) {
 			long ret_conv_25 = ret[z];
 			TwoTuple_PublicKeyTypeZ ret_conv_25_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
-			ret_conv_25_hu_conv.ptrs_to.add(this);
+			if (ret_conv_25_hu_conv != null) { ret_conv_25_hu_conv.ptrs_to.add(this); };
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
 		return ret_conv_25_arr;

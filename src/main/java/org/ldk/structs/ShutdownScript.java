@@ -36,7 +36,7 @@ public class ShutdownScript extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -68,7 +68,7 @@ public class ShutdownScript extends CommonBase {
 		Reference.reachabilityFence(pubkey_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -80,7 +80,7 @@ public class ShutdownScript extends CommonBase {
 		Reference.reachabilityFence(script_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -109,7 +109,7 @@ public class ShutdownScript extends CommonBase {
 	public byte[] into_inner() {
 		byte[] ret = bindings.ShutdownScript_into_inner(this.ptr);
 		Reference.reachabilityFence(this);
-		this.ptrs_to.add(this);
+		if (this != null) { this.ptrs_to.add(this); };
 		return ret;
 	}
 
@@ -134,7 +134,7 @@ public class ShutdownScript extends CommonBase {
 		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : features.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(features);
-		this.ptrs_to.add(features);
+		if (this != null) { this.ptrs_to.add(features); };
 		return ret;
 	}
 

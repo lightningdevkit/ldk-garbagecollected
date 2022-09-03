@@ -124,7 +124,7 @@ public class UtilMethods {
 		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg); };
 		return ret_hu_conv;
 	}
 
@@ -143,13 +143,13 @@ public class UtilMethods {
 		Reference.reachabilityFence(arg_channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(arg_keys_manager);
-		ret_hu_conv.ptrs_to.add(arg_fee_estimator);
-		ret_hu_conv.ptrs_to.add(arg_chain_monitor);
-		ret_hu_conv.ptrs_to.add(arg_tx_broadcaster);
-		ret_hu_conv.ptrs_to.add(arg_logger);
-		ret_hu_conv.ptrs_to.add(arg_default_config);
-		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_fee_estimator); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_chain_monitor); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_default_config); };
+		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); }; };
 		return ret_hu_conv;
 	}
 
@@ -175,8 +175,8 @@ public class UtilMethods {
 		Reference.reachabilityFence(current_time);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(keys);
-		ret_hu_conv.ptrs_to.add(keys_manager);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 
@@ -198,7 +198,7 @@ public class UtilMethods {
 		Reference.reachabilityFence(current_time);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretNoneZ ret_hu_conv = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(keys);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys); };
 		return ret_hu_conv;
 	}
 
@@ -460,11 +460,11 @@ public class UtilMethods {
 		Reference.reachabilityFence(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(route_params);
-		ret_hu_conv.ptrs_to.add(network_graph);
-		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(scorer);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
+		for (ChannelDetails first_hops_conv_16: first_hops) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
 		return ret_hu_conv;
 	}
 
@@ -484,9 +484,9 @@ public class UtilMethods {
 		Reference.reachabilityFence(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(route_params);
-		ret_hu_conv.ptrs_to.add(network_graph);
-		ret_hu_conv.ptrs_to.add(logger);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -534,8 +534,8 @@ public class UtilMethods {
 		Reference.reachabilityFence(network);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); };
-		ret_hu_conv.ptrs_to.add(keys_manager);
+		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 
@@ -585,9 +585,9 @@ public class UtilMethods {
 		Reference.reachabilityFence(network);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(description_hash);
-		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); };
-		ret_hu_conv.ptrs_to.add(keys_manager);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
+		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 
@@ -611,8 +611,8 @@ public class UtilMethods {
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(channelmanager);
-		ret_hu_conv.ptrs_to.add(keys_manager);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 
@@ -637,9 +637,9 @@ public class UtilMethods {
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(channelmanager);
-		ret_hu_conv.ptrs_to.add(keys_manager);
-		ret_hu_conv.ptrs_to.add(description_hash);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
 		return ret_hu_conv;
 	}
 
@@ -659,9 +659,9 @@ public class UtilMethods {
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(channelmanager);
-		ret_hu_conv.ptrs_to.add(keys_manager);
-		ret_hu_conv.ptrs_to.add(description_hash);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
 		return ret_hu_conv;
 	}
 
@@ -681,8 +681,8 @@ public class UtilMethods {
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(channelmanager);
-		ret_hu_conv.ptrs_to.add(keys_manager);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 

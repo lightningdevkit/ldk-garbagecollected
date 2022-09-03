@@ -28,7 +28,7 @@ public class RouteHint extends CommonBase {
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			org.ldk.structs.RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.RouteHintHop(null, ret_conv_14); }
-			ret_conv_14_hu_conv.ptrs_to.add(this);
+			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.add(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
 		return ret_conv_14_arr;
@@ -38,7 +38,7 @@ public class RouteHint extends CommonBase {
 		bindings.RouteHint_set_a(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_14 -> val_conv_14 == null ? 0 : val_conv_14.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (RouteHintHop val_conv_14: val) { this.ptrs_to.add(val_conv_14); };
+		for (RouteHintHop val_conv_14: val) { if (this != null) { this.ptrs_to.add(val_conv_14); }; };
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class RouteHint extends CommonBase {
 		Reference.reachabilityFence(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHintHop a_arg_conv_14: a_arg) { ret_hu_conv.ptrs_to.add(a_arg_conv_14); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (RouteHintHop a_arg_conv_14: a_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a_arg_conv_14); }; };
 		return ret_hu_conv;
 	}
 
@@ -68,7 +68,7 @@ public class RouteHint extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -93,7 +93,7 @@ public class RouteHint extends CommonBase {
 		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		this.ptrs_to.add(b);
+		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

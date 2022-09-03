@@ -63,7 +63,7 @@ public class EventsProvider extends CommonBase {
 		impl_holder.held = new EventsProvider(new bindings.LDKEventsProvider() {
 			@Override public void process_pending_events(long handler) {
 				EventHandler ret_hu_conv = new EventHandler(null, handler);
-				ret_hu_conv.ptrs_to.add(this);
+				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 				arg.process_pending_events(ret_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
@@ -81,7 +81,7 @@ public class EventsProvider extends CommonBase {
 		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : handler.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(handler);
-		this.ptrs_to.add(handler);
+		if (this != null) { this.ptrs_to.add(handler); };
 	}
 
 }

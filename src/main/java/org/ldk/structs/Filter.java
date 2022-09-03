@@ -72,7 +72,7 @@ public class Filter extends CommonBase {
 			}
 			@Override public long register_output(long output) {
 				org.ldk.structs.WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new org.ldk.structs.WatchedOutput(null, output); }
-				output_hu_conv.ptrs_to.add(this);
+				if (output_hu_conv != null) { output_hu_conv.ptrs_to.add(this); };
 				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -109,8 +109,8 @@ public class Filter extends CommonBase {
 		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(output);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		if (this != null) { this.ptrs_to.add(output); };
 		return ret_hu_conv;
 	}
 

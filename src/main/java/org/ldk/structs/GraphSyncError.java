@@ -40,7 +40,7 @@ public class GraphSyncError extends CommonBase {
 			super(null, ptr);
 			long decode_error = obj.decode_error;
 			org.ldk.structs.DecodeError decode_error_hu_conv = null; if (decode_error < 0 || decode_error > 4096) { decode_error_hu_conv = new org.ldk.structs.DecodeError(null, decode_error); }
-			decode_error_hu_conv.ptrs_to.add(this);
+			if (decode_error_hu_conv != null) { decode_error_hu_conv.ptrs_to.add(this); };
 			this.decode_error = decode_error_hu_conv;
 		}
 	}
@@ -54,7 +54,7 @@ public class GraphSyncError extends CommonBase {
 			super(null, ptr);
 			long lightning_error = obj.lightning_error;
 			org.ldk.structs.LightningError lightning_error_hu_conv = null; if (lightning_error < 0 || lightning_error > 4096) { lightning_error_hu_conv = new org.ldk.structs.LightningError(null, lightning_error); }
-			lightning_error_hu_conv.ptrs_to.add(this);
+			if (lightning_error_hu_conv != null) { lightning_error_hu_conv.ptrs_to.add(this); };
 			this.lightning_error = lightning_error_hu_conv;
 		}
 	}
@@ -72,7 +72,7 @@ public class GraphSyncError extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -84,8 +84,8 @@ public class GraphSyncError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 
@@ -97,8 +97,8 @@ public class GraphSyncError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

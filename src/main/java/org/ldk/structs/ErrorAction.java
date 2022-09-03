@@ -56,7 +56,7 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
-			msg_hu_conv.ptrs_to.add(this);
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -101,7 +101,7 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
-			msg_hu_conv.ptrs_to.add(this);
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -123,7 +123,7 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.WarningMessage(null, msg); }
-			msg_hu_conv.ptrs_to.add(this);
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 			this.log_level = obj.log_level;
 		}
@@ -142,7 +142,7 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -154,8 +154,8 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -166,7 +166,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_ignore_error();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -178,7 +178,7 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -189,7 +189,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_ignore_duplicate_gossip();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -201,8 +201,8 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -215,8 +215,8 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(log_level);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 

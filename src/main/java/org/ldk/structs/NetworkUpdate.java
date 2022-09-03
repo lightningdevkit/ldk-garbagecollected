@@ -49,7 +49,7 @@ public class NetworkUpdate extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
-			msg_hu_conv.ptrs_to.add(this);
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -107,7 +107,7 @@ public class NetworkUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkUpdate ret_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -119,8 +119,8 @@ public class NetworkUpdate extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkUpdate ret_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -133,7 +133,7 @@ public class NetworkUpdate extends CommonBase {
 		Reference.reachabilityFence(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkUpdate ret_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -146,7 +146,7 @@ public class NetworkUpdate extends CommonBase {
 		Reference.reachabilityFence(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkUpdate ret_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

@@ -40,7 +40,7 @@ public class FilesystemPersister extends CommonBase {
 		Reference.reachabilityFence(path_to_channel_data);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.FilesystemPersister ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.FilesystemPersister(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -62,7 +62,7 @@ public class FilesystemPersister extends CommonBase {
 		Reference.reachabilityFence(keys_manager);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(keys_manager);
+		if (this != null) { this.ptrs_to.add(keys_manager); };
 		return ret_hu_conv;
 	}
 

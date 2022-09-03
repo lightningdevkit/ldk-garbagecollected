@@ -26,7 +26,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 			super(_dummy, ptr);
 			long res = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_ok(ptr);
 			TwoTuple_PaymentHashPaymentSecretZ res_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, res);
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}
@@ -37,7 +37,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 			super(_dummy, ptr);
 			long err = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_err(ptr);
 			org.ldk.structs.APIError err_hu_conv = org.ldk.structs.APIError.constr_from_ptr(err);
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

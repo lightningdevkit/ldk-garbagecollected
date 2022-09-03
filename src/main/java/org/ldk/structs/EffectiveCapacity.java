@@ -87,7 +87,7 @@ public class EffectiveCapacity extends CommonBase {
 			this.capacity_msat = obj.capacity_msat;
 			long htlc_maximum_msat = obj.htlc_maximum_msat;
 			org.ldk.structs.Option_u64Z htlc_maximum_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(htlc_maximum_msat);
-			htlc_maximum_msat_hu_conv.ptrs_to.add(this);
+			if (htlc_maximum_msat_hu_conv != null) { htlc_maximum_msat_hu_conv.ptrs_to.add(this); };
 			this.htlc_maximum_msat = htlc_maximum_msat_hu_conv;
 		}
 	}
@@ -123,7 +123,7 @@ public class EffectiveCapacity extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -135,7 +135,7 @@ public class EffectiveCapacity extends CommonBase {
 		Reference.reachabilityFence(liquidity_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -147,7 +147,7 @@ public class EffectiveCapacity extends CommonBase {
 		Reference.reachabilityFence(amount_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -160,7 +160,7 @@ public class EffectiveCapacity extends CommonBase {
 		Reference.reachabilityFence(htlc_maximum_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -171,7 +171,7 @@ public class EffectiveCapacity extends CommonBase {
 		long ret = bindings.EffectiveCapacity_infinite();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -182,7 +182,7 @@ public class EffectiveCapacity extends CommonBase {
 		long ret = bindings.EffectiveCapacity_unknown();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

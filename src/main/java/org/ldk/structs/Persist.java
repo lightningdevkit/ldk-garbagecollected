@@ -106,10 +106,10 @@ public class Persist extends CommonBase {
 		impl_holder.held = new Persist(new bindings.LDKPersist() {
 			@Override public long persist_new_channel(long channel_id, long data, long update_id) {
 				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
-				channel_id_hu_conv.ptrs_to.add(this);
+				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
 				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
-				update_id_hu_conv.ptrs_to.add(this);
+				if (update_id_hu_conv != null) { update_id_hu_conv.ptrs_to.add(this); };
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -117,11 +117,11 @@ public class Persist extends CommonBase {
 			}
 			@Override public long update_persisted_channel(long channel_id, long update, long data, long update_id) {
 				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
-				channel_id_hu_conv.ptrs_to.add(this);
+				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
 				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
 				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
-				update_id_hu_conv.ptrs_to.add(this);
+				if (update_id_hu_conv != null) { update_id_hu_conv.ptrs_to.add(this); };
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -155,9 +155,9 @@ public class Persist extends CommonBase {
 		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
-		this.ptrs_to.add(channel_id);
-		this.ptrs_to.add(data);
-		this.ptrs_to.add(update_id);
+		if (this != null) { this.ptrs_to.add(channel_id); };
+		if (this != null) { this.ptrs_to.add(data); };
+		if (this != null) { this.ptrs_to.add(update_id); };
 		return ret_hu_conv;
 	}
 
@@ -207,10 +207,10 @@ public class Persist extends CommonBase {
 		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
-		this.ptrs_to.add(channel_id);
-		this.ptrs_to.add(update);
-		this.ptrs_to.add(data);
-		this.ptrs_to.add(update_id);
+		if (this != null) { this.ptrs_to.add(channel_id); };
+		if (this != null) { this.ptrs_to.add(update); };
+		if (this != null) { this.ptrs_to.add(data); };
+		if (this != null) { this.ptrs_to.add(update_id); };
 		return ret_hu_conv;
 	}
 

@@ -32,7 +32,7 @@ public class CommitmentUpdate extends CommonBase {
 		for (int p = 0; p < ret_conv_15_len; p++) {
 			long ret_conv_15 = ret[p];
 			org.ldk.structs.UpdateAddHTLC ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new org.ldk.structs.UpdateAddHTLC(null, ret_conv_15); }
-			ret_conv_15_hu_conv.ptrs_to.add(this);
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.add(this); };
 			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
 		return ret_conv_15_arr;
@@ -45,7 +45,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15 == null ? 0 : val_conv_15.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (UpdateAddHTLC val_conv_15: val) { this.ptrs_to.add(val_conv_15); };
+		for (UpdateAddHTLC val_conv_15: val) { if (this != null) { this.ptrs_to.add(val_conv_15); }; };
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class CommitmentUpdate extends CommonBase {
 		for (int t = 0; t < ret_conv_19_len; t++) {
 			long ret_conv_19 = ret[t];
 			org.ldk.structs.UpdateFulfillHTLC ret_conv_19_hu_conv = null; if (ret_conv_19 < 0 || ret_conv_19 > 4096) { ret_conv_19_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, ret_conv_19); }
-			ret_conv_19_hu_conv.ptrs_to.add(this);
+			if (ret_conv_19_hu_conv != null) { ret_conv_19_hu_conv.ptrs_to.add(this); };
 			ret_conv_19_arr[t] = ret_conv_19_hu_conv;
 		}
 		return ret_conv_19_arr;
@@ -72,7 +72,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_19 -> val_conv_19 == null ? 0 : val_conv_19.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (UpdateFulfillHTLC val_conv_19: val) { this.ptrs_to.add(val_conv_19); };
+		for (UpdateFulfillHTLC val_conv_19: val) { if (this != null) { this.ptrs_to.add(val_conv_19); }; };
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CommitmentUpdate extends CommonBase {
 		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			org.ldk.structs.UpdateFailHTLC ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.UpdateFailHTLC(null, ret_conv_16); }
-			ret_conv_16_hu_conv.ptrs_to.add(this);
+			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.add(this); };
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
 		return ret_conv_16_arr;
@@ -99,7 +99,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (UpdateFailHTLC val_conv_16: val) { this.ptrs_to.add(val_conv_16); };
+		for (UpdateFailHTLC val_conv_16: val) { if (this != null) { this.ptrs_to.add(val_conv_16); }; };
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class CommitmentUpdate extends CommonBase {
 		for (int z = 0; z < ret_conv_25_len; z++) {
 			long ret_conv_25 = ret[z];
 			org.ldk.structs.UpdateFailMalformedHTLC ret_conv_25_hu_conv = null; if (ret_conv_25 < 0 || ret_conv_25 > 4096) { ret_conv_25_hu_conv = new org.ldk.structs.UpdateFailMalformedHTLC(null, ret_conv_25); }
-			ret_conv_25_hu_conv.ptrs_to.add(this);
+			if (ret_conv_25_hu_conv != null) { ret_conv_25_hu_conv.ptrs_to.add(this); };
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
 		return ret_conv_25_arr;
@@ -126,7 +126,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_25 -> val_conv_25 == null ? 0 : val_conv_25.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (UpdateFailMalformedHTLC val_conv_25: val) { this.ptrs_to.add(val_conv_25); };
+		for (UpdateFailMalformedHTLC val_conv_25: val) { if (this != null) { this.ptrs_to.add(val_conv_25); }; };
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class CommitmentUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateFee(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -153,7 +153,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class CommitmentUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentSigned(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -175,7 +175,7 @@ public class CommitmentUpdate extends CommonBase {
 		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -191,13 +191,13 @@ public class CommitmentUpdate extends CommonBase {
 		Reference.reachabilityFence(commitment_signed_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentUpdate(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (UpdateAddHTLC update_add_htlcs_arg_conv_15: update_add_htlcs_arg) { ret_hu_conv.ptrs_to.add(update_add_htlcs_arg_conv_15); };
-		for (UpdateFulfillHTLC update_fulfill_htlcs_arg_conv_19: update_fulfill_htlcs_arg) { ret_hu_conv.ptrs_to.add(update_fulfill_htlcs_arg_conv_19); };
-		for (UpdateFailHTLC update_fail_htlcs_arg_conv_16: update_fail_htlcs_arg) { ret_hu_conv.ptrs_to.add(update_fail_htlcs_arg_conv_16); };
-		for (UpdateFailMalformedHTLC update_fail_malformed_htlcs_arg_conv_25: update_fail_malformed_htlcs_arg) { ret_hu_conv.ptrs_to.add(update_fail_malformed_htlcs_arg_conv_25); };
-		ret_hu_conv.ptrs_to.add(update_fee_arg);
-		ret_hu_conv.ptrs_to.add(commitment_signed_arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (UpdateAddHTLC update_add_htlcs_arg_conv_15: update_add_htlcs_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_add_htlcs_arg_conv_15); }; };
+		for (UpdateFulfillHTLC update_fulfill_htlcs_arg_conv_19: update_fulfill_htlcs_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_fulfill_htlcs_arg_conv_19); }; };
+		for (UpdateFailHTLC update_fail_htlcs_arg_conv_16: update_fail_htlcs_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_fail_htlcs_arg_conv_16); }; };
+		for (UpdateFailMalformedHTLC update_fail_malformed_htlcs_arg_conv_25: update_fail_malformed_htlcs_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_fail_malformed_htlcs_arg_conv_25); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_fee_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(commitment_signed_arg); };
 		return ret_hu_conv;
 	}
 
@@ -215,7 +215,7 @@ public class CommitmentUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentUpdate(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
