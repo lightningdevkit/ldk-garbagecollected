@@ -704,7 +704,7 @@ import javax.annotation.Nullable;
         return var + ".ptr" + " = 0;"
 
     def add_ref(self, holder, referent):
-        return holder + ".ptrs_to.add(" + referent + ")"
+        return "if (" + holder + " != null) { " + holder + ".ptrs_to.add(" + referent + "); }"
 
     def fully_qualified_hu_ty_path(self, ty):
         if ty.java_fn_ty_arg.startswith("L") and ty.java_fn_ty_arg.endswith(";"):
