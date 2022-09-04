@@ -374,7 +374,7 @@ export class CommonBase {
 	// In TypeScript, protected means "any subclass can access parent fields on instances of itself"
 	// To work around this, we add accessors for other instances' protected fields here.
 	protected static add_ref_from(holder: CommonBase, referent: object) {
-		holder.ptrs_to.push(referent);
+		if (holder !== null) { holder.ptrs_to.push(referent); }
 	}
 	protected static get_ptr_of(o: CommonBase) {
 		return o.ptr;
