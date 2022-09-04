@@ -136,7 +136,7 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
 				org.ldk.structs.ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ReplyChannelRange(null, msg); }
-				msg_hu_conv.ptrs_to.add(this);
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -144,7 +144,7 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg) {
 				org.ldk.structs.ReplyShortChannelIdsEnd msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ReplyShortChannelIdsEnd(null, msg); }
-				msg_hu_conv.ptrs_to.add(this);
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -152,7 +152,7 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long handle_query_channel_range(byte[] their_node_id, long msg) {
 				org.ldk.structs.QueryChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.QueryChannelRange(null, msg); }
-				msg_hu_conv.ptrs_to.add(this);
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -160,7 +160,7 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long handle_query_short_channel_ids(byte[] their_node_id, long msg) {
 				org.ldk.structs.QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.QueryShortChannelIds(null, msg); }
-				msg_hu_conv.ptrs_to.add(this);
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -189,7 +189,7 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -203,7 +203,7 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -217,7 +217,7 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -236,7 +236,7 @@ public class RoutingMessageHandler extends CommonBase {
 		for (int h = 0; h < ret_conv_59_len; h++) {
 			long ret_conv_59 = ret[h];
 			ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_conv_59_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
-			ret_conv_59_hu_conv.ptrs_to.add(this);
+			if (ret_conv_59_hu_conv != null) { ret_conv_59_hu_conv.ptrs_to.add(this); };
 			ret_conv_59_arr[h] = ret_conv_59_hu_conv;
 		}
 		return ret_conv_59_arr;
@@ -260,7 +260,7 @@ public class RoutingMessageHandler extends CommonBase {
 		for (int s = 0; s < ret_conv_18_len; s++) {
 			long ret_conv_18 = ret[s];
 			org.ldk.structs.NodeAnnouncement ret_conv_18_hu_conv = null; if (ret_conv_18 < 0 || ret_conv_18 > 4096) { ret_conv_18_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret_conv_18); }
-			ret_conv_18_hu_conv.ptrs_to.add(this);
+			if (ret_conv_18_hu_conv != null) { ret_conv_18_hu_conv.ptrs_to.add(this); };
 			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
 		}
 		return ret_conv_18_arr;
@@ -276,7 +276,7 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(init);
-		this.ptrs_to.add(init);
+		if (this != null) { this.ptrs_to.add(init); };
 	}
 
 	/**

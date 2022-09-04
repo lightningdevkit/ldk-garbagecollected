@@ -39,7 +39,7 @@ public class CommitmentTransaction extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.CommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentTransaction(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -112,7 +112,7 @@ public class CommitmentTransaction extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TrustedCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TrustedCommitmentTransaction(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -132,9 +132,9 @@ public class CommitmentTransaction extends CommonBase {
 		Reference.reachabilityFence(countersignatory_keys);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(channel_parameters);
-		this.ptrs_to.add(broadcaster_keys);
-		this.ptrs_to.add(countersignatory_keys);
+		if (this != null) { this.ptrs_to.add(channel_parameters); };
+		if (this != null) { this.ptrs_to.add(broadcaster_keys); };
+		if (this != null) { this.ptrs_to.add(countersignatory_keys); };
 		return ret_hu_conv;
 	}
 

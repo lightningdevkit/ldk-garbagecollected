@@ -45,7 +45,7 @@ public class LockableScore extends CommonBase {
 				Score ret = arg.lock();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.ptr;
-				impl_holder.held.ptrs_to.add(ret);
+				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
 				return result;
 			}
 		});
@@ -59,7 +59,7 @@ public class LockableScore extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Score ret_hu_conv = new Score(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

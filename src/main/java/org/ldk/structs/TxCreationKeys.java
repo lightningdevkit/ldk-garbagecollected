@@ -136,7 +136,7 @@ public class TxCreationKeys extends CommonBase {
 		Reference.reachabilityFence(broadcaster_delayed_payment_key_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -154,7 +154,7 @@ public class TxCreationKeys extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -205,8 +205,8 @@ public class TxCreationKeys extends CommonBase {
 		Reference.reachabilityFence(countersignatory_keys);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(broadcaster_keys);
-		ret_hu_conv.ptrs_to.add(countersignatory_keys);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(broadcaster_keys); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(countersignatory_keys); };
 		return ret_hu_conv;
 	}
 

@@ -349,7 +349,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(holder_tx);
+		if (this != null) { this.ptrs_to.add(holder_tx); };
 		return ret_hu_conv;
 	}
 
@@ -386,7 +386,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(commitment_tx);
+		if (this != null) { this.ptrs_to.add(commitment_tx); };
 		return ret_hu_conv;
 	}
 
@@ -425,7 +425,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(commitment_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(commitment_tx);
+		if (this != null) { this.ptrs_to.add(commitment_tx); };
 		return ret_hu_conv;
 	}
 
@@ -486,7 +486,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(htlc);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(htlc);
+		if (this != null) { this.ptrs_to.add(htlc); };
 		return ret_hu_conv;
 	}
 
@@ -519,7 +519,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(htlc);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(htlc);
+		if (this != null) { this.ptrs_to.add(htlc); };
 		return ret_hu_conv;
 	}
 
@@ -535,7 +535,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(closing_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(closing_tx);
+		if (this != null) { this.ptrs_to.add(closing_tx); };
 		return ret_hu_conv;
 	}
 
@@ -556,7 +556,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_SignatureSignatureZNoneZ ret_hu_conv = Result_C2Tuple_SignatureSignatureZNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -576,7 +576,7 @@ public class BaseSign extends CommonBase {
 		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_parameters);
-		this.ptrs_to.add(channel_parameters);
+		if (this != null) { this.ptrs_to.add(channel_parameters); };
 	}
 
 	/**
@@ -588,7 +588,7 @@ public class BaseSign extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelPublicKeys(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

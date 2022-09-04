@@ -31,7 +31,7 @@ public class MessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -45,7 +45,7 @@ public class MessageHandler extends CommonBase {
 		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class MessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -73,7 +73,7 @@ public class MessageHandler extends CommonBase {
 		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		this.ptrs_to.add(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class MessageHandler extends CommonBase {
 		Reference.reachabilityFence(route_handler_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MessageHandler(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chan_handler_arg);
-		ret_hu_conv.ptrs_to.add(route_handler_arg);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chan_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_handler_arg); };
 		return ret_hu_conv;
 	}
 

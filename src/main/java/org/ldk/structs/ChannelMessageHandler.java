@@ -119,14 +119,14 @@ public class ChannelMessageHandler extends CommonBase {
 		impl_holder.held = new ChannelMessageHandler(new bindings.LDKChannelMessageHandler() {
 			@Override public void handle_open_channel(byte[] their_node_id, long their_features, long msg) {
 				org.ldk.structs.InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new org.ldk.structs.InitFeatures(null, their_features); }
-				their_features_hu_conv.ptrs_to.add(this);
+				if (their_features_hu_conv != null) { their_features_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannel(null, msg); }
 				arg.handle_open_channel(their_node_id, their_features_hu_conv, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_accept_channel(byte[] their_node_id, long their_features, long msg) {
 				org.ldk.structs.InitFeatures their_features_hu_conv = null; if (their_features < 0 || their_features > 4096) { their_features_hu_conv = new org.ldk.structs.InitFeatures(null, their_features); }
-				their_features_hu_conv.ptrs_to.add(this);
+				if (their_features_hu_conv != null) { their_features_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannel(null, msg); }
 				arg.handle_accept_channel(their_node_id, their_features_hu_conv, msg_hu_conv);
 				Reference.reachabilityFence(arg);
@@ -243,7 +243,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(their_features);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(their_features);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -300,8 +300,8 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(their_features);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(their_features);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(their_features); };
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -312,7 +312,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -323,7 +323,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -334,7 +334,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -345,7 +345,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -378,7 +378,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -457,7 +457,7 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		this.ptrs_to.add(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 }

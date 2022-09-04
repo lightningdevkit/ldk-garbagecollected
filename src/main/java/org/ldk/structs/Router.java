@@ -43,11 +43,11 @@ public class Router extends CommonBase {
 				for (int q = 0; q < first_hops_conv_16_len; q++) {
 					long first_hops_conv_16 = first_hops[q];
 					org.ldk.structs.ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, first_hops_conv_16); }
-					first_hops_conv_16_hu_conv.ptrs_to.add(this);
+					if (first_hops_conv_16_hu_conv != null) { first_hops_conv_16_hu_conv.ptrs_to.add(this); };
 					first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
 				}
 				Score ret_hu_conv = new Score(null, scorer);
-				ret_hu_conv.ptrs_to.add(this);
+				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 				Result_RouteLightningErrorZ ret = arg.find_route(payer, route_params_hu_conv, payment_hash, first_hops_conv_16_arr, ret_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -71,9 +71,9 @@ public class Router extends CommonBase {
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(route_params);
-		for (ChannelDetails first_hops_conv_16: first_hops) { this.ptrs_to.add(first_hops_conv_16); };
-		this.ptrs_to.add(scorer);
+		if (this != null) { this.ptrs_to.add(route_params); };
+		for (ChannelDetails first_hops_conv_16: first_hops) { if (this != null) { this.ptrs_to.add(first_hops_conv_16); }; };
+		if (this != null) { this.ptrs_to.add(scorer); };
 		return ret_hu_conv;
 	}
 

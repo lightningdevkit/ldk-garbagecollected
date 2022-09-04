@@ -45,7 +45,7 @@ public class MonitorEvent extends CommonBase {
 			super(null, ptr);
 			long htlc_event = obj.htlc_event;
 			org.ldk.structs.HTLCUpdate htlc_event_hu_conv = null; if (htlc_event < 0 || htlc_event > 4096) { htlc_event_hu_conv = new org.ldk.structs.HTLCUpdate(null, htlc_event); }
-			htlc_event_hu_conv.ptrs_to.add(this);
+			if (htlc_event_hu_conv != null) { htlc_event_hu_conv.ptrs_to.add(this); };
 			this.htlc_event = htlc_event_hu_conv;
 		}
 	}
@@ -58,7 +58,7 @@ public class MonitorEvent extends CommonBase {
 			super(null, ptr);
 			long commitment_tx_confirmed = obj.commitment_tx_confirmed;
 			org.ldk.structs.OutPoint commitment_tx_confirmed_hu_conv = null; if (commitment_tx_confirmed < 0 || commitment_tx_confirmed > 4096) { commitment_tx_confirmed_hu_conv = new org.ldk.structs.OutPoint(null, commitment_tx_confirmed); }
-			commitment_tx_confirmed_hu_conv.ptrs_to.add(this);
+			if (commitment_tx_confirmed_hu_conv != null) { commitment_tx_confirmed_hu_conv.ptrs_to.add(this); };
 			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 		}
 	}
@@ -85,7 +85,7 @@ public class MonitorEvent extends CommonBase {
 			super(null, ptr);
 			long funding_txo = obj.funding_txo;
 			org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
-			funding_txo_hu_conv.ptrs_to.add(this);
+			if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 			this.funding_txo = funding_txo_hu_conv;
 			this.monitor_update_id = obj.monitor_update_id;
 		}
@@ -102,7 +102,7 @@ public class MonitorEvent extends CommonBase {
 			super(null, ptr);
 			long update_failed = obj.update_failed;
 			org.ldk.structs.OutPoint update_failed_hu_conv = null; if (update_failed < 0 || update_failed > 4096) { update_failed_hu_conv = new org.ldk.structs.OutPoint(null, update_failed); }
-			update_failed_hu_conv.ptrs_to.add(this);
+			if (update_failed_hu_conv != null) { update_failed_hu_conv.ptrs_to.add(this); };
 			this.update_failed = update_failed_hu_conv;
 		}
 	}
@@ -120,7 +120,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -132,7 +132,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -144,7 +144,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -157,7 +157,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(monitor_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -169,7 +169,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

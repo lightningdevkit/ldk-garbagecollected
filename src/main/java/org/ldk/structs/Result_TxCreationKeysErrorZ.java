@@ -26,7 +26,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_TxCreationKeysErrorZ_get_ok(ptr);
 			org.ldk.structs.TxCreationKeys res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.TxCreationKeys(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}

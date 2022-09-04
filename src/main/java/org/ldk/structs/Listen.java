@@ -59,7 +59,7 @@ public class Listen extends CommonBase {
 				for (int c = 0; c < txdata_conv_28_len; c++) {
 					long txdata_conv_28 = txdata[c];
 					TwoTuple_usizeTransactionZ txdata_conv_28_hu_conv = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
-					txdata_conv_28_hu_conv.ptrs_to.add(this);
+					if (txdata_conv_28_hu_conv != null) { txdata_conv_28_hu_conv.ptrs_to.add(this); };
 					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
 				}
 				arg.filtered_block_connected(header, txdata_conv_28_arr, height);

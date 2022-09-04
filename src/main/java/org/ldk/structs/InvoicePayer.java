@@ -40,12 +40,12 @@ public class InvoicePayer extends CommonBase {
 		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InvoicePayer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoicePayer(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(payer);
-		ret_hu_conv.ptrs_to.add(router);
-		ret_hu_conv.ptrs_to.add(scorer);
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(event_handler);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(router); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(event_handler); };
 		return ret_hu_conv;
 	}
 
@@ -62,7 +62,7 @@ public class InvoicePayer extends CommonBase {
 		Reference.reachabilityFence(invoice);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(invoice);
+		if (this != null) { this.ptrs_to.add(invoice); };
 		return ret_hu_conv;
 	}
 
@@ -81,7 +81,7 @@ public class InvoicePayer extends CommonBase {
 		Reference.reachabilityFence(amount_msats);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(invoice);
+		if (this != null) { this.ptrs_to.add(invoice); };
 		return ret_hu_conv;
 	}
 
@@ -125,7 +125,7 @@ public class InvoicePayer extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventHandler ret_hu_conv = new EventHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

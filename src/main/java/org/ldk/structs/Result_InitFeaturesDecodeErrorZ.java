@@ -26,7 +26,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_InitFeaturesDecodeErrorZ_get_ok(ptr);
 			org.ldk.structs.InitFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.InitFeatures(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}
@@ -37,7 +37,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_InitFeaturesDecodeErrorZ_get_err(ptr);
 			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

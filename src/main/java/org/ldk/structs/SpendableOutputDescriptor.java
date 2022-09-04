@@ -57,7 +57,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
 			org.ldk.structs.OutPoint outpoint_hu_conv = null; if (outpoint < 0 || outpoint > 4096) { outpoint_hu_conv = new org.ldk.structs.OutPoint(null, outpoint); }
-			outpoint_hu_conv.ptrs_to.add(this);
+			if (outpoint_hu_conv != null) { outpoint_hu_conv.ptrs_to.add(this); };
 			this.outpoint = outpoint_hu_conv;
 			long output = obj.output;
 			TxOut output_conv = new TxOut(null, output);
@@ -100,7 +100,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long delayed_payment_output = obj.delayed_payment_output;
 			org.ldk.structs.DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = null; if (delayed_payment_output < 0 || delayed_payment_output > 4096) { delayed_payment_output_hu_conv = new org.ldk.structs.DelayedPaymentOutputDescriptor(null, delayed_payment_output); }
-			delayed_payment_output_hu_conv.ptrs_to.add(this);
+			if (delayed_payment_output_hu_conv != null) { delayed_payment_output_hu_conv.ptrs_to.add(this); };
 			this.delayed_payment_output = delayed_payment_output_hu_conv;
 		}
 	}
@@ -119,7 +119,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long static_payment_output = obj.static_payment_output;
 			org.ldk.structs.StaticPaymentOutputDescriptor static_payment_output_hu_conv = null; if (static_payment_output < 0 || static_payment_output > 4096) { static_payment_output_hu_conv = new org.ldk.structs.StaticPaymentOutputDescriptor(null, static_payment_output); }
-			static_payment_output_hu_conv.ptrs_to.add(this);
+			if (static_payment_output_hu_conv != null) { static_payment_output_hu_conv.ptrs_to.add(this); };
 			this.static_payment_output = static_payment_output_hu_conv;
 		}
 	}
@@ -137,7 +137,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -150,7 +150,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -162,7 +162,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -174,7 +174,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

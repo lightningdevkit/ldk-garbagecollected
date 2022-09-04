@@ -88,7 +88,7 @@ public class SocketDescriptor extends CommonBase {
 			}
 			@Override public boolean eq(long other_arg) {
 				SocketDescriptor ret_hu_conv = new SocketDescriptor(null, other_arg);
-				ret_hu_conv.ptrs_to.add(this);
+				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 				boolean ret = arg.eq(ret_hu_conv);
 				Reference.reachabilityFence(arg);
 				return ret;
@@ -166,7 +166,7 @@ public class SocketDescriptor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

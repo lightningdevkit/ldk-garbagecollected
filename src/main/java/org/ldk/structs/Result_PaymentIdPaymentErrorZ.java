@@ -34,7 +34,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_PaymentIdPaymentErrorZ_get_err(ptr);
 			org.ldk.structs.PaymentError err_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(err);
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

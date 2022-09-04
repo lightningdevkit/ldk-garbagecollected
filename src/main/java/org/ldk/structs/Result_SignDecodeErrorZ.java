@@ -26,7 +26,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_SignDecodeErrorZ_get_ok(ptr);
 			Sign ret_hu_conv = new Sign(null, res);
-			ret_hu_conv.ptrs_to.add(this);
+			if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 			this.res = ret_hu_conv;
 		}
 	}
@@ -37,7 +37,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_SignDecodeErrorZ_get_err(ptr);
 			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}
@@ -50,7 +50,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o); };
 		return ret_hu_conv;
 	}
 

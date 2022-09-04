@@ -46,12 +46,12 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(persister);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChainMonitor(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_source);
-		ret_hu_conv.ptrs_to.add(broadcaster);
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(feeest);
-		ret_hu_conv.ptrs_to.add(persister);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(feeest); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(persister); };
 		return ret_hu_conv;
 	}
 
@@ -75,7 +75,7 @@ public class ChainMonitor extends CommonBase {
 		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
 			org.ldk.structs.Balance ret_conv_9_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret_conv_9);
-			ret_conv_9_hu_conv.ptrs_to.add(this);
+			if (ret_conv_9_hu_conv != null) { ret_conv_9_hu_conv.ptrs_to.add(this); };
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
 		return ret_conv_9_arr;
@@ -111,7 +111,7 @@ public class ChainMonitor extends CommonBase {
 		for (int k = 0; k < ret_conv_10_len; k++) {
 			long ret_conv_10 = ret[k];
 			org.ldk.structs.OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new org.ldk.structs.OutPoint(null, ret_conv_10); }
-			ret_conv_10_hu_conv.ptrs_to.add(this);
+			if (ret_conv_10_hu_conv != null) { ret_conv_10_hu_conv.ptrs_to.add(this); };
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}
 		return ret_conv_10_arr;
@@ -151,7 +151,7 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Listen ret_hu_conv = new Listen(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -164,7 +164,7 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Confirm ret_hu_conv = new Confirm(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -177,7 +177,7 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -190,7 +190,7 @@ public class ChainMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

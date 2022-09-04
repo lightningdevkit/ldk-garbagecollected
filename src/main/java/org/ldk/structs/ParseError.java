@@ -85,7 +85,7 @@ public class ParseError extends CommonBase {
 			super(null, ptr);
 			long bech32_error = obj.bech32_error;
 			org.ldk.structs.Bech32Error bech32_error_hu_conv = org.ldk.structs.Bech32Error.constr_from_ptr(bech32_error);
-			bech32_error_hu_conv.ptrs_to.add(this);
+			if (bech32_error_hu_conv != null) { bech32_error_hu_conv.ptrs_to.add(this); };
 			this.bech32_error = bech32_error_hu_conv;
 		}
 	}
@@ -204,7 +204,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -216,7 +216,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -228,7 +228,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -240,7 +240,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -251,7 +251,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_bad_prefix();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -262,7 +262,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_unknown_currency();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -273,7 +273,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_unknown_si_prefix();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -284,7 +284,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_malformed_hrp();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -295,7 +295,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_too_short_data_part();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -306,7 +306,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_unexpected_end_of_tagged_fields();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -318,7 +318,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -329,7 +329,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_padding_error();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -340,7 +340,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_integer_overflow_error();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -351,7 +351,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_invalid_seg_wit_program_length();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -362,7 +362,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_invalid_pub_key_hash_length();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -373,7 +373,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_invalid_script_hash_length();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -384,7 +384,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_invalid_recovery_id();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -396,7 +396,7 @@ public class ParseError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -407,7 +407,7 @@ public class ParseError extends CommonBase {
 		long ret = bindings.ParseError_skip();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseError ret_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

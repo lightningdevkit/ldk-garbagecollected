@@ -67,7 +67,7 @@ public class Score extends CommonBase {
 				org.ldk.structs.NodeId source_hu_conv = null; if (source < 0 || source > 4096) { source_hu_conv = new org.ldk.structs.NodeId(null, source); }
 				org.ldk.structs.NodeId target_hu_conv = null; if (target < 0 || target > 4096) { target_hu_conv = new org.ldk.structs.NodeId(null, target); }
 				org.ldk.structs.ChannelUsage usage_hu_conv = null; if (usage < 0 || usage > 4096) { usage_hu_conv = new org.ldk.structs.ChannelUsage(null, usage); }
-				usage_hu_conv.ptrs_to.add(this);
+				if (usage_hu_conv != null) { usage_hu_conv.ptrs_to.add(this); };
 				long ret = arg.channel_penalty_msat(short_channel_id, source_hu_conv, target_hu_conv, usage_hu_conv);
 				Reference.reachabilityFence(arg);
 				return ret;
@@ -78,7 +78,7 @@ public class Score extends CommonBase {
 				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					path_conv_10_hu_conv.ptrs_to.add(this);
+					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.payment_path_failed(path_conv_10_arr, short_channel_id);
@@ -90,7 +90,7 @@ public class Score extends CommonBase {
 				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					path_conv_10_hu_conv.ptrs_to.add(this);
+					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.payment_path_successful(path_conv_10_arr);
@@ -102,7 +102,7 @@ public class Score extends CommonBase {
 				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					path_conv_10_hu_conv.ptrs_to.add(this);
+					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.probe_failed(path_conv_10_arr, short_channel_id);
@@ -114,7 +114,7 @@ public class Score extends CommonBase {
 				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					path_conv_10_hu_conv.ptrs_to.add(this);
+					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.probe_successful(path_conv_10_arr);
@@ -145,8 +145,8 @@ public class Score extends CommonBase {
 		Reference.reachabilityFence(source);
 		Reference.reachabilityFence(target);
 		Reference.reachabilityFence(usage);
-		this.ptrs_to.add(source);
-		this.ptrs_to.add(target);
+		if (this != null) { this.ptrs_to.add(source); };
+		if (this != null) { this.ptrs_to.add(target); };
 		return ret;
 	}
 

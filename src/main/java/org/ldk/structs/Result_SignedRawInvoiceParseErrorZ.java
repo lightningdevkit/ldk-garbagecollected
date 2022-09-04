@@ -26,7 +26,7 @@ public class Result_SignedRawInvoiceParseErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_SignedRawInvoiceParseErrorZ_get_ok(ptr);
 			org.ldk.structs.SignedRawInvoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.SignedRawInvoice(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}
@@ -37,7 +37,7 @@ public class Result_SignedRawInvoiceParseErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_SignedRawInvoiceParseErrorZ_get_err(ptr);
 			org.ldk.structs.ParseError err_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(err);
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

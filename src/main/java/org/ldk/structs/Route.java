@@ -40,7 +40,7 @@ public class Route extends CommonBase {
 			for (int k = 0; k < ret_conv_12_conv_10_len; k++) {
 				long ret_conv_12_conv_10 = ret_conv_12[k];
 				org.ldk.structs.RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, ret_conv_12_conv_10); }
-				ret_conv_12_conv_10_hu_conv.ptrs_to.add(this);
+				if (ret_conv_12_conv_10_hu_conv != null) { ret_conv_12_conv_10_hu_conv.ptrs_to.add(this); };
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
 			}
 			ret_conv_12_arr[m] = ret_conv_12_conv_10_arr;
@@ -76,7 +76,7 @@ public class Route extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -104,7 +104,7 @@ public class Route extends CommonBase {
 		Reference.reachabilityFence(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -122,7 +122,7 @@ public class Route extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -147,7 +147,7 @@ public class Route extends CommonBase {
 		boolean ret = bindings.Route_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		this.ptrs_to.add(b);
+		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

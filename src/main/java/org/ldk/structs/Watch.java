@@ -86,9 +86,9 @@ public class Watch extends CommonBase {
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
 			@Override public long watch_channel(long funding_txo, long monitor) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
-				funding_txo_hu_conv.ptrs_to.add(this);
+				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
-				monitor_hu_conv.ptrs_to.add(this);
+				if (monitor_hu_conv != null) { monitor_hu_conv.ptrs_to.add(this); };
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -96,9 +96,9 @@ public class Watch extends CommonBase {
 			}
 			@Override public long update_channel(long funding_txo, long update) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
-				funding_txo_hu_conv.ptrs_to.add(this);
+				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
-				update_hu_conv.ptrs_to.add(this);
+				if (update_hu_conv != null) { update_hu_conv.ptrs_to.add(this); };
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -174,7 +174,7 @@ public class Watch extends CommonBase {
 		for (int x = 0; x < ret_conv_49_len; x++) {
 			long ret_conv_49 = ret[x];
 			ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_conv_49_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret_conv_49);
-			ret_conv_49_hu_conv.ptrs_to.add(this);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
 			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
 		return ret_conv_49_arr;

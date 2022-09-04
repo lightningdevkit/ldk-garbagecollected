@@ -75,7 +75,7 @@ public class Persister extends CommonBase {
 		Reference.reachabilityFence(channel_manager);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(channel_manager);
+		if (this != null) { this.ptrs_to.add(channel_manager); };
 		return ret_hu_conv;
 	}
 
@@ -88,7 +88,7 @@ public class Persister extends CommonBase {
 		Reference.reachabilityFence(network_graph);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(network_graph);
+		if (this != null) { this.ptrs_to.add(network_graph); };
 		return ret_hu_conv;
 	}
 
@@ -101,7 +101,7 @@ public class Persister extends CommonBase {
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(scorer);
+		if (this != null) { this.ptrs_to.add(scorer); };
 		return ret_hu_conv;
 	}
 

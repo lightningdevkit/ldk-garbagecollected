@@ -52,7 +52,7 @@ public class PaymentError extends CommonBase {
 			super(null, ptr);
 			long routing = obj.routing;
 			org.ldk.structs.LightningError routing_hu_conv = null; if (routing < 0 || routing > 4096) { routing_hu_conv = new org.ldk.structs.LightningError(null, routing); }
-			routing_hu_conv.ptrs_to.add(this);
+			if (routing_hu_conv != null) { routing_hu_conv.ptrs_to.add(this); };
 			this.routing = routing_hu_conv;
 		}
 	}
@@ -65,7 +65,7 @@ public class PaymentError extends CommonBase {
 			super(null, ptr);
 			long sending = obj.sending;
 			org.ldk.structs.PaymentSendFailure sending_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(sending);
-			sending_hu_conv.ptrs_to.add(this);
+			if (sending_hu_conv != null) { sending_hu_conv.ptrs_to.add(this); };
 			this.sending = sending_hu_conv;
 		}
 	}
@@ -83,7 +83,7 @@ public class PaymentError extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
@@ -95,7 +95,7 @@ public class PaymentError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -107,7 +107,7 @@ public class PaymentError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -119,7 +119,7 @@ public class PaymentError extends CommonBase {
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

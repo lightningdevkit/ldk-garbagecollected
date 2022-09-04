@@ -53,11 +53,11 @@ public class PeerManager extends CommonBase {
 		Reference.reachabilityFence(custom_message_handler);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerManager(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg);
-		ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg);
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(custom_message_handler);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler); };
 		return ret_hu_conv;
 	}
 
@@ -99,7 +99,7 @@ public class PeerManager extends CommonBase {
 		Reference.reachabilityFence(remote_network_address);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(descriptor);
+		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}
 
@@ -127,7 +127,7 @@ public class PeerManager extends CommonBase {
 		Reference.reachabilityFence(remote_network_address);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(descriptor);
+		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}
 

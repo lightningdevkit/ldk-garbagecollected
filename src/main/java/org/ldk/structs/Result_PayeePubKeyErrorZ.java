@@ -26,7 +26,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.CResult_PayeePubKeyErrorZ_get_ok(ptr);
 			org.ldk.structs.PayeePubKey res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new org.ldk.structs.PayeePubKey(null, res); }
-			res_hu_conv.ptrs_to.add(this);
+			if (res_hu_conv != null) { res_hu_conv.ptrs_to.add(this); };
 			this.res = res_hu_conv;
 		}
 	}

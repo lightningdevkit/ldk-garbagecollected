@@ -39,7 +39,7 @@ public class Option_AccessZ extends CommonBase {
 			super(null, ptr);
 			long some = obj.some;
 			Access ret_hu_conv = new Access(null, some);
-			ret_hu_conv.ptrs_to.add(this);
+			if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 			this.some = ret_hu_conv;
 		}
 	}
@@ -59,8 +59,8 @@ public class Option_AccessZ extends CommonBase {
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_AccessZ ret_hu_conv = org.ldk.structs.Option_AccessZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(o);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o); };
 		return ret_hu_conv;
 	}
 
@@ -71,7 +71,7 @@ public class Option_AccessZ extends CommonBase {
 		long ret = bindings.COption_AccessZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_AccessZ ret_hu_conv = org.ldk.structs.Option_AccessZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

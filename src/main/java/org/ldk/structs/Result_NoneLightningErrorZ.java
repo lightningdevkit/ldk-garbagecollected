@@ -32,7 +32,7 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.CResult_NoneLightningErrorZ_get_err(ptr);
 			org.ldk.structs.LightningError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.LightningError(null, err); }
-			err_hu_conv.ptrs_to.add(this);
+			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
 	}

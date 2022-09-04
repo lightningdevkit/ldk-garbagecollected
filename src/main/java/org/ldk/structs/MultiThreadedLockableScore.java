@@ -37,8 +37,8 @@ public class MultiThreadedLockableScore extends CommonBase {
 		Reference.reachabilityFence(score);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MultiThreadedLockableScore ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MultiThreadedLockableScore(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(score);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(score); };
 		return ret_hu_conv;
 	}
 
