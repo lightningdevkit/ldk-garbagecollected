@@ -378,8 +378,9 @@ public class ChannelMonitor extends CommonBase {
 	 * balance, or until our counterparty has claimed the balance and accrued several
 	 * confirmations on the claim transaction.
 	 * 
-	 * Note that the balances available when you or your counterparty have broadcasted revoked
-	 * state(s) may not be fully captured here.
+	 * Note that for `ChannelMonitors` which track a channel which went on-chain with versions of
+	 * LDK prior to 0.0.111, balances may not be fully captured if our counterparty broadcasted
+	 * a revoked state.
 	 * 
 	 * See [`Balance`] for additional details on the types of claimable balances which
 	 * may be returned here and their meanings.

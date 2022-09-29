@@ -337,10 +337,70 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
+	 * The Proportion of the channel value to configure as counterparty's channel reserve,
+	 * i.e., `their_channel_reserve_satoshis` for both outbound and inbound channels.
+	 * 
+	 * `their_channel_reserve_satoshis` is the minimum balance that the other node has to maintain
+	 * on their side, at all times.
+	 * This ensures that if our counterparty broadcasts a revoked state, we can punish them by
+	 * claiming at least this value on chain.
+	 * 
+	 * Channel reserve values greater than 30% could be considered highly unreasonable, since that
+	 * amount can never be used for payments.
+	 * Also, if our selected channel reserve for counterparty and counterparty's selected
+	 * channel reserve for us sum up to equal or greater than channel value, channel negotiations
+	 * will fail.
+	 * 
+	 * Note: Versions of LDK earlier than v0.0.104 will fail to read channels with any channel reserve
+	 * other than the default value.
+	 * 
+	 * Default value: 1% of channel value, i.e., configured as 10,000 millionths.
+	 * Minimum value: If the calculated proportional value is less than 1000 sats, it will be treated
+	 * as 1000 sats instead, which is a safe implementation-specific lower bound.
+	 * Maximum value: 1,000,000, any values larger than 1 Million will be treated as 1 Million (or 100%)
+	 * instead, although channel negotiations will fail in that case.
+	 */
+	public int get_their_channel_reserve_proportional_millionths() {
+		int ret = bindings.ChannelHandshakeConfig_get_their_channel_reserve_proportional_millionths(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The Proportion of the channel value to configure as counterparty's channel reserve,
+	 * i.e., `their_channel_reserve_satoshis` for both outbound and inbound channels.
+	 * 
+	 * `their_channel_reserve_satoshis` is the minimum balance that the other node has to maintain
+	 * on their side, at all times.
+	 * This ensures that if our counterparty broadcasts a revoked state, we can punish them by
+	 * claiming at least this value on chain.
+	 * 
+	 * Channel reserve values greater than 30% could be considered highly unreasonable, since that
+	 * amount can never be used for payments.
+	 * Also, if our selected channel reserve for counterparty and counterparty's selected
+	 * channel reserve for us sum up to equal or greater than channel value, channel negotiations
+	 * will fail.
+	 * 
+	 * Note: Versions of LDK earlier than v0.0.104 will fail to read channels with any channel reserve
+	 * other than the default value.
+	 * 
+	 * Default value: 1% of channel value, i.e., configured as 10,000 millionths.
+	 * Minimum value: If the calculated proportional value is less than 1000 sats, it will be treated
+	 * as 1000 sats instead, which is a safe implementation-specific lower bound.
+	 * Maximum value: 1,000,000, any values larger than 1 Million will be treated as 1 Million (or 100%)
+	 * instead, although channel negotiations will fail in that case.
+	 */
+	public void set_their_channel_reserve_proportional_millionths(int val) {
+		bindings.ChannelHandshakeConfig_set_their_channel_reserve_proportional_millionths(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, int their_channel_reserve_proportional_millionths_arg) {
+		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, their_channel_reserve_proportional_millionths_arg);
 		Reference.reachabilityFence(minimum_depth_arg);
 		Reference.reachabilityFence(our_to_self_delay_arg);
 		Reference.reachabilityFence(our_htlc_minimum_msat_arg);
@@ -348,6 +408,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 		Reference.reachabilityFence(negotiate_scid_privacy_arg);
 		Reference.reachabilityFence(announced_channel_arg);
 		Reference.reachabilityFence(commit_upfront_shutdown_pubkey_arg);
+		Reference.reachabilityFence(their_channel_reserve_proportional_millionths_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeConfig(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

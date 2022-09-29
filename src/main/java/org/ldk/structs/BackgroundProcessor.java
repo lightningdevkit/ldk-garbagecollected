@@ -89,11 +89,9 @@ public class BackgroundProcessor extends CommonBase {
 	 * [`Persister::persist_graph`]: lightning::util::persist::Persister::persist_graph
 	 * [`NetworkGraph`]: lightning::routing::gossip::NetworkGraph
 	 * [`NetworkGraph::write`]: lightning::routing::gossip::NetworkGraph#impl-Writeable
-	 * 
-	 * Note that scorer (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, GossipSync gossip_sync, PeerManager peer_manager, Logger logger, @Nullable MultiThreadedLockableScore scorer) {
-		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, channel_manager == null ? 0 : channel_manager.ptr, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, GossipSync gossip_sync, PeerManager peer_manager, Logger logger, Option_WriteableScoreZ scorer) {
+		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, channel_manager == null ? 0 : channel_manager.ptr, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr, logger == null ? 0 : logger.ptr, scorer.ptr);
 		Reference.reachabilityFence(persister);
 		Reference.reachabilityFence(event_handler);
 		Reference.reachabilityFence(chain_monitor);

@@ -56,11 +56,11 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelReestablish.class) {
 			return new SendChannelReestablish(ptr, (bindings.LDKMessageSendEvent.SendChannelReestablish)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelAnnouncement.class) {
+			return new SendChannelAnnouncement(ptr, (bindings.LDKMessageSendEvent.SendChannelAnnouncement)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement.class) {
 			return new BroadcastChannelAnnouncement(ptr, (bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement)raw_val);
-		}
-		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement.class) {
-			return new BroadcastNodeAnnouncement(ptr, (bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastChannelUpdate.class) {
 			return new BroadcastChannelUpdate(ptr, (bindings.LDKMessageSendEvent.BroadcastChannelUpdate)raw_val);
@@ -321,14 +321,46 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	/**
+	 * Used to send a channel_announcement and channel_update to a specific peer, likely on
+	 * initial connection to ensure our peers know about our channels.
+	 */
+	public final static class SendChannelAnnouncement extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The channel_announcement which should be sent.
+		*/
+		public final org.ldk.structs.ChannelAnnouncement msg;
+		/**
+		 * The followup channel_update which should be sent.
+		*/
+		public final org.ldk.structs.ChannelUpdate update_msg;
+		private SendChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.SendChannelAnnouncement obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.ChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelAnnouncement(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+			long update_msg = obj.update_msg;
+			org.ldk.structs.ChannelUpdate update_msg_hu_conv = null; if (update_msg < 0 || update_msg > 4096) { update_msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, update_msg); }
+			if (update_msg_hu_conv != null) { update_msg_hu_conv.ptrs_to.add(this); };
+			this.update_msg = update_msg_hu_conv;
+		}
+	}
+	/**
 	 * Used to indicate that a channel_announcement and channel_update should be broadcast to all
 	 * peers (except the peer with node_id either msg.contents.node_id_1 or msg.contents.node_id_2).
 	 * 
-	 * Note that after doing so, you very likely (unless you did so very recently) want to call
-	 * ChannelManager::broadcast_node_announcement to trigger a BroadcastNodeAnnouncement event.
-	 * This ensures that any nodes which see our channel_announcement also have a relevant
+	 * Note that after doing so, you very likely (unless you did so very recently) want to
+	 * broadcast a node_announcement (e.g. via [`PeerManager::broadcast_node_announcement`]). This
+	 * ensures that any nodes which see our channel_announcement also have a relevant
 	 * node_announcement, including relevant feature flags which may be important for routing
 	 * through or to us.
+	 * 
+	 * [`PeerManager::broadcast_node_announcement`]: crate::ln::peer_handler::PeerManager::broadcast_node_announcement
 	 */
 	public final static class BroadcastChannelAnnouncement extends MessageSendEvent {
 		/**
@@ -349,22 +381,6 @@ public class MessageSendEvent extends CommonBase {
 			org.ldk.structs.ChannelUpdate update_msg_hu_conv = null; if (update_msg < 0 || update_msg > 4096) { update_msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, update_msg); }
 			if (update_msg_hu_conv != null) { update_msg_hu_conv.ptrs_to.add(this); };
 			this.update_msg = update_msg_hu_conv;
-		}
-	}
-	/**
-	 * Used to indicate that a node_announcement should be broadcast to all peers.
-	 */
-	public final static class BroadcastNodeAnnouncement extends MessageSendEvent {
-		/**
-		 * The node_announcement which should be sent.
-		*/
-		public final org.ldk.structs.NodeAnnouncement msg;
-		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
-			super(null, ptr);
-			long msg = obj.msg;
-			org.ldk.structs.NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.NodeAnnouncement(null, msg); }
-			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
-			this.msg = msg_hu_conv;
 		}
 	}
 	/**
@@ -687,10 +703,11 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new BroadcastChannelAnnouncement-variant MessageSendEvent
+	 * Utility method to constructs a new SendChannelAnnouncement-variant MessageSendEvent
 	 */
-	public static MessageSendEvent broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
-		long ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr, update_msg == null ? 0 : update_msg.ptr);
+	public static MessageSendEvent send_channel_announcement(byte[] node_id, ChannelAnnouncement msg, ChannelUpdate update_msg) {
+		long ret = bindings.MessageSendEvent_send_channel_announcement(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr, update_msg == null ? 0 : update_msg.ptr);
+		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(update_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -702,15 +719,17 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new BroadcastNodeAnnouncement-variant MessageSendEvent
+	 * Utility method to constructs a new BroadcastChannelAnnouncement-variant MessageSendEvent
 	 */
-	public static MessageSendEvent broadcast_node_announcement(NodeAnnouncement msg) {
-		long ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr);
+	public static MessageSendEvent broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
+		long ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr, update_msg == null ? 0 : update_msg.ptr);
 		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(update_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(update_msg); };
 		return ret_hu_conv;
 	}
 

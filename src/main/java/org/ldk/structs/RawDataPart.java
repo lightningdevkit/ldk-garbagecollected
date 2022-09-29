@@ -77,4 +77,16 @@ public class RawDataPart extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two RawDataParts contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.RawDataPart_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 }

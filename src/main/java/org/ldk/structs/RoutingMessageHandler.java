@@ -48,20 +48,21 @@ public class RoutingMessageHandler extends CommonBase {
 		 */
 		Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg);
 		/**
-		 * Gets a subset of the channel announcements and updates required to dump our routing table
-		 * to a remote node, starting at the short_channel_id indicated by starting_point and
-		 * including the batch_amount entries immediately higher in numerical value than starting_point.
+		 * Gets channel announcements and updates required to dump our routing table to a remote node,
+		 * starting at the short_channel_id indicated by starting_point and including announcements
+		 * for a single channel.
 		 */
-		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] get_next_channel_announcements(long starting_point, byte batch_amount);
+		Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcement(long starting_point);
 		/**
-		 * Gets a subset of the node announcements required to dump our routing table to a remote node,
-		 * starting at the node *after* the provided publickey and including batch_amount entries
-		 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+		 * Gets a node announcement required to dump our routing table to a remote node, starting at
+		 * the node *after* the provided pubkey and including up to one announcement immediately
+		 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
 		 * If None is provided for starting_point, we start at the first node.
 		 * 
 		 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
-		NodeAnnouncement[] get_next_node_announcements(byte[] starting_point, byte batch_amount);
+		NodeAnnouncement get_next_node_announcement(byte[] starting_point);
 		/**
 		 * Called when a connection is established with a peer. This can be used to
 		 * perform routing table synchronization using a strategy defined by the
@@ -91,6 +92,20 @@ public class RoutingMessageHandler extends CommonBase {
 		 * list of short_channel_ids.
 		 */
 		Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg);
+		/**
+		 * Gets the node feature flags which this handler itself supports. All available handlers are
+		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+		 * which are broadcasted in our [`NodeAnnouncement`] message.
+		 */
+		NodeFeatures provided_node_features();
+		/**
+		 * Gets the init feature flags which should be sent to the given peer. All available handlers
+		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+		 * which are sent in our [`Init`] message.
+		 * 
+		 * Note that this method is called before [`Self::peer_connected`].
+		 */
+		InitFeatures provided_init_features(byte[] their_node_id);
 	}
 	private static class LDKRoutingMessageHandlerHolder { RoutingMessageHandler held; }
 	public static RoutingMessageHandler new_impl(RoutingMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
@@ -117,16 +132,16 @@ public class RoutingMessageHandler extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
-				ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
+			@Override public long get_next_channel_announcement(long starting_point) {
+				Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret = arg.get_next_channel_announcement(starting_point);
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_59 -> ret_conv_59 == null ? 0 : ret_conv_59.clone_ptr()).toArray() : null;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
-				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
+			@Override public long get_next_node_announcement(byte[] starting_point) {
+				NodeAnnouncement ret = arg.get_next_node_announcement(starting_point);
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()).toArray() : null;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public void peer_connected(byte[] their_node_id, long init) {
@@ -162,6 +177,18 @@ public class RoutingMessageHandler extends CommonBase {
 				org.ldk.structs.QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.QueryShortChannelIds(null, msg); }
 				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long provided_node_features() {
+				NodeFeatures ret = arg.provided_node_features();
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long provided_init_features(byte[] their_node_id) {
+				InitFeatures ret = arg.provided_init_features(their_node_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -222,48 +249,38 @@ public class RoutingMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Gets a subset of the channel announcements and updates required to dump our routing table
-	 * to a remote node, starting at the short_channel_id indicated by starting_point and
-	 * including the batch_amount entries immediately higher in numerical value than starting_point.
+	 * Gets channel announcements and updates required to dump our routing table to a remote node,
+	 * starting at the short_channel_id indicated by starting_point and including announcements
+	 * for a single channel.
 	 */
-	public ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] get_next_channel_announcements(long starting_point, byte batch_amount) {
-		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
+	public Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcement(long starting_point) {
+		long ret = bindings.RoutingMessageHandler_get_next_channel_announcement(this.ptr, starting_point);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(starting_point);
-		Reference.reachabilityFence(batch_amount);
-		int ret_conv_59_len = ret.length;
-		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret_conv_59_arr = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[ret_conv_59_len];
-		for (int h = 0; h < ret_conv_59_len; h++) {
-			long ret_conv_59 = ret[h];
-			ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_conv_59_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
-			if (ret_conv_59_hu_conv != null) { ret_conv_59_hu_conv.ptrs_to.add(this); };
-			ret_conv_59_arr[h] = ret_conv_59_hu_conv;
-		}
-		return ret_conv_59_arr;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret_hu_conv = org.ldk.structs.Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * Gets a subset of the node announcements required to dump our routing table to a remote node,
-	 * starting at the node *after* the provided publickey and including batch_amount entries
-	 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+	 * Gets a node announcement required to dump our routing table to a remote node, starting at
+	 * the node *after* the provided pubkey and including up to one announcement immediately
+	 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
 	 * If None is provided for starting_point, we start at the first node.
 	 * 
 	 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public NodeAnnouncement[] get_next_node_announcements(@Nullable byte[] starting_point, byte batch_amount) {
-		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, InternalUtils.check_arr_len(starting_point, 33), batch_amount);
+	@Nullable
+	public NodeAnnouncement get_next_node_announcement(@Nullable byte[] starting_point) {
+		long ret = bindings.RoutingMessageHandler_get_next_node_announcement(this.ptr, InternalUtils.check_arr_len(starting_point, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(starting_point);
-		Reference.reachabilityFence(batch_amount);
-		int ret_conv_18_len = ret.length;
-		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret_conv_18_len];
-		for (int s = 0; s < ret_conv_18_len; s++) {
-			long ret_conv_18 = ret[s];
-			org.ldk.structs.NodeAnnouncement ret_conv_18_hu_conv = null; if (ret_conv_18 < 0 || ret_conv_18 > 4096) { ret_conv_18_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret_conv_18); }
-			if (ret_conv_18_hu_conv != null) { ret_conv_18_hu_conv.ptrs_to.add(this); };
-			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
-		}
-		return ret_conv_18_arr;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -339,6 +356,37 @@ public class RoutingMessageHandler extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 */
+	public NodeFeatures provided_node_features() {
+		long ret = bindings.RoutingMessageHandler_provided_node_features(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * Note that this method is called before [`Self::peer_connected`].
+	 */
+	public InitFeatures provided_init_features(byte[] their_node_id) {
+		long ret = bindings.RoutingMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

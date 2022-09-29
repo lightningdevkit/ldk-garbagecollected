@@ -1,0 +1,79 @@
+package org.ldk.structs;
+
+import org.ldk.impl.bindings;
+import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
+import java.lang.ref.Reference;
+import javax.annotation.Nullable;
+
+
+/**
+ * An onion message to be sent or received from a peer
+ */
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
+public class OnionMessage extends CommonBase {
+	OnionMessage(Object _dummy, long ptr) { super(ptr); }
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.OnionMessage_free(ptr); }
+	}
+
+	/**
+	 * Used in decrypting the onion packet's payload.
+	 */
+	public byte[] get_blinding_point() {
+		byte[] ret = bindings.OnionMessage_get_blinding_point(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Used in decrypting the onion packet's payload.
+	 */
+	public void set_blinding_point(byte[] val) {
+		bindings.OnionMessage_set_blinding_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.OnionMessage_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the OnionMessage
+	 */
+	public OnionMessage clone() {
+		long ret = bindings.OnionMessage_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OnionMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessage(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a OnionMessage from a byte array, created by OnionMessage_write
+	 */
+	public static Result_OnionMessageDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.OnionMessage_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_OnionMessageDecodeErrorZ ret_hu_conv = Result_OnionMessageDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the OnionMessage object into a byte array which can be read by OnionMessage_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.OnionMessage_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+}

@@ -52,15 +52,12 @@ public class Filter extends CommonBase {
 		/**
 		 * Registers interest in spends of a transaction output.
 		 * 
-		 * Optionally, when `output.block_hash` is set, should return any transaction spending the
-		 * output that is found in the corresponding block along with its index.
-		 * 
-		 * This return value is useful for Electrum clients in order to supply in-block descendant
-		 * transactions which otherwise were not included. This is not necessary for other clients if
-		 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
-		 * full block).
+		 * Note that this method might be called during processing of a new block. You therefore need
+		 * to ensure that also dependent output spents within an already connected block are correctly
+		 * handled, e.g., by re-scanning the block in question whenever new outputs have been
+		 * registered mid-processing.
 		 */
-		Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output);
+		void register_output(WatchedOutput output);
 	}
 	private static class LDKFilterHolder { Filter held; }
 	public static Filter new_impl(FilterInterface arg) {
@@ -70,13 +67,11 @@ public class Filter extends CommonBase {
 				arg.register_tx(txid, script_pubkey);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public long register_output(long output) {
+			@Override public void register_output(long output) {
 				org.ldk.structs.WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new org.ldk.structs.WatchedOutput(null, output); }
 				if (output_hu_conv != null) { output_hu_conv.ptrs_to.add(this); };
-				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
+				arg.register_output(output_hu_conv);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
 			}
 		});
 		return impl_holder.held;
@@ -95,23 +90,16 @@ public class Filter extends CommonBase {
 	/**
 	 * Registers interest in spends of a transaction output.
 	 * 
-	 * Optionally, when `output.block_hash` is set, should return any transaction spending the
-	 * output that is found in the corresponding block along with its index.
-	 * 
-	 * This return value is useful for Electrum clients in order to supply in-block descendant
-	 * transactions which otherwise were not included. This is not necessary for other clients if
-	 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
-	 * full block).
+	 * Note that this method might be called during processing of a new block. You therefore need
+	 * to ensure that also dependent output spents within an already connected block are correctly
+	 * handled, e.g., by re-scanning the block in question whenever new outputs have been
+	 * registered mid-processing.
 	 */
-	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
-		long ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr);
+	public void register_output(WatchedOutput output) {
+		bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(output);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		if (this != null) { this.ptrs_to.add(output); };
-		return ret_hu_conv;
 	}
 
 }

@@ -56,6 +56,17 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns the set of known node features that are related to channels.
+	 */
+	public static NodeFeatures known_channel_features() {
+		long ret = bindings.NodeFeatures_known_channel_features();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static NodeFeatures empty() {
@@ -409,6 +420,40 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public boolean requires_shutdown_anysegwit() {
 		boolean ret = bindings.NodeFeatures_requires_shutdown_anysegwit(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_onion_messages_optional() {
+		bindings.NodeFeatures_set_onion_messages_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_onion_messages_required() {
+		bindings.NodeFeatures_set_onion_messages_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_onion_messages() {
+		boolean ret = bindings.NodeFeatures_supports_onion_messages(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_onion_messages() {
+		boolean ret = bindings.NodeFeatures_requires_onion_messages(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

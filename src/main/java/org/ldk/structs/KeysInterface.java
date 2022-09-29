@@ -35,6 +35,14 @@ public class KeysInterface extends CommonBase {
 		 */
 		Result_SecretKeyNoneZ get_node_secret(Recipient recipient);
 		/**
+		 * Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
+		 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
+		 * secret, though this is less efficient.
+		 * 
+		 * [`node secret`]: Self::get_node_secret
+		 */
+		Result_SharedSecretNoneZ ecdh(Recipient recipient, byte[] other_key, Option_ScalarZ tweak);
+		/**
 		 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
 		 * 
 		 * This method should return a different value each time it is called, to avoid linking
@@ -105,6 +113,14 @@ public class KeysInterface extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
+			@Override public long ecdh(Recipient recipient, byte[] other_key, long tweak) {
+				org.ldk.structs.Option_ScalarZ tweak_hu_conv = org.ldk.structs.Option_ScalarZ.constr_from_ptr(tweak);
+				if (tweak_hu_conv != null) { tweak_hu_conv.ptrs_to.add(this); };
+				Result_SharedSecretNoneZ ret = arg.ecdh(recipient, other_key, tweak_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
 			@Override public byte[] get_destination_script() {
 				byte[] ret = arg.get_destination_script();
 				Reference.reachabilityFence(arg);
@@ -171,6 +187,24 @@ public class KeysInterface extends CommonBase {
 		Reference.reachabilityFence(recipient);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SecretKeyNoneZ ret_hu_conv = Result_SecretKeyNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
+	 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
+	 * secret, though this is less efficient.
+	 * 
+	 * [`node secret`]: Self::get_node_secret
+	 */
+	public Result_SharedSecretNoneZ ecdh(org.ldk.enums.Recipient recipient, byte[] other_key, Option_ScalarZ tweak) {
+		long ret = bindings.KeysInterface_ecdh(this.ptr, recipient, InternalUtils.check_arr_len(other_key, 33), tweak.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(recipient);
+		Reference.reachabilityFence(other_key);
+		Reference.reachabilityFence(tweak);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SharedSecretNoneZ ret_hu_conv = Result_SharedSecretNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

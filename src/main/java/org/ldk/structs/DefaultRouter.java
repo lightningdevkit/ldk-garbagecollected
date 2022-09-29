@@ -24,16 +24,18 @@ public class DefaultRouter extends CommonBase {
 	 * Creates a new router using the given [`NetworkGraph`], a [`Logger`], and a randomness source
 	 * `random_seed_bytes`.
 	 */
-	public static DefaultRouter of(NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes) {
-		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
+	public static DefaultRouter of(NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes, LockableScore scorer) {
+		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32), scorer == null ? 0 : scorer.ptr);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(random_seed_bytes);
+		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.DefaultRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DefaultRouter(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
 		return ret_hu_conv;
 	}
 

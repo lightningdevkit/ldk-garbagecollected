@@ -33,8 +33,14 @@ public class Balance extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKBalance.ContentiousClaimable.class) {
 			return new ContentiousClaimable(ptr, (bindings.LDKBalance.ContentiousClaimable)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKBalance.MaybeClaimableHTLCAwaitingTimeout.class) {
-			return new MaybeClaimableHTLCAwaitingTimeout(ptr, (bindings.LDKBalance.MaybeClaimableHTLCAwaitingTimeout)raw_val);
+		if (raw_val.getClass() == bindings.LDKBalance.MaybeTimeoutClaimableHTLC.class) {
+			return new MaybeTimeoutClaimableHTLC(ptr, (bindings.LDKBalance.MaybeTimeoutClaimableHTLC)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKBalance.MaybePreimageClaimableHTLC.class) {
+			return new MaybePreimageClaimableHTLC(ptr, (bindings.LDKBalance.MaybePreimageClaimableHTLC)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKBalance.CounterpartyRevokedOutputClaimable.class) {
+			return new CounterpartyRevokedOutputClaimable(ptr, (bindings.LDKBalance.CounterpartyRevokedOutputClaimable)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -107,10 +113,10 @@ public class Balance extends CommonBase {
 	 * fees) if the counterparty does not know the preimage for the HTLCs. These are somewhat
 	 * likely to be claimed by our counterparty before we do.
 	 */
-	public final static class MaybeClaimableHTLCAwaitingTimeout extends Balance {
+	public final static class MaybeTimeoutClaimableHTLC extends Balance {
 		/**
-		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
-		 * required to do so.
+		 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
+		 * which will be required to do so.
 		*/
 		public final long claimable_amount_satoshis;
 		/**
@@ -118,10 +124,52 @@ public class Balance extends CommonBase {
 		 * done so.
 		*/
 		public final int claimable_height;
-		private MaybeClaimableHTLCAwaitingTimeout(long ptr, bindings.LDKBalance.MaybeClaimableHTLCAwaitingTimeout obj) {
+		private MaybeTimeoutClaimableHTLC(long ptr, bindings.LDKBalance.MaybeTimeoutClaimableHTLC obj) {
 			super(null, ptr);
 			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
 			this.claimable_height = obj.claimable_height;
+		}
+	}
+	/**
+	 * HTLCs which we received from our counterparty which are claimable with a preimage which we
+	 * do not currently have. This will only be claimable if we receive the preimage from the node
+	 * to which we forwarded this HTLC before the timeout.
+	 */
+	public final static class MaybePreimageClaimableHTLC extends Balance {
+		/**
+		 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
+		 * which will be required to do so.
+		*/
+		public final long claimable_amount_satoshis;
+		/**
+		 * The height at which our counterparty will be able to claim the balance if we have not
+		 * yet received the preimage and claimed it ourselves.
+		*/
+		public final int expiry_height;
+		private MaybePreimageClaimableHTLC(long ptr, bindings.LDKBalance.MaybePreimageClaimableHTLC obj) {
+			super(null, ptr);
+			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.expiry_height = obj.expiry_height;
+		}
+	}
+	/**
+	 * The channel has been closed, and our counterparty broadcasted a revoked commitment
+	 * transaction.
+	 * 
+	 * Thus, we're able to claim all outputs in the commitment transaction, one of which has the
+	 * following amount.
+	 */
+	public final static class CounterpartyRevokedOutputClaimable extends Balance {
+		/**
+		 * The amount, in satoshis, of the output which we can claim.
+		 * 
+		 * Note that for outputs from HTLC balances this may be excluding some on-chain fees that
+		 * were already spent.
+		*/
+		public final long claimable_amount_satoshis;
+		private CounterpartyRevokedOutputClaimable(long ptr, bindings.LDKBalance.CounterpartyRevokedOutputClaimable obj) {
+			super(null, ptr);
+			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
 		}
 	}
 	long clone_ptr() {
@@ -181,12 +229,37 @@ public class Balance extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new MaybeClaimableHTLCAwaitingTimeout-variant Balance
+	 * Utility method to constructs a new MaybeTimeoutClaimableHTLC-variant Balance
 	 */
-	public static Balance maybe_claimable_htlcawaiting_timeout(long claimable_amount_satoshis, int claimable_height) {
-		long ret = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
+	public static Balance maybe_timeout_claimable_htlc(long claimable_amount_satoshis, int claimable_height) {
+		long ret = bindings.Balance_maybe_timeout_claimable_htlc(claimable_amount_satoshis, claimable_height);
 		Reference.reachabilityFence(claimable_amount_satoshis);
 		Reference.reachabilityFence(claimable_height);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new MaybePreimageClaimableHTLC-variant Balance
+	 */
+	public static Balance maybe_preimage_claimable_htlc(long claimable_amount_satoshis, int expiry_height) {
+		long ret = bindings.Balance_maybe_preimage_claimable_htlc(claimable_amount_satoshis, expiry_height);
+		Reference.reachabilityFence(claimable_amount_satoshis);
+		Reference.reachabilityFence(expiry_height);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CounterpartyRevokedOutputClaimable-variant Balance
+	 */
+	public static Balance counterparty_revoked_output_claimable(long claimable_amount_satoshis) {
+		long ret = bindings.Balance_counterparty_revoked_output_claimable(claimable_amount_satoshis);
+		Reference.reachabilityFence(claimable_amount_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

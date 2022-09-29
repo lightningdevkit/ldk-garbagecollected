@@ -61,6 +61,18 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
+	 * Checks if two Invoices contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.Invoice_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Transform the `Invoice` into it's unchecked version
 	 */
 	public SignedRawInvoice into_signed_raw() {

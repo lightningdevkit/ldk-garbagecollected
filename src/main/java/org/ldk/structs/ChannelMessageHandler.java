@@ -112,6 +112,20 @@ public class ChannelMessageHandler extends CommonBase {
 		 * Handle an incoming error message from the given peer.
 		 */
 		void handle_error(byte[] their_node_id, ErrorMessage msg);
+		/**
+		 * Gets the node feature flags which this handler itself supports. All available handlers are
+		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+		 * which are broadcasted in our [`NodeAnnouncement`] message.
+		 */
+		NodeFeatures provided_node_features();
+		/**
+		 * Gets the init feature flags which should be sent to the given peer. All available handlers
+		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+		 * which are sent in our [`Init`] message.
+		 * 
+		 * Note that this method is called before [`Self::peer_connected`].
+		 */
+		InitFeatures provided_init_features(byte[] their_node_id);
 	}
 	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
 	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
@@ -220,6 +234,18 @@ public class ChannelMessageHandler extends CommonBase {
 				org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
 				arg.handle_error(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
+			}
+			@Override public long provided_node_features() {
+				NodeFeatures ret = arg.provided_node_features();
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long provided_init_features(byte[] their_node_id) {
+				InitFeatures ret = arg.provided_init_features(their_node_id);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
 		return impl_holder.held;
@@ -460,6 +486,37 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
 		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 */
+	public NodeFeatures provided_node_features() {
+		long ret = bindings.ChannelMessageHandler_provided_node_features(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * Note that this method is called before [`Self::peer_connected`].
+	 */
+	public InitFeatures provided_init_features(byte[] their_node_id) {
+		long ret = bindings.ChannelMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 }
