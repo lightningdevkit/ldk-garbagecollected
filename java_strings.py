@@ -151,6 +151,27 @@ class CommonBase {
 	}
 }"""
 
+        self.scalar_defn = """public class BigEndianScalar extends CommonBase {
+	/** The bytes of the scalar value, in big endian */
+	public final byte[] scalar_bytes;
+
+	BigEndianScalar(java.lang.Object _dummy, long ptr) {
+		super(ptr);
+		this.scalar_bytes = bindings.BigEndianScalar_get_bytes(ptr);
+	}
+	public BigEndianScalar(byte[] scalar_bytes) {
+		super(bindings.BigEndianScalar_new(scalar_bytes));
+		this.scalar_bytes = bindings.BigEndianScalar_get_bytes(ptr);
+	}
+
+	@Override @SuppressWarnings(\"deprecation\")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.BigEndianScalar_free(ptr); }
+	}
+}"""
+
+
         self.c_file_pfx = """#include <jni.h>
 // On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
 #define int64_t jlong

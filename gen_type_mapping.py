@@ -489,7 +489,7 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";" + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = from_hu_conv)
 
-                # The manually-defined types - TxOut, u5, and Error
+                # The manually-defined types - TxOut, BigEndianScalar, u5, and Error
                 if ty_info.rust_obj == "LDKError":
                     assert from_hu_conv is None
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -506,12 +506,12 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".getVal()", ""))
 
-                assert ty_info.rust_obj == "LDKTxOut"
+                assert ty_info.rust_obj == "LDKTxOut" or ty_info.rust_obj == "LDKBigEndianScalar"
                 if not ty_info.is_ptr and not holds_ref:
-                    ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = MALLOC(sizeof(LDKTxOut), \"LDKTxOut\");\n*" + ty_info.var_name + "_ref = ", ";")
+                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
                     ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ref, true)"
                 else:
-                    ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = &", ";")
+                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = &", ";")
                     ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ref, false)"
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,

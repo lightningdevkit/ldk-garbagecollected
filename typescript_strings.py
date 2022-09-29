@@ -403,6 +403,21 @@ export class UnqualifiedError {
 }"""
         self.obj_defined(["TxOut"], "structs")
 
+        self.scalar_defn = """export class BigEndianScalar extends CommonBase {
+	/** The bytes of the scalar value, in big endian */
+	public scalar_bytes: Uint8Array;
+
+	/* @internal */
+	public constructor(_dummy: object, ptr: bigint) {
+		super(ptr, bindings.BigEndianScalar_free);
+		this.scalar_bytes = bindings.decodeUint8Array(bindings.BigEndianScalar_get_bytes(ptr));
+	}
+	public static constructor_new(scalar_bytes: Uint8Array): BigEndianScalar {
+		return new BigEndianScalar(null, bindings.BigEndianScalar_new(bindings.encodeUint8Array(scalar_bytes)));
+	}
+}"""
+        self.obj_defined(["BigEndianScalar"], "structs")
+
         self.c_file_pfx = """#include "js-wasm.h"
 #include <stdatomic.h>
 #include <lightning.h>
