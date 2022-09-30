@@ -1,4 +1,5 @@
 import { TxOut } from '../structs/TxOut.mjs';
+import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
@@ -13,9 +14,14 @@ import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
+import { BlindedRoute } from '../structs/BlindedRoute.mjs';
+import { Result_BlindedRouteNoneZ } from '../structs/Result_BlindedRouteNoneZ.mjs';
+import { DecodeError } from '../structs/DecodeError.mjs';
+import { Result_BlindedRouteDecodeErrorZ } from '../structs/Result_BlindedRouteDecodeErrorZ.mjs';
+import { BlindedHop } from '../structs/BlindedHop.mjs';
+import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
-import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_CounterpartyCommitmentSecretsDecodeErrorZ } from '../structs/Result_CounterpartyCommitmentSecretsDecodeErrorZ.mjs';
 import { Result_SecretKeyErrorZ } from '../structs/Result_SecretKeyErrorZ.mjs';
 import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
@@ -93,7 +99,6 @@ import { ClosingSigned } from '../structs/ClosingSigned.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
-import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { ErrorMessage } from '../structs/ErrorMessage.mjs';
 import { WarningMessage } from '../structs/WarningMessage.mjs';
 import { ErrorAction } from '../structs/ErrorAction.mjs';
@@ -108,7 +113,6 @@ import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChann
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
@@ -134,6 +138,7 @@ import { Access, AccessInterface } from '../structs/Access.mjs';
 import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
 import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
 import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
@@ -160,6 +165,8 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
+import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
@@ -209,6 +216,8 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
+import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
+import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
 import { ParseError } from '../structs/ParseError.mjs';
 import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
@@ -248,6 +257,8 @@ import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
+import { SendError } from '../structs/SendError.mjs';
+import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -276,6 +287,8 @@ import { UpdateFee } from '../structs/UpdateFee.mjs';
 import { Result_UpdateFeeDecodeErrorZ } from '../structs/Result_UpdateFeeDecodeErrorZ.mjs';
 import { Result_UpdateFulfillHTLCDecodeErrorZ } from '../structs/Result_UpdateFulfillHTLCDecodeErrorZ.mjs';
 import { Result_UpdateAddHTLCDecodeErrorZ } from '../structs/Result_UpdateAddHTLCDecodeErrorZ.mjs';
+import { OnionMessage } from '../structs/OnionMessage.mjs';
+import { Result_OnionMessageDecodeErrorZ } from '../structs/Result_OnionMessageDecodeErrorZ.mjs';
 import { Ping } from '../structs/Ping.mjs';
 import { Result_PingDecodeErrorZ } from '../structs/Result_PingDecodeErrorZ.mjs';
 import { Pong } from '../structs/Pong.mjs';
@@ -289,6 +302,7 @@ import { Result_ErrorMessageDecodeErrorZ } from '../structs/Result_ErrorMessageD
 import { Result_WarningMessageDecodeErrorZ } from '../structs/Result_WarningMessageDecodeErrorZ.mjs';
 import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
 import { Result_UnsignedNodeAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedNodeAnnouncementDecodeErrorZ.mjs';
+import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { Result_NodeAnnouncementDecodeErrorZ } from '../structs/Result_NodeAnnouncementDecodeErrorZ.mjs';
 import { Result_QueryShortChannelIdsDecodeErrorZ } from '../structs/Result_QueryShortChannelIdsDecodeErrorZ.mjs';
 import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs';
@@ -304,13 +318,17 @@ import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
+import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
 import { BigSize } from '../structs/BigSize.mjs';
 import { ChannelUsage } from '../structs/ChannelUsage.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
+import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
+import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -327,6 +345,7 @@ import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../struct
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
+import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
@@ -339,8 +358,11 @@ import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
+import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { Destination } from '../structs/Destination.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -372,19 +394,20 @@ export interface RoutingMessageHandlerInterface {
 	 * false or returning an Err otherwise.
 	 */
 	handle_channel_update(msg: ChannelUpdate): Result_boolLightningErrorZ;
-	/**Gets a subset of the channel announcements and updates required to dump our routing table
-	 * to a remote node, starting at the short_channel_id indicated by starting_point and
-	 * including the batch_amount entries immediately higher in numerical value than starting_point.
+	/**Gets channel announcements and updates required to dump our routing table to a remote node,
+	 * starting at the short_channel_id indicated by starting_point and including announcements
+	 * for a single channel.
 	 */
-	get_next_channel_announcements(starting_point: bigint, batch_amount: number): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[];
-	/**Gets a subset of the node announcements required to dump our routing table to a remote node,
-	 * starting at the node *after* the provided publickey and including batch_amount entries
-	 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+	get_next_channel_announcement(starting_point: bigint): Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ;
+	/**Gets a node announcement required to dump our routing table to a remote node, starting at
+	 * the node *after* the provided pubkey and including up to one announcement immediately
+	 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
 	 * If None is provided for starting_point, we start at the first node.
 	 * 
 	 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	get_next_node_announcements(starting_point: Uint8Array, batch_amount: number): NodeAnnouncement[];
+	get_next_node_announcement(starting_point: Uint8Array): NodeAnnouncement;
 	/**Called when a connection is established with a peer. This can be used to
 	 * perform routing table synchronization using a strategy defined by the
 	 * implementor.
@@ -409,6 +432,18 @@ export interface RoutingMessageHandlerInterface {
 	 * list of short_channel_ids.
 	 */
 	handle_query_short_channel_ids(their_node_id: Uint8Array, msg: QueryShortChannelIds): Result_NoneLightningErrorZ;
+	/**Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 */
+	provided_node_features(): NodeFeatures;
+	/**Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * Note that this method is called before [`Self::peer_connected`].
+	 */
+	provided_init_features(their_node_id: Uint8Array): InitFeatures;
 }
 
 class LDKRoutingMessageHandlerHolder {
@@ -427,6 +462,9 @@ class LDKRoutingMessageHandlerHolder {
 export class RoutingMessageHandler extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKRoutingMessageHandler;
+
+	/* @internal */
+	public instance_idx?: number;
 
 	/* @internal */
 	constructor(_dummy: object, ptr: bigint) {
@@ -456,15 +494,15 @@ export class RoutingMessageHandler extends CommonBase {
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			get_next_channel_announcements (starting_point: bigint, batch_amount: number): number {
-				const ret: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] = arg.get_next_channel_announcements(starting_point, batch_amount);
-				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_59 => ret_conv_59 == null ? 0n : ret_conv_59.clone_ptr()) : null);
+			get_next_channel_announcement (starting_point: bigint): bigint {
+				const ret: Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ = arg.get_next_channel_announcement(starting_point);
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			get_next_node_announcements (starting_point: number, batch_amount: number): number {
+			get_next_node_announcement (starting_point: number): bigint {
 				const starting_point_conv: Uint8Array = bindings.decodeUint8Array(starting_point);
-				const ret: NodeAnnouncement[] = arg.get_next_node_announcements(starting_point_conv, batch_amount);
-				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0n : ret_conv_18.clone_ptr()) : null);
+				const ret: NodeAnnouncement = arg.get_next_node_announcement(starting_point_conv);
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
 			peer_connected (their_node_id: number, init: bigint): void {
@@ -504,11 +542,23 @@ export class RoutingMessageHandler extends CommonBase {
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
+			provided_node_features (): bigint {
+				const ret: NodeFeatures = arg.provided_node_features();
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
+				return result;
+			},
+			provided_init_features (their_node_id: number): bigint {
+				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
+				const ret: InitFeatures = arg.provided_init_features(their_node_id_conv);
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
+				return result;
+			},
 		} as bindings.LDKRoutingMessageHandler;
 		const messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl, );
-		const ptr: bigint = bindings.LDKRoutingMessageHandler_new(structImplementation, messageSendEventsProvider.bindings_instance);
+		const ptr_idx: [bigint, number] = bindings.LDKRoutingMessageHandler_new(structImplementation, messageSendEventsProvider.instance_idx);
 
-		impl_holder.held = new RoutingMessageHandler(null, ptr);
+		impl_holder.held = new RoutingMessageHandler(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
 		impl_holder.held.ptrs_to.push(messageSendEventsProvider);
 		return impl_holder.held;
@@ -548,44 +598,31 @@ export class RoutingMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Gets a subset of the channel announcements and updates required to dump our routing table
-	 * to a remote node, starting at the short_channel_id indicated by starting_point and
-	 * including the batch_amount entries immediately higher in numerical value than starting_point.
+	 * Gets channel announcements and updates required to dump our routing table to a remote node,
+	 * starting at the short_channel_id indicated by starting_point and including announcements
+	 * for a single channel.
 	 */
-	public get_next_channel_announcements(starting_point: bigint, batch_amount: number): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] {
-		const ret: number = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
-		const ret_conv_59_len: number = bindings.getArrayLength(ret);
-		const ret_conv_59_arr: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] = new Array(ret_conv_59_len).fill(null);
-		for (var h = 0; h < ret_conv_59_len; h++) {
-			const ret_conv_59: bigint = bindings.getU64ArrayElem(ret, h);
-			const ret_conv_59_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
-			CommonBase.add_ref_from(ret_conv_59_hu_conv, this);
-			ret_conv_59_arr[h] = ret_conv_59_hu_conv;
-		}
-		bindings.freeWasmMemory(ret)
-		return ret_conv_59_arr;
+	public get_next_channel_announcement(starting_point: bigint): Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ {
+		const ret: bigint = bindings.RoutingMessageHandler_get_next_channel_announcement(this.ptr, starting_point);
+		const ret_hu_conv: Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ = Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
 	}
 
 	/**
-	 * Gets a subset of the node announcements required to dump our routing table to a remote node,
-	 * starting at the node *after* the provided publickey and including batch_amount entries
-	 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+	 * Gets a node announcement required to dump our routing table to a remote node, starting at
+	 * the node *after* the provided pubkey and including up to one announcement immediately
+	 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
 	 * If None is provided for starting_point, we start at the first node.
 	 * 
 	 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public get_next_node_announcements(starting_point: Uint8Array, batch_amount: number): NodeAnnouncement[] {
-		const ret: number = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(starting_point, 33)), batch_amount);
-		const ret_conv_18_len: number = bindings.getArrayLength(ret);
-		const ret_conv_18_arr: NodeAnnouncement[] = new Array(ret_conv_18_len).fill(null);
-		for (var s = 0; s < ret_conv_18_len; s++) {
-			const ret_conv_18: bigint = bindings.getU64ArrayElem(ret, s);
-			const ret_conv_18_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret_conv_18);
-			CommonBase.add_ref_from(ret_conv_18_hu_conv, this);
-			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
-		}
-		bindings.freeWasmMemory(ret)
-		return ret_conv_18_arr;
+	public get_next_node_announcement(starting_point: Uint8Array): NodeAnnouncement {
+		const ret: bigint = bindings.RoutingMessageHandler_get_next_node_announcement(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(starting_point, 33)));
+		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -642,6 +679,32 @@ export class RoutingMessageHandler extends CommonBase {
 		const ret: bigint = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 */
+	public provided_node_features(): NodeFeatures {
+		const ret: bigint = bindings.RoutingMessageHandler_provided_node_features(this.ptr);
+		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * Note that this method is called before [`Self::peer_connected`].
+	 */
+	public provided_init_features(their_node_id: Uint8Array): InitFeatures {
+		const ret: bigint = bindings.RoutingMessageHandler_provided_init_features(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)));
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 

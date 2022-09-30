@@ -1,4 +1,5 @@
 import { TxOut } from '../structs/TxOut.mjs';
+import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
@@ -13,9 +14,13 @@ import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
+import { BlindedRoute } from '../structs/BlindedRoute.mjs';
+import { DecodeError } from '../structs/DecodeError.mjs';
+import { Result_BlindedRouteDecodeErrorZ } from '../structs/Result_BlindedRouteDecodeErrorZ.mjs';
+import { BlindedHop } from '../structs/BlindedHop.mjs';
+import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
-import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_CounterpartyCommitmentSecretsDecodeErrorZ } from '../structs/Result_CounterpartyCommitmentSecretsDecodeErrorZ.mjs';
 import { Result_SecretKeyErrorZ } from '../structs/Result_SecretKeyErrorZ.mjs';
 import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
@@ -93,7 +98,6 @@ import { ClosingSigned } from '../structs/ClosingSigned.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
-import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { ErrorMessage } from '../structs/ErrorMessage.mjs';
 import { WarningMessage } from '../structs/WarningMessage.mjs';
 import { ErrorAction } from '../structs/ErrorAction.mjs';
@@ -133,6 +137,7 @@ import { Access, AccessInterface } from '../structs/Access.mjs';
 import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
 import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
 import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
@@ -159,6 +164,8 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
+import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
@@ -208,6 +215,8 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
+import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
+import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
 import { ParseError } from '../structs/ParseError.mjs';
 import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
@@ -247,6 +256,8 @@ import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
+import { SendError } from '../structs/SendError.mjs';
+import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -275,6 +286,8 @@ import { UpdateFee } from '../structs/UpdateFee.mjs';
 import { Result_UpdateFeeDecodeErrorZ } from '../structs/Result_UpdateFeeDecodeErrorZ.mjs';
 import { Result_UpdateFulfillHTLCDecodeErrorZ } from '../structs/Result_UpdateFulfillHTLCDecodeErrorZ.mjs';
 import { Result_UpdateAddHTLCDecodeErrorZ } from '../structs/Result_UpdateAddHTLCDecodeErrorZ.mjs';
+import { OnionMessage } from '../structs/OnionMessage.mjs';
+import { Result_OnionMessageDecodeErrorZ } from '../structs/Result_OnionMessageDecodeErrorZ.mjs';
 import { Ping } from '../structs/Ping.mjs';
 import { Result_PingDecodeErrorZ } from '../structs/Result_PingDecodeErrorZ.mjs';
 import { Pong } from '../structs/Pong.mjs';
@@ -288,6 +301,7 @@ import { Result_ErrorMessageDecodeErrorZ } from '../structs/Result_ErrorMessageD
 import { Result_WarningMessageDecodeErrorZ } from '../structs/Result_WarningMessageDecodeErrorZ.mjs';
 import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
 import { Result_UnsignedNodeAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedNodeAnnouncementDecodeErrorZ.mjs';
+import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { Result_NodeAnnouncementDecodeErrorZ } from '../structs/Result_NodeAnnouncementDecodeErrorZ.mjs';
 import { Result_QueryShortChannelIdsDecodeErrorZ } from '../structs/Result_QueryShortChannelIdsDecodeErrorZ.mjs';
 import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs';
@@ -303,13 +317,17 @@ import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
+import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
 import { BigSize } from '../structs/BigSize.mjs';
 import { ChannelUsage } from '../structs/ChannelUsage.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
+import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
+import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -327,6 +345,7 @@ import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
+import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
@@ -339,8 +358,11 @@ import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
+import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { Destination } from '../structs/Destination.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -355,75 +377,72 @@ import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-/**
- * An enum which can either contain a crate::c_types::derived::C2Tuple_usizeTransactionZ or not
- */
-export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.COption_C2Tuple_usizeTransactionZZ_free); }
+
+
+export class Result_BlindedRouteNoneZ extends CommonBase {
+	protected constructor(_dummy: object, ptr: bigint) {
+		super(ptr, bindings.CResult_BlindedRouteNoneZ_free);
+	}
 	/* @internal */
-	public static constr_from_ptr(ptr: bigint): Option_C2Tuple_usizeTransactionZZ {
-		const raw_ty: number = bindings.LDKCOption_C2Tuple_usizeTransactionZZ_ty_from_ptr(ptr);
-		switch (raw_ty) {
-			case 0: return new Option_C2Tuple_usizeTransactionZZ_Some(ptr);
-			case 1: return new Option_C2Tuple_usizeTransactionZZ_None(ptr);
-			default:
-				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
+	public static constr_from_ptr(ptr: bigint): Result_BlindedRouteNoneZ {
+		if (bindings.CResult_BlindedRouteNoneZ_is_ok(ptr)) {
+			return new Result_BlindedRouteNoneZ_OK(null, ptr);
+		} else {
+			return new Result_BlindedRouteNoneZ_Err(null, ptr);
 		}
 	}
-
 	/**
-	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing a crate::c_types::derived::C2Tuple_usizeTransactionZ
+	 * Creates a new CResult_BlindedRouteNoneZ in the success state.
 	 */
-	public static constructor_some(o: TwoTuple_usizeTransactionZ): Option_C2Tuple_usizeTransactionZZ {
-		const ret: bigint = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? CommonBase.get_ptr_of(o) : 0n);
-		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+	public static constructor_ok(o: BlindedRoute): Result_BlindedRouteNoneZ {
+		const ret: bigint = bindings.CResult_BlindedRouteNoneZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
+		const ret_hu_conv: Result_BlindedRouteNoneZ = Result_BlindedRouteNoneZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, o);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after ret_hu_conv call, o is reset to null and is now a dummy object.
+		CommonBase.set_null_skip_free(o);;
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing nothing
+	 * Creates a new CResult_BlindedRouteNoneZ in the error state.
 	 */
-	public static constructor_none(): Option_C2Tuple_usizeTransactionZZ {
-		const ret: bigint = bindings.COption_C2Tuple_usizeTransactionZZ_none();
-		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+	public static constructor_err(): Result_BlindedRouteNoneZ {
+		const ret: bigint = bindings.CResult_BlindedRouteNoneZ_err();
+		const ret_hu_conv: Result_BlindedRouteNoneZ = Result_BlindedRouteNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public clone_ptr(): bigint {
-		const ret: bigint = bindings.COption_C2Tuple_usizeTransactionZZ_clone_ptr(this.ptr);
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public is_ok(): boolean {
+		const ret: boolean = bindings.CResult_BlindedRouteNoneZ_is_ok(this.ptr);
 		return ret;
 	}
 
-	/**
-	 * Creates a new COption_C2Tuple_usizeTransactionZZ which has the same data as `orig`
-	 * but with all dynamically-allocated buffers duplicated in new buffers.
-	 */
-	public clone(): Option_C2Tuple_usizeTransactionZZ {
-		const ret: bigint = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
-		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, this);
-		return ret_hu_conv;
-	}
+}
+export class Result_BlindedRouteNoneZ_OK extends Result_BlindedRouteNoneZ {
+	public res: BlindedRoute;
 
-}
-/** A Option_C2Tuple_usizeTransactionZZ of type Some */
-export class Option_C2Tuple_usizeTransactionZZ_Some extends Option_C2Tuple_usizeTransactionZZ {
-	public some: TwoTuple_usizeTransactionZ;
 	/* @internal */
-	public constructor(ptr: bigint) {
-		super(null, ptr);
-		const some: bigint = bindings.LDKCOption_C2Tuple_usizeTransactionZZ_Some_get_some(ptr);
-		const some_hu_conv: TwoTuple_usizeTransactionZ = new TwoTuple_usizeTransactionZ(null, some);
-			CommonBase.add_ref_from(some_hu_conv, this);
-		this.some = some_hu_conv;
+	public constructor(_dummy: object, ptr: bigint) {
+		super(_dummy, ptr);
+		const res: bigint = bindings.CResult_BlindedRouteNoneZ_get_ok(ptr);
+		const res_hu_conv: BlindedRoute = new BlindedRoute(null, res);
+		CommonBase.add_ref_from(res_hu_conv, this);
+		this.res = res_hu_conv;
 	}
 }
-/** A Option_C2Tuple_usizeTransactionZZ of type None */
-export class Option_C2Tuple_usizeTransactionZZ_None extends Option_C2Tuple_usizeTransactionZZ {
+export class Result_BlindedRouteNoneZ_Err extends Result_BlindedRouteNoneZ {
+
 	/* @internal */
-	public constructor(ptr: bigint) {
-		super(null, ptr);
+	public constructor(_dummy: object, ptr: bigint) {
+		super(_dummy, ptr);
 	}
 }
