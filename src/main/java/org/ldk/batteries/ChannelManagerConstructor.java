@@ -88,7 +88,7 @@ public class ChannelManagerConstructor {
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable Filter filter, @Nullable byte[] net_graph_serialized,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
-        final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
+        final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
         HashSet<OutPoint> monitor_funding_set = new HashSet();
@@ -130,13 +130,18 @@ public class ChannelManagerConstructor {
             this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
+                    ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    System.currentTimeMillis() / 1000,
+                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
+                    ignoring_handler.as_RoutingMessageHandler(),
+                    ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    System.currentTimeMillis() / 1000,
+                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {
@@ -160,7 +165,7 @@ public class ChannelManagerConstructor {
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable NetworkGraph net_graph,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
-        final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
+        final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
         channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
@@ -177,13 +182,18 @@ public class ChannelManagerConstructor {
             this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
+                    ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    System.currentTimeMillis() / 1000,
+                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
+                    ignoring_handler.as_RoutingMessageHandler(),
+                    ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    System.currentTimeMillis() / 1000,
+                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {
@@ -222,9 +232,8 @@ public class ChannelManagerConstructor {
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
         if (this.net_graph != null && scorer != null) {
-            Router router = DefaultRouter.of(net_graph, logger, router_rand_bytes).as_Router();
-            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, scorer, this.logger, ldk_handler, Retry.attempts(3));
-assert this.payer != null;
+            Router router = DefaultRouter.of(net_graph, logger, router_rand_bytes, scorer.as_LockableScore()).as_Router();
+            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, this.logger, ldk_handler, Retry.attempts(3));
             ldk_handler = this.payer.as_EventHandler();
         }
 
@@ -233,6 +242,12 @@ assert this.payer != null;
             gossip_sync = GossipSync.none();
         else
             gossip_sync = GossipSync.p2_p(this.graph_msg_handler);
+
+        Option_WriteableScoreZ writeable_score;
+        if (scorer != null)
+            writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
+        else
+            writeable_score = Option_WriteableScoreZ.none();
 
         background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
             @Override
@@ -248,11 +263,11 @@ assert this.payer != null;
             }
 
             @Override
-            public Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer) {
+            public Result_NoneErrorZ persist_scorer(WriteableScore scorer) {
                 event_handler.persist_scorer(scorer.write());
                 return Result_NoneErrorZ.ok();
             }
-        }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, this.peer_manager, this.logger, scorer);
+        }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, this.peer_manager, this.logger, writeable_score);
     }
 
     /**

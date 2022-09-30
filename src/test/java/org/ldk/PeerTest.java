@@ -31,7 +31,9 @@ public class PeerTest {
         final long router_wrapper;
         final long route_handler;
         final long message_handler;
+        final long ignoring_message_handler;
         final long custom_message_handler;
+        final long onion_message_handler;
         final long peer_manager;
         HashMap<String, Long> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
@@ -110,8 +112,10 @@ public class PeerTest {
             this.router = bindings.NetworkGraph_new(new byte[32], logger);
             this.router_wrapper = bindings.P2PGossipSync_new(router, bindings.COption_AccessZ_none(), logger);
             this.route_handler = bindings.P2PGossipSync_as_RoutingMessageHandler(router_wrapper);
-            this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
-            this.custom_message_handler = bindings.IgnoringMessageHandler_new();
+            this.ignoring_message_handler = bindings.IgnoringMessageHandler_new();
+            this.custom_message_handler = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ignoring_message_handler);
+            this.onion_message_handler = bindings.IgnoringMessageHandler_as_OnionMessageHandler(this.ignoring_message_handler);
+            this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler, this.onion_message_handler);
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) { random_data[i] = (byte) ((i ^ seed) ^ 0xf0); }
@@ -119,7 +123,7 @@ public class PeerTest {
             long node_id_result = bindings.KeysInterface_get_node_secret(keys_interface, Recipient.LDKRecipient_Node);
             assert bindings.CResult_SecretKeyNoneZ_is_ok(node_id_result);
             this.peer_manager = bindings.PeerManager_new(message_handler, bindings.CResult_SecretKeyNoneZ_get_ok(node_id_result),
-                    random_data, logger, bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.custom_message_handler));
+                    System.currentTimeMillis() / 1000, random_data, logger, this.custom_message_handler);
             bindings.CResult_SecretKeyNoneZ_free(node_id_result);
         }
 
@@ -158,6 +162,8 @@ public class PeerTest {
             bindings.NetworkGraph_free(router);
             bindings.P2PGossipSync_free(router_wrapper);
             bindings.RoutingMessageHandler_free(route_handler);
+            bindings.CustomMessageHandler_free(custom_message_handler);
+            bindings.OnionMessageHandler_free(onion_message_handler);
             //MessageHandler was actually moved into the route_handler!: bindings.MessageHandler_free(message_handler);
             bindings.PeerManager_free(peer_manager);
             synchronized (monitors) {
