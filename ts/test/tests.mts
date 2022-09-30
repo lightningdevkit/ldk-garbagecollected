@@ -212,8 +212,8 @@ tests.push(async () => {
 	const b = get_chanman();
 
 	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
-	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), a.node_secret, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
-	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), b.node_secret, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), a.node_secret, 0xdeadbeefn, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), b.node_secret, 0xdeadbeefn, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
