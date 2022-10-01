@@ -1082,7 +1082,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c += "\treturn js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
-                    out_c += "\tuint32_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                    out_c += "\tuint64_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
 
                 self.function_ptrs[self.function_ptr_counter] = (struct_name, fn_line.fn_name)
                 self.function_ptr_counter += 1
