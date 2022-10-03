@@ -756,9 +756,8 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 else:
                     (nullable_params, ret_nullable) = doc_to_params_ret_nullable(fn_docs)
                     if ret_nullable:
-                        assert False # This isn't yet handled on the Java side
-                        ret_ty_info.nullable = True
                         ret_ty_info = type_mapping_generator.map_nullable_type(fn_line.group(2).strip() + " ret", True, None, False, False)
+                        ret_ty_info.nullable = True
                     else:
                         ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
                     is_const = fn_line.group(4) is not None
