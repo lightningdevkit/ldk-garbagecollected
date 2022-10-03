@@ -56,8 +56,13 @@ tests.push(async () => {
 
 var seed_counter = 0;
 class Node {
-	constructor(public chan_man: ldk.ChannelManager, public tx_broadcasted: Promise<Uint8Array>, public logger: ldk.Logger,
-		public node_id: Uint8Array, public node_secret: Uint8Array) {}
+	node_id: Uint8Array;
+	node_secret: Uint8Array;
+	constructor(public chan_man: ldk.ChannelManager, public tx_broadcasted: Promise<Uint8Array>,
+	public logger: ldk.Logger, public keys_interface: ldk.KeysInterface) {
+		this.node_id = chan_man.get_our_node_id();
+		this.node_secret = (keys_interface.get_node_secret(ldk.Recipient.LDKRecipient_Node) as ldk.Result_SecretKeyNoneZ_OK).res;
+	}
 }
 function get_chanman(): Node {
 	const fee_est = ldk.FeeEstimator.new_impl({
@@ -98,10 +103,7 @@ function get_chanman(): Node {
 	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_genesis(ldk.Network.LDKNetwork_Testnet));
 
 	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster, logger, keys_interface, config, params);
-	return new Node(
-		chan_man, tx_broadcasted, logger, chan_man.get_our_node_id(),
-		(keys_interface.get_node_secret(ldk.Recipient.LDKRecipient_Node) as ldk.Result_SecretKeyNoneZ_OK).res
-	);
+	return new Node(chan_man, tx_broadcasted, logger, keys_interface);
 }
 
 function exchange_messages(a: ldk.ChannelManager, b: ldk.ChannelManager) {
@@ -271,6 +273,101 @@ tests.push(async () => {
 
 	const event = get_event(a.chan_man);
 	if (!(event instanceof ldk.Event_FundingGenerationReady)) return false;
+
+	return true;
+});
+
+tests.push(async () => {
+	// Test passing onion messages through a custom trait implementation.
+	const a = get_chanman();
+	const b = get_chanman();
+
+	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
+
+	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_interface, a.logger);
+	const om_provider_a = {
+		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
+			return underlying_om_a.as_OnionMessageProvider().next_onion_message_for_peer(peer_node_id);
+		}
+	} as ldk.OnionMessageProviderInterface;
+	const om_a = ldk.OnionMessageHandler.new_impl({
+		handle_onion_message(peer_node_id: Uint8Array, msg: ldk.OnionMessage) {
+			underlying_om_a.as_OnionMessageHandler().handle_onion_message(peer_node_id, msg);
+		},
+		peer_connected(their_node_id: Uint8Array, init: ldk.Init) {
+			underlying_om_a.as_OnionMessageHandler().peer_connected(their_node_id, init);
+		},
+		peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean) {
+			underlying_om_a.as_OnionMessageHandler().peer_disconnected(their_node_id, no_connection_possible);
+		},
+		provided_node_features(): ldk.NodeFeatures {
+			return underlying_om_a.as_OnionMessageHandler().provided_node_features();
+		},
+		provided_init_features(their_node_id: Uint8Array): ldk.InitFeatures {
+			return underlying_om_a.as_OnionMessageHandler().provided_init_features(their_node_id);
+		}
+	} as ldk.OnionMessageHandlerInterface, om_provider_a);
+
+	const om_b = ldk.OnionMessenger.constructor_new(b.keys_interface, b.logger);
+
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_a, a.node_secret, 0xdeadbeefn, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_b.as_OnionMessageHandler(), b.node_secret, 0xdeadbeefn, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
+
+	var sock_b: ldk.SocketDescriptor;
+	const sock_a = ldk.SocketDescriptor.new_impl({
+		send_data(data: Uint8Array, resume_read: boolean): number {
+			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			return data.length;
+		},
+		disconnect_socket(): void {
+			console.assert(false);
+		},
+		eq(other: ldk.SocketDescriptor): boolean {
+			return other.hash() == this.hash();
+		},
+		hash(): bigint {
+			return BigInt(1);
+		}
+	} as ldk.SocketDescriptorInterface);
+	sock_b = ldk.SocketDescriptor.new_impl({
+		send_data(data: Uint8Array, resume_read: boolean): number {
+			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			return data.length;
+		},
+		disconnect_socket(): void {
+			console.assert(false);
+		},
+		eq(other: ldk.SocketDescriptor): boolean {
+			return other.hash() == this.hash();
+		},
+		hash(): bigint {
+			return BigInt(2);
+		}
+	} as ldk.SocketDescriptorInterface);
+
+	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
+	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
+	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
+	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+
+	console.assert(pm_a.get_peer_node_ids().length == 0);
+	console.assert(pm_b.get_peer_node_ids().length == 0);
+
+	pm_b.process_events();
+	pm_a.process_events();
+	pm_b.process_events();
+
+	console.assert(pm_a.get_peer_node_ids().length == 1);
+	console.assert(pm_b.get_peer_node_ids().length == 1);
+
+	underlying_om_a.send_onion_message([], ldk.Destination.constructor_node(b.node_id), null);
+	pm_a.process_events();
+	om_b.send_onion_message([], ldk.Destination.constructor_node(a.node_id), null);
+	pm_b.process_events();
+
+	// TODO: Once OnionMessenger supports actually passing messages up, check that we received the
+	// messages here.
 
 	return true;
 });
