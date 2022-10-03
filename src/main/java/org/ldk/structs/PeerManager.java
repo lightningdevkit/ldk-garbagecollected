@@ -42,12 +42,19 @@ public class PeerManager extends CommonBase {
 	 * Constructs a new PeerManager with the given message handlers and node_id secret key
 	 * ephemeral_random_data is used to derive per-connection ephemeral keys and must be
 	 * cryptographically secure random bytes.
+	 * 
+	 * `current_time` is used as an always-increasing counter that survives across restarts and is
+	 * incremented irregularly internally. In general it is best to simply use the current UNIX
+	 * timestamp, however if it is not available a persistent counter that increases once per
+	 * minute should suffice.
 	 */
-	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, byte[] our_node_secret, long current_time, byte[] ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
 		Reference.reachabilityFence(message_handler_chan_handler_arg);
 		Reference.reachabilityFence(message_handler_route_handler_arg);
+		Reference.reachabilityFence(message_handler_onion_message_handler_arg);
 		Reference.reachabilityFence(our_node_secret);
+		Reference.reachabilityFence(current_time);
 		Reference.reachabilityFence(ephemeral_random_data);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(custom_message_handler);
@@ -56,6 +63,7 @@ public class PeerManager extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_onion_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler); };
 		return ret_hu_conv;
@@ -257,6 +265,31 @@ public class PeerManager extends CommonBase {
 	public void timer_tick_occurred() {
 		bindings.PeerManager_timer_tick_occurred(this.ptr);
 		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Generates a signed node_announcement from the given arguments, sending it to all connected
+	 * peers. Note that peers will likely ignore this message unless we have at least one public
+	 * channel which has at least six confirmations on-chain.
+	 * 
+	 * `rgb` is a node \"color\" and `alias` is a printable human-readable string to describe this
+	 * node to humans. They carry no in-protocol meaning.
+	 * 
+	 * `addresses` represent the set (possibly empty) of socket addresses on which this node
+	 * accepts incoming connections. These will be included in the node_announcement, publicly
+	 * tying these addresses together and to this node. If you wish to preserve user privacy,
+	 * addresses should likely contain only Tor Onion addresses.
+	 * 
+	 * Panics if `addresses` is absurdly large (more than 100).
+	 * 
+	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
+	 */
+	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
+		bindings.PeerManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(rgb);
+		Reference.reachabilityFence(alias);
+		Reference.reachabilityFence(addresses);
 	}
 
 }

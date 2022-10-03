@@ -56,6 +56,18 @@ public class InitFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns the set of known init features that are related to channels. At least some of
+	 * these features are likely required for peers to talk to us.
+	 */
+	public static InitFeatures known_channel_features() {
+		long ret = bindings.InitFeatures_known_channel_features();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static InitFeatures empty() {
@@ -434,6 +446,40 @@ public class InitFeatures extends CommonBase {
 	 */
 	public boolean requires_shutdown_anysegwit() {
 		boolean ret = bindings.InitFeatures_requires_shutdown_anysegwit(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_onion_messages_optional() {
+		bindings.InitFeatures_set_onion_messages_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_onion_messages_required() {
+		bindings.InitFeatures_set_onion_messages_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_onion_messages() {
+		boolean ret = bindings.InitFeatures_supports_onion_messages(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_onion_messages() {
+		boolean ret = bindings.InitFeatures_requires_onion_messages(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

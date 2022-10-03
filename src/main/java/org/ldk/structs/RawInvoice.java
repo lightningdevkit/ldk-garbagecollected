@@ -82,10 +82,22 @@ public class RawInvoice extends CommonBase {
 	}
 
 	/**
-	 * Calculate the hash of the encoded `RawInvoice`
+	 * Checks if two RawInvoices contain equal inner contents.
 	 */
-	public byte[] hash() {
-		byte[] ret = bindings.RawInvoice_hash(this.ptr);
+	public long hash() {
+		long ret = bindings.RawInvoice_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
+	 * Calculate the hash of the encoded `RawInvoice` which should be signed.
+	 */
+	public byte[] signable_hash() {
+		byte[] ret = bindings.RawInvoice_signable_hash(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

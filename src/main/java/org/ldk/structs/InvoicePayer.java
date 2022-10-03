@@ -30,11 +30,10 @@ public class InvoicePayer extends CommonBase {
 	 * Will forward any [`Event::PaymentPathFailed`] events to the decorated `event_handler` once
 	 * `retry` has been exceeded for a given [`Invoice`].
 	 */
-	public static InvoicePayer of(Payer payer, Router router, MultiThreadedLockableScore scorer, Logger logger, EventHandler event_handler, Retry retry) {
-		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
+	public static InvoicePayer of(Payer payer, Router router, Logger logger, EventHandler event_handler, Retry retry) {
+		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
 		Reference.reachabilityFence(payer);
 		Reference.reachabilityFence(router);
-		Reference.reachabilityFence(scorer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(event_handler);
 		Reference.reachabilityFence(retry);
@@ -43,7 +42,6 @@ public class InvoicePayer extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(router); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(event_handler); };
 		return ret_hu_conv;

@@ -46,6 +46,8 @@ class HumanObjectPeerTestInstance {
         KeysInterface manual_keysif(KeysInterface underlying_if) {
             return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
                 @Override public Result_SecretKeyNoneZ get_node_secret(Recipient recipient) { return underlying_if.get_node_secret(recipient); }
+
+                @Override public Result_SharedSecretNoneZ ecdh(Recipient recipient, byte[] other_key, Option_ScalarZ tweak) { return underlying_if.ecdh(recipient, other_key, tweak); }
                 @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
                 @Override public ShutdownScript get_shutdown_scriptpubkey() { return underlying_if.get_shutdown_scriptpubkey(); }
 
@@ -271,9 +273,8 @@ class HumanObjectPeerTestInstance {
                     @Override public void register_tx(byte[] txid, byte[] script_pubkey) {
                         filter_additions.add(Arrays.toString(txid));
                     }
-                    @Override public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
+                    @Override public void register_output(WatchedOutput output) {
                         filter_additions.add(Arrays.toString(output.get_outpoint().get_txid()) + ":" + output.get_outpoint().get_index());
-                        return Option_C2Tuple_usizeTransactionZZ.none();
                     }
                 }));
             } else {
@@ -399,11 +400,18 @@ class HumanObjectPeerTestInstance {
                 Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
                 assert node_secret.is_ok();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
-                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, random_data, logger, this.custom_message_handler);
+                        IgnoringMessageHandler.of().as_OnionMessageHandler(),
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, System.currentTimeMillis() / 1000,
+                        random_data, logger, this.custom_message_handler);
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
+                        @Override public void notify_payment_path_failed(RouteHop[] path, long short_channel_id) {}
+                        @Override public void notify_payment_path_successful(RouteHop[] path) {}
+                        @Override public void notify_payment_probe_successful(RouteHop[] path) {}
+                        @Override public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {}
+
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                             while (true) {
                                 try (ReadOnlyNetworkGraph graph = router.read_only()) {
                                     assert graph.channel(424242) == null;
@@ -411,9 +419,8 @@ class HumanObjectPeerTestInstance {
                                     if (channels.length != 1) {
                                         // If we're using a NioPeerHandler, the handling of announcement signatures and
                                         // channel broadcasting may be done async, so just wait until the channel shows up.
-                                        // TODO: Once https://github.com/lightningdevkit/rust-lightning/pull/1666 lands swap this for a continue and add the assertion
-                                        //assert !use_nio_peer_handler;
-                                        break;
+                                        assert use_nio_peer_handler;
+                                        continue;
                                     }
                                     ChannelInfo chan = graph.channel(channels[0]);
                                     assert Arrays.equals(chan.get_node_one().as_slice(), chan.get_node_one().write());
@@ -422,16 +429,16 @@ class HumanObjectPeerTestInstance {
                                     break;
                                 }
                             }
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
+                                @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                                @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
+                                @Override public void payment_path_successful(RouteHop[] path) {}
+                                @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
+                                @Override public void probe_successful(RouteHop[] path) { assert false; }
+                                @Override public byte[] write() { assert false; return null; }
+                            }), new byte[32]);
                         }
-                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
-                        @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
-                        @Override public void payment_path_successful(RouteHop[] path) {}
-                        @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
-                        @Override public void probe_successful(RouteHop[] path) { assert false; }
-                        @Override public byte[] write() { assert false; return null; }
-                    })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
+                    }), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
                                 pending_manager_events.add(event);
@@ -532,7 +539,8 @@ class HumanObjectPeerTestInstance {
                 Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
                 assert node_secret.is_ok();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
-                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                        IgnoringMessageHandler.of().as_OnionMessageHandler(),
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, System.currentTimeMillis() / 1000,
                         random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
@@ -542,18 +550,23 @@ class HumanObjectPeerTestInstance {
                 }
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
+                        @Override public void notify_payment_path_failed(RouteHop[] path, long short_channel_id) {}
+                        @Override public void notify_payment_path_successful(RouteHop[] path) {}
+                        @Override public void notify_payment_probe_successful(RouteHop[] path) {}
+                        @Override public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {}
+
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] _payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, byte[] payment_hash, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                            return UtilMethods.find_route(payer, route_params, router, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
+                                @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
+                                @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                                @Override public void payment_path_successful(RouteHop[] path) {}
+                                @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
+                                @Override public void probe_successful(RouteHop[] path) { assert false; }
+                                @Override public byte[] write() { assert false; return null; }
+                            }), new byte[32]);
                         }
-                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
-                        @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
-                        @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public void payment_path_successful(RouteHop[] path) {}
-                        @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
-                        @Override public void probe_successful(RouteHop[] path) { assert false; }
-                        @Override public byte[] write() { assert false; return null; }
-                    })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
+                    }), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
                                 pending_manager_events.add(event);
@@ -869,7 +882,7 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
         SignedRawInvoice signed_raw = ((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.into_signed_raw();
         RawInvoice raw_invoice = signed_raw.raw_invoice();
-        byte[] desc_hash = raw_invoice.hash();
+        byte[] desc_hash = raw_invoice.signable_hash();
         Description raw_invoice_description = raw_invoice.description();
         String description_string = raw_invoice_description.into_inner();
         assert description_string.equals("Invoice Description");

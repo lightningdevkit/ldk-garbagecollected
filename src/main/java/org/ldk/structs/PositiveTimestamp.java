@@ -61,6 +61,18 @@ public class PositiveTimestamp extends CommonBase {
 	}
 
 	/**
+	 * Checks if two PositiveTimestamps contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.PositiveTimestamp_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Creates a `PositiveTimestamp` from a Unix timestamp in the range `0..=MAX_TIMESTAMP`.
 	 * 
 	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].

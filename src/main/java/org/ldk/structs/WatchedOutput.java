@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
  * 
  * Used to convey to a [`Filter`] such an output with a given spending condition. Any transaction
  * spending the output must be given to [`ChannelMonitor::block_connected`] either directly or via
- * the return value of [`Filter::register_output`].
+ * [`Confirm::transactions_confirmed`].
  * 
  * If `block_hash` is `Some`, this indicates the output was created in the corresponding block and
  * may have been spent there. See [`Filter::register_output`] for details.

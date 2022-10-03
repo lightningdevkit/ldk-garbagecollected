@@ -8,7 +8,7 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * Trait that handles persisting a [`ChannelManager`], [`NetworkGraph`], and [`MultiThreadedLockableScore`] to disk.
+ * Trait that handles persisting a [`ChannelManager`], [`NetworkGraph`], and [`WriteableScore`] to disk.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Persister extends CommonBase {
@@ -34,9 +34,9 @@ public class Persister extends CommonBase {
 		 */
 		Result_NoneErrorZ persist_graph(NetworkGraph network_graph);
 		/**
-		 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
+		 * Persist the given [`WriteableScore`] to disk, returning an error if persistence failed.
 		 */
-		Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer);
+		Result_NoneErrorZ persist_scorer(WriteableScore scorer);
 	}
 	private static class LDKPersisterHolder { Persister held; }
 	public static Persister new_impl(PersisterInterface arg) {
@@ -57,8 +57,9 @@ public class Persister extends CommonBase {
 				return result;
 			}
 			@Override public long persist_scorer(long scorer) {
-				org.ldk.structs.MultiThreadedLockableScore scorer_hu_conv = null; if (scorer < 0 || scorer > 4096) { scorer_hu_conv = new org.ldk.structs.MultiThreadedLockableScore(null, scorer); }
-				Result_NoneErrorZ ret = arg.persist_scorer(scorer_hu_conv);
+				WriteableScore ret_hu_conv = new WriteableScore(null, scorer);
+				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+				Result_NoneErrorZ ret = arg.persist_scorer(ret_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -93,9 +94,9 @@ public class Persister extends CommonBase {
 	}
 
 	/**
-	 * Persist the given [`MultiThreadedLockableScore`] to disk, returning an error if persistence failed.
+	 * Persist the given [`WriteableScore`] to disk, returning an error if persistence failed.
 	 */
-	public Result_NoneErrorZ persist_scorer(MultiThreadedLockableScore scorer) {
+	public Result_NoneErrorZ persist_scorer(WriteableScore scorer) {
 		long ret = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : scorer.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scorer);

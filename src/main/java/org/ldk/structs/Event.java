@@ -371,7 +371,7 @@ public class Event extends CommonBase {
 		 * the payment has failed, not just the route in question. If this is not set, you may
 		 * retry the payment via a different route.
 		*/
-		public final boolean rejected_by_dest;
+		public final boolean payment_failed_permanently;
 		/**
 		 * Any failure information conveyed via the Onion return packet by a node along the failed
 		 * payment route.
@@ -432,7 +432,7 @@ public class Event extends CommonBase {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
-			this.rejected_by_dest = obj.rejected_by_dest;
+			this.payment_failed_permanently = obj.payment_failed_permanently;
 			long network_update = obj.network_update;
 			org.ldk.structs.Option_NetworkUpdateZ network_update_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(network_update);
 			if (network_update_hu_conv != null) { network_update_hu_conv.ptrs_to.add(this); };
@@ -908,11 +908,11 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
-		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
+	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
+		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
-		Reference.reachabilityFence(rejected_by_dest);
+		Reference.reachabilityFence(payment_failed_permanently);
 		Reference.reachabilityFence(network_update);
 		Reference.reachabilityFence(all_paths_failed);
 		Reference.reachabilityFence(path);

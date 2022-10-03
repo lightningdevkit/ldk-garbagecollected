@@ -90,7 +90,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets the current configuration applied to all new channels,  as
+	 * Gets the current configuration applied to all new channels.
 	 */
 	public UserConfig get_current_default_configuration() {
 		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
@@ -485,34 +485,6 @@ public class ChannelManager extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Regenerates channel_announcements and generates a signed node_announcement from the given
-	 * arguments, providing them in corresponding events via
-	 * [`get_and_clear_pending_msg_events`], if at least one public channel has been confirmed
-	 * on-chain. This effectively re-broadcasts all channel announcements and sends our node
-	 * announcement to ensure that the lightning P2P network is aware of the channels we have and
-	 * our network addresses.
-	 * 
-	 * `rgb` is a node \"color\" and `alias` is a printable human-readable string to describe this
-	 * node to humans. They carry no in-protocol meaning.
-	 * 
-	 * `addresses` represent the set (possibly empty) of socket addresses on which this node
-	 * accepts incoming connections. These will be included in the node_announcement, publicly
-	 * tying these addresses together and to this node. If you wish to preserve user privacy,
-	 * addresses should likely contain only Tor Onion addresses.
-	 * 
-	 * Panics if `addresses` is absurdly large (more than 100).
-	 * 
-	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
-	 */
-	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(rgb);
-		Reference.reachabilityFence(alias);
-		Reference.reachabilityFence(addresses);
 	}
 
 	/**
@@ -951,6 +923,20 @@ public class ChannelManager extends CommonBase {
 	public void await_persistable_update() {
 		bindings.ChannelManager_await_persistable_update(this.ptr);
 		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Gets a [`Future`] that completes when a persistable update is available. Note that
+	 * callbacks registered on the [`Future`] MUST NOT call back into this [`ChannelManager`] and
+	 * should instead register actions to be taken later.
+	 */
+	public Future get_persistable_update_future() {
+		long ret = bindings.ChannelManager_get_persistable_update_future(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Future ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Future(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 import { TxOut } from '../structs/TxOut.mjs';
+import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
@@ -13,9 +14,14 @@ import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
+import { BlindedRoute } from '../structs/BlindedRoute.mjs';
+import { Result_BlindedRouteNoneZ } from '../structs/Result_BlindedRouteNoneZ.mjs';
+import { DecodeError } from '../structs/DecodeError.mjs';
+import { Result_BlindedRouteDecodeErrorZ } from '../structs/Result_BlindedRouteDecodeErrorZ.mjs';
+import { BlindedHop } from '../structs/BlindedHop.mjs';
+import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
-import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_CounterpartyCommitmentSecretsDecodeErrorZ } from '../structs/Result_CounterpartyCommitmentSecretsDecodeErrorZ.mjs';
 import { Result_SecretKeyErrorZ } from '../structs/Result_SecretKeyErrorZ.mjs';
 import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
@@ -93,7 +99,6 @@ import { ClosingSigned } from '../structs/ClosingSigned.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
-import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { ErrorMessage } from '../structs/ErrorMessage.mjs';
 import { WarningMessage } from '../structs/WarningMessage.mjs';
 import { ErrorAction } from '../structs/ErrorAction.mjs';
@@ -108,7 +113,6 @@ import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChann
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
-import { Option_C2Tuple_usizeTransactionZZ } from '../structs/Option_C2Tuple_usizeTransactionZZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
@@ -134,6 +138,7 @@ import { Access, AccessInterface } from '../structs/Access.mjs';
 import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
 import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
 import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
@@ -160,6 +165,8 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
+import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
@@ -209,6 +216,8 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
+import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
+import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
 import { ParseError } from '../structs/ParseError.mjs';
 import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
@@ -247,6 +256,8 @@ import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
+import { SendError } from '../structs/SendError.mjs';
+import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -275,6 +286,8 @@ import { UpdateFee } from '../structs/UpdateFee.mjs';
 import { Result_UpdateFeeDecodeErrorZ } from '../structs/Result_UpdateFeeDecodeErrorZ.mjs';
 import { Result_UpdateFulfillHTLCDecodeErrorZ } from '../structs/Result_UpdateFulfillHTLCDecodeErrorZ.mjs';
 import { Result_UpdateAddHTLCDecodeErrorZ } from '../structs/Result_UpdateAddHTLCDecodeErrorZ.mjs';
+import { OnionMessage } from '../structs/OnionMessage.mjs';
+import { Result_OnionMessageDecodeErrorZ } from '../structs/Result_OnionMessageDecodeErrorZ.mjs';
 import { Ping } from '../structs/Ping.mjs';
 import { Result_PingDecodeErrorZ } from '../structs/Result_PingDecodeErrorZ.mjs';
 import { Pong } from '../structs/Pong.mjs';
@@ -288,6 +301,7 @@ import { Result_ErrorMessageDecodeErrorZ } from '../structs/Result_ErrorMessageD
 import { Result_WarningMessageDecodeErrorZ } from '../structs/Result_WarningMessageDecodeErrorZ.mjs';
 import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
 import { Result_UnsignedNodeAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedNodeAnnouncementDecodeErrorZ.mjs';
+import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { Result_NodeAnnouncementDecodeErrorZ } from '../structs/Result_NodeAnnouncementDecodeErrorZ.mjs';
 import { Result_QueryShortChannelIdsDecodeErrorZ } from '../structs/Result_QueryShortChannelIdsDecodeErrorZ.mjs';
 import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs';
@@ -303,13 +317,17 @@ import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
+import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
 import { BigSize } from '../structs/BigSize.mjs';
 import { ChannelUsage } from '../structs/ChannelUsage.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
-import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
+import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
+import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
@@ -327,6 +345,7 @@ import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
+import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
@@ -339,8 +358,11 @@ import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
-import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
+import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
+import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { Destination } from '../structs/Destination.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -370,7 +392,9 @@ export class Balance extends CommonBase {
 			case 0: return new Balance_ClaimableOnChannelClose(ptr);
 			case 1: return new Balance_ClaimableAwaitingConfirmations(ptr);
 			case 2: return new Balance_ContentiousClaimable(ptr);
-			case 3: return new Balance_MaybeClaimableHTLCAwaitingTimeout(ptr);
+			case 3: return new Balance_MaybeTimeoutClaimableHTLC(ptr);
+			case 4: return new Balance_MaybePreimageClaimableHTLC(ptr);
+			case 5: return new Balance_CounterpartyRevokedOutputClaimable(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -422,10 +446,30 @@ export class Balance extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new MaybeClaimableHTLCAwaitingTimeout-variant Balance
+	 * Utility method to constructs a new MaybeTimeoutClaimableHTLC-variant Balance
 	 */
-	public static constructor_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis: bigint, claimable_height: number): Balance {
-		const ret: bigint = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
+	public static constructor_maybe_timeout_claimable_htlc(claimable_amount_satoshis: bigint, claimable_height: number): Balance {
+		const ret: bigint = bindings.Balance_maybe_timeout_claimable_htlc(claimable_amount_satoshis, claimable_height);
+		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new MaybePreimageClaimableHTLC-variant Balance
+	 */
+	public static constructor_maybe_preimage_claimable_htlc(claimable_amount_satoshis: bigint, expiry_height: number): Balance {
+		const ret: bigint = bindings.Balance_maybe_preimage_claimable_htlc(claimable_amount_satoshis, expiry_height);
+		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CounterpartyRevokedOutputClaimable-variant Balance
+	 */
+	public static constructor_counterparty_revoked_output_claimable(claimable_amount_satoshis: bigint): Balance {
+		const ret: bigint = bindings.Balance_counterparty_revoked_output_claimable(claimable_amount_satoshis);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -492,11 +536,11 @@ export class Balance_ContentiousClaimable extends Balance {
 		this.timeout_height = bindings.LDKBalance_ContentiousClaimable_get_timeout_height(ptr);
 	}
 }
-/** A Balance of type MaybeClaimableHTLCAwaitingTimeout */
-export class Balance_MaybeClaimableHTLCAwaitingTimeout extends Balance {
+/** A Balance of type MaybeTimeoutClaimableHTLC */
+export class Balance_MaybeTimeoutClaimableHTLC extends Balance {
 	/**
-	 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
-	 * required to do so.
+	 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
+	 * which will be required to do so.
 	 */
 	public claimable_amount_satoshis: bigint;
 	/**
@@ -507,7 +551,41 @@ export class Balance_MaybeClaimableHTLCAwaitingTimeout extends Balance {
 	/* @internal */
 	public constructor(ptr: bigint) {
 		super(null, ptr);
-		this.claimable_amount_satoshis = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_amount_satoshis(ptr);
-		this.claimable_height = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_height(ptr);
+		this.claimable_amount_satoshis = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_claimable_amount_satoshis(ptr);
+		this.claimable_height = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_claimable_height(ptr);
+	}
+}
+/** A Balance of type MaybePreimageClaimableHTLC */
+export class Balance_MaybePreimageClaimableHTLC extends Balance {
+	/**
+	 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
+	 * which will be required to do so.
+	 */
+	public claimable_amount_satoshis: bigint;
+	/**
+	 * The height at which our counterparty will be able to claim the balance if we have not
+	 * yet received the preimage and claimed it ourselves.
+	 */
+	public expiry_height: number;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		this.claimable_amount_satoshis = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_claimable_amount_satoshis(ptr);
+		this.expiry_height = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_expiry_height(ptr);
+	}
+}
+/** A Balance of type CounterpartyRevokedOutputClaimable */
+export class Balance_CounterpartyRevokedOutputClaimable extends Balance {
+	/**
+	 * The amount, in satoshis, of the output which we can claim.
+	 * 
+	 * Note that for outputs from HTLC balances this may be excluding some on-chain fees that
+	 * were already spent.
+	 */
+	public claimable_amount_satoshis: bigint;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		this.claimable_amount_satoshis = bindings.LDKBalance_CounterpartyRevokedOutputClaimable_get_claimable_amount_satoshis(ptr);
 	}
 }
