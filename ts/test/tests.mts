@@ -249,6 +249,13 @@ tests.push(async () => {
 		}
 	} as ldk.SocketDescriptorInterface);
 
+	const update_fut = a.chan_man.get_persistable_update_future();
+	var update_done = false;
+	update_fut.register_callback_fn(ldk.FutureCallback.new_impl({
+		call(): void { update_done = true; }
+	}));
+	if (update_done) return false;
+
 	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
 	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
@@ -267,6 +274,7 @@ tests.push(async () => {
 
 	const chan_create_res = a.chan_man.create_channel(b.node_id, BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (!chan_create_res.is_ok()) return false;
+	if (!update_done) return false;
 
 	pm_a.process_events();
 	pm_b.process_events();
