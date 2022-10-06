@@ -187,9 +187,9 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 /* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayMemoryView.set(inputArray, 1);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, inputArray.length + 1);
 	arrayMemoryView[0] = BigInt(inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
 	return cArrayPointer;
 }
 
