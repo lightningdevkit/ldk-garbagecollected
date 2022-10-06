@@ -149,9 +149,9 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 /* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayMemoryView.set(inputArray, 1);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, inputArray.length + 1);
 	arrayMemoryView[0] = BigInt(inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
 	return cArrayPointer;
 }
 
@@ -5202,6 +5202,52 @@ export function CResult_NoneSendErrorZ_get_err(owner: bigint): bigint {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_CResult_NoneSendErrorZ_get_err(owner);
+	return nativeResponseValue;
+}
+/* @internal */
+export class LDKGraphSyncError {
+	protected constructor() {}
+}
+/* @internal */
+export function LDKGraphSyncError_ty_from_ptr(ptr: bigint): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_LDKGraphSyncError_ty_from_ptr(ptr);
+	return nativeResponseValue;
+}
+/* @internal */
+export function LDKGraphSyncError_DecodeError_get_decode_error(ptr: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_LDKGraphSyncError_DecodeError_get_decode_error(ptr);
+	return nativeResponseValue;
+}
+/* @internal */
+export function LDKGraphSyncError_LightningError_get_lightning_error(ptr: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_LDKGraphSyncError_LightningError_get_lightning_error(ptr);
+	return nativeResponseValue;
+}
+	// uint32_t CResult_u32GraphSyncErrorZ_get_ok(LDKCResult_u32GraphSyncErrorZ *NONNULL_PTR owner);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_get_ok(owner: bigint): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_get_ok(owner);
+	return nativeResponseValue;
+}
+	// struct LDKGraphSyncError CResult_u32GraphSyncErrorZ_get_err(LDKCResult_u32GraphSyncErrorZ *NONNULL_PTR owner);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_get_err(owner: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_get_err(owner);
 	return nativeResponseValue;
 }
 	// void CResult_NoneErrorZ_get_ok(LDKCResult_NoneErrorZ *NONNULL_PTR owner);
@@ -14285,6 +14331,42 @@ export function CResult_NoneSendErrorZ_free(_res: bigint): void {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_CResult_NoneSendErrorZ_free(_res);
+	// debug statements here
+}
+	// struct LDKCResult_u32GraphSyncErrorZ CResult_u32GraphSyncErrorZ_ok(uint32_t o);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_ok(o: number): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_ok(o);
+	return nativeResponseValue;
+}
+	// struct LDKCResult_u32GraphSyncErrorZ CResult_u32GraphSyncErrorZ_err(struct LDKGraphSyncError e);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_err(e: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_err(e);
+	return nativeResponseValue;
+}
+	// bool CResult_u32GraphSyncErrorZ_is_ok(const struct LDKCResult_u32GraphSyncErrorZ *NONNULL_PTR o);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_is_ok(o: bigint): boolean {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_is_ok(o);
+	return nativeResponseValue;
+}
+	// void CResult_u32GraphSyncErrorZ_free(struct LDKCResult_u32GraphSyncErrorZ _res);
+/* @internal */
+export function CResult_u32GraphSyncErrorZ_free(_res: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_u32GraphSyncErrorZ_free(_res);
 	// debug statements here
 }
 	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_ok(void);
@@ -33113,6 +33195,87 @@ export function OnionMessenger_as_OnionMessageProvider(this_arg: bigint): bigint
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_OnionMessenger_as_OnionMessageProvider(this_arg);
+	return nativeResponseValue;
+}
+	// void RapidGossipSync_free(struct LDKRapidGossipSync this_obj);
+/* @internal */
+export function RapidGossipSync_free(this_obj: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_RapidGossipSync_free(this_obj);
+	// debug statements here
+}
+	// MUST_USE_RES struct LDKRapidGossipSync RapidGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph);
+/* @internal */
+export function RapidGossipSync_new(network_graph: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_RapidGossipSync_new(network_graph);
+	return nativeResponseValue;
+}
+	// MUST_USE_RES struct LDKCResult_u32GraphSyncErrorZ RapidGossipSync_update_network_graph(const struct LDKRapidGossipSync *NONNULL_PTR this_arg, struct LDKu8slice update_data);
+/* @internal */
+export function RapidGossipSync_update_network_graph(this_arg: bigint, update_data: number): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_RapidGossipSync_update_network_graph(this_arg, update_data);
+	return nativeResponseValue;
+}
+	// MUST_USE_RES bool RapidGossipSync_is_initial_sync_complete(const struct LDKRapidGossipSync *NONNULL_PTR this_arg);
+/* @internal */
+export function RapidGossipSync_is_initial_sync_complete(this_arg: bigint): boolean {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_RapidGossipSync_is_initial_sync_complete(this_arg);
+	return nativeResponseValue;
+}
+	// void GraphSyncError_free(struct LDKGraphSyncError this_ptr);
+/* @internal */
+export function GraphSyncError_free(this_ptr: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_GraphSyncError_free(this_ptr);
+	// debug statements here
+}
+	// uint64_t GraphSyncError_clone_ptr(LDKGraphSyncError *NONNULL_PTR arg);
+/* @internal */
+export function GraphSyncError_clone_ptr(arg: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_GraphSyncError_clone_ptr(arg);
+	return nativeResponseValue;
+}
+	// struct LDKGraphSyncError GraphSyncError_clone(const struct LDKGraphSyncError *NONNULL_PTR orig);
+/* @internal */
+export function GraphSyncError_clone(orig: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_GraphSyncError_clone(orig);
+	return nativeResponseValue;
+}
+	// struct LDKGraphSyncError GraphSyncError_decode_error(struct LDKDecodeError a);
+/* @internal */
+export function GraphSyncError_decode_error(a: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_GraphSyncError_decode_error(a);
+	return nativeResponseValue;
+}
+	// struct LDKGraphSyncError GraphSyncError_lightning_error(struct LDKLightningError a);
+/* @internal */
+export function GraphSyncError_lightning_error(a: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_GraphSyncError_lightning_error(a);
 	return nativeResponseValue;
 }
 	// void ParseError_free(struct LDKParseError this_ptr);

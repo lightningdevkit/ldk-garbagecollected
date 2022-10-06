@@ -6663,6 +6663,54 @@ uint64_t  __attribute__((export_name("TS_CResult_NoneSendErrorZ_get_err"))) TS_C
 	return ret_ref;
 }
 
+uint32_t __attribute__((export_name("TS_LDKGraphSyncError_ty_from_ptr"))) TS_LDKGraphSyncError_ty_from_ptr(uint64_t ptr) {
+	LDKGraphSyncError *obj = (LDKGraphSyncError*)untag_ptr(ptr);
+	switch(obj->tag) {
+		case LDKGraphSyncError_DecodeError: return 0;
+		case LDKGraphSyncError_LightningError: return 1;
+		default: abort();
+	}
+}
+uint64_t __attribute__((export_name("TS_LDKGraphSyncError_DecodeError_get_decode_error"))) TS_LDKGraphSyncError_DecodeError_get_decode_error(uint64_t ptr) {
+	LDKGraphSyncError *obj = (LDKGraphSyncError*)untag_ptr(ptr);
+	assert(obj->tag == LDKGraphSyncError_DecodeError);
+			LDKDecodeError decode_error_var = obj->decode_error;
+			uint64_t decode_error_ref = 0;
+			CHECK_INNER_FIELD_ACCESS_OR_NULL(decode_error_var);
+			decode_error_ref = tag_ptr(decode_error_var.inner, false);
+	return decode_error_ref;
+}
+uint64_t __attribute__((export_name("TS_LDKGraphSyncError_LightningError_get_lightning_error"))) TS_LDKGraphSyncError_LightningError_get_lightning_error(uint64_t ptr) {
+	LDKGraphSyncError *obj = (LDKGraphSyncError*)untag_ptr(ptr);
+	assert(obj->tag == LDKGraphSyncError_LightningError);
+			LDKLightningError lightning_error_var = obj->lightning_error;
+			uint64_t lightning_error_ref = 0;
+			CHECK_INNER_FIELD_ACCESS_OR_NULL(lightning_error_var);
+			lightning_error_ref = tag_ptr(lightning_error_var.inner, false);
+	return lightning_error_ref;
+}
+static inline uint32_t CResult_u32GraphSyncErrorZ_get_ok(LDKCResult_u32GraphSyncErrorZ *NONNULL_PTR owner){
+CHECK(owner->result_ok);
+	return *owner->contents.result;
+}
+int32_t  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_get_ok"))) TS_CResult_u32GraphSyncErrorZ_get_ok(uint64_t owner) {
+	LDKCResult_u32GraphSyncErrorZ* owner_conv = (LDKCResult_u32GraphSyncErrorZ*)untag_ptr(owner);
+	int32_t ret_conv = CResult_u32GraphSyncErrorZ_get_ok(owner_conv);
+	return ret_conv;
+}
+
+static inline struct LDKGraphSyncError CResult_u32GraphSyncErrorZ_get_err(LDKCResult_u32GraphSyncErrorZ *NONNULL_PTR owner){
+CHECK(!owner->result_ok);
+	return GraphSyncError_clone(&*owner->contents.err);
+}
+uint64_t  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_get_err"))) TS_CResult_u32GraphSyncErrorZ_get_err(uint64_t owner) {
+	LDKCResult_u32GraphSyncErrorZ* owner_conv = (LDKCResult_u32GraphSyncErrorZ*)untag_ptr(owner);
+	LDKGraphSyncError *ret_copy = MALLOC(sizeof(LDKGraphSyncError), "LDKGraphSyncError");
+	*ret_copy = CResult_u32GraphSyncErrorZ_get_err(owner_conv);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+
 static inline void CResult_NoneErrorZ_get_ok(LDKCResult_NoneErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return *owner->contents.result;
@@ -18485,6 +18533,37 @@ void  __attribute__((export_name("TS_CResult_NoneSendErrorZ_free"))) TS_CResult_
 	LDKCResult_NoneSendErrorZ _res_conv = *(LDKCResult_NoneSendErrorZ*)(_res_ptr);
 	FREE(untag_ptr(_res));
 	CResult_NoneSendErrorZ_free(_res_conv);
+}
+
+uint64_t  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_ok"))) TS_CResult_u32GraphSyncErrorZ_ok(int32_t o) {
+	LDKCResult_u32GraphSyncErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_u32GraphSyncErrorZ), "LDKCResult_u32GraphSyncErrorZ");
+	*ret_conv = CResult_u32GraphSyncErrorZ_ok(o);
+	return tag_ptr(ret_conv, true);
+}
+
+uint64_t  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_err"))) TS_CResult_u32GraphSyncErrorZ_err(uint64_t e) {
+	void* e_ptr = untag_ptr(e);
+	CHECK_ACCESS(e_ptr);
+	LDKGraphSyncError e_conv = *(LDKGraphSyncError*)(e_ptr);
+	e_conv = GraphSyncError_clone((LDKGraphSyncError*)untag_ptr(e));
+	LDKCResult_u32GraphSyncErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_u32GraphSyncErrorZ), "LDKCResult_u32GraphSyncErrorZ");
+	*ret_conv = CResult_u32GraphSyncErrorZ_err(e_conv);
+	return tag_ptr(ret_conv, true);
+}
+
+jboolean  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_is_ok"))) TS_CResult_u32GraphSyncErrorZ_is_ok(uint64_t o) {
+	LDKCResult_u32GraphSyncErrorZ* o_conv = (LDKCResult_u32GraphSyncErrorZ*)untag_ptr(o);
+	jboolean ret_conv = CResult_u32GraphSyncErrorZ_is_ok(o_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_CResult_u32GraphSyncErrorZ_free"))) TS_CResult_u32GraphSyncErrorZ_free(uint64_t _res) {
+	if (!ptr_is_owned(_res)) return;
+	void* _res_ptr = untag_ptr(_res);
+	CHECK_ACCESS(_res_ptr);
+	LDKCResult_u32GraphSyncErrorZ _res_conv = *(LDKCResult_u32GraphSyncErrorZ*)(_res_ptr);
+	FREE(untag_ptr(_res));
+	CResult_u32GraphSyncErrorZ_free(_res_conv);
 }
 
 uint64_t  __attribute__((export_name("TS_CResult_NoneErrorZ_ok"))) TS_CResult_NoneErrorZ_ok() {
@@ -43592,6 +43671,105 @@ uint64_t  __attribute__((export_name("TS_OnionMessenger_as_OnionMessageProvider"
 	LDKOnionMessageProvider* ret_ret = MALLOC(sizeof(LDKOnionMessageProvider), "LDKOnionMessageProvider");
 	*ret_ret = OnionMessenger_as_OnionMessageProvider(&this_arg_conv);
 	return tag_ptr(ret_ret, true);
+}
+
+void  __attribute__((export_name("TS_RapidGossipSync_free"))) TS_RapidGossipSync_free(uint64_t this_obj) {
+	LDKRapidGossipSync this_obj_conv;
+	this_obj_conv.inner = untag_ptr(this_obj);
+	this_obj_conv.is_owned = ptr_is_owned(this_obj);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_obj_conv);
+	RapidGossipSync_free(this_obj_conv);
+}
+
+uint64_t  __attribute__((export_name("TS_RapidGossipSync_new"))) TS_RapidGossipSync_new(uint64_t network_graph) {
+	LDKNetworkGraph network_graph_conv;
+	network_graph_conv.inner = untag_ptr(network_graph);
+	network_graph_conv.is_owned = ptr_is_owned(network_graph);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(network_graph_conv);
+	network_graph_conv.is_owned = false;
+	LDKRapidGossipSync ret_var = RapidGossipSync_new(&network_graph_conv);
+	uint64_t ret_ref = 0;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
+	return ret_ref;
+}
+
+uint64_t  __attribute__((export_name("TS_RapidGossipSync_update_network_graph"))) TS_RapidGossipSync_update_network_graph(uint64_t this_arg, int8_tArray update_data) {
+	LDKRapidGossipSync this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	LDKu8slice update_data_ref;
+	update_data_ref.datalen = update_data->arr_len;
+	update_data_ref.data = update_data->elems;
+	LDKCResult_u32GraphSyncErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_u32GraphSyncErrorZ), "LDKCResult_u32GraphSyncErrorZ");
+	*ret_conv = RapidGossipSync_update_network_graph(&this_arg_conv, update_data_ref);
+	FREE(update_data);
+	return tag_ptr(ret_conv, true);
+}
+
+jboolean  __attribute__((export_name("TS_RapidGossipSync_is_initial_sync_complete"))) TS_RapidGossipSync_is_initial_sync_complete(uint64_t this_arg) {
+	LDKRapidGossipSync this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = RapidGossipSync_is_initial_sync_complete(&this_arg_conv);
+	return ret_conv;
+}
+
+void  __attribute__((export_name("TS_GraphSyncError_free"))) TS_GraphSyncError_free(uint64_t this_ptr) {
+	if (!ptr_is_owned(this_ptr)) return;
+	void* this_ptr_ptr = untag_ptr(this_ptr);
+	CHECK_ACCESS(this_ptr_ptr);
+	LDKGraphSyncError this_ptr_conv = *(LDKGraphSyncError*)(this_ptr_ptr);
+	FREE(untag_ptr(this_ptr));
+	GraphSyncError_free(this_ptr_conv);
+}
+
+static inline uint64_t GraphSyncError_clone_ptr(LDKGraphSyncError *NONNULL_PTR arg) {
+	LDKGraphSyncError *ret_copy = MALLOC(sizeof(LDKGraphSyncError), "LDKGraphSyncError");
+	*ret_copy = GraphSyncError_clone(arg);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+int64_t  __attribute__((export_name("TS_GraphSyncError_clone_ptr"))) TS_GraphSyncError_clone_ptr(uint64_t arg) {
+	LDKGraphSyncError* arg_conv = (LDKGraphSyncError*)untag_ptr(arg);
+	int64_t ret_conv = GraphSyncError_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+uint64_t  __attribute__((export_name("TS_GraphSyncError_clone"))) TS_GraphSyncError_clone(uint64_t orig) {
+	LDKGraphSyncError* orig_conv = (LDKGraphSyncError*)untag_ptr(orig);
+	LDKGraphSyncError *ret_copy = MALLOC(sizeof(LDKGraphSyncError), "LDKGraphSyncError");
+	*ret_copy = GraphSyncError_clone(orig_conv);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+
+uint64_t  __attribute__((export_name("TS_GraphSyncError_decode_error"))) TS_GraphSyncError_decode_error(uint64_t a) {
+	LDKDecodeError a_conv;
+	a_conv.inner = untag_ptr(a);
+	a_conv.is_owned = ptr_is_owned(a);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(a_conv);
+	a_conv = DecodeError_clone(&a_conv);
+	LDKGraphSyncError *ret_copy = MALLOC(sizeof(LDKGraphSyncError), "LDKGraphSyncError");
+	*ret_copy = GraphSyncError_decode_error(a_conv);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+
+uint64_t  __attribute__((export_name("TS_GraphSyncError_lightning_error"))) TS_GraphSyncError_lightning_error(uint64_t a) {
+	LDKLightningError a_conv;
+	a_conv.inner = untag_ptr(a);
+	a_conv.is_owned = ptr_is_owned(a);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(a_conv);
+	a_conv = LightningError_clone(&a_conv);
+	LDKGraphSyncError *ret_copy = MALLOC(sizeof(LDKGraphSyncError), "LDKGraphSyncError");
+	*ret_copy = GraphSyncError_lightning_error(a_conv);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
 }
 
 void  __attribute__((export_name("TS_ParseError_free"))) TS_ParseError_free(uint64_t this_ptr) {
