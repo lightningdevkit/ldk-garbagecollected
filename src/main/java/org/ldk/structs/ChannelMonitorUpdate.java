@@ -32,12 +32,14 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 * increasing and increase by one for each new update, with one exception specified below.
 	 * 
 	 * This sequence number is also used to track up to which points updates which returned
-	 * ChannelMonitorUpdateErr::TemporaryFailure have been applied to all copies of a given
+	 * [`ChannelMonitorUpdateStatus::InProgress`] have been applied to all copies of a given
 	 * ChannelMonitor when ChannelManager::channel_monitor_updated is called.
 	 * 
 	 * The only instance where update_id values are not strictly increasing is the case where we
 	 * allow post-force-close updates with a special update ID of [`CLOSED_CHANNEL_UPDATE_ID`]. See
 	 * its docs for more details.
+	 * 
+	 * [`ChannelMonitorUpdateStatus::InProgress`]: super::ChannelMonitorUpdateStatus::InProgress
 	 */
 	public long get_update_id() {
 		long ret = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
@@ -51,12 +53,14 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 * increasing and increase by one for each new update, with one exception specified below.
 	 * 
 	 * This sequence number is also used to track up to which points updates which returned
-	 * ChannelMonitorUpdateErr::TemporaryFailure have been applied to all copies of a given
+	 * [`ChannelMonitorUpdateStatus::InProgress`] have been applied to all copies of a given
 	 * ChannelMonitor when ChannelManager::channel_monitor_updated is called.
 	 * 
 	 * The only instance where update_id values are not strictly increasing is the case where we
 	 * allow post-force-close updates with a special update ID of [`CLOSED_CHANNEL_UPDATE_ID`]. See
 	 * its docs for more details.
+	 * 
+	 * [`ChannelMonitorUpdateStatus::InProgress`]: super::ChannelMonitorUpdateStatus::InProgress
 	 */
 	public void set_update_id(long val) {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);

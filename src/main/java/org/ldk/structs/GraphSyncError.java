@@ -39,7 +39,7 @@ public class GraphSyncError extends CommonBase {
 		private DecodeError(long ptr, bindings.LDKGraphSyncError.DecodeError obj) {
 			super(null, ptr);
 			long decode_error = obj.decode_error;
-			org.ldk.structs.DecodeError decode_error_hu_conv = null; if (decode_error < 0 || decode_error > 4096) { decode_error_hu_conv = new org.ldk.structs.DecodeError(null, decode_error); }
+			org.ldk.structs.DecodeError decode_error_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(decode_error);
 			if (decode_error_hu_conv != null) { decode_error_hu_conv.ptrs_to.add(this); };
 			this.decode_error = decode_error_hu_conv;
 		}
@@ -80,12 +80,11 @@ public class GraphSyncError extends CommonBase {
 	 * Utility method to constructs a new DecodeError-variant GraphSyncError
 	 */
 	public static GraphSyncError decode_error(DecodeError a) {
-		long ret = bindings.GraphSyncError_decode_error(a == null ? 0 : a.ptr);
+		long ret = bindings.GraphSyncError_decode_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

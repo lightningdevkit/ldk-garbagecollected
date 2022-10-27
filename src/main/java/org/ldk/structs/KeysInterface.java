@@ -32,12 +32,28 @@ public class KeysInterface extends CommonBase {
 		 * 
 		 * This method must return the same value each time it is called with a given `Recipient`
 		 * parameter.
+		 * 
+		 * Errors if the `Recipient` variant is not supported by the implementation.
 		 */
 		Result_SecretKeyNoneZ get_node_secret(Recipient recipient);
+		/**
+		 * Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
+		 * [`get_node_secret`].
+		 * 
+		 * This method must return the same value each time it is called with a given `Recipient`
+		 * parameter.
+		 * 
+		 * Errors if the `Recipient` variant is not supported by the implementation.
+		 * 
+		 * [`get_node_secret`]: KeysInterface::get_node_secret
+		 */
+		Result_PublicKeyNoneZ get_node_id(Recipient recipient);
 		/**
 		 * Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
 		 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
 		 * secret, though this is less efficient.
+		 * 
+		 * Errors if the `Recipient` variant is not supported by the implementation.
 		 * 
 		 * [`node secret`]: Self::get_node_secret
 		 */
@@ -88,6 +104,8 @@ public class KeysInterface extends CommonBase {
 		 * The hrp is ascii bytes, while the invoice data is base32.
 		 * 
 		 * The secret key used to sign the invoice is dependent on the [`Recipient`].
+		 * 
+		 * Errors if the `Recipient` variant is not supported by the implementation.
 		 */
 		Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient receipient);
 		/**
@@ -109,6 +127,12 @@ public class KeysInterface extends CommonBase {
 		impl_holder.held = new KeysInterface(new bindings.LDKKeysInterface() {
 			@Override public long get_node_secret(Recipient recipient) {
 				Result_SecretKeyNoneZ ret = arg.get_node_secret(recipient);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long get_node_id(Recipient recipient) {
+				Result_PublicKeyNoneZ ret = arg.get_node_id(recipient);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -180,6 +204,8 @@ public class KeysInterface extends CommonBase {
 	 * 
 	 * This method must return the same value each time it is called with a given `Recipient`
 	 * parameter.
+	 * 
+	 * Errors if the `Recipient` variant is not supported by the implementation.
 	 */
 	public Result_SecretKeyNoneZ get_node_secret(org.ldk.enums.Recipient recipient) {
 		long ret = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
@@ -191,9 +217,31 @@ public class KeysInterface extends CommonBase {
 	}
 
 	/**
+	 * Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
+	 * [`get_node_secret`].
+	 * 
+	 * This method must return the same value each time it is called with a given `Recipient`
+	 * parameter.
+	 * 
+	 * Errors if the `Recipient` variant is not supported by the implementation.
+	 * 
+	 * [`get_node_secret`]: KeysInterface::get_node_secret
+	 */
+	public Result_PublicKeyNoneZ get_node_id(org.ldk.enums.Recipient recipient) {
+		long ret = bindings.KeysInterface_get_node_id(this.ptr, recipient);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(recipient);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PublicKeyNoneZ ret_hu_conv = Result_PublicKeyNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
 	 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
 	 * secret, though this is less efficient.
+	 * 
+	 * Errors if the `Recipient` variant is not supported by the implementation.
 	 * 
 	 * [`node secret`]: Self::get_node_secret
 	 */
@@ -290,6 +338,8 @@ public class KeysInterface extends CommonBase {
 	 * The hrp is ascii bytes, while the invoice data is base32.
 	 * 
 	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
+	 * 
+	 * Errors if the `Recipient` variant is not supported by the implementation.
 	 */
 	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, org.ldk.enums.Recipient receipient) {
 		long ret = bindings.KeysInterface_sign_invoice(this.ptr, hrp_bytes, invoice_data != null ? InternalUtils.convUInt5Array(invoice_data) : null, receipient);

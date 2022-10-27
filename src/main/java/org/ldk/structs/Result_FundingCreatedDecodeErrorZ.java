@@ -36,7 +36,7 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 		private Result_FundingCreatedDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_FundingCreatedDecodeErrorZ_get_err(ptr);
-			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(err);
 			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
@@ -58,11 +58,10 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_FundingCreatedDecodeErrorZ in the error state.
 	 */
 	public static Result_FundingCreatedDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_err(e == null ? 0 : e.ptr);
+		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(e); };
 		return ret_hu_conv;
 	}
 

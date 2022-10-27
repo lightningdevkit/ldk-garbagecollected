@@ -27,8 +27,8 @@ public class MonitorEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.CommitmentTxConfirmed.class) {
 			return new CommitmentTxConfirmed(ptr, (bindings.LDKMonitorEvent.CommitmentTxConfirmed)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKMonitorEvent.UpdateCompleted.class) {
-			return new UpdateCompleted(ptr, (bindings.LDKMonitorEvent.UpdateCompleted)raw_val);
+		if (raw_val.getClass() == bindings.LDKMonitorEvent.Completed.class) {
+			return new Completed(ptr, (bindings.LDKMonitorEvent.Completed)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.UpdateFailed.class) {
 			return new UpdateFailed(ptr, (bindings.LDKMonitorEvent.UpdateFailed)raw_val);
@@ -64,11 +64,11 @@ public class MonitorEvent extends CommonBase {
 	}
 	/**
 	 * Indicates a [`ChannelMonitor`] update has completed. See
-	 * [`ChannelMonitorUpdateErr::TemporaryFailure`] for more information on how this is used.
+	 * [`ChannelMonitorUpdateStatus::InProgress`] for more information on how this is used.
 	 * 
-	 * [`ChannelMonitorUpdateErr::TemporaryFailure`]: super::ChannelMonitorUpdateErr::TemporaryFailure
+	 * [`ChannelMonitorUpdateStatus::InProgress`]: super::ChannelMonitorUpdateStatus::InProgress
 	 */
-	public final static class UpdateCompleted extends MonitorEvent {
+	public final static class Completed extends MonitorEvent {
 		/**
 		 * The funding outpoint of the [`ChannelMonitor`] that was updated
 		*/
@@ -81,7 +81,7 @@ public class MonitorEvent extends CommonBase {
 		 * same [`ChannelMonitor`] have been applied and persisted.
 		*/
 		public final long monitor_update_id;
-		private UpdateCompleted(long ptr, bindings.LDKMonitorEvent.UpdateCompleted obj) {
+		private Completed(long ptr, bindings.LDKMonitorEvent.Completed obj) {
 			super(null, ptr);
 			long funding_txo = obj.funding_txo;
 			org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
@@ -92,9 +92,9 @@ public class MonitorEvent extends CommonBase {
 	}
 	/**
 	 * Indicates a [`ChannelMonitor`] update has failed. See
-	 * [`ChannelMonitorUpdateErr::PermanentFailure`] for more information on how this is used.
+	 * [`ChannelMonitorUpdateStatus::PermanentFailure`] for more information on how this is used.
 	 * 
-	 * [`ChannelMonitorUpdateErr::PermanentFailure`]: super::ChannelMonitorUpdateErr::PermanentFailure
+	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
 	 */
 	public final static class UpdateFailed extends MonitorEvent {
 		public final org.ldk.structs.OutPoint update_failed;
@@ -151,10 +151,10 @@ public class MonitorEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new UpdateCompleted-variant MonitorEvent
+	 * Utility method to constructs a new Completed-variant MonitorEvent
 	 */
-	public static MonitorEvent update_completed(OutPoint funding_txo, long monitor_update_id) {
-		long ret = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : funding_txo.ptr, monitor_update_id);
+	public static MonitorEvent completed(OutPoint funding_txo, long monitor_update_id) {
+		long ret = bindings.MonitorEvent_completed(funding_txo == null ? 0 : funding_txo.ptr, monitor_update_id);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -177,6 +177,21 @@ public class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two MonitorEvents contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(MonitorEvent b) {
+		boolean ret = bindings.MonitorEvent_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof MonitorEvent)) return false;
+		return this.eq((MonitorEvent)o);
+	}
 	/**
 	 * Serialize the MonitorEvent object into a byte array which can be read by MonitorEvent_read
 	 */

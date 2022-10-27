@@ -34,8 +34,8 @@ public class APIError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKAPIError.ChannelUnavailable.class) {
 			return new ChannelUnavailable(ptr, (bindings.LDKAPIError.ChannelUnavailable)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKAPIError.MonitorUpdateFailed.class) {
-			return new MonitorUpdateFailed(ptr, (bindings.LDKAPIError.MonitorUpdateFailed)raw_val);
+		if (raw_val.getClass() == bindings.LDKAPIError.MonitorUpdateInProgress.class) {
+			return new MonitorUpdateInProgress(ptr, (bindings.LDKAPIError.MonitorUpdateInProgress)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKAPIError.IncompatibleShutdownScript.class) {
 			return new IncompatibleShutdownScript(ptr, (bindings.LDKAPIError.IncompatibleShutdownScript)raw_val);
@@ -107,11 +107,17 @@ public class APIError extends CommonBase {
 		}
 	}
 	/**
-	 * An attempt to call watch/update_channel returned an Err (ie you did this!), causing the
-	 * attempted action to fail.
+	 * An attempt to call [`chain::Watch::watch_channel`]/[`chain::Watch::update_channel`]
+	 * returned a [`ChannelMonitorUpdateStatus::InProgress`] indicating the persistence of a
+	 * monitor update is awaiting async resolution. Once it resolves the attempted action should
+	 * complete automatically.
+	 * 
+	 * [`chain::Watch::watch_channel`]: crate::chain::Watch::watch_channel
+	 * [`chain::Watch::update_channel`]: crate::chain::Watch::update_channel
+	 * [`ChannelMonitorUpdateStatus::InProgress`]: crate::chain::ChannelMonitorUpdateStatus::InProgress
 	 */
-	public final static class MonitorUpdateFailed extends APIError {
-		private MonitorUpdateFailed(long ptr, bindings.LDKAPIError.MonitorUpdateFailed obj) {
+	public final static class MonitorUpdateInProgress extends APIError {
+		private MonitorUpdateInProgress(long ptr, bindings.LDKAPIError.MonitorUpdateInProgress obj) {
 			super(null, ptr);
 		}
 	}
@@ -206,10 +212,10 @@ public class APIError extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new MonitorUpdateFailed-variant APIError
+	 * Utility method to constructs a new MonitorUpdateInProgress-variant APIError
 	 */
-	public static APIError monitor_update_failed() {
-		long ret = bindings.APIError_monitor_update_failed();
+	public static APIError monitor_update_in_progress() {
+		long ret = bindings.APIError_monitor_update_in_progress();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -229,4 +235,19 @@ public class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two APIErrors contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(APIError b) {
+		boolean ret = bindings.APIError_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof APIError)) return false;
+		return this.eq((APIError)o);
+	}
 }

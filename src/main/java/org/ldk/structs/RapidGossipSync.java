@@ -9,7 +9,8 @@ import javax.annotation.Nullable;
 
 
 /**
- * Rapid Gossip Sync struct
+ * The main Rapid Gossip Sync object.
+ * 
  * See [crate-level documentation] for usage.
  * 
  * [crate-level documentation]: crate
@@ -24,7 +25,7 @@ public class RapidGossipSync extends CommonBase {
 	}
 
 	/**
-	 * Instantiate a new [`RapidGossipSync`] instance
+	 * Instantiate a new [`RapidGossipSync`] instance.
 	 */
 	public static RapidGossipSync of(NetworkGraph network_graph) {
 		long ret = bindings.RapidGossipSync_new(network_graph == null ? 0 : network_graph.ptr);
@@ -34,32 +35,6 @@ public class RapidGossipSync extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Sync gossip data from a file
-	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
-	 * 
-	 * `network_graph`: The network graph to apply the updates to
-	 * 
-	 * `sync_path`: Path to the file where the gossip update data is located
-	 */
-	public Result_u32GraphSyncErrorZ sync_network_graph_with_file_path(java.lang.String sync_path) {
-		long ret = bindings.RapidGossipSync_sync_network_graph_with_file_path(this.ptr, sync_path);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(sync_path);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_u32GraphSyncErrorZ ret_hu_conv = Result_u32GraphSyncErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns whether a rapid gossip sync has completed at least once
-	 */
-	public boolean is_initial_sync_complete() {
-		boolean ret = bindings.RapidGossipSync_is_initial_sync_complete(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
 	}
 
 	/**
@@ -77,6 +52,15 @@ public class RapidGossipSync extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_u32GraphSyncErrorZ ret_hu_conv = Result_u32GraphSyncErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns whether a rapid gossip sync has completed at least once.
+	 */
+	public boolean is_initial_sync_complete() {
+		boolean ret = bindings.RapidGossipSync_is_initial_sync_complete(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

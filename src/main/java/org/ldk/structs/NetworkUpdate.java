@@ -75,7 +75,7 @@ public class NetworkUpdate extends CommonBase {
 	}
 	/**
 	 * An error indicating that a node failed to route a payment, which should be applied via
-	 * [`NetworkGraph::node_failed`].
+	 * [`NetworkGraph::node_failed_permanent`] if permanent.
 	 */
 	public final static class NodeFailure extends NetworkUpdate {
 		/**
@@ -150,6 +150,21 @@ public class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two NetworkUpdates contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(NetworkUpdate b) {
+		boolean ret = bindings.NetworkUpdate_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof NetworkUpdate)) return false;
+		return this.eq((NetworkUpdate)o);
+	}
 	/**
 	 * Serialize the NetworkUpdate object into a byte array which can be read by NetworkUpdate_read
 	 */

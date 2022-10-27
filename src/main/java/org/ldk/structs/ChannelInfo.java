@@ -214,6 +214,23 @@ public class ChannelInfo extends CommonBase {
 	}
 
 	/**
+	 * Checks if two ChannelInfos contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(ChannelInfo b) {
+		boolean ret = bindings.ChannelInfo_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ChannelInfo)) return false;
+		return this.eq((ChannelInfo)o);
+	}
+	/**
 	 * Returns a [`ChannelUpdateInfo`] based on the direction implied by the channel_flag.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None

@@ -56,11 +56,13 @@ public class Router extends CommonBase {
 				org.ldk.structs.RouteParameters route_params_hu_conv = null; if (route_params < 0 || route_params > 4096) { route_params_hu_conv = new org.ldk.structs.RouteParameters(null, route_params); }
 				int first_hops_conv_16_len = first_hops.length;
 				ChannelDetails[] first_hops_conv_16_arr = new ChannelDetails[first_hops_conv_16_len];
-				for (int q = 0; q < first_hops_conv_16_len; q++) {
-					long first_hops_conv_16 = first_hops[q];
-					org.ldk.structs.ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, first_hops_conv_16); }
-					if (first_hops_conv_16_hu_conv != null) { first_hops_conv_16_hu_conv.ptrs_to.add(this); };
-					first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
+				if (first_hops != null) {
+					for (int q = 0; q < first_hops_conv_16_len; q++) {
+						long first_hops_conv_16 = first_hops[q];
+						org.ldk.structs.ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, first_hops_conv_16); }
+						if (first_hops_conv_16_hu_conv != null) { first_hops_conv_16_hu_conv.ptrs_to.add(this); };
+						first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
+					}
 				}
 				org.ldk.structs.InFlightHtlcs inflight_htlcs_hu_conv = null; if (inflight_htlcs < 0 || inflight_htlcs > 4096) { inflight_htlcs_hu_conv = new org.ldk.structs.InFlightHtlcs(null, inflight_htlcs); }
 				if (inflight_htlcs_hu_conv != null) { inflight_htlcs_hu_conv.ptrs_to.add(this); };
@@ -136,7 +138,7 @@ public class Router extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(route_params); };
-		for (ChannelDetails first_hops_conv_16: first_hops) { if (this != null) { this.ptrs_to.add(first_hops_conv_16); }; };
+		if (first_hops != null) { for (ChannelDetails first_hops_conv_16: first_hops) { if (this != null) { this.ptrs_to.add(first_hops_conv_16); }; } };
 		if (this != null) { this.ptrs_to.add(inflight_htlcs); };
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.

@@ -13,20 +13,21 @@ import javax.annotation.Nullable;
  * 
  * Each method can return three possible values:
  * If persistence (including any relevant `fsync()` calls) happens immediately, the
- * implementation should return `Ok(())`, indicating normal channel operation should continue.
+ * implementation should return [`ChannelMonitorUpdateStatus::Completed`], indicating normal
+ * channel operation should continue.
  * If persistence happens asynchronously, implementations should first ensure the
  * [`ChannelMonitor`] or [`ChannelMonitorUpdate`] are written durably to disk, and then return
- * `Err(ChannelMonitorUpdateErr::TemporaryFailure)` while the update continues in the
- * background. Once the update completes, [`ChainMonitor::channel_monitor_updated`] should be
- * called with the corresponding [`MonitorUpdateId`].
+ * [`ChannelMonitorUpdateStatus::InProgress`] while the update continues in the background.
+ * Once the update completes, [`ChainMonitor::channel_monitor_updated`] should be called with
+ * the corresponding [`MonitorUpdateId`].
  * 
  * Note that unlike the direct [`chain::Watch`] interface,
  * [`ChainMonitor::channel_monitor_updated`] must be called once for *each* update which occurs.
  * 
  * If persistence fails for some reason, implementations should return
- * `Err(ChannelMonitorUpdateErr::PermanentFailure)`, in which case the channel will likely be
+ * [`ChannelMonitorUpdateStatus::PermanentFailure`], in which case the channel will likely be
  * closed without broadcasting the latest state. See
- * [`ChannelMonitorUpdateErr::PermanentFailure`] for more details.
+ * [`ChannelMonitorUpdateStatus::PermanentFailure`] for more details.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Persist extends CommonBase {
@@ -52,15 +53,15 @@ public class Persist extends CommonBase {
 		 * and the stored channel data). Note that you **must** persist every new monitor to disk.
 		 * 
 		 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-		 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+		 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 		 * 
 		 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
-		 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+		 * and [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 		 * 
 		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 		 * [`Writeable::write`]: crate::util::ser::Writeable::write
 		 */
-		Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id);
+		ChannelMonitorUpdateStatus persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id);
 		/**
 		 * Update one channel's data. The provided [`ChannelMonitor`] has already applied the given
 		 * update.
@@ -88,44 +89,42 @@ public class Persist extends CommonBase {
 		 * whereas updates are small and `O(1)`.
 		 * 
 		 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-		 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+		 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 		 * 
 		 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
 		 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
-		 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+		 * [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 		 * 
 		 * [`Writeable::write`]: crate::util::ser::Writeable::write
 		 * 
 		 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
-		Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint channel_id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id);
+		ChannelMonitorUpdateStatus update_persisted_channel(OutPoint channel_id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id);
 	}
 	private static class LDKPersistHolder { Persist held; }
 	public static Persist new_impl(PersistInterface arg) {
 		final LDKPersistHolder impl_holder = new LDKPersistHolder();
 		impl_holder.held = new Persist(new bindings.LDKPersist() {
-			@Override public long persist_new_channel(long channel_id, long data, long update_id) {
+			@Override public ChannelMonitorUpdateStatus persist_new_channel(long channel_id, long data, long update_id) {
 				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
 				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
 				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
 				if (update_id_hu_conv != null) { update_id_hu_conv.ptrs_to.add(this); };
-				Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
+				return ret;
 			}
-			@Override public long update_persisted_channel(long channel_id, long update, long data, long update_id) {
+			@Override public ChannelMonitorUpdateStatus update_persisted_channel(long channel_id, long update, long data, long update_id) {
 				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
 				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
 				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
 				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
 				if (update_id_hu_conv != null) { update_id_hu_conv.ptrs_to.add(this); };
-				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
+				return ret;
 			}
 		});
 		return impl_holder.held;
@@ -139,26 +138,24 @@ public class Persist extends CommonBase {
 	 * and the stored channel data). Note that you **must** persist every new monitor to disk.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
-	 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * and [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
-	public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id) {
-		long ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
+	public ChannelMonitorUpdateStatus persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id) {
+		ChannelMonitorUpdateStatus ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(data);
 		Reference.reachabilityFence(update_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(channel_id); };
 		if (this != null) { this.ptrs_to.add(data); };
 		if (this != null) { this.ptrs_to.add(update_id); };
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -188,30 +185,28 @@ public class Persist extends CommonBase {
 	 * whereas updates are small and `O(1)`.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
 	 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
-	 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 * 
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint channel_id, @Nullable ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
-		long ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, update == null ? 0 : update.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
+	public ChannelMonitorUpdateStatus update_persisted_channel(OutPoint channel_id, @Nullable ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
+		ChannelMonitorUpdateStatus ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, update == null ? 0 : update.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(update);
 		Reference.reachabilityFence(data);
 		Reference.reachabilityFence(update_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(channel_id); };
 		if (this != null) { this.ptrs_to.add(update); };
 		if (this != null) { this.ptrs_to.add(data); };
 		if (this != null) { this.ptrs_to.add(update_id); };
-		return ret_hu_conv;
+		return ret;
 	}
 
 }

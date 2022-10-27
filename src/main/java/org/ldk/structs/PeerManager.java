@@ -48,7 +48,7 @@ public class PeerManager extends CommonBase {
 	 * timestamp, however if it is not available a persistent counter that increases once per
 	 * minute should suffice.
 	 */
-	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, byte[] our_node_secret, long current_time, byte[] ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, byte[] our_node_secret, int current_time, byte[] ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
 		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
 		Reference.reachabilityFence(message_handler_chan_handler_arg);
 		Reference.reachabilityFence(message_handler_route_handler_arg);

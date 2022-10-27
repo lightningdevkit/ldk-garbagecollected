@@ -110,6 +110,23 @@ public class QueryChannelRange extends CommonBase {
 	}
 
 	/**
+	 * Checks if two QueryChannelRanges contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(QueryChannelRange b) {
+		boolean ret = bindings.QueryChannelRange_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof QueryChannelRange)) return false;
+		return this.eq((QueryChannelRange)o);
+	}
+	/**
 	 * \n\t * Calculates the overflow safe ending block height for the query.\n\t * Overflow returns `0xffffffff`, otherwise returns `first_blocknum + number_of_blocks`\n\t
 	 */
 	public int end_blocknum() {

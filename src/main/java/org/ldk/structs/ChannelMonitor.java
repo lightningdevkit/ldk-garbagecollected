@@ -193,14 +193,20 @@ public class ChannelMonitor extends CommonBase {
 
 	/**
 	 * Used by ChannelManager deserialization to broadcast the latest holder state if its copy of
-	 * the Channel was out-of-date. You may use it to get a broadcastable holder toxic tx in case of
-	 * fallen-behind, i.e when receiving a channel_reestablish with a proof that our counterparty side knows
-	 * a higher revocation secret than the holder commitment number we are aware of. Broadcasting these
-	 * transactions are UNSAFE, as they allow counterparty side to punish you. Nevertheless you may want to
-	 * broadcast them if counterparty don't close channel with his higher commitment transaction after a
-	 * substantial amount of time (a month or even a year) to get back funds. Best may be to contact
-	 * out-of-band the other node operator to coordinate with him if option is available to you.
-	 * In any-case, choice is up to the user.
+	 * the Channel was out-of-date.
+	 * 
+	 * You may also use this to broadcast the latest local commitment transaction, either because
+	 * a monitor update failed with [`ChannelMonitorUpdateStatus::PermanentFailure`] or because we've
+	 * fallen behind (i.e. we've received proof that our counterparty side knows a revocation
+	 * secret we gave them that they shouldn't know).
+	 * 
+	 * Broadcasting these transactions in the second case is UNSAFE, as they allow counterparty
+	 * side to punish you. Nevertheless you may want to broadcast them if counterparty doesn't
+	 * close channel with their commitment transaction after a substantial amount of time. Best
+	 * may be to contact the other node operator out-of-band to coordinate other options available
+	 * to you. In any-case, the choice is up to you.
+	 * 
+	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
 	 */
 	public byte[][] get_latest_holder_commitment_txn(Logger logger) {
 		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);

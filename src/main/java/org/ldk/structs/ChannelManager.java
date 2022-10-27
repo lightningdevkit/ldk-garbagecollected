@@ -320,12 +320,12 @@ public class ChannelManager extends CommonBase {
 	 * PaymentSendFailure for more info.
 	 * 
 	 * In general, a path may raise:
-	 * APIError::RouteError when an invalid route or forwarding parameter (cltv_delta, fee,
+	 * [`APIError::RouteError`] when an invalid route or forwarding parameter (cltv_delta, fee,
 	 * node public key) is specified.
-	 * APIError::ChannelUnavailable if the next-hop channel is not available for updates
+	 * [`APIError::ChannelUnavailable`] if the next-hop channel is not available for updates
 	 * (including due to previous monitor update failure or new permanent monitor update
 	 * failure).
-	 * APIError::MonitorUpdateFailed if a new monitor update failure prevented sending the
+	 * [`APIError::MonitorUpdateInProgress`] if a new monitor update failure prevented sending the
 	 * relevant updates.
 	 * 
 	 * Note that depending on the type of the PaymentSendFailure the HTLC may have been

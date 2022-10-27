@@ -67,17 +67,6 @@ public class ChannelFeatures extends CommonBase {
 	}
 
 	/**
-	 * Creates a Features with the bits set which are known by the implementation
-	 */
-	public static ChannelFeatures known() {
-		long ret = bindings.ChannelFeatures_known();
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Returns true if this `Features` object contains unknown feature flags which are set as
 	 * \"required\".
 	 */

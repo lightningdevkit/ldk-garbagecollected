@@ -23,10 +23,10 @@ import javax.annotation.Nullable;
  * If an implementation maintains multiple instances of a channel's monitor (e.g., by storing
  * backup copies), then it must ensure that updates are applied across all instances. Otherwise, it
  * could result in a revoked transaction being broadcast, allowing the counterparty to claim all
- * funds in the channel. See [`ChannelMonitorUpdateErr`] for more details about how to handle
+ * funds in the channel. See [`ChannelMonitorUpdateStatus`] for more details about how to handle
  * multiple instances.
  * 
- * [`PermanentFailure`]: ChannelMonitorUpdateErr::PermanentFailure
+ * [`PermanentFailure`]: ChannelMonitorUpdateStatus::PermanentFailure
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Watch extends CommonBase {
@@ -50,23 +50,23 @@ public class Watch extends CommonBase {
 		 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 		 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 		 * 
-		 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+		 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
 		 * the given `funding_txo` has previously been registered via `watch_channel`.
 		 * 
 		 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 		 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 		 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 		 */
-		Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor);
+		ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor);
 		/**
 		 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 		 * 
 		 * Implementations must call [`update_monitor`] with the given update. See
-		 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
+		 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
 		 * 
 		 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 		 */
-		Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
+		ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
 		/**
 		 * Returns any monitor events since the last call. Subsequent calls must only return new
 		 * events.
@@ -76,7 +76,7 @@ public class Watch extends CommonBase {
 		 * to disk.
 		 * 
 		 * For details on asynchronous [`ChannelMonitor`] updating and returning
-		 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
+		 * [`MonitorEvent::Completed`] here, see [`ChannelMonitorUpdateStatus::InProgress`].
 		 */
 		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] release_pending_monitor_events();
 	}
@@ -84,25 +84,23 @@ public class Watch extends CommonBase {
 	public static Watch new_impl(WatchInterface arg) {
 		final LDKWatchHolder impl_holder = new LDKWatchHolder();
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
-			@Override public long watch_channel(long funding_txo, long monitor) {
+			@Override public ChannelMonitorUpdateStatus watch_channel(long funding_txo, long monitor) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
 				if (monitor_hu_conv != null) { monitor_hu_conv.ptrs_to.add(this); };
-				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
+				return ret;
 			}
-			@Override public long update_channel(long funding_txo, long update) {
+			@Override public ChannelMonitorUpdateStatus update_channel(long funding_txo, long update) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
 				if (update_hu_conv != null) { update_hu_conv.ptrs_to.add(this); };
-				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
+				return ret;
 			}
 			@Override public long[] release_pending_monitor_events() {
 				ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] ret = arg.release_pending_monitor_events();
@@ -120,43 +118,39 @@ public class Watch extends CommonBase {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
-	 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+	 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
 	 * the given `funding_txo` has previously been registered via `watch_channel`.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
-	public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
-		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, monitor == null ? 0 : monitor.ptr);
+	public ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
+		ChannelMonitorUpdateStatus ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, monitor == null ? 0 : monitor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(funding_txo); };
 		if (this != null) { this.ptrs_to.add(monitor); };
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
 	 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 	 * 
 	 * Implementations must call [`update_monitor`] with the given update. See
-	 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
+	 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
 	 * 
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 	 */
-	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
-		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, update == null ? 0 : update.ptr);
+	public ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
+		ChannelMonitorUpdateStatus ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, update == null ? 0 : update.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(update);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(funding_txo); };
 		if (this != null) { this.ptrs_to.add(update); };
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -168,7 +162,7 @@ public class Watch extends CommonBase {
 	 * to disk.
 	 * 
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
-	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * [`MonitorEvent::Completed`] here, see [`ChannelMonitorUpdateStatus::InProgress`].
 	 */
 	public ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);

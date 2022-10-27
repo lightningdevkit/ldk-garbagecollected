@@ -11,19 +11,28 @@ import javax.annotation.Nullable;
 /**
  * [`Score`] implementation using channel success probability distributions.
  * 
- * Based on *Optimally Reliable & Cheap Payment Flows on the Lightning Network* by Rene Pickhardt
- * and Stefan Richter [[1]]. Given the uncertainty of channel liquidity balances, probability
- * distributions are defined based on knowledge learned from successful and unsuccessful attempts.
- * Then the negative `log10` of the success probability is used to determine the cost of routing a
- * specific HTLC amount through a channel.
+ * Channels are tracked with upper and lower liquidity bounds - when an HTLC fails at a channel,
+ * we learn that the upper-bound on the available liquidity is lower than the amount of the HTLC.
+ * When a payment is forwarded through a channel (but fails later in the route), we learn the
+ * lower-bound on the channel's available liquidity must be at least the value of the HTLC.
  * 
- * Knowledge about channel liquidity balances takes the form of upper and lower bounds on the
- * possible liquidity. Certainty of the bounds is decreased over time using a decay function. See
- * [`ProbabilisticScoringParameters`] for details.
+ * These bounds are then used to determine a success probability using the formula from
+ * Optimally Reliable & Cheap Payment Flows on the Lightning Network* by Rene Pickhardt
+ * and Stefan Richter [[1]] (i.e. `(upper_bound - payment_amount) / (upper_bound - lower_bound)`).
  * 
- * Since the scorer aims to learn the current channel liquidity balances, it works best for nodes
- * with high payment volume or that actively probe the [`NetworkGraph`]. Nodes with low payment
- * volume are more likely to experience failed payment paths, which would need to be retried.
+ * This probability is combined with the [`liquidity_penalty_multiplier_msat`] and
+ * [`liquidity_penalty_amount_multiplier_msat`] parameters to calculate a concrete penalty in
+ * milli-satoshis. The penalties, when added across all hops, have the property of being linear in
+ * terms of the entire path's success probability. This allows the router to directly compare
+ * penalties for different paths. See the documentation of those parameters for the exact formulas.
+ * 
+ * The liquidity bounds are decayed by halving them every [`liquidity_offset_half_life`].
+ * 
+ * Further, we track the history of our upper and lower liquidity bounds for each channel,
+ * allowing us to assign a second penalty (using [`historical_liquidity_penalty_multiplier_msat`]
+ * and [`historical_liquidity_penalty_amount_multiplier_msat`]) based on the same probability
+ * formula, but using the history of a channel rather than our latest estimates for the liquidity
+ * bounds.
  * 
  * # Note
  * 
@@ -31,6 +40,11 @@ import javax.annotation.Nullable;
  * behavior.
  * 
  * [1]: https://arxiv.org/abs/2107.05322
+ * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_multiplier_msat
+ * [`liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_amount_multiplier_msat
+ * [`liquidity_offset_half_life`]: ProbabilisticScoringParameters::liquidity_offset_half_life
+ * [`historical_liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_multiplier_msat
+ * [`historical_liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_amount_multiplier_msat
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ProbabilisticScorer extends CommonBase {

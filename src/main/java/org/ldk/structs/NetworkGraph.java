@@ -216,13 +216,13 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Marks a node in the graph as failed.
+	 * Marks a node in the graph as permanently failed, effectively removing it and its channels
+	 * from local storage.
 	 */
-	public void node_failed(byte[] _node_id, boolean is_permanent) {
-		bindings.NetworkGraph_node_failed(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
+	public void node_failed_permanent(byte[] node_id) {
+		bindings.NetworkGraph_node_failed_permanent(this.ptr, InternalUtils.check_arr_len(node_id, 33));
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(_node_id);
-		Reference.reachabilityFence(is_permanent);
+		Reference.reachabilityFence(node_id);
 	}
 
 	/**
@@ -237,11 +237,14 @@ public class NetworkGraph extends CommonBase {
 	 * Note that for users of the `lightning-background-processor` crate this method may be
 	 * automatically called regularly for you.
 	 * 
+	 * This method will also cause us to stop tracking removed nodes and channels if they have been
+	 * in the map for a while so that these can be resynced from gossip in the future.
+	 * 
 	 * This method is only available with the `std` feature. See
-	 * [`NetworkGraph::remove_stale_channels_with_time`] for `no-std` use.
+	 * [`NetworkGraph::remove_stale_channels_and_tracking_with_time`] for `no-std` use.
 	 */
-	public void remove_stale_channels() {
-		bindings.NetworkGraph_remove_stale_channels(this.ptr);
+	public void remove_stale_channels_and_tracking() {
+		bindings.NetworkGraph_remove_stale_channels_and_tracking(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -254,11 +257,14 @@ public class NetworkGraph extends CommonBase {
 	 * updates every two weeks, the non-normative section of BOLT 7 currently suggests that
 	 * pruning occur for updates which are at least two weeks old, which we implement here.
 	 * 
+	 * This method will also cause us to stop tracking removed nodes and channels if they have been
+	 * in the map for a while so that these can be resynced from gossip in the future.
+	 * 
 	 * This function takes the current unix time as an argument. For users with the `std` feature
-	 * enabled, [`NetworkGraph::remove_stale_channels`] may be preferable.
+	 * enabled, [`NetworkGraph::remove_stale_channels_and_tracking`] may be preferable.
 	 */
-	public void remove_stale_channels_with_time(long current_time_unix) {
-		bindings.NetworkGraph_remove_stale_channels_with_time(this.ptr, current_time_unix);
+	public void remove_stale_channels_and_tracking_with_time(long current_time_unix) {
+		bindings.NetworkGraph_remove_stale_channels_and_tracking_with_time(this.ptr, current_time_unix);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(current_time_unix);
 	}

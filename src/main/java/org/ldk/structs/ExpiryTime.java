@@ -81,7 +81,7 @@ public class ExpiryTime extends CommonBase {
 	}
 
 	/**
-	 * Construct an `ExpiryTime` from a `Duration`.
+	 * Construct an `ExpiryTime` from a `Duration`, dropping the sub-second part.
 	 */
 	public static ExpiryTime from_duration(long duration) {
 		long ret = bindings.ExpiryTime_from_duration(duration);
