@@ -1087,7 +1087,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     out_c = out_c + "\tjs_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_hu_ty == "string":
                     out_c += "\tjstring ret = (jstring)js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
-                elif not fn_line.ret_ty_info.passed_as_ptr:
+                elif fn_line.ret_ty_info.arg_conv is None:
                     out_c += "\treturn js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
                     out_c += "\tuint64_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
