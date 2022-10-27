@@ -1013,8 +1013,8 @@ import javax.annotation.Nullable;
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.c_ty == "void":
-                    out_c += "\t(*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.java_hu_ty == "String":
+                    out_c += "\t(*env)->CallVoidMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                elif fn_line.ret_ty_info.java_hu_ty == "String" or "org/ldk/enums" in fn_line.ret_ty_info.java_fn_ty_arg:
                     # Manually write out String methods as they're just an Object
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
