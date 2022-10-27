@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -352,6 +355,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -480,6 +484,39 @@ export class UtilMethods extends CommonBase {
 		const ret: bigint = bindings.C2Tuple_BlockHashChannelMonitorZ_read(bindings.encodeUint8Array(ser), arg == null ? 0n : CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`NodeFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public static constructor_provided_node_features(): NodeFeatures {
+		const ret: bigint = bindings.provided_node_features();
+		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`ChannelFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public static constructor_provided_channel_features(): ChannelFeatures {
+		const ret: bigint = bindings.provided_channel_features();
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`InitFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public static constructor_provided_init_features(): InitFeatures {
+		const ret: bigint = bindings.provided_init_features();
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -748,12 +785,12 @@ export class UtilMethods extends CommonBase {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static constructor_find_route(our_node_pubkey: Uint8Array, route_params: RouteParameters, network_graph: NetworkGraph, first_hops: ChannelDetails[], logger: Logger, scorer: Score, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
+	public static constructor_find_route(our_node_pubkey: Uint8Array, route_params: RouteParameters, network_graph: NetworkGraph, first_hops: ChannelDetails[]|null, logger: Logger, scorer: Score, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
 		const ret: bigint = bindings.find_route(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), route_params == null ? 0n : CommonBase.get_ptr_of(route_params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), bindings.encodeUint64Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0n : CommonBase.get_ptr_of(first_hops_conv_16)) : null), logger == null ? 0n : CommonBase.get_ptr_of(logger), scorer == null ? 0n : CommonBase.get_ptr_of(scorer), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, route_params);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
-		first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(ret_hu_conv, first_hops_conv_16); });
+		if (first_hops != null) { first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(ret_hu_conv, first_hops_conv_16); }) };
 		CommonBase.add_ref_from(ret_hu_conv, logger);
 		CommonBase.add_ref_from(ret_hu_conv, scorer);
 		return ret_hu_conv;
@@ -779,11 +816,12 @@ export class UtilMethods extends CommonBase {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static constructor_create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, network: Currency, amt_msat: Option_u64Z, description_hash: Sha256, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), description_hash == null ? 0n : CommonBase.get_ptr_of(description_hash), duration_since_epoch, invoice_expiry_delta_secs);
+	public static constructor_create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, logger: Logger, network: Currency, amt_msat: Option_u64Z, description_hash: Sha256, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
+		const ret: bigint = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), logger == null ? 0n : CommonBase.get_ptr_of(logger), network, CommonBase.get_ptr_of(amt_msat), description_hash == null ? 0n : CommonBase.get_ptr_of(description_hash), duration_since_epoch, invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_InvoiceSignOrCreationErrorZ = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
+		CommonBase.add_ref_from(ret_hu_conv, logger);
 		CommonBase.add_ref_from(ret_hu_conv, description_hash);
 		return ret_hu_conv;
 	}
@@ -793,11 +831,12 @@ export class UtilMethods extends CommonBase {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static constructor_create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, network: Currency, amt_msat: Option_u64Z, description: string, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), network, CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), duration_since_epoch, invoice_expiry_delta_secs);
+	public static constructor_create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager: ChannelManager, keys_manager: KeysInterface, logger: Logger, network: Currency, amt_msat: Option_u64Z, description: string, duration_since_epoch: bigint, invoice_expiry_delta_secs: number): Result_InvoiceSignOrCreationErrorZ {
+		const ret: bigint = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0n : CommonBase.get_ptr_of(channelmanager), keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), logger == null ? 0n : CommonBase.get_ptr_of(logger), network, CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), duration_since_epoch, invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_InvoiceSignOrCreationErrorZ = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
+		CommonBase.add_ref_from(ret_hu_conv, logger);
 		return ret_hu_conv;
 	}
 

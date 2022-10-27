@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -401,7 +405,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelMonitor extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.ChannelMonitor_free);
 	}
 
@@ -548,14 +552,20 @@ export class ChannelMonitor extends CommonBase {
 
 	/**
 	 * Used by ChannelManager deserialization to broadcast the latest holder state if its copy of
-	 * the Channel was out-of-date. You may use it to get a broadcastable holder toxic tx in case of
-	 * fallen-behind, i.e when receiving a channel_reestablish with a proof that our counterparty side knows
-	 * a higher revocation secret than the holder commitment number we are aware of. Broadcasting these
-	 * transactions are UNSAFE, as they allow counterparty side to punish you. Nevertheless you may want to
-	 * broadcast them if counterparty don't close channel with his higher commitment transaction after a
-	 * substantial amount of time (a month or even a year) to get back funds. Best may be to contact
-	 * out-of-band the other node operator to coordinate with him if option is available to you.
-	 * In any-case, choice is up to the user.
+	 * the Channel was out-of-date.
+	 * 
+	 * You may also use this to broadcast the latest local commitment transaction, either because
+	 * a monitor update failed with [`ChannelMonitorUpdateStatus::PermanentFailure`] or because we've
+	 * fallen behind (i.e. we've received proof that our counterparty side knows a revocation
+	 * secret we gave them that they shouldn't know).
+	 * 
+	 * Broadcasting these transactions in the second case is UNSAFE, as they allow counterparty
+	 * side to punish you. Nevertheless you may want to broadcast them if counterparty doesn't
+	 * close channel with their commitment transaction after a substantial amount of time. Best
+	 * may be to contact the other node operator out-of-band to coordinate other options available
+	 * to you. In any-case, the choice is up to you.
+	 * 
+	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
 	 */
 	public get_latest_holder_commitment_txn(logger: Logger): Uint8Array[] {
 		const ret: number = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0n : CommonBase.get_ptr_of(logger));

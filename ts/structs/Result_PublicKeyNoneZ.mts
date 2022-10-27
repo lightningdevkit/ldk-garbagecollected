@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -382,33 +386,33 @@ import * as bindings from '../bindings.mjs'
 
 
 
-export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: bigint) {
-		super(ptr, bindings.CResult_NoneChannelMonitorUpdateErrZ_free);
+export class Result_PublicKeyNoneZ extends CommonBase {
+	protected constructor(_dummy: null, ptr: bigint) {
+		super(ptr, bindings.CResult_PublicKeyNoneZ_free);
 	}
 	/* @internal */
-	public static constr_from_ptr(ptr: bigint): Result_NoneChannelMonitorUpdateErrZ {
-		if (bindings.CResult_NoneChannelMonitorUpdateErrZ_is_ok(ptr)) {
-			return new Result_NoneChannelMonitorUpdateErrZ_OK(null, ptr);
+	public static constr_from_ptr(ptr: bigint): Result_PublicKeyNoneZ {
+		if (bindings.CResult_PublicKeyNoneZ_is_ok(ptr)) {
+			return new Result_PublicKeyNoneZ_OK(null, ptr);
 		} else {
-			return new Result_NoneChannelMonitorUpdateErrZ_Err(null, ptr);
+			return new Result_PublicKeyNoneZ_Err(null, ptr);
 		}
 	}
 	/**
-	 * Creates a new CResult_NoneChannelMonitorUpdateErrZ in the success state.
+	 * Creates a new CResult_PublicKeyNoneZ in the success state.
 	 */
-	public static constructor_ok(): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public static constructor_ok(o: Uint8Array): Result_PublicKeyNoneZ {
+		const ret: bigint = bindings.CResult_PublicKeyNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 33)));
+		const ret_hu_conv: Result_PublicKeyNoneZ = Result_PublicKeyNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Creates a new CResult_NoneChannelMonitorUpdateErrZ in the error state.
+	 * Creates a new CResult_PublicKeyNoneZ in the error state.
 	 */
-	public static constructor_err(e: ChannelMonitorUpdateErr): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public static constructor_err(): Result_PublicKeyNoneZ {
+		const ret: bigint = bindings.CResult_PublicKeyNoneZ_err();
+		const ret_hu_conv: Result_PublicKeyNoneZ = Result_PublicKeyNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -416,39 +420,41 @@ export class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	 * Checks if the given object is currently in the success state
 	 */
 	public is_ok(): boolean {
-		const ret: boolean = bindings.CResult_NoneChannelMonitorUpdateErrZ_is_ok(this.ptr);
+		const ret: boolean = bindings.CResult_PublicKeyNoneZ_is_ok(this.ptr);
 		return ret;
 	}
 
 	public clone_ptr(): bigint {
-		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(this.ptr);
+		const ret: bigint = bindings.CResult_PublicKeyNoneZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a new CResult_NoneChannelMonitorUpdateErrZ which has the same data as `orig`
+	 * Creates a new CResult_PublicKeyNoneZ which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
-	public clone(): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone(this.ptr);
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public clone(): Result_PublicKeyNoneZ {
+		const ret: bigint = bindings.CResult_PublicKeyNoneZ_clone(this.ptr);
+		const ret_hu_conv: Result_PublicKeyNoneZ = Result_PublicKeyNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 }
-export class Result_NoneChannelMonitorUpdateErrZ_OK extends Result_NoneChannelMonitorUpdateErrZ {
+export class Result_PublicKeyNoneZ_OK extends Result_PublicKeyNoneZ {
+	public res: Uint8Array;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(_dummy, ptr);
+		const res: number = bindings.CResult_PublicKeyNoneZ_get_ok(ptr);
+		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
+		this.res = res_conv;
 	}
 }
-export class Result_NoneChannelMonitorUpdateErrZ_Err extends Result_NoneChannelMonitorUpdateErrZ {
-	public err: ChannelMonitorUpdateErr;
+export class Result_PublicKeyNoneZ_Err extends Result_PublicKeyNoneZ {
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(_dummy, ptr);
-		this.err = bindings.CResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
 	}
 }

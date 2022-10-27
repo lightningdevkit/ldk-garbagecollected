@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -384,7 +388,7 @@ import * as bindings from '../bindings.mjs'
  * All-encompassing standard error type that processing can return
  */
 export class GraphSyncError extends CommonBase {
-	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.GraphSyncError_free); }
+	protected constructor(_dummy: null, ptr: bigint) { super(ptr, bindings.GraphSyncError_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: bigint): GraphSyncError {
 		const raw_ty: number = bindings.LDKGraphSyncError_ty_from_ptr(ptr);
@@ -415,10 +419,9 @@ export class GraphSyncError extends CommonBase {
 	 * Utility method to constructs a new DecodeError-variant GraphSyncError
 	 */
 	public static constructor_decode_error(a: DecodeError): GraphSyncError {
-		const ret: bigint = bindings.GraphSyncError_decode_error(a == null ? 0n : CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.GraphSyncError_decode_error(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: GraphSyncError = GraphSyncError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
 	}
 
@@ -441,7 +444,7 @@ export class GraphSyncError_DecodeError extends GraphSyncError {
 	public constructor(ptr: bigint) {
 		super(null, ptr);
 		const decode_error: bigint = bindings.LDKGraphSyncError_DecodeError_get_decode_error(ptr);
-		const decode_error_hu_conv: DecodeError = new DecodeError(null, decode_error);
+		const decode_error_hu_conv: DecodeError = DecodeError.constr_from_ptr(decode_error);
 			CommonBase.add_ref_from(decode_error_hu_conv, this);
 		this.decode_error = decode_error_hu_conv;
 	}

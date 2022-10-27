@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -108,7 +108,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -164,6 +163,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -380,14 +384,25 @@ import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-
 /**
  * An error in decoding a message or struct.
  */
 export class DecodeError extends CommonBase {
+	protected constructor(_dummy: null, ptr: bigint) { super(ptr, bindings.DecodeError_free); }
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
-		super(ptr, bindings.DecodeError_free);
+	public static constr_from_ptr(ptr: bigint): DecodeError {
+		const raw_ty: number = bindings.LDKDecodeError_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new DecodeError_UnknownVersion(ptr);
+			case 1: return new DecodeError_UnknownRequiredFeature(ptr);
+			case 2: return new DecodeError_InvalidValue(ptr);
+			case 3: return new DecodeError_ShortRead(ptr);
+			case 4: return new DecodeError_BadLengthDescriptor(ptr);
+			case 5: return new DecodeError_Io(ptr);
+			case 6: return new DecodeError_UnsupportedCompression(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
+		}
 	}
 
 	public clone_ptr(): bigint {
@@ -400,9 +415,139 @@ export class DecodeError extends CommonBase {
 	 */
 	public clone(): DecodeError {
 		const ret: bigint = bindings.DecodeError_clone(this.ptr);
-		const ret_hu_conv: DecodeError = new DecodeError(null, ret);
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new UnknownVersion-variant DecodeError
+	 */
+	public static constructor_unknown_version(): DecodeError {
+		const ret: bigint = bindings.DecodeError_unknown_version();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UnknownRequiredFeature-variant DecodeError
+	 */
+	public static constructor_unknown_required_feature(): DecodeError {
+		const ret: bigint = bindings.DecodeError_unknown_required_feature();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidValue-variant DecodeError
+	 */
+	public static constructor_invalid_value(): DecodeError {
+		const ret: bigint = bindings.DecodeError_invalid_value();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ShortRead-variant DecodeError
+	 */
+	public static constructor_short_read(): DecodeError {
+		const ret: bigint = bindings.DecodeError_short_read();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BadLengthDescriptor-variant DecodeError
+	 */
+	public static constructor_bad_length_descriptor(): DecodeError {
+		const ret: bigint = bindings.DecodeError_bad_length_descriptor();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Io-variant DecodeError
+	 */
+	public static constructor_io(a: IOError): DecodeError {
+		const ret: bigint = bindings.DecodeError_io(a);
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UnsupportedCompression-variant DecodeError
+	 */
+	public static constructor_unsupported_compression(): DecodeError {
+		const ret: bigint = bindings.DecodeError_unsupported_compression();
+		const ret_hu_conv: DecodeError = DecodeError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two DecodeErrors contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public eq(b: DecodeError): boolean {
+		const ret: boolean = bindings.DecodeError_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
+		return ret;
+	}
+
+}
+/** A DecodeError of type UnknownVersion */
+export class DecodeError_UnknownVersion extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
+}
+/** A DecodeError of type UnknownRequiredFeature */
+export class DecodeError_UnknownRequiredFeature extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
+}
+/** A DecodeError of type InvalidValue */
+export class DecodeError_InvalidValue extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
+}
+/** A DecodeError of type ShortRead */
+export class DecodeError_ShortRead extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
+}
+/** A DecodeError of type BadLengthDescriptor */
+export class DecodeError_BadLengthDescriptor extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
+}
+/** A DecodeError of type Io */
+export class DecodeError_Io extends DecodeError {
+	public io: IOError;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		this.io = bindings.LDKDecodeError_Io_get_io(ptr);
+	}
+}
+/** A DecodeError of type UnsupportedCompression */
+export class DecodeError_UnsupportedCompression extends DecodeError {
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+	}
 }

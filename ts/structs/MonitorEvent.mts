@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
@@ -164,6 +163,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -384,14 +388,14 @@ import * as bindings from '../bindings.mjs'
  * An event to be processed by the ChannelManager.
  */
 export class MonitorEvent extends CommonBase {
-	protected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings.MonitorEvent_free); }
+	protected constructor(_dummy: null, ptr: bigint) { super(ptr, bindings.MonitorEvent_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: bigint): MonitorEvent {
 		const raw_ty: number = bindings.LDKMonitorEvent_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new MonitorEvent_HTLCEvent(ptr);
 			case 1: return new MonitorEvent_CommitmentTxConfirmed(ptr);
-			case 2: return new MonitorEvent_UpdateCompleted(ptr);
+			case 2: return new MonitorEvent_Completed(ptr);
 			case 3: return new MonitorEvent_UpdateFailed(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
@@ -436,10 +440,10 @@ export class MonitorEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new UpdateCompleted-variant MonitorEvent
+	 * Utility method to constructs a new Completed-variant MonitorEvent
 	 */
-	public static constructor_update_completed(funding_txo: OutPoint, monitor_update_id: bigint): MonitorEvent {
-		const ret: bigint = bindings.MonitorEvent_update_completed(funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor_update_id);
+	public static constructor_completed(funding_txo: OutPoint, monitor_update_id: bigint): MonitorEvent {
+		const ret: bigint = bindings.MonitorEvent_completed(funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor_update_id);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, funding_txo);
@@ -455,6 +459,15 @@ export class MonitorEvent extends CommonBase {
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, a);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two MonitorEvents contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public eq(b: MonitorEvent): boolean {
+		const ret: boolean = bindings.MonitorEvent_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
+		return ret;
 	}
 
 	/**
@@ -491,8 +504,8 @@ export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 	}
 }
-/** A MonitorEvent of type UpdateCompleted */
-export class MonitorEvent_UpdateCompleted extends MonitorEvent {
+/** A MonitorEvent of type Completed */
+export class MonitorEvent_Completed extends MonitorEvent {
 	/**
 	 * The funding outpoint of the [`ChannelMonitor`] that was updated
 	 */
@@ -508,11 +521,11 @@ export class MonitorEvent_UpdateCompleted extends MonitorEvent {
 	/* @internal */
 	public constructor(ptr: bigint) {
 		super(null, ptr);
-		const funding_txo: bigint = bindings.LDKMonitorEvent_UpdateCompleted_get_funding_txo(ptr);
+		const funding_txo: bigint = bindings.LDKMonitorEvent_Completed_get_funding_txo(ptr);
 		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 			CommonBase.add_ref_from(funding_txo_hu_conv, this);
 		this.funding_txo = funding_txo_hu_conv;
-		this.monitor_update_id = bindings.LDKMonitorEvent_UpdateCompleted_get_monitor_update_id(ptr);
+		this.monitor_update_id = bindings.LDKMonitorEvent_Completed_get_monitor_update_id(ptr);
 	}
 }
 /** A MonitorEvent of type UpdateFailed */

@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -421,7 +425,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelManager extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.ChannelManager_free);
 	}
 
@@ -491,7 +495,7 @@ export class ChannelManager extends CommonBase {
 	 * 
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public create_channel(their_network_key: Uint8Array, channel_value_satoshis: bigint, push_msat: bigint, user_channel_id: bigint, override_config: UserConfig): Result__u832APIErrorZ {
+	public create_channel(their_network_key: Uint8Array, channel_value_satoshis: bigint, push_msat: bigint, user_channel_id: bigint, override_config: UserConfig|null): Result__u832APIErrorZ {
 		const ret: bigint = bindings.ChannelManager_create_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_network_key, 33)), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0n : CommonBase.get_ptr_of(override_config));
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, override_config);
@@ -654,12 +658,12 @@ export class ChannelManager extends CommonBase {
 	 * PaymentSendFailure for more info.
 	 * 
 	 * In general, a path may raise:
-	 * APIError::RouteError when an invalid route or forwarding parameter (cltv_delta, fee,
+	 * [`APIError::RouteError`] when an invalid route or forwarding parameter (cltv_delta, fee,
 	 * node public key) is specified.
-	 * APIError::ChannelUnavailable if the next-hop channel is not available for updates
+	 * [`APIError::ChannelUnavailable`] if the next-hop channel is not available for updates
 	 * (including due to previous monitor update failure or new permanent monitor update
 	 * failure).
-	 * APIError::MonitorUpdateFailed if a new monitor update failure prevented sending the
+	 * [`APIError::MonitorUpdateInProgress`] if a new monitor update failure prevented sending the
 	 * relevant updates.
 	 * 
 	 * Note that depending on the type of the PaymentSendFailure the HTLC may have been
@@ -677,7 +681,7 @@ export class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public send_payment(route: Route, payment_hash: Uint8Array, payment_secret: Uint8Array): Result_PaymentIdPaymentSendFailureZ {
+	public send_payment(route: Route, payment_hash: Uint8Array, payment_secret: Uint8Array|null): Result_PaymentIdPaymentSendFailureZ {
 		const ret: bigint = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0n : CommonBase.get_ptr_of(route), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
@@ -741,7 +745,7 @@ export class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public send_spontaneous_payment(route: Route, payment_preimage: Uint8Array): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
+	public send_spontaneous_payment(route: Route, payment_preimage: Uint8Array|null): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
 		const ret: bigint = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0n : CommonBase.get_ptr_of(route), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);

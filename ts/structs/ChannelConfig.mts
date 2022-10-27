@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -387,7 +391,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class ChannelConfig extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.ChannelConfig_free);
 	}
 
@@ -514,6 +518,12 @@ export class ChannelConfig extends CommonBase {
 	 * to such payments may be sustantial if there are many dust HTLCs present when the
 	 * channel is force-closed.
 	 * 
+	 * The dust threshold for each HTLC is based on the `dust_limit_satoshis` for each party in a
+	 * channel negotiated throughout the channel open process, along with the fees required to have
+	 * a broadcastable HTLC spending transaction. When a channel supports anchor outputs
+	 * (specifically the zero fee HTLC transaction variant), this threshold no longer takes into
+	 * account the HTLC transaction fee as it is zero.
+	 * 
 	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
 	 * exposure across all three types per-channel. Setting this too low may prevent the
 	 * sending or receipt of low-value HTLCs on high-traffic nodes, and this limit is very
@@ -535,6 +545,12 @@ export class ChannelConfig extends CommonBase {
 	 * party force-closes the channel. Because the threshold is per-HTLC, our total exposure
 	 * to such payments may be sustantial if there are many dust HTLCs present when the
 	 * channel is force-closed.
+	 * 
+	 * The dust threshold for each HTLC is based on the `dust_limit_satoshis` for each party in a
+	 * channel negotiated throughout the channel open process, along with the fees required to have
+	 * a broadcastable HTLC spending transaction. When a channel supports anchor outputs
+	 * (specifically the zero fee HTLC transaction variant), this threshold no longer takes into
+	 * account the HTLC transaction fee as it is zero.
 	 * 
 	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
 	 * exposure across all three types per-channel. Setting this too low may prevent the
@@ -627,6 +643,17 @@ export class ChannelConfig extends CommonBase {
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two ChannelConfigs contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public eq(b: ChannelConfig): boolean {
+		const ret: boolean = bindings.ChannelConfig_eq(this.ptr, b == null ? 0n : CommonBase.get_ptr_of(b));
+		CommonBase.add_ref_from(this, b);
+		return ret;
 	}
 
 	/**

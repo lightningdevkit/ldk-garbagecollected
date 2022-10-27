@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -352,6 +355,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -405,7 +409,7 @@ export interface RouterInterface {
 }
 
 class LDKRouterHolder {
-	held: Router;
+	held: Router|null = null;
 }
 
 /**
@@ -413,13 +417,13 @@ class LDKRouterHolder {
  */
 export class Router extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKRouter;
+	public bindings_instance: bindings.LDKRouter|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {
+	constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.Router_free);
 		this.bindings_instance = null;
 	}
@@ -434,11 +438,13 @@ export class Router extends CommonBase {
 				const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
 				const first_hops_conv_16_len: number = bindings.getArrayLength(first_hops);
 				const first_hops_conv_16_arr: ChannelDetails[] = new Array(first_hops_conv_16_len).fill(null);
-				for (var q = 0; q < first_hops_conv_16_len; q++) {
-					const first_hops_conv_16: bigint = bindings.getU64ArrayElem(first_hops, q);
-					const first_hops_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, first_hops_conv_16);
-					CommonBase.add_ref_from(first_hops_conv_16_hu_conv, this);
-					first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
+				if (first_hops != null) {
+					for (var q = 0; q < first_hops_conv_16_len; q++) {
+						const first_hops_conv_16: bigint = bindings.getU64ArrayElem(first_hops, q);
+						const first_hops_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, first_hops_conv_16);
+						CommonBase.add_ref_from(first_hops_conv_16_hu_conv, this);
+						first_hops_conv_16_arr[q] = first_hops_conv_16_hu_conv;
+					}
 				}
 				bindings.freeWasmMemory(first_hops)
 				const inflight_htlcs_hu_conv: InFlightHtlcs = new InFlightHtlcs(null, inflight_htlcs);
@@ -501,7 +507,7 @@ export class Router extends CommonBase {
 		impl_holder.held = new Router(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held;
+		return impl_holder.held!;
 	}
 
 	/**
@@ -509,11 +515,11 @@ export class Router extends CommonBase {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public find_route(payer: Uint8Array, route_params: RouteParameters, payment_hash: Uint8Array, first_hops: ChannelDetails[], inflight_htlcs: InFlightHtlcs): Result_RouteLightningErrorZ {
+	public find_route(payer: Uint8Array, route_params: RouteParameters, payment_hash: Uint8Array, first_hops: ChannelDetails[]|null, inflight_htlcs: InFlightHtlcs): Result_RouteLightningErrorZ {
 		const ret: bigint = bindings.Router_find_route(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payer, 33)), route_params == null ? 0n : CommonBase.get_ptr_of(route_params), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint64Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0n : CommonBase.get_ptr_of(first_hops_conv_16)) : null), inflight_htlcs == null ? 0n : CommonBase.get_ptr_of(inflight_htlcs));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route_params);
-		first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(this, first_hops_conv_16); });
+		if (first_hops != null) { first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(this, first_hops_conv_16); }) };
 		CommonBase.add_ref_from(this, inflight_htlcs);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.

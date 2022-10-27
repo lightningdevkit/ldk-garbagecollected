@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -351,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -514,6 +518,10 @@ export interface BaseSignInterface {
 	 * chosen to forgo their output as dust.
 	 */
 	sign_closing_transaction(closing_tx: ClosingTransaction): Result_SignatureNoneZ;
+	/**Computes the signature for a commitment transaction's anchor output used as an
+	 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
+	 */
+	sign_holder_anchor_input(anchor_tx: Uint8Array, input: number): Result_SignatureNoneZ;
 	/**Signs a channel announcement message with our funding key and our node secret key (aka
 	 * node_id or network_key), proving it comes from one of the channel participants.
 	 * 
@@ -540,7 +548,7 @@ export interface BaseSignInterface {
 }
 
 class LDKBaseSignHolder {
-	held: BaseSign;
+	held: BaseSign|null = null;
 }
 
 /**
@@ -564,13 +572,13 @@ class LDKBaseSignHolder {
  */
 export class BaseSign extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKBaseSign;
+	public bindings_instance: bindings.LDKBaseSign|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {
+	constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.BaseSign_free);
 		this.bindings_instance = null;
 	}
@@ -663,6 +671,12 @@ export class BaseSign extends CommonBase {
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
+			sign_holder_anchor_input (anchor_tx: number, input: number): bigint {
+				const anchor_tx_conv: Uint8Array = bindings.decodeUint8Array(anchor_tx);
+				const ret: Result_SignatureNoneZ = arg.sign_holder_anchor_input(anchor_tx_conv, input);
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
+				return result;
+			},
 			sign_channel_announcement (msg: bigint): bigint {
 				const msg_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, msg);
 				const ret: Result_C2Tuple_SignatureSignatureZNoneZ = arg.sign_channel_announcement(msg_hu_conv);
@@ -679,7 +693,7 @@ export class BaseSign extends CommonBase {
 		impl_holder.held = new BaseSign(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held;
+		return impl_holder.held!;
 	}
 
 	/**
@@ -880,6 +894,16 @@ export class BaseSign extends CommonBase {
 		const ret: bigint = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0n : CommonBase.get_ptr_of(closing_tx));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, closing_tx);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Computes the signature for a commitment transaction's anchor output used as an
+	 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
+	 */
+	public sign_holder_anchor_input(anchor_tx: Uint8Array, input: number): Result_SignatureNoneZ {
+		const ret: bigint = bindings.BaseSign_sign_holder_anchor_input(this.ptr, bindings.encodeUint8Array(anchor_tx), input);
+		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
