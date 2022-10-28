@@ -69,12 +69,12 @@ class Node {
 }
 function get_chanman(): Node {
 	const fee_est = ldk.FeeEstimator.new_impl({
-		get_est_sat_per_1000_weight(confirmation_target: ldk.ConfirmationTarget): number {
+		get_est_sat_per_1000_weight(_confirmation_target: ldk.ConfirmationTarget): number {
 			return 253;
 		}
 	} as ldk.FeeEstimatorInterface);
-	var tx_broadcaster;
-	const tx_broadcasted: Promise<Uint8Array> = new Promise((resolve, reject) => {
+	var tx_broadcaster: ldk.BroadcasterInterface;
+	const tx_broadcasted: Promise<Uint8Array> = new Promise((resolve, _reject) => {
 		tx_broadcaster = ldk.BroadcasterInterface.new_impl({
 			broadcast_transaction(tx: Uint8Array): void { console.log("Tx Broadcast: " + tx); resolve(tx); }
 		} as ldk.BroadcasterInterfaceInterface);
@@ -86,15 +86,15 @@ function get_chanman(): Node {
 	} as ldk.LoggerInterface);
 
 	const persister = ldk.Persist.new_impl({
-		persist_new_channel(channel_id: ldk.OutPoint, data: ldk.ChannelMonitor, update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
+		persist_new_channel(_channel_id: ldk.OutPoint, _data: ldk.ChannelMonitor, _update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
 			return ldk.ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 		},
-		update_persisted_channel(channel_id: ldk.OutPoint, update: ldk.ChannelMonitorUpdate, data: ldk.ChannelMonitor, update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
+		update_persisted_channel(_channel_id: ldk.OutPoint, _update: ldk.ChannelMonitorUpdate, _data: ldk.ChannelMonitor, _update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
 			return ldk.ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 		}
 	} as ldk.PersistInterface);
 
-	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster, logger, fee_est, persister);
+	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster!, logger, fee_est, persister);
 	const chain_watch: ldk.Watch = chain_monitor.as_Watch();
 
 	const seed = new Uint8Array(32);
@@ -105,7 +105,7 @@ function get_chanman(): Node {
 	const config = ldk.UserConfig.constructor_default();
 	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_genesis(ldk.Network.LDKNetwork_Testnet));
 
-	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster, logger, keys_interface, config, params);
+	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, logger, keys_interface, config, params);
 	return new Node(chan_man, tx_broadcasted, logger, keys_interface);
 }
 
@@ -164,7 +164,7 @@ function get_event(chan_man: ldk.ChannelManager): ldk.Event {
 
 	chan_man.as_EventsProvider().process_pending_events(event_handler);
 	assert(events.length == 1);
-	return events[0];
+	return events[0]!;
 }
 
 tests.push(async () => {
@@ -228,6 +228,7 @@ tests.push(async () => {
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
 			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
@@ -243,6 +244,7 @@ tests.push(async () => {
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
 			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
@@ -307,7 +309,7 @@ tests.push(async () => {
 			for (var i = 0; i < 44; i++) assert(buffer[i] == 67);
 			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9998n; },
-				write(): Uint8Array { assert(false); return null; }
+				write(): Uint8Array { throw new Error(); }
 			} as ldk.CustomOnionMessageContentsInterface)));
 		},
 		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
@@ -348,7 +350,7 @@ tests.push(async () => {
 			for (var i = 0; i < 43; i++) assert(buffer[i] == 66);
 			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9999n; },
-				write(): Uint8Array { assert(false); return null; }
+				write(): Uint8Array { throw new Error(); }
 			} as ldk.CustomOnionMessageContentsInterface)));
 		},
 		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
@@ -365,6 +367,7 @@ tests.push(async () => {
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
 			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
@@ -380,6 +383,7 @@ tests.push(async () => {
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
 			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
@@ -463,7 +467,7 @@ async function run_tests(check_leaks: boolean) {
 	console.log("all tests passed: " + result);
 	if (result !== true || !check_leaks) { return result; }
 
-	const allocs_finished = new Promise((resolve, reject) => {
+	const allocs_finished = new Promise((resolve, _reject) => {
 		var loop_count = 0;
 		const interval_id = setInterval(() => {
 			const alloc_count = rawldk.getRemainingAllocationCount();
