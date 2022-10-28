@@ -190,10 +190,19 @@ class TypeMappingGenerator:
                 if subty.to_hu_conv is not None:
                     to_hu_conv = self.consts.var_decl_statement(self.consts.c_type_map["uint32_t"][0], conv_name + "_len", self.consts.get_java_arr_len(arr_name)) + ";\n"
                     to_hu_conv += self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", self.consts.constr_hu_array(ty_info, conv_name + "_len"))
-                    to_hu_conv += ";\n" + self.consts.for_n_in_range(idxc, "0", conv_name + "_len") + "\n"
-                    to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, self.consts.get_java_arr_elem(subty, arr_name, idxc)) + ";\n"
-                    to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
-                    to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
+                    to_hu_conv += ";\n"
+                    pfx = ""
+                    if is_nullable:
+                        to_hu_conv += "if (" + arr_name + " != null) {\n"
+                        pfx = "\t"
+                    to_hu_conv += pfx + self.consts.for_n_in_range(idxc, "0", conv_name + "_len") + "\n"
+
+                    to_hu_conv += pfx + "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, self.consts.get_java_arr_elem(subty, arr_name, idxc)) + ";\n"
+                    to_hu_conv += pfx + "\t" + subty.to_hu_conv.replace("\n", "\n\t" + pfx) + "\n"
+                    to_hu_conv += pfx + "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n"
+                    to_hu_conv += pfx + "}"
+                    if is_nullable:
+                        to_hu_conv += "\n}"
                     cleanup = self.consts.cleanup_converted_native_array(ty_info, arr_name)
                     if cleanup is not None:
                         to_hu_conv += "\n" + cleanup
@@ -209,7 +218,10 @@ class TypeMappingGenerator:
                     hu_conv_b = ""
                     if subty.from_hu_conv[1] != "":
                         iterator = self.consts.for_n_in_arr(conv_name, arr_name, subty)
-                        hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
+                        if is_nullable:
+                            hu_conv_b = "if (" + arr_name + " != null) { " + iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1] + " }"
+                        else:
+                            hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
                     if from_hu_conv is not None:
                         arr_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty))
                         assert arr_conv[1] == ""

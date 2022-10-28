@@ -3,6 +3,7 @@ package org.ldk;
 import org.bitcoinj.core.*;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
+import org.ldk.enums.ChannelMonitorUpdateStatus;
 import org.ldk.enums.Network;
 import org.ldk.enums.Recipient;
 import org.ldk.impl.bindings;
@@ -57,16 +58,16 @@ public class PeerTest {
             this.monitors = new HashMap<>();
             this.watcher = new bindings.LDKWatch() {
                 @Override
-                public long watch_channel(long funding_txo, long monitor) {
+                public ChannelMonitorUpdateStatus watch_channel(long funding_txo, long monitor) {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(bindings.OutPoint_get_txid(funding_txo)), monitor) == null;
                     }
                     bindings.OutPoint_free(funding_txo);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
 
                 @Override
-                public long update_channel(long funding_txo, long update) {
+                public ChannelMonitorUpdateStatus update_channel(long funding_txo, long update) {
                     synchronized (monitors) {
                         String txid = Arrays.toString(bindings.OutPoint_get_txid(funding_txo));
                         assert monitors.containsKey(txid);
@@ -76,7 +77,7 @@ public class PeerTest {
                     }
                     bindings.OutPoint_free(funding_txo);
                     bindings.ChannelMonitorUpdate_free(update);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
 
                 @Override
@@ -123,7 +124,7 @@ public class PeerTest {
             long node_id_result = bindings.KeysInterface_get_node_secret(keys_interface, Recipient.LDKRecipient_Node);
             assert bindings.CResult_SecretKeyNoneZ_is_ok(node_id_result);
             this.peer_manager = bindings.PeerManager_new(message_handler, bindings.CResult_SecretKeyNoneZ_get_ok(node_id_result),
-                    System.currentTimeMillis() / 1000, random_data, logger, this.custom_message_handler);
+                    (int)(System.currentTimeMillis() / 1000), random_data, logger, this.custom_message_handler);
             bindings.CResult_SecretKeyNoneZ_free(node_id_result);
         }
 
@@ -323,7 +324,9 @@ public class PeerTest {
         long scorer_interface = bindings.ProbabilisticScorer_as_Score(scorer);
 
         long no_u64 = bindings.COption_u64Z_none();
-        long invoice_features = bindings.InvoiceFeatures_known();
+        long invoice_features = bindings.InvoiceFeatures_empty();
+        bindings.InvoiceFeatures_set_payment_secret_required(invoice_features);
+        bindings.InvoiceFeatures_set_variable_length_onion_required(invoice_features);
         long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14, (byte)1, (byte)1, new long[0]);
         bindings.InvoiceFeatures_free(invoice_features);
         bindings.COption_u64Z_free(no_u64);

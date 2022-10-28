@@ -18,8 +18,8 @@ import javax.annotation.Nullable;
  * [`ChannelManager`] persistence should be done in the background.
  * Calling [`ChannelManager::timer_tick_occurred`] and [`PeerManager::timer_tick_occurred`]
  * at the appropriate intervals.
- * Calling [`NetworkGraph::remove_stale_channels`] (if a [`GossipSync`] with a [`NetworkGraph`]
- * is provided to [`BackgroundProcessor::start`]).
+ * Calling [`NetworkGraph::remove_stale_channels_and_tracking`] (if a [`GossipSync`] with a
+ * [`NetworkGraph`] is provided to [`BackgroundProcessor::start`]).
  * 
  * It will also call [`PeerManager::process_events`] periodically though this shouldn't be relied
  * upon as doing so may result in high latency.

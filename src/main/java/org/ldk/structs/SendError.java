@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * Errors that may occur when [sending an onion message].
  * 
- * [sending an onion message]: OnionMessenger::send_onion_message
+ * [sending an onion message]: OnionMessenger::send_custom_onion_message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SendError extends CommonBase {
@@ -34,6 +34,9 @@ public class SendError extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKSendError.InvalidFirstHop.class) {
 			return new InvalidFirstHop(ptr, (bindings.LDKSendError.InvalidFirstHop)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKSendError.InvalidMessage.class) {
+			return new InvalidMessage(ptr, (bindings.LDKSendError.InvalidMessage)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKSendError.BufferFull.class) {
 			return new BufferFull(ptr, (bindings.LDKSendError.BufferFull)raw_val);
@@ -74,6 +77,14 @@ public class SendError extends CommonBase {
 	 */
 	public final static class InvalidFirstHop extends SendError {
 		private InvalidFirstHop(long ptr, bindings.LDKSendError.InvalidFirstHop obj) {
+			super(null, ptr);
+		}
+	}
+	/**
+	 * Onion message contents must have a TLV type >= 64.
+	 */
+	public final static class InvalidMessage extends SendError {
+		private InvalidMessage(long ptr, bindings.LDKSendError.InvalidMessage obj) {
 			super(null, ptr);
 		}
 	}
@@ -149,6 +160,17 @@ public class SendError extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new InvalidMessage-variant SendError
+	 */
+	public static SendError invalid_message() {
+		long ret = bindings.SendError_invalid_message();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new BufferFull-variant SendError
 	 */
 	public static SendError buffer_full() {
@@ -159,4 +181,19 @@ public class SendError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two SendErrors contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(SendError b) {
+		boolean ret = bindings.SendError_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof SendError)) return false;
+		return this.eq((SendError)o);
+	}
 }

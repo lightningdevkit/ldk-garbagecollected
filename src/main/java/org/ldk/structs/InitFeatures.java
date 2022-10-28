@@ -56,33 +56,10 @@ public class InitFeatures extends CommonBase {
 	}
 
 	/**
-	 * Returns the set of known init features that are related to channels. At least some of
-	 * these features are likely required for peers to talk to us.
-	 */
-	public static InitFeatures known_channel_features() {
-		long ret = bindings.InitFeatures_known_channel_features();
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Create a blank Features with no features set
 	 */
 	public static InitFeatures empty() {
 		long ret = bindings.InitFeatures_empty();
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Creates a Features with the bits set which are known by the implementation
-	 */
-	public static InitFeatures known() {
-		long ret = bindings.InitFeatures_known();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

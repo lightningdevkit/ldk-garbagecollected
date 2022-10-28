@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -259,6 +262,8 @@ import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErr
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
+import { GraphSyncError } from '../structs/GraphSyncError.mjs';
+import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -349,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -363,6 +369,7 @@ import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -390,15 +397,15 @@ export interface PersistInterface {
 	 * and the stored channel data). Note that you **must** persist every new monitor to disk.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
-	 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * and [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
-	persist_new_channel(channel_id: OutPoint, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ;
+	persist_new_channel(channel_id: OutPoint, data: ChannelMonitor, update_id: MonitorUpdateId): ChannelMonitorUpdateStatus;
 	/**Update one channel's data. The provided [`ChannelMonitor`] has already applied the given
 	 * update.
 	 * 
@@ -425,21 +432,21 @@ export interface PersistInterface {
 	 * whereas updates are small and `O(1)`.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
 	 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
-	 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 * 
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	update_persisted_channel(channel_id: OutPoint, update: ChannelMonitorUpdate, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ;
+	update_persisted_channel(channel_id: OutPoint, update: ChannelMonitorUpdate, data: ChannelMonitor, update_id: MonitorUpdateId): ChannelMonitorUpdateStatus;
 }
 
 class LDKPersistHolder {
-	held: Persist;
+	held: Persist|null = null;
 }
 
 /**
@@ -448,30 +455,31 @@ class LDKPersistHolder {
  * 
  * Each method can return three possible values:
  * If persistence (including any relevant `fsync()` calls) happens immediately, the
- * implementation should return `Ok(())`, indicating normal channel operation should continue.
+ * implementation should return [`ChannelMonitorUpdateStatus::Completed`], indicating normal
+ * channel operation should continue.
  * If persistence happens asynchronously, implementations should first ensure the
  * [`ChannelMonitor`] or [`ChannelMonitorUpdate`] are written durably to disk, and then return
- * `Err(ChannelMonitorUpdateErr::TemporaryFailure)` while the update continues in the
- * background. Once the update completes, [`ChainMonitor::channel_monitor_updated`] should be
- * called with the corresponding [`MonitorUpdateId`].
+ * [`ChannelMonitorUpdateStatus::InProgress`] while the update continues in the background.
+ * Once the update completes, [`ChainMonitor::channel_monitor_updated`] should be called with
+ * the corresponding [`MonitorUpdateId`].
  * 
  * Note that unlike the direct [`chain::Watch`] interface,
  * [`ChainMonitor::channel_monitor_updated`] must be called once for *each* update which occurs.
  * 
  * If persistence fails for some reason, implementations should return
- * `Err(ChannelMonitorUpdateErr::PermanentFailure)`, in which case the channel will likely be
+ * [`ChannelMonitorUpdateStatus::PermanentFailure`], in which case the channel will likely be
  * closed without broadcasting the latest state. See
- * [`ChannelMonitorUpdateErr::PermanentFailure`] for more details.
+ * [`ChannelMonitorUpdateStatus::PermanentFailure`] for more details.
  */
 export class Persist extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKPersist;
+	public bindings_instance: bindings.LDKPersist|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {
+	constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.Persist_free);
 		this.bindings_instance = null;
 	}
@@ -480,26 +488,24 @@ export class Persist extends CommonBase {
 	public static new_impl(arg: PersistInterface): Persist {
 		const impl_holder: LDKPersistHolder = new LDKPersistHolder();
 		let structImplementation = {
-			persist_new_channel (channel_id: bigint, data: bigint, update_id: bigint): bigint {
+			persist_new_channel (channel_id: bigint, data: bigint, update_id: bigint): ChannelMonitorUpdateStatus {
 				const channel_id_hu_conv: OutPoint = new OutPoint(null, channel_id);
 				CommonBase.add_ref_from(channel_id_hu_conv, this);
 				const data_hu_conv: ChannelMonitor = new ChannelMonitor(null, data);
 				const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				CommonBase.add_ref_from(update_id_hu_conv, this);
-				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
+				const ret: ChannelMonitorUpdateStatus = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
+				return ret;
 			},
-			update_persisted_channel (channel_id: bigint, update: bigint, data: bigint, update_id: bigint): bigint {
+			update_persisted_channel (channel_id: bigint, update: bigint, data: bigint, update_id: bigint): ChannelMonitorUpdateStatus {
 				const channel_id_hu_conv: OutPoint = new OutPoint(null, channel_id);
 				CommonBase.add_ref_from(channel_id_hu_conv, this);
 				const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
 				const data_hu_conv: ChannelMonitor = new ChannelMonitor(null, data);
 				const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				CommonBase.add_ref_from(update_id_hu_conv, this);
-				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
+				const ret: ChannelMonitorUpdateStatus = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
+				return ret;
 			},
 		} as bindings.LDKPersist;
 		const ptr_idx: [bigint, number] = bindings.LDKPersist_new(structImplementation);
@@ -507,7 +513,7 @@ export class Persist extends CommonBase {
 		impl_holder.held = new Persist(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held;
+		return impl_holder.held!;
 	}
 
 	/**
@@ -519,21 +525,20 @@ export class Persist extends CommonBase {
 	 * and the stored channel data). Note that you **must** persist every new monitor to disk.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
-	 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * and [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
-	public persist_new_channel(channel_id: OutPoint, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public persist_new_channel(channel_id: OutPoint, data: ChannelMonitor, update_id: MonitorUpdateId): ChannelMonitorUpdateStatus {
+		const ret: ChannelMonitorUpdateStatus = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
 		CommonBase.add_ref_from(this, channel_id);
 		CommonBase.add_ref_from(this, data);
 		CommonBase.add_ref_from(this, update_id);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -563,24 +568,23 @@ export class Persist extends CommonBase {
 	 * whereas updates are small and `O(1)`.
 	 * 
 	 * The `update_id` is used to identify this call to [`ChainMonitor::channel_monitor_updated`],
-	 * if you return [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * if you return [`ChannelMonitorUpdateStatus::InProgress`].
 	 * 
 	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
 	 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
-	 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * [`ChannelMonitorUpdateStatus`] for requirements when returning errors.
 	 * 
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 * 
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public update_persisted_channel(channel_id: OutPoint, update: ChannelMonitorUpdate, data: ChannelMonitor, update_id: MonitorUpdateId): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), update == null ? 0n : CommonBase.get_ptr_of(update), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public update_persisted_channel(channel_id: OutPoint, update: ChannelMonitorUpdate|null, data: ChannelMonitor, update_id: MonitorUpdateId): ChannelMonitorUpdateStatus {
+		const ret: ChannelMonitorUpdateStatus = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0n : CommonBase.get_ptr_of(channel_id), update == null ? 0n : CommonBase.get_ptr_of(update), data == null ? 0n : CommonBase.get_ptr_of(data), update_id == null ? 0n : CommonBase.get_ptr_of(update_id));
 		CommonBase.add_ref_from(this, channel_id);
 		CommonBase.add_ref_from(this, update);
 		CommonBase.add_ref_from(this, data);
 		CommonBase.add_ref_from(this, update_id);
-		return ret_hu_conv;
+		return ret;
 	}
 
 }

@@ -137,6 +137,23 @@ public class NodeInfo extends CommonBase {
 	}
 
 	/**
+	 * Checks if two NodeInfos contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(NodeInfo b) {
+		boolean ret = bindings.NodeInfo_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof NodeInfo)) return false;
+		return this.eq((NodeInfo)o);
+	}
+	/**
 	 * Serialize the NodeInfo object into a byte array which can be read by NodeInfo_read
 	 */
 	public byte[] write() {

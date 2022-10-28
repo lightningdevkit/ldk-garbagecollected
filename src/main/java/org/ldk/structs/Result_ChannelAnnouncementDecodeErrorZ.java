@@ -36,7 +36,7 @@ public class Result_ChannelAnnouncementDecodeErrorZ extends CommonBase {
 		private Result_ChannelAnnouncementDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_ChannelAnnouncementDecodeErrorZ_get_err(ptr);
-			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(err);
 			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
@@ -58,11 +58,10 @@ public class Result_ChannelAnnouncementDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ChannelAnnouncementDecodeErrorZ in the error state.
 	 */
 	public static Result_ChannelAnnouncementDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_ChannelAnnouncementDecodeErrorZ_err(e == null ? 0 : e.ptr);
+		long ret = bindings.CResult_ChannelAnnouncementDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(e); };
 		return ret_hu_conv;
 	}
 

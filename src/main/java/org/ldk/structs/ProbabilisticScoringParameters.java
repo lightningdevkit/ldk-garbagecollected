@@ -90,7 +90,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 
 	/**
 	 * A multiplier used in conjunction with the negative `log10` of the channel's success
-	 * probability for a payment to determine the liquidity penalty.
+	 * probability for a payment, as determined by our latest estimates of the channel's
+	 * liquidity, to determine the liquidity penalty.
 	 * 
 	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
 	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
@@ -99,7 +100,9 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
 	 * result in a `u64::max_value` penalty, however.
 	 * 
-	 * Default value: 40,000 msat
+	 * `-log10(success_probability) * liquidity_penalty_multiplier_msat`
+	 * 
+	 * Default value: 30,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -111,7 +114,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 
 	/**
 	 * A multiplier used in conjunction with the negative `log10` of the channel's success
-	 * probability for a payment to determine the liquidity penalty.
+	 * probability for a payment, as determined by our latest estimates of the channel's
+	 * liquidity, to determine the liquidity penalty.
 	 * 
 	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
 	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
@@ -120,7 +124,9 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
 	 * result in a `u64::max_value` penalty, however.
 	 * 
-	 * Default value: 40,000 msat
+	 * `-log10(success_probability) * liquidity_penalty_multiplier_msat`
+	 * 
+	 * Default value: 30,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -131,14 +137,20 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * The time required to elapse before any knowledge learned about channel liquidity balances is
-	 * cut in half.
+	 * Whenever this amount of time elapses since the last update to a channel's liquidity bounds,
+	 * the distance from the bounds to \"zero\" is cut in half. In other words, the lower-bound on
+	 * the available liquidity is halved and the upper-bound moves half-way to the channel's total
+	 * capacity.
 	 * 
-	 * The bounds are defined in terms of offsets and are initially zero. Increasing the offsets
-	 * gives tighter bounds on the channel liquidity balance. Thus, halving the offsets decreases
-	 * the certainty of the channel liquidity balance.
+	 * Because halving the liquidity bounds grows the uncertainty on the channel's liquidity,
+	 * the penalty for an amount within the new bounds may change. See the [`ProbabilisticScorer`]
+	 * struct documentation for more info on the way the liquidity bounds are used.
 	 * 
-	 * Default value: 1 hour
+	 * For example, if the channel's capacity is 1 million sats, and the current upper and lower
+	 * liquidity bounds are 200,000 sats and 600,000 sats, after this amount of time the upper
+	 * and lower liquidity bounds will be decayed to 100,000 and 800,000 sats.
+	 * 
+	 * Default value: 6 hours
 	 * 
 	 * # Note
 	 * 
@@ -152,14 +164,20 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * The time required to elapse before any knowledge learned about channel liquidity balances is
-	 * cut in half.
+	 * Whenever this amount of time elapses since the last update to a channel's liquidity bounds,
+	 * the distance from the bounds to \"zero\" is cut in half. In other words, the lower-bound on
+	 * the available liquidity is halved and the upper-bound moves half-way to the channel's total
+	 * capacity.
 	 * 
-	 * The bounds are defined in terms of offsets and are initially zero. Increasing the offsets
-	 * gives tighter bounds on the channel liquidity balance. Thus, halving the offsets decreases
-	 * the certainty of the channel liquidity balance.
+	 * Because halving the liquidity bounds grows the uncertainty on the channel's liquidity,
+	 * the penalty for an amount within the new bounds may change. See the [`ProbabilisticScorer`]
+	 * struct documentation for more info on the way the liquidity bounds are used.
 	 * 
-	 * Default value: 1 hour
+	 * For example, if the channel's capacity is 1 million sats, and the current upper and lower
+	 * liquidity bounds are 200,000 sats and 600,000 sats, after this amount of time the upper
+	 * and lower liquidity bounds will be decayed to 100,000 and 800,000 sats.
+	 * 
+	 * Default value: 6 hours
 	 * 
 	 * # Note
 	 * 
@@ -174,7 +192,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 
 	/**
 	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
-	 * channel's success probability for the payment to determine the amount penalty.
+	 * channel's success probability for the payment, as determined by our latest estimates of the
+	 * channel's liquidity, to determine the amount penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
@@ -189,7 +208,7 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
 	 * fall below `1`.
 	 * 
-	 * Default value: 256 msat
+	 * Default value: 192 msat
 	 */
 	public long get_liquidity_penalty_amount_multiplier_msat() {
 		long ret = bindings.ProbabilisticScoringParameters_get_liquidity_penalty_amount_multiplier_msat(this.ptr);
@@ -199,7 +218,8 @@ public class ProbabilisticScoringParameters extends CommonBase {
 
 	/**
 	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
-	 * channel's success probability for the payment to determine the amount penalty.
+	 * channel's success probability for the payment, as determined by our latest estimates of the
+	 * channel's liquidity, to determine the amount penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
@@ -214,10 +234,138 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
 	 * fall below `1`.
 	 * 
-	 * Default value: 256 msat
+	 * Default value: 192 msat
 	 */
 	public void set_liquidity_penalty_amount_multiplier_msat(long val) {
 		bindings.ProbabilisticScoringParameters_set_liquidity_penalty_amount_multiplier_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for the payment, as determined based on the history of our estimates of the
+	 * channel's available liquidity, to determine a penalty.
+	 * 
+	 * This penalty is similar to [`liquidity_penalty_multiplier_msat`], however, instead of using
+	 * only our latest estimate for the current liquidity available in the channel, it estimates
+	 * success probability based on the estimated liquidity available in the channel through
+	 * history. Specifically, every time we update our liquidity bounds on a given channel, we
+	 * track which of several buckets those bounds fall into, exponentially decaying the
+	 * probability of each bucket as new samples are added.
+	 * 
+	 * Default value: 10,000 msat
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 */
+	public long get_historical_liquidity_penalty_multiplier_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_historical_liquidity_penalty_multiplier_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for the payment, as determined based on the history of our estimates of the
+	 * channel's available liquidity, to determine a penalty.
+	 * 
+	 * This penalty is similar to [`liquidity_penalty_multiplier_msat`], however, instead of using
+	 * only our latest estimate for the current liquidity available in the channel, it estimates
+	 * success probability based on the estimated liquidity available in the channel through
+	 * history. Specifically, every time we update our liquidity bounds on a given channel, we
+	 * track which of several buckets those bounds fall into, exponentially decaying the
+	 * probability of each bucket as new samples are added.
+	 * 
+	 * Default value: 10,000 msat
+	 * 
+	 * [`liquidity_penalty_multiplier_msat`]: Self::liquidity_penalty_multiplier_msat
+	 */
+	public void set_historical_liquidity_penalty_multiplier_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_historical_liquidity_penalty_multiplier_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * A multiplier used in conjunction with the payment amount and the negative `log10` of the
+	 * channel's success probability for the payment, as determined based on the history of our
+	 * estimates of the channel's available liquidity, to determine a penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost for
+	 * large payments. The penalty is computed as the product of this multiplier and the `2^20`ths
+	 * of the payment amount, weighted by the negative `log10` of the success probability.
+	 * 
+	 * This penalty is similar to [`liquidity_penalty_amount_multiplier_msat`], however, instead
+	 * of using only our latest estimate for the current liquidity available in the channel, it
+	 * estimates success probability based on the estimated liquidity available in the channel
+	 * through history. Specifically, every time we update our liquidity bounds on a given
+	 * channel, we track which of several buckets those bounds fall into, exponentially decaying
+	 * the probability of each bucket as new samples are added.
+	 * 
+	 * Default value: 64 msat
+	 * 
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 */
+	public long get_historical_liquidity_penalty_amount_multiplier_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_historical_liquidity_penalty_amount_multiplier_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used in conjunction with the payment amount and the negative `log10` of the
+	 * channel's success probability for the payment, as determined based on the history of our
+	 * estimates of the channel's available liquidity, to determine a penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost for
+	 * large payments. The penalty is computed as the product of this multiplier and the `2^20`ths
+	 * of the payment amount, weighted by the negative `log10` of the success probability.
+	 * 
+	 * This penalty is similar to [`liquidity_penalty_amount_multiplier_msat`], however, instead
+	 * of using only our latest estimate for the current liquidity available in the channel, it
+	 * estimates success probability based on the estimated liquidity available in the channel
+	 * through history. Specifically, every time we update our liquidity bounds on a given
+	 * channel, we track which of several buckets those bounds fall into, exponentially decaying
+	 * the probability of each bucket as new samples are added.
+	 * 
+	 * Default value: 64 msat
+	 * 
+	 * [`liquidity_penalty_amount_multiplier_msat`]: Self::liquidity_penalty_amount_multiplier_msat
+	 */
+	public void set_historical_liquidity_penalty_amount_multiplier_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_historical_liquidity_penalty_amount_multiplier_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * If we aren't learning any new datapoints for a channel, the historical liquidity bounds
+	 * tracking can simply live on with increasingly stale data. Instead, when a channel has not
+	 * seen a liquidity estimate update for this amount of time, the historical datapoints are
+	 * decayed by half.
+	 * 
+	 * Note that after 16 or more half lives all historical data will be completely gone.
+	 * 
+	 * Default value: 14 days
+	 */
+	public long get_historical_no_updates_half_life() {
+		long ret = bindings.ProbabilisticScoringParameters_get_historical_no_updates_half_life(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * If we aren't learning any new datapoints for a channel, the historical liquidity bounds
+	 * tracking can simply live on with increasingly stale data. Instead, when a channel has not
+	 * seen a liquidity estimate update for this amount of time, the historical datapoints are
+	 * decayed by half.
+	 * 
+	 * Note that after 16 or more half lives all historical data will be completely gone.
+	 * 
+	 * Default value: 14 days
+	 */
+	public void set_historical_no_updates_half_life(long val) {
+		bindings.ProbabilisticScoringParameters_set_historical_no_updates_half_life(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}

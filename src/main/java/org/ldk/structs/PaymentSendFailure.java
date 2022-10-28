@@ -104,13 +104,13 @@ public class PaymentSendFailure extends CommonBase {
 	 * in over-/re-payment.
 	 * 
 	 * The results here are ordered the same as the paths in the route object which was passed to
-	 * send_payment, and any Errs which are not APIError::MonitorUpdateFailed can be safely
-	 * retried (though there is currently no API with which to do so).
+	 * send_payment, and any `Err`s which are not [`APIError::MonitorUpdateInProgress`] can be
+	 * safely retried via [`ChannelManager::retry_payment`].
 	 * 
-	 * Any entries which contain Err(APIError::MonitorUpdateFailed) or Ok(()) MUST NOT be retried
-	 * as they will result in over-/re-payment. These HTLCs all either successfully sent (in the
-	 * case of Ok(())) or will send once channel_monitor_updated is called on the next-hop channel
-	 * with the latest update_id.
+	 * Any entries which contain `Err(APIError::MonitorUpdateInprogress)` or `Ok(())` MUST NOT be
+	 * retried as they will result in over-/re-payment. These HTLCs all either successfully sent
+	 * (in the case of `Ok(())`) or will send once a [`MonitorEvent::Completed`] is provided for
+	 * the next-hop channel with the latest update_id.
 	 */
 	public final static class PartialFailure extends PaymentSendFailure {
 		/**

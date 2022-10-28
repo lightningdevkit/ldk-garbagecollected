@@ -3,18 +3,21 @@ import * as ldk from "../index.mjs";
 
 const tests: Array<Function> = [];
 
+function assert(val: boolean) {
+	if (!val) throw new Error("Assertion failed");
+}
 function array_eq(a: Uint8Array, b: Uint8Array): boolean {
 	return a.length == b.length && a.every((v, idx) => v == b[idx]);
 }
 
 tests.push(async () => {
 	const result = rawldk.CResult_boolLightningErrorZ_ok(true);
-	console.assert(rawldk.CResult_boolLightningErrorZ_is_ok(result));
-	console.assert(rawldk.CResult_boolLightningErrorZ_get_ok(result));
+	assert(rawldk.CResult_boolLightningErrorZ_is_ok(result));
+	assert(rawldk.CResult_boolLightningErrorZ_get_ok(result));
 	rawldk.CResult_boolLightningErrorZ_free(result);
 	const second_res = rawldk.CResult_boolLightningErrorZ_ok(false);
-	console.assert(rawldk.CResult_boolLightningErrorZ_is_ok(second_res));
-	console.assert(!rawldk.CResult_boolLightningErrorZ_get_ok(second_res));
+	assert(rawldk.CResult_boolLightningErrorZ_is_ok(second_res));
+	assert(!rawldk.CResult_boolLightningErrorZ_get_ok(second_res));
 	rawldk.CResult_boolLightningErrorZ_free(second_res);
 
 	return true;
@@ -66,12 +69,12 @@ class Node {
 }
 function get_chanman(): Node {
 	const fee_est = ldk.FeeEstimator.new_impl({
-		get_est_sat_per_1000_weight(confirmation_target: ldk.ConfirmationTarget): number {
+		get_est_sat_per_1000_weight(_confirmation_target: ldk.ConfirmationTarget): number {
 			return 253;
 		}
 	} as ldk.FeeEstimatorInterface);
-	var tx_broadcaster;
-	const tx_broadcasted: Promise<Uint8Array> = new Promise((resolve, reject) => {
+	var tx_broadcaster: ldk.BroadcasterInterface;
+	const tx_broadcasted: Promise<Uint8Array> = new Promise((resolve, _reject) => {
 		tx_broadcaster = ldk.BroadcasterInterface.new_impl({
 			broadcast_transaction(tx: Uint8Array): void { console.log("Tx Broadcast: " + tx); resolve(tx); }
 		} as ldk.BroadcasterInterfaceInterface);
@@ -83,15 +86,15 @@ function get_chanman(): Node {
 	} as ldk.LoggerInterface);
 
 	const persister = ldk.Persist.new_impl({
-		persist_new_channel(channel_id: ldk.OutPoint, data: ldk.ChannelMonitor, update_id: ldk.MonitorUpdateId): ldk.Result_NoneChannelMonitorUpdateErrZ {
-			return ldk.Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+		persist_new_channel(_channel_id: ldk.OutPoint, _data: ldk.ChannelMonitor, _update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
+			return ldk.ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 		},
-		update_persisted_channel(channel_id: ldk.OutPoint, update: ldk.ChannelMonitorUpdate, data: ldk.ChannelMonitor, update_id: ldk.MonitorUpdateId): ldk.Result_NoneChannelMonitorUpdateErrZ {
-			return ldk.Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+		update_persisted_channel(_channel_id: ldk.OutPoint, _update: ldk.ChannelMonitorUpdate, _data: ldk.ChannelMonitor, _update_id: ldk.MonitorUpdateId): ldk.ChannelMonitorUpdateStatus {
+			return ldk.ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 		}
 	} as ldk.PersistInterface);
 
-	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster, logger, fee_est, persister);
+	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster!, logger, fee_est, persister);
 	const chain_watch: ldk.Watch = chain_monitor.as_Watch();
 
 	const seed = new Uint8Array(32);
@@ -102,7 +105,7 @@ function get_chanman(): Node {
 	const config = ldk.UserConfig.constructor_default();
 	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_genesis(ldk.Network.LDKNetwork_Testnet));
 
-	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster, logger, keys_interface, config, params);
+	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, logger, keys_interface, config, params);
 	return new Node(chan_man, tx_broadcasted, logger, keys_interface);
 }
 
@@ -119,10 +122,12 @@ function exchange_messages(a: ldk.ChannelManager, b: ldk.ChannelManager) {
 				const msg = msgs[j];
 				if (msg instanceof ldk.MessageSendEvent_SendOpenChannel) {
 					if (!array_eq(msg.node_id, to.get_our_node_id())) return false;
-					to.as_ChannelMessageHandler().handle_open_channel(from.get_our_node_id(), ldk.InitFeatures.constructor_known(), msg.msg);
+					const features = from.as_ChannelMessageHandler().provided_init_features(to.get_our_node_id());
+					to.as_ChannelMessageHandler().handle_open_channel(from.get_our_node_id(), features, msg.msg);
 				} else if (msg instanceof ldk.MessageSendEvent_SendAcceptChannel) {
 					if (!array_eq(msg.node_id, to.get_our_node_id())) return false;
-					to.as_ChannelMessageHandler().handle_accept_channel(from.get_our_node_id(), ldk.InitFeatures.constructor_known(), msg.msg);
+					const features = from.as_ChannelMessageHandler().provided_init_features(to.get_our_node_id());
+					to.as_ChannelMessageHandler().handle_accept_channel(from.get_our_node_id(), features, msg.msg);
 				} else if (msg instanceof ldk.MessageSendEvent_SendFundingCreated) {
 					if (!array_eq(msg.node_id, to.get_our_node_id())) return false;
 					to.as_ChannelMessageHandler().handle_funding_created(from.get_our_node_id(), msg.msg);
@@ -158,16 +163,18 @@ function get_event(chan_man: ldk.ChannelManager): ldk.Event {
 	} as ldk.EventHandlerInterface);
 
 	chan_man.as_EventsProvider().process_pending_events(event_handler);
-	console.assert(events.length == 1);
-	return events[0];
+	assert(events.length == 1);
+	return events[0]!;
 }
 
 tests.push(async () => {
 	const a = get_chanman();
 	const b = get_chanman();
 
-	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
-	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
+	const features = a.chan_man.as_ChannelMessageHandler().provided_init_features(b.chan_man.get_our_node_id());
+
+	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_NetAddressZ.constructor_none()));
+	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_NetAddressZ.constructor_none()));
 
 	const chan_create_err = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (chan_create_err.is_ok()) return false;
@@ -214,17 +221,18 @@ tests.push(async () => {
 	const b = get_chanman();
 
 	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
-	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), a.node_secret, 0xdeadbeefn, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
-	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), b.node_secret, 0xdeadbeefn, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), a.node_secret, 0xdeadbeef, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(), b.node_secret, 0xdeadbeef, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -235,11 +243,12 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -249,24 +258,32 @@ tests.push(async () => {
 		}
 	} as ldk.SocketDescriptorInterface);
 
+	const update_fut = a.chan_man.get_persistable_update_future();
+	var update_done = false;
+	update_fut.register_callback_fn(ldk.FutureCallback.new_impl({
+		call(): void { update_done = true; }
+	}));
+	if (update_done) return false;
+
 	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
-	console.assert(pm_a.get_peer_node_ids().length == 0);
-	console.assert(pm_b.get_peer_node_ids().length == 0);
+	assert(pm_a.get_peer_node_ids().length == 0);
+	assert(pm_b.get_peer_node_ids().length == 0);
 
 	pm_b.process_events();
 	pm_a.process_events();
 	pm_b.process_events();
 
-	console.assert(pm_a.get_peer_node_ids().length == 1);
-	console.assert(pm_b.get_peer_node_ids().length == 1);
+	assert(pm_a.get_peer_node_ids().length == 1);
+	assert(pm_b.get_peer_node_ids().length == 1);
 
 	const chan_create_res = a.chan_man.create_channel(b.node_id, BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (!chan_create_res.is_ok()) return false;
+	if (!update_done) return false;
 
 	pm_a.process_events();
 	pm_b.process_events();
@@ -284,7 +301,24 @@ tests.push(async () => {
 
 	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
 
-	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_interface, a.logger);
+	var a_handled_msg = false;
+	const om_handler_a = ldk.CustomOnionMessageHandler.new_impl({
+		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
+			assert(message_type == 4343n);
+			assert(buffer.length == 44);
+			for (var i = 0; i < 44; i++) assert(buffer[i] == 67);
+			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
+				tlv_type(): bigint { return 9998n; },
+				write(): Uint8Array { throw new Error(); }
+			} as ldk.CustomOnionMessageContentsInterface)));
+		},
+		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
+			assert(msg.tlv_type() == 9998n);
+			a_handled_msg = true;
+		},
+	} as ldk.CustomOnionMessageHandlerInterface);
+
+	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_interface, a.logger, om_handler_a);
 	const om_provider_a = {
 		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
 			return underlying_om_a.as_OnionMessageProvider().next_onion_message_for_peer(peer_node_id);
@@ -294,8 +328,8 @@ tests.push(async () => {
 		handle_onion_message(peer_node_id: Uint8Array, msg: ldk.OnionMessage) {
 			underlying_om_a.as_OnionMessageHandler().handle_onion_message(peer_node_id, msg);
 		},
-		peer_connected(their_node_id: Uint8Array, init: ldk.Init) {
-			underlying_om_a.as_OnionMessageHandler().peer_connected(their_node_id, init);
+		peer_connected(their_node_id: Uint8Array, init: ldk.Init): ldk.Result_NoneNoneZ {
+			return underlying_om_a.as_OnionMessageHandler().peer_connected(their_node_id, init)
 		},
 		peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean) {
 			underlying_om_a.as_OnionMessageHandler().peer_disconnected(their_node_id, no_connection_possible);
@@ -308,19 +342,36 @@ tests.push(async () => {
 		}
 	} as ldk.OnionMessageHandlerInterface, om_provider_a);
 
-	const om_b = ldk.OnionMessenger.constructor_new(b.keys_interface, b.logger);
+	var b_handled_msg = false;
+	const om_handler_b = ldk.CustomOnionMessageHandler.new_impl({
+		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
+			assert(message_type == 4242n);
+			assert(buffer.length == 43);
+			for (var i = 0; i < 43; i++) assert(buffer[i] == 66);
+			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
+				tlv_type(): bigint { return 9999n; },
+				write(): Uint8Array { throw new Error(); }
+			} as ldk.CustomOnionMessageContentsInterface)));
+		},
+		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
+			assert(msg.tlv_type() == 9999n);
+			b_handled_msg = true;
+		},
+	} as ldk.CustomOnionMessageHandlerInterface);
+	const om_b = ldk.OnionMessenger.constructor_new(b.keys_interface, b.logger, om_handler_b);
 
-	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_a, a.node_secret, 0xdeadbeefn, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
-	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_b.as_OnionMessageHandler(), b.node_secret, 0xdeadbeefn, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_a, a.node_secret, 0xdeadbeef, a.node_secret, a.logger, ignorer.as_CustomMessageHandler());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_b.as_OnionMessageHandler(), b.node_secret, 0xdeadbeef, b.node_secret, b.logger, ignorer.as_CustomMessageHandler());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -331,11 +382,12 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(resume_read);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -346,28 +398,42 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 
 	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
-	console.assert(pm_a.get_peer_node_ids().length == 0);
-	console.assert(pm_b.get_peer_node_ids().length == 0);
+	assert(pm_a.get_peer_node_ids().length == 0);
+	assert(pm_b.get_peer_node_ids().length == 0);
 
 	pm_b.process_events();
 	pm_a.process_events();
 	pm_b.process_events();
 
-	console.assert(pm_a.get_peer_node_ids().length == 1);
-	console.assert(pm_b.get_peer_node_ids().length == 1);
+	assert(pm_a.get_peer_node_ids().length == 1);
+	assert(pm_b.get_peer_node_ids().length == 1);
 
-	underlying_om_a.send_onion_message([], ldk.Destination.constructor_node(b.node_id), null);
+	underlying_om_a.send_custom_onion_message([], ldk.Destination.constructor_node(b.node_id), ldk.CustomOnionMessageContents.new_impl({
+			tlv_type(): bigint { return 4242n; },
+			write(): Uint8Array {
+				const ret = new Uint8Array(43);
+				for (var i = 0; i < 43; i++) ret[i] = 66;
+				return ret;
+			}
+		} as ldk.CustomOnionMessageContentsInterface), null);
 	pm_a.process_events();
-	om_b.send_onion_message([], ldk.Destination.constructor_node(a.node_id), null);
-	pm_b.process_events();
+	assert(b_handled_msg);
 
-	// TODO: Once OnionMessenger supports actually passing messages up, check that we received the
-	// messages here.
+	om_b.send_custom_onion_message([], ldk.Destination.constructor_node(a.node_id), ldk.CustomOnionMessageContents.new_impl({
+			tlv_type(): bigint { return 4343n; },
+			write(): Uint8Array {
+				const ret = new Uint8Array(44);
+				for (var i = 0; i < 44; i++) ret[i] = 67;
+				return ret;
+			}
+		} as ldk.CustomOnionMessageContentsInterface), null);
+	pm_b.process_events();
+	assert(a_handled_msg);
 
 	return true;
 });
@@ -401,7 +467,7 @@ async function run_tests(check_leaks: boolean) {
 	console.log("all tests passed: " + result);
 	if (result !== true || !check_leaks) { return result; }
 
-	const allocs_finished = new Promise((resolve, reject) => {
+	const allocs_finished = new Promise((resolve, _reject) => {
 		var loop_count = 0;
 		const interval_id = setInterval(() => {
 			const alloc_count = rawldk.getRemainingAllocationCount();

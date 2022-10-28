@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -259,6 +262,8 @@ import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErr
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
+import { GraphSyncError } from '../structs/GraphSyncError.mjs';
+import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -349,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -363,6 +369,7 @@ import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -431,11 +438,18 @@ export interface ChannelMessageHandlerInterface {
 	 * is believed to be possible in the future (eg they're sending us messages we don't
 	 * understand or indicate they require unknown feature bits), no_connection_possible is set
 	 * and any outstanding channels should be failed.
+	 * 
+	 * Note that in some rare cases this may be called without a corresponding
+	 * [`Self::peer_connected`].
 	 */
 	peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void;
 	/**Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
 	 */
-	peer_connected(their_node_id: Uint8Array, msg: Init): void;
+	peer_connected(their_node_id: Uint8Array, msg: Init): Result_NoneNoneZ;
 	/**Handle an incoming channel_reestablish message from the given peer.
 	 */
 	handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void;
@@ -460,7 +474,7 @@ export interface ChannelMessageHandlerInterface {
 }
 
 class LDKChannelMessageHandlerHolder {
-	held: ChannelMessageHandler;
+	held: ChannelMessageHandler|null = null;
 }
 
 /**
@@ -471,13 +485,13 @@ class LDKChannelMessageHandlerHolder {
  */
 export class ChannelMessageHandler extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKChannelMessageHandler;
+	public bindings_instance: bindings.LDKChannelMessageHandler|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {
+	constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.ChannelMessageHandler_free);
 		this.bindings_instance = null;
 	}
@@ -570,10 +584,12 @@ export class ChannelMessageHandler extends CommonBase {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				arg.peer_disconnected(their_node_id_conv, no_connection_possible);
 			},
-			peer_connected (their_node_id: number, msg: bigint): void {
+			peer_connected (their_node_id: number, msg: bigint): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: Init = new Init(null, msg);
-				arg.peer_connected(their_node_id_conv, msg_hu_conv);
+				const ret: Result_NoneNoneZ = arg.peer_connected(their_node_id_conv, msg_hu_conv);
+				const result: bigint = ret == null ? 0n : ret.clone_ptr();
+				return result;
 			},
 			handle_channel_reestablish (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
@@ -603,13 +619,13 @@ export class ChannelMessageHandler extends CommonBase {
 			},
 		} as bindings.LDKChannelMessageHandler;
 		const messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl, );
-		const ptr_idx: [bigint, number] = bindings.LDKChannelMessageHandler_new(structImplementation, messageSendEventsProvider.instance_idx);
+		const ptr_idx: [bigint, number] = bindings.LDKChannelMessageHandler_new(structImplementation, messageSendEventsProvider.instance_idx!);
 
 		impl_holder.held = new ChannelMessageHandler(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
 		impl_holder.held.ptrs_to.push(messageSendEventsProvider);
-		return impl_holder.held;
+		return impl_holder.held!;
 	}
 
 	/**
@@ -740,6 +756,9 @@ export class ChannelMessageHandler extends CommonBase {
 	 * is believed to be possible in the future (eg they're sending us messages we don't
 	 * understand or indicate they require unknown feature bits), no_connection_possible is set
 	 * and any outstanding channels should be failed.
+	 * 
+	 * Note that in some rare cases this may be called without a corresponding
+	 * [`Self::peer_connected`].
 	 */
 	public peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void {
 		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), no_connection_possible);
@@ -747,10 +766,16 @@ export class ChannelMessageHandler extends CommonBase {
 
 	/**
 	 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
 	 */
-	public peer_connected(their_node_id: Uint8Array, msg: Init): void {
-		bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+	public peer_connected(their_node_id: Uint8Array, msg: Init): Result_NoneNoneZ {
+		const ret: bigint = bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
+		return ret_hu_conv;
 	}
 
 	/**

@@ -121,12 +121,12 @@ public class ChainMonitor extends CommonBase {
 
 	/**
 	 * Indicates the persistence of a [`ChannelMonitor`] has completed after
-	 * [`ChannelMonitorUpdateErr::TemporaryFailure`] was returned from an update operation.
+	 * [`ChannelMonitorUpdateStatus::InProgress`] was returned from an update operation.
 	 * 
 	 * Thus, the anticipated use is, at a high level:
 	 * 1) This [`ChainMonitor`] calls [`Persist::update_persisted_channel`] which stores the
 	 * update to disk and begins updating any remote (e.g. watchtower/backup) copies,
-	 * returning [`ChannelMonitorUpdateErr::TemporaryFailure`],
+	 * returning [`ChannelMonitorUpdateStatus::InProgress`],
 	 * 2) once all remote copies are updated, you call this function with the
 	 * `completed_update_id` that completed, and once all pending updates have completed the
 	 * channel will be re-enabled.

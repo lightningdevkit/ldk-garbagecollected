@@ -225,6 +225,21 @@ public class NetAddress extends CommonBase {
 	}
 
 	/**
+	 * Checks if two NetAddresss contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(NetAddress b) {
+		boolean ret = bindings.NetAddress_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof NetAddress)) return false;
+		return this.eq((NetAddress)o);
+	}
+	/**
 	 * Serialize the NetAddress object into a byte array which can be read by NetAddress_read
 	 */
 	public byte[] write() {

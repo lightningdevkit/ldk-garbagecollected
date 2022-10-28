@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -252,6 +252,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -259,6 +262,8 @@ import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErr
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
+import { GraphSyncError } from '../structs/GraphSyncError.mjs';
+import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -350,6 +355,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -363,6 +369,7 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -381,7 +388,7 @@ import * as bindings from '../bindings.mjs'
 /**
  * A sender, receiver and forwarder of onion messages. In upcoming releases, this object will be
  * used to retrieve invoices and fulfill invoice requests from [offers]. Currently, only sending
- * and receiving empty onion messages is supported.
+ * and receiving custom onion messages is supported.
  * 
  * # Example
  * 
@@ -390,9 +397,14 @@ import * as bindings from '../bindings.mjs'
  * # use bitcoin::hashes::_export::_core::time::Duration;
  * # use bitcoin::secp256k1::{PublicKey, Secp256k1, SecretKey};
  * # use lightning::chain::keysinterface::{InMemorySigner, KeysManager, KeysInterface};
+ * # use lightning::ln::msgs::DecodeError;
+ * # use lightning::ln::peer_handler::IgnoringMessageHandler;
  * # use lightning::onion_message::messenger::{Destination, OnionMessenger};
+ * # use lightning::onion_message::packet::CustomOnionMessageContents;
  * # use lightning::onion_message::blinded_route::BlindedRoute;
  * # use lightning::util::logger::{Logger, Record};
+ * # use lightning::util::ser::{Writeable, Writer};
+ * # use lightning::io;
  * # use std::sync::Arc;
  * # struct FakeLogger {};
  * # impl Logger for FakeLogger {
@@ -405,28 +417,43 @@ import * as bindings from '../bindings.mjs'
  * # let node_secret = SecretKey::from_slice(&hex::decode(\"0101010101010101010101010101010101010101010101010101010101010101\").unwrap()[..]).unwrap();
  * # let secp_ctx = Secp256k1::new();
  * # let hop_node_id1 = PublicKey::from_secret_key(&secp_ctx, &node_secret);
- * # let (hop_node_id2, hop_node_id3, hop_node_id4) = (hop_node_id1, hop_node_id1,
- * hop_node_id1);
+ * # let (hop_node_id2, hop_node_id3, hop_node_id4) = (hop_node_id1, hop_node_id1, hop_node_id1);
  * # let destination_node_id = hop_node_id1;
- * #
+ * # let your_custom_message_handler = IgnoringMessageHandler {};
  * Create the onion messenger. This must use the same `keys_manager` as is passed to your
  * ChannelManager.
- * let onion_messenger = OnionMessenger::new(&keys_manager, logger);
+ * let onion_messenger = OnionMessenger::new(&keys_manager, logger, your_custom_message_handler);
  * 
- * Send an empty onion message to a node id.
+ * # #[derive(Clone)]
+ * # struct YourCustomMessage {}
+ * impl Writeable for YourCustomMessage {
+ * \tfn write<W: Writer>(&self, w: &mut W) -> Result<(), io::Error> {
+ * \t\t# Ok(())
+ * \t\t// Write your custom onion message to `w`
+ * \t}
+ * }
+ * impl CustomOnionMessageContents for YourCustomMessage {
+ * \tfn tlv_type(&self) -> u64 {
+ * \t\t# let your_custom_message_type = 42;
+ * \t\tyour_custom_message_type
+ * \t}
+ * }
+ * Send a custom onion message to a node id.
  * let intermediate_hops = [hop_node_id1, hop_node_id2];
  * let reply_path = None;
- * onion_messenger.send_onion_message(&intermediate_hops, Destination::Node(destination_node_id), reply_path);
+ * # let your_custom_message = YourCustomMessage {};
+ * onion_messenger.send_custom_onion_message(&intermediate_hops, Destination::Node(destination_node_id), your_custom_message, reply_path);
  * 
  * Create a blinded route to yourself, for someone to send an onion message to.
  * # let your_node_id = hop_node_id1;
  * let hops = [hop_node_id3, hop_node_id4, your_node_id];
  * let blinded_route = BlindedRoute::new(&hops, &keys_manager, &secp_ctx).unwrap();
  * 
- * Send an empty onion message to a blinded route.
+ * Send a custom onion message to a blinded route.
  * # let intermediate_hops = [hop_node_id1, hop_node_id2];
  * let reply_path = None;
- * onion_messenger.send_onion_message(&intermediate_hops, Destination::BlindedRoute(blinded_route), reply_path);
+ * # let your_custom_message = YourCustomMessage {};
+ * onion_messenger.send_custom_onion_message(&intermediate_hops, Destination::BlindedRoute(blinded_route), your_custom_message, reply_path);
  * ```
  * 
  * [offers]: <https://github.com/lightning/bolts/pull/798>
@@ -434,7 +461,7 @@ import * as bindings from '../bindings.mjs'
  */
 export class OnionMessenger extends CommonBase {
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.OnionMessenger_free);
 	}
 
@@ -442,24 +469,26 @@ export class OnionMessenger extends CommonBase {
 	 * Constructs a new `OnionMessenger` to send, forward, and delegate received onion messages to
 	 * their respective handlers.
 	 */
-	public static constructor_new(keys_manager: KeysInterface, logger: Logger): OnionMessenger {
-		const ret: bigint = bindings.OnionMessenger_new(keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+	public static constructor_new(keys_manager: KeysInterface, logger: Logger, custom_handler: CustomOnionMessageHandler): OnionMessenger {
+		const ret: bigint = bindings.OnionMessenger_new(keys_manager == null ? 0n : CommonBase.get_ptr_of(keys_manager), logger == null ? 0n : CommonBase.get_ptr_of(logger), custom_handler == null ? 0n : CommonBase.get_ptr_of(custom_handler));
 		const ret_hu_conv: OnionMessenger = new OnionMessenger(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);
 		CommonBase.add_ref_from(ret_hu_conv, logger);
+		CommonBase.add_ref_from(ret_hu_conv, custom_handler);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Send an empty onion message to `destination`, routing it through `intermediate_nodes`.
+	 * Send an onion message with contents `message` to `destination`, routing it through `intermediate_nodes`.
 	 * See [`OnionMessenger`] for example usage.
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public send_onion_message(intermediate_nodes: Uint8Array[], destination: Destination, reply_path: BlindedRoute): Result_NoneSendErrorZ {
-		const ret: bigint = bindings.OnionMessenger_send_onion_message(this.ptr, bindings.encodeUint32Array(intermediate_nodes != null ? intermediate_nodes.map(intermediate_nodes_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(intermediate_nodes_conv_12, 33))) : null), CommonBase.get_ptr_of(destination), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
+	public send_custom_onion_message(intermediate_nodes: Uint8Array[], destination: Destination, msg: CustomOnionMessageContents, reply_path: BlindedRoute|null): Result_NoneSendErrorZ {
+		const ret: bigint = bindings.OnionMessenger_send_custom_onion_message(this.ptr, bindings.encodeUint32Array(intermediate_nodes != null ? intermediate_nodes.map(intermediate_nodes_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(intermediate_nodes_conv_12, 33))) : null), CommonBase.get_ptr_of(destination), msg == null ? 0n : CommonBase.get_ptr_of(msg), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
 		const ret_hu_conv: Result_NoneSendErrorZ = Result_NoneSendErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
 		CommonBase.add_ref_from(this, reply_path);
 		return ret_hu_conv;
 	}

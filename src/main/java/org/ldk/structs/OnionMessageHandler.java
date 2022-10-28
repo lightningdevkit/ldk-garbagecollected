@@ -33,11 +33,18 @@ public class OnionMessageHandler extends CommonBase {
 		/**
 		 * Called when a connection is established with a peer. Can be used to track which peers
 		 * advertise onion message support and are online.
+		 * 
+		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+		 * with us. Implementors should be somewhat conservative about doing so, however, as other
+		 * message handlers may still wish to communicate with this peer.
 		 */
-		void peer_connected(byte[] their_node_id, Init init);
+		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init);
 		/**
 		 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 		 * drop and refuse to forward onion messages to this peer.
+		 * 
+		 * Note that in some rare cases this may be called without a corresponding
+		 * [`Self::peer_connected`].
 		 */
 		void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
 		/**
@@ -64,10 +71,12 @@ public class OnionMessageHandler extends CommonBase {
 				arg.handle_onion_message(peer_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void peer_connected(byte[] their_node_id, long init) {
+			@Override public long peer_connected(byte[] their_node_id, long init) {
 				org.ldk.structs.Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new org.ldk.structs.Init(null, init); }
-				arg.peer_connected(their_node_id, init_hu_conv);
+				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, init_hu_conv);
 				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
 				arg.peer_disconnected(their_node_id, no_connection_possible);
@@ -112,18 +121,28 @@ public class OnionMessageHandler extends CommonBase {
 	/**
 	 * Called when a connection is established with a peer. Can be used to track which peers
 	 * advertise onion message support and are online.
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
 	 */
-	public void peer_connected(byte[] their_node_id, Init init) {
-		bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init) {
+		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(init);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(init); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 	 * drop and refuse to forward onion messages to this peer.
+	 * 
+	 * Note that in some rare cases this may be called without a corresponding
+	 * [`Self::peer_connected`].
 	 */
 	public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
 		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), no_connection_possible);

@@ -169,6 +169,23 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	}
 
 	/**
+	 * Checks if two UnsignedChannelAnnouncements contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(UnsignedChannelAnnouncement b) {
+		boolean ret = bindings.UnsignedChannelAnnouncement_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof UnsignedChannelAnnouncement)) return false;
+		return this.eq((UnsignedChannelAnnouncement)o);
+	}
+	/**
 	 * Serialize the UnsignedChannelAnnouncement object into a byte array which can be read by UnsignedChannelAnnouncement_read
 	 */
 	public byte[] write() {

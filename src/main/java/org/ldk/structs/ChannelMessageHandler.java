@@ -94,12 +94,19 @@ public class ChannelMessageHandler extends CommonBase {
 		 * is believed to be possible in the future (eg they're sending us messages we don't
 		 * understand or indicate they require unknown feature bits), no_connection_possible is set
 		 * and any outstanding channels should be failed.
+		 * 
+		 * Note that in some rare cases this may be called without a corresponding
+		 * [`Self::peer_connected`].
 		 */
 		void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
 		/**
 		 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+		 * 
+		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+		 * with us. Implementors should be somewhat conservative about doing so, however, as other
+		 * message handlers may still wish to communicate with this peer.
 		 */
-		void peer_connected(byte[] their_node_id, Init msg);
+		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init msg);
 		/**
 		 * Handle an incoming channel_reestablish message from the given peer.
 		 */
@@ -215,10 +222,12 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.peer_disconnected(their_node_id, no_connection_possible);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void peer_connected(byte[] their_node_id, long msg) {
+			@Override public long peer_connected(byte[] their_node_id, long msg) {
 				org.ldk.structs.Init msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Init(null, msg); }
-				arg.peer_connected(their_node_id, msg_hu_conv);
+				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public void handle_channel_reestablish(byte[] their_node_id, long msg) {
 				org.ldk.structs.ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReestablish(null, msg); }
@@ -436,6 +445,9 @@ public class ChannelMessageHandler extends CommonBase {
 	 * is believed to be possible in the future (eg they're sending us messages we don't
 	 * understand or indicate they require unknown feature bits), no_connection_possible is set
 	 * and any outstanding channels should be failed.
+	 * 
+	 * Note that in some rare cases this may be called without a corresponding
+	 * [`Self::peer_connected`].
 	 */
 	public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
 		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), no_connection_possible);
@@ -446,13 +458,20 @@ public class ChannelMessageHandler extends CommonBase {
 
 	/**
 	 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
 	 */
-	public void peer_connected(byte[] their_node_id, Init msg) {
-		bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init msg) {
+		long ret = bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
+		return ret_hu_conv;
 	}
 
 	/**

@@ -182,6 +182,11 @@ public class BaseSign extends CommonBase {
 		 */
 		Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx);
 		/**
+		 * Computes the signature for a commitment transaction's anchor output used as an
+		 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
+		 */
+		Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input);
+		/**
 		 * Signs a channel announcement message with our funding key and our node secret key (aka
 		 * node_id or network_key), proving it comes from one of the channel participants.
 		 * 
@@ -279,6 +284,12 @@ public class BaseSign extends CommonBase {
 			@Override public long sign_closing_transaction(long closing_tx) {
 				org.ldk.structs.ClosingTransaction closing_tx_hu_conv = null; if (closing_tx < 0 || closing_tx > 4096) { closing_tx_hu_conv = new org.ldk.structs.ClosingTransaction(null, closing_tx); }
 				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long sign_holder_anchor_input(byte[] anchor_tx, long input) {
+				Result_SignatureNoneZ ret = arg.sign_holder_anchor_input(anchor_tx, input);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -536,6 +547,20 @@ public class BaseSign extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(closing_tx); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Computes the signature for a commitment transaction's anchor output used as an
+	 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
+	 */
+	public Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
+		long ret = bindings.BaseSign_sign_holder_anchor_input(this.ptr, anchor_tx, input);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(anchor_tx);
+		Reference.reachabilityFence(input);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

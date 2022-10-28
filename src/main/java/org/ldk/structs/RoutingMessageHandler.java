@@ -67,8 +67,12 @@ public class RoutingMessageHandler extends CommonBase {
 		 * Called when a connection is established with a peer. This can be used to
 		 * perform routing table synchronization using a strategy defined by the
 		 * implementor.
+		 * 
+		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+		 * with us. Implementors should be somewhat conservative about doing so, however, as other
+		 * message handlers may still wish to communicate with this peer.
 		 */
-		void peer_connected(byte[] their_node_id, Init init);
+		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init);
 		/**
 		 * Handles the reply of a query we initiated to learn about channels
 		 * for a given range of blocks. We can expect to receive one or more
@@ -144,10 +148,12 @@ public class RoutingMessageHandler extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public void peer_connected(byte[] their_node_id, long init) {
+			@Override public long peer_connected(byte[] their_node_id, long init) {
 				org.ldk.structs.Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new org.ldk.structs.Init(null, init); }
-				arg.peer_connected(their_node_id, init_hu_conv);
+				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, init_hu_conv);
 				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
 				org.ldk.structs.ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ReplyChannelRange(null, msg); }
@@ -287,13 +293,20 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Called when a connection is established with a peer. This can be used to
 	 * perform routing table synchronization using a strategy defined by the
 	 * implementor.
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
 	 */
-	public void peer_connected(byte[] their_node_id, Init init) {
-		bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init) {
+		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(init);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(init); };
+		return ret_hu_conv;
 	}
 
 	/**

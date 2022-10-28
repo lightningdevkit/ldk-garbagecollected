@@ -141,7 +141,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	}
 
 	/**
-	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 * Are anchors (zero fee HTLC transaction variant) used for this channel. Boolean is
+	 * serialization backwards-compatible.
 	 */
 	public COption_NoneZ get_opt_anchors() {
 		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_anchors(this.ptr);
@@ -150,7 +151,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	}
 
 	/**
-	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 * Are anchors (zero fee HTLC transaction variant) used for this channel. Boolean is
+	 * serialization backwards-compatible.
 	 */
 	public void set_opt_anchors(org.ldk.enums.COption_NoneZ val) {
 		bindings.ChannelTransactionParameters_set_opt_anchors(this.ptr, val);

@@ -23,9 +23,9 @@ import javax.annotation.Nullable;
  * Note that use as part of a [`Watch`] implementation involves reentrancy. Therefore, the `Filter`
  * should not block on I/O. Implementations should instead queue the newly monitored data to be
  * processed later. Then, in order to block until the data has been processed, any [`Watch`]
- * invocation that has called the `Filter` must return [`TemporaryFailure`].
+ * invocation that has called the `Filter` must return [`InProgress`].
  * 
- * [`TemporaryFailure`]: ChannelMonitorUpdateErr::TemporaryFailure
+ * [`InProgress`]: ChannelMonitorUpdateStatus::InProgress
  * [BIP 157]: https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki
  * [BIP 158]: https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki
  */

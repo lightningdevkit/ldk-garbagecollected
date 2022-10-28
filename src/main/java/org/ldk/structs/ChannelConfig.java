@@ -153,6 +153,12 @@ public class ChannelConfig extends CommonBase {
 	 * to such payments may be sustantial if there are many dust HTLCs present when the
 	 * channel is force-closed.
 	 * 
+	 * The dust threshold for each HTLC is based on the `dust_limit_satoshis` for each party in a
+	 * channel negotiated throughout the channel open process, along with the fees required to have
+	 * a broadcastable HTLC spending transaction. When a channel supports anchor outputs
+	 * (specifically the zero fee HTLC transaction variant), this threshold no longer takes into
+	 * account the HTLC transaction fee as it is zero.
+	 * 
 	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
 	 * exposure across all three types per-channel. Setting this too low may prevent the
 	 * sending or receipt of low-value HTLCs on high-traffic nodes, and this limit is very
@@ -175,6 +181,12 @@ public class ChannelConfig extends CommonBase {
 	 * party force-closes the channel. Because the threshold is per-HTLC, our total exposure
 	 * to such payments may be sustantial if there are many dust HTLCs present when the
 	 * channel is force-closed.
+	 * 
+	 * The dust threshold for each HTLC is based on the `dust_limit_satoshis` for each party in a
+	 * channel negotiated throughout the channel open process, along with the fees required to have
+	 * a broadcastable HTLC spending transaction. When a channel supports anchor outputs
+	 * (specifically the zero fee HTLC transaction variant), this threshold no longer takes into
+	 * account the HTLC transaction fee as it is zero.
 	 * 
 	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
 	 * exposure across all three types per-channel. Setting this too low may prevent the
@@ -283,6 +295,23 @@ public class ChannelConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two ChannelConfigs contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(ChannelConfig b) {
+		boolean ret = bindings.ChannelConfig_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ChannelConfig)) return false;
+		return this.eq((ChannelConfig)o);
+	}
 	/**
 	 * Creates a "default" ChannelConfig. See struct and individual field documentaiton for details on which values are used.
 	 */

@@ -89,6 +89,8 @@ public class PositiveTimestamp extends CommonBase {
 	 * Creates a `PositiveTimestamp` from a [`SystemTime`] with a corresponding Unix timestamp in
 	 * the range `0..=MAX_TIMESTAMP`.
 	 * 
+	 * Note that the subsecond part is dropped as it is not representable in BOLT 11 invoices.
+	 * 
 	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_system_time(long time) {
@@ -102,6 +104,8 @@ public class PositiveTimestamp extends CommonBase {
 	/**
 	 * Creates a `PositiveTimestamp` from a [`Duration`] since the Unix epoch in the range
 	 * `0..=MAX_TIMESTAMP`.
+	 * 
+	 * Note that the subsecond part is dropped as it is not representable in BOLT 11 invoices.
 	 * 
 	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */

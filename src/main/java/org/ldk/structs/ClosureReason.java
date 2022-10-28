@@ -122,8 +122,13 @@ public class ClosureReason extends CommonBase {
 	 * The peer disconnected prior to funding completing. In this case the spec mandates that we
 	 * forget the channel entirely - we can attempt again if the peer reconnects.
 	 * 
+	 * This includes cases where we restarted prior to funding completion, including prior to the
+	 * initial [`ChannelMonitor`] persistence completing.
+	 * 
 	 * In LDK versions prior to 0.0.107 this could also occur if we were unable to connect to the
 	 * peer because of mutual incompatibility between us and our channel counterparty.
+	 * 
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	public final static class DisconnectedPeer extends ClosureReason {
 		private DisconnectedPeer(long ptr, bindings.LDKClosureReason.DisconnectedPeer obj) {
@@ -131,8 +136,11 @@ public class ClosureReason extends CommonBase {
 		}
 	}
 	/**
-	 * Closure generated from `ChannelManager::read` if the ChannelMonitor is newer than
-	 * the ChannelManager deserialized.
+	 * Closure generated from `ChannelManager::read` if the [`ChannelMonitor`] is newer than
+	 * the [`ChannelManager`] deserialized.
+	 * 
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public final static class OutdatedChannelManager extends ClosureReason {
 		private OutdatedChannelManager(long ptr, bindings.LDKClosureReason.OutdatedChannelManager obj) {
@@ -247,6 +255,21 @@ public class ClosureReason extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two ClosureReasons contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(ClosureReason b) {
+		boolean ret = bindings.ClosureReason_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ClosureReason)) return false;
+		return this.eq((ClosureReason)o);
+	}
 	/**
 	 * Serialize the ClosureReason object into a byte array which can be read by ClosureReason_read
 	 */

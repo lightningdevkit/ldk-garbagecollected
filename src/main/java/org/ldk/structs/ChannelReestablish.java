@@ -93,6 +93,23 @@ public class ChannelReestablish extends CommonBase {
 	}
 
 	/**
+	 * Checks if two ChannelReestablishs contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(ChannelReestablish b) {
+		boolean ret = bindings.ChannelReestablish_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ChannelReestablish)) return false;
+		return this.eq((ChannelReestablish)o);
+	}
+	/**
 	 * Serialize the ChannelReestablish object into a byte array which can be read by ChannelReestablish_read
 	 */
 	public byte[] write() {

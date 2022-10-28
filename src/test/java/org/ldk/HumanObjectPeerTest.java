@@ -46,6 +46,7 @@ class HumanObjectPeerTestInstance {
         KeysInterface manual_keysif(KeysInterface underlying_if) {
             return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
                 @Override public Result_SecretKeyNoneZ get_node_secret(Recipient recipient) { return underlying_if.get_node_secret(recipient); }
+                @Override public Result_PublicKeyNoneZ get_node_id(Recipient recipient) { return underlying_if.get_node_id(recipient); }
 
                 @Override public Result_SharedSecretNoneZ ecdh(Recipient recipient, byte[] other_key, Option_ScalarZ tweak) { return underlying_if.ecdh(recipient, other_key, tweak); }
                 @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
@@ -88,6 +89,9 @@ class HumanObjectPeerTestInstance {
                         }
                         @Override public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
                             return underlying_base.sign_closing_transaction(closing_tx);
+                        }
+                        @Override public Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
+                            return underlying_base.sign_holder_anchor_input(anchor_tx, input);
                         }
                         @Override public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
                             return underlying_base.sign_channel_announcement(msg);
@@ -135,21 +139,21 @@ class HumanObjectPeerTestInstance {
 
         Watch get_manual_watch() {
             Watch.WatchInterface watch_impl = new Watch.WatchInterface() {
-                public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
+                public ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
 
-                public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
+                public ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
                     synchronized (monitors) {
                         String txid = Arrays.toString(funding_txo.get_txid());
                         assert monitors.containsKey(txid);
                         Result_NoneNoneZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
                         assert update_res instanceof Result_NoneNoneZ.Result_NoneNoneZ_OK;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
 
                 @Override
@@ -245,17 +249,17 @@ class HumanObjectPeerTestInstance {
             this.seed = seed;
             Persist persister = Persist.new_impl(new Persist.PersistInterface() {
                 @Override
-                public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data, MonitorUpdateId update_id) {
+                public ChannelMonitorUpdateStatus persist_new_channel(OutPoint id, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         ChannelMonitor res = test_mon_roundtrip(id, data.write());
                         assert monitors.put(key, res) == null;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
 
                 @Override
-                public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
+                public ChannelMonitorUpdateStatus update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         ChannelMonitor res = test_mon_roundtrip(id, data.write());
@@ -263,7 +267,7 @@ class HumanObjectPeerTestInstance {
                         // expose the JVM JIT bug where it finalize()s things still being called.
                         assert monitors.put(key, res) != null;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.ok();
+                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
                 }
             });
 
@@ -401,7 +405,7 @@ class HumanObjectPeerTestInstance {
                 assert node_secret.is_ok();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
                         IgnoringMessageHandler.of().as_OnionMessageHandler(),
-                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, System.currentTimeMillis() / 1000,
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, (int)(System.currentTimeMillis() / 1000),
                         random_data, logger, this.custom_message_handler);
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
@@ -540,7 +544,7 @@ class HumanObjectPeerTestInstance {
                 assert node_secret.is_ok();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
                         IgnoringMessageHandler.of().as_OnionMessageHandler(),
-                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, System.currentTimeMillis() / 1000,
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, (int)(System.currentTimeMillis() / 1000),
                         random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
@@ -873,7 +877,7 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, Currency.LDKCurrency_Bitcoin, Option_u64Z.some(10000000), "Invoice Description", 7200);
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, peer2.logger, Currency.LDKCurrency_Bitcoin, Option_u64Z.some(10000000), "Invoice Description", 7200);
         assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
 
@@ -913,7 +917,9 @@ class HumanObjectPeerTestInstance {
             byte[] hop_pubkey = new byte[33];
             hop_pubkey[0] = 3;
             hop_pubkey[1] = 42;
-            hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
+            NodeFeatures node_features = NodeFeatures.empty();
+            ChannelFeatures channel_features = ChannelFeatures.empty();
+            hops[0][0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0);
             Route r2 = Route.of(hops, payee);
             payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
             assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;

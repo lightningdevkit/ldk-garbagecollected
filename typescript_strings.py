@@ -53,7 +53,7 @@ imports.wasi_snapshot_preview1 = {
 		for (var i = 0; i < iovec_array_len; i++) {
 			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
 			console.log("[fd " + fd + "]: " + String.fromCharCode(...bytes_view));
-			bytes_written += ptr_len_view[i*2+1];
+			bytes_written += ptr_len_view[i*2+1]!;
 		}
 		const written_view = new Uint32Array(wasm.memory.buffer, bytes_written_ptr, 1);
 		written_view[0] = bytes_written;
@@ -82,7 +82,7 @@ imports.wasi_snapshot_preview1 = {
 		out_len_view[0] = 0;
 		return 0;
 	},
-	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
+	"environ_get": (_environ_ptr: number, _environ_buf_ptr: number) => {
 		// This is called before fd_write to format + print panic messages,
 		// but only if we have variables in environ_sizes_get, so shouldn't ever actually happen!
 		console.log("wasi_snapshot_preview1:environ_get");
@@ -150,7 +150,7 @@ export async function initializeWasmFetch(uri: string) {
 export function uint5ArrToBytes(inputArray: Array<UInt5>): Uint8Array {
 	const arr = new Uint8Array(inputArray.length);
 	for (var i = 0; i < inputArray.length; i++) {
-		arr[i] = inputArray[i].getVal();
+		arr[i] = inputArray[i]!.getVal();
 	}
 	return arr;
 }
@@ -159,7 +159,7 @@ export function uint5ArrToBytes(inputArray: Array<UInt5>): Uint8Array {
 export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uint8Array {
 	const arr = new Uint8Array(inputArray.length);
 	for (var i = 0; i < inputArray.length; i++) {
-		arr[i] = inputArray[i].getVal();
+		arr[i] = inputArray[i]!.getVal();
 	}
 	return arr;
 }
@@ -167,7 +167,8 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 
 /* @internal */
-export function encodeUint8Array (inputArray: Uint8Array): number {
+export function encodeUint8Array (inputArray: Uint8Array|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
 	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = BigInt(inputArray.length);
@@ -176,7 +177,8 @@ export function encodeUint8Array (inputArray: Uint8Array): number {
 	return cArrayPointer;
 }
 /* @internal */
-export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
+export function encodeUint32Array (inputArray: Uint32Array|Array<number>|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
 	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = BigInt(inputArray.length);
@@ -185,24 +187,25 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 	return cArrayPointer;
 }
 /* @internal */
-export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayMemoryView.set(inputArray, 1);
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, inputArray.length + 1);
 	arrayMemoryView[0] = BigInt(inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
 	return cArrayPointer;
 }
 
 /* @internal */
-export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
-	if (arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
+export function check_arr_len(arr: Uint8Array|null, len: number): Uint8Array|null {
+	if (arr !== null && arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
 	return arr;
 }
 
 /* @internal */
 export function getArrayLength(arrayPointer: number): number {
 	const arraySizeViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer, 1);
-	const len = arraySizeViewer[0];
+	const len = arraySizeViewer[0]!;
 	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
 	return Number(len % (2n ** 32n));
 }
@@ -257,19 +260,19 @@ export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
 /* @internal */
 export function getU64ArrayElem(arrayPointer: number, idx: number): bigint {
 	const actualArrayViewer = new BigUint64Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
-	return actualArrayViewer[idx];
+	return actualArrayViewer[idx]!;
 }
 
 /* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
 	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
-	return actualArrayViewer[idx];
+	return actualArrayViewer[idx]!;
 }
 
 /* @internal */
 export function getU8ArrayElem(arrayPointer: number, idx: number): number {
 	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, idx + 1);
-	return actualArrayViewer[idx];
+	return actualArrayViewer[idx]!;
 }
 
 
@@ -347,8 +350,8 @@ export class CommonBase {
 	// In Java, protected means "any subclass can access fields on any other subclass'"
 	// In TypeScript, protected means "any subclass can access parent fields on instances of itself"
 	// To work around this, we add accessors for other instances' protected fields here.
-	protected static add_ref_from(holder: CommonBase, referent: object) {
-		if (holder !== null) { holder.ptrs_to.push(referent); }
+	protected static add_ref_from(holder: CommonBase|null, referent: object|null) {
+		if (holder !== null && referent !== null) { holder.ptrs_to.push(referent); }
 	}
 	protected static get_ptr_of(o: CommonBase) {
 		return o.ptr;
@@ -381,7 +384,7 @@ export class WitnessVersion {
 }
 
 export class UnqualifiedError {
-	public constructor(val: number) {}
+	public constructor(_val: number) {}
 }
 """
 
@@ -392,7 +395,7 @@ export class UnqualifiedError {
 	public value: bigint;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.TxOut_free);
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
@@ -408,7 +411,7 @@ export class UnqualifiedError {
 	public scalar_bytes: Uint8Array;
 
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {
+	public constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.BigEndianScalar_free);
 		this.scalar_bytes = bindings.decodeUint8Array(bindings.BigEndianScalar_get_bytes(ptr));
 	}
@@ -871,7 +874,7 @@ export enum {struct_name} {{
                 else:
                     bindings_instantiator += ", " + first_to_lower(var.arg_name)
             else:
-                bindings_instantiator += ", " + first_to_lower(var[1]) + ".instance_idx"
+                bindings_instantiator += ", " + first_to_lower(var[1]) + ".instance_idx!"
                 super_instantiator += first_to_lower(var[1]) + "_impl, "
                 pointer_to_adder += "\t\timpl_holder.held.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
                 impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}Interface"
@@ -883,7 +886,7 @@ export enum {struct_name} {{
                 trait_constructor_arguments += ", " + var.arg_name
             else:
                 super_constructor_statements += "\t\tconst " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + super_instantiator + ");\n"
-                trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".instance_idx"
+                trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".instance_idx!"
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
                         trait_constructor_arguments += ", " + suparg.arg_name
@@ -955,7 +958,7 @@ export interface {struct_name.replace("LDK", "")}Interface {{
 {out_java_interface}}}
 
 class {struct_name}Holder {{
-	held: {struct_name.replace("LDK", "")};
+	held: {struct_name.replace("LDK", "")}|null = null;
 }}
 
 /**
@@ -963,13 +966,13 @@ class {struct_name}Holder {{
  */
 export class {struct_name.replace("LDK","")} extends CommonBase {{
 	/* @internal */
-	public bindings_instance?: bindings.{struct_name};
+	public bindings_instance: bindings.{struct_name}|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {{
+	constructor(_dummy: null, ptr: bigint) {{
 		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
 		this.bindings_instance = null;
 	}}
@@ -984,7 +987,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		impl_holder.held = new {struct_name.replace("LDK", "")}(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
-{pointer_to_adder}		return impl_holder.held;
+{pointer_to_adder}		return impl_holder.held!;
 	}}
 
 """
@@ -1087,7 +1090,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     out_c = out_c + "\tjs_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_hu_ty == "string":
                     out_c += "\tjstring ret = (jstring)js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
-                elif not fn_line.ret_ty_info.passed_as_ptr:
+                elif fn_line.ret_ty_info.arg_conv is None:
                     out_c += "\treturn js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
                     out_c += "\tuint64_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
@@ -1211,7 +1214,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         java_hu_class = "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
         java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
-        java_hu_class += "\tprotected constructor(_dummy: object, ptr: bigint) { super(ptr, bindings." + bindings_type + "_free); }\n"
+        java_hu_class += "\tprotected constructor(_dummy: null, ptr: bigint) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
         java_hu_class += f"\tpublic static constr_from_ptr(ptr: bigint): {java_hu_type} {{\n"
         java_hu_class += f"\t\tconst raw_ty: number = bindings." + struct_name + "_ty_from_ptr(ptr);\n"
@@ -1303,7 +1306,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
  */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {{
+	public constructor(_dummy: null, ptr: bigint) {{
 		{constructor_body}
 	}}{extra_body}
 
@@ -1322,7 +1325,7 @@ export class {hu_name} extends CommonBase {implementations}{{
             suffixes += "\tpublic res: " + res_map.java_hu_ty + ";\n"
         suffixes += f"""
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {{
+	public constructor(_dummy: null, ptr: bigint) {{
 		super(_dummy, ptr);
 """
         if res_map.java_hu_ty == "void":
@@ -1340,7 +1343,7 @@ export class {hu_name} extends CommonBase {implementations}{{
             suffixes += "\tpublic err: " + err_map.java_hu_ty + ";\n"
         suffixes += f"""
 	/* @internal */
-	public constructor(_dummy: object, ptr: bigint) {{
+	public constructor(_dummy: null, ptr: bigint) {{
 		super(_dummy, ptr);
 """
         if err_map.java_hu_ty == "void":
@@ -1359,7 +1362,7 @@ export class {hu_name} extends CommonBase {implementations}{{
         return f"""{self.hu_struct_file_prefix}
 
 export class {human_ty} extends CommonBase {{
-	protected constructor(_dummy: object, ptr: bigint) {{
+	protected constructor(_dummy: null, ptr: bigint) {{
 		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
 	}}
 	/* @internal */
@@ -1440,6 +1443,8 @@ export function {method_name}({method_argument_string}): {return_java_ty} {{
                             out_java_struct += arg.arg_name + "_" + explode_arg.arg_name + ": " + explode_arg.java_hu_ty
                     else:
                         out_java_struct += arg.arg_name + ": " + arg.java_hu_ty
+                        if arg.nullable:
+                            out_java_struct += "|null"
 
         out_c += (") {\n")
         if out_java_struct is not None:
@@ -1546,12 +1551,12 @@ export function {method_name}({method_argument_string}): {return_java_ty} {{
             bindings.write("""
 
 js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: bigint|number, arg3: bigint|number, arg4: bigint|number, arg5: bigint|number, arg6: bigint|number, arg7: bigint|number, arg8: bigint|number, arg9: bigint|number, arg10: bigint|number) {
-	const weak: WeakRef<object> = js_objs[obj_ptr];
+	const weak: WeakRef<object>|undefined = js_objs[obj_ptr];
 	if (weak == null || weak == undefined) {
 		console.error("Got function call on unknown/free'd JS object!");
 		throw new Error("Got function call on unknown/free'd JS object!");
 	}
-	const obj: object = weak.deref();
+	const obj = weak.deref();
 	if (obj == null || obj == undefined) {
 		console.error("Got function call on GC'd JS object!");
 		throw new Error("Got function call on GC'd JS object!");

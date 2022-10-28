@@ -2,7 +2,7 @@ import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
 import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
-import { ChannelMonitorUpdateErr } from '../enums/ChannelMonitorUpdateErr.mjs';
+import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -109,7 +109,6 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { Result_NoneChannelMonitorUpdateErrZ } from '../structs/Result_NoneChannelMonitorUpdateErrZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -165,6 +164,7 @@ import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
 import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
 import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
 import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
@@ -251,6 +251,9 @@ import { Balance } from '../structs/Balance.mjs';
 import { TwoTuple_BlockHashChannelMonitorZ } from '../structs/TwoTuple_BlockHashChannelMonitorZ.mjs';
 import { Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
+import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
+import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
+import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
@@ -258,6 +261,8 @@ import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErr
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
+import { GraphSyncError } from '../structs/GraphSyncError.mjs';
+import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -349,6 +354,7 @@ import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/On
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
@@ -363,6 +369,7 @@ import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -388,22 +395,22 @@ export interface WatchInterface {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
-	 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+	 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
 	 * the given `funding_txo` has previously been registered via `watch_channel`.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
-	watch_channel(funding_txo: OutPoint, monitor: ChannelMonitor): Result_NoneChannelMonitorUpdateErrZ;
+	watch_channel(funding_txo: OutPoint, monitor: ChannelMonitor): ChannelMonitorUpdateStatus;
 	/**Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 	 * 
 	 * Implementations must call [`update_monitor`] with the given update. See
-	 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
+	 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
 	 * 
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 	 */
-	update_channel(funding_txo: OutPoint, update: ChannelMonitorUpdate): Result_NoneChannelMonitorUpdateErrZ;
+	update_channel(funding_txo: OutPoint, update: ChannelMonitorUpdate): ChannelMonitorUpdateStatus;
 	/**Returns any monitor events since the last call. Subsequent calls must only return new
 	 * events.
 	 * 
@@ -412,13 +419,13 @@ export interface WatchInterface {
 	 * to disk.
 	 * 
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
-	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * [`MonitorEvent::Completed`] here, see [`ChannelMonitorUpdateStatus::InProgress`].
 	 */
 	release_pending_monitor_events(): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[];
 }
 
 class LDKWatchHolder {
-	held: Watch;
+	held: Watch|null = null;
 }
 
 /**
@@ -437,20 +444,20 @@ class LDKWatchHolder {
  * If an implementation maintains multiple instances of a channel's monitor (e.g., by storing
  * backup copies), then it must ensure that updates are applied across all instances. Otherwise, it
  * could result in a revoked transaction being broadcast, allowing the counterparty to claim all
- * funds in the channel. See [`ChannelMonitorUpdateErr`] for more details about how to handle
+ * funds in the channel. See [`ChannelMonitorUpdateStatus`] for more details about how to handle
  * multiple instances.
  * 
- * [`PermanentFailure`]: ChannelMonitorUpdateErr::PermanentFailure
+ * [`PermanentFailure`]: ChannelMonitorUpdateStatus::PermanentFailure
  */
 export class Watch extends CommonBase {
 	/* @internal */
-	public bindings_instance?: bindings.LDKWatch;
+	public bindings_instance: bindings.LDKWatch|null;
 
 	/* @internal */
 	public instance_idx?: number;
 
 	/* @internal */
-	constructor(_dummy: object, ptr: bigint) {
+	constructor(_dummy: null, ptr: bigint) {
 		super(ptr, bindings.Watch_free);
 		this.bindings_instance = null;
 	}
@@ -459,23 +466,21 @@ export class Watch extends CommonBase {
 	public static new_impl(arg: WatchInterface): Watch {
 		const impl_holder: LDKWatchHolder = new LDKWatchHolder();
 		let structImplementation = {
-			watch_channel (funding_txo: bigint, monitor: bigint): bigint {
+			watch_channel (funding_txo: bigint, monitor: bigint): ChannelMonitorUpdateStatus {
 				const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 				CommonBase.add_ref_from(funding_txo_hu_conv, this);
 				const monitor_hu_conv: ChannelMonitor = new ChannelMonitor(null, monitor);
 				CommonBase.add_ref_from(monitor_hu_conv, this);
-				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
+				const ret: ChannelMonitorUpdateStatus = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
+				return ret;
 			},
-			update_channel (funding_txo: bigint, update: bigint): bigint {
+			update_channel (funding_txo: bigint, update: bigint): ChannelMonitorUpdateStatus {
 				const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 				CommonBase.add_ref_from(funding_txo_hu_conv, this);
 				const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
 				CommonBase.add_ref_from(update_hu_conv, this);
-				const ret: Result_NoneChannelMonitorUpdateErrZ = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
+				const ret: ChannelMonitorUpdateStatus = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
+				return ret;
 			},
 			release_pending_monitor_events (): number {
 				const ret: ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] = arg.release_pending_monitor_events();
@@ -488,7 +493,7 @@ export class Watch extends CommonBase {
 		impl_holder.held = new Watch(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held;
+		return impl_holder.held!;
 	}
 
 	/**
@@ -498,35 +503,33 @@ export class Watch extends CommonBase {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
-	 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+	 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
 	 * the given `funding_txo` has previously been registered via `watch_channel`.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
-	public watch_channel(funding_txo: OutPoint, monitor: ChannelMonitor): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor == null ? 0n : CommonBase.get_ptr_of(monitor));
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public watch_channel(funding_txo: OutPoint, monitor: ChannelMonitor): ChannelMonitorUpdateStatus {
+		const ret: ChannelMonitorUpdateStatus = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), monitor == null ? 0n : CommonBase.get_ptr_of(monitor));
 		CommonBase.add_ref_from(this, funding_txo);
 		CommonBase.add_ref_from(this, monitor);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
 	 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 	 * 
 	 * Implementations must call [`update_monitor`] with the given update. See
-	 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
+	 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
 	 * 
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 	 */
-	public update_channel(funding_txo: OutPoint, update: ChannelMonitorUpdate): Result_NoneChannelMonitorUpdateErrZ {
-		const ret: bigint = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), update == null ? 0n : CommonBase.get_ptr_of(update));
-		const ret_hu_conv: Result_NoneChannelMonitorUpdateErrZ = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+	public update_channel(funding_txo: OutPoint, update: ChannelMonitorUpdate): ChannelMonitorUpdateStatus {
+		const ret: ChannelMonitorUpdateStatus = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0n : CommonBase.get_ptr_of(funding_txo), update == null ? 0n : CommonBase.get_ptr_of(update));
 		CommonBase.add_ref_from(this, funding_txo);
 		CommonBase.add_ref_from(this, update);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -538,7 +541,7 @@ export class Watch extends CommonBase {
 	 * to disk.
 	 * 
 	 * For details on asynchronous [`ChannelMonitor`] updating and returning
-	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
+	 * [`MonitorEvent::Completed`] here, see [`ChannelMonitorUpdateStatus::InProgress`].
 	 */
 	public release_pending_monitor_events(): ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ[] {
 		const ret: number = bindings.Watch_release_pending_monitor_events(this.ptr);

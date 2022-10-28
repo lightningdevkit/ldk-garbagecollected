@@ -36,7 +36,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		private Result_SpendableOutputDescriptorDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_get_err(ptr);
-			org.ldk.structs.DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new org.ldk.structs.DecodeError(null, err); }
+			org.ldk.structs.DecodeError err_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(err);
 			if (err_hu_conv != null) { err_hu_conv.ptrs_to.add(this); };
 			this.err = err_hu_conv;
 		}
@@ -57,11 +57,10 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_SpendableOutputDescriptorDecodeErrorZ in the error state.
 	 */
 	public static Result_SpendableOutputDescriptorDecodeErrorZ err(DecodeError e) {
-		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr);
+		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(e); };
 		return ret_hu_conv;
 	}
 

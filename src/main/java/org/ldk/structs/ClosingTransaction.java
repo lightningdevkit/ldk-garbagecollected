@@ -55,6 +55,23 @@ public class ClosingTransaction extends CommonBase {
 		return (int)this.hash();
 	}
 	/**
+	 * Checks if two ClosingTransactions contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(ClosingTransaction b) {
+		boolean ret = bindings.ClosingTransaction_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ClosingTransaction)) return false;
+		return this.eq((ClosingTransaction)o);
+	}
+	/**
 	 * Construct an object of the class
 	 */
 	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {

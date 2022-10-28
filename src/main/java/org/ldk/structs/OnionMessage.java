@@ -57,6 +57,23 @@ public class OnionMessage extends CommonBase {
 	}
 
 	/**
+	 * Checks if two OnionMessages contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(OnionMessage b) {
+		boolean ret = bindings.OnionMessage_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof OnionMessage)) return false;
+		return this.eq((OnionMessage)o);
+	}
+	/**
 	 * Read a OnionMessage from a byte array, created by OnionMessage_write
 	 */
 	public static Result_OnionMessageDecodeErrorZ read(byte[] ser) {
