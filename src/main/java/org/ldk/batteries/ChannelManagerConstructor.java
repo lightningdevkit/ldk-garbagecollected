@@ -132,7 +132,7 @@ public class ChannelManagerConstructor {
                     graph_msg_handler.as_RoutingMessageHandler(),
                     ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    System.currentTimeMillis() / 1000,
+                    (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
@@ -140,7 +140,7 @@ public class ChannelManagerConstructor {
                     ignoring_handler.as_RoutingMessageHandler(),
                     ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    System.currentTimeMillis() / 1000,
+                    (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
@@ -184,7 +184,7 @@ public class ChannelManagerConstructor {
                     graph_msg_handler.as_RoutingMessageHandler(),
                     ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    System.currentTimeMillis() / 1000,
+                    (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
@@ -192,7 +192,7 @@ public class ChannelManagerConstructor {
                     ignoring_handler.as_RoutingMessageHandler(),
                     ignoring_handler.as_OnionMessageHandler(),
                     ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    System.currentTimeMillis() / 1000,
+                    (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
