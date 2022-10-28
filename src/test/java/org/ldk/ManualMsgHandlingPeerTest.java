@@ -94,8 +94,9 @@ public class ManualMsgHandlingPeerTest {
             }
 
             @Override
-            public void peer_connected(byte[] their_node_id, long msg) {
-
+            public long peer_connected(byte[] their_node_id, long msg) {
+                assert false;
+                return 0;
             }
 
             @Override
@@ -148,7 +149,7 @@ public class ManualMsgHandlingPeerTest {
                 return 0;
             }
 
-            @Override public void peer_connected(byte[] their_node_id, long init) { }
+            @Override public long peer_connected(byte[] their_node_id, long init) { assert false; return 0; }
 
             @Override
             public long handle_reply_channel_range(byte[] their_node_id, long msg) {
@@ -189,7 +190,7 @@ public class ManualMsgHandlingPeerTest {
         byte[] random_data = new byte[32];
         for (byte i = 0; i < 32; i++) { random_data[i] = i; our_node_secret[i] = (byte) (i ^ 0xff); }
 
-        long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, System.currentTimeMillis() / 1000,
+        long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, (int)(System.currentTimeMillis() / 1000),
                 random_data, logger,
                 bindings.IgnoringMessageHandler_as_CustomMessageHandler(ignoring_message_handler));
 
