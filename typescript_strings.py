@@ -167,7 +167,8 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 
 /* @internal */
-export function encodeUint8Array (inputArray: Uint8Array): number {
+export function encodeUint8Array (inputArray: Uint8Array|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
 	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = BigInt(inputArray.length);
@@ -176,7 +177,8 @@ export function encodeUint8Array (inputArray: Uint8Array): number {
 	return cArrayPointer;
 }
 /* @internal */
-export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
+export function encodeUint32Array (inputArray: Uint32Array|Array<number>|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
 	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = BigInt(inputArray.length);
@@ -185,7 +187,8 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 	return cArrayPointer;
 }
 /* @internal */
-export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>|null): number {
+	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 8);
 	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, inputArray.length + 1);
 	arrayMemoryView[0] = BigInt(inputArray.length);
@@ -194,8 +197,8 @@ export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): nu
 }
 
 /* @internal */
-export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
-	if (arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
+export function check_arr_len(arr: Uint8Array|null, len: number): Uint8Array {
+	if (arr !== null && arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
 	return arr;
 }
 
@@ -347,8 +350,8 @@ export class CommonBase {
 	// In Java, protected means "any subclass can access fields on any other subclass'"
 	// In TypeScript, protected means "any subclass can access parent fields on instances of itself"
 	// To work around this, we add accessors for other instances' protected fields here.
-	protected static add_ref_from(holder: CommonBase, referent: object) {
-		if (holder !== null) { holder.ptrs_to.push(referent); }
+	protected static add_ref_from(holder: CommonBase|null, referent: object|null) {
+		if (holder !== null && referent !== null) { holder.ptrs_to.push(referent); }
 	}
 	protected static get_ptr_of(o: CommonBase) {
 		return o.ptr;
