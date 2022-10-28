@@ -3,18 +3,21 @@ import * as ldk from "../index.mjs";
 
 const tests: Array<Function> = [];
 
+function assert(val: boolean) {
+	if (!val) throw new Error("Assertion failed");
+}
 function array_eq(a: Uint8Array, b: Uint8Array): boolean {
 	return a.length == b.length && a.every((v, idx) => v == b[idx]);
 }
 
 tests.push(async () => {
 	const result = rawldk.CResult_boolLightningErrorZ_ok(true);
-	console.assert(rawldk.CResult_boolLightningErrorZ_is_ok(result));
-	console.assert(rawldk.CResult_boolLightningErrorZ_get_ok(result));
+	assert(rawldk.CResult_boolLightningErrorZ_is_ok(result));
+	assert(rawldk.CResult_boolLightningErrorZ_get_ok(result));
 	rawldk.CResult_boolLightningErrorZ_free(result);
 	const second_res = rawldk.CResult_boolLightningErrorZ_ok(false);
-	console.assert(rawldk.CResult_boolLightningErrorZ_is_ok(second_res));
-	console.assert(!rawldk.CResult_boolLightningErrorZ_get_ok(second_res));
+	assert(rawldk.CResult_boolLightningErrorZ_is_ok(second_res));
+	assert(!rawldk.CResult_boolLightningErrorZ_get_ok(second_res));
 	rawldk.CResult_boolLightningErrorZ_free(second_res);
 
 	return true;
@@ -160,7 +163,7 @@ function get_event(chan_man: ldk.ChannelManager): ldk.Event {
 	} as ldk.EventHandlerInterface);
 
 	chan_man.as_EventsProvider().process_pending_events(event_handler);
-	console.assert(events.length == 1);
+	assert(events.length == 1);
 	return events[0];
 }
 
@@ -224,11 +227,11 @@ tests.push(async () => {
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -239,11 +242,11 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -261,20 +264,20 @@ tests.push(async () => {
 	if (update_done) return false;
 
 	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
-	console.assert(pm_a.get_peer_node_ids().length == 0);
-	console.assert(pm_b.get_peer_node_ids().length == 0);
+	assert(pm_a.get_peer_node_ids().length == 0);
+	assert(pm_b.get_peer_node_ids().length == 0);
 
 	pm_b.process_events();
 	pm_a.process_events();
 	pm_b.process_events();
 
-	console.assert(pm_a.get_peer_node_ids().length == 1);
-	console.assert(pm_b.get_peer_node_ids().length == 1);
+	assert(pm_a.get_peer_node_ids().length == 1);
+	assert(pm_b.get_peer_node_ids().length == 1);
 
 	const chan_create_res = a.chan_man.create_channel(b.node_id, BigInt(1000000), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (!chan_create_res.is_ok()) return false;
@@ -299,16 +302,16 @@ tests.push(async () => {
 	var a_handled_msg = false;
 	const om_handler_a = ldk.CustomOnionMessageHandler.new_impl({
 		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
-			console.assert(message_type == 4343n);
-			console.assert(buffer.length == 44);
-			for (var i = 0; i < 44; i++) console.assert(buffer[i] == 67);
+			assert(message_type == 4343n);
+			assert(buffer.length == 44);
+			for (var i = 0; i < 44; i++) assert(buffer[i] == 67);
 			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9998n; },
-				write(): Uint8Array { console.assert(false); return null; }
+				write(): Uint8Array { assert(false); return null; }
 			} as ldk.CustomOnionMessageContentsInterface)));
 		},
 		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
-			console.assert(msg.tlv_type() == 9998n);
+			assert(msg.tlv_type() == 9998n);
 			a_handled_msg = true;
 		},
 	} as ldk.CustomOnionMessageHandlerInterface);
@@ -340,16 +343,16 @@ tests.push(async () => {
 	var b_handled_msg = false;
 	const om_handler_b = ldk.CustomOnionMessageHandler.new_impl({
 		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
-			console.assert(message_type == 4242n);
-			console.assert(buffer.length == 43);
-			for (var i = 0; i < 43; i++) console.assert(buffer[i] == 66);
+			assert(message_type == 4242n);
+			assert(buffer.length == 43);
+			for (var i = 0; i < 43; i++) assert(buffer[i] == 66);
 			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9999n; },
-				write(): Uint8Array { console.assert(false); return null; }
+				write(): Uint8Array { assert(false); return null; }
 			} as ldk.CustomOnionMessageContentsInterface)));
 		},
 		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
-			console.assert(msg.tlv_type() == 9999n);
+			assert(msg.tlv_type() == 9999n);
 			b_handled_msg = true;
 		},
 	} as ldk.CustomOnionMessageHandlerInterface);
@@ -361,11 +364,11 @@ tests.push(async () => {
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -376,11 +379,11 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			console.assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 			return data.length;
 		},
 		disconnect_socket(): void {
-			console.assert(false);
+			assert(false);
 		},
 		eq(other: ldk.SocketDescriptor): boolean {
 			return other.hash() == this.hash();
@@ -391,20 +394,20 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 
 	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	console.assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	console.assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
-	console.assert(pm_a.get_peer_node_ids().length == 0);
-	console.assert(pm_b.get_peer_node_ids().length == 0);
+	assert(pm_a.get_peer_node_ids().length == 0);
+	assert(pm_b.get_peer_node_ids().length == 0);
 
 	pm_b.process_events();
 	pm_a.process_events();
 	pm_b.process_events();
 
-	console.assert(pm_a.get_peer_node_ids().length == 1);
-	console.assert(pm_b.get_peer_node_ids().length == 1);
+	assert(pm_a.get_peer_node_ids().length == 1);
+	assert(pm_b.get_peer_node_ids().length == 1);
 
 	underlying_om_a.send_custom_onion_message([], ldk.Destination.constructor_node(b.node_id), ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4242n; },
@@ -415,7 +418,7 @@ tests.push(async () => {
 			}
 		} as ldk.CustomOnionMessageContentsInterface), null);
 	pm_a.process_events();
-	console.assert(b_handled_msg);
+	assert(b_handled_msg);
 
 	om_b.send_custom_onion_message([], ldk.Destination.constructor_node(a.node_id), ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4343n; },
@@ -426,7 +429,7 @@ tests.push(async () => {
 			}
 		} as ldk.CustomOnionMessageContentsInterface), null);
 	pm_b.process_events();
-	console.assert(a_handled_msg);
+	assert(a_handled_msg);
 
 	return true;
 });
