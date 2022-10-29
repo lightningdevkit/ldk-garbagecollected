@@ -74,8 +74,7 @@ public class bindings {
 		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
 			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
 		// Fetching the LDK versions from C also checks that the header and binaries match
-		get_ldk_c_bindings_version();
-		get_ldk_version();
+		System.err.println("Loaded LDK-Java Bindings " + version.get_ldk_java_bindings_version() + " with LDK " + get_ldk_version() + " and LDK-C-Bindings " + get_ldk_c_bindings_version());
 	}
 	static native void init(java.lang.Class c, java.lang.Class slicedef);
 	static native void init_class_cache();
@@ -237,7 +236,6 @@ void __attribute__((constructor)) debug_log_version() {
 		DEBUG_PRINT("LDK version did not match the header we built against\\n");
 	if (check_get_ldk_bindings_version() == NULL)
 		DEBUG_PRINT("LDK C Bindings version did not match the header we built against\\n");
-	DEBUG_PRINT("Loaded LDK-Java Bindings with LDK %s and LDK-C-Bindings %s\\n", check_get_ldk_version(), check_get_ldk_bindings_version());
 }
 """
 
