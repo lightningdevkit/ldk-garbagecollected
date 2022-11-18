@@ -14,7 +14,7 @@ A release build of the Java bindings library for Linux is available in git. Thus
 
 To build the bindings locally, the bindings require some additional work which is still making its
 way upstream, for now it should be built against the
-[rust-lightning 2022-07-109-java-bindings branch on git.bitcoin.ninja](https://git.bitcoin.ninja/?p=rust-lightning;a=shortlog;h=refs/heads/2022-07-109-java-bindings).
+[rust-lightning 2022-10-112-java-bindings branch on git.bitcoin.ninja](https://git.bitcoin.ninja/?p=rust-lightning;a=shortlog;h=refs/heads/2022-10-112-java-bindings).
 Check that branch out locally as well as [ldk-c-bindings](https://github.com/lightningdevkit/ldk-c-bindings)
 and run the `genbindings.sh` script in ldk-c-bindings to build the required binaries. Thereafter,
 in this repo, run the `genbindings.sh` script with the first argument pointing to the ldk-c-bindings
