@@ -551,7 +551,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         default_constructor_args = {}
         takes_self = False
         takes_self_ptr = False
-        args_known = True
 
         for argument_index, argument in enumerate(method_arguments):
             arg_ty = type_mapping_generator.java_c_types(argument, None)
@@ -585,13 +584,12 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
-                    for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
+                    for explode_idx, explode_arg in enumerate(constructor_fns[argument_conversion_info.rust_obj].split(',')):
                         explode_arg_conv = type_mapping_generator.map_type(explode_arg, False, None, False, True)
+                        if explode_idx == 0 and explode_arg_conv.c_ty == "void":
+                            continue # (void) is C lingo for "no arguments)
                         if explode_arg_conv.c_ty == "void":
-                            # We actually want to handle this case, but for now its only used in NetGraphMsgHandler::new()
-                            # which ends up resulting in a redundant constructor - both without arguments for the NetworkGraph.
-                            args_known = False
-                            pass
+                            assert False
                         if not argument_conversion_info.arg_name in default_constructor_args:
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
@@ -625,6 +623,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         arg.from_hu_conv = (arg.from_hu_conv[0], "")
 
         out_java.write("\t// " + line)
+        args_known = True # We no longer ever set this to false
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
             consts.map_function(argument_types, c_call_string, method_name, struct_meth_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_ptr, args_known, type_mapping_generator, doc_comment)
         out_java.write(out_java_delta)
