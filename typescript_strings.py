@@ -167,6 +167,16 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 
 /* @internal */
+export function encodeUint128 (inputVal: bigint): number {
+	if (inputVal >= 0x10000000000000000000000000000000n) throw "U128s cannot exceed 128 bits";
+	const cArrayPointer = wasm.TS_malloc(16 + 8);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(16);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 8, 16);
+	for (var i = 0; i < 16; i++) arrayMemoryView[i] = Number((inputVal >> BigInt(i)*8n) & 0xffn);
+	return cArrayPointer;
+}
+/* @internal */
 export function encodeUint8Array (inputArray: Uint8Array|null): number {
 	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 8);
@@ -208,6 +218,21 @@ export function getArrayLength(arrayPointer: number): number {
 	const len = arraySizeViewer[0]!;
 	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
 	return Number(len % (2n ** 32n));
+}
+/* @internal */
+export function decodeUint128 (arrayPointer: number, free = true): bigint {
+	const arraySize = getArrayLength(arrayPointer);
+	if (arraySize != 16) throw "Need 16 bytes for a uint128";
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
+	var val = 0n;
+	for (var i = 0; i < 16; i++) {
+		val <<= 8n;
+		val |= BigInt(actualArrayViewer[i]!);
+	}
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return val;
 }
 /* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
@@ -678,6 +703,7 @@ import * as bindings from '../bindings.mjs'
         self.file_ext = ".mts"
         self.ptr_c_ty = "uint64_t"
         self.ptr_native_ty = "bigint"
+        self.u128_native_ty = "bigint"
         self.usize_c_ty = "uint32_t"
         self.usize_native_ty = "number"
         self.native_zero_ptr = "0n"
@@ -760,6 +786,8 @@ import * as bindings from '../bindings.mjs'
     def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
         mapped_ty = arr_ty.subty
         inner = arr_name
+        if arr_ty.rust_obj == "LDKU128":
+            return ("bindings.encodeUint128(" + inner + ")", "")
         if fixed_len is not None:
             assert mapped_ty.c_ty == "int8_t"
             inner = "bindings.check_arr_len(" + arr_name + ", " + fixed_len + ")"
@@ -777,7 +805,9 @@ import * as bindings from '../bindings.mjs'
 
     def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
         mapped_ty = arr_ty.subty
-        if mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+        if arr_ty.rust_obj == "LDKU128":
+            return "const " + conv_name + ": bigint = bindings.decodeUint128(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
             return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
             return "const " + conv_name + ": bigint[] = bindings.decodeUint64Array(" + arr_name + ");"

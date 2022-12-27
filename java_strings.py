@@ -574,6 +574,7 @@ import javax.annotation.Nullable;
         self.file_ext = ".java"
         self.ptr_c_ty = "int64_t"
         self.ptr_native_ty = "long"
+        self.u128_native_ty = "UInt128"
         self.usize_c_ty = "int64_t"
         self.usize_native_ty = "long"
         self.native_zero_ptr = "0"
@@ -704,10 +705,14 @@ import javax.annotation.Nullable;
 
     def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
         mapped_ty = arr_ty.subty
+        if arr_ty.rust_obj == "LDKU128":
+            return ("" + arr_name + ".getLEBytes()", "")
         if fixed_len is not None:
             return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
         return None
     def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
+        if arr_ty.rust_obj == "LDKU128":
+            return "org.ldk.util.UInt128 " + conv_name + " = new org.ldk.util.UInt128(" + arr_name + ");"
         return None
 
     def java_arr_ty_str(self, elem_ty_str):
@@ -729,7 +734,7 @@ import javax.annotation.Nullable;
     def fully_qualified_hu_ty_path(self, ty):
         if ty.java_fn_ty_arg.startswith("L") and ty.java_fn_ty_arg.endswith(";"):
             return ty.java_fn_ty_arg.strip("L;").replace("/", ".")
-        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5" or ty.java_hu_ty == "WitnessVersion":
+        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt128" or ty.java_hu_ty == "UInt5" or ty.java_hu_ty == "WitnessVersion":
             return "org.ldk.util." + ty.java_hu_ty
         if not ty.is_native_primitive and ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
             return "org.ldk.structs." + ty.java_hu_ty

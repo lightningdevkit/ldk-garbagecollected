@@ -139,6 +139,16 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
+    elif fn_arg.startswith("LDKU128"):
+        if fn_arg == "LDKU128":
+            fn_arg = "LDKU128 arg"
+        if fn_arg.startswith("LDKU128*") or fn_arg.startswith("LDKU128 *"):
+            fn_arg = "uint8_t (" + fn_arg[8:] + ")[16]"
+        else:
+            fn_arg = "uint8_t (*" + fn_arg[8:] + ")[16]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKU128"
+        arr_access = "le_bytes"
     elif fn_arg.startswith("LDKTxid"):
         fn_arg = "uint8_t (*" + fn_arg[8:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -381,6 +391,8 @@ def java_c_types(fn_arg, ret_arr_len):
         else:
             java_ty = java_ty + "[]"
             java_hu_ty = java_ty
+        if rust_obj == "LDKU128":
+            java_hu_ty = consts.u128_native_ty
         c_ty = c_ty + "Array"
 
         subty = java_c_types(arr_ty, None)
