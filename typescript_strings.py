@@ -126,7 +126,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 }
 
 const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu",
-	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu"];
+	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu", "ububuu"];
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
@@ -1107,7 +1107,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 fn_suffix = ""
-                assert len(fn_line.args_ty) < 6
+                assert len(fn_line.args_ty) < 7
                 for arg_info in fn_line.args_ty:
                     if arg_info.c_ty == "uint64_t" or arg_info.c_ty == "int64_t":
                         fn_suffix += "b"
