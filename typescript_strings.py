@@ -716,7 +716,7 @@ import * as bindings from '../bindings.mjs'
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
-            assert ty_info.rust_obj == "LDKCVec_u5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
+            assert ty_info.rust_obj == "LDKCVec_U5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
         return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
@@ -747,7 +747,7 @@ import * as bindings from '../bindings.mjs'
             return "FREE(" + arr_name + ")"
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
-        if elem_ty.rust_obj == "LDKu5":
+        if elem_ty.rust_obj == "LDKU5":
             return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
         assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array")
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
@@ -774,7 +774,7 @@ import * as bindings from '../bindings.mjs'
             return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.c_ty == "uint64_t":
             return "bindings.getU64ArrayElem(" + arr_name + ", " + idx + ")"
-        elif elem_ty.rust_obj == "LDKu5":
+        elif elem_ty.rust_obj == "LDKU5":
             return "bindings.getU8ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False

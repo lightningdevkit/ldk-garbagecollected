@@ -56,7 +56,7 @@ class TypeMappingGenerator:
                     else:
                         arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = " + self.consts.get_native_arr_contents(arr_name, "NO_DEST", arr_name + "_ref." + arr_len, ty_info, False) + ";"
                         arg_conv_cleanup = self.consts.cleanup_native_arr_ref_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_name + "_ref." + arr_len, ty_info)
-                    if ty_info.rust_obj == "LDKTransaction":
+                    if ty_info.rust_obj == "LDKTransaction" or ty_info.rust_obj == "LDKWitness":
                         arg_conv = arg_conv + "\n" + arr_name + "_ref.data_is_owned = " + str(holds_ref).lower() + ";"
                     ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                     ret_conv = (ret_conv[0], ";\nint8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
@@ -501,7 +501,7 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";" + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = from_hu_conv)
 
-                # The manually-defined types - TxOut, BigEndianScalar, u5, and Error
+                # The manually-defined types - TxOut, BigEndianScalar, U5, and Error
                 if ty_info.rust_obj == "LDKError":
                     assert from_hu_conv is None
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -510,7 +510,7 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = ("0", ""))
 
-                if ty_info.rust_obj == "LDKu5" or ty_info.rust_obj == "LDKWitnessVersion":
+                if ty_info.rust_obj == "LDKU5" or ty_info.rust_obj == "LDKWitnessVersion":
                     assert from_hu_conv is None
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = "", arg_conv_name = "(" + ty_info.rust_obj + "){ ._0 = " + ty_info.var_name + " }", arg_conv_cleanup = None,

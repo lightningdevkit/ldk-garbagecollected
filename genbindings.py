@@ -214,6 +214,11 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKTransaction"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
+    elif fn_arg.startswith("LDKWitness ") or fn_arg == "LDKWitness":
+        fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+        rust_obj = "LDKWitness"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        arr_access = "data"
     elif fn_arg.startswith("LDKCVec_"):
         is_ptr = False
         if "*" in fn_arg:
@@ -273,11 +278,11 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_ty = "uint8_t"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
-    elif fn_arg.startswith("LDKu5") or fn_arg.startswith("LDKWitnessVersion"):
+    elif fn_arg.startswith("LDKU5") or fn_arg.startswith("LDKWitnessVersion"):
         java_ty = consts.c_type_map['uint8_t'][0]
-        if fn_arg.startswith("LDKu5"):
+        if fn_arg.startswith("LDKU5"):
             java_hu_ty = "UInt5"
-            rust_obj = "LDKu5"
+            rust_obj = "LDKU5"
             fn_arg = fn_arg[6:].strip()
         else:
             java_hu_ty = "WitnessVersion"
