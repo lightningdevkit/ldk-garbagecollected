@@ -64,23 +64,23 @@ class TypeMappingGenerator:
                     ret_conv = (ret_conv[0], ret_conv[1] + pfx + arr_name + "_var." + ty_info.arr_access + sfx + ";")
                     if not holds_ref and ty_info.rust_obj != "LDKu8slice":
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
-                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
-                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, None, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
                 elif ty_info.rust_obj is not None:
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                     arg_conv = arg_conv + "CHECK(" + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
                     arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_len, ty_info, True) + ";"
                     ret_conv = (ret_conv[0], "." + ty_info.arr_access + set_sfx + ";")
-                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, arr_len, arr_name)
-                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, arr_len, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
                 else:
                     arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
                     arg_conv = arg_conv + "CHECK(" + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
                     arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_arr", arr_len, ty_info, True) + ";\n"
                     arg_conv = arg_conv + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
                     ret_conv = (ret_conv[0] + "*", set_sfx + ";")
-                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, arr_len, arr_name)
-                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, arr_len, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
                 to_hu_conv_name = None
                 if to_hu_conv is not None:
                     to_hu_conv_name = arr_name + "_conv"
@@ -208,12 +208,12 @@ class TypeMappingGenerator:
                         to_hu_conv += "\n" + cleanup
                     to_hu_conv_name = conv_name + "_arr"
                 else:
-                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
                     if to_hu_conv is not None:
                         to_hu_conv_name = arr_name + "_conv"
                     else:
                         to_hu_conv_name = None
-                from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
+                from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, None, arr_name)
                 if subty.from_hu_conv is not None:
                     hu_conv_b = ""
                     if subty.from_hu_conv[1] != "":
@@ -223,7 +223,7 @@ class TypeMappingGenerator:
                         else:
                             hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
                     if from_hu_conv is not None:
-                        arr_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty))
+                        arr_conv = self.consts.primitive_arr_from_hu(ty_info, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty))
                         assert arr_conv[1] == ""
                         from_hu_conv = (arr_conv[0], hu_conv_b)
                     else:

@@ -702,11 +702,12 @@ import javax.annotation.Nullable;
     def cleanup_converted_native_array(self, ty_info, arr_name):
         return None
 
-    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+    def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
+        mapped_ty = arr_ty.subty
         if fixed_len is not None:
             return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
         return None
-    def primitive_arr_to_hu(self, primitive_ty, fixed_len, arr_name, conv_name):
+    def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
         return None
 
     def java_arr_ty_str(self, elem_ty_str):

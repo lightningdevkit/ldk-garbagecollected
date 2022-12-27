@@ -757,7 +757,8 @@ import * as bindings from '../bindings.mjs'
     def cleanup_converted_native_array(self, ty_info, arr_name):
         return "bindings.freeWasmMemory(" + arr_name + ")"
 
-    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+    def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
+        mapped_ty = arr_ty.subty
         inner = arr_name
         if fixed_len is not None:
             assert mapped_ty.c_ty == "int8_t"
@@ -774,7 +775,8 @@ import * as bindings from '../bindings.mjs'
             print(mapped_ty.c_ty)
             assert False
 
-    def primitive_arr_to_hu(self, mapped_ty, fixed_len, arr_name, conv_name):
+    def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
+        mapped_ty = arr_ty.subty
         if mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
             return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
