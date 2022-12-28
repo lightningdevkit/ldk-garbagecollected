@@ -6,6 +6,7 @@ import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { HTLCClaim } from '../enums/HTLCClaim.mjs';
 import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
@@ -14,22 +15,15 @@ import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
-import { BlindedRoute } from '../structs/BlindedRoute.mjs';
-import { Result_BlindedRouteNoneZ } from '../structs/Result_BlindedRouteNoneZ.mjs';
-import { DecodeError } from '../structs/DecodeError.mjs';
-import { Result_BlindedRouteDecodeErrorZ } from '../structs/Result_BlindedRouteDecodeErrorZ.mjs';
-import { BlindedHop } from '../structs/BlindedHop.mjs';
-import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
+import { Option_HTLCClaimZ } from '../structs/Option_HTLCClaimZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
+import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_CounterpartyCommitmentSecretsDecodeErrorZ } from '../structs/Result_CounterpartyCommitmentSecretsDecodeErrorZ.mjs';
-import { Result_SecretKeyErrorZ } from '../structs/Result_SecretKeyErrorZ.mjs';
-import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
 import { TxCreationKeys } from '../structs/TxCreationKeys.mjs';
 import { Result_TxCreationKeysDecodeErrorZ } from '../structs/Result_TxCreationKeysDecodeErrorZ.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
 import { Result_ChannelPublicKeysDecodeErrorZ } from '../structs/Result_ChannelPublicKeysDecodeErrorZ.mjs';
-import { Result_TxCreationKeysErrorZ } from '../structs/Result_TxCreationKeysErrorZ.mjs';
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
 import { Result_HTLCOutputInCommitmentDecodeErrorZ } from '../structs/Result_HTLCOutputInCommitmentDecodeErrorZ.mjs';
@@ -52,22 +46,29 @@ import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { Result_ShutdownScriptDecodeErrorZ } from '../structs/Result_ShutdownScriptDecodeErrorZ.mjs';
 import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
-import { RouteHop } from '../structs/RouteHop.mjs';
-import { Result_RouteHopDecodeErrorZ } from '../structs/Result_RouteHopDecodeErrorZ.mjs';
+import { BlindedPath } from '../structs/BlindedPath.mjs';
+import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
+import { Result_BlindedPathDecodeErrorZ } from '../structs/Result_BlindedPathDecodeErrorZ.mjs';
+import { BlindedHop } from '../structs/BlindedHop.mjs';
+import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
+import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { Route } from '../structs/Route.mjs';
+import { LightningError } from '../structs/LightningError.mjs';
+import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
+import { RouteHop } from '../structs/RouteHop.mjs';
+import { Option_u64Z } from '../structs/Option_u64Z.mjs';
+import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
+import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
+import { Result_RouteHopDecodeErrorZ } from '../structs/Result_RouteHopDecodeErrorZ.mjs';
 import { Result_RouteDecodeErrorZ } from '../structs/Result_RouteDecodeErrorZ.mjs';
 import { RouteParameters } from '../structs/RouteParameters.mjs';
 import { Result_RouteParametersDecodeErrorZ } from '../structs/Result_RouteParametersDecodeErrorZ.mjs';
 import { RouteHint } from '../structs/RouteHint.mjs';
-import { Option_u64Z } from '../structs/Option_u64Z.mjs';
 import { PaymentParameters } from '../structs/PaymentParameters.mjs';
 import { Result_PaymentParametersDecodeErrorZ } from '../structs/Result_PaymentParametersDecodeErrorZ.mjs';
 import { RouteHintHop } from '../structs/RouteHintHop.mjs';
 import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeErrorZ.mjs';
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
-import { ChannelDetails } from '../structs/ChannelDetails.mjs';
-import { LightningError } from '../structs/LightningError.mjs';
-import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
@@ -76,6 +77,7 @@ import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COp
 import { HTLCDestination } from '../structs/HTLCDestination.mjs';
 import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
 import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
+import { Option_u128Z } from '../structs/Option_u128Z.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -109,6 +111,7 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { TwoTuple_TxidBlockHashZ } from '../structs/TwoTuple_TxidBlockHashZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -131,6 +134,10 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { OfferFeatures } from '../structs/OfferFeatures.mjs';
+import { Result_OfferFeaturesDecodeErrorZ } from '../structs/Result_OfferFeaturesDecodeErrorZ.mjs';
+import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
+import { Result_InvoiceRequestFeaturesDecodeErrorZ } from '../structs/Result_InvoiceRequestFeaturesDecodeErrorZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -182,8 +189,8 @@ import { APIError } from '../structs/APIError.mjs';
 import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Result__u832APIErrorZ } from '../structs/Result__u832APIErrorZ.mjs';
 import { PaymentSendFailure } from '../structs/PaymentSendFailure.mjs';
-import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentIdPaymentSendFailureZ.mjs';
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
+import { Result_PaymentHashPaymentSendFailureZ } from '../structs/Result_PaymentHashPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
@@ -216,29 +223,9 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
-import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
-import { ParseError } from '../structs/ParseError.mjs';
-import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
-import { Invoice } from '../structs/Invoice.mjs';
-import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
-import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
-import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
-import { RawInvoice } from '../structs/RawInvoice.mjs';
-import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
-import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
-import { PayeePubKey } from '../structs/PayeePubKey.mjs';
-import { Result_PayeePubKeyErrorZ } from '../structs/Result_PayeePubKeyErrorZ.mjs';
-import { PrivateRoute } from '../structs/PrivateRoute.mjs';
-import { PositiveTimestamp } from '../structs/PositiveTimestamp.mjs';
-import { Result_PositiveTimestampCreationErrorZ } from '../structs/Result_PositiveTimestampCreationErrorZ.mjs';
-import { Result_NoneSemanticErrorZ } from '../structs/Result_NoneSemanticErrorZ.mjs';
-import { Result_InvoiceSemanticErrorZ } from '../structs/Result_InvoiceSemanticErrorZ.mjs';
-import { Description } from '../structs/Description.mjs';
-import { Result_DescriptionCreationErrorZ } from '../structs/Result_DescriptionCreationErrorZ.mjs';
-import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRouteCreationErrorZ.mjs';
+import { Result_NonePaymentErrorZ } from '../structs/Result_NonePaymentErrorZ.mjs';
 import { Result_StringErrorZ } from '../structs/Result_StringErrorZ.mjs';
+import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
 import { Result_ChannelMonitorUpdateDecodeErrorZ } from '../structs/Result_ChannelMonitorUpdateDecodeErrorZ.mjs';
 import { Option_MonitorEventZ } from '../structs/Option_MonitorEventZ.mjs';
 import { Result_COption_MonitorEventZDecodeErrorZ } from '../structs/Result_COption_MonitorEventZDecodeErrorZ.mjs';
@@ -264,6 +251,26 @@ import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { GraphSyncError } from '../structs/GraphSyncError.mjs';
 import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
+import { Invoice } from '../structs/Invoice.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
+import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
+import { RawInvoice } from '../structs/RawInvoice.mjs';
+import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
+import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
+import { PayeePubKey } from '../structs/PayeePubKey.mjs';
+import { Result_PayeePubKeyErrorZ } from '../structs/Result_PayeePubKeyErrorZ.mjs';
+import { PrivateRoute } from '../structs/PrivateRoute.mjs';
+import { PositiveTimestamp } from '../structs/PositiveTimestamp.mjs';
+import { Result_PositiveTimestampCreationErrorZ } from '../structs/Result_PositiveTimestampCreationErrorZ.mjs';
+import { Result_NoneSemanticErrorZ } from '../structs/Result_NoneSemanticErrorZ.mjs';
+import { Result_InvoiceSemanticErrorZ } from '../structs/Result_InvoiceSemanticErrorZ.mjs';
+import { Description } from '../structs/Description.mjs';
+import { Result_DescriptionCreationErrorZ } from '../structs/Result_DescriptionCreationErrorZ.mjs';
+import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRouteCreationErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -322,6 +329,8 @@ import { Filter, FilterInterface } from '../structs/Filter.mjs';
 import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
+import { MonitorUpdateId } from '../structs/MonitorUpdateId.mjs';
+import { TwoTuple_OutPointCVec_MonitorUpdateIdZZ } from '../structs/TwoTuple_OutPointCVec_MonitorUpdateIdZZ.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
@@ -332,6 +341,7 @@ import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
+import { PrintableString } from '../structs/PrintableString.mjs';
 import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
 import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
@@ -339,7 +349,6 @@ import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
 import { BestBlock } from '../structs/BestBlock.mjs';
 import { Listen, ListenInterface } from '../structs/Listen.mjs';
-import { MonitorUpdateId } from '../structs/MonitorUpdateId.mjs';
 import { Persist, PersistInterface } from '../structs/Persist.mjs';
 import { ChainMonitor } from '../structs/ChainMonitor.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
@@ -364,11 +373,15 @@ import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
+import { DefaultRouter } from '../structs/DefaultRouter.mjs';
+import { Router, RouterInterface } from '../structs/Router.mjs';
+import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -376,10 +389,8 @@ import { ExpiryTime } from '../structs/ExpiryTime.mjs';
 import { MinFinalCltvExpiry } from '../structs/MinFinalCltvExpiry.mjs';
 import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
-import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { Retry } from '../structs/Retry.mjs';
-import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
 
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
@@ -389,9 +400,9 @@ import * as bindings from '../bindings.mjs'
 
 /** An implementation of Confirm */
 export interface ConfirmInterface {
-	/**Processes transactions confirmed in a block with a given header and height.
+	/**Notifies LDK of transactions confirmed in a block with a given header and height.
 	 * 
-	 * Should be called for any transactions registered by [`Filter::register_tx`] or any
+	 * Must be called for any transactions registered by [`Filter::register_tx`] or any
 	 * transactions spending an output registered by [`Filter::register_output`]. Such transactions
 	 * appearing in the same block do not need to be included in the same call; instead, multiple
 	 * calls with additional transactions may be made so long as they are made in [chain order].
@@ -404,37 +415,43 @@ export interface ConfirmInterface {
 	 * [`best_block_updated`]: Self::best_block_updated
 	 */
 	transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number): void;
-	/**Processes a transaction that is no longer confirmed as result of a chain reorganization.
+	/**Notifies LDK of a transaction that is no longer confirmed as result of a chain reorganization.
 	 * 
-	 * Should be called for any transaction returned by [`get_relevant_txids`] if it has been
-	 * reorganized out of the best chain. Once called, the given transaction will not be returned
+	 * Must be called for any transaction returned by [`get_relevant_txids`] if it has been
+	 * reorganized out of the best chain or if it is no longer confirmed in the block with the
+	 * given block hash. Once called, the given transaction will not be returned
 	 * by [`get_relevant_txids`], unless it has been reconfirmed via [`transactions_confirmed`].
 	 * 
 	 * [`get_relevant_txids`]: Self::get_relevant_txids
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 */
 	transaction_unconfirmed(txid: Uint8Array): void;
-	/**Processes an update to the best header connected at the given height.
+	/**Notifies LDK of an update to the best header connected at the given height.
 	 * 
-	 * Should be called when a new header is available but may be skipped for intermediary blocks
-	 * if they become available at the same time.
+	 * Must be called whenever a new chain tip becomes available. May be skipped for intermediary
+	 * blocks.
 	 */
 	best_block_updated(header: Uint8Array, height: number): void;
-	/**Returns transactions that should be monitored for reorganization out of the chain.
+	/**Returns transactions that must be monitored for reorganization out of the chain along
+	 * with the hash of the block as part of which it had been previously confirmed.
 	 * 
 	 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 	 * confirmations to be safe from a chain reorganization. Will not include any transactions
 	 * passed to [`transaction_unconfirmed`], unless later reconfirmed.
 	 * 
-	 * May be called to determine the subset of transactions that must still be monitored for
+	 * Must be called to determine the subset of transactions that must be monitored for
 	 * reorganization. Will be idempotent between calls but may change as a result of calls to the
-	 * other interface methods. Thus, this is useful to determine which transactions may need to be
+	 * other interface methods. Thus, this is useful to determine which transactions must be
 	 * given to [`transaction_unconfirmed`].
+	 * 
+	 * If any of the returned transactions are confirmed in a block other than the one with the
+	 * given hash, they need to be unconfirmed and reconfirmed via [`transaction_unconfirmed`] and
+	 * [`transactions_confirmed`], respectively.
 	 * 
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 	 */
-	get_relevant_txids(): Uint8Array[];
+	get_relevant_txids(): TwoTuple_TxidBlockHashZ[];
 }
 
 class LDKConfirmHolder {
@@ -442,31 +459,35 @@ class LDKConfirmHolder {
 }
 
 /**
- * The `Confirm` trait is used to notify when transactions have been confirmed on chain or
- * unconfirmed during a chain reorganization.
+ * The `Confirm` trait is used to notify LDK when relevant transactions have been confirmed on
+ * chain or unconfirmed during a chain reorganization.
  * 
  * Clients sourcing chain data using a transaction-oriented API should prefer this interface over
- * [`Listen`]. For instance, an Electrum client may implement [`Filter`] by subscribing to activity
- * related to registered transactions and outputs. Upon notification, it would pass along the
- * matching transactions using this interface.
+ * [`Listen`]. For instance, an Electrum-based transaction sync implementation may implement
+ * [`Filter`] to subscribe to relevant transactions and unspent outputs it should monitor for
+ * on-chain activity. Then, it needs to notify LDK via this interface upon observing any changes
+ * with reference to the confirmation status of the monitored objects.
  * 
  * # Use
- * 
  * The intended use is as follows:
- * - Call [`transactions_confirmed`] to process any on-chain activity of interest.
- * - Call [`transaction_unconfirmed`] to process any transaction returned by [`get_relevant_txids`]
- * that has been reorganized out of the chain.
- * - Call [`best_block_updated`] whenever a new chain tip becomes available.
+ * - Call [`transactions_confirmed`] to notify LDK whenever any of the registered transactions or
+ * outputs are, respectively, confirmed or spent on chain.
+ * - Call [`transaction_unconfirmed`] to notify LDK whenever any transaction returned by
+ * [`get_relevant_txids`] is no longer confirmed in the block with the given block hash.
+ * - Call [`best_block_updated`] to notify LDK whenever a new chain tip becomes available.
  * 
  * # Order
  * 
  * Clients must call these methods in chain order. Specifically:
- * - Transactions confirmed in a block must be given before transactions confirmed in a later
- * block.
+ * - Transactions which are confirmed in a particular block must be given before transactions
+ * confirmed in a later block.
  * - Dependent transactions within the same block must be given in topological order, possibly in
  * separate calls.
- * - Unconfirmed transactions must be given after the original confirmations and before any
- * reconfirmation.
+ * - All unconfirmed transactions must be given after the original confirmations and before *any*
+ * reconfirmations, i.e., [`transactions_confirmed`] and [`transaction_unconfirmed`] calls should
+ * never be interleaved, but always conduced *en bloc*.
+ * - Any reconfirmed transactions need to be explicitly unconfirmed before they are reconfirmed
+ * in regard to the new block.
  * 
  * See individual method documentation for further details.
  * 
@@ -514,8 +535,8 @@ export class Confirm extends CommonBase {
 				arg.best_block_updated(header_conv, height);
 			},
 			get_relevant_txids (): number {
-				const ret: Uint8Array[] = arg.get_relevant_txids();
-				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(ret_conv_12, 32))) : null);
+				const ret: TwoTuple_TxidBlockHashZ[] = arg.get_relevant_txids();
+				const result: number = bindings.encodeUint64Array(ret != null ? ret.map(ret_conv_25 => ret_conv_25 == null ? 0n : ret_conv_25.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKConfirm;
@@ -528,9 +549,9 @@ export class Confirm extends CommonBase {
 	}
 
 	/**
-	 * Processes transactions confirmed in a block with a given header and height.
+	 * Notifies LDK of transactions confirmed in a block with a given header and height.
 	 * 
-	 * Should be called for any transactions registered by [`Filter::register_tx`] or any
+	 * Must be called for any transactions registered by [`Filter::register_tx`] or any
 	 * transactions spending an output registered by [`Filter::register_output`]. Such transactions
 	 * appearing in the same block do not need to be included in the same call; instead, multiple
 	 * calls with additional transactions may be made so long as they are made in [chain order].
@@ -547,10 +568,11 @@ export class Confirm extends CommonBase {
 	}
 
 	/**
-	 * Processes a transaction that is no longer confirmed as result of a chain reorganization.
+	 * Notifies LDK of a transaction that is no longer confirmed as result of a chain reorganization.
 	 * 
-	 * Should be called for any transaction returned by [`get_relevant_txids`] if it has been
-	 * reorganized out of the best chain. Once called, the given transaction will not be returned
+	 * Must be called for any transaction returned by [`get_relevant_txids`] if it has been
+	 * reorganized out of the best chain or if it is no longer confirmed in the block with the
+	 * given block hash. Once called, the given transaction will not be returned
 	 * by [`get_relevant_txids`], unless it has been reconfirmed via [`transactions_confirmed`].
 	 * 
 	 * [`get_relevant_txids`]: Self::get_relevant_txids
@@ -561,41 +583,47 @@ export class Confirm extends CommonBase {
 	}
 
 	/**
-	 * Processes an update to the best header connected at the given height.
+	 * Notifies LDK of an update to the best header connected at the given height.
 	 * 
-	 * Should be called when a new header is available but may be skipped for intermediary blocks
-	 * if they become available at the same time.
+	 * Must be called whenever a new chain tip becomes available. May be skipped for intermediary
+	 * blocks.
 	 */
 	public best_block_updated(header: Uint8Array, height: number): void {
 		bindings.Confirm_best_block_updated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height);
 	}
 
 	/**
-	 * Returns transactions that should be monitored for reorganization out of the chain.
+	 * Returns transactions that must be monitored for reorganization out of the chain along
+	 * with the hash of the block as part of which it had been previously confirmed.
 	 * 
 	 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 	 * confirmations to be safe from a chain reorganization. Will not include any transactions
 	 * passed to [`transaction_unconfirmed`], unless later reconfirmed.
 	 * 
-	 * May be called to determine the subset of transactions that must still be monitored for
+	 * Must be called to determine the subset of transactions that must be monitored for
 	 * reorganization. Will be idempotent between calls but may change as a result of calls to the
-	 * other interface methods. Thus, this is useful to determine which transactions may need to be
+	 * other interface methods. Thus, this is useful to determine which transactions must be
 	 * given to [`transaction_unconfirmed`].
+	 * 
+	 * If any of the returned transactions are confirmed in a block other than the one with the
+	 * given hash, they need to be unconfirmed and reconfirmed via [`transaction_unconfirmed`] and
+	 * [`transactions_confirmed`], respectively.
 	 * 
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 	 */
-	public get_relevant_txids(): Uint8Array[] {
+	public get_relevant_txids(): TwoTuple_TxidBlockHashZ[] {
 		const ret: number = bindings.Confirm_get_relevant_txids(this.ptr);
-		const ret_conv_12_len: number = bindings.getArrayLength(ret);
-		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
-		for (var m = 0; m < ret_conv_12_len; m++) {
-			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
-			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
-			ret_conv_12_arr[m] = ret_conv_12_conv;
+		const ret_conv_25_len: number = bindings.getArrayLength(ret);
+		const ret_conv_25_arr: TwoTuple_TxidBlockHashZ[] = new Array(ret_conv_25_len).fill(null);
+		for (var z = 0; z < ret_conv_25_len; z++) {
+			const ret_conv_25: bigint = bindings.getU64ArrayElem(ret, z);
+			const ret_conv_25_hu_conv: TwoTuple_TxidBlockHashZ = new TwoTuple_TxidBlockHashZ(null, ret_conv_25);
+			CommonBase.add_ref_from(ret_conv_25_hu_conv, this);
+			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
 		bindings.freeWasmMemory(ret)
-		return ret_conv_12_arr;
+		return ret_conv_25_arr;
 	}
 
 }
