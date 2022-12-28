@@ -8,6 +8,7 @@ import org.ldk.batteries.NioPeerHandler;
 import org.ldk.enums.*;
 import org.ldk.enums.Currency;
 import org.ldk.structs.*;
+import org.ldk.util.UInt128;
 import org.ldk.util.UInt5;
 
 import java.io.IOException;
@@ -52,9 +53,12 @@ class HumanObjectPeerTestInstance {
                 @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
                 @Override public ShutdownScript get_shutdown_scriptpubkey() { return underlying_if.get_shutdown_scriptpubkey(); }
 
+                @Override public byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, UInt128 user_channel_id) {
+                    return underlying_if.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id);
+                }
                 @Override
-                public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
-                    Sign underlying_ck = underlying_if.get_channel_signer(inbound, channel_value_satoshis);
+                public Sign derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
+                    Sign underlying_ck = underlying_if.derive_channel_signer(channel_value_satoshis, channel_keys_id);
                     BaseSign underlying_base = underlying_ck.get_base_sign();
                     BaseSign.BaseSignInterface bsi = new BaseSign.BaseSignInterface() {
                         @Override public byte[] get_per_commitment_point(long idx) {
@@ -67,7 +71,7 @@ class HumanObjectPeerTestInstance {
                             return underlying_base.validate_holder_commitment(holder_tx, preimages);
                         }
                         @Override public byte[] channel_keys_id() {
-                            return new byte[32];
+                            return channel_keys_id;
                         }
                         @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
                             return underlying_base.sign_counterparty_commitment(commitment_tx, preimages);
@@ -96,8 +100,9 @@ class HumanObjectPeerTestInstance {
                         @Override public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
                             return underlying_base.sign_channel_announcement(msg);
                         }
-                        @Override public void ready_channel(ChannelTransactionParameters params) {
-                            underlying_base.ready_channel(params);
+
+                        @Override public void provide_channel_parameters(ChannelTransactionParameters channel_parameters) {
+                            underlying_base.provide_channel_parameters(channel_parameters);
                         }
                     };
                     Sign.SignInterface si = new Sign.SignInterface() {
@@ -415,7 +420,12 @@ class HumanObjectPeerTestInstance {
                         @Override public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {}
 
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                        public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] _payment_hash, byte[] _payment_id) {
+                            return find_route(payer, route_params, first_hops, inflight_htlcs);
+                        }
+
+                        @Override
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                             while (true) {
                                 try (ReadOnlyNetworkGraph graph = router.read_only()) {
                                     assert graph.channel(424242) == null;
@@ -560,7 +570,12 @@ class HumanObjectPeerTestInstance {
                         @Override public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {}
 
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, byte[] payment_hash, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                        public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] _payment_hash, byte[] _payment_id) {
+                            return find_route(payer, route_params, first_hops, inflight_htlcs);
+                        }
+
+                        @Override
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                             return UtilMethods.find_route(payer, route_params, router, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
                                 @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
                                 @Override public void payment_path_failed(RouteHop[] path, long scid) {}
@@ -813,7 +828,9 @@ class HumanObjectPeerTestInstance {
 
         connect_peers(peer1, peer2);
 
-        Result__u832APIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, 42, null);
+        UInt128 user_id = new UInt128(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
+
+        Result__u832APIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, user_id, null);
         assert cc_res instanceof Result__u832APIErrorZ.Result__u832APIErrorZ_OK;
 
         // Previously, this was a SEGFAULT instead of get_funding_txo() returning null.
@@ -823,7 +840,7 @@ class HumanObjectPeerTestInstance {
         Event[] events = peer1.get_manager_events(1, peer1, peer2);
         assert events[0] instanceof Event.FundingGenerationReady;
         assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 100000;
-        assert ((Event.FundingGenerationReady) events[0]).user_channel_id == 42;
+        assert ((Event.FundingGenerationReady) events[0]).user_channel_id.equals(user_id);
         byte[] funding_spk = ((Event.FundingGenerationReady) events[0]).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
         byte[] chan_id = ((Event.FundingGenerationReady) events[0]).temporary_channel_id;
@@ -862,9 +879,14 @@ class HumanObjectPeerTestInstance {
         }
 
         maybe_exchange_peer_messages(peer1, peer2);
-        while (peer1.chan_manager.list_usable_channels().length != 1 || peer2.chan_manager.list_usable_channels().length != 1)
+        while (peer1.chan_manager.list_usable_channels().length != 1 || peer2.chan_manager.list_usable_channels().length != 1) ;
 
-        peer1.chan_manager.list_channels();
+        events = peer1.get_manager_events(1, peer1, peer2);
+        assert events[0] instanceof Event.ChannelReady;
+
+        events = peer2.get_manager_events(1, peer1, peer2);
+        assert events[0] instanceof Event.ChannelReady;
+
         ChannelDetails[] peer1_chans = peer1.chan_manager.list_usable_channels();
         ChannelDetails[] peer2_chans = peer2.chan_manager.list_usable_channels();
         assert peer1_chans.length == 1;
@@ -910,8 +932,9 @@ class HumanObjectPeerTestInstance {
             assert route.get_paths()[0].length == 1;
             assert route.get_paths()[0][0].get_fee_msat() == 10000000;
 
-            Result_PaymentIdPaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
-            assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_OK;
+            byte[] payment_id = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
+            Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret, payment_id);
+            assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
 
             RouteHop[][] hops = new RouteHop[1][1];
             byte[] hop_pubkey = new byte[33];
@@ -921,8 +944,8 @@ class HumanObjectPeerTestInstance {
             ChannelFeatures channel_features = ChannelFeatures.empty();
             hops[0][0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0);
             Route r2 = Route.of(hops, payee);
-            payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
-            assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
+            payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret, payment_id);
+            assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
         } else {
             Result_PaymentIdPaymentErrorZ send_res = peer1.payer.pay_invoice(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res);
             assert send_res instanceof Result_PaymentIdPaymentErrorZ.Result_PaymentIdPaymentErrorZ_OK;
@@ -975,9 +998,9 @@ class HumanObjectPeerTestInstance {
         state.peer2.chan_manager.process_pending_htlc_forwards();
 
         events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
-        assert events[0] instanceof Event.PaymentReceived;
-        assert ((Event.PaymentReceived)events[0]).purpose instanceof PaymentPurpose.InvoicePayment;
-        byte[] payment_preimage = ((PaymentPurpose.InvoicePayment)((Event.PaymentReceived)events[0]).purpose).payment_preimage;
+        assert events[0] instanceof Event.PaymentClaimable;
+        assert ((Event.PaymentClaimable)events[0]).purpose instanceof PaymentPurpose.InvoicePayment;
+        byte[] payment_preimage = ((PaymentPurpose.InvoicePayment)((Event.PaymentClaimable)events[0]).purpose).payment_preimage;
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
 

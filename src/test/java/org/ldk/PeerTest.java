@@ -7,6 +7,7 @@ import org.ldk.enums.ChannelMonitorUpdateStatus;
 import org.ldk.enums.Network;
 import org.ldk.enums.Recipient;
 import org.ldk.impl.bindings;
+import org.ldk.util.UInt128;
 
 import java.lang.ref.Reference;
 import java.util.ArrayList;
@@ -262,7 +263,9 @@ public class PeerTest {
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
-        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, peer2.node_id, 10000, 1000, 42, 0);
+        byte[] user_id = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+
+        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, peer2.node_id, 10000, 1000, user_id, 0);
         assert bindings.CResult_NoneAPIErrorZ_is_ok(cc_res);
         bindings.CResult_NoneAPIErrorZ_free(cc_res);
 
@@ -277,7 +280,7 @@ public class PeerTest {
         bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert event instanceof bindings.LDKEvent.FundingGenerationReady;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
-        assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
+        assert Arrays.equals(((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id, user_id);
         byte[] funding_spk = ((bindings.LDKEvent.FundingGenerationReady)event).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
         byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id;
@@ -314,6 +317,18 @@ public class PeerTest {
         assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer2_chans[0]), funding.getTxId().getReversedBytes());
         for (long chan : peer2_chans) bindings.ChannelDetails_free(chan);
 
+        bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent ready1 = bindings.LDKEvent_ref_from_ptr(events.get(0));
+        assert ready1 instanceof bindings.LDKEvent.ChannelReady;
+        bindings.Event_free(events.remove(0));
+
+        bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent ready2 = bindings.LDKEvent_ref_from_ptr(events.get(0));
+        assert ready2 instanceof bindings.LDKEvent.ChannelReady;
+        bindings.Event_free(events.remove(0));
+
         long no_min_val = bindings.COption_u64Z_none();
         long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200);
         assert bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
@@ -341,7 +356,8 @@ public class PeerTest {
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.CResult_RouteLightningErrorZ_is_ok(route);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.CResult_RouteLightningErrorZ_get_ok(route),
-                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(payment_tuple), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(payment_tuple));
+                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(payment_tuple),
+                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(payment_tuple), new byte[32]);
         bindings.CResult_RouteLightningErrorZ_free(route);
         bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
         assert bindings.CResult_NonePaymentSendFailureZ_is_ok(payment_res);
@@ -359,8 +375,8 @@ public class PeerTest {
         bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
         assert events.size() == 1;
         bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(events.get(0));
-        assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
-        bindings.LDKPaymentPurpose purpose = bindings.LDKPaymentPurpose_ref_from_ptr(((bindings.LDKEvent.PaymentReceived) payment_recvd).purpose);
+        assert payment_recvd instanceof bindings.LDKEvent.PaymentClaimable;
+        bindings.LDKPaymentPurpose purpose = bindings.LDKPaymentPurpose_ref_from_ptr(((bindings.LDKEvent.PaymentClaimable) payment_recvd).purpose);
         assert purpose instanceof bindings.LDKPaymentPurpose.InvoicePayment;
         bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKPaymentPurpose.InvoicePayment) purpose).payment_preimage);
         bindings.Event_free(events.remove(0));
