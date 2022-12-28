@@ -50,7 +50,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NonePeerHandleErrorZ in the error state.
 	 */
-	public static Result_NonePeerHandleErrorZ err(PeerHandleError e) {
+	public static Result_NonePeerHandleErrorZ err(org.ldk.structs.PeerHandleError e) {
 		long ret = bindings.CResult_NonePeerHandleErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

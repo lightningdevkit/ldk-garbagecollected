@@ -54,7 +54,7 @@ public class Option_WriteableScoreZ extends CommonBase {
 	/**
 	 * Constructs a new COption_WriteableScoreZ containing a crate::lightning::routing::scoring::WriteableScore
 	 */
-	public static Option_WriteableScoreZ some(WriteableScore o) {
+	public static Option_WriteableScoreZ some(org.ldk.structs.WriteableScore o) {
 		long ret = bindings.COption_WriteableScoreZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

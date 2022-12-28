@@ -102,7 +102,7 @@ public class PaymentError extends CommonBase {
 	/**
 	 * Utility method to constructs a new Routing-variant PaymentError
 	 */
-	public static PaymentError routing(LightningError a) {
+	public static PaymentError routing(org.ldk.structs.LightningError a) {
 		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -115,7 +115,7 @@ public class PaymentError extends CommonBase {
 	/**
 	 * Utility method to constructs a new Sending-variant PaymentError
 	 */
-	public static PaymentError sending(PaymentSendFailure a) {
+	public static PaymentError sending(org.ldk.structs.PaymentSendFailure a) {
 		long ret = bindings.PaymentError_sending(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }

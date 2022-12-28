@@ -45,7 +45,7 @@ public class Result_FixedPenaltyScorerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FixedPenaltyScorerDecodeErrorZ in the success state.
 	 */
-	public static Result_FixedPenaltyScorerDecodeErrorZ ok(FixedPenaltyScorer o) {
+	public static Result_FixedPenaltyScorerDecodeErrorZ ok(org.ldk.structs.FixedPenaltyScorer o) {
 		long ret = bindings.CResult_FixedPenaltyScorerDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_FixedPenaltyScorerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FixedPenaltyScorerDecodeErrorZ in the error state.
 	 */
-	public static Result_FixedPenaltyScorerDecodeErrorZ err(DecodeError e) {
+	public static Result_FixedPenaltyScorerDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_FixedPenaltyScorerDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -39,7 +39,7 @@ public class RawInvoice extends CommonBase {
 	/**
 	 * data part
 	 */
-	public void set_data(RawDataPart val) {
+	public void set_data(org.ldk.structs.RawDataPart val) {
 		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -51,7 +51,7 @@ public class RawInvoice extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(RawInvoice b) {
+	public boolean eq(org.ldk.structs.RawInvoice b) {
 		boolean ret = bindings.RawInvoice_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

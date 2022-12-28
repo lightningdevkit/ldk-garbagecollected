@@ -45,7 +45,7 @@ public class Result_SignedRawInvoiceParseErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignedRawInvoiceParseErrorZ in the success state.
 	 */
-	public static Result_SignedRawInvoiceParseErrorZ ok(SignedRawInvoice o) {
+	public static Result_SignedRawInvoiceParseErrorZ ok(org.ldk.structs.SignedRawInvoice o) {
 		long ret = bindings.CResult_SignedRawInvoiceParseErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_SignedRawInvoiceParseErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignedRawInvoiceParseErrorZ in the error state.
 	 */
-	public static Result_SignedRawInvoiceParseErrorZ err(ParseError e) {
+	public static Result_SignedRawInvoiceParseErrorZ err(org.ldk.structs.ParseError e) {
 		long ret = bindings.CResult_SignedRawInvoiceParseErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

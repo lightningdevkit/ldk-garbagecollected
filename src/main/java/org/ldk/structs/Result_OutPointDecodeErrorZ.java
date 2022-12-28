@@ -45,7 +45,7 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_OutPointDecodeErrorZ in the success state.
 	 */
-	public static Result_OutPointDecodeErrorZ ok(OutPoint o) {
+	public static Result_OutPointDecodeErrorZ ok(org.ldk.structs.OutPoint o) {
 		long ret = bindings.CResult_OutPointDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_OutPointDecodeErrorZ in the error state.
 	 */
-	public static Result_OutPointDecodeErrorZ err(DecodeError e) {
+	public static Result_OutPointDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_OutPointDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

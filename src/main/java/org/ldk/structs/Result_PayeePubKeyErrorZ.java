@@ -42,7 +42,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PayeePubKeyErrorZ in the success state.
 	 */
-	public static Result_PayeePubKeyErrorZ ok(PayeePubKey o) {
+	public static Result_PayeePubKeyErrorZ ok(org.ldk.structs.PayeePubKey o) {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

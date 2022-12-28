@@ -9,10 +9,8 @@ import javax.annotation.Nullable;
 
 
 /**
- * A map with liquidity value (in msat) keyed by a short channel id and the direction the HTLC
- * is traveling in. The direction boolean is determined by checking if the HTLC source's public
- * key is less than its destination. See [`InFlightHtlcs::used_liquidity_msat`] for more
- * details.
+ * A data structure for tracking in-flight HTLCs. May be used during pathfinding to account for
+ * in-use channel liquidity.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class InFlightHtlcs extends CommonBase {
@@ -23,11 +21,40 @@ public class InFlightHtlcs extends CommonBase {
 		if (ptr != 0) { bindings.InFlightHtlcs_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.InFlightHtlcs_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the InFlightHtlcs
+	 */
+	public InFlightHtlcs clone() {
+		long ret = bindings.InFlightHtlcs_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InFlightHtlcs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InFlightHtlcs(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs an empty `InFlightHtlcs`.
+	 */
+	public static InFlightHtlcs of() {
+		long ret = bindings.InFlightHtlcs_new();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InFlightHtlcs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InFlightHtlcs(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Returns liquidity in msat given the public key of the HTLC source, target, and short channel
 	 * id.
 	 */
-	public Option_u64Z used_liquidity_msat(NodeId source, NodeId target, long channel_scid) {
+	public Option_u64Z used_liquidity_msat(org.ldk.structs.NodeId source, org.ldk.structs.NodeId target, long channel_scid) {
 		long ret = bindings.InFlightHtlcs_used_liquidity_msat(this.ptr, source == null ? 0 : source.ptr, target == null ? 0 : target.ptr, channel_scid);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(source);

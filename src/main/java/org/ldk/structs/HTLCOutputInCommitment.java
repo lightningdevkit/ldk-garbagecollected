@@ -119,7 +119,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 * below the dust limit (in which case no output appears in the commitment transaction and the
 	 * value is spent to additional transaction fees).
 	 */
-	public void set_transaction_output_index(Option_u32Z val) {
+	public void set_transaction_output_index(org.ldk.structs.Option_u32Z val) {
 		bindings.HTLCOutputInCommitment_set_transaction_output_index(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -128,7 +128,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	/**
 	 * Constructs a new HTLCOutputInCommitment given each field
 	 */
-	public static HTLCOutputInCommitment of(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
+	public static HTLCOutputInCommitment of(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, org.ldk.structs.Option_u32Z transaction_output_index_arg) {
 		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), transaction_output_index_arg.ptr);
 		Reference.reachabilityFence(offered_arg);
 		Reference.reachabilityFence(amount_msat_arg);
@@ -164,7 +164,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(HTLCOutputInCommitment b) {
+	public boolean eq(org.ldk.structs.HTLCOutputInCommitment b) {
 		boolean ret = bindings.HTLCOutputInCommitment_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

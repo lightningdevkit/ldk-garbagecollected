@@ -110,7 +110,7 @@ public class OnionMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming onion_message message from the given peer.
 	 */
-	public void handle_onion_message(byte[] peer_node_id, OnionMessage msg) {
+	public void handle_onion_message(byte[] peer_node_id, org.ldk.structs.OnionMessage msg) {
 		bindings.OnionMessageHandler_handle_onion_message(this.ptr, InternalUtils.check_arr_len(peer_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(peer_node_id);
@@ -126,7 +126,7 @@ public class OnionMessageHandler extends CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init) {
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init) {
 		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);

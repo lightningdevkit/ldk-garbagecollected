@@ -28,24 +28,24 @@ public class KeysInterface extends CommonBase {
 		/**
 		 * Get node secret key based on the provided [`Recipient`].
 		 * 
-		 * The node_id/network_key is the public key that corresponds to this secret key.
+		 * The `node_id`/`network_key` is the public key that corresponds to this secret key.
 		 * 
-		 * This method must return the same value each time it is called with a given `Recipient`
+		 * This method must return the same value each time it is called with a given [`Recipient`]
 		 * parameter.
 		 * 
-		 * Errors if the `Recipient` variant is not supported by the implementation.
+		 * Errors if the [`Recipient`] variant is not supported by the implementation.
 		 */
 		Result_SecretKeyNoneZ get_node_secret(Recipient recipient);
 		/**
 		 * Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
 		 * [`get_node_secret`].
 		 * 
-		 * This method must return the same value each time it is called with a given `Recipient`
+		 * This method must return the same value each time it is called with a given [`Recipient`]
 		 * parameter.
 		 * 
-		 * Errors if the `Recipient` variant is not supported by the implementation.
+		 * Errors if the [`Recipient`] variant is not supported by the implementation.
 		 * 
-		 * [`get_node_secret`]: KeysInterface::get_node_secret
+		 * [`get_node_secret`]: Self::get_node_secret
 		 */
 		Result_PublicKeyNoneZ get_node_id(Recipient recipient);
 		/**
@@ -53,7 +53,7 @@ public class KeysInterface extends CommonBase {
 		 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
 		 * secret, though this is less efficient.
 		 * 
-		 * Errors if the `Recipient` variant is not supported by the implementation.
+		 * Errors if the [`Recipient`] variant is not supported by the implementation.
 		 * 
 		 * [`node secret`]: Self::get_node_secret
 		 */
@@ -73,12 +73,21 @@ public class KeysInterface extends CommonBase {
 		 */
 		ShutdownScript get_shutdown_scriptpubkey();
 		/**
-		 * Get a new set of Sign for per-channel secrets. These MUST be unique even if you
+		 * Get a new set of [`Sign`] for per-channel secrets. These MUST be unique even if you
 		 * restarted with some stale data!
 		 * 
 		 * This method must return a different value each time it is called.
 		 */
-		Sign get_channel_signer(boolean inbound, long channel_value_satoshis);
+		byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, UInt128 user_channel_id);
+		/**
+		 * Derives the private key material backing a `Signer`.
+		 * 
+		 * To derive a new `Signer`, a fresh `channel_keys_id` should be obtained through
+		 * [`KeysInterface::generate_channel_keys_id`]. Otherwise, an existing `Signer` can be
+		 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
+		 * [`BaseSign::channel_keys_id`].
+		 */
+		Sign derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id);
 		/**
 		 * Gets a unique, cryptographically-secure, random 32 byte value. This is used for encrypting
 		 * onion packets and for temporary channel IDs. There is no requirement that these be
@@ -88,12 +97,19 @@ public class KeysInterface extends CommonBase {
 		 */
 		byte[] get_secure_random_bytes();
 		/**
-		 * Reads a `Signer` for this `KeysInterface` from the given input stream.
+		 * Reads a [`Signer`] for this [`KeysInterface`] from the given input stream.
 		 * This is only called during deserialization of other objects which contain
-		 * `Sign`-implementing objects (ie `ChannelMonitor`s and `ChannelManager`s).
+		 * [`Sign`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
 		 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
 		 * contain no versioning scheme. You may wish to include your own version prefix and ensure
 		 * you've read all of the provided bytes to ensure no corruption occurred.
+		 * 
+		 * This method is slowly being phased out -- it will only be called when reading objects
+		 * written by LDK versions prior to 0.0.113.
+		 * 
+		 * [`Signer`]: Self::Signer
+		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 		 */
 		Result_SignDecodeErrorZ read_chan_signer(byte[] reader);
 		/**
@@ -101,11 +117,11 @@ public class KeysInterface extends CommonBase {
 		 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
 		 * this trait to parse the invoice and make sure they're signing what they expect, rather than
 		 * blindly signing the hash.
-		 * The hrp is ascii bytes, while the invoice data is base32.
+		 * The `hrp` is ASCII bytes, while the invoice data is base32-encoded.
 		 * 
 		 * The secret key used to sign the invoice is dependent on the [`Recipient`].
 		 * 
-		 * Errors if the `Recipient` variant is not supported by the implementation.
+		 * Errors if the [`Recipient`] variant is not supported by the implementation.
 		 */
 		Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient receipient);
 		/**
@@ -156,8 +172,15 @@ public class KeysInterface extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {
-				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
+			@Override public byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, byte[] user_channel_id) {
+				org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
+				byte[] ret = arg.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id_conv);
+				Reference.reachabilityFence(arg);
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
+			}
+			@Override public long derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
+				Sign ret = arg.derive_channel_signer(channel_value_satoshis, channel_keys_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
@@ -200,12 +223,12 @@ public class KeysInterface extends CommonBase {
 	/**
 	 * Get node secret key based on the provided [`Recipient`].
 	 * 
-	 * The node_id/network_key is the public key that corresponds to this secret key.
+	 * The `node_id`/`network_key` is the public key that corresponds to this secret key.
 	 * 
-	 * This method must return the same value each time it is called with a given `Recipient`
+	 * This method must return the same value each time it is called with a given [`Recipient`]
 	 * parameter.
 	 * 
-	 * Errors if the `Recipient` variant is not supported by the implementation.
+	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 */
 	public Result_SecretKeyNoneZ get_node_secret(org.ldk.enums.Recipient recipient) {
 		long ret = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
@@ -220,12 +243,12 @@ public class KeysInterface extends CommonBase {
 	 * Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
 	 * [`get_node_secret`].
 	 * 
-	 * This method must return the same value each time it is called with a given `Recipient`
+	 * This method must return the same value each time it is called with a given [`Recipient`]
 	 * parameter.
 	 * 
-	 * Errors if the `Recipient` variant is not supported by the implementation.
+	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 * 
-	 * [`get_node_secret`]: KeysInterface::get_node_secret
+	 * [`get_node_secret`]: Self::get_node_secret
 	 */
 	public Result_PublicKeyNoneZ get_node_id(org.ldk.enums.Recipient recipient) {
 		long ret = bindings.KeysInterface_get_node_id(this.ptr, recipient);
@@ -241,11 +264,11 @@ public class KeysInterface extends CommonBase {
 	 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
 	 * secret, though this is less efficient.
 	 * 
-	 * Errors if the `Recipient` variant is not supported by the implementation.
+	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 * 
 	 * [`node secret`]: Self::get_node_secret
 	 */
-	public Result_SharedSecretNoneZ ecdh(org.ldk.enums.Recipient recipient, byte[] other_key, Option_ScalarZ tweak) {
+	public Result_SharedSecretNoneZ ecdh(org.ldk.enums.Recipient recipient, byte[] other_key, org.ldk.structs.Option_ScalarZ tweak) {
 		long ret = bindings.KeysInterface_ecdh(this.ptr, recipient, InternalUtils.check_arr_len(other_key, 33), tweak.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(recipient);
@@ -284,16 +307,33 @@ public class KeysInterface extends CommonBase {
 	}
 
 	/**
-	 * Get a new set of Sign for per-channel secrets. These MUST be unique even if you
+	 * Get a new set of [`Sign`] for per-channel secrets. These MUST be unique even if you
 	 * restarted with some stale data!
 	 * 
 	 * This method must return a different value each time it is called.
 	 */
-	public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
-		long ret = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
+	public byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, org.ldk.util.UInt128 user_channel_id) {
+		byte[] ret = bindings.KeysInterface_generate_channel_keys_id(this.ptr, inbound, channel_value_satoshis, user_channel_id.getLEBytes());
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(inbound);
 		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(user_channel_id);
+		return ret;
+	}
+
+	/**
+	 * Derives the private key material backing a `Signer`.
+	 * 
+	 * To derive a new `Signer`, a fresh `channel_keys_id` should be obtained through
+	 * [`KeysInterface::generate_channel_keys_id`]. Otherwise, an existing `Signer` can be
+	 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
+	 * [`BaseSign::channel_keys_id`].
+	 */
+	public Sign derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
+		long ret = bindings.KeysInterface_derive_channel_signer(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(channel_keys_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sign ret_hu_conv = new Sign(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
@@ -314,12 +354,19 @@ public class KeysInterface extends CommonBase {
 	}
 
 	/**
-	 * Reads a `Signer` for this `KeysInterface` from the given input stream.
+	 * Reads a [`Signer`] for this [`KeysInterface`] from the given input stream.
 	 * This is only called during deserialization of other objects which contain
-	 * `Sign`-implementing objects (ie `ChannelMonitor`s and `ChannelManager`s).
+	 * [`Sign`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
 	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
 	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
 	 * you've read all of the provided bytes to ensure no corruption occurred.
+	 * 
+	 * This method is slowly being phased out -- it will only be called when reading objects
+	 * written by LDK versions prior to 0.0.113.
+	 * 
+	 * [`Signer`]: Self::Signer
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
 		long ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
@@ -335,11 +382,11 @@ public class KeysInterface extends CommonBase {
 	 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
 	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
 	 * blindly signing the hash.
-	 * The hrp is ascii bytes, while the invoice data is base32.
+	 * The `hrp` is ASCII bytes, while the invoice data is base32-encoded.
 	 * 
 	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
 	 * 
-	 * Errors if the `Recipient` variant is not supported by the implementation.
+	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 */
 	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, org.ldk.enums.Recipient receipient) {
 		long ret = bindings.KeysInterface_sign_invoice(this.ptr, hrp_bytes, invoice_data != null ? InternalUtils.convUInt5Array(invoice_data) : null, receipient);

@@ -50,7 +50,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneAPIErrorZ in the error state.
 	 */
-	public static Result_NoneAPIErrorZ err(APIError e) {
+	public static Result_NoneAPIErrorZ err(org.ldk.structs.APIError e) {
 		long ret = bindings.CResult_NoneAPIErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

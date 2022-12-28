@@ -50,7 +50,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NonePaymentSendFailureZ in the error state.
 	 */
-	public static Result_NonePaymentSendFailureZ err(PaymentSendFailure e) {
+	public static Result_NonePaymentSendFailureZ err(org.ldk.structs.PaymentSendFailure e) {
 		long ret = bindings.CResult_NonePaymentSendFailureZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

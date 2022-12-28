@@ -49,7 +49,7 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
-	public NodeInfo node(NodeId node_id) {
+	public NodeInfo node(org.ldk.structs.NodeId node_id) {
 		long ret = bindings.ReadOnlyNetworkGraph_node(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);

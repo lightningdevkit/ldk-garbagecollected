@@ -45,7 +45,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_GossipTimestampFilterDecodeErrorZ in the success state.
 	 */
-	public static Result_GossipTimestampFilterDecodeErrorZ ok(GossipTimestampFilter o) {
+	public static Result_GossipTimestampFilterDecodeErrorZ ok(org.ldk.structs.GossipTimestampFilter o) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_GossipTimestampFilterDecodeErrorZ in the error state.
 	 */
-	public static Result_GossipTimestampFilterDecodeErrorZ err(DecodeError e) {
+	public static Result_GossipTimestampFilterDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

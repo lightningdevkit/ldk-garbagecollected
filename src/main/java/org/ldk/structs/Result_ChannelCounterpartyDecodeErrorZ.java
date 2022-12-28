@@ -45,7 +45,7 @@ public class Result_ChannelCounterpartyDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelCounterpartyDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelCounterpartyDecodeErrorZ ok(ChannelCounterparty o) {
+	public static Result_ChannelCounterpartyDecodeErrorZ ok(org.ldk.structs.ChannelCounterparty o) {
 		long ret = bindings.CResult_ChannelCounterpartyDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ChannelCounterpartyDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelCounterpartyDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelCounterpartyDecodeErrorZ err(DecodeError e) {
+	public static Result_ChannelCounterpartyDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ChannelCounterpartyDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

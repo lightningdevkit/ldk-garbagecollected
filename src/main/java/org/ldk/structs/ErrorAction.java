@@ -149,7 +149,7 @@ public class ErrorAction extends CommonBase {
 	/**
 	 * Utility method to constructs a new DisconnectPeer-variant ErrorAction
 	 */
-	public static ErrorAction disconnect_peer(ErrorMessage msg) {
+	public static ErrorAction disconnect_peer(org.ldk.structs.ErrorMessage msg) {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -196,7 +196,7 @@ public class ErrorAction extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendErrorMessage-variant ErrorAction
 	 */
-	public static ErrorAction send_error_message(ErrorMessage msg) {
+	public static ErrorAction send_error_message(org.ldk.structs.ErrorMessage msg) {
 		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -209,7 +209,7 @@ public class ErrorAction extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendWarningMessage-variant ErrorAction
 	 */
-	public static ErrorAction send_warning_message(WarningMessage msg, org.ldk.enums.Level log_level) {
+	public static ErrorAction send_warning_message(org.ldk.structs.WarningMessage msg, org.ldk.enums.Level log_level) {
 		long ret = bindings.ErrorAction_send_warning_message(msg == null ? 0 : msg.ptr, log_level);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(log_level);

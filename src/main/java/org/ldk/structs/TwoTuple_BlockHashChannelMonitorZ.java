@@ -63,7 +63,7 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_BlockHashChannelMonitorZ from the contained elements.
 	 */
-	public static TwoTuple_BlockHashChannelMonitorZ of(byte[] a, ChannelMonitor b) {
+	public static TwoTuple_BlockHashChannelMonitorZ of(byte[] a, org.ldk.structs.ChannelMonitor b) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(InternalUtils.check_arr_len(a, 32), b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

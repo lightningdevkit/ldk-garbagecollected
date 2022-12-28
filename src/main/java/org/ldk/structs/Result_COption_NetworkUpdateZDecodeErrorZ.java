@@ -45,7 +45,7 @@ public class Result_COption_NetworkUpdateZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_NetworkUpdateZDecodeErrorZ in the success state.
 	 */
-	public static Result_COption_NetworkUpdateZDecodeErrorZ ok(Option_NetworkUpdateZ o) {
+	public static Result_COption_NetworkUpdateZDecodeErrorZ ok(org.ldk.structs.Option_NetworkUpdateZ o) {
 		long ret = bindings.CResult_COption_NetworkUpdateZDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_COption_NetworkUpdateZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_NetworkUpdateZDecodeErrorZ in the error state.
 	 */
-	public static Result_COption_NetworkUpdateZDecodeErrorZ err(DecodeError e) {
+	public static Result_COption_NetworkUpdateZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_COption_NetworkUpdateZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

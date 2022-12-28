@@ -73,7 +73,7 @@ public class ChannelUsage extends CommonBase {
 	/**
 	 * The effective capacity of the channel.
 	 */
-	public void set_effective_capacity(EffectiveCapacity val) {
+	public void set_effective_capacity(org.ldk.structs.EffectiveCapacity val) {
 		bindings.ChannelUsage_set_effective_capacity(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -82,7 +82,7 @@ public class ChannelUsage extends CommonBase {
 	/**
 	 * Constructs a new ChannelUsage given each field
 	 */
-	public static ChannelUsage of(long amount_msat_arg, long inflight_htlc_msat_arg, EffectiveCapacity effective_capacity_arg) {
+	public static ChannelUsage of(long amount_msat_arg, long inflight_htlc_msat_arg, org.ldk.structs.EffectiveCapacity effective_capacity_arg) {
 		long ret = bindings.ChannelUsage_new(amount_msat_arg, inflight_htlc_msat_arg, effective_capacity_arg.ptr);
 		Reference.reachabilityFence(amount_msat_arg);
 		Reference.reachabilityFence(inflight_htlc_msat_arg);

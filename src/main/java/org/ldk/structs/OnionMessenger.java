@@ -22,9 +22,8 @@ import javax.annotation.Nullable;
  * # use lightning::chain::keysinterface::{InMemorySigner, KeysManager, KeysInterface};
  * # use lightning::ln::msgs::DecodeError;
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
- * # use lightning::onion_message::messenger::{Destination, OnionMessenger};
- * # use lightning::onion_message::packet::CustomOnionMessageContents;
- * # use lightning::onion_message::blinded_route::BlindedRoute;
+ * # use lightning::onion_message::blinded_path::BlindedPath;
+ * # use lightning::onion_message::messenger::{CustomOnionMessageContents, Destination, OnionMessageContents, OnionMessenger};
  * # use lightning::util::logger::{Logger, Record};
  * # use lightning::util::ser::{Writeable, Writer};
  * # use lightning::io;
@@ -65,18 +64,20 @@ import javax.annotation.Nullable;
  * let intermediate_hops = [hop_node_id1, hop_node_id2];
  * let reply_path = None;
  * # let your_custom_message = YourCustomMessage {};
- * onion_messenger.send_custom_onion_message(&intermediate_hops, Destination::Node(destination_node_id), your_custom_message, reply_path);
+ * let message = OnionMessageContents::Custom(your_custom_message);
+ * onion_messenger.send_onion_message(&intermediate_hops, Destination::Node(destination_node_id), message, reply_path);
  * 
- * Create a blinded route to yourself, for someone to send an onion message to.
+ * Create a blinded path to yourself, for someone to send an onion message to.
  * # let your_node_id = hop_node_id1;
  * let hops = [hop_node_id3, hop_node_id4, your_node_id];
- * let blinded_route = BlindedRoute::new(&hops, &keys_manager, &secp_ctx).unwrap();
+ * let blinded_path = BlindedPath::new(&hops, &keys_manager, &secp_ctx).unwrap();
  * 
- * Send a custom onion message to a blinded route.
+ * Send a custom onion message to a blinded path.
  * # let intermediate_hops = [hop_node_id1, hop_node_id2];
  * let reply_path = None;
  * # let your_custom_message = YourCustomMessage {};
- * onion_messenger.send_custom_onion_message(&intermediate_hops, Destination::BlindedRoute(blinded_route), your_custom_message, reply_path);
+ * let message = OnionMessageContents::Custom(your_custom_message);
+ * onion_messenger.send_onion_message(&intermediate_hops, Destination::BlindedPath(blinded_path), message, reply_path);
  * ```
  * 
  * [offers]: <https://github.com/lightning/bolts/pull/798>
@@ -95,7 +96,7 @@ public class OnionMessenger extends CommonBase {
 	 * Constructs a new `OnionMessenger` to send, forward, and delegate received onion messages to
 	 * their respective handlers.
 	 */
-	public static OnionMessenger of(KeysInterface keys_manager, Logger logger, CustomOnionMessageHandler custom_handler) {
+	public static OnionMessenger of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
 		long ret = bindings.OnionMessenger_new(keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, custom_handler == null ? 0 : custom_handler.ptr);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(logger);
@@ -115,16 +116,15 @@ public class OnionMessenger extends CommonBase {
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneSendErrorZ send_custom_onion_message(byte[][] intermediate_nodes, Destination destination, CustomOnionMessageContents msg, @Nullable BlindedRoute reply_path) {
-		long ret = bindings.OnionMessenger_send_custom_onion_message(this.ptr, intermediate_nodes != null ? Arrays.stream(intermediate_nodes).map(intermediate_nodes_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_conv_8, 33)).toArray(byte[][]::new) : null, destination.ptr, msg == null ? 0 : msg.ptr, reply_path == null ? 0 : reply_path.ptr);
+	public Result_NoneSendErrorZ send_onion_message(byte[][] intermediate_nodes, org.ldk.structs.Destination destination, org.ldk.structs.OnionMessageContents message, @Nullable org.ldk.structs.BlindedPath reply_path) {
+		long ret = bindings.OnionMessenger_send_onion_message(this.ptr, intermediate_nodes != null ? Arrays.stream(intermediate_nodes).map(intermediate_nodes_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_conv_8, 33)).toArray(byte[][]::new) : null, destination.ptr, message.ptr, reply_path == null ? 0 : reply_path.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(intermediate_nodes);
 		Reference.reachabilityFence(destination);
-		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(message);
 		Reference.reachabilityFence(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneSendErrorZ ret_hu_conv = Result_NoneSendErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
 		if (this != null) { this.ptrs_to.add(reply_path); };
 		return ret_hu_conv;
 	}

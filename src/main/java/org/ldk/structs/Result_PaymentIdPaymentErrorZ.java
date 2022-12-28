@@ -53,7 +53,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PaymentIdPaymentErrorZ in the error state.
 	 */
-	public static Result_PaymentIdPaymentErrorZ err(PaymentError e) {
+	public static Result_PaymentIdPaymentErrorZ err(org.ldk.structs.PaymentError e) {
 		long ret = bindings.CResult_PaymentIdPaymentErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

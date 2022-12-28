@@ -75,7 +75,7 @@ public class ThreeTuple_RawInvoice_u832InvoiceSignatureZ extends CommonBase {
 	/**
 	 * Creates a new C3Tuple_RawInvoice_u832InvoiceSignatureZ from the contained elements.
 	 */
-	public static ThreeTuple_RawInvoice_u832InvoiceSignatureZ of(RawInvoice a, byte[] b, InvoiceSignature c) {
+	public static ThreeTuple_RawInvoice_u832InvoiceSignatureZ of(org.ldk.structs.RawInvoice a, byte[] b, org.ldk.structs.InvoiceSignature c) {
 		long ret = bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a == null ? 0 : a.ptr, InternalUtils.check_arr_len(b, 32), c == null ? 0 : c.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

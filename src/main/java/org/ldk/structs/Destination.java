@@ -24,8 +24,8 @@ public class Destination extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKDestination.Node.class) {
 			return new Node(ptr, (bindings.LDKDestination.Node)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKDestination.BlindedRoute.class) {
-			return new BlindedRoute(ptr, (bindings.LDKDestination.BlindedRoute)raw_val);
+		if (raw_val.getClass() == bindings.LDKDestination.BlindedPath.class) {
+			return new BlindedPath(ptr, (bindings.LDKDestination.BlindedPath)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -41,18 +41,36 @@ public class Destination extends CommonBase {
 		}
 	}
 	/**
-	 * We're sending this onion message to a blinded route.
+	 * We're sending this onion message to a blinded path.
 	 */
-	public final static class BlindedRoute extends Destination {
-		public final org.ldk.structs.BlindedRoute blinded_route;
-		private BlindedRoute(long ptr, bindings.LDKDestination.BlindedRoute obj) {
+	public final static class BlindedPath extends Destination {
+		public final org.ldk.structs.BlindedPath blinded_path;
+		private BlindedPath(long ptr, bindings.LDKDestination.BlindedPath obj) {
 			super(null, ptr);
-			long blinded_route = obj.blinded_route;
-			org.ldk.structs.BlindedRoute blinded_route_hu_conv = null; if (blinded_route < 0 || blinded_route > 4096) { blinded_route_hu_conv = new org.ldk.structs.BlindedRoute(null, blinded_route); }
-			if (blinded_route_hu_conv != null) { blinded_route_hu_conv.ptrs_to.add(this); };
-			this.blinded_route = blinded_route_hu_conv;
+			long blinded_path = obj.blinded_path;
+			org.ldk.structs.BlindedPath blinded_path_hu_conv = null; if (blinded_path < 0 || blinded_path > 4096) { blinded_path_hu_conv = new org.ldk.structs.BlindedPath(null, blinded_path); }
+			if (blinded_path_hu_conv != null) { blinded_path_hu_conv.ptrs_to.add(this); };
+			this.blinded_path = blinded_path_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.Destination_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the Destination
+	 */
+	public Destination clone() {
+		long ret = bindings.Destination_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Destination ret_hu_conv = org.ldk.structs.Destination.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Utility method to constructs a new Node-variant Destination
 	 */
@@ -66,23 +84,15 @@ public class Destination extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new BlindedRoute-variant Destination
+	 * Utility method to constructs a new BlindedPath-variant Destination
 	 */
-	public static Destination blinded_route(BlindedRoute a) {
-		long ret = bindings.Destination_blinded_route(a == null ? 0 : a.ptr);
+	public static Destination blinded_path(org.ldk.structs.BlindedPath a) {
+		long ret = bindings.Destination_blinded_path(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Destination ret_hu_conv = org.ldk.structs.Destination.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after ret_hu_conv call, a is reset to null and is now a dummy object.
-		a.ptr = 0;;
 		return ret_hu_conv;
 	}
 

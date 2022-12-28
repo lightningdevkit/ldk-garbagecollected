@@ -127,7 +127,7 @@ public class ChannelUpdateInfo extends CommonBase {
 	/**
 	 * Fees charged when the channel is used for routing
 	 */
-	public void set_fees(RoutingFees val) {
+	public void set_fees(org.ldk.structs.RoutingFees val) {
 		bindings.ChannelUpdateInfo_set_fees(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -160,7 +160,7 @@ public class ChannelUpdateInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_last_update_message(@Nullable ChannelUpdate val) {
+	public void set_last_update_message(@Nullable org.ldk.structs.ChannelUpdate val) {
 		bindings.ChannelUpdateInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -170,7 +170,7 @@ public class ChannelUpdateInfo extends CommonBase {
 	/**
 	 * Constructs a new ChannelUpdateInfo given each field
 	 */
-	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
+	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, org.ldk.structs.RoutingFees fees_arg, org.ldk.structs.ChannelUpdate last_update_message_arg) {
 		long ret = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0 : fees_arg.ptr, last_update_message_arg == null ? 0 : last_update_message_arg.ptr);
 		Reference.reachabilityFence(last_update_arg);
 		Reference.reachabilityFence(enabled_arg);
@@ -210,7 +210,7 @@ public class ChannelUpdateInfo extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ChannelUpdateInfo b) {
+	public boolean eq(org.ldk.structs.ChannelUpdateInfo b) {
 		boolean ret = bindings.ChannelUpdateInfo_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

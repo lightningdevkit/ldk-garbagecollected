@@ -29,8 +29,11 @@ public class PaymentSendFailure extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKPaymentSendFailure.PathParameterError.class) {
 			return new PathParameterError(ptr, (bindings.LDKPaymentSendFailure.PathParameterError)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKPaymentSendFailure.AllFailedRetrySafe.class) {
-			return new AllFailedRetrySafe(ptr, (bindings.LDKPaymentSendFailure.AllFailedRetrySafe)raw_val);
+		if (raw_val.getClass() == bindings.LDKPaymentSendFailure.AllFailedResendSafe.class) {
+			return new AllFailedResendSafe(ptr, (bindings.LDKPaymentSendFailure.AllFailedResendSafe)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKPaymentSendFailure.DuplicatePayment.class) {
+			return new DuplicatePayment(ptr, (bindings.LDKPaymentSendFailure.DuplicatePayment)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKPaymentSendFailure.PartialFailure.class) {
 			return new PartialFailure(ptr, (bindings.LDKPaymentSendFailure.PartialFailure)raw_val);
@@ -40,8 +43,13 @@ public class PaymentSendFailure extends CommonBase {
 
 	/**
 	 * A parameter which was passed to send_payment was invalid, preventing us from attempting to
-	 * send the payment at all. No channel state has been changed or messages sent to peers, and
-	 * once you've changed the parameter at error, you can freely retry the payment in full.
+	 * send the payment at all.
+	 * 
+	 * You can freely resend the payment in full (with the parameter error fixed).
+	 * 
+	 * Because the payment failed outright, no payment tracking is done, you do not need to call
+	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
+	 * for this payment.
 	 */
 	public final static class ParameterError extends PaymentSendFailure {
 		public final org.ldk.structs.APIError parameter_error;
@@ -55,12 +63,16 @@ public class PaymentSendFailure extends CommonBase {
 	}
 	/**
 	 * A parameter in a single path which was passed to send_payment was invalid, preventing us
-	 * from attempting to send the payment at all. No channel state has been changed or messages
-	 * sent to peers, and once you've changed the parameter at error, you can freely retry the
-	 * payment in full.
+	 * from attempting to send the payment at all.
+	 * 
+	 * You can freely resend the payment in full (with the parameter error fixed).
 	 * 
 	 * The results here are ordered the same as the paths in the route object which was passed to
 	 * send_payment.
+	 * 
+	 * Because the payment failed outright, no payment tracking is done, you do not need to call
+	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
+	 * for this payment.
 	 */
 	public final static class PathParameterError extends PaymentSendFailure {
 		public final Result_NoneAPIErrorZ[] path_parameter_error;
@@ -79,23 +91,39 @@ public class PaymentSendFailure extends CommonBase {
 	}
 	/**
 	 * All paths which were attempted failed to send, with no channel state change taking place.
-	 * You can freely retry the payment in full (though you probably want to do so over different
+	 * You can freely resend the payment in full (though you probably want to do so over different
 	 * paths than the ones selected).
+	 * 
+	 * Because the payment failed outright, no payment tracking is done, you do not need to call
+	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
+	 * for this payment.
 	 */
-	public final static class AllFailedRetrySafe extends PaymentSendFailure {
-		public final APIError[] all_failed_retry_safe;
-		private AllFailedRetrySafe(long ptr, bindings.LDKPaymentSendFailure.AllFailedRetrySafe obj) {
+	public final static class AllFailedResendSafe extends PaymentSendFailure {
+		public final APIError[] all_failed_resend_safe;
+		private AllFailedResendSafe(long ptr, bindings.LDKPaymentSendFailure.AllFailedResendSafe obj) {
 			super(null, ptr);
-			long[] all_failed_retry_safe = obj.all_failed_retry_safe;
-			int all_failed_retry_safe_conv_10_len = all_failed_retry_safe.length;
-			APIError[] all_failed_retry_safe_conv_10_arr = new APIError[all_failed_retry_safe_conv_10_len];
-			for (int k = 0; k < all_failed_retry_safe_conv_10_len; k++) {
-				long all_failed_retry_safe_conv_10 = all_failed_retry_safe[k];
-				org.ldk.structs.APIError all_failed_retry_safe_conv_10_hu_conv = org.ldk.structs.APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
-				if (all_failed_retry_safe_conv_10_hu_conv != null) { all_failed_retry_safe_conv_10_hu_conv.ptrs_to.add(this); };
-				all_failed_retry_safe_conv_10_arr[k] = all_failed_retry_safe_conv_10_hu_conv;
+			long[] all_failed_resend_safe = obj.all_failed_resend_safe;
+			int all_failed_resend_safe_conv_10_len = all_failed_resend_safe.length;
+			APIError[] all_failed_resend_safe_conv_10_arr = new APIError[all_failed_resend_safe_conv_10_len];
+			for (int k = 0; k < all_failed_resend_safe_conv_10_len; k++) {
+				long all_failed_resend_safe_conv_10 = all_failed_resend_safe[k];
+				org.ldk.structs.APIError all_failed_resend_safe_conv_10_hu_conv = org.ldk.structs.APIError.constr_from_ptr(all_failed_resend_safe_conv_10);
+				if (all_failed_resend_safe_conv_10_hu_conv != null) { all_failed_resend_safe_conv_10_hu_conv.ptrs_to.add(this); };
+				all_failed_resend_safe_conv_10_arr[k] = all_failed_resend_safe_conv_10_hu_conv;
 			}
-			this.all_failed_retry_safe = all_failed_retry_safe_conv_10_arr;
+			this.all_failed_resend_safe = all_failed_resend_safe_conv_10_arr;
+		}
+	}
+	/**
+	 * Indicates that a payment for the provided [`PaymentId`] is already in-flight and has not
+	 * yet completed (i.e. generated an [`Event::PaymentSent`]) or been abandoned (via
+	 * [`ChannelManager::abandon_payment`]).
+	 * 
+	 * [`Event::PaymentSent`]: events::Event::PaymentSent
+	 */
+	public final static class DuplicatePayment extends PaymentSendFailure {
+		private DuplicatePayment(long ptr, bindings.LDKPaymentSendFailure.DuplicatePayment obj) {
+			super(null, ptr);
 		}
 	}
 	/**
@@ -168,7 +196,7 @@ public class PaymentSendFailure extends CommonBase {
 	/**
 	 * Utility method to constructs a new ParameterError-variant PaymentSendFailure
 	 */
-	public static PaymentSendFailure parameter_error(APIError a) {
+	public static PaymentSendFailure parameter_error(org.ldk.structs.APIError a) {
 		long ret = bindings.PaymentSendFailure_parameter_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -190,11 +218,22 @@ public class PaymentSendFailure extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new AllFailedRetrySafe-variant PaymentSendFailure
+	 * Utility method to constructs a new AllFailedResendSafe-variant PaymentSendFailure
 	 */
-	public static PaymentSendFailure all_failed_retry_safe(APIError[] a) {
-		long ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
+	public static PaymentSendFailure all_failed_resend_safe(APIError[] a) {
+		long ret = bindings.PaymentSendFailure_all_failed_resend_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DuplicatePayment-variant PaymentSendFailure
+	 */
+	public static PaymentSendFailure duplicate_payment() {
+		long ret = bindings.PaymentSendFailure_duplicate_payment();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -204,7 +243,7 @@ public class PaymentSendFailure extends CommonBase {
 	/**
 	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
 	 */
-	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, byte[] payment_id) {
+	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, org.ldk.structs.RouteParameters failed_paths_retry, byte[] payment_id) {
 		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).mapToLong(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray() : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(results);
 		Reference.reachabilityFence(failed_paths_retry);

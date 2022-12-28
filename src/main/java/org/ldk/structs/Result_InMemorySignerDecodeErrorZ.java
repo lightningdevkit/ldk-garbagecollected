@@ -45,7 +45,7 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InMemorySignerDecodeErrorZ in the success state.
 	 */
-	public static Result_InMemorySignerDecodeErrorZ ok(InMemorySigner o) {
+	public static Result_InMemorySignerDecodeErrorZ ok(org.ldk.structs.InMemorySigner o) {
 		long ret = bindings.CResult_InMemorySignerDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InMemorySignerDecodeErrorZ in the error state.
 	 */
-	public static Result_InMemorySignerDecodeErrorZ err(DecodeError e) {
+	public static Result_InMemorySignerDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_InMemorySignerDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

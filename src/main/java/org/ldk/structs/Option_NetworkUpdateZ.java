@@ -54,7 +54,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	/**
 	 * Constructs a new COption_NetworkUpdateZ containing a crate::lightning::routing::gossip::NetworkUpdate
 	 */
-	public static Option_NetworkUpdateZ some(NetworkUpdate o) {
+	public static Option_NetworkUpdateZ some(org.ldk.structs.NetworkUpdate o) {
 		long ret = bindings.COption_NetworkUpdateZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

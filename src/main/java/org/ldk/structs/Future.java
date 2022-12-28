@@ -24,7 +24,7 @@ public class Future extends CommonBase {
 	 * Registers a callback to be called upon completion of this future. If the future has already
 	 * completed, the callback will be called immediately.
 	 */
-	public void register_callback_fn(FutureCallback callback) {
+	public void register_callback_fn(org.ldk.structs.FutureCallback callback) {
 		bindings.Future_register_callback_fn(this.ptr, callback == null ? 0 : callback.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(callback);

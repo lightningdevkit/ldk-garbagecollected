@@ -55,7 +55,7 @@ public class RouteHop extends CommonBase {
 	 * The node_announcement features of the node at this hop. For the last hop, these may be
 	 * amended to match the features present in the invoice this node generated.
 	 */
-	public void set_node_features(NodeFeatures val) {
+	public void set_node_features(org.ldk.structs.NodeFeatures val) {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -97,7 +97,7 @@ public class RouteHop extends CommonBase {
 	 * The channel_announcement features of the channel that should be used from the previous hop
 	 * to reach this node.
 	 */
-	public void set_channel_features(ChannelFeatures val) {
+	public void set_channel_features(org.ldk.structs.ChannelFeatures val) {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -149,7 +149,7 @@ public class RouteHop extends CommonBase {
 	/**
 	 * Constructs a new RouteHop given each field
 	 */
-	public static RouteHop of(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
+	public static RouteHop of(byte[] pubkey_arg, org.ldk.structs.NodeFeatures node_features_arg, long short_channel_id_arg, org.ldk.structs.ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
 		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr, fee_msat_arg, cltv_expiry_delta_arg);
 		Reference.reachabilityFence(pubkey_arg);
 		Reference.reachabilityFence(node_features_arg);
@@ -200,7 +200,7 @@ public class RouteHop extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(RouteHop b) {
+	public boolean eq(org.ldk.structs.RouteHop b) {
 		boolean ret = bindings.RouteHop_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

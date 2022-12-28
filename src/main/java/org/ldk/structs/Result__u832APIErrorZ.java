@@ -53,7 +53,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult__u832APIErrorZ in the error state.
 	 */
-	public static Result__u832APIErrorZ err(APIError e) {
+	public static Result__u832APIErrorZ err(org.ldk.structs.APIError e) {
 		long ret = bindings.CResult__u832APIErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

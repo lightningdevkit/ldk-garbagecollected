@@ -53,7 +53,7 @@ public class Result_u32GraphSyncErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_u32GraphSyncErrorZ in the error state.
 	 */
-	public static Result_u32GraphSyncErrorZ err(GraphSyncError e) {
+	public static Result_u32GraphSyncErrorZ err(org.ldk.structs.GraphSyncError e) {
 		long ret = bindings.CResult_u32GraphSyncErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

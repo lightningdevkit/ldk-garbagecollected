@@ -45,7 +45,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the success state.
 	 */
-	public static Result_RevokeAndACKDecodeErrorZ ok(RevokeAndACK o) {
+	public static Result_RevokeAndACKDecodeErrorZ ok(org.ldk.structs.RevokeAndACK o) {
 		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the error state.
 	 */
-	public static Result_RevokeAndACKDecodeErrorZ err(DecodeError e) {
+	public static Result_RevokeAndACKDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

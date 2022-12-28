@@ -213,7 +213,7 @@ public class NetAddress extends CommonBase {
 	/**
 	 * Utility method to constructs a new Hostname-variant NetAddress
 	 */
-	public static NetAddress hostname(Hostname hostname, short port) {
+	public static NetAddress hostname(org.ldk.structs.Hostname hostname, short port) {
 		long ret = bindings.NetAddress_hostname(hostname == null ? 0 : hostname.ptr, port);
 		Reference.reachabilityFence(hostname);
 		Reference.reachabilityFence(port);
@@ -228,7 +228,7 @@ public class NetAddress extends CommonBase {
 	 * Checks if two NetAddresss contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(NetAddress b) {
+	public boolean eq(org.ldk.structs.NetAddress b) {
 		boolean ret = bindings.NetAddress_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

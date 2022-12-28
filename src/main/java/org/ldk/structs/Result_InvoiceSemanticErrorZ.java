@@ -42,7 +42,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceSemanticErrorZ in the success state.
 	 */
-	public static Result_InvoiceSemanticErrorZ ok(Invoice o) {
+	public static Result_InvoiceSemanticErrorZ ok(org.ldk.structs.Invoice o) {
 		long ret = bindings.CResult_InvoiceSemanticErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

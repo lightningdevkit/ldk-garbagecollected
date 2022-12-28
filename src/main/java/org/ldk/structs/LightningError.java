@@ -53,7 +53,7 @@ public class LightningError extends CommonBase {
 	/**
 	 * The action which should be taken against the offending peer.
 	 */
-	public void set_action(ErrorAction val) {
+	public void set_action(org.ldk.structs.ErrorAction val) {
 		bindings.LightningError_set_action(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -62,7 +62,7 @@ public class LightningError extends CommonBase {
 	/**
 	 * Constructs a new LightningError given each field
 	 */
-	public static LightningError of(java.lang.String err_arg, ErrorAction action_arg) {
+	public static LightningError of(java.lang.String err_arg, org.ldk.structs.ErrorAction action_arg) {
 		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
 		Reference.reachabilityFence(err_arg);
 		Reference.reachabilityFence(action_arg);

@@ -89,7 +89,7 @@ public class RouteHint extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(RouteHint b) {
+	public boolean eq(org.ldk.structs.RouteHint b) {
 		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

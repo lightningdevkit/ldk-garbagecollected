@@ -53,7 +53,7 @@ public class Result_boolLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_boolLightningErrorZ in the error state.
 	 */
-	public static Result_boolLightningErrorZ err(LightningError e) {
+	public static Result_boolLightningErrorZ err(org.ldk.structs.LightningError e) {
 		long ret = bindings.CResult_boolLightningErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

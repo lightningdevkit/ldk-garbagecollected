@@ -54,7 +54,7 @@ public class Option_AccessZ extends CommonBase {
 	/**
 	 * Constructs a new COption_AccessZ containing a crate::lightning::chain::Access
 	 */
-	public static Option_AccessZ some(Access o) {
+	public static Option_AccessZ some(org.ldk.structs.Access o) {
 		long ret = bindings.COption_AccessZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

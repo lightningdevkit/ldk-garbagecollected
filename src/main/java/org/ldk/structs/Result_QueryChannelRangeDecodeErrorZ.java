@@ -45,7 +45,7 @@ public class Result_QueryChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_QueryChannelRangeDecodeErrorZ in the success state.
 	 */
-	public static Result_QueryChannelRangeDecodeErrorZ ok(QueryChannelRange o) {
+	public static Result_QueryChannelRangeDecodeErrorZ ok(org.ldk.structs.QueryChannelRange o) {
 		long ret = bindings.CResult_QueryChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_QueryChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_QueryChannelRangeDecodeErrorZ in the error state.
 	 */
-	public static Result_QueryChannelRangeDecodeErrorZ err(DecodeError e) {
+	public static Result_QueryChannelRangeDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_QueryChannelRangeDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

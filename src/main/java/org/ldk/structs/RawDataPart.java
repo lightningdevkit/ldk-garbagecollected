@@ -35,7 +35,7 @@ public class RawDataPart extends CommonBase {
 	/**
 	 * generation time of the invoice
 	 */
-	public void set_timestamp(PositiveTimestamp val) {
+	public void set_timestamp(org.ldk.structs.PositiveTimestamp val) {
 		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -47,7 +47,7 @@ public class RawDataPart extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(RawDataPart b) {
+	public boolean eq(org.ldk.structs.RawDataPart b) {
 		boolean ret = bindings.RawDataPart_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

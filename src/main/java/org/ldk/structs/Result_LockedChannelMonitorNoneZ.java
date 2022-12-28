@@ -40,7 +40,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_LockedChannelMonitorNoneZ in the success state.
 	 */
-	public static Result_LockedChannelMonitorNoneZ ok(LockedChannelMonitor o) {
+	public static Result_LockedChannelMonitorNoneZ ok(org.ldk.structs.LockedChannelMonitor o) {
 		long ret = bindings.CResult_LockedChannelMonitorNoneZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

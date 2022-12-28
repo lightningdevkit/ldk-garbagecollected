@@ -45,7 +45,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	/**
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ in the success state.
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ok(TwoTuple_PaymentHashPaymentIdZ o) {
+	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ok(org.ldk.structs.TwoTuple_PaymentHashPaymentIdZ o) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	/**
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ in the error state.
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ err(PaymentSendFailure e) {
+	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ err(org.ldk.structs.PaymentSendFailure e) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

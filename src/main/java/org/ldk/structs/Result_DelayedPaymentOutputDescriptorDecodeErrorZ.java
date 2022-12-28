@@ -45,7 +45,7 @@ public class Result_DelayedPaymentOutputDescriptorDecodeErrorZ extends CommonBas
 	/**
 	 * Creates a new CResult_DelayedPaymentOutputDescriptorDecodeErrorZ in the success state.
 	 */
-	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ ok(DelayedPaymentOutputDescriptor o) {
+	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ ok(org.ldk.structs.DelayedPaymentOutputDescriptor o) {
 		long ret = bindings.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_DelayedPaymentOutputDescriptorDecodeErrorZ extends CommonBas
 	/**
 	 * Creates a new CResult_DelayedPaymentOutputDescriptorDecodeErrorZ in the error state.
 	 */
-	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ err(DecodeError e) {
+	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

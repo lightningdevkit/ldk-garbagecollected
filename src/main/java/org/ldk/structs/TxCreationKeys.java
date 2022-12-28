@@ -145,7 +145,7 @@ public class TxCreationKeys extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(TxCreationKeys b) {
+	public boolean eq(org.ldk.structs.TxCreationKeys b) {
 		boolean ret = bindings.TxCreationKeys_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
@@ -199,7 +199,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Create per-state keys from channel base points and the per-commitment point.
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
-	public static Result_TxCreationKeysErrorZ derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
+	public static TxCreationKeys derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
 		long ret = bindings.TxCreationKeys_derive_new(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(broadcaster_delayed_payment_base, 33), InternalUtils.check_arr_len(broadcaster_htlc_base, 33), InternalUtils.check_arr_len(countersignatory_revocation_base, 33), InternalUtils.check_arr_len(countersignatory_htlc_base, 33));
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(broadcaster_delayed_payment_base);
@@ -207,7 +207,8 @@ public class TxCreationKeys extends CommonBase {
 		Reference.reachabilityFence(countersignatory_revocation_base);
 		Reference.reachabilityFence(countersignatory_htlc_base);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 
@@ -215,13 +216,14 @@ public class TxCreationKeys extends CommonBase {
 	 * Generate per-state keys from channel static keys.
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
-	public static Result_TxCreationKeysErrorZ from_channel_static_keys(byte[] per_commitment_point, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
+	public static TxCreationKeys from_channel_static_keys(byte[] per_commitment_point, org.ldk.structs.ChannelPublicKeys broadcaster_keys, org.ldk.structs.ChannelPublicKeys countersignatory_keys) {
 		long ret = bindings.TxCreationKeys_from_channel_static_keys(InternalUtils.check_arr_len(per_commitment_point, 33), broadcaster_keys == null ? 0 : broadcaster_keys.ptr, countersignatory_keys == null ? 0 : countersignatory_keys.ptr);
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(broadcaster_keys);
 		Reference.reachabilityFence(countersignatory_keys);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(broadcaster_keys); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(countersignatory_keys); };
 		return ret_hu_conv;

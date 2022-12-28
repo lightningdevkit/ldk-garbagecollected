@@ -45,7 +45,7 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedFeeRangeDecodeErrorZ in the success state.
 	 */
-	public static Result_ClosingSignedFeeRangeDecodeErrorZ ok(ClosingSignedFeeRange o) {
+	public static Result_ClosingSignedFeeRangeDecodeErrorZ ok(org.ldk.structs.ClosingSignedFeeRange o) {
 		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedFeeRangeDecodeErrorZ in the error state.
 	 */
-	public static Result_ClosingSignedFeeRangeDecodeErrorZ err(DecodeError e) {
+	public static Result_ClosingSignedFeeRangeDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

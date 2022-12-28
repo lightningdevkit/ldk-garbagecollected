@@ -35,7 +35,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Protocol features the node announced support for
 	 */
-	public void set_features(NodeFeatures val) {
+	public void set_features(org.ldk.structs.NodeFeatures val) {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -99,7 +99,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * May be invalid or malicious (eg control chars),
 	 * should not be exposed to the user.
 	 */
-	public void set_alias(NodeAlias val) {
+	public void set_alias(org.ldk.structs.NodeAlias val) {
 		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -160,7 +160,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_announcement_message(@Nullable NodeAnnouncement val) {
+	public void set_announcement_message(@Nullable org.ldk.structs.NodeAnnouncement val) {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -170,7 +170,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, NodeAlias alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
+	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, NetAddress[] addresses_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
 		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(last_update_arg);
@@ -210,7 +210,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(NodeAnnouncementInfo b) {
+	public boolean eq(org.ldk.structs.NodeAnnouncementInfo b) {
 		boolean ret = bindings.NodeAnnouncementInfo_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

@@ -45,7 +45,7 @@ public class Result_CounterpartyForwardingInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CounterpartyForwardingInfoDecodeErrorZ in the success state.
 	 */
-	public static Result_CounterpartyForwardingInfoDecodeErrorZ ok(CounterpartyForwardingInfo o) {
+	public static Result_CounterpartyForwardingInfoDecodeErrorZ ok(org.ldk.structs.CounterpartyForwardingInfo o) {
 		long ret = bindings.CResult_CounterpartyForwardingInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_CounterpartyForwardingInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CounterpartyForwardingInfoDecodeErrorZ in the error state.
 	 */
-	public static Result_CounterpartyForwardingInfoDecodeErrorZ err(DecodeError e) {
+	public static Result_CounterpartyForwardingInfoDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_CounterpartyForwardingInfoDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

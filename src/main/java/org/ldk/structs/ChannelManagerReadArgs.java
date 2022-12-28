@@ -70,7 +70,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
 	 * signing data.
 	 */
-	public void set_keys_manager(KeysInterface val) {
+	public void set_keys_manager(org.ldk.structs.KeysInterface val) {
 		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -96,7 +96,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * 
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
-	public void set_fee_estimator(FeeEstimator val) {
+	public void set_fee_estimator(org.ldk.structs.FeeEstimator val) {
 		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -126,7 +126,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * you have deserialized ChannelMonitors separately and will add them to your
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
-	public void set_chain_monitor(Watch val) {
+	public void set_chain_monitor(org.ldk.structs.Watch val) {
 		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -152,7 +152,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * used to broadcast the latest local commitment transactions of channels which must be
 	 * force-closed during deserialization.
 	 */
-	public void set_tx_broadcaster(BroadcasterInterface val) {
+	public void set_tx_broadcaster(org.ldk.structs.BroadcasterInterface val) {
 		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -176,7 +176,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * The Logger for use in the ChannelManager and which may be used to log information during
 	 * deserialization.
 	 */
-	public void set_logger(Logger val) {
+	public void set_logger(org.ldk.structs.Logger val) {
 		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -200,7 +200,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * Default settings used for new channels. Any existing channels will continue to use the
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
-	public void set_default_config(UserConfig val) {
+	public void set_default_config(org.ldk.structs.UserConfig val) {
 		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -212,7 +212,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * HashMap for you. This is primarily useful for C bindings where it is not practical to
 	 * populate a HashMap directly from C.
 	 */
-	public static ChannelManagerReadArgs of(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
+	public static ChannelManagerReadArgs of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
 		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(keys_manager);
 		Reference.reachabilityFence(fee_estimator);

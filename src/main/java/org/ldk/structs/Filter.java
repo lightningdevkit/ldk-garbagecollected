@@ -95,7 +95,7 @@ public class Filter extends CommonBase {
 	 * handled, e.g., by re-scanning the block in question whenever new outputs have been
 	 * registered mid-processing.
 	 */
-	public void register_output(WatchedOutput output) {
+	public void register_output(org.ldk.structs.WatchedOutput output) {
 		bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(output);

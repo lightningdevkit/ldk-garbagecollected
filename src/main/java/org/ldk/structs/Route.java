@@ -90,7 +90,7 @@ public class Route extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_payment_params(@Nullable PaymentParameters val) {
+	public void set_payment_params(@Nullable org.ldk.structs.PaymentParameters val) {
 		bindings.Route_set_payment_params(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -100,7 +100,7 @@ public class Route extends CommonBase {
 	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route of(RouteHop[][] paths_arg, PaymentParameters payment_params_arg) {
+	public static Route of(RouteHop[][] paths_arg, org.ldk.structs.PaymentParameters payment_params_arg) {
 		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr).toArray() : null).toArray(long[][]::new) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
 		Reference.reachabilityFence(paths_arg);
 		Reference.reachabilityFence(payment_params_arg);
@@ -147,7 +147,7 @@ public class Route extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(Route b) {
+	public boolean eq(org.ldk.structs.Route b) {
 		boolean ret = bindings.Route_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

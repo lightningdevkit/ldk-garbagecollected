@@ -53,7 +53,7 @@ public class Result_SiPrefixParseErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SiPrefixParseErrorZ in the error state.
 	 */
-	public static Result_SiPrefixParseErrorZ err(ParseError e) {
+	public static Result_SiPrefixParseErrorZ err(org.ldk.structs.ParseError e) {
 		long ret = bindings.CResult_SiPrefixParseErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

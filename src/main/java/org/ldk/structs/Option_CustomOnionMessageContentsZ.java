@@ -54,7 +54,7 @@ public class Option_CustomOnionMessageContentsZ extends CommonBase {
 	/**
 	 * Constructs a new COption_CustomOnionMessageContentsZ containing a crate::lightning::onion_message::packet::CustomOnionMessageContents
 	 */
-	public static Option_CustomOnionMessageContentsZ some(CustomOnionMessageContents o) {
+	public static Option_CustomOnionMessageContentsZ some(org.ldk.structs.CustomOnionMessageContents o) {
 		long ret = bindings.COption_CustomOnionMessageContentsZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

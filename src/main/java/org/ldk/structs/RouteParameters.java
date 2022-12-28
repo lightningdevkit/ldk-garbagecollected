@@ -40,7 +40,7 @@ public class RouteParameters extends CommonBase {
 	/**
 	 * The parameters of the failed payment path.
 	 */
-	public void set_payment_params(PaymentParameters val) {
+	public void set_payment_params(org.ldk.structs.PaymentParameters val) {
 		bindings.RouteParameters_set_payment_params(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -86,7 +86,7 @@ public class RouteParameters extends CommonBase {
 	/**
 	 * Constructs a new RouteParameters given each field
 	 */
-	public static RouteParameters of(PaymentParameters payment_params_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg) {
+	public static RouteParameters of(org.ldk.structs.PaymentParameters payment_params_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg) {
 		long ret = bindings.RouteParameters_new(payment_params_arg == null ? 0 : payment_params_arg.ptr, final_value_msat_arg, final_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		Reference.reachabilityFence(final_value_msat_arg);

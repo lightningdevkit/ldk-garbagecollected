@@ -45,7 +45,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFeeDecodeErrorZ in the success state.
 	 */
-	public static Result_UpdateFeeDecodeErrorZ ok(UpdateFee o) {
+	public static Result_UpdateFeeDecodeErrorZ ok(org.ldk.structs.UpdateFee o) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFeeDecodeErrorZ in the error state.
 	 */
-	public static Result_UpdateFeeDecodeErrorZ err(DecodeError e) {
+	public static Result_UpdateFeeDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

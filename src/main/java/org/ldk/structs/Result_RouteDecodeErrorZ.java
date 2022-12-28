@@ -45,7 +45,7 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RouteDecodeErrorZ in the success state.
 	 */
-	public static Result_RouteDecodeErrorZ ok(Route o) {
+	public static Result_RouteDecodeErrorZ ok(org.ldk.structs.Route o) {
 		long ret = bindings.CResult_RouteDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RouteDecodeErrorZ in the error state.
 	 */
-	public static Result_RouteDecodeErrorZ err(DecodeError e) {
+	public static Result_RouteDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_RouteDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

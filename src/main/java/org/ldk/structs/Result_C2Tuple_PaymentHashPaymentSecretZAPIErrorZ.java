@@ -45,7 +45,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 	/**
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ ok(TwoTuple_PaymentHashPaymentSecretZ o) {
+	public static Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ ok(org.ldk.structs.TwoTuple_PaymentHashPaymentSecretZ o) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_ok(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 	/**
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ in the error state.
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ err(APIError e) {
+	public static Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ err(org.ldk.structs.APIError e) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

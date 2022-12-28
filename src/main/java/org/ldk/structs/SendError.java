@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * Errors that may occur when [sending an onion message].
  * 
- * [sending an onion message]: OnionMessenger::send_custom_onion_message
+ * [sending an onion message]: OnionMessenger::send_onion_message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SendError extends CommonBase {
@@ -41,6 +41,12 @@ public class SendError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKSendError.BufferFull.class) {
 			return new BufferFull(ptr, (bindings.LDKSendError.BufferFull)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKSendError.GetNodeIdFailed.class) {
+			return new GetNodeIdFailed(ptr, (bindings.LDKSendError.GetNodeIdFailed)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKSendError.BlindedPathAdvanceFailed.class) {
+			return new BlindedPathAdvanceFailed(ptr, (bindings.LDKSendError.BlindedPathAdvanceFailed)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -64,7 +70,7 @@ public class SendError extends CommonBase {
 		}
 	}
 	/**
-	 * The provided [`Destination`] was an invalid [`BlindedRoute`], due to having fewer than two
+	 * The provided [`Destination`] was an invalid [`BlindedPath`], due to having fewer than two
 	 * blinded hops.
 	 */
 	public final static class TooFewBlindedHops extends SendError {
@@ -93,6 +99,27 @@ public class SendError extends CommonBase {
 	 */
 	public final static class BufferFull extends SendError {
 		private BufferFull(long ptr, bindings.LDKSendError.BufferFull obj) {
+			super(null, ptr);
+		}
+	}
+	/**
+	 * Failed to retrieve our node id from the provided [`KeysInterface`].
+	 * 
+	 * [`KeysInterface`]: crate::chain::keysinterface::KeysInterface
+	 */
+	public final static class GetNodeIdFailed extends SendError {
+		private GetNodeIdFailed(long ptr, bindings.LDKSendError.GetNodeIdFailed obj) {
+			super(null, ptr);
+		}
+	}
+	/**
+	 * We attempted to send to a blinded path where we are the introduction node, and failed to
+	 * advance the blinded path to make the second hop the new introduction node. Either
+	 * [`KeysInterface::ecdh`] failed, we failed to tweak the current blinding point to get the
+	 * new blinding point, or we were attempting to send to ourselves.
+	 */
+	public final static class BlindedPathAdvanceFailed extends SendError {
+		private BlindedPathAdvanceFailed(long ptr, bindings.LDKSendError.BlindedPathAdvanceFailed obj) {
 			super(null, ptr);
 		}
 	}
@@ -182,10 +209,32 @@ public class SendError extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new GetNodeIdFailed-variant SendError
+	 */
+	public static SendError get_node_id_failed() {
+		long ret = bindings.SendError_get_node_id_failed();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BlindedPathAdvanceFailed-variant SendError
+	 */
+	public static SendError blinded_path_advance_failed() {
+		long ret = bindings.SendError_blinded_path_advance_failed();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Checks if two SendErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(SendError b) {
+	public boolean eq(org.ldk.structs.SendError b) {
 		boolean ret = bindings.SendError_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

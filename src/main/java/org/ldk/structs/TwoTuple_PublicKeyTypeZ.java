@@ -63,7 +63,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_PublicKeyTypeZ from the contained elements.
 	 */
-	public static TwoTuple_PublicKeyTypeZ of(byte[] a, Type b) {
+	public static TwoTuple_PublicKeyTypeZ of(byte[] a, org.ldk.structs.Type b) {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.check_arr_len(a, 33), b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

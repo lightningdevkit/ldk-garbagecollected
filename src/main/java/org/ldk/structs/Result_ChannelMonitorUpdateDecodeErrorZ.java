@@ -45,7 +45,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelMonitorUpdateDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelMonitorUpdateDecodeErrorZ ok(ChannelMonitorUpdate o) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ ok(org.ldk.structs.ChannelMonitorUpdate o) {
 		long ret = bindings.CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelMonitorUpdateDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelMonitorUpdateDecodeErrorZ err(DecodeError e) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ChannelMonitorUpdateDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

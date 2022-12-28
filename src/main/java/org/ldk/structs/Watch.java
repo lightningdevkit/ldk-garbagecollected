@@ -125,7 +125,7 @@ public class Watch extends CommonBase {
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
-	public ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
+	public ChannelMonitorUpdateStatus watch_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitor monitor) {
 		ChannelMonitorUpdateStatus ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, monitor == null ? 0 : monitor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
@@ -143,7 +143,7 @@ public class Watch extends CommonBase {
 	 * 
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
 	 */
-	public ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
+	public ChannelMonitorUpdateStatus update_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitorUpdate update) {
 		ChannelMonitorUpdateStatus ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, update == null ? 0 : update.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);

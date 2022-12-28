@@ -40,7 +40,7 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ in the success state.
 	 */
-	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ok(TwoTuple_SignatureCVec_SignatureZZ o) {
+	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ok(org.ldk.structs.TwoTuple_SignatureCVec_SignatureZZ o) {
 		long ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

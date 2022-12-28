@@ -45,7 +45,7 @@ public class ShutdownScript extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ShutdownScript b) {
+	public boolean eq(org.ldk.structs.ShutdownScript b) {
 		boolean ret = bindings.ShutdownScript_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
@@ -111,7 +111,7 @@ public class ShutdownScript extends CommonBase {
 	 * 
 	 * This function may return an error if `program` is invalid for the segwit `version`.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(WitnessVersion version, byte[] program) {
+	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(org.ldk.util.WitnessVersion version, byte[] program) {
 		long ret = bindings.ShutdownScript_new_witness_program(version.getVal(), program);
 		Reference.reachabilityFence(version);
 		Reference.reachabilityFence(program);
@@ -147,7 +147,7 @@ public class ShutdownScript extends CommonBase {
 	 * 
 	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit`.
 	 */
-	public boolean is_compatible(InitFeatures features) {
+	public boolean is_compatible(org.ldk.structs.InitFeatures features) {
 		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : features.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(features);

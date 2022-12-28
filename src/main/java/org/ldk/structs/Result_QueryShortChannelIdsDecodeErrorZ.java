@@ -45,7 +45,7 @@ public class Result_QueryShortChannelIdsDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_QueryShortChannelIdsDecodeErrorZ in the success state.
 	 */
-	public static Result_QueryShortChannelIdsDecodeErrorZ ok(QueryShortChannelIds o) {
+	public static Result_QueryShortChannelIdsDecodeErrorZ ok(org.ldk.structs.QueryShortChannelIds o) {
 		long ret = bindings.CResult_QueryShortChannelIdsDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_QueryShortChannelIdsDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_QueryShortChannelIdsDecodeErrorZ in the error state.
 	 */
-	public static Result_QueryShortChannelIdsDecodeErrorZ err(DecodeError e) {
+	public static Result_QueryShortChannelIdsDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_QueryShortChannelIdsDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

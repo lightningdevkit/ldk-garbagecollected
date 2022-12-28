@@ -48,8 +48,9 @@ public class PhantomKeysManager extends CommonBase {
 	}
 
 	/**
-	 * Constructs a `PhantomKeysManager` given a 32-byte seed and an additional `cross_node_seed`
-	 * that is shared across all nodes that intend to participate in [phantom node payments] together.
+	 * Constructs a [`PhantomKeysManager`] given a 32-byte seed and an additional `cross_node_seed`
+	 * that is shared across all nodes that intend to participate in [phantom node payments]
+	 * together.
 	 * 
 	 * See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`, and
 	 * `starting_time_nanos`.

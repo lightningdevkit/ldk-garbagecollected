@@ -61,7 +61,7 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the error state.
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ err(DecodeError e) {
+	public static Result_ProbabilisticScorerDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

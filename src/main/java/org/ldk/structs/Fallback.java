@@ -79,7 +79,7 @@ public class Fallback extends CommonBase {
 	/**
 	 * Utility method to constructs a new SegWitProgram-variant Fallback
 	 */
-	public static Fallback seg_wit_program(UInt5 version, byte[] program) {
+	public static Fallback seg_wit_program(org.ldk.util.UInt5 version, byte[] program) {
 		long ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
 		Reference.reachabilityFence(version);
 		Reference.reachabilityFence(program);
@@ -129,7 +129,7 @@ public class Fallback extends CommonBase {
 	 * Checks if two Fallbacks contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(Fallback b) {
+	public boolean eq(org.ldk.structs.Fallback b) {
 		boolean ret = bindings.Fallback_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

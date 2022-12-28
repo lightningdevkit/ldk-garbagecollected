@@ -107,7 +107,7 @@ public class ChannelAnnouncement extends CommonBase {
 	/**
 	 * The actual announcement
 	 */
-	public void set_contents(UnsignedChannelAnnouncement val) {
+	public void set_contents(org.ldk.structs.UnsignedChannelAnnouncement val) {
 		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -117,7 +117,7 @@ public class ChannelAnnouncement extends CommonBase {
 	/**
 	 * Constructs a new ChannelAnnouncement given each field
 	 */
-	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
+	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, org.ldk.structs.UnsignedChannelAnnouncement contents_arg) {
 		long ret = bindings.ChannelAnnouncement_new(InternalUtils.check_arr_len(node_signature_1_arg, 64), InternalUtils.check_arr_len(node_signature_2_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_1_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_2_arg, 64), contents_arg == null ? 0 : contents_arg.ptr);
 		Reference.reachabilityFence(node_signature_1_arg);
 		Reference.reachabilityFence(node_signature_2_arg);
@@ -154,7 +154,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ChannelAnnouncement b) {
+	public boolean eq(org.ldk.structs.ChannelAnnouncement b) {
 		boolean ret = bindings.ChannelAnnouncement_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

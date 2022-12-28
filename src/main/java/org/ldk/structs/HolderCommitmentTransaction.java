@@ -102,7 +102,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 * Create a new holder transaction with the given counterparty signatures.
 	 * The funding keys are used to figure out which signature should go first when building the transaction for broadcast.
 	 */
-	public static HolderCommitmentTransaction of(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
+	public static HolderCommitmentTransaction of(org.ldk.structs.CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
 		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr, InternalUtils.check_arr_len(counterparty_sig, 64), counterparty_htlc_sigs != null ? Arrays.stream(counterparty_htlc_sigs).map(counterparty_htlc_sigs_conv_8 -> InternalUtils.check_arr_len(counterparty_htlc_sigs_conv_8, 64)).toArray(byte[][]::new) : null, InternalUtils.check_arr_len(holder_funding_key, 33), InternalUtils.check_arr_len(counterparty_funding_key, 33));
 		Reference.reachabilityFence(commitment_tx);
 		Reference.reachabilityFence(counterparty_sig);

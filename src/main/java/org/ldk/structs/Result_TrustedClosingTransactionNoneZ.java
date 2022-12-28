@@ -40,7 +40,7 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TrustedClosingTransactionNoneZ in the success state.
 	 */
-	public static Result_TrustedClosingTransactionNoneZ ok(TrustedClosingTransaction o) {
+	public static Result_TrustedClosingTransactionNoneZ ok(org.ldk.structs.TrustedClosingTransaction o) {
 		long ret = bindings.CResult_TrustedClosingTransactionNoneZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

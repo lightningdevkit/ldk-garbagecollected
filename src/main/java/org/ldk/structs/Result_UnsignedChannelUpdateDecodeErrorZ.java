@@ -45,7 +45,7 @@ public class Result_UnsignedChannelUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedChannelUpdateDecodeErrorZ in the success state.
 	 */
-	public static Result_UnsignedChannelUpdateDecodeErrorZ ok(UnsignedChannelUpdate o) {
+	public static Result_UnsignedChannelUpdateDecodeErrorZ ok(org.ldk.structs.UnsignedChannelUpdate o) {
 		long ret = bindings.CResult_UnsignedChannelUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_UnsignedChannelUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedChannelUpdateDecodeErrorZ in the error state.
 	 */
-	public static Result_UnsignedChannelUpdateDecodeErrorZ err(DecodeError e) {
+	public static Result_UnsignedChannelUpdateDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_UnsignedChannelUpdateDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -9,8 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * Information about a spendable output to a P2WSH script. See
- * SpendableOutputDescriptor::DelayedPaymentOutput for more details on how to spend this.
+ * Information about a spendable output to a P2WSH script.
+ * 
+ * See [`SpendableOutputDescriptor::DelayedPaymentOutput`] for more details on how to spend this.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class DelayedPaymentOutputDescriptor extends CommonBase {
@@ -22,7 +23,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The outpoint which is spendable
+	 * The outpoint which is spendable.
 	 */
 	public OutPoint get_outpoint() {
 		long ret = bindings.DelayedPaymentOutputDescriptor_get_outpoint(this.ptr);
@@ -34,9 +35,9 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The outpoint which is spendable
+	 * The outpoint which is spendable.
 	 */
-	public void set_outpoint(OutPoint val) {
+	public void set_outpoint(org.ldk.structs.OutPoint val) {
 		bindings.DelayedPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -44,7 +45,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Per commitment point to derive delayed_payment_key by key holder
+	 * Per commitment point to derive the delayed payment key by key holder.
 	 */
 	public byte[] get_per_commitment_point() {
 		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
@@ -53,7 +54,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Per commitment point to derive delayed_payment_key by key holder
+	 * Per commitment point to derive the delayed payment key by key holder.
 	 */
 	public void set_per_commitment_point(byte[] val) {
 		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
@@ -62,7 +63,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The nSequence value which must be set in the spending input to satisfy the OP_CSV in
+	 * The `nSequence` value which must be set in the spending input to satisfy the `OP_CSV` in
 	 * the witness_script.
 	 */
 	public short get_to_self_delay() {
@@ -72,7 +73,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The nSequence value which must be set in the spending input to satisfy the OP_CSV in
+	 * The `nSequence` value which must be set in the spending input to satisfy the `OP_CSV` in
 	 * the witness_script.
 	 */
 	public void set_to_self_delay(short val) {
@@ -82,7 +83,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The output which is referenced by the given outpoint
+	 * The output which is referenced by the given outpoint.
 	 * 
 	 * Returns a copy of the field.
 	 */
@@ -95,9 +96,9 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The output which is referenced by the given outpoint
+	 * The output which is referenced by the given outpoint.
 	 */
-	public void set_output(TxOut val) {
+	public void set_output(org.ldk.structs.TxOut val) {
 		bindings.DelayedPaymentOutputDescriptor_set_output(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -124,9 +125,8 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to
-	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
-	 * the channel to spend the output.
+	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public byte[] get_channel_keys_id() {
 		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
@@ -135,9 +135,8 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to
-	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
-	 * the channel to spend the output.
+	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {
 		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -166,7 +165,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	/**
 	 * Constructs a new DelayedPaymentOutputDescriptor given each field
 	 */
-	public static DelayedPaymentOutputDescriptor of(OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
+	public static DelayedPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, org.ldk.structs.TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
 		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(per_commitment_point_arg);
@@ -205,7 +204,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(DelayedPaymentOutputDescriptor b) {
+	public boolean eq(org.ldk.structs.DelayedPaymentOutputDescriptor b) {
 		boolean ret = bindings.DelayedPaymentOutputDescriptor_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

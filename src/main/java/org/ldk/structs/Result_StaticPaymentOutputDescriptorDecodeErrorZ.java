@@ -45,7 +45,7 @@ public class Result_StaticPaymentOutputDescriptorDecodeErrorZ extends CommonBase
 	/**
 	 * Creates a new CResult_StaticPaymentOutputDescriptorDecodeErrorZ in the success state.
 	 */
-	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ ok(StaticPaymentOutputDescriptor o) {
+	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ ok(org.ldk.structs.StaticPaymentOutputDescriptor o) {
 		long ret = bindings.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_StaticPaymentOutputDescriptorDecodeErrorZ extends CommonBase
 	/**
 	 * Creates a new CResult_StaticPaymentOutputDescriptorDecodeErrorZ in the error state.
 	 */
-	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ err(DecodeError e) {
+	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

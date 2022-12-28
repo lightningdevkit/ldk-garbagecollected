@@ -56,7 +56,7 @@ public class FilesystemPersister extends CommonBase {
 	/**
 	 * Read `ChannelMonitor`s from disk.
 	 */
-	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(KeysInterface keys_manager) {
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.KeysInterface keys_manager) {
 		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, keys_manager == null ? 0 : keys_manager.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(keys_manager);

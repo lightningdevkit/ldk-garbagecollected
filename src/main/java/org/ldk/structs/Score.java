@@ -138,7 +138,7 @@ public class Score extends CommonBase {
 	 * [`u64::max_value`] is given to indicate sufficient capacity for the invoice's full amount.
 	 * Thus, implementations should be overflow-safe.
 	 */
-	public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) {
+	public long channel_penalty_msat(long short_channel_id, org.ldk.structs.NodeId source, org.ldk.structs.NodeId target, org.ldk.structs.ChannelUsage usage) {
 		long ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : source.ptr, target == null ? 0 : target.ptr, usage == null ? 0 : usage.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);

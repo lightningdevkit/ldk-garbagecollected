@@ -45,7 +45,7 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HTLCOutputInCommitmentDecodeErrorZ in the success state.
 	 */
-	public static Result_HTLCOutputInCommitmentDecodeErrorZ ok(HTLCOutputInCommitment o) {
+	public static Result_HTLCOutputInCommitmentDecodeErrorZ ok(org.ldk.structs.HTLCOutputInCommitment o) {
 		long ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HTLCOutputInCommitmentDecodeErrorZ in the error state.
 	 */
-	public static Result_HTLCOutputInCommitmentDecodeErrorZ err(DecodeError e) {
+	public static Result_HTLCOutputInCommitmentDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

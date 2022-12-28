@@ -59,7 +59,7 @@ public class ClosingTransaction extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ClosingTransaction b) {
+	public boolean eq(org.ldk.structs.ClosingTransaction b) {
 		boolean ret = bindings.ClosingTransaction_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
@@ -74,7 +74,7 @@ public class ClosingTransaction extends CommonBase {
 	/**
 	 * Construct an object of the class
 	 */
-	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
+	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, org.ldk.structs.OutPoint funding_outpoint) {
 		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(to_holder_value_sat);
 		Reference.reachabilityFence(to_counterparty_value_sat);
@@ -113,7 +113,7 @@ public class ClosingTransaction extends CommonBase {
 	 * An external validating signer must call this method before signing
 	 * or using the built transaction.
 	 */
-	public Result_TrustedClosingTransactionNoneZ verify(OutPoint funding_outpoint) {
+	public Result_TrustedClosingTransactionNoneZ verify(org.ldk.structs.OutPoint funding_outpoint) {
 		long ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_outpoint);

@@ -12,6 +12,10 @@ import javax.annotation.Nullable;
  * 
  * Events are processed by passing an [`EventHandler`] to [`process_pending_events`].
  * 
+ * Implementations of this trait may also feature an async version of event handling, as shown with
+ * [`ChannelManager::process_pending_events_async`] and
+ * [`ChainMonitor::process_pending_events_async`].
+ * 
  * # Requirements
  * 
  * When using this trait, [`process_pending_events`] will call [`handle_event`] for each pending
@@ -38,6 +42,8 @@ import javax.annotation.Nullable;
  * [`handle_event`]: EventHandler::handle_event
  * [`ChannelManager::process_pending_events`]: crate::ln::channelmanager::ChannelManager#method.process_pending_events
  * [`ChainMonitor::process_pending_events`]: crate::chain::chainmonitor::ChainMonitor#method.process_pending_events
+ * [`ChannelManager::process_pending_events_async`]: crate::ln::channelmanager::ChannelManager::process_pending_events_async
+ * [`ChainMonitor::process_pending_events_async`]: crate::chain::chainmonitor::ChainMonitor::process_pending_events_async
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class EventsProvider extends CommonBase {
@@ -79,7 +85,7 @@ public class EventsProvider extends CommonBase {
 	 * 
 	 * See the trait-level documentation for requirements.
 	 */
-	public void process_pending_events(EventHandler handler) {
+	public void process_pending_events(org.ldk.structs.EventHandler handler) {
 		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : handler.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(handler);

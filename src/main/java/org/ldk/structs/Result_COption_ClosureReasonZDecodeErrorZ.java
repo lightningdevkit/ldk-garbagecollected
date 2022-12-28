@@ -45,7 +45,7 @@ public class Result_COption_ClosureReasonZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_ClosureReasonZDecodeErrorZ in the success state.
 	 */
-	public static Result_COption_ClosureReasonZDecodeErrorZ ok(Option_ClosureReasonZ o) {
+	public static Result_COption_ClosureReasonZDecodeErrorZ ok(org.ldk.structs.Option_ClosureReasonZ o) {
 		long ret = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_COption_ClosureReasonZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_ClosureReasonZDecodeErrorZ in the error state.
 	 */
-	public static Result_COption_ClosureReasonZDecodeErrorZ err(DecodeError e) {
+	public static Result_COption_ClosureReasonZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

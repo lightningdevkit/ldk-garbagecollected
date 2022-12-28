@@ -45,7 +45,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the success state.
 	 */
-	public static Result_ReplyChannelRangeDecodeErrorZ ok(ReplyChannelRange o) {
+	public static Result_ReplyChannelRangeDecodeErrorZ ok(org.ldk.structs.ReplyChannelRange o) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the error state.
 	 */
-	public static Result_ReplyChannelRangeDecodeErrorZ err(DecodeError e) {
+	public static Result_ReplyChannelRangeDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -45,7 +45,7 @@ public class Result_COption_CustomOnionMessageContentsZDecodeErrorZ extends Comm
 	/**
 	 * Creates a new CResult_COption_CustomOnionMessageContentsZDecodeErrorZ in the success state.
 	 */
-	public static Result_COption_CustomOnionMessageContentsZDecodeErrorZ ok(Option_CustomOnionMessageContentsZ o) {
+	public static Result_COption_CustomOnionMessageContentsZDecodeErrorZ ok(org.ldk.structs.Option_CustomOnionMessageContentsZ o) {
 		long ret = bindings.CResult_COption_CustomOnionMessageContentsZDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_COption_CustomOnionMessageContentsZDecodeErrorZ extends Comm
 	/**
 	 * Creates a new CResult_COption_CustomOnionMessageContentsZDecodeErrorZ in the error state.
 	 */
-	public static Result_COption_CustomOnionMessageContentsZDecodeErrorZ err(DecodeError e) {
+	public static Result_COption_CustomOnionMessageContentsZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_COption_CustomOnionMessageContentsZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

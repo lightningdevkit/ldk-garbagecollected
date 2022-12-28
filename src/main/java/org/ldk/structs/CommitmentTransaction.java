@@ -124,7 +124,7 @@ public class CommitmentTransaction extends CommonBase {
 	 * An external validating signer must call this method before signing
 	 * or using the built transaction.
 	 */
-	public Result_TrustedCommitmentTransactionNoneZ verify(DirectedChannelTransactionParameters channel_parameters, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
+	public Result_TrustedCommitmentTransactionNoneZ verify(org.ldk.structs.DirectedChannelTransactionParameters channel_parameters, org.ldk.structs.ChannelPublicKeys broadcaster_keys, org.ldk.structs.ChannelPublicKeys countersignatory_keys) {
 		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr, broadcaster_keys == null ? 0 : broadcaster_keys.ptr, countersignatory_keys == null ? 0 : countersignatory_keys.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_parameters);

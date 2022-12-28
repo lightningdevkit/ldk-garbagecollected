@@ -45,7 +45,7 @@ public class Result_PingDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PingDecodeErrorZ in the success state.
 	 */
-	public static Result_PingDecodeErrorZ ok(Ping o) {
+	public static Result_PingDecodeErrorZ ok(org.ldk.structs.Ping o) {
 		long ret = bindings.CResult_PingDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_PingDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PingDecodeErrorZ in the error state.
 	 */
-	public static Result_PingDecodeErrorZ err(DecodeError e) {
+	public static Result_PingDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_PingDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

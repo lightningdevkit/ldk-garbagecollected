@@ -53,7 +53,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_u8ZPeerHandleErrorZ in the error state.
 	 */
-	public static Result_CVec_u8ZPeerHandleErrorZ err(PeerHandleError e) {
+	public static Result_CVec_u8ZPeerHandleErrorZ err(org.ldk.structs.PeerHandleError e) {
 		long ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

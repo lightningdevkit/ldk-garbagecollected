@@ -40,7 +40,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ in the success state.
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ok(TwoTuple_PaymentHashPaymentSecretZ o) {
+	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ok(org.ldk.structs.TwoTuple_PaymentHashPaymentSecretZ o) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_ok(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

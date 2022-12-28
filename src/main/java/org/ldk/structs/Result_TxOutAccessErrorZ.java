@@ -41,7 +41,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxOutAccessErrorZ in the success state.
 	 */
-	public static Result_TxOutAccessErrorZ ok(TxOut o) {
+	public static Result_TxOutAccessErrorZ ok(org.ldk.structs.TxOut o) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

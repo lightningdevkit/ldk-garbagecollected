@@ -58,7 +58,7 @@ public class ChannelCounterparty extends CommonBase {
 	 * Useful for routing as it is the most up-to-date copy of the counterparty's features and
 	 * many routing-relevant features are present in the init context.
 	 */
-	public void set_features(InitFeatures val) {
+	public void set_features(org.ldk.structs.InitFeatures val) {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -117,7 +117,7 @@ public class ChannelCounterparty extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_forwarding_info(@Nullable CounterpartyForwardingInfo val) {
+	public void set_forwarding_info(@Nullable org.ldk.structs.CounterpartyForwardingInfo val) {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -143,7 +143,7 @@ public class ChannelCounterparty extends CommonBase {
 	 * is only `None` before we have received either the `OpenChannel` or `AcceptChannel` message
 	 * from the remote peer, or for `ChannelCounterparty` objects serialized prior to LDK 0.0.107.
 	 */
-	public void set_outbound_htlc_minimum_msat(Option_u64Z val) {
+	public void set_outbound_htlc_minimum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelCounterparty_set_outbound_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -164,7 +164,7 @@ public class ChannelCounterparty extends CommonBase {
 	/**
 	 * The largest value HTLC (in msat) the remote peer currently will accept, for this channel.
 	 */
-	public void set_outbound_htlc_maximum_msat(Option_u64Z val) {
+	public void set_outbound_htlc_maximum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelCounterparty_set_outbound_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -173,7 +173,7 @@ public class ChannelCounterparty extends CommonBase {
 	/**
 	 * Constructs a new ChannelCounterparty given each field
 	 */
-	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg, Option_u64Z outbound_htlc_minimum_msat_arg, Option_u64Z outbound_htlc_maximum_msat_arg) {
+	public static ChannelCounterparty of(byte[] node_id_arg, org.ldk.structs.InitFeatures features_arg, long unspendable_punishment_reserve_arg, org.ldk.structs.CounterpartyForwardingInfo forwarding_info_arg, org.ldk.structs.Option_u64Z outbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z outbound_htlc_maximum_msat_arg) {
 		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
 		Reference.reachabilityFence(node_id_arg);
 		Reference.reachabilityFence(features_arg);

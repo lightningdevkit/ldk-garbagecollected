@@ -216,7 +216,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Handle an incoming node_announcement message, returning true if it should be forwarded on,
 	 * false or returning an Err otherwise.
 	 */
-	public Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement msg) {
+	public Result_boolLightningErrorZ handle_node_announcement(org.ldk.structs.NodeAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -230,7 +230,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Handle a channel_announcement message, returning true if it should be forwarded on, false
 	 * or returning an Err otherwise.
 	 */
-	public Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement msg) {
+	public Result_boolLightningErrorZ handle_channel_announcement(org.ldk.structs.ChannelAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -244,7 +244,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Handle an incoming channel_update message, returning true if it should be forwarded on,
 	 * false or returning an Err otherwise.
 	 */
-	public Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg) {
+	public Result_boolLightningErrorZ handle_channel_update(org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -298,7 +298,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init) {
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init) {
 		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -314,7 +314,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * for a given range of blocks. We can expect to receive one or more
 	 * replies to a single query.
 	 */
-	public Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, ReplyChannelRange msg) {
+	public Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, org.ldk.structs.ReplyChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -331,7 +331,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * a node has completed its best effort to send us the pertaining routing
 	 * gossip messages.
 	 */
-	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, ReplyShortChannelIdsEnd msg) {
+	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, org.ldk.structs.ReplyShortChannelIdsEnd msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -346,7 +346,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Handles when a peer asks us to send a list of short_channel_ids
 	 * for the requested range of blocks.
 	 */
-	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, QueryChannelRange msg) {
+	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, org.ldk.structs.QueryChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -361,7 +361,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Handles when a peer asks us to send routing gossip messages for a
 	 * list of short_channel_ids.
 	 */
-	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg) {
+	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, org.ldk.structs.QueryShortChannelIds msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);

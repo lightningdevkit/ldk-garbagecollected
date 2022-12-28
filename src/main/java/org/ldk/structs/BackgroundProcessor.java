@@ -90,7 +90,7 @@ public class BackgroundProcessor extends CommonBase {
 	 * [`NetworkGraph`]: lightning::routing::gossip::NetworkGraph
 	 * [`NetworkGraph::write`]: lightning::routing::gossip::NetworkGraph#impl-Writeable
 	 */
-	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, GossipSync gossip_sync, PeerManager peer_manager, Logger logger, Option_WriteableScoreZ scorer) {
+	public static BackgroundProcessor start(org.ldk.structs.Persister persister, org.ldk.structs.EventHandler event_handler, org.ldk.structs.ChainMonitor chain_monitor, org.ldk.structs.ChannelManager channel_manager, org.ldk.structs.GossipSync gossip_sync, org.ldk.structs.PeerManager peer_manager, org.ldk.structs.Logger logger, org.ldk.structs.Option_WriteableScoreZ scorer) {
 		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, channel_manager == null ? 0 : channel_manager.ptr, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr, logger == null ? 0 : logger.ptr, scorer.ptr);
 		Reference.reachabilityFence(persister);
 		Reference.reachabilityFence(event_handler);

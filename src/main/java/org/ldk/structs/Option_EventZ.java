@@ -54,7 +54,7 @@ public class Option_EventZ extends CommonBase {
 	/**
 	 * Constructs a new COption_EventZ containing a crate::lightning::util::events::Event
 	 */
-	public static Option_EventZ some(Event o) {
+	public static Option_EventZ some(org.ldk.structs.Event o) {
 		long ret = bindings.COption_EventZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

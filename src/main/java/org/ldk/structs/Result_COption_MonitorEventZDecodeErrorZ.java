@@ -45,7 +45,7 @@ public class Result_COption_MonitorEventZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_MonitorEventZDecodeErrorZ in the success state.
 	 */
-	public static Result_COption_MonitorEventZDecodeErrorZ ok(Option_MonitorEventZ o) {
+	public static Result_COption_MonitorEventZDecodeErrorZ ok(org.ldk.structs.Option_MonitorEventZ o) {
 		long ret = bindings.CResult_COption_MonitorEventZDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_COption_MonitorEventZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_MonitorEventZDecodeErrorZ in the error state.
 	 */
-	public static Result_COption_MonitorEventZDecodeErrorZ err(DecodeError e) {
+	public static Result_COption_MonitorEventZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_COption_MonitorEventZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
