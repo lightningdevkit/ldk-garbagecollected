@@ -39,14 +39,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class bindings {
-	public static class VecOrSliceDef {
-		public long dataptr;
-		public long datalen;
-		public long stride;
-		public VecOrSliceDef(long dataptr, long datalen, long stride) {
-			this.dataptr = dataptr; this.datalen = datalen; this.stride = stride;
-		}
-	}
 	static {
 		try {
 			// Try to load natively first, this works on Android and in testing.
@@ -69,31 +61,19 @@ public class bindings {
 				throw new IllegalArgumentException(e);
 			}
 		}
-		init(java.lang.Enum.class, VecOrSliceDef.class);
+		init(java.lang.Enum.class);
 		init_class_cache();
 		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
 			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
 		// Fetching the LDK versions from C also checks that the header and binaries match
 		System.err.println("Loaded LDK-Java Bindings " + version.get_ldk_java_bindings_version() + " with LDK " + get_ldk_version() + " and LDK-C-Bindings " + get_ldk_c_bindings_version());
 	}
-	static native void init(java.lang.Class c, java.lang.Class slicedef);
+	static native void init(java.lang.Class c);
 	static native void init_class_cache();
 	static native String get_lib_version_string();
 
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
-
-	public static native boolean deref_bool(long ptr);
-	public static native long deref_long(long ptr);
-	public static native void free_heap_ptr(long ptr);
-	public static native byte[] read_bytes(long ptr, long len);
-	public static native byte[] get_u8_slice_bytes(long slice_ptr);
-	public static native long bytes_to_u8_vec(byte[] bytes);
-	public static native long new_txpointer_copy_data(byte[] txdata);
-	public static native void txpointer_free(long ptr);
-	public static native byte[] txpointer_get_buffer(long ptr);
-	public static native long vec_slice_len(long vec);
-	public static native long new_empty_slice_vec();
 
 """
         self.bindings_version_file = """package org.ldk.impl;
@@ -431,84 +411,9 @@ void __attribute__((destructor)) check_leaks() {
 """
         self.c_file_pfx = self.c_file_pfx + """
 static jmethodID ordinal_meth = NULL;
-static jmethodID slicedef_meth = NULL;
-static jclass slicedef_cls = NULL;
-JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class, jclass slicedef_class) {
+JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {
 	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
 	CHECK(ordinal_meth != NULL);
-	slicedef_meth = (*env)->GetMethodID(env, slicedef_class, "<init>", "(JJJ)V");
-	CHECK(slicedef_meth != NULL);
-	slicedef_cls = (*env)->NewGlobalRef(env, slicedef_class);
-	CHECK(slicedef_cls != NULL);
-}
-
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_deref_1bool (JNIEnv * env, jclass _a, jlong ptr) {
-	return *((bool*)ptr);
-}
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jclass _a, jlong ptr) {
-	return *((long*)ptr);
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
-	FREE((void*)ptr);
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_read_1bytes (JNIEnv * env, jclass _b, jlong ptr, jlong len) {
-	jbyteArray ret_arr = (*env)->NewByteArray(env, len);
-	(*env)->SetByteArrayRegion(env, ret_arr, 0, len, (unsigned char*)ptr);
-	return ret_arr;
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes (JNIEnv * env, jclass _b, jlong slice_ptr) {
-	LDKu8slice *slice = (LDKu8slice*)slice_ptr;
-	jbyteArray ret_arr = (*env)->NewByteArray(env, slice->datalen);
-	(*env)->SetByteArrayRegion(env, ret_arr, 0, slice->datalen, slice->data);
-	return ret_arr;
-}
-JNIEXPORT int64_t impl_bindings_bytes_1to_1u8_1vec (JNIEnv * env, jclass _b, jbyteArray bytes) {
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "LDKCVec_u8");
-	vec->datalen = (*env)->GetArrayLength(env, bytes);
-	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
-	(*env)->GetByteArrayRegion (env, bytes, 0, vec->datalen, vec->data);
-	return (uint64_t)vec;
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
-	LDKTransaction *txdata = (LDKTransaction*)ptr;
-	LDKu8slice slice;
-	slice.data = txdata->data;
-	slice.datalen = txdata->datalen;
-	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (uint64_t)&slice);
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
-	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	txdata->datalen = (*env)->GetArrayLength(env, bytes);
-	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
-	txdata->data_is_owned = false;
-	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
-	return (uint64_t)txdata;
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
-	LDKTransaction *tx = (LDKTransaction*)ptr;
-	tx->data_is_owned = true;
-	Transaction_free(*tx);
-	FREE((void*)ptr);
-}
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
-	// Check offsets of a few Vec types are all consistent as we're meant to be generic across types
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_MessageSendEventZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_C2Tuple_usizeTransactionZZ, datalen), "Vec<*> needs to be mapped identically");
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	return (uint64_t)vec->datalen;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * env, jclass _b) {
-	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_SignatureZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_MessageSendEventZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_EventZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_C2Tuple_usizeTransactionZZ), "Vec<*> needs to be mapped identically");
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "Empty LDKCVec");
-	vec->data = NULL;
-	vec->datalen = 0;
-	return (uint64_t)vec;
 }
 
 // We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
