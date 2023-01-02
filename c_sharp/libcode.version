@@ -1,0 +1,4 @@
+{
+	global: CS_LDK_*;
+	local: *;
+};

@@ -26,8 +26,12 @@ elif sys.argv[6] == "typescript":
     target = typescript_strings.Target.NODEJS
     if len(sys.argv) == 8 and sys.argv[7] == 'browser':
         target = typescript_strings.Target.BROWSER
+elif sys.argv[6] == "c_sharp":
+    import csharp_strings
+    from csharp_strings import Consts
+    target = csharp_strings.Target.CSHARP
 else:
-    print("Only java or typescript can be set for lang")
+    print("Only java, typescript, or c_sharp can be set for lang")
     sys.exit(1)
 
 
