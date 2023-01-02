@@ -264,7 +264,7 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[4:].strip()
         is_primitive = True
     elif fn_arg.startswith("bool"):
-        java_ty = "boolean"
+        java_ty = consts.c_type_map['bool'][0]
         c_ty = "jboolean"
         fn_ty_arg = "Z"
         arr_ty = "bool"
@@ -1059,6 +1059,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.txout_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
                         fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
                         write_c(fn_line + " {")
                         write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
@@ -1073,6 +1074,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     with open(f"{sys.argv[3]}/structs/BigEndianScalar{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.scalar_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
                         fn_line = "struct LDKThirtyTwoBytes BigEndianScalar_get_bytes (struct LDKBigEndianScalar* thing)"
                         write_c(fn_line + " {\n")
                         write_c("\tLDKThirtyTwoBytes ret = { .data = *thing->big_endian_bytes };\n")
@@ -1123,23 +1125,23 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             else:
                 assert(line == "\n")
 
-    out_java.write(consts.bindings_footer)
+    out_java.write(consts.bindings_footer())
     for struct_name in opaque_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in trait_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in complex_enums:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '').replace('COption', 'Option')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in result_types:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDKCResult', 'Result')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in tuple_types:
         struct_hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple")
         with open(f"{sys.argv[3]}/structs/{struct_hu_name}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
 
 with open(f"{sys.argv[4]}/bindings.c.body", "w") as out_c:
     out_c.write(consts.c_file_pfx)

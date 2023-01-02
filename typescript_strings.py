@@ -17,6 +17,7 @@ class Consts:
         self.function_ptr_counter = 0
         self.function_ptrs = {}
         self.c_type_map = dict(
+            bool = ['boolean', 'boolean', 'XXX'],
             uint8_t = ['number', 'number', 'Uint8Array'],
             uint16_t = ['number', 'number', 'Uint16Array'],
             uint32_t = ['number', 'number', 'Uint32Array'],
@@ -351,8 +352,6 @@ export async function initializeWasmFromBinary(bin: Uint8Array) {
         self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {
 	return "<git_version_ldk_garbagecollected>";
 }"""
-
-        self.bindings_footer = ""
 
         self.common_base = """
 function freer(f: () => void) { f() }
@@ -697,6 +696,7 @@ import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBas
 import * as bindings from '../bindings.mjs'
 
 """
+        self.hu_struct_file_suffix = ""
         self.util_fn_pfx = self.hu_struct_file_prefix + "\nexport class UtilMethods extends CommonBase {\n"
         self.util_fn_sfx = "}"
         self.c_fn_ty_pfx = ""
@@ -711,6 +711,9 @@ import * as bindings from '../bindings.mjs'
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
+
+    def bindings_footer(self):
+        return ""
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None

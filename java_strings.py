@@ -11,6 +11,7 @@ class Consts:
         self.target = target
         self.c_array_class_caches = set()
         self.c_type_map = dict(
+            bool = ['boolean'],
             uint8_t = ['byte'],
             uint16_t = ['short'],
             uint32_t = ['int'],
@@ -83,8 +84,6 @@ public class version {
 		return "<git_version_ldk_garbagecollected>";
 	}
 }"""
-
-        self.bindings_footer = "}\n"
 
         self.util_fn_pfx = """package org.ldk.structs;
 import org.ldk.impl.bindings;
@@ -474,6 +473,7 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 """
+        self.hu_struct_file_suffix = ""
         self.c_fn_ty_pfx = "JNIEXPORT "
         self.c_fn_args_pfx = "JNIEnv *env, jclass clz"
         self.file_ext = ".java"
@@ -487,6 +487,9 @@ import javax.annotation.Nullable;
         self.ptr_arr = "jobjectArray"
         self.is_arr_some_check = ("", " != NULL")
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
+
+    def bindings_footer(self):
+        return "}\n"
 
     def construct_jenv(self):
         res =  "JNIEnv *env;\n"
