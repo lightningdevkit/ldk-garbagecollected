@@ -1318,9 +1318,7 @@ import javax.annotation.Nullable;
                     else:
                         if arg.nullable:
                             out_java_struct += "@Nullable "
-                        ty_string = arg.java_hu_ty
-                        if arg.java_fn_ty_arg[0] == "L" and arg.java_fn_ty_arg[len(arg.java_fn_ty_arg) - 1] == ";":
-                            ty_string = arg.java_fn_ty_arg.strip("L;").replace("/", ".")
+                        ty_string = self.fully_qualified_hu_ty_path(arg)
                         out_java_struct += ty_string + " " + arg.arg_name
         out_java += (");\n")
         out_c += (") {\n")
