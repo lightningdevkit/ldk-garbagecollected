@@ -45,7 +45,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(TwoTuple_BlockHashChannelManagerZ o) {
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(org.ldk.structs.TwoTuple_BlockHashChannelManagerZ o) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the error state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ err(DecodeError e) {
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

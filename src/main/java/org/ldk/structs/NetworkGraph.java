@@ -21,16 +21,14 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new EventHandler which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
+	 * Handles any network updates originating from [`Event`]s.
+	 * 
+	 * [`Event`]: crate::util::events::Event
 	 */
-	public EventHandler as_EventHandler() {
-		long ret = bindings.NetworkGraph_as_EventHandler(this.ptr);
+	public void handle_network_update(org.ldk.structs.NetworkUpdate network_update) {
+		bindings.NetworkGraph_handle_network_update(this.ptr, network_update == null ? 0 : network_update.ptr);
 		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		EventHandler ret_hu_conv = new EventHandler(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
+		Reference.reachabilityFence(network_update);
 	}
 
 	/**
@@ -45,7 +43,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
-	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, Logger arg) {
+	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, org.ldk.structs.Logger arg) {
 		long ret = bindings.NetworkGraph_read(ser, arg == null ? 0 : arg.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg);
@@ -58,7 +56,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static NetworkGraph of(byte[] genesis_hash, Logger logger) {
+	public static NetworkGraph of(byte[] genesis_hash, org.ldk.structs.Logger logger) {
 		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32), logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(genesis_hash);
 		Reference.reachabilityFence(logger);
@@ -112,7 +110,7 @@ public class NetworkGraph extends CommonBase {
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 */
-	public Result_NoneLightningErrorZ update_node_from_announcement(NodeAnnouncement msg) {
+	public Result_NoneLightningErrorZ update_node_from_announcement(org.ldk.structs.NodeAnnouncement msg) {
 		long ret = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -128,7 +126,7 @@ public class NetworkGraph extends CommonBase {
 	 * given the associated signatures here we cannot relay the node announcement to any of our
 	 * peers.
 	 */
-	public Result_NoneLightningErrorZ update_node_from_unsigned_announcement(UnsignedNodeAnnouncement msg) {
+	public Result_NoneLightningErrorZ update_node_from_unsigned_announcement(org.ldk.structs.UnsignedNodeAnnouncement msg) {
 		long ret = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -148,7 +146,7 @@ public class NetworkGraph extends CommonBase {
 	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_announcement(ChannelAnnouncement msg, Option_AccessZ chain_access) {
+	public Result_NoneLightningErrorZ update_channel_from_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
 		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -168,7 +166,7 @@ public class NetworkGraph extends CommonBase {
 	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(UnsignedChannelAnnouncement msg, Option_AccessZ chain_access) {
+	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
 		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -188,7 +186,7 @@ public class NetworkGraph extends CommonBase {
 	 * 
 	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
 	 */
-	public Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
+	public Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, org.ldk.structs.ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
 		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr, InternalUtils.check_arr_len(node_id_1, 33), InternalUtils.check_arr_len(node_id_2, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);
@@ -280,7 +278,7 @@ public class NetworkGraph extends CommonBase {
 	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
 	 * materially in the future will be rejected.
 	 */
-	public Result_NoneLightningErrorZ update_channel(ChannelUpdate msg) {
+	public Result_NoneLightningErrorZ update_channel(org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -298,7 +296,7 @@ public class NetworkGraph extends CommonBase {
 	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
 	 * materially in the future will be rejected.
 	 */
-	public Result_NoneLightningErrorZ update_channel_unsigned(UnsignedChannelUpdate msg) {
+	public Result_NoneLightningErrorZ update_channel_unsigned(org.ldk.structs.UnsignedChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);

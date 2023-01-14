@@ -28,8 +28,8 @@ public class APIError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKAPIError.FeeRateTooHigh.class) {
 			return new FeeRateTooHigh(ptr, (bindings.LDKAPIError.FeeRateTooHigh)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKAPIError.RouteError.class) {
-			return new RouteError(ptr, (bindings.LDKAPIError.RouteError)raw_val);
+		if (raw_val.getClass() == bindings.LDKAPIError.InvalidRoute.class) {
+			return new InvalidRoute(ptr, (bindings.LDKAPIError.InvalidRoute)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKAPIError.ChannelUnavailable.class) {
 			return new ChannelUnavailable(ptr, (bindings.LDKAPIError.ChannelUnavailable)raw_val);
@@ -81,12 +81,12 @@ public class APIError extends CommonBase {
 	 * A malformed Route was provided (eg overflowed value, node id mismatch, overly-looped route,
 	 * too-many-hops, etc).
 	 */
-	public final static class RouteError extends APIError {
+	public final static class InvalidRoute extends APIError {
 		/**
 		 * A human-readable error message
 		*/
 		public final java.lang.String err;
-		private RouteError(long ptr, bindings.LDKAPIError.RouteError obj) {
+		private InvalidRoute(long ptr, bindings.LDKAPIError.InvalidRoute obj) {
 			super(null, ptr);
 			this.err = obj.err;
 		}
@@ -188,10 +188,10 @@ public class APIError extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new RouteError-variant APIError
+	 * Utility method to constructs a new InvalidRoute-variant APIError
 	 */
-	public static APIError route_error(java.lang.String err) {
-		long ret = bindings.APIError_route_error(err);
+	public static APIError invalid_route(java.lang.String err) {
+		long ret = bindings.APIError_invalid_route(err);
 		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
@@ -225,7 +225,7 @@ public class APIError extends CommonBase {
 	/**
 	 * Utility method to constructs a new IncompatibleShutdownScript-variant APIError
 	 */
-	public static APIError incompatible_shutdown_script(ShutdownScript script) {
+	public static APIError incompatible_shutdown_script(org.ldk.structs.ShutdownScript script) {
 		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr);
 		Reference.reachabilityFence(script);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -239,7 +239,7 @@ public class APIError extends CommonBase {
 	 * Checks if two APIErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(APIError b) {
+	public boolean eq(org.ldk.structs.APIError b) {
 		boolean ret = bindings.APIError_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

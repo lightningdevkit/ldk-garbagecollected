@@ -54,7 +54,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 	/**
 	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::util::events::ClosureReason
 	 */
-	public static Option_ClosureReasonZ some(ClosureReason o) {
+	public static Option_ClosureReasonZ some(org.ldk.structs.ClosureReason o) {
 		long ret = bindings.COption_ClosureReasonZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

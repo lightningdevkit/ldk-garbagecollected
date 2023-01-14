@@ -45,7 +45,7 @@ public class Result_InvoiceParseOrSemanticErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceParseOrSemanticErrorZ in the success state.
 	 */
-	public static Result_InvoiceParseOrSemanticErrorZ ok(Invoice o) {
+	public static Result_InvoiceParseOrSemanticErrorZ ok(org.ldk.structs.Invoice o) {
 		long ret = bindings.CResult_InvoiceParseOrSemanticErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_InvoiceParseOrSemanticErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceParseOrSemanticErrorZ in the error state.
 	 */
-	public static Result_InvoiceParseOrSemanticErrorZ err(ParseOrSemanticError e) {
+	public static Result_InvoiceParseOrSemanticErrorZ err(org.ldk.structs.ParseOrSemanticError e) {
 		long ret = bindings.CResult_InvoiceParseOrSemanticErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -52,8 +52,10 @@ public class ChannelManagerConstructor {
     public final PeerManager peer_manager;
     /**
      * A NioPeerHandler which manages a background thread to handle socket events and pass them to the peer_manager.
+	 *
+	 * This is `null` until `chain_sync_completed` is called.
      */
-    public final NioPeerHandler nio_peer_handler;
+    public NioPeerHandler nio_peer_handler = null;
     /**
      * If a `NetworkGraph` is provided to the constructor *and* a `LockableScore` is provided to
 	 * `chain_sync_completed`, this will be non-null after `chain_sync_completed` returns.
@@ -143,13 +145,6 @@ public class ChannelManagerConstructor {
                     (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
-        NioPeerHandler nio_peer_handler = null;
-        try {
-            nio_peer_handler = new NioPeerHandler(this.peer_manager);
-        } catch (IOException e) {
-            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
-        }
-        this.nio_peer_handler = nio_peer_handler;
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
                 monitor.load_outputs_to_watch(filter);
@@ -195,13 +190,6 @@ public class ChannelManagerConstructor {
                     (int)(System.currentTimeMillis() / 1000),
                     random_data, logger, ignoring_handler.as_CustomMessageHandler());
         }
-        NioPeerHandler nio_peer_handler = null;
-        try {
-            nio_peer_handler = new NioPeerHandler(this.peer_manager);
-        } catch (IOException e) {
-            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
-        }
-        this.nio_peer_handler = nio_peer_handler;
         router_rand_bytes = keys_interface.get_secure_random_bytes();
     }
 
@@ -226,6 +214,12 @@ public class ChannelManagerConstructor {
      * EventHandler as required.
      */
     public void chain_sync_completed(EventHandler event_handler, @Nullable MultiThreadedLockableScore scorer) {
+        try {
+            this.nio_peer_handler = new NioPeerHandler(this.peer_manager);
+        } catch (IOException e) {
+            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
+        }
+
         if (background_processor != null) { return; }
         for (TwoTuple_BlockHashChannelMonitorZ monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());
@@ -274,7 +268,8 @@ public class ChannelManagerConstructor {
      * Interrupt the background thread, stopping the background handling of events.
      */
     public void interrupt() {
-        this.nio_peer_handler.interrupt();
+        if (this.nio_peer_handler != null)
+            this.nio_peer_handler.interrupt();
         this.background_processor.stop();
     }
 }

@@ -42,7 +42,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PrivateRouteCreationErrorZ in the success state.
 	 */
-	public static Result_PrivateRouteCreationErrorZ ok(PrivateRoute o) {
+	public static Result_PrivateRouteCreationErrorZ ok(org.ldk.structs.PrivateRoute o) {
 		long ret = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

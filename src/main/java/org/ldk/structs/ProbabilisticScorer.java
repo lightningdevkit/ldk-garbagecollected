@@ -59,7 +59,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Creates a new scorer using the given scoring parameters for sending payments from a node
 	 * through a network graph.
 	 */
-	public static ProbabilisticScorer of(ProbabilisticScoringParameters params, NetworkGraph network_graph, Logger logger) {
+	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringParameters params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
 		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(params);
 		Reference.reachabilityFence(network_graph);
@@ -88,7 +88,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Query the estimated minimum and maximum liquidity available for sending a payment over the
 	 * channel with `scid` towards the given `target` node.
 	 */
-	public Option_C2Tuple_u64u64ZZ estimated_channel_liquidity_range(long scid, NodeId target) {
+	public Option_C2Tuple_u64u64ZZ estimated_channel_liquidity_range(long scid, org.ldk.structs.NodeId target) {
 		long ret = bindings.ProbabilisticScorer_estimated_channel_liquidity_range(this.ptr, scid, target == null ? 0 : target.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scid);
@@ -104,7 +104,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Marks the node with the given `node_id` as banned, i.e.,
 	 * it will be avoided during path finding.
 	 */
-	public void add_banned(NodeId node_id) {
+	public void add_banned(org.ldk.structs.NodeId node_id) {
 		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
@@ -114,7 +114,7 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Removes the node with the given `node_id` from the list of nodes to avoid.
 	 */
-	public void remove_banned(NodeId node_id) {
+	public void remove_banned(org.ldk.structs.NodeId node_id) {
 		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
@@ -124,7 +124,7 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Sets a manual penalty for the given node.
 	 */
-	public void set_manual_penalty(NodeId node_id, long penalty) {
+	public void set_manual_penalty(org.ldk.structs.NodeId node_id, long penalty) {
 		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr, penalty);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
@@ -135,7 +135,7 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Removes the node with the given `node_id` from the list of manual penalties.
 	 */
-	public void remove_manual_penalty(NodeId node_id) {
+	public void remove_manual_penalty(org.ldk.structs.NodeId node_id) {
 		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
@@ -175,7 +175,7 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, ProbabilisticScoringParameters arg_a, NetworkGraph arg_b, Logger arg_c) {
+	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
 		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c == null ? 0 : arg_c.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg_a);

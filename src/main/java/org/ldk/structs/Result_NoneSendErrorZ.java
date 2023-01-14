@@ -50,7 +50,7 @@ public class Result_NoneSendErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneSendErrorZ in the error state.
 	 */
-	public static Result_NoneSendErrorZ err(SendError e) {
+	public static Result_NoneSendErrorZ err(org.ldk.structs.SendError e) {
 		long ret = bindings.CResult_NoneSendErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

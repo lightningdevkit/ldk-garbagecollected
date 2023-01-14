@@ -9,8 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * Information about a spendable output to our \"payment key\". See
- * SpendableOutputDescriptor::StaticPaymentOutput for more details on how to spend this.
+ * Information about a spendable output to our \"payment key\".
+ * 
+ * See [`SpendableOutputDescriptor::StaticPaymentOutput`] for more details on how to spend this.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class StaticPaymentOutputDescriptor extends CommonBase {
@@ -22,7 +23,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The outpoint which is spendable
+	 * The outpoint which is spendable.
 	 */
 	public OutPoint get_outpoint() {
 		long ret = bindings.StaticPaymentOutputDescriptor_get_outpoint(this.ptr);
@@ -34,9 +35,9 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The outpoint which is spendable
+	 * The outpoint which is spendable.
 	 */
-	public void set_outpoint(OutPoint val) {
+	public void set_outpoint(org.ldk.structs.OutPoint val) {
 		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -44,7 +45,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The output which is referenced by the given outpoint
+	 * The output which is referenced by the given outpoint.
 	 * 
 	 * Returns a copy of the field.
 	 */
@@ -57,18 +58,17 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The output which is referenced by the given outpoint
+	 * The output which is referenced by the given outpoint.
 	 */
-	public void set_output(TxOut val) {
+	public void set_output(org.ldk.structs.TxOut val) {
 		bindings.StaticPaymentOutputDescriptor_set_output(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to
-	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
-	 * the channel to spend the output.
+	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public byte[] get_channel_keys_id() {
 		byte[] ret = bindings.StaticPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
@@ -77,9 +77,8 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to
-	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
-	 * the channel to spend the output.
+	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {
 		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -108,7 +107,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	/**
 	 * Constructs a new StaticPaymentOutputDescriptor given each field
 	 */
-	public static StaticPaymentOutputDescriptor of(OutPoint outpoint_arg, TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
+	public static StaticPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, org.ldk.structs.TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
 		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(output_arg);
@@ -144,7 +143,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(StaticPaymentOutputDescriptor b) {
+	public boolean eq(org.ldk.structs.StaticPaymentOutputDescriptor b) {
 		boolean ret = bindings.StaticPaymentOutputDescriptor_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

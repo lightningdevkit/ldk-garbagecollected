@@ -9,11 +9,15 @@ import javax.annotation.Nullable;
 
 
 /**
- * When on-chain outputs are created by rust-lightning (which our counterparty is not able to
- * claim at any point in the future) an event is generated which you must track and be able to
- * spend on-chain. The information needed to do this is provided in this enum, including the
- * outpoint describing which txid and output index is available, the full output which exists at
- * that txid/index, and any keys or other information required to sign.
+ * Describes the necessary information to spend a spendable output.
+ * 
+ * When on-chain outputs are created by LDK (which our counterparty is not able to claim at any
+ * point in the future) a [`SpendableOutputs`] event is generated which you must track and be able
+ * to spend on-chain. The information needed to do this is provided in this enum, including the
+ * outpoint describing which `txid` and output `index` is available, the full output which exists
+ * at that `txid`/`index`, and any keys or other information required to sign.
+ * 
+ * [`SpendableOutputs`]: crate::util::events::Event::SpendableOutputs
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SpendableOutputDescriptor extends CommonBase {
@@ -38,15 +42,18 @@ public class SpendableOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * An output to a script which was provided via KeysInterface directly, either from
-	 * `get_destination_script()` or `get_shutdown_scriptpubkey()`, thus you should already know
-	 * how to spend it. No secret keys are provided as rust-lightning was never given any key.
+	 * An output to a script which was provided via [`KeysInterface`] directly, either from
+	 * [`get_destination_script`] or [`get_shutdown_scriptpubkey`], thus you should already
+	 * know how to spend it. No secret keys are provided as LDK was never given any key.
 	 * These may include outputs from a transaction punishing our counterparty or claiming an HTLC
 	 * on-chain using the payment preimage or after it has timed out.
+	 * 
+	 * [`get_shutdown_scriptpubkey`]: KeysInterface::get_shutdown_scriptpubkey
+	 * [`get_destination_script`]: KeysInterface::get_shutdown_scriptpubkey
 	 */
 	public final static class StaticOutput extends SpendableOutputDescriptor {
 		/**
-		 * The outpoint which is spendable
+		 * The outpoint which is spendable.
 		*/
 		public final org.ldk.structs.OutPoint outpoint;
 		/**
@@ -65,34 +72,44 @@ public class SpendableOutputDescriptor extends CommonBase {
 		}
 	}
 	/**
-	 * An output to a P2WSH script which can be spent with a single signature after a CSV delay.
+	 * An output to a P2WSH script which can be spent with a single signature after an `OP_CSV`
+	 * delay.
 	 * 
 	 * The witness in the spending input should be:
+	 * ```bitcoin
 	 * <BIP 143 signature> <empty vector> (MINIMALIF standard rule) <provided witnessScript>
+	 * ```
 	 * 
-	 * Note that the nSequence field in the spending input must be set to to_self_delay
-	 * (which means the transaction is not broadcastable until at least to_self_delay
-	 * blocks after the outpoint confirms).
+	 * Note that the `nSequence` field in the spending input must be set to
+	 * [`DelayedPaymentOutputDescriptor::to_self_delay`] (which means the transaction is not
+	 * broadcastable until at least [`DelayedPaymentOutputDescriptor::to_self_delay`] blocks after
+	 * the outpoint confirms, see [BIP
+	 * 68](https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki)). Also note that LDK
+	 * won't generate a [`SpendableOutputDescriptor`] until the corresponding block height
+	 * is reached.
 	 * 
 	 * These are generally the result of a \"revocable\" output to us, spendable only by us unless
 	 * it is an output from an old state which we broadcast (which should never happen).
 	 * 
-	 * To derive the delayed_payment key which is used to sign for this input, you must pass the
-	 * holder delayed_payment_base_key (ie the private key which corresponds to the pubkey in
-	 * Sign::pubkeys().delayed_payment_basepoint) and the provided per_commitment_point to
-	 * chan_utils::derive_private_key. The public key can be generated without the secret key
-	 * using chan_utils::derive_public_key and only the delayed_payment_basepoint which appears in
-	 * Sign::pubkeys().
+	 * To derive the delayed payment key which is used to sign this input, you must pass the
+	 * holder [`InMemorySigner::delayed_payment_base_key`] (i.e., the private key which corresponds to the
+	 * [`ChannelPublicKeys::delayed_payment_basepoint`] in [`BaseSign::pubkeys`]) and the provided
+	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to [`chan_utils::derive_private_key`]. The public key can be
+	 * generated without the secret key using [`chan_utils::derive_public_key`] and only the
+	 * [`ChannelPublicKeys::delayed_payment_basepoint`] which appears in [`BaseSign::pubkeys`].
 	 * 
-	 * To derive the revocation_pubkey provided here (which is used in the witness
-	 * script generation), you must pass the counterparty revocation_basepoint (which appears in the
-	 * call to Sign::ready_channel) and the provided per_commitment point
-	 * to chan_utils::derive_public_revocation_key.
+	 * To derive the [`DelayedPaymentOutputDescriptor::revocation_pubkey`] provided here (which is
+	 * used in the witness script generation), you must pass the counterparty
+	 * [`ChannelPublicKeys::revocation_basepoint`] (which appears in the call to
+	 * [`BaseSign::provide_channel_parameters`]) and the provided
+	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to
+	 * [`chan_utils::derive_public_revocation_key`].
 	 * 
-	 * The witness script which is hashed and included in the output script_pubkey may be
-	 * regenerated by passing the revocation_pubkey (derived as above), our delayed_payment pubkey
-	 * (derived as above), and the to_self_delay contained here to
-	 * chan_utils::get_revokeable_redeemscript.
+	 * The witness script which is hashed and included in the output `script_pubkey` may be
+	 * regenerated by passing the [`DelayedPaymentOutputDescriptor::revocation_pubkey`] (derived
+	 * as explained above), our delayed payment pubkey (derived as explained above), and the
+	 * [`DelayedPaymentOutputDescriptor::to_self_delay`] contained here to
+	 * [`chan_utils::get_revokeable_redeemscript`].
 	 */
 	public final static class DelayedPaymentOutput extends SpendableOutputDescriptor {
 		public final org.ldk.structs.DelayedPaymentOutputDescriptor delayed_payment_output;
@@ -105,10 +122,12 @@ public class SpendableOutputDescriptor extends CommonBase {
 		}
 	}
 	/**
-	 * An output to a P2WPKH, spendable exclusively by our payment key (ie the private key which
-	 * corresponds to the public key in Sign::pubkeys().payment_point).
-	 * The witness in the spending input, is, thus, simply:
+	 * An output to a P2WPKH, spendable exclusively by our payment key (i.e., the private key
+	 * which corresponds to the `payment_point` in [`BaseSign::pubkeys`]). The witness
+	 * in the spending input is, thus, simply:
+	 * ```bitcoin
 	 * <BIP 143 signature> <payment key>
+	 * ```
 	 * 
 	 * These are generally the result of our counterparty having broadcast the current state,
 	 * allowing us to claim the non-HTLC-encumbered outputs immediately.
@@ -144,7 +163,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	/**
 	 * Utility method to constructs a new StaticOutput-variant SpendableOutputDescriptor
 	 */
-	public static SpendableOutputDescriptor static_output(OutPoint outpoint, TxOut output) {
+	public static SpendableOutputDescriptor static_output(org.ldk.structs.OutPoint outpoint, org.ldk.structs.TxOut output) {
 		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr, output.ptr);
 		Reference.reachabilityFence(outpoint);
 		Reference.reachabilityFence(output);
@@ -158,7 +177,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	/**
 	 * Utility method to constructs a new DelayedPaymentOutput-variant SpendableOutputDescriptor
 	 */
-	public static SpendableOutputDescriptor delayed_payment_output(DelayedPaymentOutputDescriptor a) {
+	public static SpendableOutputDescriptor delayed_payment_output(org.ldk.structs.DelayedPaymentOutputDescriptor a) {
 		long ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -171,7 +190,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	/**
 	 * Utility method to constructs a new StaticPaymentOutput-variant SpendableOutputDescriptor
 	 */
-	public static SpendableOutputDescriptor static_payment_output(StaticPaymentOutputDescriptor a) {
+	public static SpendableOutputDescriptor static_payment_output(org.ldk.structs.StaticPaymentOutputDescriptor a) {
 		long ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -185,7 +204,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * Checks if two SpendableOutputDescriptors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(SpendableOutputDescriptor b) {
+	public boolean eq(org.ldk.structs.SpendableOutputDescriptor b) {
 		boolean ret = bindings.SpendableOutputDescriptor_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

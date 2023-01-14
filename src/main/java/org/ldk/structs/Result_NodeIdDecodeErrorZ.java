@@ -45,7 +45,7 @@ public class Result_NodeIdDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NodeIdDecodeErrorZ in the success state.
 	 */
-	public static Result_NodeIdDecodeErrorZ ok(NodeId o) {
+	public static Result_NodeIdDecodeErrorZ ok(org.ldk.structs.NodeId o) {
 		long ret = bindings.CResult_NodeIdDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_NodeIdDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NodeIdDecodeErrorZ in the error state.
 	 */
-	public static Result_NodeIdDecodeErrorZ err(DecodeError e) {
+	public static Result_NodeIdDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_NodeIdDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -45,7 +45,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelInfoDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelInfoDecodeErrorZ ok(ChannelInfo o) {
+	public static Result_ChannelInfoDecodeErrorZ ok(org.ldk.structs.ChannelInfo o) {
 		long ret = bindings.CResult_ChannelInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ChannelInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelInfoDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelInfoDecodeErrorZ err(DecodeError e) {
+	public static Result_ChannelInfoDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ChannelInfoDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

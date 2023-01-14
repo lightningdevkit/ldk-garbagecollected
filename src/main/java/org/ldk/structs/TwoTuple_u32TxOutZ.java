@@ -62,7 +62,7 @@ public class TwoTuple_u32TxOutZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_u32TxOutZ from the contained elements.
 	 */
-	public static TwoTuple_u32TxOutZ of(int a, TxOut b) {
+	public static TwoTuple_u32TxOutZ of(int a, org.ldk.structs.TxOut b) {
 		long ret = bindings.C2Tuple_u32TxOutZ_new(a, b.ptr);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

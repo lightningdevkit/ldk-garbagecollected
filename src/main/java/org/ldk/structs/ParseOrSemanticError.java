@@ -76,7 +76,7 @@ public class ParseOrSemanticError extends CommonBase {
 	/**
 	 * Utility method to constructs a new ParseError-variant ParseOrSemanticError
 	 */
-	public static ParseOrSemanticError parse_error(ParseError a) {
+	public static ParseOrSemanticError parse_error(org.ldk.structs.ParseError a) {
 		long ret = bindings.ParseOrSemanticError_parse_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -101,7 +101,7 @@ public class ParseOrSemanticError extends CommonBase {
 	 * Checks if two ParseOrSemanticErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(ParseOrSemanticError b) {
+	public boolean eq(org.ldk.structs.ParseOrSemanticError b) {
 		boolean ret = bindings.ParseOrSemanticError_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

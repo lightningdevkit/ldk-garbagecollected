@@ -58,7 +58,7 @@ public class PrivateRoute extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(PrivateRoute b) {
+	public boolean eq(org.ldk.structs.PrivateRoute b) {
 		boolean ret = bindings.PrivateRoute_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
@@ -73,7 +73,7 @@ public class PrivateRoute extends CommonBase {
 	/**
 	 * Creates a new (partial) route from a list of hops
 	 */
-	public static Result_PrivateRouteCreationErrorZ of(RouteHint hops) {
+	public static Result_PrivateRouteCreationErrorZ of(org.ldk.structs.RouteHint hops) {
 		long ret = bindings.PrivateRoute_new(hops == null ? 0 : hops.ptr);
 		Reference.reachabilityFence(hops);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -35,7 +35,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	/**
 	 * The advertised features
 	 */
-	public void set_features(NodeFeatures val) {
+	public void set_features(org.ldk.structs.NodeFeatures val) {
 		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -169,7 +169,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(UnsignedNodeAnnouncement b) {
+	public boolean eq(org.ldk.structs.UnsignedNodeAnnouncement b) {
 		boolean ret = bindings.UnsignedNodeAnnouncement_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

@@ -39,14 +39,15 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2022-10-112-java-bindings
+          git checkout origin/2022-12-0.0.113-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.112
+          git checkout 0.0.113
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
+          git config --global safe.directory "*"
           ./genbindings.sh ../rust-lightning false
       - name: Build and Test TS Debug Bindings for Node
         run: |
@@ -66,7 +67,7 @@ jobs:
           export HOME=/root/ # Github actions is apparently broken
           export PATH=$(pwd)/$(echo node-*/bin):$PATH
           # npx playwright install-deps is broken so we do it manually, see https://github.com/microsoft/playwright/issues/11165
-          apt-get install -y --no-install-recommends fonts-liberation libenchant-2-2 libicu71 libjpeg62-turbo libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libdbus-1-3 libdrm2 libegl1 libgbm1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libxshmfence1 xvfb fonts-noto-color-emoji fonts-unifont libfontconfig libfreetype6 xfonts-scalable fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf ffmpeg libcairo-gobject2 libdbus-glib-1-2 libfontconfig1 libgdk-pixbuf2.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 libxcb-shm0 libxcursor1 libxi6 libxrender1 libxt6 gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good libepoxy0 libevdev2 libgl1 libgles2 libgstreamer-gl1.0-0 libgstreamer1.0-0 libharfbuzz-icu0 libharfbuzz0b libhyphen0 libnotify4 libopenjp2-7 libopus0 libpng16-16 libsecret-1-0 libsoup2.4-1 libwayland-client0 libwayland-egl1 libwayland-server0 libwebp7 libwebpdemux2 libwoff1 libxkbcommon0 libxml2 libxslt1.1
+          apt-get install -y --no-install-recommends fonts-liberation libenchant-2-2 libicu72 libjpeg62-turbo libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libdbus-1-3 libdrm2 libegl1 libgbm1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libxshmfence1 xvfb fonts-noto-color-emoji fonts-unifont libfontconfig libfreetype6 xfonts-scalable fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf ffmpeg libcairo-gobject2 libdbus-glib-1-2 libfontconfig1 libgdk-pixbuf2.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 libxcb-shm0 libxcursor1 libxi6 libxrender1 libxt6 gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good libepoxy0 libevdev2 libgl1 libgles2 libgstreamer-gl1.0-0 libgstreamer1.0-0 libharfbuzz-icu0 libharfbuzz0b libhyphen0 libnotify4 libopenjp2-7 libopus0 libpng16-16 libsecret-1-0 libsoup2.4-1 libwayland-client0 libwayland-egl1 libwayland-server0 libwebp7 libwebpdemux2 libwoff1 libxkbcommon0 libxml2 libxslt1.1
           mkdir -p $HOME/.cache/ms-playwright # `playwright install` is too dumb to create this for us
           chmod -R 777 $HOME/
           npm i -D playwright
@@ -75,6 +76,7 @@ jobs:
         run: |
           export HOME=/root/ # Github actions is apparently broken
           export PATH=$(pwd)/$(echo node-*/bin):$PATH
+          git config --global safe.directory "*"
           ./genbindings.sh ./ldk-c-bindings/ wasm true true
           cd ts
           rm liblightningjs.wasm && ln -s $(pwd)/../liblightningjs_debug.wasm ./liblightningjs.wasm
@@ -130,11 +132,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2022-10-112-java-bindings
+          git checkout origin/2022-12-0.0.113-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.112
+          git checkout 0.0.113
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -185,11 +187,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2022-10-112-java-bindings
+          git checkout origin/2022-12-0.0.113-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.112
+          git checkout 0.0.113
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -288,11 +290,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2022-10-112-java-bindings
+          git checkout origin/2022-12-0.0.113-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.112
+          git checkout 0.0.113
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -345,20 +347,20 @@ jobs:
     steps:
       - name: Install other Rust platforms
         run: rustup target install aarch64-apple-darwin
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Fetch upstream LLVM/clang snapshot
         run: |
-          wget -O clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "66cf1b8e00289a567b2f5f740f068b7682e27ccf048647b836d3624376a64705" ]; then
+          wget -O clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz
+          if [ "$(shasum -a 256 clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "ac668586b2b3d068f1e43520a3ef0b1592e5dc3eff1a4a4b772e29803b428a69" ]; then
             echo "Bad hash"
             exit 1
           fi
       - name: Unpack upstream LLVM+clang and use it by default
         run: |
-          tar xvvf clang+llvm-14.0.5-x86_64-apple-darwin.tar.xz
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+          tar xvvf clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz
       - name: Install cbindgen
         run: cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
@@ -368,14 +370,14 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git checkout origin/2022-10-112-java-bindings
+          git checkout origin/2022-12-0.0.113-java-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.112
+          git checkout 0.0.113
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
-          export PATH=`pwd`/clang+llvm-14.0.5-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-15.0.3-x86_64-apple-darwin/bin:$PATH
           cd ldk-c-bindings
           CC=clang ./genbindings.sh ../rust-lightning true
       - name: Fetch OpenJDK 18
@@ -414,7 +416,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-14.0.5-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-15.0.3-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
 
           if [ "${{ matrix.platform }}" = "macos-11" ]; then

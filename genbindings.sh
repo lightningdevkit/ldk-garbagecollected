@@ -48,7 +48,143 @@ if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
 	exit 1
 fi
 
-if [ "$2" != "wasm" ]; then
+
+if [ "$2" = "c_sharp" ]; then
+	TARGET_STRING="$LDK_TARGET"
+	if [ "$TARGET_STRING" = "" ]; then
+		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
+		TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
+	fi
+	case "$TARGET_STRING" in
+		"x86_64-pc-linux"*)
+			LDK_TARGET_SUFFIX="_Linux-amd64"
+			LDK_JAR_TARGET=true
+			;;
+		"x86_64-apple-darwin"*)
+			LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+			LDK_JAR_TARGET=true
+			;;
+		"aarch64-apple-darwin"*)
+			LDK_TARGET_CPU="apple-a14"
+			LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+			LDK_JAR_TARGET=true
+			;;
+		*)
+			LDK_TARGET_SUFFIX="_${TARGET_STRING}"
+	esac
+	if [ "$LDK_TARGET_CPU" = "" ]; then
+		LDK_TARGET_CPU="sandybridge"
+	fi
+
+	echo "Creating C# bindings..."
+	mkdir -p c_sharp/src/org/ldk/{enums,structs,impl}
+	rm -f c_sharp/src/org/ldk/{enums,structs,impl}/*.cs
+	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4
+	rm -f c_sharp/bindings.c
+	if [ "$3" = "true" ]; then
+		echo "#define LDK_DEBUG_BUILD" > c_sharp/bindings.c
+	elif [ "$3" = "leaks" ]; then
+		# For leak checking we use release libldk which doesn't expose
+		# __unmangle_inner_ptr, but the C code expects to be able to call it.
+		echo "#define __unmangle_inner_ptr(a) (a)" > c_sharp/bindings.c
+	fi
+	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> c_sharp/bindings.c
+	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> c_sharp/bindings.c
+	cat c_sharp/bindings.c.body >> c_sharp/bindings.c
+
+	IS_MAC=false
+	[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
+	IS_APPLE_CLANG=false
+	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
+
+	# Compiling C# bindings with Mono
+	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
+	if [ "$3" = "true" ]; then
+		mono-csc $MONO_COMPILE
+	else
+		mono-csc -o $MONO_COMPILE
+	fi
+
+	mv ./-out:csharpldk.dll csharpldk.dll # Mono is braindead, apparently
+
+	echo "Building C# bindings..."
+	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	LINK="-ldl -shared"
+	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
+	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
+	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
+	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
+	[ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
+
+	exit 0 # Sadly compilation doesn't currently work
+	if [ "$3" = "true" ]; then
+		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
+	else
+		$COMPILE -o bindings.o -c -flto -O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
+		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+	fi
+elif [ "$2" = "wasm" ]; then
+	echo "Creating TS bindings..."
+	mkdir -p ts/{enums,structs}
+	rm -f ts/{enums,structs,}/*.{mjs,mts,mts.part}
+	if [ "$4" = "false" ]; then
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
+	else
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
+	fi
+	rm -f ts/bindings.c
+	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
+	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' node-net/package.json
+	sed -i 's/^    "lightningdevkit": .*/    "lightningdevkit": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'"/g' node-net/package.json
+	if [ "$3" = "true" ]; then
+		echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
+	elif [ "$3" = "leaks" ]; then
+		# For leak checking we use release libldk which doesn't expose
+		# __unmangle_inner_ptr, but the C code expects to be able to call it.
+		echo "#define __unmangle_inner_ptr(a) (a)" > ts/bindings.c
+	fi
+	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> ts/bindings.c
+	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
+	cat ts/bindings.c.body >> ts/bindings.c
+
+	echo "Building TS bindings..."
+	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
+	# We only need malloc and assert/abort, but for now just use WASI for those:
+	EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
+	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
+	if [ "$3" = "true" ]; then
+		WASM_FILE=liblightningjs_debug.wasm
+		$COMPILE -o liblightningjs_debug.wasm -g -O1 -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
+	else
+		WASM_FILE=liblightningjs_release.wasm
+		$COMPILE -o liblightningjs_release.wasm -s -Oz -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
+	fi
+
+	if [ -x "$(which tsc)" ]; then
+		cd ts
+		for F in structs/*; do
+			cat imports.mts.part | grep -v " $(basename -s .mts $F)[ ,]" | cat - $F > $F.tmp
+			mv $F.tmp $F
+		done
+		rm imports.mts.part
+		tsc --types node --typeRoots .
+		cp ../$WASM_FILE liblightningjs.wasm
+		cp ../README.md README.md
+		cd ../node-net
+		tsc --types node --typeRoots .
+		echo Ready to publish!
+		if [ -x "$(which node)" ]; then
+			NODE_V="$(node --version)"
+			if [ "${NODE_V:1:2}" -gt 14 ]; then
+				cd ../ts
+				node --stack_trace_limit=200 --trace-uncaught test/node.mjs
+				cd ../node-net
+				node --stack_trace_limit=200 --trace-uncaught test/test.mjs
+			fi
+		fi
+	fi
+else
 	TARGET_STRING="$LDK_TARGET"
 	if [ "$TARGET_STRING" = "" ]; then
 		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
@@ -111,14 +247,15 @@ if [ "$2" != "wasm" ]; then
 	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	echo "Building Java bindings..."
-	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -shared -fPIC"
+	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	LINK="-ldl -shared"
 	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
-	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -fuse-ld=lld"
+	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 	[ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
 	if [ "$3" = "true" ]; then
-		$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
+		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
@@ -163,7 +300,9 @@ if [ "$2" != "wasm" ]; then
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 		fi
-		$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -s -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB -lm
+		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -Wl,--lto-O3 -Wl,-O3 -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
+		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 			if [ "$GLIBC_SYMBS" != "" ]; then
@@ -181,66 +320,6 @@ if [ "$2" != "wasm" ]; then
 			# Copy to JNI native directory for inclusion in JARs
 			mkdir -p src/main/resources/
 			cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
-		fi
-	fi
-else
-	echo "Creating TS bindings..."
-	mkdir -p ts/{enums,structs}
-	rm -f ts/{enums,structs,}/*.{mjs,mts,mts.part}
-	if [ "$4" = "false" ]; then
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
-	else
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
-	fi
-	rm -f ts/bindings.c
-	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
-	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' node-net/package.json
-	sed -i 's/^    "lightningdevkit": .*/    "lightningdevkit": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'"/g' node-net/package.json
-	if [ "$3" = "true" ]; then
-		echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
-	elif [ "$3" = "leaks" ]; then
-		# For leak checking we use release libldk which doesn't expose
-		# __unmangle_inner_ptr, but the C code expects to be able to call it.
-		echo "#define __unmangle_inner_ptr(a) (a)" > ts/bindings.c
-	fi
-	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> ts/bindings.c
-	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
-	cat ts/bindings.c.body >> ts/bindings.c
-
-	echo "Building TS bindings..."
-	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
-	# We only need malloc and assert/abort, but for now just use WASI for those:
-	EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
-	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
-	if [ "$3" = "true" ]; then
-		WASM_FILE=liblightningjs_debug.wasm
-		$COMPILE -o liblightningjs_debug.wasm -g -O1 -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
-	else
-		WASM_FILE=liblightningjs_release.wasm
-		$COMPILE -o liblightningjs_release.wasm -s -Oz -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
-	fi
-
-	if [ -x "$(which tsc)" ]; then
-		cd ts
-		for F in structs/*; do
-			cat imports.mts.part | grep -v " $(basename -s .mts $F)[ ,]" | cat - $F > $F.tmp
-			mv $F.tmp $F
-		done
-		rm imports.mts.part
-		tsc --types node --typeRoots .
-		cp ../$WASM_FILE liblightningjs.wasm
-		cp ../README.md README.md
-		cd ../node-net
-		tsc --types node --typeRoots .
-		echo Ready to publish!
-		if [ -x "$(which node)" ]; then
-			NODE_V="$(node --version)"
-			if [ "${NODE_V:1:2}" -gt 14 ]; then
-				cd ../ts
-				node --stack_trace_limit=200 --trace-uncaught test/node.mjs
-				cd ../node-net
-				node --stack_trace_limit=200 --trace-uncaught test/test.mjs
-			fi
 		fi
 	fi
 fi

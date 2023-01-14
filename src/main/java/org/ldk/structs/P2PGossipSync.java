@@ -14,9 +14,6 @@ import javax.annotation.Nullable;
  * This network graph is then used for routing payments.
  * Provides interface to help with initial routing sync by
  * serving historical announcements.
- * 
- * Serves as an [`EventHandler`] for applying updates from [`Event::PaymentPathFailed`] to the
- * [`NetworkGraph`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class P2PGossipSync extends CommonBase {
@@ -34,7 +31,7 @@ public class P2PGossipSync extends CommonBase {
 	 * channel data is correct, and that the announcement is signed with
 	 * channel owners' keys.
 	 */
-	public static P2PGossipSync of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
+	public static P2PGossipSync of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Option_AccessZ chain_access, org.ldk.structs.Logger logger) {
 		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, chain_access.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(chain_access);
@@ -53,7 +50,7 @@ public class P2PGossipSync extends CommonBase {
 	 * existing announcements unless they are updated.
 	 * Add, update or remove the provider would replace the current one.
 	 */
-	public void add_chain_access(Option_AccessZ chain_access) {
+	public void add_chain_access(org.ldk.structs.Option_AccessZ chain_access) {
 		bindings.P2PGossipSync_add_chain_access(this.ptr, chain_access.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(chain_access);

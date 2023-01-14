@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Used to construct the blinded hops portion of a blinded route. These hops cannot be identified
+ * Used to construct the blinded hops portion of a blinded path. These hops cannot be identified
  * by outside observers and thus can be used to hide the identity of the recipient.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
@@ -19,6 +19,24 @@ public class BlindedHop extends CommonBase {
 	protected void finalize() throws Throwable {
 		super.finalize();
 		if (ptr != 0) { bindings.BlindedHop_free(ptr); }
+	}
+
+	long clone_ptr() {
+		long ret = bindings.BlindedHop_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the BlindedHop
+	 */
+	public BlindedHop clone() {
+		long ret = bindings.BlindedHop_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedHop(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

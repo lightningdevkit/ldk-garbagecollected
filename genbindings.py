@@ -26,8 +26,12 @@ elif sys.argv[6] == "typescript":
     target = typescript_strings.Target.NODEJS
     if len(sys.argv) == 8 and sys.argv[7] == 'browser':
         target = typescript_strings.Target.BROWSER
+elif sys.argv[6] == "c_sharp":
+    import csharp_strings
+    from csharp_strings import Consts
+    target = csharp_strings.Target.CSHARP
 else:
-    print("Only java or typescript can be set for lang")
+    print("Only java, typescript, or c_sharp can be set for lang")
     sys.exit(1)
 
 
@@ -139,6 +143,16 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
+    elif fn_arg.startswith("LDKU128"):
+        if fn_arg == "LDKU128":
+            fn_arg = "LDKU128 arg"
+        if fn_arg.startswith("LDKU128*") or fn_arg.startswith("LDKU128 *"):
+            fn_arg = "uint8_t (" + fn_arg[8:] + ")[16]"
+        else:
+            fn_arg = "uint8_t (*" + fn_arg[8:] + ")[16]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKU128"
+        arr_access = "le_bytes"
     elif fn_arg.startswith("LDKTxid"):
         fn_arg = "uint8_t (*" + fn_arg[8:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -204,6 +218,11 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKTransaction"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
+    elif fn_arg.startswith("LDKWitness ") or fn_arg == "LDKWitness":
+        fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+        rust_obj = "LDKWitness"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        arr_access = "data"
     elif fn_arg.startswith("LDKCVec_"):
         is_ptr = False
         if "*" in fn_arg:
@@ -249,7 +268,7 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[4:].strip()
         is_primitive = True
     elif fn_arg.startswith("bool"):
-        java_ty = "boolean"
+        java_ty = consts.c_type_map['bool'][0]
         c_ty = "jboolean"
         fn_ty_arg = "Z"
         arr_ty = "bool"
@@ -263,11 +282,11 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_ty = "uint8_t"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
-    elif fn_arg.startswith("LDKu5") or fn_arg.startswith("LDKWitnessVersion"):
+    elif fn_arg.startswith("LDKU5") or fn_arg.startswith("LDKWitnessVersion"):
         java_ty = consts.c_type_map['uint8_t'][0]
-        if fn_arg.startswith("LDKu5"):
+        if fn_arg.startswith("LDKU5"):
             java_hu_ty = "UInt5"
-            rust_obj = "LDKu5"
+            rust_obj = "LDKU5"
             fn_arg = fn_arg[6:].strip()
         else:
             java_hu_ty = "WitnessVersion"
@@ -381,6 +400,8 @@ def java_c_types(fn_arg, ret_arr_len):
         else:
             java_ty = java_ty + "[]"
             java_hu_ty = java_ty
+        if rust_obj == "LDKU128":
+            java_hu_ty = consts.u128_native_ty
         c_ty = c_ty + "Array"
 
         subty = java_c_types(arr_ty, None)
@@ -551,7 +572,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         default_constructor_args = {}
         takes_self = False
         takes_self_ptr = False
-        args_known = True
 
         for argument_index, argument in enumerate(method_arguments):
             arg_ty = type_mapping_generator.java_c_types(argument, None)
@@ -585,13 +605,12 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
-                    for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
+                    for explode_idx, explode_arg in enumerate(constructor_fns[argument_conversion_info.rust_obj].split(',')):
                         explode_arg_conv = type_mapping_generator.map_type(explode_arg, False, None, False, True)
+                        if explode_idx == 0 and explode_arg_conv.c_ty == "void":
+                            continue # (void) is C lingo for "no arguments)
                         if explode_arg_conv.c_ty == "void":
-                            # We actually want to handle this case, but for now its only used in NetGraphMsgHandler::new()
-                            # which ends up resulting in a redundant constructor - both without arguments for the NetworkGraph.
-                            args_known = False
-                            pass
+                            assert False
                         if not argument_conversion_info.arg_name in default_constructor_args:
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
@@ -625,6 +644,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         arg.from_hu_conv = (arg.from_hu_conv[0], "")
 
         out_java.write("\t// " + line)
+        args_known = True # We no longer ever set this to false
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
             consts.map_function(argument_types, c_call_string, method_name, struct_meth_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_ptr, args_known, type_mapping_generator, doc_comment)
         out_java.write(out_java_delta)
@@ -1043,6 +1063,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.txout_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
                         fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
                         write_c(fn_line + " {")
                         write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
@@ -1057,6 +1078,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     with open(f"{sys.argv[3]}/structs/BigEndianScalar{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.scalar_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
                         fn_line = "struct LDKThirtyTwoBytes BigEndianScalar_get_bytes (struct LDKBigEndianScalar* thing)"
                         write_c(fn_line + " {\n")
                         write_c("\tLDKThirtyTwoBytes ret = { .data = *thing->big_endian_bytes };\n")
@@ -1107,23 +1129,23 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             else:
                 assert(line == "\n")
 
-    out_java.write(consts.bindings_footer)
+    out_java.write(consts.bindings_footer())
     for struct_name in opaque_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in trait_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in complex_enums:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '').replace('COption', 'Option')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in result_types:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDKCResult', 'Result')}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
     for struct_name in tuple_types:
         struct_hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple")
         with open(f"{sys.argv[3]}/structs/{struct_hu_name}{consts.file_ext}", "a") as out_java_struct:
-            out_java_struct.write("}\n")
+            out_java_struct.write("}\n" + consts.hu_struct_file_suffix)
 
 with open(f"{sys.argv[4]}/bindings.c.body", "w") as out_c:
     out_c.write(consts.c_file_pfx)

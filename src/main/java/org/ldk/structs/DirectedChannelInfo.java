@@ -52,21 +52,6 @@ public class DirectedChannelInfo extends CommonBase {
 	}
 
 	/**
-	 * Returns information for the direction.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public ChannelUpdateInfo direction() {
-		long ret = bindings.DirectedChannelInfo_direction(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelUpdateInfo(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Returns the maximum HTLC amount allowed over the channel in the direction.
 	 */
 	public long htlc_maximum_msat() {

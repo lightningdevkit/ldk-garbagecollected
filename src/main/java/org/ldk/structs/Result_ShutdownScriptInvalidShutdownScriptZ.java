@@ -45,7 +45,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ShutdownScriptInvalidShutdownScriptZ in the success state.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ ok(ShutdownScript o) {
+	public static Result_ShutdownScriptInvalidShutdownScriptZ ok(org.ldk.structs.ShutdownScript o) {
 		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ShutdownScriptInvalidShutdownScriptZ in the error state.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ err(InvalidShutdownScript e) {
+	public static Result_ShutdownScriptInvalidShutdownScriptZ err(org.ldk.structs.InvalidShutdownScript e) {
 		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -45,7 +45,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the success state.
 	 */
-	public static Result_ClosingSignedDecodeErrorZ ok(ClosingSigned o) {
+	public static Result_ClosingSignedDecodeErrorZ ok(org.ldk.structs.ClosingSigned o) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the error state.
 	 */
-	public static Result_ClosingSignedDecodeErrorZ err(DecodeError e) {
+	public static Result_ClosingSignedDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

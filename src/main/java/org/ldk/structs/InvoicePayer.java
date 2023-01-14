@@ -30,7 +30,7 @@ public class InvoicePayer extends CommonBase {
 	 * Will forward any [`Event::PaymentPathFailed`] events to the decorated `event_handler` once
 	 * `retry` has been exceeded for a given [`Invoice`].
 	 */
-	public static InvoicePayer of(Payer payer, Router router, Logger logger, EventHandler event_handler, Retry retry) {
+	public static InvoicePayer of(org.ldk.structs.Payer payer, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.EventHandler event_handler, org.ldk.structs.Retry retry) {
 		long ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry.ptr);
 		Reference.reachabilityFence(payer);
 		Reference.reachabilityFence(router);
@@ -50,11 +50,14 @@ public class InvoicePayer extends CommonBase {
 	/**
 	 * Pays the given [`Invoice`], caching it for later use in case a retry is needed.
 	 * 
-	 * You should ensure that the `invoice.payment_hash()` is unique and the same payment_hash has
-	 * never been paid before. Because [`InvoicePayer`] is stateless no effort is made to do so
-	 * for you.
+	 * [`Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
+	 * as the payment is still pending. Once the payment completes or fails, you must ensure that
+	 * a second payment with the same [`PaymentHash`] is never sent.
+	 * 
+	 * If you wish to use a different payment idempotency token, see
+	 * [`Self::pay_invoice_with_id`].
 	 */
-	public Result_PaymentIdPaymentErrorZ pay_invoice(Invoice invoice) {
+	public Result_PaymentIdPaymentErrorZ pay_invoice(org.ldk.structs.Invoice invoice) {
 		long ret = bindings.InvoicePayer_pay_invoice(this.ptr, invoice == null ? 0 : invoice.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(invoice);
@@ -65,14 +68,41 @@ public class InvoicePayer extends CommonBase {
 	}
 
 	/**
+	 * Pays the given [`Invoice`] with a custom idempotency key, caching the invoice for later use
+	 * in case a retry is needed.
+	 * 
+	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
+	 * payment completes or fails, no idempotency guarantees are made.
+	 * 
+	 * You should ensure that the [`Invoice::payment_hash`] is unique and the same [`PaymentHash`]
+	 * has never been paid before.
+	 * 
+	 * See [`Self::pay_invoice`] for a variant which uses the [`PaymentHash`] for the idempotency
+	 * token.
+	 */
+	public Result_NonePaymentErrorZ pay_invoice_with_id(org.ldk.structs.Invoice invoice, byte[] payment_id) {
+		long ret = bindings.InvoicePayer_pay_invoice_with_id(this.ptr, invoice == null ? 0 : invoice.ptr, InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(payment_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(invoice); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Pays the given zero-value [`Invoice`] using the given amount, caching it for later use in
 	 * case a retry is needed.
 	 * 
-	 * You should ensure that the `invoice.payment_hash()` is unique and the same payment_hash has
-	 * never been paid before. Because [`InvoicePayer`] is stateless no effort is made to do so
-	 * for you.
+	 * [`Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
+	 * as the payment is still pending. Once the payment completes or fails, you must ensure that
+	 * a second payment with the same [`PaymentHash`] is never sent.
+	 * 
+	 * If you wish to use a different payment idempotency token, see
+	 * [`Self::pay_zero_value_invoice_with_id`].
 	 */
-	public Result_PaymentIdPaymentErrorZ pay_zero_value_invoice(Invoice invoice, long amount_msats) {
+	public Result_PaymentIdPaymentErrorZ pay_zero_value_invoice(org.ldk.structs.Invoice invoice, long amount_msats) {
 		long ret = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0 : invoice.ptr, amount_msats);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(invoice);
@@ -84,11 +114,37 @@ public class InvoicePayer extends CommonBase {
 	}
 
 	/**
+	 * Pays the given zero-value [`Invoice`] using the given amount and custom idempotency key,
+	 * caching the invoice for later use in case a retry is needed.
+	 * 
+	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
+	 * payment completes or fails, no idempotency guarantees are made.
+	 * 
+	 * You should ensure that the [`Invoice::payment_hash`] is unique and the same [`PaymentHash`]
+	 * has never been paid before.
+	 * 
+	 * See [`Self::pay_zero_value_invoice`] for a variant which uses the [`PaymentHash`] for the
+	 * idempotency token.
+	 */
+	public Result_NonePaymentErrorZ pay_zero_value_invoice_with_id(org.ldk.structs.Invoice invoice, long amount_msats, byte[] payment_id) {
+		long ret = bindings.InvoicePayer_pay_zero_value_invoice_with_id(this.ptr, invoice == null ? 0 : invoice.ptr, amount_msats, InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(payment_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(invoice); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Pays `pubkey` an amount using the hash of the given preimage, caching it for later use in
 	 * case a retry is needed.
 	 * 
-	 * You should ensure that `payment_preimage` is unique and that its `payment_hash` has never
-	 * been paid before. Because [`InvoicePayer`] is stateless no effort is made to do so for you.
+	 * The hash of the [`PaymentPreimage`] is used as the [`PaymentId`], which ensures idempotency
+	 * as long as the payment is still pending. Once the payment completes or fails, you must
+	 * ensure that a second payment with the same [`PaymentPreimage`] is never sent.
 	 */
 	public Result_PaymentIdPaymentErrorZ pay_pubkey(byte[] pubkey, byte[] payment_preimage, long amount_msats, int final_cltv_expiry_delta) {
 		long ret = bindings.InvoicePayer_pay_pubkey(this.ptr, InternalUtils.check_arr_len(pubkey, 33), InternalUtils.check_arr_len(payment_preimage, 32), amount_msats, final_cltv_expiry_delta);
@@ -99,6 +155,29 @@ public class InvoicePayer extends CommonBase {
 		Reference.reachabilityFence(final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays `pubkey` an amount using the hash of the given preimage and a custom idempotency key,
+	 * caching the invoice for later use in case a retry is needed.
+	 * 
+	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
+	 * payment completes or fails, no idempotency guarantees are made.
+	 * 
+	 * You should ensure that the [`PaymentPreimage`] is unique and the corresponding
+	 * [`PaymentHash`] has never been paid before.
+	 */
+	public Result_NonePaymentErrorZ pay_pubkey_with_id(byte[] pubkey, byte[] payment_preimage, byte[] payment_id, long amount_msats, int final_cltv_expiry_delta) {
+		long ret = bindings.InvoicePayer_pay_pubkey_with_id(this.ptr, InternalUtils.check_arr_len(pubkey, 33), InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_id, 32), amount_msats, final_cltv_expiry_delta);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(pubkey);
+		Reference.reachabilityFence(payment_preimage);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(final_cltv_expiry_delta);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

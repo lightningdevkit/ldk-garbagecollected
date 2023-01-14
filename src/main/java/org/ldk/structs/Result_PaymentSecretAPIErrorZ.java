@@ -53,7 +53,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PaymentSecretAPIErrorZ in the error state.
 	 */
-	public static Result_PaymentSecretAPIErrorZ err(APIError e) {
+	public static Result_PaymentSecretAPIErrorZ err(org.ldk.structs.APIError e) {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

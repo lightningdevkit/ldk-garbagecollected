@@ -42,7 +42,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PositiveTimestampCreationErrorZ in the success state.
 	 */
-	public static Result_PositiveTimestampCreationErrorZ ok(PositiveTimestamp o) {
+	public static Result_PositiveTimestampCreationErrorZ ok(org.ldk.structs.PositiveTimestamp o) {
 		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

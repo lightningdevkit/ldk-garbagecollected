@@ -45,7 +45,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NetAddressDecodeErrorZ in the success state.
 	 */
-	public static Result_NetAddressDecodeErrorZ ok(NetAddress o) {
+	public static Result_NetAddressDecodeErrorZ ok(org.ldk.structs.NetAddress o) {
 		long ret = bindings.CResult_NetAddressDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NetAddressDecodeErrorZ in the error state.
 	 */
-	public static Result_NetAddressDecodeErrorZ err(DecodeError e) {
+	public static Result_NetAddressDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_NetAddressDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

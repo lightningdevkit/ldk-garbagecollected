@@ -45,7 +45,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PongDecodeErrorZ in the success state.
 	 */
-	public static Result_PongDecodeErrorZ ok(Pong o) {
+	public static Result_PongDecodeErrorZ ok(org.ldk.structs.Pong o) {
 		long ret = bindings.CResult_PongDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PongDecodeErrorZ in the error state.
 	 */
-	public static Result_PongDecodeErrorZ err(DecodeError e) {
+	public static Result_PongDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_PongDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * A simple implementation of Sign that just keeps the private keys in memory.
+ * A simple implementation of [`Sign`] that just keeps the private keys in memory.
  * 
  * This implementation performs no policy checks and is insufficient by itself as
  * a secure external signer.
@@ -24,7 +24,8 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Private key of anchor tx
+	 * Holder secret key in the 2-of-2 multisig script of a channel. This key also backs the
+	 * holder's anchor output in a commitment transaction, if one is present.
 	 */
 	public byte[] get_funding_key() {
 		byte[] ret = bindings.InMemorySigner_get_funding_key(this.ptr);
@@ -33,7 +34,8 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Private key of anchor tx
+	 * Holder secret key in the 2-of-2 multisig script of a channel. This key also backs the
+	 * holder's anchor output in a commitment transaction, if one is present.
 	 */
 	public void set_funding_key(byte[] val) {
 		bindings.InMemorySigner_set_funding_key(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -42,7 +44,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key for blinded revocation pubkey
+	 * Holder secret key for blinded revocation pubkey.
 	 */
 	public byte[] get_revocation_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_revocation_base_key(this.ptr);
@@ -51,7 +53,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key for blinded revocation pubkey
+	 * Holder secret key for blinded revocation pubkey.
 	 */
 	public void set_revocation_base_key(byte[] val) {
 		bindings.InMemorySigner_set_revocation_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -60,7 +62,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions
+	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions.
 	 */
 	public byte[] get_payment_key() {
 		byte[] ret = bindings.InMemorySigner_get_payment_key(this.ptr);
@@ -69,7 +71,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions
+	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions.
 	 */
 	public void set_payment_key(byte[] val) {
 		bindings.InMemorySigner_set_payment_key(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -78,7 +80,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key used in HTLC tx
+	 * Holder secret key used in an HTLC transaction.
 	 */
 	public byte[] get_delayed_payment_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_delayed_payment_base_key(this.ptr);
@@ -87,7 +89,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key used in HTLC tx
+	 * Holder secret key used in an HTLC transaction.
 	 */
 	public void set_delayed_payment_base_key(byte[] val) {
 		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -96,7 +98,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder htlc secret key used in commitment tx htlc outputs
+	 * Holder HTLC secret key used in commitment transaction HTLC outputs.
 	 */
 	public byte[] get_htlc_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_htlc_base_key(this.ptr);
@@ -105,7 +107,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder htlc secret key used in commitment tx htlc outputs
+	 * Holder HTLC secret key used in commitment transaction HTLC outputs.
 	 */
 	public void set_htlc_base_key(byte[] val) {
 		bindings.InMemorySigner_set_htlc_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -114,7 +116,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Commitment seed
+	 * Commitment seed.
 	 */
 	public byte[] get_commitment_seed() {
 		byte[] ret = bindings.InMemorySigner_get_commitment_seed(this.ptr);
@@ -123,7 +125,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Commitment seed
+	 * Commitment seed.
 	 */
 	public void set_commitment_seed(byte[] val) {
 		bindings.InMemorySigner_set_commitment_seed(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -150,7 +152,7 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Create a new InMemorySigner
+	 * Creates a new [`InMemorySigner`].
 	 */
 	public static InMemorySigner of(byte[] node_secret, byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
 		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(node_secret, 32), InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
@@ -170,8 +172,9 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Counterparty pubkeys.
-	 * Will panic if ready_channel wasn't called.
+	 * Returns the counterparty's pubkeys.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
@@ -183,10 +186,11 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * The contest_delay value specified by our counterparty and applied on holder-broadcastable
-	 * transactions, ie the amount of time that we have to wait to recover our funds if we
+	 * Returns the `contest_delay` value specified by our counterparty and applied on holder-broadcastable
+	 * transactions, i.e., the amount of time that we have to wait to recover our funds if we
 	 * broadcast a transaction.
-	 * Will panic if ready_channel wasn't called.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public short counterparty_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
@@ -195,10 +199,11 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * The contest_delay value specified by us and applied on transactions broadcastable
-	 * by our counterparty, ie the amount of time that they have to wait to recover their funds
+	 * Returns the `contest_delay` value specified by us and applied on transactions broadcastable
+	 * by our counterparty, i.e., the amount of time that they have to wait to recover their funds
 	 * if they broadcast a transaction.
-	 * Will panic if ready_channel wasn't called.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public short holder_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
@@ -207,8 +212,9 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Whether the holder is the initiator
-	 * Will panic if ready_channel wasn't called.
+	 * Returns whether the holder is the initiator.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public boolean is_outbound() {
 		boolean ret = bindings.InMemorySigner_is_outbound(this.ptr);
@@ -218,7 +224,8 @@ public class InMemorySigner extends CommonBase {
 
 	/**
 	 * Funding outpoint
-	 * Will panic if ready_channel wasn't called.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
@@ -230,10 +237,10 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Obtain a ChannelTransactionParameters for this channel, to be used when verifying or
+	 * Returns a [`ChannelTransactionParameters`] for this channel, to be used when verifying or
 	 * building transactions.
 	 * 
-	 * Will panic if ready_channel wasn't called.
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
@@ -245,8 +252,9 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Whether anchors should be used.
-	 * Will panic if ready_channel wasn't called.
+	 * Returns whether anchors should be used.
+	 * 
+	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
 	 */
 	public boolean opt_anchors() {
 		boolean ret = bindings.InMemorySigner_opt_anchors(this.ptr);
@@ -255,14 +263,16 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Sign the single input of spend_tx at index `input_idx` which spends the output
-	 * described by descriptor, returning the witness stack for the input.
+	 * Sign the single input of `spend_tx` at index `input_idx`, which spends the output described
+	 * by `descriptor`, returning the witness stack for the input.
 	 * 
-	 * Returns an Err if the input at input_idx does not exist, has a non-empty script_sig,
-	 * is not spending the outpoint described by `descriptor.outpoint`,
-	 * or if an output descriptor script_pubkey does not match the one we can spend.
+	 * Returns an error if the input at `input_idx` does not exist, has a non-empty `script_sig`,
+	 * is not spending the outpoint described by [`descriptor.outpoint`],
+	 * or if an output descriptor `script_pubkey` does not match the one we can spend.
+	 * 
+	 * [`descriptor.outpoint`]: StaticPaymentOutputDescriptor::outpoint
 	 */
-	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, StaticPaymentOutputDescriptor descriptor) {
+	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, org.ldk.structs.StaticPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);
@@ -275,15 +285,18 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Sign the single input of spend_tx at index `input_idx` which spends the output
-	 * described by descriptor, returning the witness stack for the input.
+	 * Sign the single input of `spend_tx` at index `input_idx` which spends the output
+	 * described by `descriptor`, returning the witness stack for the input.
 	 * 
-	 * Returns an Err if the input at input_idx does not exist, has a non-empty script_sig,
-	 * is not spending the outpoint described by `descriptor.outpoint`, does not have a
-	 * sequence set to `descriptor.to_self_delay`, or if an output descriptor
-	 * script_pubkey does not match the one we can spend.
+	 * Returns an error if the input at `input_idx` does not exist, has a non-empty `script_sig`,
+	 * is not spending the outpoint described by [`descriptor.outpoint`], does not have a
+	 * sequence set to [`descriptor.to_self_delay`], or if an output descriptor
+	 * `script_pubkey` does not match the one we can spend.
+	 * 
+	 * [`descriptor.outpoint`]: DelayedPaymentOutputDescriptor::outpoint
+	 * [`descriptor.to_self_delay`]: DelayedPaymentOutputDescriptor::to_self_delay
 	 */
-	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, DelayedPaymentOutputDescriptor descriptor) {
+	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, org.ldk.structs.DelayedPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);

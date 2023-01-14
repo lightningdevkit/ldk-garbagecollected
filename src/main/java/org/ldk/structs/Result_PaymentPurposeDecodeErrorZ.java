@@ -45,7 +45,7 @@ public class Result_PaymentPurposeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PaymentPurposeDecodeErrorZ in the success state.
 	 */
-	public static Result_PaymentPurposeDecodeErrorZ ok(PaymentPurpose o) {
+	public static Result_PaymentPurposeDecodeErrorZ ok(org.ldk.structs.PaymentPurpose o) {
 		long ret = bindings.CResult_PaymentPurposeDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_PaymentPurposeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PaymentPurposeDecodeErrorZ in the error state.
 	 */
-	public static Result_PaymentPurposeDecodeErrorZ err(DecodeError e) {
+	public static Result_PaymentPurposeDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_PaymentPurposeDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

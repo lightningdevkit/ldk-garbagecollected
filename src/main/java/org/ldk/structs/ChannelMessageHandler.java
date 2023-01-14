@@ -272,7 +272,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming open_channel message from the given peer.
 	 */
-	public void handle_open_channel(byte[] their_node_id, InitFeatures their_features, OpenChannel msg) {
+	public void handle_open_channel(byte[] their_node_id, org.ldk.structs.InitFeatures their_features, org.ldk.structs.OpenChannel msg) {
 		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -285,7 +285,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming accept_channel message from the given peer.
 	 */
-	public void handle_accept_channel(byte[] their_node_id, InitFeatures their_features, AcceptChannel msg) {
+	public void handle_accept_channel(byte[] their_node_id, org.ldk.structs.InitFeatures their_features, org.ldk.structs.AcceptChannel msg) {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -298,7 +298,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming funding_created message from the given peer.
 	 */
-	public void handle_funding_created(byte[] their_node_id, FundingCreated msg) {
+	public void handle_funding_created(byte[] their_node_id, org.ldk.structs.FundingCreated msg) {
 		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -309,7 +309,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming funding_signed message from the given peer.
 	 */
-	public void handle_funding_signed(byte[] their_node_id, FundingSigned msg) {
+	public void handle_funding_signed(byte[] their_node_id, org.ldk.structs.FundingSigned msg) {
 		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -320,7 +320,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming channel_ready message from the given peer.
 	 */
-	public void handle_channel_ready(byte[] their_node_id, ChannelReady msg) {
+	public void handle_channel_ready(byte[] their_node_id, org.ldk.structs.ChannelReady msg) {
 		bindings.ChannelMessageHandler_handle_channel_ready(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -331,7 +331,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming shutdown message from the given peer.
 	 */
-	public void handle_shutdown(byte[] their_node_id, InitFeatures their_features, Shutdown msg) {
+	public void handle_shutdown(byte[] their_node_id, org.ldk.structs.InitFeatures their_features, org.ldk.structs.Shutdown msg) {
 		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -344,7 +344,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming closing_signed message from the given peer.
 	 */
-	public void handle_closing_signed(byte[] their_node_id, ClosingSigned msg) {
+	public void handle_closing_signed(byte[] their_node_id, org.ldk.structs.ClosingSigned msg) {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -355,7 +355,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming update_add_htlc message from the given peer.
 	 */
-	public void handle_update_add_htlc(byte[] their_node_id, UpdateAddHTLC msg) {
+	public void handle_update_add_htlc(byte[] their_node_id, org.ldk.structs.UpdateAddHTLC msg) {
 		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -366,7 +366,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming update_fulfill_htlc message from the given peer.
 	 */
-	public void handle_update_fulfill_htlc(byte[] their_node_id, UpdateFulfillHTLC msg) {
+	public void handle_update_fulfill_htlc(byte[] their_node_id, org.ldk.structs.UpdateFulfillHTLC msg) {
 		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -377,7 +377,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming update_fail_htlc message from the given peer.
 	 */
-	public void handle_update_fail_htlc(byte[] their_node_id, UpdateFailHTLC msg) {
+	public void handle_update_fail_htlc(byte[] their_node_id, org.ldk.structs.UpdateFailHTLC msg) {
 		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -388,7 +388,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming update_fail_malformed_htlc message from the given peer.
 	 */
-	public void handle_update_fail_malformed_htlc(byte[] their_node_id, UpdateFailMalformedHTLC msg) {
+	public void handle_update_fail_malformed_htlc(byte[] their_node_id, org.ldk.structs.UpdateFailMalformedHTLC msg) {
 		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -399,7 +399,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming commitment_signed message from the given peer.
 	 */
-	public void handle_commitment_signed(byte[] their_node_id, CommitmentSigned msg) {
+	public void handle_commitment_signed(byte[] their_node_id, org.ldk.structs.CommitmentSigned msg) {
 		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -410,7 +410,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming revoke_and_ack message from the given peer.
 	 */
-	public void handle_revoke_and_ack(byte[] their_node_id, RevokeAndACK msg) {
+	public void handle_revoke_and_ack(byte[] their_node_id, org.ldk.structs.RevokeAndACK msg) {
 		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -421,7 +421,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming update_fee message from the given peer.
 	 */
-	public void handle_update_fee(byte[] their_node_id, UpdateFee msg) {
+	public void handle_update_fee(byte[] their_node_id, org.ldk.structs.UpdateFee msg) {
 		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -432,7 +432,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming announcement_signatures message from the given peer.
 	 */
-	public void handle_announcement_signatures(byte[] their_node_id, AnnouncementSignatures msg) {
+	public void handle_announcement_signatures(byte[] their_node_id, org.ldk.structs.AnnouncementSignatures msg) {
 		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -463,7 +463,7 @@ public class ChannelMessageHandler extends CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, Init msg) {
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init msg) {
 		long ret = bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -477,7 +477,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming channel_reestablish message from the given peer.
 	 */
-	public void handle_channel_reestablish(byte[] their_node_id, ChannelReestablish msg) {
+	public void handle_channel_reestablish(byte[] their_node_id, org.ldk.structs.ChannelReestablish msg) {
 		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -488,7 +488,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming channel update from the given peer.
 	 */
-	public void handle_channel_update(byte[] their_node_id, ChannelUpdate msg) {
+	public void handle_channel_update(byte[] their_node_id, org.ldk.structs.ChannelUpdate msg) {
 		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -499,7 +499,7 @@ public class ChannelMessageHandler extends CommonBase {
 	/**
 	 * Handle an incoming error message from the given peer.
 	 */
-	public void handle_error(byte[] their_node_id, ErrorMessage msg) {
+	public void handle_error(byte[] their_node_id, org.ldk.structs.ErrorMessage msg) {
 		bindings.ChannelMessageHandler_handle_error(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);

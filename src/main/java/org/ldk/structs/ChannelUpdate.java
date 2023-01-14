@@ -53,7 +53,7 @@ public class ChannelUpdate extends CommonBase {
 	/**
 	 * The actual channel update
 	 */
-	public void set_contents(UnsignedChannelUpdate val) {
+	public void set_contents(org.ldk.structs.UnsignedChannelUpdate val) {
 		bindings.ChannelUpdate_set_contents(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -63,7 +63,7 @@ public class ChannelUpdate extends CommonBase {
 	/**
 	 * Constructs a new ChannelUpdate given each field
 	 */
-	public static ChannelUpdate of(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
+	public static ChannelUpdate of(byte[] signature_arg, org.ldk.structs.UnsignedChannelUpdate contents_arg) {
 		long ret = bindings.ChannelUpdate_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr);
 		Reference.reachabilityFence(signature_arg);
 		Reference.reachabilityFence(contents_arg);
@@ -97,7 +97,7 @@ public class ChannelUpdate extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ChannelUpdate b) {
+	public boolean eq(org.ldk.structs.ChannelUpdate b) {
 		boolean ret = bindings.ChannelUpdate_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

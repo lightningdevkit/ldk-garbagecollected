@@ -45,7 +45,7 @@ public class Result_ShutdownScriptDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ShutdownScriptDecodeErrorZ in the success state.
 	 */
-	public static Result_ShutdownScriptDecodeErrorZ ok(ShutdownScript o) {
+	public static Result_ShutdownScriptDecodeErrorZ ok(org.ldk.structs.ShutdownScript o) {
 		long ret = bindings.CResult_ShutdownScriptDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ShutdownScriptDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ShutdownScriptDecodeErrorZ in the error state.
 	 */
-	public static Result_ShutdownScriptDecodeErrorZ err(DecodeError e) {
+	public static Result_ShutdownScriptDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ShutdownScriptDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

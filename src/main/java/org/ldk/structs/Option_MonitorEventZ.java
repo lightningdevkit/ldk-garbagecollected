@@ -54,7 +54,7 @@ public class Option_MonitorEventZ extends CommonBase {
 	/**
 	 * Constructs a new COption_MonitorEventZ containing a crate::lightning::chain::channelmonitor::MonitorEvent
 	 */
-	public static Option_MonitorEventZ some(MonitorEvent o) {
+	public static Option_MonitorEventZ some(org.ldk.structs.MonitorEvent o) {
 		long ret = bindings.COption_MonitorEventZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

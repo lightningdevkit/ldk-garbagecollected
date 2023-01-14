@@ -45,7 +45,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SpendableOutputDescriptorDecodeErrorZ in the success state.
 	 */
-	public static Result_SpendableOutputDescriptorDecodeErrorZ ok(SpendableOutputDescriptor o) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ ok(org.ldk.structs.SpendableOutputDescriptor o) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SpendableOutputDescriptorDecodeErrorZ in the error state.
 	 */
-	public static Result_SpendableOutputDescriptorDecodeErrorZ err(DecodeError e) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

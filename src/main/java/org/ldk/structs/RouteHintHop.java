@@ -71,7 +71,7 @@ public class RouteHintHop extends CommonBase {
 	/**
 	 * The fees which must be paid to use this channel
 	 */
-	public void set_fees(RoutingFees val) {
+	public void set_fees(org.ldk.structs.RoutingFees val) {
 		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -111,7 +111,7 @@ public class RouteHintHop extends CommonBase {
 	/**
 	 * The minimum value, in msat, which must be relayed to the next hop.
 	 */
-	public void set_htlc_minimum_msat(Option_u64Z val) {
+	public void set_htlc_minimum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.RouteHintHop_set_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -132,7 +132,7 @@ public class RouteHintHop extends CommonBase {
 	/**
 	 * The maximum value in msat available for routing with a single HTLC.
 	 */
-	public void set_htlc_maximum_msat(Option_u64Z val) {
+	public void set_htlc_maximum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.RouteHintHop_set_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -141,7 +141,7 @@ public class RouteHintHop extends CommonBase {
 	/**
 	 * Constructs a new RouteHintHop given each field
 	 */
-	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
+	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, org.ldk.structs.RoutingFees fees_arg, short cltv_expiry_delta_arg, org.ldk.structs.Option_u64Z htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z htlc_maximum_msat_arg) {
 		long ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		Reference.reachabilityFence(src_node_id_arg);
 		Reference.reachabilityFence(short_channel_id_arg);
@@ -191,7 +191,7 @@ public class RouteHintHop extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(RouteHintHop b) {
+	public boolean eq(org.ldk.structs.RouteHintHop b) {
 		boolean ret = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

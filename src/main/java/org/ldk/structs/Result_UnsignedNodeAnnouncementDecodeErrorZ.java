@@ -45,7 +45,7 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the success state.
 	 */
-	public static Result_UnsignedNodeAnnouncementDecodeErrorZ ok(UnsignedNodeAnnouncement o) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ ok(org.ldk.structs.UnsignedNodeAnnouncement o) {
 		long ret = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the error state.
 	 */
-	public static Result_UnsignedNodeAnnouncementDecodeErrorZ err(DecodeError e) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

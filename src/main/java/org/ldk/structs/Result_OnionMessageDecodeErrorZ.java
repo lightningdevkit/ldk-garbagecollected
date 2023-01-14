@@ -45,7 +45,7 @@ public class Result_OnionMessageDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_OnionMessageDecodeErrorZ in the success state.
 	 */
-	public static Result_OnionMessageDecodeErrorZ ok(OnionMessage o) {
+	public static Result_OnionMessageDecodeErrorZ ok(org.ldk.structs.OnionMessage o) {
 		long ret = bindings.CResult_OnionMessageDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_OnionMessageDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_OnionMessageDecodeErrorZ in the error state.
 	 */
-	public static Result_OnionMessageDecodeErrorZ err(DecodeError e) {
+	public static Result_OnionMessageDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_OnionMessageDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

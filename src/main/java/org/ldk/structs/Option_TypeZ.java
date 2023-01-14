@@ -54,7 +54,7 @@ public class Option_TypeZ extends CommonBase {
 	/**
 	 * Constructs a new COption_TypeZ containing a crate::lightning::ln::wire::Type
 	 */
-	public static Option_TypeZ some(Type o) {
+	public static Option_TypeZ some(org.ldk.structs.Type o) {
 		long ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -27,6 +27,9 @@ public class HTLCDestination extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKHTLCDestination.UnknownNextHop.class) {
 			return new UnknownNextHop(ptr, (bindings.LDKHTLCDestination.UnknownNextHop)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKHTLCDestination.InvalidForward.class) {
+			return new InvalidForward(ptr, (bindings.LDKHTLCDestination.InvalidForward)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKHTLCDestination.FailedPayment.class) {
 			return new FailedPayment(ptr, (bindings.LDKHTLCDestination.FailedPayment)raw_val);
 		}
@@ -65,6 +68,20 @@ public class HTLCDestination extends CommonBase {
 		*/
 		public final long requested_forward_scid;
 		private UnknownNextHop(long ptr, bindings.LDKHTLCDestination.UnknownNextHop obj) {
+			super(null, ptr);
+			this.requested_forward_scid = obj.requested_forward_scid;
+		}
+	}
+	/**
+	 * We couldn't forward to the outgoing scid. An example would be attempting to send a duplicate
+	 * intercept HTLC.
+	 */
+	public final static class InvalidForward extends HTLCDestination {
+		/**
+		 * Short channel id we are requesting to forward an HTLC to.
+		*/
+		public final long requested_forward_scid;
+		private InvalidForward(long ptr, bindings.LDKHTLCDestination.InvalidForward obj) {
 			super(null, ptr);
 			this.requested_forward_scid = obj.requested_forward_scid;
 		}
@@ -132,6 +149,18 @@ public class HTLCDestination extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new InvalidForward-variant HTLCDestination
+	 */
+	public static HTLCDestination invalid_forward(long requested_forward_scid) {
+		long ret = bindings.HTLCDestination_invalid_forward(requested_forward_scid);
+		Reference.reachabilityFence(requested_forward_scid);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.HTLCDestination ret_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new FailedPayment-variant HTLCDestination
 	 */
 	public static HTLCDestination failed_payment(byte[] payment_hash) {
@@ -147,7 +176,7 @@ public class HTLCDestination extends CommonBase {
 	 * Checks if two HTLCDestinations contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(HTLCDestination b) {
+	public boolean eq(org.ldk.structs.HTLCDestination b) {
 		boolean ret = bindings.HTLCDestination_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

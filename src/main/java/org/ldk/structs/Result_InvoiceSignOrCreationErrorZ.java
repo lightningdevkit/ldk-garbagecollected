@@ -45,7 +45,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceSignOrCreationErrorZ in the success state.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ ok(Invoice o) {
+	public static Result_InvoiceSignOrCreationErrorZ ok(org.ldk.structs.Invoice o) {
 		long ret = bindings.CResult_InvoiceSignOrCreationErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceSignOrCreationErrorZ in the error state.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ err(SignOrCreationError e) {
+	public static Result_InvoiceSignOrCreationErrorZ err(org.ldk.structs.SignOrCreationError e) {
 		long ret = bindings.CResult_InvoiceSignOrCreationErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

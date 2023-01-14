@@ -80,7 +80,7 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ extends CommonBase 
 	/**
 	 * Creates a new C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ from the contained elements.
 	 */
-	public static ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ of(OutPoint a, MonitorEvent[] b, byte[] c) {
+	public static ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ of(org.ldk.structs.OutPoint a, MonitorEvent[] b, byte[] c) {
 		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(a == null ? 0 : a.ptr, b != null ? Arrays.stream(b).mapToLong(b_conv_14 -> b_conv_14.ptr).toArray() : null, InternalUtils.check_arr_len(c, 33));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

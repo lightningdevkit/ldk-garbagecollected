@@ -211,7 +211,7 @@ public class ParseError extends CommonBase {
 	/**
 	 * Utility method to constructs a new Bech32Error-variant ParseError
 	 */
-	public static ParseError bech32_error(Bech32Error a) {
+	public static ParseError bech32_error(org.ldk.structs.Bech32Error a) {
 		long ret = bindings.ParseError_bech32_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -223,7 +223,7 @@ public class ParseError extends CommonBase {
 	/**
 	 * Utility method to constructs a new ParseAmountError-variant ParseError
 	 */
-	public static ParseError parse_amount_error(UnqualifiedError a) {
+	public static ParseError parse_amount_error(org.ldk.util.UnqualifiedError a) {
 		long ret = bindings.ParseError_parse_amount_error(0);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -313,7 +313,7 @@ public class ParseError extends CommonBase {
 	/**
 	 * Utility method to constructs a new DescriptionDecodeError-variant ParseError
 	 */
-	public static ParseError description_decode_error(UnqualifiedError a) {
+	public static ParseError description_decode_error(org.ldk.util.UnqualifiedError a) {
 		long ret = bindings.ParseError_description_decode_error(0);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -415,7 +415,7 @@ public class ParseError extends CommonBase {
 	 * Checks if two ParseErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(ParseError b) {
+	public boolean eq(org.ldk.structs.ParseError b) {
 		boolean ret = bindings.ParseError_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

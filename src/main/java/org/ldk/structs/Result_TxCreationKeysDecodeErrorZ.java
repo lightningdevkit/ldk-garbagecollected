@@ -45,7 +45,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the success state.
 	 */
-	public static Result_TxCreationKeysDecodeErrorZ ok(TxCreationKeys o) {
+	public static Result_TxCreationKeysDecodeErrorZ ok(org.ldk.structs.TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the error state.
 	 */
-	public static Result_TxCreationKeysDecodeErrorZ err(DecodeError e) {
+	public static Result_TxCreationKeysDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

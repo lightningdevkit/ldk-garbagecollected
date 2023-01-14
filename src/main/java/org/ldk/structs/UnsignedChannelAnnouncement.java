@@ -35,7 +35,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	/**
 	 * The advertised channel features
 	 */
-	public void set_features(ChannelFeatures val) {
+	public void set_features(org.ldk.structs.ChannelFeatures val) {
 		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -173,7 +173,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(UnsignedChannelAnnouncement b) {
+	public boolean eq(org.ldk.structs.UnsignedChannelAnnouncement b) {
 		boolean ret = bindings.UnsignedChannelAnnouncement_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

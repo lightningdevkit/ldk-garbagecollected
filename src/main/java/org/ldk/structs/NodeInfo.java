@@ -64,7 +64,7 @@ public class NodeInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_lowest_inbound_channel_fees(@Nullable RoutingFees val) {
+	public void set_lowest_inbound_channel_fees(@Nullable org.ldk.structs.RoutingFees val) {
 		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -95,7 +95,7 @@ public class NodeInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_announcement_info(@Nullable NodeAnnouncementInfo val) {
+	public void set_announcement_info(@Nullable org.ldk.structs.NodeAnnouncementInfo val) {
 		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -105,7 +105,7 @@ public class NodeInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeInfo given each field
 	 */
-	public static NodeInfo of(long[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
+	public static NodeInfo of(long[] channels_arg, org.ldk.structs.RoutingFees lowest_inbound_channel_fees_arg, org.ldk.structs.NodeAnnouncementInfo announcement_info_arg) {
 		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr, announcement_info_arg == null ? 0 : announcement_info_arg.ptr);
 		Reference.reachabilityFence(channels_arg);
 		Reference.reachabilityFence(lowest_inbound_channel_fees_arg);
@@ -141,7 +141,7 @@ public class NodeInfo extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(NodeInfo b) {
+	public boolean eq(org.ldk.structs.NodeInfo b) {
 		boolean ret = bindings.NodeInfo_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

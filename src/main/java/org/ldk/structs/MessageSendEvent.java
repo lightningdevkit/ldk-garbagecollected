@@ -551,7 +551,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendAcceptChannel-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_accept_channel(byte[] node_id, AcceptChannel msg) {
+	public static MessageSendEvent send_accept_channel(byte[] node_id, org.ldk.structs.AcceptChannel msg) {
 		long ret = bindings.MessageSendEvent_send_accept_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -565,7 +565,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_open_channel(byte[] node_id, OpenChannel msg) {
+	public static MessageSendEvent send_open_channel(byte[] node_id, org.ldk.structs.OpenChannel msg) {
 		long ret = bindings.MessageSendEvent_send_open_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -579,7 +579,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendFundingCreated-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_funding_created(byte[] node_id, FundingCreated msg) {
+	public static MessageSendEvent send_funding_created(byte[] node_id, org.ldk.structs.FundingCreated msg) {
 		long ret = bindings.MessageSendEvent_send_funding_created(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -593,7 +593,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendFundingSigned-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_funding_signed(byte[] node_id, FundingSigned msg) {
+	public static MessageSendEvent send_funding_signed(byte[] node_id, org.ldk.structs.FundingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_funding_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -607,7 +607,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendChannelReady-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_channel_ready(byte[] node_id, ChannelReady msg) {
+	public static MessageSendEvent send_channel_ready(byte[] node_id, org.ldk.structs.ChannelReady msg) {
 		long ret = bindings.MessageSendEvent_send_channel_ready(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -621,7 +621,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendAnnouncementSignatures-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_announcement_signatures(byte[] node_id, AnnouncementSignatures msg) {
+	public static MessageSendEvent send_announcement_signatures(byte[] node_id, org.ldk.structs.AnnouncementSignatures msg) {
 		long ret = bindings.MessageSendEvent_send_announcement_signatures(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -635,7 +635,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new UpdateHTLCs-variant MessageSendEvent
 	 */
-	public static MessageSendEvent update_htlcs(byte[] node_id, CommitmentUpdate updates) {
+	public static MessageSendEvent update_htlcs(byte[] node_id, org.ldk.structs.CommitmentUpdate updates) {
 		long ret = bindings.MessageSendEvent_update_htlcs(InternalUtils.check_arr_len(node_id, 33), updates == null ? 0 : updates.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(updates);
@@ -649,7 +649,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendRevokeAndACK-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_revoke_and_ack(byte[] node_id, RevokeAndACK msg) {
+	public static MessageSendEvent send_revoke_and_ack(byte[] node_id, org.ldk.structs.RevokeAndACK msg) {
 		long ret = bindings.MessageSendEvent_send_revoke_and_ack(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -663,7 +663,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendClosingSigned-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_closing_signed(byte[] node_id, ClosingSigned msg) {
+	public static MessageSendEvent send_closing_signed(byte[] node_id, org.ldk.structs.ClosingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_closing_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -677,7 +677,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendShutdown-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_shutdown(byte[] node_id, Shutdown msg) {
+	public static MessageSendEvent send_shutdown(byte[] node_id, org.ldk.structs.Shutdown msg) {
 		long ret = bindings.MessageSendEvent_send_shutdown(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -691,7 +691,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendChannelReestablish-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_channel_reestablish(byte[] node_id, ChannelReestablish msg) {
+	public static MessageSendEvent send_channel_reestablish(byte[] node_id, org.ldk.structs.ChannelReestablish msg) {
 		long ret = bindings.MessageSendEvent_send_channel_reestablish(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -705,7 +705,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendChannelAnnouncement-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_channel_announcement(byte[] node_id, ChannelAnnouncement msg, ChannelUpdate update_msg) {
+	public static MessageSendEvent send_channel_announcement(byte[] node_id, org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.ChannelUpdate update_msg) {
 		long ret = bindings.MessageSendEvent_send_channel_announcement(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr, update_msg == null ? 0 : update_msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -721,7 +721,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new BroadcastChannelAnnouncement-variant MessageSendEvent
 	 */
-	public static MessageSendEvent broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
+	public static MessageSendEvent broadcast_channel_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.ChannelUpdate update_msg) {
 		long ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr, update_msg == null ? 0 : update_msg.ptr);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(update_msg);
@@ -736,7 +736,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new BroadcastChannelUpdate-variant MessageSendEvent
 	 */
-	public static MessageSendEvent broadcast_channel_update(ChannelUpdate msg) {
+	public static MessageSendEvent broadcast_channel_update(org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -749,7 +749,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendChannelUpdate-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_channel_update(byte[] node_id, ChannelUpdate msg) {
+	public static MessageSendEvent send_channel_update(byte[] node_id, org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.MessageSendEvent_send_channel_update(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -763,7 +763,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new HandleError-variant MessageSendEvent
 	 */
-	public static MessageSendEvent handle_error(byte[] node_id, ErrorAction action) {
+	public static MessageSendEvent handle_error(byte[] node_id, org.ldk.structs.ErrorAction action) {
 		long ret = bindings.MessageSendEvent_handle_error(InternalUtils.check_arr_len(node_id, 33), action.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(action);
@@ -776,7 +776,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendChannelRangeQuery-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_channel_range_query(byte[] node_id, QueryChannelRange msg) {
+	public static MessageSendEvent send_channel_range_query(byte[] node_id, org.ldk.structs.QueryChannelRange msg) {
 		long ret = bindings.MessageSendEvent_send_channel_range_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -790,7 +790,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendShortIdsQuery-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_short_ids_query(byte[] node_id, QueryShortChannelIds msg) {
+	public static MessageSendEvent send_short_ids_query(byte[] node_id, org.ldk.structs.QueryShortChannelIds msg) {
 		long ret = bindings.MessageSendEvent_send_short_ids_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -804,7 +804,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendReplyChannelRange-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_reply_channel_range(byte[] node_id, ReplyChannelRange msg) {
+	public static MessageSendEvent send_reply_channel_range(byte[] node_id, org.ldk.structs.ReplyChannelRange msg) {
 		long ret = bindings.MessageSendEvent_send_reply_channel_range(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
@@ -818,7 +818,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendGossipTimestampFilter-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_gossip_timestamp_filter(byte[] node_id, GossipTimestampFilter msg) {
+	public static MessageSendEvent send_gossip_timestamp_filter(byte[] node_id, org.ldk.structs.GossipTimestampFilter msg) {
 		long ret = bindings.MessageSendEvent_send_gossip_timestamp_filter(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);

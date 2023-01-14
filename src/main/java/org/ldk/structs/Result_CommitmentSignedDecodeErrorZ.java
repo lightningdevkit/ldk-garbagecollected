@@ -45,7 +45,7 @@ public class Result_CommitmentSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CommitmentSignedDecodeErrorZ in the success state.
 	 */
-	public static Result_CommitmentSignedDecodeErrorZ ok(CommitmentSigned o) {
+	public static Result_CommitmentSignedDecodeErrorZ ok(org.ldk.structs.CommitmentSigned o) {
 		long ret = bindings.CResult_CommitmentSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_CommitmentSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CommitmentSignedDecodeErrorZ in the error state.
 	 */
-	public static Result_CommitmentSignedDecodeErrorZ err(DecodeError e) {
+	public static Result_CommitmentSignedDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_CommitmentSignedDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

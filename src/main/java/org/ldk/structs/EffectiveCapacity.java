@@ -81,14 +81,11 @@ public class EffectiveCapacity extends CommonBase {
 		/**
 		 * The maximum HTLC amount denominated in millisatoshi.
 		*/
-		public final org.ldk.structs.Option_u64Z htlc_maximum_msat;
+		public final long htlc_maximum_msat;
 		private Total(long ptr, bindings.LDKEffectiveCapacity.Total obj) {
 			super(null, ptr);
 			this.capacity_msat = obj.capacity_msat;
-			long htlc_maximum_msat = obj.htlc_maximum_msat;
-			org.ldk.structs.Option_u64Z htlc_maximum_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(htlc_maximum_msat);
-			if (htlc_maximum_msat_hu_conv != null) { htlc_maximum_msat_hu_conv.ptrs_to.add(this); };
-			this.htlc_maximum_msat = htlc_maximum_msat_hu_conv;
+			this.htlc_maximum_msat = obj.htlc_maximum_msat;
 		}
 	}
 	/**
@@ -154,8 +151,8 @@ public class EffectiveCapacity extends CommonBase {
 	/**
 	 * Utility method to constructs a new Total-variant EffectiveCapacity
 	 */
-	public static EffectiveCapacity total(long capacity_msat, Option_u64Z htlc_maximum_msat) {
-		long ret = bindings.EffectiveCapacity_total(capacity_msat, htlc_maximum_msat.ptr);
+	public static EffectiveCapacity total(long capacity_msat, long htlc_maximum_msat) {
+		long ret = bindings.EffectiveCapacity_total(capacity_msat, htlc_maximum_msat);
 		Reference.reachabilityFence(capacity_msat);
 		Reference.reachabilityFence(htlc_maximum_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }

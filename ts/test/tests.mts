@@ -413,25 +413,27 @@ tests.push(async () => {
 	assert(pm_a.get_peer_node_ids().length == 1);
 	assert(pm_b.get_peer_node_ids().length == 1);
 
-	underlying_om_a.send_custom_onion_message([], ldk.Destination.constructor_node(b.node_id), ldk.CustomOnionMessageContents.new_impl({
+	underlying_om_a.send_onion_message([], ldk.Destination.constructor_node(b.node_id),
+		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4242n; },
 			write(): Uint8Array {
 				const ret = new Uint8Array(43);
 				for (var i = 0; i < 43; i++) ret[i] = 66;
 				return ret;
 			}
-		} as ldk.CustomOnionMessageContentsInterface), null);
+		} as ldk.CustomOnionMessageContentsInterface)), null);
 	pm_a.process_events();
 	assert(b_handled_msg);
 
-	om_b.send_custom_onion_message([], ldk.Destination.constructor_node(a.node_id), ldk.CustomOnionMessageContents.new_impl({
+	om_b.send_onion_message([], ldk.Destination.constructor_node(a.node_id),
+		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4343n; },
 			write(): Uint8Array {
 				const ret = new Uint8Array(44);
 				for (var i = 0; i < 44; i++) ret[i] = 67;
 				return ret;
 			}
-		} as ldk.CustomOnionMessageContentsInterface), null);
+		} as ldk.CustomOnionMessageContentsInterface)), null);
 	pm_b.process_events();
 	assert(a_handled_msg);
 

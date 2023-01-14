@@ -75,7 +75,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 * 
 	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
-	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
+	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
 		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_base_key);

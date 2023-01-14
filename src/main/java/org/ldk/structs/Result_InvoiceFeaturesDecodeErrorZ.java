@@ -45,7 +45,7 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceFeaturesDecodeErrorZ in the success state.
 	 */
-	public static Result_InvoiceFeaturesDecodeErrorZ ok(InvoiceFeatures o) {
+	public static Result_InvoiceFeaturesDecodeErrorZ ok(org.ldk.structs.InvoiceFeatures o) {
 		long ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InvoiceFeaturesDecodeErrorZ in the error state.
 	 */
-	public static Result_InvoiceFeaturesDecodeErrorZ err(DecodeError e) {
+	public static Result_InvoiceFeaturesDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

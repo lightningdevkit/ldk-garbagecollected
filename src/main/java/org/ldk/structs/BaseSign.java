@@ -8,23 +8,13 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * A trait to sign lightning channel transactions as described in BOLT 3.
+ * A trait to sign Lightning channel transactions as described in
+ * [BOLT 3](https://github.com/lightning/bolts/blob/master/03-transactions.md).
  * 
- * Signing services could be implemented on a hardware wallet. In this case,
- * the current Sign would be a front-end on top of a communication
- * channel connected to your secure device and lightning key material wouldn't
- * reside on a hot server. Nevertheless, a this deployment would still need
- * to trust the ChannelManager to avoid loss of funds as this latest component
- * could ask to sign commitment transaction with HTLCs paying to attacker pubkeys.
- * 
- * A more secure iteration would be to use hashlock (or payment points) to pair
- * invoice/incoming HTLCs with outgoing HTLCs to implement a no-trust-ChannelManager
- * at the price of more state and computation on the hardware wallet side. In the future,
- * we are looking forward to design such interface.
- * 
- * In any case, ChannelMonitor or fallback watchtowers are always going to be trusted
- * to act, as liveness and breach reply correctness are always going to be hard requirements
- * of LN security model, orthogonal of key management issues.
+ * Signing services could be implemented on a hardware wallet and should implement signing
+ * policies in order to be secure. Please refer to the [VLS Policy
+ * Controls](https://gitlab.com/lightning-signer/validating-lightning-signer/-/blob/main/docs/policy-controls.md)
+ * for an example of such policies.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class BaseSign extends CommonBase {
@@ -44,7 +34,7 @@ public class BaseSign extends CommonBase {
 		/**
 		 * Gets the per-commitment point for a specific commitment number
 		 * 
-		 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+		 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 		 */
 		byte[] get_per_commitment_point(long idx);
 		/**
@@ -55,7 +45,7 @@ public class BaseSign extends CommonBase {
 		 * 
 		 * May be called more than once for the same index.
 		 * 
-		 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+		 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 		 */
 		byte[] release_commitment_secret(long idx);
 		/**
@@ -70,14 +60,14 @@ public class BaseSign extends CommonBase {
 		 * A validating signer should ensure that an HTLC output is removed only when the matching
 		 * preimage is provided, or when the value to holder is restored.
 		 * 
-		 * NOTE: all the relevant preimages will be provided, but there may also be additional
+		 * Note that all the relevant preimages will be provided, but there may also be additional
 		 * irrelevant or duplicate preimages.
 		 */
 		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages);
 		/**
-		 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
-		 * some SpendableOutputDescriptor types. This should be sufficient to identify this
-		 * Sign object uniquely and lookup or re-derive its keys.
+		 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
+		 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
+		 * [`BaseSign`] object uniquely and lookup or re-derive its keys.
 		 */
 		byte[] channel_keys_id();
 		/**
@@ -92,7 +82,7 @@ public class BaseSign extends CommonBase {
 		 * A validating signer should ensure that an HTLC output is removed only when the matching
 		 * preimage is provided, or when the value to holder is restored.
 		 * 
-		 * NOTE: all the relevant preimages will be provided, but there may also be additional
+		 * Note that all the relevant preimages will be provided, but there may also be additional
 		 * irrelevant or duplicate preimages.
 		 */
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages);
@@ -104,17 +94,21 @@ public class BaseSign extends CommonBase {
 		 */
 		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 		/**
-		 * Create a signatures for a holder's commitment transaction and its claiming HTLC transactions.
-		 * This will only ever be called with a non-revoked commitment_tx.  This will be called with the
-		 * latest commitment_tx when we initiate a force-close.
-		 * This will be called with the previous latest, just to get claiming HTLC signatures, if we are
-		 * reacting to a ChannelMonitor replica that decided to broadcast before it had been updated to
-		 * the latest.
+		 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+		 * 
+		 * This will be called
+		 * - with a non-revoked `commitment_tx`.
+		 * - with the latest `commitment_tx` when we initiate a force-close.
+		 * - with the previous `commitment_tx`, just to get claiming HTLC
+		 * signatures, if we are reacting to a [`ChannelMonitor`]
+		 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+		 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
+		 * 
 		 * This may be called multiple times for the same transaction.
 		 * 
 		 * An external signer implementation should check that the commitment has not been revoked.
 		 * 
-		 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
+		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 		 */
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
 		/**
@@ -128,9 +122,9 @@ public class BaseSign extends CommonBase {
 		 * 
 		 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
 		 * 
-		 * per_commitment_key is revocation secret which was provided by our counterparty when they
+		 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 		 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
-		 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+		 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 		 * so).
 		 */
 		Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
@@ -143,14 +137,15 @@ public class BaseSign extends CommonBase {
 		 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 		 * to an upcoming timelock expiration.
 		 * 
-		 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+		 * `amount` is the value of the output spent by this input, committed to in the BIP 143
+		 * signature.
 		 * 
-		 * per_commitment_key is revocation secret which was provided by our counterparty when they
+		 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 		 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
 		 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 		 * so).
 		 * 
-		 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+		 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 		 * (which is committed to in the BIP 143 signatures).
 		 */
 		Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
@@ -163,12 +158,12 @@ public class BaseSign extends CommonBase {
 		 * signed for here. It may be called multiple times for same output(s) if a fee-bump is
 		 * needed with regards to an upcoming timelock expiration.
 		 * 
-		 * Witness_script is either a offered or received script as defined in BOLT3 for HTLC
+		 * `witness_script` is either an offered or received script as defined in BOLT3 for HTLC
 		 * outputs.
 		 * 
-		 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+		 * `amount` is value of the output spent by this input, committed to in the BIP 143 signature.
 		 * 
-		 * Per_commitment_point is the dynamic point corresponding to the channel state
+		 * `per_commitment_point` is the dynamic point corresponding to the channel state
 		 * detected onchain. It has been generated by our counterparty and is used to derive
 		 * channel state keys, which are then included in the witness script and committed to in the
 		 * BIP 143 signature.
@@ -200,17 +195,13 @@ public class BaseSign extends CommonBase {
 		Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
 		/**
 		 * Set the counterparty static channel data, including basepoints,
-		 * counterparty_selected/holder_selected_contest_delay and funding outpoint.
-		 * This is done as soon as the funding outpoint is known.  Since these are static channel data,
-		 * they MUST NOT be allowed to change to different values once set.
+		 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint. Since these
+		 * are static channel data, they MUST NOT be allowed to change to different values once set,
+		 * as LDK may call this method more than once.
 		 * 
 		 * channel_parameters.is_populated() MUST be true.
-		 * 
-		 * We bind holder_selected_contest_delay late here for API convenience.
-		 * 
-		 * Will be called before any signatures are applied.
 		 */
-		void ready_channel(ChannelTransactionParameters channel_parameters);
+		void provide_channel_parameters(ChannelTransactionParameters channel_parameters);
 	}
 	private static class LDKBaseSignHolder { BaseSign held; }
 	public static BaseSign new_impl(BaseSignInterface arg, ChannelPublicKeys pubkeys) {
@@ -301,9 +292,9 @@ public class BaseSign extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public void ready_channel(long channel_parameters) {
+			@Override public void provide_channel_parameters(long channel_parameters) {
 				org.ldk.structs.ChannelTransactionParameters channel_parameters_hu_conv = null; if (channel_parameters < 0 || channel_parameters > 4096) { channel_parameters_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, channel_parameters); }
-				arg.ready_channel(channel_parameters_hu_conv);
+				arg.provide_channel_parameters(channel_parameters_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 		}, pubkeys);
@@ -312,7 +303,7 @@ public class BaseSign extends CommonBase {
 	/**
 	 * Gets the per-commitment point for a specific commitment number
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	public byte[] get_per_commitment_point(long idx) {
 		byte[] ret = bindings.BaseSign_get_per_commitment_point(this.ptr, idx);
@@ -329,7 +320,7 @@ public class BaseSign extends CommonBase {
 	 * 
 	 * May be called more than once for the same index.
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	public byte[] release_commitment_secret(long idx) {
 		byte[] ret = bindings.BaseSign_release_commitment_secret(this.ptr, idx);
@@ -350,10 +341,10 @@ public class BaseSign extends CommonBase {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
+	public Result_NoneNoneZ validate_holder_commitment(org.ldk.structs.HolderCommitmentTransaction holder_tx, byte[][] preimages) {
 		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(holder_tx);
@@ -365,9 +356,9 @@ public class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
-	 * some SpendableOutputDescriptor types. This should be sufficient to identify this
-	 * Sign object uniquely and lookup or re-derive its keys.
+	 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
+	 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
+	 * [`BaseSign`] object uniquely and lookup or re-derive its keys.
 	 */
 	public byte[] channel_keys_id() {
 		byte[] ret = bindings.BaseSign_channel_keys_id(this.ptr);
@@ -387,10 +378,10 @@ public class BaseSign extends CommonBase {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(org.ldk.structs.CommitmentTransaction commitment_tx, byte[][] preimages) {
 		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
@@ -418,19 +409,23 @@ public class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Create a signatures for a holder's commitment transaction and its claiming HTLC transactions.
-	 * This will only ever be called with a non-revoked commitment_tx.  This will be called with the
-	 * latest commitment_tx when we initiate a force-close.
-	 * This will be called with the previous latest, just to get claiming HTLC signatures, if we are
-	 * reacting to a ChannelMonitor replica that decided to broadcast before it had been updated to
-	 * the latest.
+	 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	 * 
+	 * This will be called
+	 * - with a non-revoked `commitment_tx`.
+	 * - with the latest `commitment_tx` when we initiate a force-close.
+	 * - with the previous `commitment_tx`, just to get claiming HTLC
+	 * signatures, if we are reacting to a [`ChannelMonitor`]
+	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
+	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
 	 * 
-	 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(org.ldk.structs.HolderCommitmentTransaction commitment_tx) {
 		long ret = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
@@ -451,9 +446,9 @@ public class BaseSign extends CommonBase {
 	 * 
 	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
-	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+	 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 	 * so).
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
@@ -477,17 +472,18 @@ public class BaseSign extends CommonBase {
 	 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 	 * to an upcoming timelock expiration.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is the value of the output spent by this input, committed to in the BIP 143
+	 * signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
 	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 	 * so).
 	 * 
-	 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+	 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 	 * (which is committed to in the BIP 143 signatures).
 	 */
-	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, org.ldk.structs.HTLCOutputInCommitment htlc) {
 		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(justice_tx);
@@ -510,17 +506,17 @@ public class BaseSign extends CommonBase {
 	 * signed for here. It may be called multiple times for same output(s) if a fee-bump is
 	 * needed with regards to an upcoming timelock expiration.
 	 * 
-	 * Witness_script is either a offered or received script as defined in BOLT3 for HTLC
+	 * `witness_script` is either an offered or received script as defined in BOLT3 for HTLC
 	 * outputs.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * Per_commitment_point is the dynamic point corresponding to the channel state
+	 * `per_commitment_point` is the dynamic point corresponding to the channel state
 	 * detected onchain. It has been generated by our counterparty and is used to derive
 	 * channel state keys, which are then included in the witness script and committed to in the
 	 * BIP 143 signature.
 	 */
-	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
+	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, org.ldk.structs.HTLCOutputInCommitment htlc) {
 		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_tx);
@@ -540,7 +536,7 @@ public class BaseSign extends CommonBase {
 	 * Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have
 	 * chosen to forgo their output as dust.
 	 */
-	public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
+	public Result_SignatureNoneZ sign_closing_transaction(org.ldk.structs.ClosingTransaction closing_tx) {
 		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(closing_tx);
@@ -575,7 +571,7 @@ public class BaseSign extends CommonBase {
 	 * our counterparty may (though likely will not) close the channel on us for violating the
 	 * protocol.
 	 */
-	public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
+	public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg) {
 		long ret = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
@@ -587,18 +583,14 @@ public class BaseSign extends CommonBase {
 
 	/**
 	 * Set the counterparty static channel data, including basepoints,
-	 * counterparty_selected/holder_selected_contest_delay and funding outpoint.
-	 * This is done as soon as the funding outpoint is known.  Since these are static channel data,
-	 * they MUST NOT be allowed to change to different values once set.
+	 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint. Since these
+	 * are static channel data, they MUST NOT be allowed to change to different values once set,
+	 * as LDK may call this method more than once.
 	 * 
 	 * channel_parameters.is_populated() MUST be true.
-	 * 
-	 * We bind holder_selected_contest_delay late here for API convenience.
-	 * 
-	 * Will be called before any signatures are applied.
 	 */
-	public void ready_channel(ChannelTransactionParameters channel_parameters) {
-		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr);
+	public void provide_channel_parameters(org.ldk.structs.ChannelTransactionParameters channel_parameters) {
+		bindings.BaseSign_provide_channel_parameters(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_parameters);
 		if (this != null) { this.ptrs_to.add(channel_parameters); };

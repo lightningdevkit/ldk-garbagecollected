@@ -74,7 +74,7 @@ public class CustomMessageHandler extends CommonBase {
 	 * Called with the message type that was received and the buffer to be read.
 	 * Can return a `MessageHandlingError` if the message could not be handled.
 	 */
-	public Result_NoneLightningErrorZ handle_custom_message(Type msg, byte[] sender_node_id) {
+	public Result_NoneLightningErrorZ handle_custom_message(org.ldk.structs.Type msg, byte[] sender_node_id) {
 		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);

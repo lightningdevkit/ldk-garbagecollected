@@ -45,7 +45,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignDecodeErrorZ in the success state.
 	 */
-	public static Result_SignDecodeErrorZ ok(Sign o) {
+	public static Result_SignDecodeErrorZ ok(org.ldk.structs.Sign o) {
 		long ret = bindings.CResult_SignDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignDecodeErrorZ in the error state.
 	 */
-	public static Result_SignDecodeErrorZ err(DecodeError e) {
+	public static Result_SignDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_SignDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -45,7 +45,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	/**
 	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelTransactionParametersDecodeErrorZ ok(ChannelTransactionParameters o) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ ok(org.ldk.structs.ChannelTransactionParameters o) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	/**
 	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelTransactionParametersDecodeErrorZ err(DecodeError e) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

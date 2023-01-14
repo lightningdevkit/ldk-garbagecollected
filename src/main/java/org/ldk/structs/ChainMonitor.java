@@ -37,7 +37,7 @@ public class ChainMonitor extends CommonBase {
 	 * always need to fetch full blocks absent another means for determining which blocks contain
 	 * transactions relevant to the watched channels.
 	 */
-	public static ChainMonitor of(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
+	public static ChainMonitor of(org.ldk.structs.Option_FilterZ chain_source, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.FeeEstimator feeest, org.ldk.structs.Persist persister) {
 		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
 		Reference.reachabilityFence(chain_source);
 		Reference.reachabilityFence(broadcaster);
@@ -89,7 +89,7 @@ public class ChainMonitor extends CommonBase {
 	 * Note that the result holds a mutex over our monitor set, and should not be held
 	 * indefinitely.
 	 */
-	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
+	public Result_LockedChannelMonitorNoneZ get_monitor(org.ldk.structs.OutPoint funding_txo) {
 		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
@@ -120,6 +120,23 @@ public class ChainMonitor extends CommonBase {
 	}
 
 	/**
+	 * Lists the pending updates for each [`ChannelMonitor`] (by `OutPoint` being monitored).
+	 */
+	public TwoTuple_OutPointCVec_MonitorUpdateIdZZ[] list_pending_monitor_updates() {
+		long[] ret = bindings.ChainMonitor_list_pending_monitor_updates(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_41_len = ret.length;
+		TwoTuple_OutPointCVec_MonitorUpdateIdZZ[] ret_conv_41_arr = new TwoTuple_OutPointCVec_MonitorUpdateIdZZ[ret_conv_41_len];
+		for (int p = 0; p < ret_conv_41_len; p++) {
+			long ret_conv_41 = ret[p];
+			TwoTuple_OutPointCVec_MonitorUpdateIdZZ ret_conv_41_hu_conv = new TwoTuple_OutPointCVec_MonitorUpdateIdZZ(null, ret_conv_41);
+			if (ret_conv_41_hu_conv != null) { ret_conv_41_hu_conv.ptrs_to.add(this); };
+			ret_conv_41_arr[p] = ret_conv_41_hu_conv;
+		}
+		return ret_conv_41_arr;
+	}
+
+	/**
 	 * Indicates the persistence of a [`ChannelMonitor`] has completed after
 	 * [`ChannelMonitorUpdateStatus::InProgress`] was returned from an update operation.
 	 * 
@@ -134,7 +151,7 @@ public class ChainMonitor extends CommonBase {
 	 * Returns an [`APIError::APIMisuseError`] if `funding_txo` does not match any currently
 	 * registered [`ChannelMonitor`]s.
 	 */
-	public Result_NoneAPIErrorZ channel_monitor_updated(OutPoint funding_txo, MonitorUpdateId completed_update_id) {
+	public Result_NoneAPIErrorZ channel_monitor_updated(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.MonitorUpdateId completed_update_id) {
 		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, completed_update_id == null ? 0 : completed_update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);

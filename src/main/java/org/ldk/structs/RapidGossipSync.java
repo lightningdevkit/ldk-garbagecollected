@@ -27,7 +27,7 @@ public class RapidGossipSync extends CommonBase {
 	/**
 	 * Instantiate a new [`RapidGossipSync`] instance.
 	 */
-	public static RapidGossipSync of(NetworkGraph network_graph) {
+	public static RapidGossipSync of(org.ldk.structs.NetworkGraph network_graph) {
 		long ret = bindings.RapidGossipSync_new(network_graph == null ? 0 : network_graph.ptr);
 		Reference.reachabilityFence(network_graph);
 		if (ret >= 0 && ret <= 4096) { return null; }

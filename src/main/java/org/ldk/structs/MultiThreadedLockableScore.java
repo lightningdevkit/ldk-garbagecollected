@@ -58,7 +58,7 @@ public class MultiThreadedLockableScore extends CommonBase {
 	/**
 	 * Creates a new [`MultiThreadedLockableScore`] given an underlying [`Score`].
 	 */
-	public static MultiThreadedLockableScore of(Score score) {
+	public static MultiThreadedLockableScore of(org.ldk.structs.Score score) {
 		long ret = bindings.MultiThreadedLockableScore_new(score == null ? 0 : score.ptr);
 		Reference.reachabilityFence(score);
 		if (ret >= 0 && ret <= 4096) { return null; }

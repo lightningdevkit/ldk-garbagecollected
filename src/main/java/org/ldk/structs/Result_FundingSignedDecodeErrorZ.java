@@ -45,7 +45,7 @@ public class Result_FundingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FundingSignedDecodeErrorZ in the success state.
 	 */
-	public static Result_FundingSignedDecodeErrorZ ok(FundingSigned o) {
+	public static Result_FundingSignedDecodeErrorZ ok(org.ldk.structs.FundingSigned o) {
 		long ret = bindings.CResult_FundingSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_FundingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FundingSignedDecodeErrorZ in the error state.
 	 */
-	public static Result_FundingSignedDecodeErrorZ err(DecodeError e) {
+	public static Result_FundingSignedDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_FundingSignedDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

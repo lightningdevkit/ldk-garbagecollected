@@ -45,7 +45,7 @@ public class Result_CounterpartyCommitmentSecretsDecodeErrorZ extends CommonBase
 	/**
 	 * Creates a new CResult_CounterpartyCommitmentSecretsDecodeErrorZ in the success state.
 	 */
-	public static Result_CounterpartyCommitmentSecretsDecodeErrorZ ok(CounterpartyCommitmentSecrets o) {
+	public static Result_CounterpartyCommitmentSecretsDecodeErrorZ ok(org.ldk.structs.CounterpartyCommitmentSecrets o) {
 		long ret = bindings.CResult_CounterpartyCommitmentSecretsDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_CounterpartyCommitmentSecretsDecodeErrorZ extends CommonBase
 	/**
 	 * Creates a new CResult_CounterpartyCommitmentSecretsDecodeErrorZ in the error state.
 	 */
-	public static Result_CounterpartyCommitmentSecretsDecodeErrorZ err(DecodeError e) {
+	public static Result_CounterpartyCommitmentSecretsDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_CounterpartyCommitmentSecretsDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

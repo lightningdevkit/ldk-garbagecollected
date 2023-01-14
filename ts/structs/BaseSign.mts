@@ -6,6 +6,7 @@ import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { HTLCClaim } from '../enums/HTLCClaim.mjs';
 import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
@@ -14,22 +15,15 @@ import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
-import { BlindedRoute } from '../structs/BlindedRoute.mjs';
-import { Result_BlindedRouteNoneZ } from '../structs/Result_BlindedRouteNoneZ.mjs';
-import { DecodeError } from '../structs/DecodeError.mjs';
-import { Result_BlindedRouteDecodeErrorZ } from '../structs/Result_BlindedRouteDecodeErrorZ.mjs';
-import { BlindedHop } from '../structs/BlindedHop.mjs';
-import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
+import { Option_HTLCClaimZ } from '../structs/Option_HTLCClaimZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
+import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_CounterpartyCommitmentSecretsDecodeErrorZ } from '../structs/Result_CounterpartyCommitmentSecretsDecodeErrorZ.mjs';
-import { Result_SecretKeyErrorZ } from '../structs/Result_SecretKeyErrorZ.mjs';
-import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
 import { TxCreationKeys } from '../structs/TxCreationKeys.mjs';
 import { Result_TxCreationKeysDecodeErrorZ } from '../structs/Result_TxCreationKeysDecodeErrorZ.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
 import { Result_ChannelPublicKeysDecodeErrorZ } from '../structs/Result_ChannelPublicKeysDecodeErrorZ.mjs';
-import { Result_TxCreationKeysErrorZ } from '../structs/Result_TxCreationKeysErrorZ.mjs';
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
 import { Result_HTLCOutputInCommitmentDecodeErrorZ } from '../structs/Result_HTLCOutputInCommitmentDecodeErrorZ.mjs';
@@ -52,22 +46,29 @@ import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { Result_ShutdownScriptDecodeErrorZ } from '../structs/Result_ShutdownScriptDecodeErrorZ.mjs';
 import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
-import { RouteHop } from '../structs/RouteHop.mjs';
-import { Result_RouteHopDecodeErrorZ } from '../structs/Result_RouteHopDecodeErrorZ.mjs';
+import { BlindedPath } from '../structs/BlindedPath.mjs';
+import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
+import { Result_BlindedPathDecodeErrorZ } from '../structs/Result_BlindedPathDecodeErrorZ.mjs';
+import { BlindedHop } from '../structs/BlindedHop.mjs';
+import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
+import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { Route } from '../structs/Route.mjs';
+import { LightningError } from '../structs/LightningError.mjs';
+import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
+import { RouteHop } from '../structs/RouteHop.mjs';
+import { Option_u64Z } from '../structs/Option_u64Z.mjs';
+import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
+import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
+import { Result_RouteHopDecodeErrorZ } from '../structs/Result_RouteHopDecodeErrorZ.mjs';
 import { Result_RouteDecodeErrorZ } from '../structs/Result_RouteDecodeErrorZ.mjs';
 import { RouteParameters } from '../structs/RouteParameters.mjs';
 import { Result_RouteParametersDecodeErrorZ } from '../structs/Result_RouteParametersDecodeErrorZ.mjs';
 import { RouteHint } from '../structs/RouteHint.mjs';
-import { Option_u64Z } from '../structs/Option_u64Z.mjs';
 import { PaymentParameters } from '../structs/PaymentParameters.mjs';
 import { Result_PaymentParametersDecodeErrorZ } from '../structs/Result_PaymentParametersDecodeErrorZ.mjs';
 import { RouteHintHop } from '../structs/RouteHintHop.mjs';
 import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeErrorZ.mjs';
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
-import { ChannelDetails } from '../structs/ChannelDetails.mjs';
-import { LightningError } from '../structs/LightningError.mjs';
-import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
@@ -76,6 +77,7 @@ import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COp
 import { HTLCDestination } from '../structs/HTLCDestination.mjs';
 import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
 import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
+import { Option_u128Z } from '../structs/Option_u128Z.mjs';
 import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
 import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
 import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
@@ -109,6 +111,7 @@ import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
+import { TwoTuple_TxidBlockHashZ } from '../structs/TwoTuple_TxidBlockHashZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
@@ -131,6 +134,10 @@ import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesD
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
+import { OfferFeatures } from '../structs/OfferFeatures.mjs';
+import { Result_OfferFeaturesDecodeErrorZ } from '../structs/Result_OfferFeaturesDecodeErrorZ.mjs';
+import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
+import { Result_InvoiceRequestFeaturesDecodeErrorZ } from '../structs/Result_InvoiceRequestFeaturesDecodeErrorZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
 import { Access, AccessInterface } from '../structs/Access.mjs';
@@ -181,8 +188,8 @@ import { APIError } from '../structs/APIError.mjs';
 import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Result__u832APIErrorZ } from '../structs/Result__u832APIErrorZ.mjs';
 import { PaymentSendFailure } from '../structs/PaymentSendFailure.mjs';
-import { Result_PaymentIdPaymentSendFailureZ } from '../structs/Result_PaymentIdPaymentSendFailureZ.mjs';
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
+import { Result_PaymentHashPaymentSendFailureZ } from '../structs/Result_PaymentHashPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
@@ -215,29 +222,9 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
-import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
-import { ParseError } from '../structs/ParseError.mjs';
-import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
-import { Invoice } from '../structs/Invoice.mjs';
-import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
-import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
-import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
-import { RawInvoice } from '../structs/RawInvoice.mjs';
-import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
-import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
-import { PayeePubKey } from '../structs/PayeePubKey.mjs';
-import { Result_PayeePubKeyErrorZ } from '../structs/Result_PayeePubKeyErrorZ.mjs';
-import { PrivateRoute } from '../structs/PrivateRoute.mjs';
-import { PositiveTimestamp } from '../structs/PositiveTimestamp.mjs';
-import { Result_PositiveTimestampCreationErrorZ } from '../structs/Result_PositiveTimestampCreationErrorZ.mjs';
-import { Result_NoneSemanticErrorZ } from '../structs/Result_NoneSemanticErrorZ.mjs';
-import { Result_InvoiceSemanticErrorZ } from '../structs/Result_InvoiceSemanticErrorZ.mjs';
-import { Description } from '../structs/Description.mjs';
-import { Result_DescriptionCreationErrorZ } from '../structs/Result_DescriptionCreationErrorZ.mjs';
-import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRouteCreationErrorZ.mjs';
+import { Result_NonePaymentErrorZ } from '../structs/Result_NonePaymentErrorZ.mjs';
 import { Result_StringErrorZ } from '../structs/Result_StringErrorZ.mjs';
+import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
 import { Result_ChannelMonitorUpdateDecodeErrorZ } from '../structs/Result_ChannelMonitorUpdateDecodeErrorZ.mjs';
 import { Option_MonitorEventZ } from '../structs/Option_MonitorEventZ.mjs';
 import { Result_COption_MonitorEventZDecodeErrorZ } from '../structs/Result_COption_MonitorEventZDecodeErrorZ.mjs';
@@ -263,6 +250,26 @@ import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { GraphSyncError } from '../structs/GraphSyncError.mjs';
 import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
+import { Invoice } from '../structs/Invoice.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
+import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
+import { RawInvoice } from '../structs/RawInvoice.mjs';
+import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
+import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
+import { PayeePubKey } from '../structs/PayeePubKey.mjs';
+import { Result_PayeePubKeyErrorZ } from '../structs/Result_PayeePubKeyErrorZ.mjs';
+import { PrivateRoute } from '../structs/PrivateRoute.mjs';
+import { PositiveTimestamp } from '../structs/PositiveTimestamp.mjs';
+import { Result_PositiveTimestampCreationErrorZ } from '../structs/Result_PositiveTimestampCreationErrorZ.mjs';
+import { Result_NoneSemanticErrorZ } from '../structs/Result_NoneSemanticErrorZ.mjs';
+import { Result_InvoiceSemanticErrorZ } from '../structs/Result_InvoiceSemanticErrorZ.mjs';
+import { Description } from '../structs/Description.mjs';
+import { Result_DescriptionCreationErrorZ } from '../structs/Result_DescriptionCreationErrorZ.mjs';
+import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRouteCreationErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
@@ -321,6 +328,8 @@ import { Filter, FilterInterface } from '../structs/Filter.mjs';
 import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
+import { MonitorUpdateId } from '../structs/MonitorUpdateId.mjs';
+import { TwoTuple_OutPointCVec_MonitorUpdateIdZZ } from '../structs/TwoTuple_OutPointCVec_MonitorUpdateIdZZ.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
@@ -331,6 +340,7 @@ import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { Persister, PersisterInterface } from '../structs/Persister.mjs';
+import { PrintableString } from '../structs/PrintableString.mjs';
 import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
 import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
@@ -339,7 +349,6 @@ import { UserConfig } from '../structs/UserConfig.mjs';
 import { BestBlock } from '../structs/BestBlock.mjs';
 import { Listen, ListenInterface } from '../structs/Listen.mjs';
 import { Confirm, ConfirmInterface } from '../structs/Confirm.mjs';
-import { MonitorUpdateId } from '../structs/MonitorUpdateId.mjs';
 import { Persist, PersistInterface } from '../structs/Persist.mjs';
 import { ChainMonitor } from '../structs/ChainMonitor.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
@@ -364,11 +373,15 @@ import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
+import { DefaultRouter } from '../structs/DefaultRouter.mjs';
+import { Router, RouterInterface } from '../structs/Router.mjs';
+import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
 import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
@@ -376,10 +389,8 @@ import { ExpiryTime } from '../structs/ExpiryTime.mjs';
 import { MinFinalCltvExpiry } from '../structs/MinFinalCltvExpiry.mjs';
 import { Fallback } from '../structs/Fallback.mjs';
 import { Payer, PayerInterface } from '../structs/Payer.mjs';
-import { Router, RouterInterface } from '../structs/Router.mjs';
 import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { Retry } from '../structs/Retry.mjs';
-import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
 
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
@@ -391,7 +402,7 @@ import * as bindings from '../bindings.mjs'
 export interface BaseSignInterface {
 	/**Gets the per-commitment point for a specific commitment number
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	get_per_commitment_point(idx: bigint): Uint8Array;
 	/**Gets the commitment secret for a specific commitment number as part of the revocation process
@@ -401,7 +412,7 @@ export interface BaseSignInterface {
 	 * 
 	 * May be called more than once for the same index.
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	release_commitment_secret(idx: bigint): Uint8Array;
 	/**Validate the counterparty's signatures on the holder commitment transaction and HTLCs.
@@ -415,13 +426,13 @@ export interface BaseSignInterface {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
 	validate_holder_commitment(holder_tx: HolderCommitmentTransaction, preimages: Uint8Array[]): Result_NoneNoneZ;
-	/**Gets an arbitrary identifier describing the set of keys which are provided back to you in
-	 * some SpendableOutputDescriptor types. This should be sufficient to identify this
-	 * Sign object uniquely and lookup or re-derive its keys.
+	/**Returns an arbitrary identifier describing the set of keys which are provided back to you in
+	 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
+	 * [`BaseSign`] object uniquely and lookup or re-derive its keys.
 	 */
 	channel_keys_id(): Uint8Array;
 	/**Create a signature for a counterparty's commitment transaction and associated HTLC transactions.
@@ -435,7 +446,7 @@ export interface BaseSignInterface {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
 	sign_counterparty_commitment(commitment_tx: CommitmentTransaction, preimages: Uint8Array[]): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
@@ -445,17 +456,21 @@ export interface BaseSignInterface {
 	 * forward and it is safe to sign the next counterparty commitment.
 	 */
 	validate_counterparty_revocation(idx: bigint, secret: Uint8Array): Result_NoneNoneZ;
-	/**Create a signatures for a holder's commitment transaction and its claiming HTLC transactions.
-	 * This will only ever be called with a non-revoked commitment_tx.  This will be called with the
-	 * latest commitment_tx when we initiate a force-close.
-	 * This will be called with the previous latest, just to get claiming HTLC signatures, if we are
-	 * reacting to a ChannelMonitor replica that decided to broadcast before it had been updated to
-	 * the latest.
+	/**Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	 * 
+	 * This will be called
+	 * - with a non-revoked `commitment_tx`.
+	 * - with the latest `commitment_tx` when we initiate a force-close.
+	 * - with the previous `commitment_tx`, just to get claiming HTLC
+	 * signatures, if we are reacting to a [`ChannelMonitor`]
+	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
+	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
 	 * 
-	 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 	/**Create a signature for the given input in a transaction spending an HTLC transaction output
@@ -468,9 +483,9 @@ export interface BaseSignInterface {
 	 * 
 	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
-	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+	 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 	 * so).
 	 */
 	sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array): Result_SignatureNoneZ;
@@ -482,14 +497,15 @@ export interface BaseSignInterface {
 	 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 	 * to an upcoming timelock expiration.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is the value of the output spent by this input, committed to in the BIP 143
+	 * signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
 	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 	 * so).
 	 * 
-	 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+	 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 	 * (which is committed to in the BIP 143 signatures).
 	 */
 	sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
@@ -501,12 +517,12 @@ export interface BaseSignInterface {
 	 * signed for here. It may be called multiple times for same output(s) if a fee-bump is
 	 * needed with regards to an upcoming timelock expiration.
 	 * 
-	 * Witness_script is either a offered or received script as defined in BOLT3 for HTLC
+	 * `witness_script` is either an offered or received script as defined in BOLT3 for HTLC
 	 * outputs.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * Per_commitment_point is the dynamic point corresponding to the channel state
+	 * `per_commitment_point` is the dynamic point corresponding to the channel state
 	 * detected onchain. It has been generated by our counterparty and is used to derive
 	 * channel state keys, which are then included in the witness script and committed to in the
 	 * BIP 143 signature.
@@ -534,17 +550,13 @@ export interface BaseSignInterface {
 	 */
 	sign_channel_announcement(msg: UnsignedChannelAnnouncement): Result_C2Tuple_SignatureSignatureZNoneZ;
 	/**Set the counterparty static channel data, including basepoints,
-	 * counterparty_selected/holder_selected_contest_delay and funding outpoint.
-	 * This is done as soon as the funding outpoint is known.  Since these are static channel data,
-	 * they MUST NOT be allowed to change to different values once set.
+	 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint. Since these
+	 * are static channel data, they MUST NOT be allowed to change to different values once set,
+	 * as LDK may call this method more than once.
 	 * 
 	 * channel_parameters.is_populated() MUST be true.
-	 * 
-	 * We bind holder_selected_contest_delay late here for API convenience.
-	 * 
-	 * Will be called before any signatures are applied.
 	 */
-	ready_channel(channel_parameters: ChannelTransactionParameters): void;
+	provide_channel_parameters(channel_parameters: ChannelTransactionParameters): void;
 }
 
 class LDKBaseSignHolder {
@@ -552,23 +564,13 @@ class LDKBaseSignHolder {
 }
 
 /**
- * A trait to sign lightning channel transactions as described in BOLT 3.
+ * A trait to sign Lightning channel transactions as described in
+ * [BOLT 3](https://github.com/lightning/bolts/blob/master/03-transactions.md).
  * 
- * Signing services could be implemented on a hardware wallet. In this case,
- * the current Sign would be a front-end on top of a communication
- * channel connected to your secure device and lightning key material wouldn't
- * reside on a hot server. Nevertheless, a this deployment would still need
- * to trust the ChannelManager to avoid loss of funds as this latest component
- * could ask to sign commitment transaction with HTLCs paying to attacker pubkeys.
- * 
- * A more secure iteration would be to use hashlock (or payment points) to pair
- * invoice/incoming HTLCs with outgoing HTLCs to implement a no-trust-ChannelManager
- * at the price of more state and computation on the hardware wallet side. In the future,
- * we are looking forward to design such interface.
- * 
- * In any case, ChannelMonitor or fallback watchtowers are always going to be trusted
- * to act, as liveness and breach reply correctness are always going to be hard requirements
- * of LN security model, orthogonal of key management issues.
+ * Signing services could be implemented on a hardware wallet and should implement signing
+ * policies in order to be secure. Please refer to the [VLS Policy
+ * Controls](https://gitlab.com/lightning-signer/validating-lightning-signer/-/blob/main/docs/policy-controls.md)
+ * for an example of such policies.
  */
 export class BaseSign extends CommonBase {
 	/* @internal */
@@ -683,9 +685,9 @@ export class BaseSign extends CommonBase {
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			ready_channel (channel_parameters: bigint): void {
+			provide_channel_parameters (channel_parameters: bigint): void {
 				const channel_parameters_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, channel_parameters);
-				arg.ready_channel(channel_parameters_hu_conv);
+				arg.provide_channel_parameters(channel_parameters_hu_conv);
 			},
 		} as bindings.LDKBaseSign;
 		const ptr_idx: [bigint, number] = bindings.LDKBaseSign_new(structImplementation, pubkeys == null ? 0n : pubkeys.clone_ptr());
@@ -699,7 +701,7 @@ export class BaseSign extends CommonBase {
 	/**
 	 * Gets the per-commitment point for a specific commitment number
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	public get_per_commitment_point(idx: bigint): Uint8Array {
 		const ret: number = bindings.BaseSign_get_per_commitment_point(this.ptr, idx);
@@ -715,7 +717,7 @@ export class BaseSign extends CommonBase {
 	 * 
 	 * May be called more than once for the same index.
 	 * 
-	 * Note that the commitment number starts at (1 << 48) - 1 and counts backwards.
+	 * Note that the commitment number starts at `(1 << 48) - 1` and counts backwards.
 	 */
 	public release_commitment_secret(idx: bigint): Uint8Array {
 		const ret: number = bindings.BaseSign_release_commitment_secret(this.ptr, idx);
@@ -735,7 +737,7 @@ export class BaseSign extends CommonBase {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
 	public validate_holder_commitment(holder_tx: HolderCommitmentTransaction, preimages: Uint8Array[]): Result_NoneNoneZ {
@@ -746,9 +748,9 @@ export class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
-	 * some SpendableOutputDescriptor types. This should be sufficient to identify this
-	 * Sign object uniquely and lookup or re-derive its keys.
+	 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
+	 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
+	 * [`BaseSign`] object uniquely and lookup or re-derive its keys.
 	 */
 	public channel_keys_id(): Uint8Array {
 		const ret: number = bindings.BaseSign_channel_keys_id(this.ptr);
@@ -768,7 +770,7 @@ export class BaseSign extends CommonBase {
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
-	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
 	public sign_counterparty_commitment(commitment_tx: CommitmentTransaction, preimages: Uint8Array[]): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
@@ -791,17 +793,21 @@ export class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Create a signatures for a holder's commitment transaction and its claiming HTLC transactions.
-	 * This will only ever be called with a non-revoked commitment_tx.  This will be called with the
-	 * latest commitment_tx when we initiate a force-close.
-	 * This will be called with the previous latest, just to get claiming HTLC signatures, if we are
-	 * reacting to a ChannelMonitor replica that decided to broadcast before it had been updated to
-	 * the latest.
+	 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	 * 
+	 * This will be called
+	 * - with a non-revoked `commitment_tx`.
+	 * - with the latest `commitment_tx` when we initiate a force-close.
+	 * - with the previous `commitment_tx`, just to get claiming HTLC
+	 * signatures, if we are reacting to a [`ChannelMonitor`]
+	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
+	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
 	 * 
-	 * May return Err if key derivation fails.  Callers, such as ChannelMonitor, will panic in such a case.
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	public sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
 		const ret: bigint = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx));
@@ -821,9 +827,9 @@ export class BaseSign extends CommonBase {
 	 * 
 	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
-	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+	 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 	 * so).
 	 */
 	public sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array): Result_SignatureNoneZ {
@@ -841,14 +847,15 @@ export class BaseSign extends CommonBase {
 	 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 	 * to an upcoming timelock expiration.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is the value of the output spent by this input, committed to in the BIP 143
+	 * signature.
 	 * 
-	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * `per_commitment_key` is revocation secret which was provided by our counterparty when they
 	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
 	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 	 * so).
 	 * 
-	 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+	 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 	 * (which is committed to in the BIP 143 signatures).
 	 */
 	public sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
@@ -867,12 +874,12 @@ export class BaseSign extends CommonBase {
 	 * signed for here. It may be called multiple times for same output(s) if a fee-bump is
 	 * needed with regards to an upcoming timelock expiration.
 	 * 
-	 * Witness_script is either a offered or received script as defined in BOLT3 for HTLC
+	 * `witness_script` is either an offered or received script as defined in BOLT3 for HTLC
 	 * outputs.
 	 * 
-	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * `amount` is value of the output spent by this input, committed to in the BIP 143 signature.
 	 * 
-	 * Per_commitment_point is the dynamic point corresponding to the channel state
+	 * `per_commitment_point` is the dynamic point corresponding to the channel state
 	 * detected onchain. It has been generated by our counterparty and is used to derive
 	 * channel state keys, which are then included in the witness script and committed to in the
 	 * BIP 143 signature.
@@ -927,18 +934,14 @@ export class BaseSign extends CommonBase {
 
 	/**
 	 * Set the counterparty static channel data, including basepoints,
-	 * counterparty_selected/holder_selected_contest_delay and funding outpoint.
-	 * This is done as soon as the funding outpoint is known.  Since these are static channel data,
-	 * they MUST NOT be allowed to change to different values once set.
+	 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint. Since these
+	 * are static channel data, they MUST NOT be allowed to change to different values once set,
+	 * as LDK may call this method more than once.
 	 * 
 	 * channel_parameters.is_populated() MUST be true.
-	 * 
-	 * We bind holder_selected_contest_delay late here for API convenience.
-	 * 
-	 * Will be called before any signatures are applied.
 	 */
-	public ready_channel(channel_parameters: ChannelTransactionParameters): void {
-		bindings.BaseSign_ready_channel(this.ptr, channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters));
+	public provide_channel_parameters(channel_parameters: ChannelTransactionParameters): void {
+		bindings.BaseSign_provide_channel_parameters(this.ptr, channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters));
 		CommonBase.add_ref_from(this, channel_parameters);
 	}
 

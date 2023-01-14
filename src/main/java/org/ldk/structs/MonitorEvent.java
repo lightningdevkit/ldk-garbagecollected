@@ -127,7 +127,7 @@ public class MonitorEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new HTLCEvent-variant MonitorEvent
 	 */
-	public static MonitorEvent htlcevent(HTLCUpdate a) {
+	public static MonitorEvent htlcevent(org.ldk.structs.HTLCUpdate a) {
 		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -140,7 +140,7 @@ public class MonitorEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
 	 */
-	public static MonitorEvent commitment_tx_confirmed(OutPoint a) {
+	public static MonitorEvent commitment_tx_confirmed(org.ldk.structs.OutPoint a) {
 		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -153,7 +153,7 @@ public class MonitorEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new Completed-variant MonitorEvent
 	 */
-	public static MonitorEvent completed(OutPoint funding_txo, long monitor_update_id) {
+	public static MonitorEvent completed(org.ldk.structs.OutPoint funding_txo, long monitor_update_id) {
 		long ret = bindings.MonitorEvent_completed(funding_txo == null ? 0 : funding_txo.ptr, monitor_update_id);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor_update_id);
@@ -167,7 +167,7 @@ public class MonitorEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
 	 */
-	public static MonitorEvent update_failed(OutPoint a) {
+	public static MonitorEvent update_failed(org.ldk.structs.OutPoint a) {
 		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -181,7 +181,7 @@ public class MonitorEvent extends CommonBase {
 	 * Checks if two MonitorEvents contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(MonitorEvent b) {
+	public boolean eq(org.ldk.structs.MonitorEvent b) {
 		boolean ret = bindings.MonitorEvent_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

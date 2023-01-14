@@ -94,7 +94,7 @@ public class SignOrCreationError extends CommonBase {
 	 * Checks if two SignOrCreationErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(SignOrCreationError b) {
+	public boolean eq(org.ldk.structs.SignOrCreationError b) {
 		boolean ret = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

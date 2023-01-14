@@ -54,7 +54,7 @@ public class Option_NetAddressZ extends CommonBase {
 	/**
 	 * Constructs a new COption_NetAddressZ containing a crate::lightning::ln::msgs::NetAddress
 	 */
-	public static Option_NetAddressZ some(NetAddress o) {
+	public static Option_NetAddressZ some(org.ldk.structs.NetAddress o) {
 		long ret = bindings.COption_NetAddressZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

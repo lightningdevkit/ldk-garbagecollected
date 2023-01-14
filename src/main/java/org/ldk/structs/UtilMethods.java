@@ -8,6 +8,25 @@ import javax.annotation.Nullable;
 
 public class UtilMethods {
 	/**
+	 * Gets the 128-bit integer, as 16 little-endian bytes
+	 */
+	public static byte[] U128_le_bytes(org.ldk.util.UInt128 val) {
+		byte[] ret = bindings.U128_le_bytes(val.getLEBytes());
+		Reference.reachabilityFence(val);
+		return ret;
+	}
+
+	/**
+	 * Constructs a new U128 from 16 little-endian bytes
+	 */
+	public static UInt128 U128_new(byte[] le_bytes) {
+		byte[] ret = bindings.U128_new(InternalUtils.check_arr_len(le_bytes, 16));
+		Reference.reachabilityFence(le_bytes);
+		org.ldk.util.UInt128 ret_conv = new org.ldk.util.UInt128(ret);
+		return ret_conv;
+	}
+
+	/**
 	 * Constructs a new COption_NoneZ containing a
 	 */
 	public static COption_NoneZ COption_NoneZ_some() {
@@ -118,7 +137,7 @@ public class UtilMethods {
 	/**
 	 * Read a C2Tuple_BlockHashChannelMonitorZ from a byte array, created by C2Tuple_BlockHashChannelMonitorZ_write
 	 */
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, KeysInterface arg) {
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, org.ldk.structs.KeysInterface arg) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : arg.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg);
@@ -202,7 +221,7 @@ public class UtilMethods {
 	 * 
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create(ExpandedKey keys, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, KeysInterface keys_manager, long current_time) {
+	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.KeysInterface keys_manager, long current_time) {
 		long ret = bindings.create(keys == null ? 0 : keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, keys_manager == null ? 0 : keys_manager.ptr, current_time);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
@@ -225,7 +244,7 @@ public class UtilMethods {
 	 * 
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
-	public static Result_PaymentSecretNoneZ create_from_hash(ExpandedKey keys, Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time) {
+	public static Result_PaymentSecretNoneZ create_from_hash(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time) {
 		long ret = bindings.create_from_hash(keys == null ? 0 : keys.ptr, min_value_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, current_time);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
@@ -257,6 +276,18 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Check if a given input witness attempts to claim a HTLC.
+	 */
+	public static Option_HTLCClaimZ HTLCClaim_from_witness(byte[] witness) {
+		long ret = bindings.HTLCClaim_from_witness(witness);
+		Reference.reachabilityFence(witness);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_HTLCClaimZ ret_hu_conv = org.ldk.structs.Option_HTLCClaimZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Build the commitment secret from the seed and the commitment number
 	 */
 	public static byte[] build_commitment_secret(byte[] commitment_seed, long idx) {
@@ -269,7 +300,7 @@ public class UtilMethods {
 	/**
 	 * Build a closing transaction
 	 */
-	public static byte[] build_closing_transaction(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
+	public static byte[] build_closing_transaction(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, org.ldk.structs.OutPoint funding_outpoint) {
 		byte[] ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		Reference.reachabilityFence(to_holder_value_sat);
 		Reference.reachabilityFence(to_counterparty_value_sat);
@@ -282,34 +313,24 @@ public class UtilMethods {
 	/**
 	 * Derives a per-commitment-transaction private key (eg an htlc key or delayed_payment key)
 	 * from the base secret and the per_commitment_point.
-	 * 
-	 * Note that this is infallible iff we trust that at least one of the two input keys are randomly
-	 * generated (ie our own).
 	 */
-	public static Result_SecretKeyErrorZ derive_private_key(byte[] per_commitment_point, byte[] base_secret) {
-		long ret = bindings.derive_private_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_secret, 32));
+	public static byte[] derive_private_key(byte[] per_commitment_point, byte[] base_secret) {
+		byte[] ret = bindings.derive_private_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_secret, 32));
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(base_secret);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
 	 * Derives a per-commitment-transaction public key (eg an htlc key or a delayed_payment key)
 	 * from the base point and the per_commitment_key. This is the public equivalent of
 	 * derive_private_key - using only public keys to derive a public key instead of private keys.
-	 * 
-	 * Note that this is infallible iff we trust that at least one of the two input keys are randomly
-	 * generated (ie our own).
 	 */
-	public static Result_PublicKeyErrorZ derive_public_key(byte[] per_commitment_point, byte[] base_point) {
-		long ret = bindings.derive_public_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_point, 33));
+	public static byte[] derive_public_key(byte[] per_commitment_point, byte[] base_point) {
+		byte[] ret = bindings.derive_public_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_point, 33));
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(base_point);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -319,17 +340,12 @@ public class UtilMethods {
 	 * commitment transaction, thus per_commitment_secret always come from cheater
 	 * and revocation_base_secret always come from punisher, which is the broadcaster
 	 * of the transaction spending with this key knowledge.
-	 * 
-	 * Note that this is infallible iff we trust that at least one of the two input keys are randomly
-	 * generated (ie our own).
 	 */
-	public static Result_SecretKeyErrorZ derive_private_revocation_key(byte[] per_commitment_secret, byte[] countersignatory_revocation_base_secret) {
-		long ret = bindings.derive_private_revocation_key(InternalUtils.check_arr_len(per_commitment_secret, 32), InternalUtils.check_arr_len(countersignatory_revocation_base_secret, 32));
+	public static byte[] derive_private_revocation_key(byte[] per_commitment_secret, byte[] countersignatory_revocation_base_secret) {
+		byte[] ret = bindings.derive_private_revocation_key(InternalUtils.check_arr_len(per_commitment_secret, 32), InternalUtils.check_arr_len(countersignatory_revocation_base_secret, 32));
 		Reference.reachabilityFence(per_commitment_secret);
 		Reference.reachabilityFence(countersignatory_revocation_base_secret);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -345,13 +361,11 @@ public class UtilMethods {
 	 * Note that this is infallible iff we trust that at least one of the two input keys are randomly
 	 * generated (ie our own).
 	 */
-	public static Result_PublicKeyErrorZ derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
-		long ret = bindings.derive_public_revocation_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33));
+	public static byte[] derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
+		byte[] ret = bindings.derive_public_revocation_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33));
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(countersignatory_revocation_base_point);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+		return ret;
 	}
 
 	/**
@@ -371,7 +385,7 @@ public class UtilMethods {
 	 * Gets the witness redeemscript for an HTLC output in a commitment transaction. Note that htlc
 	 * does not need to have its previous_output_index filled.
 	 */
-	public static byte[] get_htlc_redeemscript(HTLCOutputInCommitment htlc, boolean opt_anchors, TxCreationKeys keys) {
+	public static byte[] get_htlc_redeemscript(org.ldk.structs.HTLCOutputInCommitment htlc, boolean opt_anchors, org.ldk.structs.TxCreationKeys keys) {
 		byte[] ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr, opt_anchors, keys == null ? 0 : keys.ptr);
 		Reference.reachabilityFence(htlc);
 		Reference.reachabilityFence(opt_anchors);
@@ -399,15 +413,40 @@ public class UtilMethods {
 	 * Panics if htlc.transaction_output_index.is_none() (as such HTLCs do not appear in the
 	 * commitment transaction).
 	 */
-	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, HTLCOutputInCommitment htlc, boolean opt_anchors, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
-		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
+	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, org.ldk.structs.HTLCOutputInCommitment htlc, boolean opt_anchors, boolean use_non_zero_fee_anchors, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
+		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr, opt_anchors, use_non_zero_fee_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
 		Reference.reachabilityFence(commitment_txid);
 		Reference.reachabilityFence(feerate_per_kw);
 		Reference.reachabilityFence(contest_delay);
 		Reference.reachabilityFence(htlc);
 		Reference.reachabilityFence(opt_anchors);
+		Reference.reachabilityFence(use_non_zero_fee_anchors);
 		Reference.reachabilityFence(broadcaster_delayed_payment_key);
 		Reference.reachabilityFence(revocation_key);
+		return ret;
+	}
+
+	/**
+	 * Returns the witness required to satisfy and spend a HTLC input.
+	 * 
+	 * Note that preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static byte[] build_htlc_input_witness(byte[] local_sig, byte[] remote_sig, @Nullable byte[] preimage, byte[] redeem_script, boolean opt_anchors) {
+		byte[] ret = bindings.build_htlc_input_witness(InternalUtils.check_arr_len(local_sig, 64), InternalUtils.check_arr_len(remote_sig, 64), InternalUtils.check_arr_len(preimage, 32), redeem_script, opt_anchors);
+		Reference.reachabilityFence(local_sig);
+		Reference.reachabilityFence(remote_sig);
+		Reference.reachabilityFence(preimage);
+		Reference.reachabilityFence(redeem_script);
+		Reference.reachabilityFence(opt_anchors);
+		return ret;
+	}
+
+	/**
+	 * Gets the witnessScript for the to_remote output when anchors are enabled.
+	 */
+	public static byte[] get_to_countersignatory_with_anchors_redeemscript(byte[] payment_point) {
+		byte[] ret = bindings.get_to_countersignatory_with_anchors_redeemscript(InternalUtils.check_arr_len(payment_point, 33));
+		Reference.reachabilityFence(payment_point);
 		return ret;
 	}
 
@@ -422,6 +461,16 @@ public class UtilMethods {
 	public static byte[] get_anchor_redeemscript(byte[] funding_pubkey) {
 		byte[] ret = bindings.get_anchor_redeemscript(InternalUtils.check_arr_len(funding_pubkey, 33));
 		Reference.reachabilityFence(funding_pubkey);
+		return ret;
+	}
+
+	/**
+	 * Returns the witness required to satisfy and spend an anchor input.
+	 */
+	public static byte[] build_anchor_input_witness(byte[] funding_key, byte[] funding_sig) {
+		byte[] ret = bindings.build_anchor_input_witness(InternalUtils.check_arr_len(funding_key, 33), InternalUtils.check_arr_len(funding_sig, 64));
+		Reference.reachabilityFence(funding_key);
+		Reference.reachabilityFence(funding_sig);
 		return ret;
 	}
 
@@ -485,7 +534,7 @@ public class UtilMethods {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters route_params, NetworkGraph network_graph, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer, byte[] random_seed_bytes) {
+	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, @Nullable ChannelDetails[] first_hops, org.ldk.structs.Logger logger, org.ldk.structs.Score scorer, byte[] random_seed_bytes) {
 		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), route_params == null ? 0 : route_params.ptr, network_graph == null ? 0 : network_graph.ptr, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(our_node_pubkey);
 		Reference.reachabilityFence(route_params);
@@ -510,7 +559,7 @@ public class UtilMethods {
 	 * 
 	 * Re-uses logic from `find_route`, so the restrictions described there also apply here.
 	 */
-	public static Result_RouteLightningErrorZ build_route_from_hops(byte[] our_node_pubkey, byte[][] hops, RouteParameters route_params, NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes) {
+	public static Result_RouteLightningErrorZ build_route_from_hops(byte[] our_node_pubkey, byte[][] hops, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes) {
 		long ret = bindings.build_route_from_hops(InternalUtils.check_arr_len(our_node_pubkey, 33), hops != null ? Arrays.stream(hops).map(hops_conv_8 -> InternalUtils.check_arr_len(hops_conv_8, 33)).toArray(byte[][]::new) : null, route_params == null ? 0 : route_params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(our_node_pubkey);
 		Reference.reachabilityFence(hops);
@@ -559,7 +608,7 @@ public class UtilMethods {
 	 * 
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(Option_u64Z amt_msat, @Nullable byte[] payment_hash, java.lang.String description, int invoice_expiry_delta_secs, PhantomRouteHints[] phantom_route_hints, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network) {
+	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, java.lang.String description, int invoice_expiry_delta_secs, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network) {
 		long ret = bindings.create_phantom_invoice(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), description, invoice_expiry_delta_secs, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
@@ -612,7 +661,7 @@ public class UtilMethods {
 	 * 
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(Option_u64Z amt_msat, @Nullable byte[] payment_hash, int invoice_expiry_delta_secs, Sha256 description_hash, PhantomRouteHints[] phantom_route_hints, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network) {
+	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, int invoice_expiry_delta_secs, org.ldk.structs.Sha256 description_hash, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network) {
 		long ret = bindings.create_phantom_invoice_with_description_hash(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, description_hash == null ? 0 : description_hash.ptr, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
@@ -641,7 +690,7 @@ public class UtilMethods {
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description, int invoice_expiry_delta_secs) {
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, int invoice_expiry_delta_secs) {
 		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
@@ -669,7 +718,7 @@ public class UtilMethods {
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(ChannelManager channelmanager, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network, Option_u64Z amt_msat, Sha256 description_hash, int invoice_expiry_delta_secs) {
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, int invoice_expiry_delta_secs) {
 		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
@@ -692,7 +741,7 @@ public class UtilMethods {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(ChannelManager channelmanager, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network, Option_u64Z amt_msat, Sha256 description_hash, long duration_since_epoch, int invoice_expiry_delta_secs) {
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, long duration_since_epoch, int invoice_expiry_delta_secs) {
 		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, duration_since_epoch, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
@@ -716,7 +765,7 @@ public class UtilMethods {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(ChannelManager channelmanager, KeysInterface keys_manager, Logger logger, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs) {
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs) {
 		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs);
 		Reference.reachabilityFence(channelmanager);
 		Reference.reachabilityFence(keys_manager);
@@ -726,6 +775,31 @@ public class UtilMethods {
 		Reference.reachabilityFence(description);
 		Reference.reachabilityFence(duration_since_epoch);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * See [`create_invoice_from_channelmanager_and_duration_since_epoch`]
+	 * This version allows for providing a custom [`PaymentHash`] for the invoice.
+	 * This may be useful if you're building an on-chain swap or involving another protocol where
+	 * the payment hash is also involved outside the scope of lightning.
+	 */
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs, byte[] payment_hash) {
+		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs, InternalUtils.check_arr_len(payment_hash, 32));
+		Reference.reachabilityFence(channelmanager);
+		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(amt_msat);
+		Reference.reachabilityFence(description);
+		Reference.reachabilityFence(duration_since_epoch);
+		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };

@@ -149,7 +149,7 @@ public class CommitmentUpdate extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_update_fee(@Nullable UpdateFee val) {
+	public void set_update_fee(@Nullable org.ldk.structs.UpdateFee val) {
 		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -171,7 +171,7 @@ public class CommitmentUpdate extends CommonBase {
 	/**
 	 * Finally, the commitment_signed message which should be sent
 	 */
-	public void set_commitment_signed(CommitmentSigned val) {
+	public void set_commitment_signed(org.ldk.structs.CommitmentSigned val) {
 		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -181,7 +181,7 @@ public class CommitmentUpdate extends CommonBase {
 	/**
 	 * Constructs a new CommitmentUpdate given each field
 	 */
-	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, UpdateFee update_fee_arg, CommitmentSigned commitment_signed_arg) {
+	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, org.ldk.structs.UpdateFee update_fee_arg, org.ldk.structs.CommitmentSigned commitment_signed_arg) {
 		long ret = bindings.CommitmentUpdate_new(update_add_htlcs_arg != null ? Arrays.stream(update_add_htlcs_arg).mapToLong(update_add_htlcs_arg_conv_15 -> update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr).toArray() : null, update_fulfill_htlcs_arg != null ? Arrays.stream(update_fulfill_htlcs_arg).mapToLong(update_fulfill_htlcs_arg_conv_19 -> update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr).toArray() : null, update_fail_htlcs_arg != null ? Arrays.stream(update_fail_htlcs_arg).mapToLong(update_fail_htlcs_arg_conv_16 -> update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr).toArray() : null, update_fail_malformed_htlcs_arg != null ? Arrays.stream(update_fail_malformed_htlcs_arg).mapToLong(update_fail_malformed_htlcs_arg_conv_25 -> update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr).toArray() : null, update_fee_arg == null ? 0 : update_fee_arg.ptr, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr);
 		Reference.reachabilityFence(update_add_htlcs_arg);
 		Reference.reachabilityFence(update_fulfill_htlcs_arg);
@@ -224,7 +224,7 @@ public class CommitmentUpdate extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(CommitmentUpdate b) {
+	public boolean eq(org.ldk.structs.CommitmentUpdate b) {
 		boolean ret = bindings.CommitmentUpdate_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

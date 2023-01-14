@@ -53,7 +53,7 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_boolPeerHandleErrorZ in the error state.
 	 */
-	public static Result_boolPeerHandleErrorZ err(PeerHandleError e) {
+	public static Result_boolPeerHandleErrorZ err(org.ldk.structs.PeerHandleError e) {
 		long ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

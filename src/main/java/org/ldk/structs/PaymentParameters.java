@@ -68,7 +68,7 @@ public class PaymentParameters extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_features(@Nullable InvoiceFeatures val) {
+	public void set_features(@Nullable org.ldk.structs.InvoiceFeatures val) {
 		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -117,7 +117,7 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Expiration of a payment to the payee, in seconds relative to the UNIX epoch.
 	 */
-	public void set_expiry_time(Option_u64Z val) {
+	public void set_expiry_time(org.ldk.structs.Option_u64Z val) {
 		bindings.PaymentParameters_set_expiry_time(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -232,7 +232,7 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
+	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, RouteHint[] route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
 		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
 		Reference.reachabilityFence(payee_pubkey_arg);
 		Reference.reachabilityFence(features_arg);
@@ -285,7 +285,7 @@ public class PaymentParameters extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(PaymentParameters b) {
+	public boolean eq(org.ldk.structs.PaymentParameters b) {
 		boolean ret = bindings.PaymentParameters_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

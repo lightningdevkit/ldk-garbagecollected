@@ -9,6 +9,10 @@ import javax.annotation.Nullable;
 
 /**
  * A trait implemented for objects handling events from [`EventsProvider`].
+ * 
+ * An async variation also exists for implementations of [`EventsProvider`] that support async
+ * event handling. The async event handler should satisfy the generic bounds: `F:
+ * core::future::Future, H: Fn(Event) -> F`.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class EventHandler extends CommonBase {
@@ -37,7 +41,8 @@ public class EventHandler extends CommonBase {
 		final LDKEventHandlerHolder impl_holder = new LDKEventHandlerHolder();
 		impl_holder.held = new EventHandler(new bindings.LDKEventHandler() {
 			@Override public void handle_event(long event) {
-				Event event_hu_conv = Event.constr_from_ptr(event);
+				org.ldk.structs.Event event_hu_conv = org.ldk.structs.Event.constr_from_ptr(event);
+				if (event_hu_conv != null) { event_hu_conv.ptrs_to.add(this); };
 				arg.handle_event(event_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
@@ -49,8 +54,8 @@ public class EventHandler extends CommonBase {
 	 * 
 	 * See [`EventsProvider`] for details that must be considered when implementing this method.
 	 */
-	public void handle_event(Event event) {
-		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr);
+	public void handle_event(org.ldk.structs.Event event) {
+		bindings.EventHandler_handle_event(this.ptr, event.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(event);
 	}

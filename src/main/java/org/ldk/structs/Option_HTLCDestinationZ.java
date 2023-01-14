@@ -54,7 +54,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 	/**
 	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::util::events::HTLCDestination
 	 */
-	public static Option_HTLCDestinationZ some(HTLCDestination o) {
+	public static Option_HTLCDestinationZ some(org.ldk.structs.HTLCDestination o) {
 		long ret = bindings.COption_HTLCDestinationZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

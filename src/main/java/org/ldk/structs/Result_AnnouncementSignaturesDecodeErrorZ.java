@@ -45,7 +45,7 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_AnnouncementSignaturesDecodeErrorZ in the success state.
 	 */
-	public static Result_AnnouncementSignaturesDecodeErrorZ ok(AnnouncementSignatures o) {
+	public static Result_AnnouncementSignaturesDecodeErrorZ ok(org.ldk.structs.AnnouncementSignatures o) {
 		long ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_AnnouncementSignaturesDecodeErrorZ in the error state.
 	 */
-	public static Result_AnnouncementSignaturesDecodeErrorZ err(DecodeError e) {
+	public static Result_AnnouncementSignaturesDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

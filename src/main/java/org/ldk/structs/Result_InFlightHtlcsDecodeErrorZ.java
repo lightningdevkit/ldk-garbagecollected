@@ -45,27 +45,19 @@ public class Result_InFlightHtlcsDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_InFlightHtlcsDecodeErrorZ in the success state.
 	 */
-	public static Result_InFlightHtlcsDecodeErrorZ ok(InFlightHtlcs o) {
+	public static Result_InFlightHtlcsDecodeErrorZ ok(org.ldk.structs.InFlightHtlcs o) {
 		long ret = bindings.CResult_InFlightHtlcsDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InFlightHtlcsDecodeErrorZ ret_hu_conv = Result_InFlightHtlcsDecodeErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o); };
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after ret_hu_conv call, o is reset to null and is now a dummy object.
-		o.ptr = 0;;
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Creates a new CResult_InFlightHtlcsDecodeErrorZ in the error state.
 	 */
-	public static Result_InFlightHtlcsDecodeErrorZ err(DecodeError e) {
+	public static Result_InFlightHtlcsDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_InFlightHtlcsDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -80,6 +72,24 @@ public class Result_InFlightHtlcsDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_InFlightHtlcsDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_InFlightHtlcsDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_InFlightHtlcsDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_InFlightHtlcsDecodeErrorZ clone() {
+		long ret = bindings.CResult_InFlightHtlcsDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_InFlightHtlcsDecodeErrorZ ret_hu_conv = Result_InFlightHtlcsDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

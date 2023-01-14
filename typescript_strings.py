@@ -17,6 +17,7 @@ class Consts:
         self.function_ptr_counter = 0
         self.function_ptrs = {}
         self.c_type_map = dict(
+            bool = ['boolean', 'boolean', 'XXX'],
             uint8_t = ['number', 'number', 'Uint8Array'],
             uint16_t = ['number', 'number', 'Uint16Array'],
             uint32_t = ['number', 'number', 'Uint32Array'],
@@ -126,7 +127,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 }
 
 const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu",
-	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu"];
+	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu", "ububuu"];
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
@@ -166,6 +167,16 @@ export function WitnessVersionArrToBytes(inputArray: Array<WitnessVersion>): Uin
 
 
 
+/* @internal */
+export function encodeUint128 (inputVal: bigint): number {
+	if (inputVal >= 0x10000000000000000000000000000000n) throw "U128s cannot exceed 128 bits";
+	const cArrayPointer = wasm.TS_malloc(16 + 8);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(16);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 8, 16);
+	for (var i = 0; i < 16; i++) arrayMemoryView[i] = Number((inputVal >> BigInt(i)*8n) & 0xffn);
+	return cArrayPointer;
+}
 /* @internal */
 export function encodeUint8Array (inputArray: Uint8Array|null): number {
 	if (inputArray == null) return 0;
@@ -208,6 +219,21 @@ export function getArrayLength(arrayPointer: number): number {
 	const len = arraySizeViewer[0]!;
 	if (len >= (2n ** 32n)) throw new Error("Bogus Array Size");
 	return Number(len % (2n ** 32n));
+}
+/* @internal */
+export function decodeUint128 (arrayPointer: number, free = true): bigint {
+	const arraySize = getArrayLength(arrayPointer);
+	if (arraySize != 16) throw "Need 16 bytes for a uint128";
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
+	var val = 0n;
+	for (var i = 0; i < 16; i++) {
+		val <<= 8n;
+		val |= BigInt(actualArrayViewer[i]!);
+	}
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return val;
 }
 /* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
@@ -326,8 +352,6 @@ export async function initializeWasmFromBinary(bin: Uint8Array) {
         self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {
 	return "<git_version_ldk_garbagecollected>";
 }"""
-
-        self.bindings_footer = ""
 
         self.common_base = """
 function freer(f: () => void) { f() }
@@ -672,12 +696,14 @@ import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBas
 import * as bindings from '../bindings.mjs'
 
 """
+        self.hu_struct_file_suffix = ""
         self.util_fn_pfx = self.hu_struct_file_prefix + "\nexport class UtilMethods extends CommonBase {\n"
         self.util_fn_sfx = "}"
         self.c_fn_ty_pfx = ""
         self.file_ext = ".mts"
         self.ptr_c_ty = "uint64_t"
         self.ptr_native_ty = "bigint"
+        self.u128_native_ty = "bigint"
         self.usize_c_ty = "uint32_t"
         self.usize_native_ty = "number"
         self.native_zero_ptr = "0n"
@@ -686,11 +712,14 @@ import * as bindings from '../bindings.mjs'
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
 
+    def bindings_footer(self):
+        return ""
+
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
-            assert ty_info.rust_obj == "LDKCVec_u5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
+            assert ty_info.rust_obj == "LDKCVec_U5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
         return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
@@ -721,7 +750,7 @@ import * as bindings from '../bindings.mjs'
             return "FREE(" + arr_name + ")"
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
-        if elem_ty.rust_obj == "LDKu5":
+        if elem_ty.rust_obj == "LDKU5":
             return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
         assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array")
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
@@ -748,7 +777,7 @@ import * as bindings from '../bindings.mjs'
             return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.c_ty == "uint64_t":
             return "bindings.getU64ArrayElem(" + arr_name + ", " + idx + ")"
-        elif elem_ty.rust_obj == "LDKu5":
+        elif elem_ty.rust_obj == "LDKU5":
             return "bindings.getU8ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False
@@ -757,8 +786,11 @@ import * as bindings from '../bindings.mjs'
     def cleanup_converted_native_array(self, ty_info, arr_name):
         return "bindings.freeWasmMemory(" + arr_name + ")"
 
-    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+    def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
+        mapped_ty = arr_ty.subty
         inner = arr_name
+        if arr_ty.rust_obj == "LDKU128":
+            return ("bindings.encodeUint128(" + inner + ")", "")
         if fixed_len is not None:
             assert mapped_ty.c_ty == "int8_t"
             inner = "bindings.check_arr_len(" + arr_name + ", " + fixed_len + ")"
@@ -774,8 +806,11 @@ import * as bindings from '../bindings.mjs'
             print(mapped_ty.c_ty)
             assert False
 
-    def primitive_arr_to_hu(self, mapped_ty, fixed_len, arr_name, conv_name):
-        if mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+    def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
+        mapped_ty = arr_ty.subty
+        if arr_ty.rust_obj == "LDKU128":
+            return "const " + conv_name + ": bigint = bindings.decodeUint128(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
             return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
             return "const " + conv_name + ": bigint[] = bindings.decodeUint64Array(" + arr_name + ");"
@@ -1075,7 +1110,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 fn_suffix = ""
-                assert len(fn_line.args_ty) < 6
+                assert len(fn_line.args_ty) < 7
                 for arg_info in fn_line.args_ty:
                     if arg_info.c_ty == "uint64_t" or arg_info.c_ty == "int64_t":
                         fn_suffix += "b"

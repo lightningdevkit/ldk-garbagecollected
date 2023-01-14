@@ -63,7 +63,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_OutPointScriptZ from the contained elements.
 	 */
-	public static TwoTuple_OutPointScriptZ of(OutPoint a, byte[] b) {
+	public static TwoTuple_OutPointScriptZ of(org.ldk.structs.OutPoint a, byte[] b) {
 		long ret = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : a.ptr, b);
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);

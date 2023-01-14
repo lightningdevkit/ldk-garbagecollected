@@ -45,7 +45,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_TypeZDecodeErrorZ in the success state.
 	 */
-	public static Result_COption_TypeZDecodeErrorZ ok(Option_TypeZ o) {
+	public static Result_COption_TypeZDecodeErrorZ ok(org.ldk.structs.Option_TypeZ o) {
 		long ret = bindings.CResult_COption_TypeZDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -56,7 +56,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_COption_TypeZDecodeErrorZ in the error state.
 	 */
-	public static Result_COption_TypeZDecodeErrorZ err(DecodeError e) {
+	public static Result_COption_TypeZDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_COption_TypeZDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

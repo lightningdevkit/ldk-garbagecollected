@@ -50,7 +50,7 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneLightningErrorZ in the error state.
 	 */
-	public static Result_NoneLightningErrorZ err(LightningError e) {
+	public static Result_NoneLightningErrorZ err(org.ldk.structs.LightningError e) {
 		long ret = bindings.CResult_NoneLightningErrorZ_err(e == null ? 0 : e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

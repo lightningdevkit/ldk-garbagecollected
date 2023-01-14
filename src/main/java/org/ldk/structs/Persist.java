@@ -146,7 +146,7 @@ public class Persist extends CommonBase {
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
-	public ChannelMonitorUpdateStatus persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id) {
+	public ChannelMonitorUpdateStatus persist_new_channel(org.ldk.structs.OutPoint channel_id, org.ldk.structs.ChannelMonitor data, org.ldk.structs.MonitorUpdateId update_id) {
 		ChannelMonitorUpdateStatus ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);
@@ -195,7 +195,7 @@ public class Persist extends CommonBase {
 	 * 
 	 * Note that update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public ChannelMonitorUpdateStatus update_persisted_channel(OutPoint channel_id, @Nullable ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
+	public ChannelMonitorUpdateStatus update_persisted_channel(org.ldk.structs.OutPoint channel_id, @Nullable org.ldk.structs.ChannelMonitorUpdate update, org.ldk.structs.ChannelMonitor data, org.ldk.structs.MonitorUpdateId update_id) {
 		ChannelMonitorUpdateStatus ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr, update == null ? 0 : update.ptr, data == null ? 0 : data.ptr, update_id == null ? 0 : update_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_id);

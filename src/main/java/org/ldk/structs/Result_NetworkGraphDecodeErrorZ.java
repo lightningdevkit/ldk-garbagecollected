@@ -59,7 +59,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the error state.
 	 */
-	public static Result_NetworkGraphDecodeErrorZ err(DecodeError e) {
+	public static Result_NetworkGraphDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

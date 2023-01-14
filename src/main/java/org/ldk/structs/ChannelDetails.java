@@ -59,7 +59,7 @@ public class ChannelDetails extends CommonBase {
 	/**
 	 * Parameters which apply to our counterparty. See individual fields for more information.
 	 */
-	public void set_counterparty(ChannelCounterparty val) {
+	public void set_counterparty(org.ldk.structs.ChannelCounterparty val) {
 		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -94,7 +94,7 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_funding_txo(@Nullable OutPoint val) {
+	public void set_funding_txo(@Nullable org.ldk.structs.OutPoint val) {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -125,7 +125,7 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_channel_type(@Nullable ChannelTypeFeatures val) {
+	public void set_channel_type(@Nullable org.ldk.structs.ChannelTypeFeatures val) {
 		bindings.ChannelDetails_set_channel_type(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -173,7 +173,7 @@ public class ChannelDetails extends CommonBase {
 	 * [`get_outbound_payment_scid`]: Self::get_outbound_payment_scid
 	 * [`confirmations_required`]: Self::confirmations_required
 	 */
-	public void set_short_channel_id(Option_u64Z val) {
+	public void set_short_channel_id(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -210,7 +210,7 @@ public class ChannelDetails extends CommonBase {
 	 * [`short_channel_id`]: Self::short_channel_id
 	 * [`confirmations_required`]: Self::confirmations_required
 	 */
-	public void set_outbound_scid_alias(Option_u64Z val) {
+	public void set_outbound_scid_alias(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_outbound_scid_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -247,7 +247,7 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * [`short_channel_id`]: Self::short_channel_id
 	 */
-	public void set_inbound_scid_alias(Option_u64Z val) {
+	public void set_inbound_scid_alias(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_inbound_scid_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -302,26 +302,31 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
 	 */
-	public void set_unspendable_punishment_reserve(Option_u64Z val) {
+	public void set_unspendable_punishment_reserve(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
 
 	/**
-	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
+	 * The `user_channel_id` passed in to create_channel, or a random value if the channel was
+	 * inbound. This may be zero for inbound channels serialized with LDK versions prior to
+	 * 0.0.113.
 	 */
-	public long get_user_channel_id() {
-		long ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
+	public UInt128 get_user_channel_id() {
+		byte[] ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		org.ldk.util.UInt128 ret_conv = new org.ldk.util.UInt128(ret);
+		return ret_conv;
 	}
 
 	/**
-	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
+	 * The `user_channel_id` passed in to create_channel, or a random value if the channel was
+	 * inbound. This may be zero for inbound channels serialized with LDK versions prior to
+	 * 0.0.113.
 	 */
-	public void set_user_channel_id(long val) {
-		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
+	public void set_user_channel_id(org.ldk.util.UInt128 val) {
+		bindings.ChannelDetails_set_user_channel_id(this.ptr, val.getLEBytes());
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -495,8 +500,33 @@ public class ChannelDetails extends CommonBase {
 	 * [`ChannelHandshakeConfig::minimum_depth`]: crate::util::config::ChannelHandshakeConfig::minimum_depth
 	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
 	 */
-	public void set_confirmations_required(Option_u32Z val) {
+	public void set_confirmations_required(org.ldk.structs.Option_u32Z val) {
 		bindings.ChannelDetails_set_confirmations_required(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The current number of confirmations on the funding transaction.
+	 * 
+	 * This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
+	 */
+	public Option_u32Z get_confirmations() {
+		long ret = bindings.ChannelDetails_get_confirmations(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The current number of confirmations on the funding transaction.
+	 * 
+	 * This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
+	 */
+	public void set_confirmations(org.ldk.structs.Option_u32Z val) {
+		bindings.ChannelDetails_set_confirmations(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -528,7 +558,7 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
 	 */
-	public void set_force_close_spend_delay(Option_u16Z val) {
+	public void set_force_close_spend_delay(org.ldk.structs.Option_u16Z val) {
 		bindings.ChannelDetails_set_force_close_spend_delay(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -641,7 +671,7 @@ public class ChannelDetails extends CommonBase {
 	 * The smallest value HTLC (in msat) we will accept, for this channel. This field
 	 * is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.107
 	 */
-	public void set_inbound_htlc_minimum_msat(Option_u64Z val) {
+	public void set_inbound_htlc_minimum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_inbound_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -662,7 +692,7 @@ public class ChannelDetails extends CommonBase {
 	/**
 	 * The largest value HTLC (in msat) we currently will accept, for this channel.
 	 */
-	public void set_inbound_htlc_maximum_msat(Option_u64Z val) {
+	public void set_inbound_htlc_maximum_msat(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelDetails_set_inbound_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -692,7 +722,7 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_config(@Nullable ChannelConfig val) {
+	public void set_config(@Nullable org.ldk.structs.ChannelConfig val) {
 		bindings.ChannelDetails_set_config(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -702,8 +732,8 @@ public class ChannelDetails extends CommonBase {
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, ChannelTypeFeatures channel_type_arg, Option_u64Z short_channel_id_arg, Option_u64Z outbound_scid_alias_arg, Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, Option_u64Z inbound_htlc_minimum_msat_arg, Option_u64Z inbound_htlc_maximum_msat_arg, ChannelConfig config_arg) {
-		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
+	public static ChannelDetails of(byte[] channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, org.ldk.structs.OutPoint funding_txo_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, org.ldk.structs.ChannelConfig config_arg) {
+		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(counterparty_arg);
 		Reference.reachabilityFence(funding_txo_arg);
@@ -719,6 +749,7 @@ public class ChannelDetails extends CommonBase {
 		Reference.reachabilityFence(next_outbound_htlc_limit_msat_arg);
 		Reference.reachabilityFence(inbound_capacity_msat_arg);
 		Reference.reachabilityFence(confirmations_required_arg);
+		Reference.reachabilityFence(confirmations_arg);
 		Reference.reachabilityFence(force_close_spend_delay_arg);
 		Reference.reachabilityFence(is_outbound_arg);
 		Reference.reachabilityFence(is_channel_ready_arg);

@@ -45,7 +45,7 @@ public class Result_PhantomRouteHintsDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PhantomRouteHintsDecodeErrorZ in the success state.
 	 */
-	public static Result_PhantomRouteHintsDecodeErrorZ ok(PhantomRouteHints o) {
+	public static Result_PhantomRouteHintsDecodeErrorZ ok(org.ldk.structs.PhantomRouteHints o) {
 		long ret = bindings.CResult_PhantomRouteHintsDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_PhantomRouteHintsDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PhantomRouteHintsDecodeErrorZ in the error state.
 	 */
-	public static Result_PhantomRouteHintsDecodeErrorZ err(DecodeError e) {
+	public static Result_PhantomRouteHintsDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_PhantomRouteHintsDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

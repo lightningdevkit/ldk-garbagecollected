@@ -73,7 +73,7 @@ public class ChannelReady extends CommonBase {
 	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
 	 * to be forwarded over this SCID and forward them to this messages' recipient.
 	 */
-	public void set_short_channel_id_alias(Option_u64Z val) {
+	public void set_short_channel_id_alias(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelReady_set_short_channel_id_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -82,7 +82,7 @@ public class ChannelReady extends CommonBase {
 	/**
 	 * Constructs a new ChannelReady given each field
 	 */
-	public static ChannelReady of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, Option_u64Z short_channel_id_alias_arg) {
+	public static ChannelReady of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, org.ldk.structs.Option_u64Z short_channel_id_alias_arg) {
 		long ret = bindings.ChannelReady_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33), short_channel_id_alias_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(next_per_commitment_point_arg);
@@ -116,7 +116,7 @@ public class ChannelReady extends CommonBase {
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
 	 */
-	public boolean eq(ChannelReady b) {
+	public boolean eq(org.ldk.structs.ChannelReady b) {
 		boolean ret = bindings.ChannelReady_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

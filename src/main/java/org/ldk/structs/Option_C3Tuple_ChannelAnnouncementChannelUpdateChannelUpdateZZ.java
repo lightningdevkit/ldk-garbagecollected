@@ -54,7 +54,7 @@ public class Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ exte
 	/**
 	 * Constructs a new COption_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ containing a crate::c_types::derived::C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ
 	 */
-	public static Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ some(ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ o) {
+	public static Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ some(org.ldk.structs.ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ o) {
 		long ret = bindings.COption_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_some(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }

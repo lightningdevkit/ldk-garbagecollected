@@ -45,7 +45,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFailHTLCDecodeErrorZ in the success state.
 	 */
-	public static Result_UpdateFailHTLCDecodeErrorZ ok(UpdateFailHTLC o) {
+	public static Result_UpdateFailHTLCDecodeErrorZ ok(org.ldk.structs.UpdateFailHTLC o) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFailHTLCDecodeErrorZ in the error state.
 	 */
-	public static Result_UpdateFailHTLCDecodeErrorZ err(DecodeError e) {
+	public static Result_UpdateFailHTLCDecodeErrorZ err(org.ldk.structs.DecodeError e) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e.ptr);
 		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }

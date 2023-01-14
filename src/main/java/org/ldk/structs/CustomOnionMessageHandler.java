@@ -66,7 +66,7 @@ public class CustomOnionMessageHandler extends CommonBase {
 	/**
 	 * Called with the custom message that was received.
 	 */
-	public void handle_custom_message(CustomOnionMessageContents msg) {
+	public void handle_custom_message(org.ldk.structs.CustomOnionMessageContents msg) {
 		bindings.CustomOnionMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);

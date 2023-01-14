@@ -114,7 +114,7 @@ public class NetworkUpdate extends CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelUpdateMessage-variant NetworkUpdate
 	 */
-	public static NetworkUpdate channel_update_message(ChannelUpdate msg) {
+	public static NetworkUpdate channel_update_message(org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -154,7 +154,7 @@ public class NetworkUpdate extends CommonBase {
 	 * Checks if two NetworkUpdates contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public boolean eq(NetworkUpdate b) {
+	public boolean eq(org.ldk.structs.NetworkUpdate b) {
 		boolean ret = bindings.NetworkUpdate_eq(this.ptr, b == null ? 0 : b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);

@@ -39,7 +39,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	/**
 	 * Holder public keys
 	 */
-	public void set_holder_pubkeys(ChannelPublicKeys val) {
+	public void set_holder_pubkeys(org.ldk.structs.ChannelPublicKeys val) {
 		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -106,7 +106,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_counterparty_parameters(@Nullable CounterpartyChannelTransactionParameters val) {
+	public void set_counterparty_parameters(@Nullable org.ldk.structs.CounterpartyChannelTransactionParameters val) {
 		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -133,7 +133,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_funding_outpoint(@Nullable OutPoint val) {
+	public void set_funding_outpoint(@Nullable org.ldk.structs.OutPoint val) {
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -161,16 +161,39 @@ public class ChannelTransactionParameters extends CommonBase {
 	}
 
 	/**
+	 * Are non-zero-fee anchors are enabled (used in conjuction with opt_anchors)
+	 * It is intended merely for backwards compatibility with signers that need it.
+	 * There is no support for this feature in LDK channel negotiation.
+	 */
+	public COption_NoneZ get_opt_non_zero_fee_anchors() {
+		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_non_zero_fee_anchors(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Are non-zero-fee anchors are enabled (used in conjuction with opt_anchors)
+	 * It is intended merely for backwards compatibility with signers that need it.
+	 * There is no support for this feature in LDK channel negotiation.
+	 */
+	public void set_opt_non_zero_fee_anchors(org.ldk.enums.COption_NoneZ val) {
+		bindings.ChannelTransactionParameters_set_opt_non_zero_fee_anchors(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
-	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg, org.ldk.enums.COption_NoneZ opt_anchors_arg) {
-		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, opt_anchors_arg);
+	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, org.ldk.structs.OutPoint funding_outpoint_arg, org.ldk.enums.COption_NoneZ opt_anchors_arg, org.ldk.enums.COption_NoneZ opt_non_zero_fee_anchors_arg) {
+		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, opt_anchors_arg, opt_non_zero_fee_anchors_arg);
 		Reference.reachabilityFence(holder_pubkeys_arg);
 		Reference.reachabilityFence(holder_selected_contest_delay_arg);
 		Reference.reachabilityFence(is_outbound_from_holder_arg);
 		Reference.reachabilityFence(counterparty_parameters_arg);
 		Reference.reachabilityFence(funding_outpoint_arg);
 		Reference.reachabilityFence(opt_anchors_arg);
+		Reference.reachabilityFence(opt_non_zero_fee_anchors_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
