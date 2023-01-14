@@ -47,6 +47,7 @@ jobs:
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
+          git config --global safe.directory "*"
           ./genbindings.sh ../rust-lightning false
       - name: Build and Test TS Debug Bindings for Node
         run: |
@@ -75,6 +76,7 @@ jobs:
         run: |
           export HOME=/root/ # Github actions is apparently broken
           export PATH=$(pwd)/$(echo node-*/bin):$PATH
+          git config --global safe.directory "*"
           ./genbindings.sh ./ldk-c-bindings/ wasm true true
           cd ts
           rm liblightningjs.wasm && ln -s $(pwd)/../liblightningjs_debug.wasm ./liblightningjs.wasm
