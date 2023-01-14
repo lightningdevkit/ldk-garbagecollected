@@ -345,6 +345,10 @@ jobs:
     steps:
       - name: Install other Rust platforms
         run: rustup target install aarch64-apple-darwin
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Fetch upstream LLVM/clang snapshot
         run: |
           wget -O clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz
@@ -355,10 +359,6 @@ jobs:
       - name: Unpack upstream LLVM+clang and use it by default
         run: |
           tar xvvf clang+llvm-15.0.3-x86_64-apple-darwin.tar.xz
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Install cbindgen
         run: cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
