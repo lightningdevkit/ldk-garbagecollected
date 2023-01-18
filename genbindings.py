@@ -30,8 +30,12 @@ elif sys.argv[6] == "c_sharp":
     import csharp_strings
     from csharp_strings import Consts
     target = csharp_strings.Target.CSHARP
+elif sys.argv[6] == "python":
+    import python_strings
+    from python_strings import Consts
+    target = python_strings.Target.PYTHON
 else:
-    print("Only java, typescript, or c_sharp can be set for lang")
+    print("Only java, typescript, python, or c_sharp can be set for lang")
     sys.exit(1)
 
 
