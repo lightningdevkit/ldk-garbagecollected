@@ -1317,7 +1317,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
-        implementations = ""
         method_header = ""
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
@@ -1339,7 +1338,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 /**{extra_docs}
  * {formatted_doc_comment}
  */
-export class {hu_name} extends CommonBase {implementations}{{
+export class {hu_name} extends CommonBase {{
 	/* @internal */
 	public constructor(_dummy: null, ptr: bigint) {{
 		{constructor_body}
