@@ -43,14 +43,14 @@ class TypeMappingGenerator:
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
-            if ty_info.c_ty == "int8_tArray":
+            if ty_info.c_ty == "int8_tArray" or ty_info.c_ty == "int16_tArray":
                 (set_pfx, set_sfx) = self.consts.set_native_arr_contents(arr_name + "_arr", arr_len, ty_info)
-                ret_conv = ("int8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
+                ret_conv = (ty_info.c_ty + " " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
                 arg_conv_cleanup = None
                 if not arr_len.isdigit():
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                     arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = " +  self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
-                    if (not ty_info.is_ptr or not holds_ref) and ty_info.rust_obj != "LDKu8slice":
+                    if (not ty_info.is_ptr or not holds_ref) and (ty_info.rust_obj != "LDKu8slice" and ty_info.rust_obj != "LDKu16slice"):
                         arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = MALLOC(" + arr_name + "_ref." + arr_len + ", \"" + ty_info.rust_obj + " Bytes\");\n"
                         arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_name + "_ref." + arr_len, ty_info, True) + ";"
                     else:
@@ -59,10 +59,10 @@ class TypeMappingGenerator:
                     if ty_info.rust_obj == "LDKTransaction" or ty_info.rust_obj == "LDKWitness":
                         arg_conv = arg_conv + "\n" + arr_name + "_ref.data_is_owned = " + str(holds_ref).lower() + ";"
                     ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
-                    ret_conv = (ret_conv[0], ";\nint8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
+                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
                     (pfx, sfx) = self.consts.set_native_arr_contents(arr_name + "_arr", arr_name + "_var." + arr_len, ty_info)
                     ret_conv = (ret_conv[0], ret_conv[1] + pfx + arr_name + "_var." + ty_info.arr_access + sfx + ";")
-                    if not holds_ref and ty_info.rust_obj != "LDKu8slice":
+                    if not holds_ref and (ty_info.rust_obj != "LDKu8slice" and ty_info.rust_obj != "LDKu16slice"):
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
                     from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, None, arr_name)
                     to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
@@ -74,10 +74,11 @@ class TypeMappingGenerator:
                     from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, arr_len, arr_name)
                     to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")
                 else:
-                    arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
+                    # Note that we just blindly assume we should be using unsigned integers here.
+                    arg_conv = "u" + ty_info.subty.c_ty + " " + arr_name + "_arr[" + arr_len + "];\n"
                     arg_conv = arg_conv + "CHECK(" + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
                     arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_arr", arr_len, ty_info, True) + ";\n"
-                    arg_conv = arg_conv + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
+                    arg_conv = arg_conv + "u" + ty_info.subty.c_ty + " (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
                     ret_conv = (ret_conv[0] + "*", set_sfx + ";")
                     from_hu_conv = self.consts.primitive_arr_from_hu(ty_info, arr_len, arr_name)
                     to_hu_conv = self.consts.primitive_arr_to_hu(ty_info, None, arr_name, arr_name + "_conv")

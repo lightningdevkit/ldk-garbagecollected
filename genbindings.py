@@ -143,6 +143,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
+    elif fn_arg.startswith("LDKEightU16s"):
+        fn_arg = "uint16_t (*" + fn_arg[13:] + ")[8]"
+        assert var_is_arr_regex.match(fn_arg[9:])
+        rust_obj = "LDKEightU16s"
+        arr_access = "data"
     elif fn_arg.startswith("LDKU128"):
         if fn_arg == "LDKU128":
             fn_arg = "LDKU128 arg"
