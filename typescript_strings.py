@@ -952,6 +952,8 @@ export enum {struct_name} {{
                     if isinstance(suparg, ConvInfo):
                         trait_constructor_arguments += ", " + suparg.arg_name
                     else:
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        super_constructor_statements += "\t\tconst " + first_to_lower(suparg[1]) + " = " + suparg[1] + ".new_impl(" + super_instantiator.split(", ", 1)[1] + ");\n"
                         trait_constructor_arguments += ", " + suparg[1]
 
         # BUILD INTERFACE METHODS
@@ -1180,9 +1182,9 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
         out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[2].replace(".", "->") + "->refcnt, 1, memory_order_release);\n"
         out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (JSValue o"
@@ -1233,7 +1235,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "\t};\n"
         for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[2] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 

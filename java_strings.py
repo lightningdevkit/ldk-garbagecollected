@@ -857,17 +857,21 @@ import javax.annotation.Nullable;
                 java_trait_constr = java_trait_constr + ", " + var.arg_name
             else:
                 java_trait_constr += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
+                suptrait_constr = ""
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        suptrait_constr += ", " + suparg.arg_name
+                    else:
+                        suptrait_constr += ", " + suparg[1] + "_impl"
+                java_trait_constr += suptrait_constr + ").bindings_instance"
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
                         java_trait_constr += ", " + suparg.arg_name
                     else:
-                        java_trait_constr += ", " + suparg[1]
-                java_trait_constr += ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        java_trait_constr += ", " + suparg.arg_name
-                    else:
-                        java_trait_constr += ", " + suparg[1]
+                        java_trait_constr += ", " + suparg[1] + ".new_impl("
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        java_trait_constr += suptrait_constr.split(", ", 1)[1]
+                        java_trait_constr += ").bindings_instance"
         out_java_trait = out_java_trait + "\t}\n"
         out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
@@ -976,9 +980,9 @@ import javax.annotation.Nullable;
             out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
             out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
             out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
-            for var in field_vars:
+            for var in flattened_field_vars:
                 if not isinstance(var, ConvInfo):
-                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[2].replace(".", "->") + "->refcnt, 1, memory_order_release);\n"
             out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
@@ -1032,7 +1036,7 @@ import javax.annotation.Nullable;
         out_c = out_c + "\t};\n"
         for var in flattened_field_vars:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[2] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
@@ -1062,7 +1066,7 @@ import javax.annotation.Nullable;
                 underscore_name = ''.join('_' + c.lower() if c.isupper() else c for c in var[1]).strip('_')
                 out_java_trait += "\tpublic " + var[1] + " get_" + underscore_name + "() {\n"
                 out_java_trait += "\t\t" + var[1] + " res = new " + var[1] + "(null, bindings." + struct_name + "_get_" + var[1] + "(this.ptr));\n"
-                out_java_trait += "\t\tthis.ptrs_to.add(res);\n"
+                out_java_trait += "\t\tres.ptrs_to.add(this);\n"
                 out_java_trait += "\t\treturn res;\n"
                 out_java_trait += "\t}\n"
                 out_java_trait += "\n"
@@ -1071,7 +1075,7 @@ import javax.annotation.Nullable;
 
                 out_c += "JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_" + struct_name + "_1get_1" + var[1] + "(JNIEnv *env, jclass clz, int64_t arg) {\n"
                 out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)untag_ptr(arg);\n"
-                out_c += "\treturn tag_ptr(&inp->" + var[1] + ", false);\n"
+                out_c += "\treturn tag_ptr(&inp->" + var[2] + ", false);\n"
                 out_c += "}\n"
 
         return (out_java, out_java_trait, out_c)
