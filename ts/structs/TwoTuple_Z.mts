@@ -1,20 +1,25 @@
 import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
-import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { FailureCode } from '../enums/FailureCode.mjs';
 import { HTLCClaim } from '../enums/HTLCClaim.mjs';
 import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
+import { RetryableSendFailure } from '../enums/RetryableSendFailure.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { UtxoLookupError } from '../enums/UtxoLookupError.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
+import { ShutdownScript } from '../structs/ShutdownScript.mjs';
+import { APIError } from '../structs/APIError.mjs';
+import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Option_HTLCClaimZ } from '../structs/Option_HTLCClaimZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
@@ -42,7 +47,6 @@ import { Result_CommitmentTransactionDecodeErrorZ } from '../structs/Result_Comm
 import { TrustedCommitmentTransaction } from '../structs/TrustedCommitmentTransaction.mjs';
 import { Result_TrustedCommitmentTransactionNoneZ } from '../structs/Result_TrustedCommitmentTransactionNoneZ.mjs';
 import { Result_CVec_SignatureZNoneZ } from '../structs/Result_CVec_SignatureZNoneZ.mjs';
-import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { Result_ShutdownScriptDecodeErrorZ } from '../structs/Result_ShutdownScriptDecodeErrorZ.mjs';
 import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
@@ -71,6 +75,12 @@ import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeE
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
+import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
+import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
+import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { PathFailure } from '../structs/PathFailure.mjs';
+import { Option_PathFailureZ } from '../structs/Option_PathFailureZ.mjs';
+import { Result_COption_PathFailureZDecodeErrorZ } from '../structs/Result_COption_PathFailureZDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
@@ -78,9 +88,6 @@ import { HTLCDestination } from '../structs/HTLCDestination.mjs';
 import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
 import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { Option_u128Z } from '../structs/Option_u128Z.mjs';
-import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
-import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
-import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
 import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
@@ -101,6 +108,7 @@ import { ClosingSigned } from '../structs/ClosingSigned.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
+import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { ErrorMessage } from '../structs/ErrorMessage.mjs';
 import { WarningMessage } from '../structs/WarningMessage.mjs';
 import { ErrorAction } from '../structs/ErrorAction.mjs';
@@ -109,7 +117,6 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
 import { TwoTuple_TxidBlockHashZ } from '../structs/TwoTuple_TxidBlockHashZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
@@ -119,6 +126,8 @@ import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
 import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { TwoTuple__u168_u168Z } from '../structs/TwoTuple__u168_u168Z.mjs';
+import { Option_C2Tuple_EightU16sEightU16sZZ } from '../structs/Option_C2Tuple_EightU16sEightU16sZZ.mjs';
 import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
@@ -133,15 +142,16 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
+import { BlindedHopFeatures } from '../structs/BlindedHopFeatures.mjs';
+import { Result_BlindedHopFeaturesDecodeErrorZ } from '../structs/Result_BlindedHopFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { OfferFeatures } from '../structs/OfferFeatures.mjs';
-import { Result_OfferFeaturesDecodeErrorZ } from '../structs/Result_OfferFeaturesDecodeErrorZ.mjs';
-import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
-import { Result_InvoiceRequestFeaturesDecodeErrorZ } from '../structs/Result_InvoiceRequestFeaturesDecodeErrorZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_TxOutUtxoLookupErrorZ } from '../structs/Result_TxOutUtxoLookupErrorZ.mjs';
+import { UtxoFuture } from '../structs/UtxoFuture.mjs';
+import { UtxoResult } from '../structs/UtxoResult.mjs';
+import { UtxoLookup, UtxoLookupInterface } from '../structs/UtxoLookup.mjs';
+import { Option_UtxoLookupZ } from '../structs/Option_UtxoLookupZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
@@ -168,29 +178,28 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { TwoTuple_SignatureCVec_SignatureZZ } from '../structs/TwoTuple_SignatureCVec_SignatureZZ.mjs';
 import { Result_C2Tuple_SignatureCVec_SignatureZZNoneZ } from '../structs/Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.mjs';
 import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
-import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
-import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
-import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
 import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
+import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
-import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
-import { Sign, SignInterface } from '../structs/Sign.mjs';
-import { Result_SignDecodeErrorZ } from '../structs/Result_SignDecodeErrorZ.mjs';
-import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
+import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
+import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
+import { WriteableEcdsaChannelSigner, WriteableEcdsaChannelSignerInterface } from '../structs/WriteableEcdsaChannelSigner.mjs';
+import { Result_WriteableEcdsaChannelSignerDecodeErrorZ } from '../structs/Result_WriteableEcdsaChannelSignerDecodeErrorZ.mjs';
 import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
 import { InMemorySigner } from '../structs/InMemorySigner.mjs';
 import { Result_InMemorySignerDecodeErrorZ } from '../structs/Result_InMemorySignerDecodeErrorZ.mjs';
 import { Result_TransactionNoneZ } from '../structs/Result_TransactionNoneZ.mjs';
 import { Option_u16Z } from '../structs/Option_u16Z.mjs';
-import { APIError } from '../structs/APIError.mjs';
-import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Result__u832APIErrorZ } from '../structs/Result__u832APIErrorZ.mjs';
+import { RecentPaymentDetails } from '../structs/RecentPaymentDetails.mjs';
 import { PaymentSendFailure } from '../structs/PaymentSendFailure.mjs';
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
+import { Result_NoneRetryableSendFailureZ } from '../structs/Result_NoneRetryableSendFailureZ.mjs';
 import { Result_PaymentHashPaymentSendFailureZ } from '../structs/Result_PaymentHashPaymentSendFailureZ.mjs';
+import { Result_PaymentHashRetryableSendFailureZ } from '../structs/Result_PaymentHashRetryableSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
@@ -210,12 +219,21 @@ import { ChannelMonitor } from '../structs/ChannelMonitor.mjs';
 import { ChannelMonitorUpdate } from '../structs/ChannelMonitorUpdate.mjs';
 import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
+import { EntropySource, EntropySourceInterface } from '../structs/EntropySource.mjs';
+import { UnsignedChannelUpdate } from '../structs/UnsignedChannelUpdate.mjs';
+import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
+import { UnsignedGossipMessage } from '../structs/UnsignedGossipMessage.mjs';
+import { NodeSigner, NodeSignerInterface } from '../structs/NodeSigner.mjs';
+import { SignerProvider, SignerProviderInterface } from '../structs/SignerProvider.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
+import { Router, RouterInterface } from '../structs/Router.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
 import { ChannelConfig } from '../structs/ChannelConfig.mjs';
 import { Result_ChannelConfigDecodeErrorZ } from '../structs/Result_ChannelConfigDecodeErrorZ.mjs';
+import { Option_APIErrorZ } from '../structs/Option_APIErrorZ.mjs';
+import { Result_COption_APIErrorZDecodeErrorZ } from '../structs/Result_COption_APIErrorZDecodeErrorZ.mjs';
 import { Result_OutPointDecodeErrorZ } from '../structs/Result_OutPointDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
@@ -242,6 +260,7 @@ import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from 
 import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
 import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
+import { TwoTuple_PublicKeyCOption_NetAddressZZ } from '../structs/TwoTuple_PublicKeyCOption_NetAddressZZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -306,14 +325,11 @@ import { Pong } from '../structs/Pong.mjs';
 import { Result_PongDecodeErrorZ } from '../structs/Result_PongDecodeErrorZ.mjs';
 import { Result_UnsignedChannelAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedChannelAnnouncementDecodeErrorZ.mjs';
 import { Result_ChannelAnnouncementDecodeErrorZ } from '../structs/Result_ChannelAnnouncementDecodeErrorZ.mjs';
-import { UnsignedChannelUpdate } from '../structs/UnsignedChannelUpdate.mjs';
 import { Result_UnsignedChannelUpdateDecodeErrorZ } from '../structs/Result_UnsignedChannelUpdateDecodeErrorZ.mjs';
 import { Result_ChannelUpdateDecodeErrorZ } from '../structs/Result_ChannelUpdateDecodeErrorZ.mjs';
 import { Result_ErrorMessageDecodeErrorZ } from '../structs/Result_ErrorMessageDecodeErrorZ.mjs';
 import { Result_WarningMessageDecodeErrorZ } from '../structs/Result_WarningMessageDecodeErrorZ.mjs';
-import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
 import { Result_UnsignedNodeAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedNodeAnnouncementDecodeErrorZ.mjs';
-import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { Result_NodeAnnouncementDecodeErrorZ } from '../structs/Result_NodeAnnouncementDecodeErrorZ.mjs';
 import { Result_QueryShortChannelIdsDecodeErrorZ } from '../structs/Result_QueryShortChannelIdsDecodeErrorZ.mjs';
 import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs';
@@ -354,6 +370,7 @@ import { ChainMonitor } from '../structs/ChainMonitor.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
@@ -369,12 +386,14 @@ import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
-import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
+import { OfferFeatures } from '../structs/OfferFeatures.mjs';
+import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
+import { Bolt12InvoiceFeatures } from '../structs/Bolt12InvoiceFeatures.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
+import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
-import { Router, RouterInterface } from '../structs/Router.mjs';
 import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
@@ -383,395 +402,68 @@ import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
 import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
+import { GossipSync } from '../structs/GossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
-import { MinFinalCltvExpiry } from '../structs/MinFinalCltvExpiry.mjs';
+import { MinFinalCltvExpiryDelta } from '../structs/MinFinalCltvExpiryDelta.mjs';
 import { Fallback } from '../structs/Fallback.mjs';
-import { Payer, PayerInterface } from '../structs/Payer.mjs';
-import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { Retry } from '../structs/Retry.mjs';
-
 
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
-
-/** An implementation of KeysInterface */
-export interface KeysInterfaceInterface {
-	/**Get node secret key based on the provided [`Recipient`].
-	 * 
-	 * The `node_id`/`network_key` is the public key that corresponds to this secret key.
-	 * 
-	 * This method must return the same value each time it is called with a given [`Recipient`]
-	 * parameter.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 */
-	get_node_secret(recipient: Recipient): Result_SecretKeyNoneZ;
-	/**Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
-	 * [`get_node_secret`].
-	 * 
-	 * This method must return the same value each time it is called with a given [`Recipient`]
-	 * parameter.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 * 
-	 * [`get_node_secret`]: Self::get_node_secret
-	 */
-	get_node_id(recipient: Recipient): Result_PublicKeyNoneZ;
-	/**Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
-	 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
-	 * secret, though this is less efficient.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 * 
-	 * [`node secret`]: Self::get_node_secret
-	 */
-	ecdh(recipient: Recipient, other_key: Uint8Array, tweak: Option_ScalarZ): Result_SharedSecretNoneZ;
-	/**Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
-	 * 
-	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
-	 */
-	get_destination_script(): Uint8Array;
-	/**Get a script pubkey which we will send funds to when closing a channel.
-	 * 
-	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
-	 */
-	get_shutdown_scriptpubkey(): ShutdownScript;
-	/**Get a new set of [`Sign`] for per-channel secrets. These MUST be unique even if you
-	 * restarted with some stale data!
-	 * 
-	 * This method must return a different value each time it is called.
-	 */
-	generate_channel_keys_id(inbound: boolean, channel_value_satoshis: bigint, user_channel_id: bigint): Uint8Array;
-	/**Derives the private key material backing a `Signer`.
-	 * 
-	 * To derive a new `Signer`, a fresh `channel_keys_id` should be obtained through
-	 * [`KeysInterface::generate_channel_keys_id`]. Otherwise, an existing `Signer` can be
-	 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
-	 * [`BaseSign::channel_keys_id`].
-	 */
-	derive_channel_signer(channel_value_satoshis: bigint, channel_keys_id: Uint8Array): Sign;
-	/**Gets a unique, cryptographically-secure, random 32 byte value. This is used for encrypting
-	 * onion packets and for temporary channel IDs. There is no requirement that these be
-	 * persisted anywhere, though they must be unique across restarts.
-	 * 
-	 * This method must return a different value each time it is called.
-	 */
-	get_secure_random_bytes(): Uint8Array;
-	/**Reads a [`Signer`] for this [`KeysInterface`] from the given input stream.
-	 * This is only called during deserialization of other objects which contain
-	 * [`Sign`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
-	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
-	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
-	 * you've read all of the provided bytes to ensure no corruption occurred.
-	 * 
-	 * This method is slowly being phased out -- it will only be called when reading objects
-	 * written by LDK versions prior to 0.0.113.
-	 * 
-	 * [`Signer`]: Self::Signer
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
-	/**Sign an invoice.
-	 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
-	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
-	 * blindly signing the hash.
-	 * The `hrp` is ASCII bytes, while the invoice data is base32-encoded.
-	 * 
-	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 */
-	sign_invoice(hrp_bytes: Uint8Array, invoice_data: UInt5[], receipient: Recipient): Result_RecoverableSignatureNoneZ;
-	/**Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
-	 * 
-	 * If the implementor of this trait supports [phantom node payments], then every node that is
-	 * intended to be included in the phantom invoice route hints must return the same value from
-	 * this method.
-	 * 
-	 * This method must return the same value each time it is called.
-	 * 
-	 * [phantom node payments]: PhantomKeysManager
-	 */
-	get_inbound_payment_key_material(): Uint8Array;
-}
-
-class LDKKeysInterfaceHolder {
-	held: KeysInterface|null = null;
-}
-
 /**
- * A trait to describe an object which can get user secrets and key material.
+ * A Tuple
  */
-export class KeysInterface extends CommonBase {
+export class TwoTuple_Z extends CommonBase {
 	/* @internal */
-	public bindings_instance: bindings.LDKKeysInterface|null;
-
-	/* @internal */
-	public instance_idx?: number;
-
-	/* @internal */
-	constructor(_dummy: null, ptr: bigint) {
-		super(ptr, bindings.KeysInterface_free);
-		this.bindings_instance = null;
-	}
-
-	/** Creates a new instance of KeysInterface from a given implementation */
-	public static new_impl(arg: KeysInterfaceInterface): KeysInterface {
-		const impl_holder: LDKKeysInterfaceHolder = new LDKKeysInterfaceHolder();
-		let structImplementation = {
-			get_node_secret (recipient: Recipient): bigint {
-				const ret: Result_SecretKeyNoneZ = arg.get_node_secret(recipient);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			get_node_id (recipient: Recipient): bigint {
-				const ret: Result_PublicKeyNoneZ = arg.get_node_id(recipient);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			ecdh (recipient: Recipient, other_key: number, tweak: bigint): bigint {
-				const other_key_conv: Uint8Array = bindings.decodeUint8Array(other_key);
-				const tweak_hu_conv: Option_ScalarZ = Option_ScalarZ.constr_from_ptr(tweak);
-				CommonBase.add_ref_from(tweak_hu_conv, this);
-				const ret: Result_SharedSecretNoneZ = arg.ecdh(recipient, other_key_conv, tweak_hu_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			get_destination_script (): number {
-				const ret: Uint8Array = arg.get_destination_script();
-				const result: number = bindings.encodeUint8Array(ret);
-				return result;
-			},
-			get_shutdown_scriptpubkey (): bigint {
-				const ret: ShutdownScript = arg.get_shutdown_scriptpubkey();
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			generate_channel_keys_id (inbound: boolean, channel_value_satoshis: bigint, user_channel_id: number): number {
-				const user_channel_id_conv: bigint = bindings.decodeUint128(user_channel_id);
-				const ret: Uint8Array = arg.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id_conv);
-				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
-				return result;
-			},
-			derive_channel_signer (channel_value_satoshis: bigint, channel_keys_id: number): bigint {
-				const channel_keys_id_conv: Uint8Array = bindings.decodeUint8Array(channel_keys_id);
-				const ret: Sign = arg.derive_channel_signer(channel_value_satoshis, channel_keys_id_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				CommonBase.add_ref_from(impl_holder.held, ret);
-				return result;
-			},
-			get_secure_random_bytes (): number {
-				const ret: Uint8Array = arg.get_secure_random_bytes();
-				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
-				return result;
-			},
-			read_chan_signer (reader: number): bigint {
-				const reader_conv: Uint8Array = bindings.decodeUint8Array(reader);
-				const ret: Result_SignDecodeErrorZ = arg.read_chan_signer(reader_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			sign_invoice (hrp_bytes: number, invoice_data: number, receipient: Recipient): bigint {
-				const hrp_bytes_conv: Uint8Array = bindings.decodeUint8Array(hrp_bytes);
-				const invoice_data_conv_7_len: number = bindings.getArrayLength(invoice_data);
-				const invoice_data_conv_7_arr: UInt5[] = new Array(invoice_data_conv_7_len).fill(null);
-				for (var h = 0; h < invoice_data_conv_7_len; h++) {
-					const invoice_data_conv_7: number = bindings.getU8ArrayElem(invoice_data, h);
-					const invoice_data_conv_7_conv: UInt5 = new UInt5(invoice_data_conv_7);
-					invoice_data_conv_7_arr[h] = invoice_data_conv_7_conv;
-				}
-				bindings.freeWasmMemory(invoice_data)
-				const ret: Result_RecoverableSignatureNoneZ = arg.sign_invoice(hrp_bytes_conv, invoice_data_conv_7_arr, receipient);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
-				return result;
-			},
-			get_inbound_payment_key_material (): number {
-				const ret: Uint8Array = arg.get_inbound_payment_key_material();
-				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
-				return result;
-			},
-		} as bindings.LDKKeysInterface;
-		const ptr_idx: [bigint, number] = bindings.LDKKeysInterface_new(structImplementation);
-
-		impl_holder.held = new KeysInterface(null, ptr_idx[0]);
-		impl_holder.held.instance_idx = ptr_idx[1];
-		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held!;
+	public constructor(_dummy: null, ptr: bigint) {
+		super(ptr, bindings.C2Tuple_Z_free);
 	}
 
 	/**
-	 * Get node secret key based on the provided [`Recipient`].
 	 * 
-	 * The `node_id`/`network_key` is the public key that corresponds to this secret key.
-	 * 
-	 * This method must return the same value each time it is called with a given [`Recipient`]
-	 * parameter.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 */
-	public get_node_secret(recipient: Recipient): Result_SecretKeyNoneZ {
-		const ret: bigint = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
-		const ret_hu_conv: Result_SecretKeyNoneZ = Result_SecretKeyNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Get node id based on the provided [`Recipient`]. This public key corresponds to the secret in
-	 * [`get_node_secret`].
-	 * 
-	 * This method must return the same value each time it is called with a given [`Recipient`]
-	 * parameter.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 * 
-	 * [`get_node_secret`]: Self::get_node_secret
-	 */
-	public get_node_id(recipient: Recipient): Result_PublicKeyNoneZ {
-		const ret: bigint = bindings.KeysInterface_get_node_id(this.ptr, recipient);
-		const ret_hu_conv: Result_PublicKeyNoneZ = Result_PublicKeyNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets the ECDH shared secret of our [`node secret`] and `other_key`, multiplying by `tweak` if
-	 * one is provided. Note that this tweak can be applied to `other_key` instead of our node
-	 * secret, though this is less efficient.
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 * 
-	 * [`node secret`]: Self::get_node_secret
-	 */
-	public ecdh(recipient: Recipient, other_key: Uint8Array, tweak: Option_ScalarZ): Result_SharedSecretNoneZ {
-		const ret: bigint = bindings.KeysInterface_ecdh(this.ptr, recipient, bindings.encodeUint8Array(bindings.check_arr_len(other_key, 33)), CommonBase.get_ptr_of(tweak));
-		const ret_hu_conv: Result_SharedSecretNoneZ = Result_SharedSecretNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
-	 * 
-	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
-	 */
-	public get_destination_script(): Uint8Array {
-		const ret: number = bindings.KeysInterface_get_destination_script(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+	public get_a(): Uint16Array {
+		const ret: number = bindings.C2Tuple_Z_get_a(this.ptr);
+		const ret_conv: Uint16Array = bindings.decodeUint16Array(ret);
 		return ret_conv;
 	}
 
 	/**
-	 * Get a script pubkey which we will send funds to when closing a channel.
 	 * 
-	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
 	 */
-	public get_shutdown_scriptpubkey(): ShutdownScript {
-		const ret: bigint = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
-		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
+	public get_b(): Uint16Array {
+		const ret: number = bindings.C2Tuple_Z_get_b(this.ptr);
+		const ret_conv: Uint16Array = bindings.decodeUint16Array(ret);
+		return ret_conv;
+	}
+
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.C2Tuple_Z_clone_ptr(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public clone(): TwoTuple_Z {
+		const ret: bigint = bindings.C2Tuple_Z_clone(this.ptr);
+		const ret_hu_conv: TwoTuple_Z = new TwoTuple_Z(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Get a new set of [`Sign`] for per-channel secrets. These MUST be unique even if you
-	 * restarted with some stale data!
-	 * 
-	 * This method must return a different value each time it is called.
+	 * Creates a new C2Tuple_Z from the contained elements.
 	 */
-	public generate_channel_keys_id(inbound: boolean, channel_value_satoshis: bigint, user_channel_id: bigint): Uint8Array {
-		const ret: number = bindings.KeysInterface_generate_channel_keys_id(this.ptr, inbound, channel_value_satoshis, bindings.encodeUint128(user_channel_id));
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
-	 * Derives the private key material backing a `Signer`.
-	 * 
-	 * To derive a new `Signer`, a fresh `channel_keys_id` should be obtained through
-	 * [`KeysInterface::generate_channel_keys_id`]. Otherwise, an existing `Signer` can be
-	 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
-	 * [`BaseSign::channel_keys_id`].
-	 */
-	public derive_channel_signer(channel_value_satoshis: bigint, channel_keys_id: Uint8Array): Sign {
-		const ret: bigint = bindings.KeysInterface_derive_channel_signer(this.ptr, channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id, 32)));
-		const ret_hu_conv: Sign = new Sign(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, this);
+	public static constructor_new(a: Uint16Array, b: Uint16Array): TwoTuple_Z {
+		const ret: bigint = bindings.C2Tuple_Z_new(bindings.encodeUint16Array(bindings.check_16_arr_len(a, 8)), bindings.encodeUint16Array(bindings.check_16_arr_len(b, 8)));
+		const ret_hu_conv: TwoTuple_Z = new TwoTuple_Z(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets a unique, cryptographically-secure, random 32 byte value. This is used for encrypting
-	 * onion packets and for temporary channel IDs. There is no requirement that these be
-	 * persisted anywhere, though they must be unique across restarts.
-	 * 
-	 * This method must return a different value each time it is called.
-	 */
-	public get_secure_random_bytes(): Uint8Array {
-		const ret: number = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
-	 * Reads a [`Signer`] for this [`KeysInterface`] from the given input stream.
-	 * This is only called during deserialization of other objects which contain
-	 * [`Sign`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
-	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
-	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
-	 * you've read all of the provided bytes to ensure no corruption occurred.
-	 * 
-	 * This method is slowly being phased out -- it will only be called when reading objects
-	 * written by LDK versions prior to 0.0.113.
-	 * 
-	 * [`Signer`]: Self::Signer
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	public read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ {
-		const ret: bigint = bindings.KeysInterface_read_chan_signer(this.ptr, bindings.encodeUint8Array(reader));
-		const ret_hu_conv: Result_SignDecodeErrorZ = Result_SignDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Sign an invoice.
-	 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
-	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
-	 * blindly signing the hash.
-	 * The `hrp` is ASCII bytes, while the invoice data is base32-encoded.
-	 * 
-	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
-	 * 
-	 * Errors if the [`Recipient`] variant is not supported by the implementation.
-	 */
-	public sign_invoice(hrp_bytes: Uint8Array, invoice_data: UInt5[], receipient: Recipient): Result_RecoverableSignatureNoneZ {
-		const ret: bigint = bindings.KeysInterface_sign_invoice(this.ptr, bindings.encodeUint8Array(hrp_bytes), bindings.encodeUint8Array(invoice_data != null ? bindings.uint5ArrToBytes(invoice_data) : null), receipient);
-		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
-	 * 
-	 * If the implementor of this trait supports [phantom node payments], then every node that is
-	 * intended to be included in the phantom invoice route hints must return the same value from
-	 * this method.
-	 * 
-	 * This method must return the same value each time it is called.
-	 * 
-	 * [phantom node payments]: PhantomKeysManager
-	 */
-	public get_inbound_payment_key_material(): Uint8Array {
-		const ret: number = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
 	}
 
 }
