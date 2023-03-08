@@ -45,13 +45,13 @@ public class BlindedPath extends CommonBase {
 	 * 
 	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
 	 */
-	public static Result_BlindedPathNoneZ of(byte[][] node_pks, org.ldk.structs.KeysInterface keys_manager) {
-		long ret = bindings.BlindedPath_new(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, keys_manager == null ? 0 : keys_manager.ptr);
+	public static Result_BlindedPathNoneZ of(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedPath_new(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source == null ? 0 : entropy_source.ptr);
 		Reference.reachabilityFence(node_pks);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BlindedPathNoneZ ret_hu_conv = Result_BlindedPathNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
 		return ret_hu_conv;
 	}
 

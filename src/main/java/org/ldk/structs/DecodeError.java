@@ -47,7 +47,8 @@ public class DecodeError extends CommonBase {
 
 	/**
 	 * A version byte specified something we don't know how to handle.
-	 * Includes unknown realm byte in an OnionHopData packet
+	 * 
+	 * Includes unknown realm byte in an onion hop data packet.
 	 */
 	public final static class UnknownVersion extends DecodeError {
 		private UnknownVersion(long ptr, bindings.LDKDecodeError.UnknownVersion obj) {
@@ -55,7 +56,7 @@ public class DecodeError extends CommonBase {
 		}
 	}
 	/**
-	 * Unknown feature mandating we fail to parse message (eg TLV with an even, unknown type)
+	 * Unknown feature mandating we fail to parse message (e.g., TLV with an even, unknown type)
 	 */
 	public final static class UnknownRequiredFeature extends DecodeError {
 		private UnknownRequiredFeature(long ptr, bindings.LDKDecodeError.UnknownRequiredFeature obj) {
@@ -63,9 +64,11 @@ public class DecodeError extends CommonBase {
 		}
 	}
 	/**
-	 * Value was invalid, eg a byte which was supposed to be a bool was something other than a 0
+	 * Value was invalid.
+	 * 
+	 * For example, a byte which was supposed to be a bool was something other than a 0
 	 * or 1, a public key/private key/signature was invalid, text wasn't UTF-8, TLV was
-	 * syntactically incorrect, etc
+	 * syntactically incorrect, etc.
 	 */
 	public final static class InvalidValue extends DecodeError {
 		private InvalidValue(long ptr, bindings.LDKDecodeError.InvalidValue obj) {
@@ -73,7 +76,7 @@ public class DecodeError extends CommonBase {
 		}
 	}
 	/**
-	 * Buffer too short
+	 * The buffer to be read was too short.
 	 */
 	public final static class ShortRead extends DecodeError {
 		private ShortRead(long ptr, bindings.LDKDecodeError.ShortRead obj) {
@@ -81,7 +84,7 @@ public class DecodeError extends CommonBase {
 		}
 	}
 	/**
-	 * A length descriptor in the packet didn't describe the later data correctly
+	 * A length descriptor in the packet didn't describe the later data correctly.
 	 */
 	public final static class BadLengthDescriptor extends DecodeError {
 		private BadLengthDescriptor(long ptr, bindings.LDKDecodeError.BadLengthDescriptor obj) {
@@ -89,7 +92,7 @@ public class DecodeError extends CommonBase {
 		}
 	}
 	/**
-	 * Error from std::io
+	 * Error from [`std::io`].
 	 */
 	public final static class Io extends DecodeError {
 		public final org.ldk.enums.IOError io;

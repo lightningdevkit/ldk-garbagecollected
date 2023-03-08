@@ -103,9 +103,9 @@ public class SendError extends CommonBase {
 		}
 	}
 	/**
-	 * Failed to retrieve our node id from the provided [`KeysInterface`].
+	 * Failed to retrieve our node id from the provided [`NodeSigner`].
 	 * 
-	 * [`KeysInterface`]: crate::chain::keysinterface::KeysInterface
+	 * [`NodeSigner`]: crate::chain::keysinterface::NodeSigner
 	 */
 	public final static class GetNodeIdFailed extends SendError {
 		private GetNodeIdFailed(long ptr, bindings.LDKSendError.GetNodeIdFailed obj) {
@@ -115,7 +115,7 @@ public class SendError extends CommonBase {
 	/**
 	 * We attempted to send to a blinded path where we are the introduction node, and failed to
 	 * advance the blinded path to make the second hop the new introduction node. Either
-	 * [`KeysInterface::ecdh`] failed, we failed to tweak the current blinding point to get the
+	 * [`NodeSigner::ecdh`] failed, we failed to tweak the current blinding point to get the
 	 * new blinding point, or we were attempting to send to ourselves.
 	 */
 	public final static class BlindedPathAdvanceFailed extends SendError {

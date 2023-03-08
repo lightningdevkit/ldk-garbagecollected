@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A pong message to be sent or received from a peer
+ * A [`pong`] message to be sent to or received from a peer.
+ * 
+ * [`pong`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-ping-and-pong-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Pong extends CommonBase {
@@ -22,6 +24,7 @@ public class Pong extends CommonBase {
 
 	/**
 	 * The pong packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public short get_byteslen() {
@@ -32,6 +35,7 @@ public class Pong extends CommonBase {
 
 	/**
 	 * The pong packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public void set_byteslen(short val) {

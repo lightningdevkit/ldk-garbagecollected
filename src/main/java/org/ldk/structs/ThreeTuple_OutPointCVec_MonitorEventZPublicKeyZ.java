@@ -89,6 +89,7 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ extends CommonBase 
 		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
+		for (MonitorEvent b_conv_14: b) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_conv_14); }; };
 		return ret_hu_conv;
 	}
 

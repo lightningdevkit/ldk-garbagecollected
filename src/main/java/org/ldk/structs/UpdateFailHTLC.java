@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An update_fail_htlc message to be sent or received from a peer
+ * An [`update_fail_htlc`] message to be sent to or received from a peer.
+ * 
+ * [`update_fail_htlc`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#removing-an-htlc-update_fulfill_htlc-update_fail_htlc-and-update_fail_malformed_htlc
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UpdateFailHTLC extends CommonBase {

@@ -132,6 +132,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		for (NetAddress val_conv_12: val) { if (this != null) { this.ptrs_to.add(val_conv_12); }; };
 	}
 
 	/**
@@ -183,6 +184,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(alias_arg); };
+		for (NetAddress addresses_arg_conv_12: addresses_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(addresses_arg_conv_12); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(announcement_message_arg); };
 		return ret_hu_conv;
 	}

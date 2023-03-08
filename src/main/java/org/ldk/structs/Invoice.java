@@ -229,11 +229,11 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
-	 * Returns the invoice's `min_final_cltv_expiry` time, if present, otherwise
-	 * [`DEFAULT_MIN_FINAL_CLTV_EXPIRY`].
+	 * Returns the invoice's `min_final_cltv_expiry_delta` time, if present, otherwise
+	 * [`DEFAULT_MIN_FINAL_CLTV_EXPIRY_DELTA`].
 	 */
-	public long min_final_cltv_expiry() {
-		long ret = bindings.Invoice_min_final_cltv_expiry(this.ptr);
+	public long min_final_cltv_expiry_delta() {
+		long ret = bindings.Invoice_min_final_cltv_expiry_delta(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

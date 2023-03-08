@@ -171,11 +171,11 @@ public class RawInvoice extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
-	public MinFinalCltvExpiry min_final_cltv_expiry() {
-		long ret = bindings.RawInvoice_min_final_cltv_expiry(this.ptr);
+	public MinFinalCltvExpiryDelta min_final_cltv_expiry_delta() {
+		long ret = bindings.RawInvoice_min_final_cltv_expiry_delta(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.MinFinalCltvExpiry ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MinFinalCltvExpiry(null, ret); }
+		org.ldk.structs.MinFinalCltvExpiryDelta ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MinFinalCltvExpiryDelta(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

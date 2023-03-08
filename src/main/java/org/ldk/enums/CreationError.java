@@ -27,6 +27,12 @@ public enum CreationError {
 	 * [phantom invoices]: crate::utils::create_phantom_invoice
 	 */
 	LDKCreationError_MissingRouteHints,
+	/**
+	 * The provided `min_final_cltv_expiry_delta` was less than [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
+	 * 
+	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]: lightning::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 */
+	LDKCreationError_MinFinalCltvExpiryDeltaTooShort,
 	; static native void init();
 	static { init(); }
 }

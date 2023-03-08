@@ -1,17 +1,17 @@
 package org.ldk.enums;
 
 /**
- * An error when accessing the chain via [`Access`].
+ * An error when accessing the chain via [`UtxoLookup`].
  */
-public enum AccessError {
+public enum UtxoLookupError {
 	/**
 	 * The requested chain is unknown.
 	 */
-	LDKAccessError_UnknownChain,
+	LDKUtxoLookupError_UnknownChain,
 	/**
 	 * The requested transaction doesn't exist or hasn't confirmed.
 	 */
-	LDKAccessError_UnknownTx,
+	LDKUtxoLookupError_UnknownTx,
 	; static native void init();
 	static { init(); }
 }

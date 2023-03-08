@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * The unsigned part of a channel_announcement
+ * The unsigned part of a [`channel_announcement`] message.
+ * 
+ * [`channel_announcement`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-channel_announcement-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UnsignedChannelAnnouncement extends CommonBase {
@@ -79,75 +81,91 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	}
 
 	/**
-	 * One of the two node_ids which are endpoints of this channel
+	 * One of the two `node_id`s which are endpoints of this channel
 	 */
-	public byte[] get_node_id_1() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
+	public NodeId get_node_id_1() {
+		long ret = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * One of the two node_ids which are endpoints of this channel
+	 * One of the two `node_id`s which are endpoints of this channel
 	 */
-	public void set_node_id_1(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_node_id_1(org.ldk.structs.NodeId val) {
+		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
-	 * The other of the two node_ids which are endpoints of this channel
+	 * The other of the two `node_id`s which are endpoints of this channel
 	 */
-	public byte[] get_node_id_2() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
+	public NodeId get_node_id_2() {
+		long ret = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * The other of the two node_ids which are endpoints of this channel
+	 * The other of the two `node_id`s which are endpoints of this channel
 	 */
-	public void set_node_id_2(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_node_id_2(org.ldk.structs.NodeId val) {
+		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
 	 * The funding key for the first node
 	 */
-	public byte[] get_bitcoin_key_1() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
+	public NodeId get_bitcoin_key_1() {
+		long ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * The funding key for the first node
 	 */
-	public void set_bitcoin_key_1(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_bitcoin_key_1(org.ldk.structs.NodeId val) {
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
 	 * The funding key for the second node
 	 */
-	public byte[] get_bitcoin_key_2() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
+	public NodeId get_bitcoin_key_2() {
+		long ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * The funding key for the second node
 	 */
-	public void set_bitcoin_key_2(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_bitcoin_key_2(org.ldk.structs.NodeId val) {
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	long clone_ptr() {

@@ -122,13 +122,13 @@ public class APIError extends CommonBase {
 		}
 	}
 	/**
-	 * [`KeysInterface::get_shutdown_scriptpubkey`] returned a shutdown scriptpubkey incompatible
+	 * [`SignerProvider::get_shutdown_scriptpubkey`] returned a shutdown scriptpubkey incompatible
 	 * with the channel counterparty as negotiated in [`InitFeatures`].
 	 * 
 	 * Using a SegWit v0 script should resolve this issue. If you cannot, you won't be able to open
 	 * a channel or cooperatively close one with this peer (and will have to force-close instead).
 	 * 
-	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
 	 * [`InitFeatures`]: crate::ln::features::InitFeatures
 	 */
 	public final static class IncompatibleShutdownScript extends APIError {
@@ -250,4 +250,13 @@ public class APIError extends CommonBase {
 		if (!(o instanceof APIError)) return false;
 		return this.eq((APIError)o);
 	}
+	/**
+	 * Serialize the APIError object into a byte array which can be read by APIError_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.APIError_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 }

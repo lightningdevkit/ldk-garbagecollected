@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An open_channel message to be sent or received from a peer
+ * An [`open_channel`] message to be sent to or received from a peer.
+ * 
+ * [`open_channel`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-open_channel-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OpenChannel extends CommonBase {
@@ -165,7 +167,8 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The feerate per 1000-weight of sender generated transactions, until updated by update_fee
+	 * The feerate per 1000-weight of sender generated transactions, until updated by
+	 * [`UpdateFee`]
 	 */
 	public int get_feerate_per_kw() {
 		int ret = bindings.OpenChannel_get_feerate_per_kw(this.ptr);
@@ -174,7 +177,8 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The feerate per 1000-weight of sender generated transactions, until updated by update_fee
+	 * The feerate per 1000-weight of sender generated transactions, until updated by
+	 * [`UpdateFee`]
 	 */
 	public void set_feerate_per_kw(int val) {
 		bindings.OpenChannel_set_feerate_per_kw(this.ptr, val);
@@ -183,7 +187,8 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if they broadcast a commitment transaction
+	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if
+	 * they broadcast a commitment transaction
 	 */
 	public short get_to_self_delay() {
 		short ret = bindings.OpenChannel_get_to_self_delay(this.ptr);
@@ -192,7 +197,8 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if they broadcast a commitment transaction
+	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if
+	 * they broadcast a commitment transaction
 	 */
 	public void set_to_self_delay(short val) {
 		bindings.OpenChannel_set_to_self_delay(this.ptr, val);
@@ -327,7 +333,7 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * Channel flags
+	 * The channel flags to be used
 	 */
 	public byte get_channel_flags() {
 		byte ret = bindings.OpenChannel_get_channel_flags(this.ptr);
@@ -336,7 +342,7 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * Channel flags
+	 * The channel flags to be used
 	 */
 	public void set_channel_flags(byte val) {
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
@@ -345,9 +351,10 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent
+	 * 
+	 * If this is `None`, we derive the channel type from the intersection of our
+	 * feature bits with our counterparty's feature bits from the [`Init`] message.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -362,9 +369,10 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent
+	 * 
+	 * If this is `None`, we derive the channel type from the intersection of our
+	 * feature bits with our counterparty's feature bits from the [`Init`] message.
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */

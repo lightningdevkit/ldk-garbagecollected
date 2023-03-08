@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Strategies available to retry payment path failures for an [`Invoice`].
+ * Strategies available to retry payment path failures.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Retry extends CommonBase {
@@ -33,9 +33,9 @@ public class Retry extends CommonBase {
 	/**
 	 * Max number of attempts to retry payment.
 	 * 
-	 * Note that this is the number of *path* failures, not full payment retries. For multi-path
-	 * payments, if this is less than the total number of paths, we will never even retry all of the
-	 * payment's paths.
+	 * Each attempt may be multiple HTLCs along multiple paths if the router decides to split up a
+	 * retry, and may retry multiple failed HTLCs at once if they failed around the same time and
+	 * were retried along a route from a single call to [`Router::find_route_with_id`].
 	 */
 	public final static class Attempts extends Retry {
 		public final long attempts;
@@ -45,7 +45,10 @@ public class Retry extends CommonBase {
 		}
 	}
 	/**
-	 * Time elapsed before abandoning retries for a payment.
+	 * Time elapsed before abandoning retries for a payment. At least one attempt at payment is made;
+	 * see [`PaymentParameters::expiry_time`] to avoid any attempt at payment after a specific time.
+	 * 
+	 * [`PaymentParameters::expiry_time`]: crate::routing::router::PaymentParameters::expiry_time
 	 */
 	public final static class Timeout extends Retry {
 		public final long timeout;

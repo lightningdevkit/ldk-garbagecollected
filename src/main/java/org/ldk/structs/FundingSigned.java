@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A funding_signed message to be sent or received from a peer
+ * A [`funding_signed`] message to be sent to or received from a peer.
+ * 
+ * [`funding_signed`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-funding_signed-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class FundingSigned extends CommonBase {

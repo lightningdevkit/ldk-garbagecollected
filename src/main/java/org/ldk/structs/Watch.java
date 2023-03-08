@@ -41,7 +41,19 @@ public class Watch extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.Watch_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.Watch_free(ptr); }
+		ptr = 0;
+	}
 	public static interface WatchInterface {
 		/**
 		 * Watches a channel identified by `funding_txo` using `monitor`.
@@ -97,7 +109,6 @@ public class Watch extends CommonBase {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
-				if (update_hu_conv != null) { update_hu_conv.ptrs_to.add(this); };
 				ChannelMonitorUpdateStatus ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				Reference.reachabilityFence(arg);
 				return ret;

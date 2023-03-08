@@ -27,20 +27,19 @@ public class P2PGossipSync extends CommonBase {
 	/**
 	 * Creates a new tracker of the actual state of the network of channels and nodes,
 	 * assuming an existing Network Graph.
-	 * Chain monitor is used to make sure announced channels exist on-chain,
-	 * channel data is correct, and that the announcement is signed with
-	 * channel owners' keys.
+	 * UTXO lookup is used to make sure announced channels exist on-chain, channel data is
+	 * correct, and the announcement is signed with channel owners' keys.
 	 */
-	public static P2PGossipSync of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Option_AccessZ chain_access, org.ldk.structs.Logger logger) {
-		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, chain_access.ptr, logger == null ? 0 : logger.ptr);
+	public static P2PGossipSync of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Option_UtxoLookupZ utxo_lookup, org.ldk.structs.Logger logger) {
+		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, utxo_lookup.ptr, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(network_graph);
-		Reference.reachabilityFence(chain_access);
+		Reference.reachabilityFence(utxo_lookup);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.P2PGossipSync ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.P2PGossipSync(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_access); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(utxo_lookup); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
@@ -50,11 +49,11 @@ public class P2PGossipSync extends CommonBase {
 	 * existing announcements unless they are updated.
 	 * Add, update or remove the provider would replace the current one.
 	 */
-	public void add_chain_access(org.ldk.structs.Option_AccessZ chain_access) {
-		bindings.P2PGossipSync_add_chain_access(this.ptr, chain_access.ptr);
+	public void add_utxo_lookup(org.ldk.structs.Option_UtxoLookupZ utxo_lookup) {
+		bindings.P2PGossipSync_add_utxo_lookup(this.ptr, utxo_lookup.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(chain_access);
-		if (this != null) { this.ptrs_to.add(chain_access); };
+		Reference.reachabilityFence(utxo_lookup);
+		if (this != null) { this.ptrs_to.add(utxo_lookup); };
 	}
 
 	/**

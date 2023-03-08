@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An onion message to be sent or received from a peer
+ * An onion message to be sent to or received from a peer.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessage extends CommonBase {

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An address which can be used to connect to a remote peer
+ * An address which can be used to connect to a remote peer.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NetAddress extends CommonBase {
@@ -90,7 +90,8 @@ public class NetAddress extends CommonBase {
 	}
 	/**
 	 * A new-style Tor onion address/port on which the peer is listening.
-	 * To create the human-readable \"hostname\", concatenate ed25519_pubkey, checksum, and version,
+	 * 
+	 * To create the human-readable \"hostname\", concatenate the ED25519 pubkey, checksum, and version,
 	 * wrap as base32 and append \".onion\".
 	 */
 	public final static class OnionV3 extends NetAddress {

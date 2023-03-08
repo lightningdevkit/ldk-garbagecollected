@@ -177,6 +177,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -214,6 +215,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_outbound_scid_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -251,6 +253,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_inbound_scid_alias(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -306,6 +309,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -504,6 +508,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_confirmations_required(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -529,6 +534,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_confirmations(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -562,6 +568,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_force_close_spend_delay(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -675,6 +682,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_inbound_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -696,6 +704,7 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_inbound_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -764,6 +773,15 @@ public class ChannelDetails extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(counterparty_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(funding_txo_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_type_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(short_channel_id_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outbound_scid_alias_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(inbound_scid_alias_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(unspendable_punishment_reserve_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(confirmations_required_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(confirmations_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(force_close_spend_delay_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(inbound_htlc_minimum_msat_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(inbound_htlc_maximum_msat_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(config_arg); };
 		return ret_hu_conv;
 	}

@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A warning message to be sent or received from a peer
+ * A [`warning`] message to be sent to or received from a peer.
+ * 
+ * [`warning`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-error-and-warning-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class WarningMessage extends CommonBase {
@@ -44,6 +46,7 @@ public class WarningMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable warning description.
+	 * 
 	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
 	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
@@ -56,6 +59,7 @@ public class WarningMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable warning description.
+	 * 
 	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
 	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.

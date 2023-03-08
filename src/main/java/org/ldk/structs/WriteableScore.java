@@ -27,7 +27,19 @@ public class WriteableScore extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.WriteableScore_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.WriteableScore_free(ptr); }
+		ptr = 0;
+	}
 	public static interface WriteableScoreInterface {
 		/**
 		 * Serialize the object into a byte array
@@ -52,7 +64,7 @@ public class WriteableScore extends CommonBase {
 	 */
 	public LockableScore get_lockable_score() {
 		LockableScore res = new LockableScore(null, bindings.LDKWriteableScore_get_LockableScore(this.ptr));
-		this.ptrs_to.add(res);
+		res.ptrs_to.add(this);
 		return res;
 	}
 

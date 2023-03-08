@@ -303,11 +303,11 @@ public class ChannelHandshakeConfig extends CommonBase {
 	 * any attacker who is able to take control of a channel can just as easily send the funds via
 	 * lightning payments, so we never require that our counterparties support this option.
 	 * 
-	 * The upfront key committed is provided from [`KeysInterface::get_shutdown_scriptpubkey`].
+	 * The upfront key committed is provided from [`SignerProvider::get_shutdown_scriptpubkey`].
 	 * 
 	 * Default value: true.
 	 * 
-	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
 	 */
 	public boolean get_commit_upfront_shutdown_pubkey() {
 		boolean ret = bindings.ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
@@ -324,11 +324,11 @@ public class ChannelHandshakeConfig extends CommonBase {
 	 * any attacker who is able to take control of a channel can just as easily send the funds via
 	 * lightning payments, so we never require that our counterparties support this option.
 	 * 
-	 * The upfront key committed is provided from [`KeysInterface::get_shutdown_scriptpubkey`].
+	 * The upfront key committed is provided from [`SignerProvider::get_shutdown_scriptpubkey`].
 	 * 
 	 * Default value: true.
 	 * 
-	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
 	 */
 	public void set_commit_upfront_shutdown_pubkey(boolean val) {
 		bindings.ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);

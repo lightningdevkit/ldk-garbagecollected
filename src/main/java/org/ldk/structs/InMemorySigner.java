@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * A simple implementation of [`Sign`] that just keeps the private keys in memory.
+ * A simple implementation of [`WriteableEcdsaChannelSigner`] that just keeps the private keys in memory.
  * 
  * This implementation performs no policy checks and is insufficient by itself as
  * a secure external signer.
@@ -154,9 +154,8 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Creates a new [`InMemorySigner`].
 	 */
-	public static InMemorySigner of(byte[] node_secret, byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(node_secret, 32), InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
-		Reference.reachabilityFence(node_secret);
+	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
+		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
 		Reference.reachabilityFence(funding_key);
 		Reference.reachabilityFence(revocation_base_key);
 		Reference.reachabilityFence(payment_key);
@@ -174,7 +173,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Returns the counterparty's pubkeys.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
@@ -190,7 +189,7 @@ public class InMemorySigner extends CommonBase {
 	 * transactions, i.e., the amount of time that we have to wait to recover our funds if we
 	 * broadcast a transaction.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public short counterparty_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
@@ -203,7 +202,7 @@ public class InMemorySigner extends CommonBase {
 	 * by our counterparty, i.e., the amount of time that they have to wait to recover their funds
 	 * if they broadcast a transaction.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public short holder_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
@@ -214,7 +213,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Returns whether the holder is the initiator.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public boolean is_outbound() {
 		boolean ret = bindings.InMemorySigner_is_outbound(this.ptr);
@@ -225,7 +224,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Funding outpoint
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
@@ -240,7 +239,7 @@ public class InMemorySigner extends CommonBase {
 	 * Returns a [`ChannelTransactionParameters`] for this channel, to be used when verifying or
 	 * building transactions.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
@@ -254,7 +253,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Returns whether anchors should be used.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public boolean opt_anchors() {
 		boolean ret = bindings.InMemorySigner_opt_anchors(this.ptr);
@@ -309,27 +308,40 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new BaseSign which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned BaseSign must be freed before this_arg is
+	 * Constructs a new ChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ChannelSigner must be freed before this_arg is
 	 */
-	public BaseSign as_BaseSign() {
-		long ret = bindings.InMemorySigner_as_BaseSign(this.ptr);
+	public ChannelSigner as_ChannelSigner() {
+		long ret = bindings.InMemorySigner_as_ChannelSigner(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BaseSign ret_hu_conv = new BaseSign(null, ret);
+		ChannelSigner ret_hu_conv = new ChannelSigner(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Constructs a new Sign which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Sign must be freed before this_arg is
+	 * Constructs a new EcdsaChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EcdsaChannelSigner must be freed before this_arg is
 	 */
-	public Sign as_Sign() {
-		long ret = bindings.InMemorySigner_as_Sign(this.ptr);
+	public EcdsaChannelSigner as_EcdsaChannelSigner() {
+		long ret = bindings.InMemorySigner_as_EcdsaChannelSigner(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Sign ret_hu_conv = new Sign(null, ret);
+		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new WriteableEcdsaChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned WriteableEcdsaChannelSigner must be freed before this_arg is
+	 */
+	public WriteableEcdsaChannelSigner as_WriteableEcdsaChannelSigner() {
+		long ret = bindings.InMemorySigner_as_WriteableEcdsaChannelSigner(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		WriteableEcdsaChannelSigner ret_hu_conv = new WriteableEcdsaChannelSigner(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -346,10 +358,9 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
-	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, byte[] arg) {
-		long ret = bindings.InMemorySigner_read(ser, InternalUtils.check_arr_len(arg, 32));
+	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.InMemorySigner_read(ser);
 		Reference.reachabilityFence(ser);
-		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -24,10 +24,22 @@ public class OnionMessageHandler extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.OnionMessageHandler_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.OnionMessageHandler_free(ptr); }
+		ptr = 0;
+	}
 	public static interface OnionMessageHandlerInterface {
 		/**
-		 * Handle an incoming onion_message message from the given peer.
+		 * Handle an incoming `onion_message` message from the given peer.
 		 */
 		void handle_onion_message(byte[] peer_node_id, OnionMessage msg);
 		/**
@@ -38,15 +50,12 @@ public class OnionMessageHandler extends CommonBase {
 		 * with us. Implementors should be somewhat conservative about doing so, however, as other
 		 * message handlers may still wish to communicate with this peer.
 		 */
-		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init);
+		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init, boolean inbound);
 		/**
 		 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 		 * drop and refuse to forward onion messages to this peer.
-		 * 
-		 * Note that in some rare cases this may be called without a corresponding
-		 * [`Self::peer_connected`].
 		 */
-		void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
+		void peer_disconnected(byte[] their_node_id);
 		/**
 		 * Gets the node feature flags which this handler itself supports. All available handlers are
 		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
@@ -71,15 +80,15 @@ public class OnionMessageHandler extends CommonBase {
 				arg.handle_onion_message(peer_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public long peer_connected(byte[] their_node_id, long init) {
+			@Override public long peer_connected(byte[] their_node_id, long init, boolean inbound) {
 				org.ldk.structs.Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new org.ldk.structs.Init(null, init); }
-				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, init_hu_conv);
+				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, init_hu_conv, inbound);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
-				arg.peer_disconnected(their_node_id, no_connection_possible);
+			@Override public void peer_disconnected(byte[] their_node_id) {
+				arg.peer_disconnected(their_node_id);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public long provided_node_features() {
@@ -103,12 +112,12 @@ public class OnionMessageHandler extends CommonBase {
 	 */
 	public OnionMessageProvider get_onion_message_provider() {
 		OnionMessageProvider res = new OnionMessageProvider(null, bindings.LDKOnionMessageHandler_get_OnionMessageProvider(this.ptr));
-		this.ptrs_to.add(res);
+		res.ptrs_to.add(this);
 		return res;
 	}
 
 	/**
-	 * Handle an incoming onion_message message from the given peer.
+	 * Handle an incoming `onion_message` message from the given peer.
 	 */
 	public void handle_onion_message(byte[] peer_node_id, org.ldk.structs.OnionMessage msg) {
 		bindings.OnionMessageHandler_handle_onion_message(this.ptr, InternalUtils.check_arr_len(peer_node_id, 33), msg == null ? 0 : msg.ptr);
@@ -126,11 +135,12 @@ public class OnionMessageHandler extends CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init) {
-		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, boolean inbound) {
+		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr, inbound);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(init);
+		Reference.reachabilityFence(inbound);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(init); };
@@ -140,15 +150,11 @@ public class OnionMessageHandler extends CommonBase {
 	/**
 	 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 	 * drop and refuse to forward onion messages to this peer.
-	 * 
-	 * Note that in some rare cases this may be called without a corresponding
-	 * [`Self::peer_connected`].
 	 */
-	public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
-		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), no_connection_possible);
+	public void peer_disconnected(byte[] their_node_id) {
+		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
-		Reference.reachabilityFence(no_connection_possible);
 	}
 
 	/**

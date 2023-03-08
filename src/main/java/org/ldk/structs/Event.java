@@ -139,10 +139,10 @@ public class Event extends CommonBase {
 	 * [`ChannelManager::claim_funds`] with the preimage given in [`PaymentPurpose`].
 	 * 
 	 * Note that if the preimage is not known, you should call
-	 * [`ChannelManager::fail_htlc_backwards`] to free up resources for this HTLC and avoid
-	 * network congestion.
-	 * If you fail to call either [`ChannelManager::claim_funds`] or
-	 * [`ChannelManager::fail_htlc_backwards`] within the HTLC's timeout, the HTLC will be
+	 * [`ChannelManager::fail_htlc_backwards`] or [`ChannelManager::fail_htlc_backwards_with_reason`]
+	 * to free up resources for this HTLC and avoid network congestion.
+	 * If you fail to call either [`ChannelManager::claim_funds`], [`ChannelManager::fail_htlc_backwards`],
+	 * or [`ChannelManager::fail_htlc_backwards_with_reason`] within the HTLC's timeout, the HTLC will be
 	 * automatically failed.
 	 * 
 	 * # Note
@@ -154,6 +154,7 @@ public class Event extends CommonBase {
 	 * 
 	 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
 	 * [`ChannelManager::fail_htlc_backwards`]: crate::ln::channelmanager::ChannelManager::fail_htlc_backwards
+	 * [`ChannelManager::fail_htlc_backwards_with_reason`]: crate::ln::channelmanager::ChannelManager::fail_htlc_backwards_with_reason
 	 */
 	public final static class PaymentClaimable extends Event {
 		/**
@@ -269,11 +270,9 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentSent extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::retry_payment`].
+		 * The id returned by [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
@@ -315,21 +314,21 @@ public class Event extends CommonBase {
 	}
 	/**
 	 * Indicates an outbound payment failed. Individual [`Event::PaymentPathFailed`] events
-	 * provide failure information for each MPP part in the payment.
+	 * provide failure information for each path attempt in the payment, including retries.
 	 * 
 	 * This event is provided once there are no further pending HTLCs for the payment and the
-	 * payment is no longer retryable due to [`ChannelManager::abandon_payment`] having been
-	 * called for the corresponding payment.
+	 * payment is no longer retryable, due either to the [`Retry`] provided or
+	 * [`ChannelManager::abandon_payment`] having been called for the corresponding payment.
 	 * 
+	 * [`Retry`]: crate::ln::channelmanager::Retry
 	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 	 */
 	public final static class PaymentFailed extends Event {
 		/**
 		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+		 * [`ChannelManager::abandon_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
 		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 		*/
 		public final byte[] payment_id;
@@ -353,11 +352,9 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentPathSuccessful extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::retry_payment`].
+		 * The id returned by [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
 		*/
 		public final byte[] payment_id;
 		/**
@@ -391,26 +388,23 @@ public class Event extends CommonBase {
 		}
 	}
 	/**
-	 * Indicates an outbound HTLC we sent failed. Probably some intermediary node dropped
-	 * something. You may wish to retry with a different route.
-	 * 
-	 * If you have given up retrying this payment and wish to fail it, you MUST call
-	 * [`ChannelManager::abandon_payment`] at least once for a given [`PaymentId`] or memory
-	 * related to payment tracking will leak.
+	 * Indicates an outbound HTLC we sent failed, likely due to an intermediary node being unable to
+	 * handle the HTLC.
 	 * 
 	 * Note that this does *not* indicate that all paths for an MPP payment have failed, see
-	 * [`Event::PaymentFailed`] and [`all_paths_failed`].
+	 * [`Event::PaymentFailed`].
+	 * 
+	 * See [`ChannelManager::abandon_payment`] for giving up on this payment before its retries have
+	 * been exhausted.
 	 * 
 	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
-	 * [`all_paths_failed`]: Self::PaymentPathFailed::all_paths_failed
 	 */
 	public final static class PaymentPathFailed extends Event {
 		/**
 		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+		 * [`ChannelManager::abandon_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
 		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -424,40 +418,17 @@ public class Event extends CommonBase {
 		public final byte[] payment_hash;
 		/**
 		 * Indicates the payment was rejected for some reason by the recipient. This implies that
-		 * the payment has failed, not just the route in question. If this is not set, you may
-		 * retry the payment via a different route.
+		 * the payment has failed, not just the route in question. If this is not set, the payment may
+		 * be retried via a different route.
 		*/
 		public final boolean payment_failed_permanently;
 		/**
-		 * Any failure information conveyed via the Onion return packet by a node along the failed
-		 * payment route.
-		 * 
-		 * Should be applied to the [`NetworkGraph`] so that routing decisions can take into
-		 * account the update.
+		 * Extra error details based on the failure type. May contain an update that needs to be
+		 * applied to the [`NetworkGraph`].
 		 * 
 		 * [`NetworkGraph`]: crate::routing::gossip::NetworkGraph
 		*/
-		public final org.ldk.structs.Option_NetworkUpdateZ network_update;
-		/**
-		 * For both single-path and multi-path payments, this is set if all paths of the payment have
-		 * failed. This will be set to false if (1) this is an MPP payment and (2) other parts of the
-		 * larger MPP payment were still in flight when this event was generated.
-		 * 
-		 * Note that if you are retrying individual MPP parts, using this value to determine if a
-		 * payment has fully failed is race-y. Because multiple failures can happen prior to events
-		 * being processed, you may retry in response to a first failure, with a second failure
-		 * (with `all_paths_failed` set) still pending. Then, when the second failure is processed
-		 * you will see `all_paths_failed` set even though the retry of the first failure still
-		 * has an associated in-flight HTLC. See (1) for an example of such a failure.
-		 * 
-		 * If you wish to retry individual MPP parts and learn when a payment has failed, you must
-		 * call [`ChannelManager::abandon_payment`] and wait for a [`Event::PaymentFailed`] event.
-		 * 
-		 * (1) <https://github.com/lightningdevkit/rust-lightning/issues/1164>
-		 * 
-		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
-		*/
-		public final boolean all_paths_failed;
+		public final org.ldk.structs.PathFailure failure;
 		/**
 		 * The payment path that failed.
 		*/
@@ -474,12 +445,9 @@ public class Event extends CommonBase {
 		*/
 		public final org.ldk.structs.Option_u64Z short_channel_id;
 		/**
-		 * Parameters needed to compute a new [`Route`] when retrying the failed payment path.
-		 * 
-		 * See [`find_route`] for details.
+		 * Parameters used by LDK to compute a new [`Route`] when retrying the failed payment path.
 		 * 
 		 * [`Route`]: crate::routing::router::Route
-		 * [`find_route`]: crate::routing::router::find_route
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
@@ -489,11 +457,10 @@ public class Event extends CommonBase {
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
 			this.payment_failed_permanently = obj.payment_failed_permanently;
-			long network_update = obj.network_update;
-			org.ldk.structs.Option_NetworkUpdateZ network_update_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(network_update);
-			if (network_update_hu_conv != null) { network_update_hu_conv.ptrs_to.add(this); };
-			this.network_update = network_update_hu_conv;
-			this.all_paths_failed = obj.all_paths_failed;
+			long failure = obj.failure;
+			org.ldk.structs.PathFailure failure_hu_conv = org.ldk.structs.PathFailure.constr_from_ptr(failure);
+			if (failure_hu_conv != null) { failure_hu_conv.ptrs_to.add(this); };
+			this.failure = failure_hu_conv;
 			long[] path = obj.path;
 			int path_conv_10_len = path.length;
 			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
@@ -1002,6 +969,8 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(purpose); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(via_user_channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1017,6 +986,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(purpose); };
 		return ret_hu_conv;
 	}
 
@@ -1032,6 +1002,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(fee_paid_msat); };
 		return ret_hu_conv;
 	}
 
@@ -1066,20 +1037,21 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, org.ldk.structs.Option_u64Z short_channel_id, org.ldk.structs.RouteParameters retry) {
-		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
+	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.PathFailure failure, RouteHop[] path, org.ldk.structs.Option_u64Z short_channel_id, org.ldk.structs.RouteParameters retry) {
+		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, failure.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(payment_failed_permanently);
-		Reference.reachabilityFence(network_update);
-		Reference.reachabilityFence(all_paths_failed);
+		Reference.reachabilityFence(failure);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(failure); };
 		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(short_channel_id); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry); };
 		return ret_hu_conv;
 	}
@@ -1112,6 +1084,7 @@ public class Event extends CommonBase {
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(short_channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1152,6 +1125,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (SpendableOutputDescriptor outputs_conv_27: outputs) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outputs_conv_27); }; };
 		return ret_hu_conv;
 	}
 
@@ -1167,6 +1141,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(fee_earned_msat); };
 		return ret_hu_conv;
 	}
 
@@ -1197,6 +1172,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(reason); };
 		return ret_hu_conv;
 	}
 
@@ -1240,9 +1216,25 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(failed_next_destination); };
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two Events contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(org.ldk.structs.Event b) {
+		boolean ret = bindings.Event_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof Event)) return false;
+		return this.eq((Event)o);
+	}
 	/**
 	 * Serialize the Event object into a byte array which can be read by Event_read
 	 */

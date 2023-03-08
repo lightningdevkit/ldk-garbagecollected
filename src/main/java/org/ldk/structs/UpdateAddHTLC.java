@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An update_add_htlc message to be sent or received from a peer
+ * An [`update_add_htlc`] message to be sent to or received from a peer.
+ * 
+ * [`update_add_htlc`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#adding-an-htlc-update_add_htlc
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UpdateAddHTLC extends CommonBase {

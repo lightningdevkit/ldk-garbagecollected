@@ -35,14 +35,40 @@ public class PhantomKeysManager extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new KeysInterface which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned KeysInterface must be freed before this_arg is
+	 * Constructs a new EntropySource which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EntropySource must be freed before this_arg is
 	 */
-	public KeysInterface as_KeysInterface() {
-		long ret = bindings.PhantomKeysManager_as_KeysInterface(this.ptr);
+	public EntropySource as_EntropySource() {
+		long ret = bindings.PhantomKeysManager_as_EntropySource(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new NodeSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned NodeSigner must be freed before this_arg is
+	 */
+	public NodeSigner as_NodeSigner() {
+		long ret = bindings.PhantomKeysManager_as_NodeSigner(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeSigner ret_hu_conv = new NodeSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new SignerProvider which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned SignerProvider must be freed before this_arg is
+	 */
+	public SignerProvider as_SignerProvider() {
+		long ret = bindings.PhantomKeysManager_as_SignerProvider(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		SignerProvider ret_hu_conv = new SignerProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -84,6 +110,7 @@ public class PhantomKeysManager extends CommonBase {
 		Reference.reachabilityFence(feerate_sat_per_1000_weight);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		for (SpendableOutputDescriptor descriptors_conv_27: descriptors) { if (this != null) { this.ptrs_to.add(descriptors_conv_27); }; };
 		return ret_hu_conv;
 	}
 
@@ -99,6 +126,25 @@ public class PhantomKeysManager extends CommonBase {
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the \"node_id\" secret key used to sign gossip announcements, decode onion data, etc.
+	 */
+	public byte[] get_node_secret_key() {
+		byte[] ret = bindings.PhantomKeysManager_get_node_secret_key(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Gets the \"node_id\" secret key of the phantom node used to sign invoices, decode the
+	 * last-hop onion data, etc.
+	 */
+	public byte[] get_phantom_node_secret_key() {
+		byte[] ret = bindings.PhantomKeysManager_get_phantom_node_secret_key(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

@@ -19,16 +19,16 @@ import javax.annotation.Nullable;
  * # extern crate bitcoin;
  * # use bitcoin::hashes::_export::_core::time::Duration;
  * # use bitcoin::secp256k1::{PublicKey, Secp256k1, SecretKey};
- * # use lightning::chain::keysinterface::{InMemorySigner, KeysManager, KeysInterface};
- * # use lightning::ln::msgs::DecodeError;
+ * # use lightning::chain::keysinterface::KeysManager;
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
  * # use lightning::onion_message::blinded_path::BlindedPath;
- * # use lightning::onion_message::messenger::{CustomOnionMessageContents, Destination, OnionMessageContents, OnionMessenger};
+ * # use lightning::onion_message::messenger::{Destination, OnionMessenger};
+ * # use lightning::onion_message::packet::{CustomOnionMessageContents, OnionMessageContents};
  * # use lightning::util::logger::{Logger, Record};
  * # use lightning::util::ser::{Writeable, Writer};
  * # use lightning::io;
  * # use std::sync::Arc;
- * # struct FakeLogger {};
+ * # struct FakeLogger;
  * # impl Logger for FakeLogger {
  * #     fn log(&self, record: &Record) { unimplemented!() }
  * # }
@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * # let your_custom_message_handler = IgnoringMessageHandler {};
  * Create the onion messenger. This must use the same `keys_manager` as is passed to your
  * ChannelManager.
- * let onion_messenger = OnionMessenger::new(&keys_manager, logger, your_custom_message_handler);
+ * let onion_messenger = OnionMessenger::new(&keys_manager, &keys_manager, logger, &your_custom_message_handler);
  * 
  * # #[derive(Clone)]
  * # struct YourCustomMessage {}
@@ -96,15 +96,17 @@ public class OnionMessenger extends CommonBase {
 	 * Constructs a new `OnionMessenger` to send, forward, and delegate received onion messages to
 	 * their respective handlers.
 	 */
-	public static OnionMessenger of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
-		long ret = bindings.OnionMessenger_new(keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, custom_handler == null ? 0 : custom_handler.ptr);
-		Reference.reachabilityFence(keys_manager);
+	public static OnionMessenger of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
+		long ret = bindings.OnionMessenger_new(entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, custom_handler == null ? 0 : custom_handler.ptr);
+		Reference.reachabilityFence(entropy_source);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(custom_handler);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OnionMessenger ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessenger(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_handler); };
 		return ret_hu_conv;
@@ -125,6 +127,8 @@ public class OnionMessenger extends CommonBase {
 		Reference.reachabilityFence(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneSendErrorZ ret_hu_conv = Result_NoneSendErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(destination); };
+		if (this != null) { this.ptrs_to.add(message); };
 		if (this != null) { this.ptrs_to.add(reply_path); };
 		return ret_hu_conv;
 	}

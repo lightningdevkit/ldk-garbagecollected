@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Struct used to return values from revoke_and_ack messages, containing a bunch of commitment
+ * Struct used to return values from [`RevokeAndACK`] messages, containing a bunch of commitment
  * transaction updates if they were pending.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
@@ -22,7 +22,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_add_htlc messages which should be sent
+	 * `update_add_htlc` messages which should be sent
 	 */
 	public UpdateAddHTLC[] get_update_add_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_add_htlcs(this.ptr);
@@ -39,7 +39,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_add_htlc messages which should be sent
+	 * `update_add_htlc` messages which should be sent
 	 */
 	public void set_update_add_htlcs(UpdateAddHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15 == null ? 0 : val_conv_15.ptr).toArray() : null);
@@ -49,7 +49,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fulfill_htlc messages which should be sent
+	 * `update_fulfill_htlc` messages which should be sent
 	 */
 	public UpdateFulfillHTLC[] get_update_fulfill_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fulfill_htlcs(this.ptr);
@@ -66,7 +66,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fulfill_htlc messages which should be sent
+	 * `update_fulfill_htlc` messages which should be sent
 	 */
 	public void set_update_fulfill_htlcs(UpdateFulfillHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_19 -> val_conv_19 == null ? 0 : val_conv_19.ptr).toArray() : null);
@@ -76,7 +76,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fail_htlc messages which should be sent
+	 * `update_fail_htlc` messages which should be sent
 	 */
 	public UpdateFailHTLC[] get_update_fail_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_htlcs(this.ptr);
@@ -93,7 +93,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fail_htlc messages which should be sent
+	 * `update_fail_htlc` messages which should be sent
 	 */
 	public void set_update_fail_htlcs(UpdateFailHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr).toArray() : null);
@@ -103,7 +103,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fail_malformed_htlc messages which should be sent
+	 * `update_fail_malformed_htlc` messages which should be sent
 	 */
 	public UpdateFailMalformedHTLC[] get_update_fail_malformed_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_malformed_htlcs(this.ptr);
@@ -120,7 +120,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * update_fail_malformed_htlc messages which should be sent
+	 * `update_fail_malformed_htlc` messages which should be sent
 	 */
 	public void set_update_fail_malformed_htlcs(UpdateFailMalformedHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_25 -> val_conv_25 == null ? 0 : val_conv_25.ptr).toArray() : null);
@@ -130,7 +130,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * An update_fee message which should be sent
+	 * An `update_fee` message which should be sent
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -145,7 +145,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * An update_fee message which should be sent
+	 * An `update_fee` message which should be sent
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -157,7 +157,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * Finally, the commitment_signed message which should be sent
+	 * A `commitment_signed` message which should be sent
 	 */
 	public CommitmentSigned get_commitment_signed() {
 		long ret = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
@@ -169,7 +169,7 @@ public class CommitmentUpdate extends CommonBase {
 	}
 
 	/**
-	 * Finally, the commitment_signed message which should be sent
+	 * A `commitment_signed` message which should be sent
 	 */
 	public void set_commitment_signed(org.ldk.structs.CommitmentSigned val) {
 		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0 : val.ptr);

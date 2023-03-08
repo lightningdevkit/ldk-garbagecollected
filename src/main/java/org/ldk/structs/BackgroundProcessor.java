@@ -107,6 +107,7 @@ public class BackgroundProcessor extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(event_handler); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(gossip_sync); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(peer_manager); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };

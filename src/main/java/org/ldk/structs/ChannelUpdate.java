@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A channel_update message to be sent or received from a peer
+ * A [`channel_update`] message to be sent to or received from a peer.
+ * 
+ * [`channel_update`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-channel_update-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelUpdate extends CommonBase {

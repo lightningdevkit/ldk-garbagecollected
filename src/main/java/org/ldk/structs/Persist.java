@@ -42,7 +42,19 @@ public class Persist extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.Persist_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.Persist_free(ptr); }
+		ptr = 0;
+	}
 	public static interface PersistInterface {
 		/**
 		 * Persist a new channel's data in response to a [`chain::Watch::watch_channel`] call. This is
@@ -119,6 +131,7 @@ public class Persist extends CommonBase {
 				org.ldk.structs.OutPoint channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.OutPoint(null, channel_id); }
 				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, update); }
+				if (update_hu_conv != null) { update_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor data_hu_conv = null; if (data < 0 || data > 4096) { data_hu_conv = new org.ldk.structs.ChannelMonitor(null, data); }
 				org.ldk.structs.MonitorUpdateId update_id_hu_conv = null; if (update_id < 0 || update_id > 4096) { update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, update_id); }
 				if (update_id_hu_conv != null) { update_id_hu_conv.ptrs_to.add(this); };

@@ -76,24 +76,4 @@ public class OfferFeatures extends CommonBase {
 		return ret;
 	}
 
-	/**
-	 * Serialize the OfferFeatures object into a byte array which can be read by OfferFeatures_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.OfferFeatures_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Read a OfferFeatures from a byte array, created by OfferFeatures_write
-	 */
-	public static Result_OfferFeaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.OfferFeatures_read(ser);
-		Reference.reachabilityFence(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_OfferFeaturesDecodeErrorZ ret_hu_conv = Result_OfferFeaturesDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
 }
