@@ -34,6 +34,7 @@ jobs:
           cargo install --locked --path .
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
+          git config --global safe.directory '*'
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
@@ -120,6 +121,7 @@ jobs:
           fetch-depth: 0
       - name: Install cbindgen
         run: |
+          git config --global safe.directory '*'
           git clone https://github.com/eqrion/cbindgen
           cd cbindgen/
           git checkout v0.20.0
@@ -175,6 +177,7 @@ jobs:
           fetch-depth: 0
       - name: Install cbindgen
         run: |
+          git config --global safe.directory '*'
           git clone https://github.com/eqrion/cbindgen
           cd cbindgen/
           git checkout v0.20.0
@@ -273,6 +276,7 @@ jobs:
           fetch-depth: 0
       - name: Install android NDK compilers
         run: |
+          git config --global safe.directory '*'
           curl https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip > android-ndk-r22b-linux-x86_64.zip
           if [ "$(sha256sum android-ndk-r22b-linux-x86_64.zip | awk '{ print $1 }')" != "ac3a0421e76f71dd330d0cd55f9d99b9ac864c4c034fc67e0d671d022d4e806b" ]; then
             echo "Bad hash"
@@ -353,6 +357,7 @@ jobs:
           fetch-depth: 0
       - name: Fetch upstream LLVM/clang snapshot
         run: |
+          git config --global safe.directory '*'
           wget -O clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz
           if [ "$(shasum -a 256 clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz | awk '{ print $1 }')" != "d16b6d536364c5bec6583d12dd7e6cf841b9f508c4430d9ee886726bd9983f1c" ]; then
             echo "Bad hash"
