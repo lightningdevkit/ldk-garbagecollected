@@ -76,9 +76,31 @@ public class ChannelManagerConstructor {
      * we want to expose underlying details of the scorer itself. Thus, we expose a safe version that takes the lock
      * then returns a reference to this scorer.
      */
-    @Nullable private final ProbabilisticScorer prob_scorer;
+    private final ProbabilisticScorer prob_scorer;
     private final Logger logger;
     private final KeysManager keys_manager;
+
+    /**
+     * Exposes the `ProbabilisticScorer` wrapped inside a lock. Don't forget to `close` this lock when you're done with
+     * it so normal scoring operation can continue.
+     */
+    public class ScorerWrapper implements AutoCloseable {
+        private final Score lock;
+        public final ProbabilisticScorer prob_scorer;
+        private ScorerWrapper(Score lock, ProbabilisticScorer prob_scorer) {
+            this.lock = lock; this.prob_scorer = prob_scorer;
+        }
+        @Override public void close() throws Exception {
+            lock.destroy();
+        }
+    }
+    /**
+     * Gets the `ProbabilisticScorer` which backs the public lockable `scorer`. Don't forget to `close` the lock when
+     * you're done with it.
+     */
+    public ScorerWrapper get_locked_scorer() {
+        return new ScorerWrapper(this.scorer.as_LockableScore().lock(), this.prob_scorer);
+    }
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations

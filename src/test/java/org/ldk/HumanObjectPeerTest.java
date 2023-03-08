@@ -946,7 +946,7 @@ class HumanObjectPeerTestInstance {
             this.best_blockhash = best_blockhash;
         }
     }
-    void do_test_message_handler_b(TestState state) throws InterruptedException {
+    void do_test_message_handler_b(TestState state) throws Exception {
         GcCheck obj = new GcCheck();
         if (state.ref_block != null) {
             // Ensure the original peers get freed before we move on. Note that we have to be in a different function
@@ -1128,6 +1128,16 @@ class HumanObjectPeerTestInstance {
         assert upd_msg instanceof Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK;
         assert ((Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK) upd_msg).res.get_contents().get_htlc_maximum_msat() == 0xdeadbeef42424242L;
         Option_NetworkUpdateZ upd = Option_NetworkUpdateZ.some(NetworkUpdate.channel_update_message(((Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK) upd_msg).res));
+
+        if (use_chan_manager_constructor) {
+            // Lock the scorer twice back-to-back to check that the try-with-resources AutoCloseable on the scorer works.
+            try (ChannelManagerConstructor.ScorerWrapper score = state.peer1.constructor.get_locked_scorer()) {
+                score.prob_scorer.debug_log_liquidity_stats();
+            }
+            try (ChannelManagerConstructor.ScorerWrapper score = state.peer1.constructor.get_locked_scorer()) {
+                score.prob_scorer.clear_manual_penalties();
+            }
+        }
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
@@ -1143,13 +1153,13 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    static HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+    static HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
         HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    static void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+    static void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
         HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
@@ -1159,7 +1169,7 @@ public class HumanObjectPeerTest {
             assert o.get() == null;
     }
     public static final int TEST_ITERATIONS = (1 << 9);
-    public static void do_test_message_handler(IntConsumer statusFunction) throws InterruptedException {
+    public static void do_test_message_handler(IntConsumer statusFunction) throws Exception {
         Thread gc_thread = new Thread(() -> {
             while (true) {
                 System.gc();
@@ -1209,7 +1219,7 @@ public class HumanObjectPeerTest {
         gc_thread.join();
     }
     @Test
-    public void test_message_handler() throws InterruptedException {
+    public void test_message_handler() throws Exception {
         do_test_message_handler(i -> System.err.println("Running test with flags " + i));
     }
 
