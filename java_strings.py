@@ -777,12 +777,26 @@ import javax.annotation.Nullable;
                     out_java_trait = out_java_trait + "\t\t" + var.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n"
             else:
                 out_java_trait = out_java_trait + "\t\tthis.ptrs_to.add(" + var[1] + ");\n"
-        out_java_trait = out_java_trait + "\t\tthis.bindings_instance = arg;\n"
-        out_java_trait = out_java_trait + "\t}\n"
-        out_java_trait = out_java_trait + "\t@Override @SuppressWarnings(\"deprecation\")\n"
-        out_java_trait = out_java_trait + "\tprotected void finalize() throws Throwable {\n"
-        out_java_trait = out_java_trait + "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n"
-        out_java_trait = out_java_trait + "\t}\n\n"
+        out_java_trait += f"""		this.bindings_instance = arg;
+	}}
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {{
+		if (ptr != 0) {{ bindings.{struct_name.replace("LDK","")}_free(ptr); }} super.finalize();
+	}}
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {{
+		if (ptr != 0) {{ bindings.{struct_name.replace("LDK","")}_free(ptr); }}
+		ptr = 0;
+	}}
+"""
 
         java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
         java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
