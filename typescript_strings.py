@@ -1630,12 +1630,12 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: 
                 bindings.write(f"\t\tcase {str(f)}: fn = Object.getOwnPropertyDescriptor(obj, \"{self.function_ptrs[f][1]}\"); break;\n")
 
             bindings.write("""\t\tdefault:
-			console.error("Got unknown function call from C!");
-			throw new Error("Got unknown function call from C!");
+			console.error("Got unknown function call with id " + fn_id + " from C!");
+			throw new Error("Got unknown function call with id " + fn_id + " from C!");
 	}
 	if (fn == null || fn == undefined) {
-		console.error("Got function call on incorrect JS object!");
-		throw new Error("Got function call on incorrect JS object!");
+		console.error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
+		throw new Error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
 	}
 	const ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 	if (ret === undefined || ret === null) return BigInt(0);
