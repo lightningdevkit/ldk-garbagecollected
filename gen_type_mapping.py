@@ -429,7 +429,6 @@ class TypeMappingGenerator:
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE(untag_ptr(" + ty_info.var_name + "));"
                 if ty_info.rust_obj in self.complex_enums:
-                    to_hu_conv_sfx = ""
                     if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
                         # We really need a full clone here, but for now we just implement
                         # a manual clone explicitly for Option<Trait>s
@@ -437,7 +436,6 @@ class TypeMappingGenerator:
                             assert ty_info.rust_obj.startswith("LDKCOption") # We don't support contained traits for anything else yet
                             optional_ty = ty_info.rust_obj[11:-1]
                             assert "LDK" + optional_ty in self.trait_structs # We don't support contained traits for anything else yet
-                            to_hu_conv_sfx = self.consts.add_ref("this", ty_info.var_name)
                             base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
                             base_conv += "\n\t// Manually implement clone for Java trait instances"
                             optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
@@ -451,7 +449,7 @@ class TypeMappingGenerator:
                         ret_conv = (ret_conv[0], ";\n" + self.consts.ptr_c_ty + " " + ty_info.var_name + "_ref = tag_ptr(" + ty_info.var_name + "_copy, true);")
                     if from_hu_conv is None:
                         from_hu_conv = (self.consts.get_ptr(ty_info.var_name), "")
-                    from_hu_conv = (from_hu_conv[0], to_hu_conv_sfx)
+                    from_hu_conv = (from_hu_conv[0], self.consts.add_ref("this", ty_info.var_name))
                     fully_qualified_ty = self.consts.fully_qualified_hu_ty_path(ty_info)
                     to_hu_call = fully_qualified_ty + ".constr_from_ptr(" + ty_info.var_name + ")"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
