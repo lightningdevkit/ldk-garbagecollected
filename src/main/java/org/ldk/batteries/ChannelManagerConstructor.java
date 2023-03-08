@@ -1,8 +1,8 @@
 package org.ldk.batteries;
 
 import javax.annotation.Nullable;
+
 import org.ldk.enums.Network;
-import org.ldk.enums.Recipient;
 import org.ldk.structs.*;
 
 import java.io.IOException;
@@ -48,24 +48,16 @@ public class ChannelManagerConstructor {
     public final TwoTuple_BlockHashChannelMonitorZ[] channel_monitors;
     /**
      * A PeerManager which is constructed to pass messages and handle connections to peers.
+     *
+     * This is `null` until `chain_sync_completed` is called.
      */
-    public final PeerManager peer_manager;
+    public PeerManager peer_manager = null;
     /**
      * A NioPeerHandler which manages a background thread to handle socket events and pass them to the peer_manager.
 	 *
 	 * This is `null` until `chain_sync_completed` is called.
      */
     public NioPeerHandler nio_peer_handler = null;
-    /**
-     * If a `NetworkGraph` is provided to the constructor *and* a `LockableScore` is provided to
-	 * `chain_sync_completed`, this will be non-null after `chain_sync_completed` returns.
-	 *
-     * It should be used to send payments instead of doing so directly via the `channel_manager`.
-	 *
-     * When payments are made through this, they are automatically retried and the provided Scorer
-     * will be updated with payment failure data.
-     */
-    @Nullable public InvoicePayer payer;
 
     private final ChainMonitor chain_monitor;
 
@@ -73,11 +65,20 @@ public class ChannelManagerConstructor {
      * The `NetworkGraph` deserialized from the byte given to the constructor when deserializing or the `NetworkGraph`
      * given explicitly to the new-object constructor.
      */
-    @Nullable public final NetworkGraph net_graph;
-    @Nullable private final P2PGossipSync graph_msg_handler;
-    private final Logger logger;
+    public final NetworkGraph net_graph;
 
-    private final byte[] router_rand_bytes;
+    /**
+     * A mutex holding the `ProbabilisticScorer` which was loaded on startup.
+     */
+    public final MultiThreadedLockableScore scorer;
+    /**
+     * We wrap the scorer in a MultiThreadedLockableScore which ultimately gates access to the scorer, however sometimes
+     * we want to expose underlying details of the scorer itself. Thus, we expose a safe version that takes the lock
+     * then returns a reference to this scorer.
+     */
+    @Nullable private final ProbabilisticScorer prob_scorer;
+    private final Logger logger;
+    private final KeysManager keys_manager;
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
@@ -87,15 +88,33 @@ public class ChannelManagerConstructor {
      *               outputs will be loaded when chain_sync_completed is called.
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized, UserConfig config,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
-                                     @Nullable Filter filter, @Nullable byte[] net_graph_serialized,
+                                     KeysManager keys_manager, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     @Nullable Filter filter, byte[] net_graph_serialized,
+                                     ProbabilisticScoringParameters scoring_params, byte[] probabilistic_scorer_bytes,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
-        final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
+        this.keys_manager = keys_manager;
+        EntropySource entropy_source = keys_manager.as_EntropySource();
+
+        Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized, logger);
+        if (!graph_res.is_ok()) {
+            throw new InvalidSerializedDataException("Serialized Network Graph was corrupt");
+        }
+        this.net_graph = ((Result_NetworkGraphDecodeErrorZ.Result_NetworkGraphDecodeErrorZ_OK)graph_res).res;
+        assert(scoring_params != null);
+        assert(probabilistic_scorer_bytes != null);
+        Result_ProbabilisticScorerDecodeErrorZ scorer_res = ProbabilisticScorer.read(probabilistic_scorer_bytes, scoring_params, net_graph, logger);
+        if (!scorer_res.is_ok()) {
+            throw new InvalidSerializedDataException("Serialized ProbabilisticScorer was corrupt");
+        }
+        this.prob_scorer = ((Result_ProbabilisticScorerDecodeErrorZ.Result_ProbabilisticScorerDecodeErrorZ_OK)scorer_res).res;
+        this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
+        DefaultRouter router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore());
+
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
         HashSet<OutPoint> monitor_funding_set = new HashSet();
         for (int i = 0; i < monitors.length; i++) {
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], entropy_source, keys_manager.as_SignerProvider());
             if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
                 throw new InvalidSerializedDataException("Serialized ChannelMonitor was corrupt");
             }
@@ -106,8 +125,9 @@ public class ChannelManagerConstructor {
                 throw new InvalidSerializedDataException("Set of ChannelMonitors contained duplicates (ie the same funding_txo was set on multiple monitors)");
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
-                        logger, config, monitors);
+                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_manager.as_EntropySource(),
+                        keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(), fee_estimator, chain_monitor.as_Watch(),
+                        tx_broadcaster, router.as_Router(), logger, config, monitors);
         if (!res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
         }
@@ -115,82 +135,37 @@ public class ChannelManagerConstructor {
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_a();
         this.chain_monitor = chain_monitor;
         this.logger = logger;
-        byte[] random_data = keys_interface.get_secure_random_bytes();
-        if (net_graph_serialized != null) {
-            Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized, logger);
-            if (!graph_res.is_ok()) {
-                throw new InvalidSerializedDataException("Serialized Network Graph was corrupt");
-            }
-            this.net_graph = ((Result_NetworkGraphDecodeErrorZ.Result_NetworkGraphDecodeErrorZ_OK)graph_res).res;
-        } else {
-            this.net_graph = null;
-        }
-        Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
-        assert node_secret.is_ok();
-        if (net_graph != null) {
-            //TODO: We really need to expose the Access here to let users prevent DoS issues
-            this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    graph_msg_handler.as_RoutingMessageHandler(),
-                    ignoring_handler.as_OnionMessageHandler(),
-                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    (int)(System.currentTimeMillis() / 1000),
-                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
-        } else {
-            this.graph_msg_handler = null;
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    ignoring_handler.as_RoutingMessageHandler(),
-                    ignoring_handler.as_OnionMessageHandler(),
-                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    (int)(System.currentTimeMillis() / 1000),
-                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
-        }
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
                 monitor.load_outputs_to_watch(filter);
             }
         }
-        router_rand_bytes = keys_interface.get_secure_random_bytes();
     }
 
     /**
      * Constructs a channel manager from the given interface implementations
      */
     public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
-                                     @Nullable NetworkGraph net_graph,
+                                     KeysManager keys_manager, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     NetworkGraph net_graph, ProbabilisticScoringParameters scoring_params,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
-        final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
+        this.keys_manager = keys_manager;
+        EntropySource entropy_source = keys_manager.as_EntropySource();
+
+        this.net_graph = net_graph;
+        assert(scoring_params != null);
+        this.prob_scorer = ProbabilisticScorer.of(scoring_params, net_graph, logger);
+        this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
+        DefaultRouter router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore());
+
         channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
         ChainParameters params = ChainParameters.of(network, block);
-        channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, params);
+        channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, router.as_Router(), logger,
+            keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(), config, params);
         this.logger = logger;
-        byte[] random_data = keys_interface.get_secure_random_bytes();
-        this.net_graph = net_graph;
-        Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
-        assert node_secret.is_ok();
-        if (net_graph != null) {
-            //TODO: We really need to expose the Access here to let users prevent DoS issues
-            this.graph_msg_handler = P2PGossipSync.of(net_graph, Option_AccessZ.none(), logger);
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    graph_msg_handler.as_RoutingMessageHandler(),
-                    ignoring_handler.as_OnionMessageHandler(),
-                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    (int)(System.currentTimeMillis() / 1000),
-                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
-        } else {
-            this.graph_msg_handler = null;
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    ignoring_handler.as_RoutingMessageHandler(),
-                    ignoring_handler.as_OnionMessageHandler(),
-                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
-                    (int)(System.currentTimeMillis() / 1000),
-                    random_data, logger, ignoring_handler.as_CustomMessageHandler());
-        }
-        router_rand_bytes = keys_interface.get_secure_random_bytes();
     }
 
     /**
@@ -212,36 +187,39 @@ public class ChannelManagerConstructor {
      *
      * This also spawns a background thread which will call the appropriate methods on the provided
      * EventHandler as required.
+     *
+     * @param use_p2p_graph_sync determines if we will sync the network graph from peers over the standard (but
+     *                           inefficient) lightning P2P protocol. Note that doing so currently requires trusting
+     *                           peers as no DoS mechanism is enforced to ensure we don't accept bogus gossip.
+     *                           Alternatively, you may sync the net_graph exposed in this object via Rapid Gossip Sync.
      */
-    public void chain_sync_completed(EventHandler event_handler, @Nullable MultiThreadedLockableScore scorer) {
-        try {
-            this.nio_peer_handler = new NioPeerHandler(this.peer_manager);
-        } catch (IOException e) {
-            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
-        }
-
+    public void chain_sync_completed(EventHandler event_handler, boolean use_p2p_graph_sync) {
         if (background_processor != null) { return; }
         for (TwoTuple_BlockHashChannelMonitorZ monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
-        if (this.net_graph != null && scorer != null) {
-            Router router = DefaultRouter.of(net_graph, logger, router_rand_bytes, scorer.as_LockableScore()).as_Router();
-            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, this.logger, ldk_handler, Retry.attempts(3));
-            ldk_handler = this.payer.as_EventHandler();
+
+        final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
+        P2PGossipSync graph_msg_handler = P2PGossipSync.of(net_graph, Option_UtxoLookupZ.none(), logger);
+        this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
+                ignoring_handler.as_RoutingMessageHandler(), ignoring_handler.as_OnionMessageHandler(),
+                (int)(System.currentTimeMillis() / 1000), this.keys_manager.as_EntropySource().get_secure_random_bytes(),
+                logger, ignoring_handler.as_CustomMessageHandler(), keys_manager.as_NodeSigner());
+
+        try {
+            this.nio_peer_handler = new NioPeerHandler(peer_manager);
+        } catch (IOException e) {
+            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
         }
 
         GossipSync gossip_sync;
-        if (this.graph_msg_handler == null)
+        if (use_p2p_graph_sync)
             gossip_sync = GossipSync.none();
         else
-            gossip_sync = GossipSync.p2_p(this.graph_msg_handler);
+            gossip_sync = GossipSync.p2_p(graph_msg_handler);
 
-        Option_WriteableScoreZ writeable_score;
-        if (scorer != null)
-            writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
-        else
-            writeable_score = Option_WriteableScoreZ.none();
+        Option_WriteableScoreZ writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
 
         background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
             @Override
@@ -261,7 +239,7 @@ public class ChannelManagerConstructor {
                 event_handler.persist_scorer(scorer.write());
                 return Result_NoneErrorZ.ok();
             }
-        }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, this.peer_manager, this.logger, writeable_score);
+        }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, peer_manager, this.logger, writeable_score);
     }
 
     /**
