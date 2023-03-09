@@ -352,6 +352,10 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Temporarily use rustc from yesterday
+        run: |
+          rustup install 1.67.1
+          rustup default 1.67.1
       - name: Install other Rust platforms
         run: rustup target install aarch64-apple-darwin
       - name: Checkout source code
