@@ -376,7 +376,14 @@ class HumanObjectPeerTestInstance {
             if (use_chan_manager_constructor) {
                 this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, get_config(), new byte[32], 0,
                         this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, this.net_graph,
-                        ProbabilisticScoringParameters.with_default(), this.tx_broadcaster, this.logger);
+                        ProbabilisticScoringParameters.with_default(), (ChannelManagerConstructor.RouterWrapper)
+                            (payer_node_id, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router) -> {
+                                assert payment_hash != null && payment_id != null;
+                                Router r = default_router.as_Router();
+                                must_free_objs.add(new WeakReference<>(r));
+                                return r.find_route_with_id(payer_node_id, route_params, first_hops, inflight_htlcs, payment_hash, payment_id);
+                            },
+                        this.tx_broadcaster, this.logger);
                 constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
@@ -456,7 +463,7 @@ class HumanObjectPeerTestInstance {
                     }
                     this.constructor = new ChannelManagerConstructor(serialized, monitors, get_config(),
                             this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, filter_nullable,
-                            serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer,
+                            serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer, null,
                             this.tx_broadcaster, this.logger);
                     try {
                         // Test that ChannelManagerConstructor correctly rejects duplicate ChannelMonitors
@@ -465,7 +472,7 @@ class HumanObjectPeerTestInstance {
                         monitors_dupd[1] = monitors[0];
                         ChannelManagerConstructor constr = new ChannelManagerConstructor(serialized, monitors_dupd, get_config(),
                                 this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, filter_nullable,
-                                serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer,
+                                serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer, null,
                                 this.tx_broadcaster, this.logger);
                         assert false;
                     } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
