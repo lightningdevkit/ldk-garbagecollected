@@ -384,6 +384,9 @@ jobs:
         run: |
           export PATH=`pwd`/clang+llvm-15.0.7-x86_64-apple-darwin21.0/bin:$PATH
           cd ldk-c-bindings
+          export CC=clang
+          export CC_x86_64_apple_darwin=clang
+          export CC_aarch64_apple_darwin=clang
           CC=clang ./genbindings.sh ../rust-lightning true
       - name: Fetch OpenJDK 18
         run: |
