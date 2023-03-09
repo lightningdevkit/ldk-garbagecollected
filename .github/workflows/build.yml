@@ -358,6 +358,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Temporarily use rustc from yesterday
+        run: |
+          rustup install 1.67.1
+          rustup default 1.67.1
       - name: Fetch upstream LLVM/clang snapshot
         run: |
           git config --global safe.directory '*'
