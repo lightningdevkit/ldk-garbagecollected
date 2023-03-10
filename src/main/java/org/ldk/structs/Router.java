@@ -23,7 +23,19 @@ public class Router extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.Router_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.Router_free(ptr); }
+		ptr = 0;
+	}
 	public static interface RouterInterface {
 		/**
 		 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values.
@@ -38,22 +50,6 @@ public class Router extends CommonBase {
 		 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
 		Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
-		/**
-		 * Lets the router know that payment through a specific path has failed.
-		 */
-		void notify_payment_path_failed(RouteHop[] path, long short_channel_id);
-		/**
-		 * Lets the router know that payment through a specific path was successful.
-		 */
-		void notify_payment_path_successful(RouteHop[] path);
-		/**
-		 * Lets the router know that a payment probe was successful.
-		 */
-		void notify_payment_probe_successful(RouteHop[] path);
-		/**
-		 * Lets the router know that a payment probe failed.
-		 */
-		void notify_payment_probe_failed(RouteHop[] path, long short_channel_id);
 	}
 	private static class LDKRouterHolder { Router held; }
 	public static Router new_impl(RouterInterface arg) {
@@ -72,7 +68,6 @@ public class Router extends CommonBase {
 					}
 				}
 				org.ldk.structs.InFlightHtlcs inflight_htlcs_hu_conv = null; if (inflight_htlcs < 0 || inflight_htlcs > 4096) { inflight_htlcs_hu_conv = new org.ldk.structs.InFlightHtlcs(null, inflight_htlcs); }
-				if (inflight_htlcs_hu_conv != null) { inflight_htlcs_hu_conv.ptrs_to.add(this); };
 				Result_RouteLightningErrorZ ret = arg.find_route(payer, route_params_hu_conv, first_hops_conv_16_arr, inflight_htlcs_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -91,59 +86,10 @@ public class Router extends CommonBase {
 					}
 				}
 				org.ldk.structs.InFlightHtlcs inflight_htlcs_hu_conv = null; if (inflight_htlcs < 0 || inflight_htlcs > 4096) { inflight_htlcs_hu_conv = new org.ldk.structs.InFlightHtlcs(null, inflight_htlcs); }
-				if (inflight_htlcs_hu_conv != null) { inflight_htlcs_hu_conv.ptrs_to.add(this); };
 				Result_RouteLightningErrorZ ret = arg.find_route_with_id(payer, route_params_hu_conv, first_hops_conv_16_arr, inflight_htlcs_hu_conv, _payment_hash, _payment_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
-			}
-			@Override public void notify_payment_path_failed(long[] path, long short_channel_id) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.notify_payment_path_failed(path_conv_10_arr, short_channel_id);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void notify_payment_path_successful(long[] path) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.notify_payment_path_successful(path_conv_10_arr);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void notify_payment_probe_successful(long[] path) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.notify_payment_probe_successful(path_conv_10_arr);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void notify_payment_probe_failed(long[] path, long short_channel_id) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.notify_payment_probe_failed(path_conv_10_arr, short_channel_id);
-				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;
@@ -189,48 +135,6 @@ public class Router extends CommonBase {
 		if (first_hops != null) { for (ChannelDetails first_hops_conv_16: first_hops) { if (this != null) { this.ptrs_to.add(first_hops_conv_16); }; } };
 		if (this != null) { this.ptrs_to.add(inflight_htlcs); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Lets the router know that payment through a specific path has failed.
-	 */
-	public void notify_payment_path_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Router_notify_payment_path_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(short_channel_id);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that payment through a specific path was successful.
-	 */
-	public void notify_payment_path_successful(RouteHop[] path) {
-		bindings.Router_notify_payment_path_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that a payment probe was successful.
-	 */
-	public void notify_payment_probe_successful(RouteHop[] path) {
-		bindings.Router_notify_payment_probe_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that a payment probe failed.
-	 */
-	public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Router_notify_payment_probe_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(short_channel_id);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
 	}
 
 }

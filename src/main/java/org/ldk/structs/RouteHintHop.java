@@ -115,6 +115,7 @@ public class RouteHintHop extends CommonBase {
 		bindings.RouteHintHop_set_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -136,6 +137,7 @@ public class RouteHintHop extends CommonBase {
 		bindings.RouteHintHop_set_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -153,6 +155,8 @@ public class RouteHintHop extends CommonBase {
 		org.ldk.structs.RouteHintHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHintHop(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(fees_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(htlc_minimum_msat_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(htlc_maximum_msat_arg); };
 		return ret_hu_conv;
 	}
 

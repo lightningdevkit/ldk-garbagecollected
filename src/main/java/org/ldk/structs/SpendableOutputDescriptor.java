@@ -42,14 +42,14 @@ public class SpendableOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * An output to a script which was provided via [`KeysInterface`] directly, either from
+	 * An output to a script which was provided via [`SignerProvider`] directly, either from
 	 * [`get_destination_script`] or [`get_shutdown_scriptpubkey`], thus you should already
 	 * know how to spend it. No secret keys are provided as LDK was never given any key.
 	 * These may include outputs from a transaction punishing our counterparty or claiming an HTLC
 	 * on-chain using the payment preimage or after it has timed out.
 	 * 
-	 * [`get_shutdown_scriptpubkey`]: KeysInterface::get_shutdown_scriptpubkey
-	 * [`get_destination_script`]: KeysInterface::get_shutdown_scriptpubkey
+	 * [`get_shutdown_scriptpubkey`]: SignerProvider::get_shutdown_scriptpubkey
+	 * [`get_destination_script`]: SignerProvider::get_shutdown_scriptpubkey
 	 */
 	public final static class StaticOutput extends SpendableOutputDescriptor {
 		/**
@@ -93,15 +93,15 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * 
 	 * To derive the delayed payment key which is used to sign this input, you must pass the
 	 * holder [`InMemorySigner::delayed_payment_base_key`] (i.e., the private key which corresponds to the
-	 * [`ChannelPublicKeys::delayed_payment_basepoint`] in [`BaseSign::pubkeys`]) and the provided
+	 * [`ChannelPublicKeys::delayed_payment_basepoint`] in [`ChannelSigner::pubkeys`]) and the provided
 	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to [`chan_utils::derive_private_key`]. The public key can be
 	 * generated without the secret key using [`chan_utils::derive_public_key`] and only the
-	 * [`ChannelPublicKeys::delayed_payment_basepoint`] which appears in [`BaseSign::pubkeys`].
+	 * [`ChannelPublicKeys::delayed_payment_basepoint`] which appears in [`ChannelSigner::pubkeys`].
 	 * 
 	 * To derive the [`DelayedPaymentOutputDescriptor::revocation_pubkey`] provided here (which is
 	 * used in the witness script generation), you must pass the counterparty
 	 * [`ChannelPublicKeys::revocation_basepoint`] (which appears in the call to
-	 * [`BaseSign::provide_channel_parameters`]) and the provided
+	 * [`ChannelSigner::provide_channel_parameters`]) and the provided
 	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to
 	 * [`chan_utils::derive_public_revocation_key`].
 	 * 
@@ -123,7 +123,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	}
 	/**
 	 * An output to a P2WPKH, spendable exclusively by our payment key (i.e., the private key
-	 * which corresponds to the `payment_point` in [`BaseSign::pubkeys`]). The witness
+	 * which corresponds to the `payment_point` in [`ChannelSigner::pubkeys`]). The witness
 	 * in the spending input is, thus, simply:
 	 * ```bitcoin
 	 * <BIP 143 signature> <payment key>

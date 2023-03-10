@@ -9,14 +9,17 @@ import javax.annotation.Nullable;
 
 
 /**
- * A query_short_channel_ids message is used to query a peer for
- * routing gossip messages related to one or more short_channel_ids.
+ * A [`query_short_channel_ids`] message is used to query a peer for
+ * routing gossip messages related to one or more `short_channel_id`s.
+ * 
  * The query recipient will reply with the latest, if available,
- * channel_announcement, channel_update and node_announcement messages
- * it maintains for the requested short_channel_ids followed by a
- * reply_short_channel_ids_end message. The short_channel_ids sent in
- * this query are encoded. We only support encoding_type=0 uncompressed
- * serialization and do not support encoding_type=1 zlib serialization.
+ * [`ChannelAnnouncement`], [`ChannelUpdate`] and [`NodeAnnouncement`] messages
+ * it maintains for the requested `short_channel_id`s followed by a
+ * [`ReplyShortChannelIdsEnd`] message. The `short_channel_id`s sent in
+ * this query are encoded. We only support `encoding_type=0` uncompressed
+ * serialization and do not support `encoding_type=1` zlib serialization.
+ * 
+ * [`query_short_channel_ids`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-query_short_channel_idsreply_short_channel_ids_end-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class QueryShortChannelIds extends CommonBase {

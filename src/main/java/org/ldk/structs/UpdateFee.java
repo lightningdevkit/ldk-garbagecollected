@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An update_fee message to be sent or received from a peer
+ * An [`update_fee`] message to be sent to or received from a peer
+ * 
+ * [`update_fee`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#updating-fees-update_fee
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UpdateFee extends CommonBase {

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Used to put an error message in a LightningError
+ * Used to put an error message in a [`LightningError`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ErrorAction extends CommonBase {

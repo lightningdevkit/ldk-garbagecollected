@@ -160,6 +160,7 @@ public class ChannelInfo extends CommonBase {
 		bindings.ChannelInfo_set_capacity_sats(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**

@@ -56,13 +56,15 @@ public class FilesystemPersister extends CommonBase {
 	/**
 	 * Read `ChannelMonitor`s from disk.
 	 */
-	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.KeysInterface keys_manager) {
-		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, keys_manager == null ? 0 : keys_manager.ptr);
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider) {
+		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, entropy_source == null ? 0 : entropy_source.ptr, signer_provider == null ? 0 : signer_provider.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(entropy_source);
+		Reference.reachabilityFence(signer_provider);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(keys_manager); };
+		if (this != null) { this.ptrs_to.add(entropy_source); };
+		if (this != null) { this.ptrs_to.add(signer_provider); };
 		return ret_hu_conv;
 	}
 

@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * Parameters needed to find a [`Route`].
  * 
  * Passed to [`find_route`] and [`build_route_from_hops`], but also provided in
- * [`Event::PaymentPathFailed`] for retrying a failed payment path.
+ * [`Event::PaymentPathFailed`].
  * 
  * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
  */
@@ -66,31 +66,12 @@ public class RouteParameters extends CommonBase {
 	}
 
 	/**
-	 * The CLTV on the final hop of the failed payment path.
-	 */
-	public int get_final_cltv_expiry_delta() {
-		int ret = bindings.RouteParameters_get_final_cltv_expiry_delta(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * The CLTV on the final hop of the failed payment path.
-	 */
-	public void set_final_cltv_expiry_delta(int val) {
-		bindings.RouteParameters_set_final_cltv_expiry_delta(this.ptr, val);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
 	 * Constructs a new RouteParameters given each field
 	 */
-	public static RouteParameters of(org.ldk.structs.PaymentParameters payment_params_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg) {
-		long ret = bindings.RouteParameters_new(payment_params_arg == null ? 0 : payment_params_arg.ptr, final_value_msat_arg, final_cltv_expiry_delta_arg);
+	public static RouteParameters of(org.ldk.structs.PaymentParameters payment_params_arg, long final_value_msat_arg) {
+		long ret = bindings.RouteParameters_new(payment_params_arg == null ? 0 : payment_params_arg.ptr, final_value_msat_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		Reference.reachabilityFence(final_value_msat_arg);
-		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -116,6 +97,23 @@ public class RouteParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two RouteParameterss contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(org.ldk.structs.RouteParameters b) {
+		boolean ret = bindings.RouteParameters_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof RouteParameters)) return false;
+		return this.eq((RouteParameters)o);
+	}
 	/**
 	 * Serialize the RouteParameters object into a byte array which can be read by RouteParameters_read
 	 */

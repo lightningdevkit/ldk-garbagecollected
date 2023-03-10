@@ -43,6 +43,17 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Read a PathFailure from a byte array, created by PathFailure_write
+	 */
+	public static Result_COption_PathFailureZDecodeErrorZ PathFailure_read(byte[] ser) {
+		long ret = bindings.PathFailure_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_PathFailureZDecodeErrorZ ret_hu_conv = Result_COption_PathFailureZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Read a ClosureReason from a byte array, created by ClosureReason_write
 	 */
 	public static Result_COption_ClosureReasonZDecodeErrorZ ClosureReason_read(byte[] ser) {
@@ -72,6 +83,17 @@ public class UtilMethods {
 		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_EventZDecodeErrorZ ret_hu_conv = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a APIError from a byte array, created by APIError_write
+	 */
+	public static Result_COption_APIErrorZDecodeErrorZ APIError_read(byte[] ser) {
+		long ret = bindings.APIError_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_APIErrorZDecodeErrorZ ret_hu_conv = Result_COption_APIErrorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -137,37 +159,15 @@ public class UtilMethods {
 	/**
 	 * Read a C2Tuple_BlockHashChannelMonitorZ from a byte array, created by C2Tuple_BlockHashChannelMonitorZ_write
 	 */
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, org.ldk.structs.KeysInterface arg) {
-		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : arg.ptr);
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, org.ldk.structs.EntropySource arg_a, org.ldk.structs.SignerProvider arg_b) {
+		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr);
 		Reference.reachabilityFence(ser);
-		Reference.reachabilityFence(arg);
+		Reference.reachabilityFence(arg_a);
+		Reference.reachabilityFence(arg_b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Fetches the set of [`NodeFeatures`] flags which are provided by or required by
-	 * [`ChannelManager`].
-	 */
-	public static NodeFeatures provided_node_features() {
-		long ret = bindings.provided_node_features();
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Fetches the set of [`ChannelFeatures`] flags which are provided by or required by
-	 * [`ChannelManager`].
-	 */
-	public static ChannelFeatures provided_channel_features() {
-		long ret = bindings.provided_channel_features();
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_a); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_b); };
 		return ret_hu_conv;
 	}
 
@@ -175,33 +175,41 @@ public class UtilMethods {
 	 * Fetches the set of [`InitFeatures`] flags which are provided by or required by
 	 * [`ChannelManager`].
 	 */
-	public static InitFeatures provided_init_features() {
-		long ret = bindings.provided_init_features();
+	public static InitFeatures provided_init_features(org.ldk.structs.UserConfig _config) {
+		long ret = bindings.provided_init_features(_config == null ? 0 : _config.ptr);
+		Reference.reachabilityFence(_config);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(_config); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Read a C2Tuple_BlockHashChannelManagerZ from a byte array, created by C2Tuple_BlockHashChannelManagerZ_write
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, KeysInterface arg_keys_manager, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
-		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr).toArray() : null));
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, EntropySource arg_entropy_source, NodeSigner arg_node_signer, SignerProvider arg_signer_provider, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Router arg_router, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
+		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_entropy_source == null ? 0 : arg_entropy_source.ptr, arg_node_signer == null ? 0 : arg_node_signer.ptr, arg_signer_provider == null ? 0 : arg_signer_provider.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_router == null ? 0 : arg_router.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr).toArray() : null));
 		Reference.reachabilityFence(ser);
-		Reference.reachabilityFence(arg_keys_manager);
+		Reference.reachabilityFence(arg_entropy_source);
+		Reference.reachabilityFence(arg_node_signer);
+		Reference.reachabilityFence(arg_signer_provider);
 		Reference.reachabilityFence(arg_fee_estimator);
 		Reference.reachabilityFence(arg_chain_monitor);
 		Reference.reachabilityFence(arg_tx_broadcaster);
+		Reference.reachabilityFence(arg_router);
 		Reference.reachabilityFence(arg_logger);
 		Reference.reachabilityFence(arg_default_config);
 		Reference.reachabilityFence(arg_channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_signer_provider); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_fee_estimator); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_router); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_default_config); };
 		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); }; };
@@ -213,25 +221,32 @@ public class UtilMethods {
 	 * `ChannelManager` is required. Useful for generating invoices for [phantom node payments] without
 	 * a `ChannelManager`.
 	 * 
-	 * `keys` is generated by calling [`KeysInterface::get_inbound_payment_key_material`] and then
+	 * `keys` is generated by calling [`NodeSigner::get_inbound_payment_key_material`] and then
 	 * calling [`ExpandedKey::new`] with its result. It is recommended to cache this value and not
 	 * regenerate it for each new inbound payment.
 	 * 
 	 * `current_time` is a Unix timestamp representing the current time.
 	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+	 * [`NodeSigner::get_inbound_payment_key_material`]: crate::chain::keysinterface::NodeSigner::get_inbound_payment_key_material
 	 */
-	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.KeysInterface keys_manager, long current_time) {
-		long ret = bindings.create(keys == null ? 0 : keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, keys_manager == null ? 0 : keys_manager.ptr, current_time);
+	public static Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.EntropySource entropy_source, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create(keys == null ? 0 : keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, entropy_source == null ? 0 : entropy_source.ptr, current_time, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(entropy_source);
 		Reference.reachabilityFence(current_time);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_value_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -242,18 +257,24 @@ public class UtilMethods {
 	 * 
 	 * See [`create`] for information on the `keys` and `current_time` parameters.
 	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
 	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
 	 */
-	public static Result_PaymentSecretNoneZ create_from_hash(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time) {
-		long ret = bindings.create_from_hash(keys == null ? 0 : keys.ptr, min_value_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, current_time);
+	public static Result_PaymentSecretNoneZ create_from_hash(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_from_hash(keys == null ? 0 : keys.ptr, min_value_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, current_time, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(keys);
 		Reference.reachabilityFence(min_value_msat);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(current_time);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretNoneZ ret_hu_conv = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_value_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -576,6 +597,106 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Pays the given [`Invoice`], retrying if needed based on [`Retry`].
+	 * 
+	 * [`Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
+	 * as the payment is still pending. Once the payment completes or fails, you must ensure that
+	 * a second payment with the same [`PaymentHash`] is never sent.
+	 * 
+	 * If you wish to use a different payment idempotency token, see [`pay_invoice_with_id`].
+	 */
+	public static Result_PaymentIdPaymentErrorZ pay_invoice(org.ldk.structs.Invoice invoice, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
+		long ret = bindings.pay_invoice(invoice == null ? 0 : invoice.ptr, retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(retry_strategy);
+		Reference.reachabilityFence(channelmanager);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry_strategy); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays the given [`Invoice`] with a custom idempotency key, retrying if needed based on [`Retry`].
+	 * 
+	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
+	 * payment completes or fails, no idempotency guarantees are made.
+	 * 
+	 * You should ensure that the [`Invoice::payment_hash`] is unique and the same [`PaymentHash`]
+	 * has never been paid before.
+	 * 
+	 * See [`pay_invoice`] for a variant which uses the [`PaymentHash`] for the idempotency token.
+	 */
+	public static Result_NonePaymentErrorZ pay_invoice_with_id(org.ldk.structs.Invoice invoice, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
+		long ret = bindings.pay_invoice_with_id(invoice == null ? 0 : invoice.ptr, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(retry_strategy);
+		Reference.reachabilityFence(channelmanager);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry_strategy); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays the given zero-value [`Invoice`] using the given amount, retrying if needed based on
+	 * [`Retry`].
+	 * 
+	 * [`Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
+	 * as the payment is still pending. Once the payment completes or fails, you must ensure that
+	 * a second payment with the same [`PaymentHash`] is never sent.
+	 * 
+	 * If you wish to use a different payment idempotency token, see
+	 * [`pay_zero_value_invoice_with_id`].
+	 */
+	public static Result_PaymentIdPaymentErrorZ pay_zero_value_invoice(org.ldk.structs.Invoice invoice, long amount_msats, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
+		long ret = bindings.pay_zero_value_invoice(invoice == null ? 0 : invoice.ptr, amount_msats, retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(retry_strategy);
+		Reference.reachabilityFence(channelmanager);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry_strategy); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays the given zero-value [`Invoice`] using the given amount and custom idempotency key,
+	 * , retrying if needed based on [`Retry`].
+	 * 
+	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
+	 * payment completes or fails, no idempotency guarantees are made.
+	 * 
+	 * You should ensure that the [`Invoice::payment_hash`] is unique and the same [`PaymentHash`]
+	 * has never been paid before.
+	 * 
+	 * See [`pay_zero_value_invoice`] for a variant which uses the [`PaymentHash`] for the
+	 * idempotency token.
+	 */
+	public static Result_NonePaymentErrorZ pay_zero_value_invoice_with_id(org.ldk.structs.Invoice invoice, long amount_msats, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
+		long ret = bindings.pay_zero_value_invoice_with_id(invoice == null ? 0 : invoice.ptr, amount_msats, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(retry_strategy);
+		Reference.reachabilityFence(channelmanager);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry_strategy); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility to create an invoice that can be paid to one of multiple nodes, or a \"phantom invoice.\"
 	 * See [`PhantomKeysManager`] for more information on phantom node payments.
 	 * 
@@ -596,7 +717,14 @@ public class UtilMethods {
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
 	 * 
-	 * Note that the provided `keys_manager`'s `KeysInterface` implementation must support phantom
+	 * `duration_since_epoch` is the current time since epoch in seconds.
+	 * 
+	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
+	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`] - 3.
+	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
+	 * confirmations during routing.
+	 * 
+	 * Note that the provided `keys_manager`'s `NodeSigner` implementation must support phantom
 	 * invoices in its `sign_invoice` implementation ([`PhantomKeysManager`] satisfies this
 	 * requirement).
 	 * 
@@ -605,24 +733,34 @@ public class UtilMethods {
 	 * [`ChannelManager::create_inbound_payment`]: lightning::ln::channelmanager::ChannelManager::create_inbound_payment
 	 * [`ChannelManager::create_inbound_payment_for_hash`]: lightning::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash
 	 * [`PhantomRouteHints::channels`]: lightning::ln::channelmanager::PhantomRouteHints::channels
+	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: lightning::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 * 
+	 * This can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
+	 * available and the current time is supplied by the caller.
 	 * 
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, java.lang.String description, int invoice_expiry_delta_secs, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network) {
-		long ret = bindings.create_phantom_invoice(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), description, invoice_expiry_delta_secs, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network);
+	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, java.lang.String description, int invoice_expiry_delta_secs, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta, long duration_since_epoch) {
+		long ret = bindings.create_phantom_invoice(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), description, invoice_expiry_delta_secs, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, min_final_cltv_expiry_delta.ptr, duration_since_epoch);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(description);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(phantom_route_hints);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(entropy_source);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
 		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); }; };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -649,7 +787,9 @@ public class UtilMethods {
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
 	 * 
-	 * Note that the provided `keys_manager`'s `KeysInterface` implementation must support phantom
+	 * `duration_since_epoch` is the current time since epoch in seconds.
+	 * 
+	 * Note that the provided `keys_manager`'s `NodeSigner` implementation must support phantom
 	 * invoices in its `sign_invoice` implementation ([`PhantomKeysManager`] satisfies this
 	 * requirement).
 	 * 
@@ -659,24 +799,33 @@ public class UtilMethods {
 	 * [`ChannelManager::create_inbound_payment_for_hash`]: lightning::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash
 	 * [`PhantomRouteHints::channels`]: lightning::ln::channelmanager::PhantomRouteHints::channels
 	 * 
+	 * This can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
+	 * available and the current time is supplied by the caller.
+	 * 
 	 * Note that payment_hash (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, int invoice_expiry_delta_secs, org.ldk.structs.Sha256 description_hash, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network) {
-		long ret = bindings.create_phantom_invoice_with_description_hash(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, description_hash == null ? 0 : description_hash.ptr, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network);
+	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(org.ldk.structs.Option_u64Z amt_msat, @Nullable byte[] payment_hash, int invoice_expiry_delta_secs, org.ldk.structs.Sha256 description_hash, PhantomRouteHints[] phantom_route_hints, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta, long duration_since_epoch) {
+		long ret = bindings.create_phantom_invoice_with_description_hash(amt_msat.ptr, InternalUtils.check_arr_len(payment_hash, 32), invoice_expiry_delta_secs, description_hash == null ? 0 : description_hash.ptr, phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr).toArray() : null, entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, min_final_cltv_expiry_delta.ptr, duration_since_epoch);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(description_hash);
 		Reference.reachabilityFence(phantom_route_hints);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(entropy_source);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
 		for (PhantomRouteHints phantom_route_hints_conv_19: phantom_route_hints) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(phantom_route_hints_conv_19); }; };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -689,21 +838,31 @@ public class UtilMethods {
 	 * 
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
+	 * 
+	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
+	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
+	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
+	 * confirmations during routing.
+	 * 
+	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: lightning::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, invoice_expiry_delta_secs);
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(channelmanager);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(description);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -717,22 +876,32 @@ public class UtilMethods {
 	 * 
 	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
 	 * in excess of the current time.
+	 * 
+	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
+	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
+	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
+	 * confirmations during routing.
+	 * 
+	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: lightning::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, invoice_expiry_delta_secs);
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager == null ? 0 : channelmanager.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(channelmanager);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(description_hash);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -741,22 +910,25 @@ public class UtilMethods {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, long duration_since_epoch, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, duration_since_epoch, invoice_expiry_delta_secs);
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, long duration_since_epoch, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description_hash == null ? 0 : description_hash.ptr, duration_since_epoch, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(channelmanager);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(description_hash);
 		Reference.reachabilityFence(duration_since_epoch);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(description_hash); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -765,21 +937,24 @@ public class UtilMethods {
 	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
 	 * available and the current time is supplied by the caller.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs) {
-		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs);
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(channelmanager);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(description);
 		Reference.reachabilityFence(duration_since_epoch);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -789,10 +964,10 @@ public class UtilMethods {
 	 * This may be useful if you're building an on-chain swap or involving another protocol where
 	 * the payment hash is also involved outside the scope of lightning.
 	 */
-	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs, byte[] payment_hash) {
-		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(channelmanager == null ? 0 : channelmanager.ptr, keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs, InternalUtils.check_arr_len(payment_hash, 32));
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.enums.Currency network, org.ldk.structs.Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch, int invoice_expiry_delta_secs, byte[] payment_hash, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(channelmanager == null ? 0 : channelmanager.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, network, amt_msat.ptr, description, duration_since_epoch, invoice_expiry_delta_secs, InternalUtils.check_arr_len(payment_hash, 32), min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(channelmanager);
-		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
@@ -800,11 +975,14 @@ public class UtilMethods {
 		Reference.reachabilityFence(duration_since_epoch);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(amt_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 

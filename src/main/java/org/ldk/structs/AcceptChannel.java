@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An accept_channel message to be sent or received from a peer
+ * An [`accept_channel`] message to be sent to or received from a peer.
+ * 
+ * [`accept_channel`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-accept_channel-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class AcceptChannel extends CommonBase {
@@ -273,10 +275,10 @@ public class AcceptChannel extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent.
 	 * 
+	 * If this is `None`, we derive the channel type from the intersection of
+	 * our feature bits with our counterparty's feature bits from the [`Init`] message.
 	 * This is required to match the equivalent field in [`OpenChannel::channel_type`].
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -292,10 +294,10 @@ public class AcceptChannel extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent.
 	 * 
+	 * If this is `None`, we derive the channel type from the intersection of
+	 * our feature bits with our counterparty's feature bits from the [`Init`] message.
 	 * This is required to match the equivalent field in [`OpenChannel::channel_type`].
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None

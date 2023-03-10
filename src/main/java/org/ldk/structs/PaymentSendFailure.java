@@ -9,9 +9,11 @@ import javax.annotation.Nullable;
 
 
 /**
- * If a payment fails to send, it can be in one of several states. This enum is returned as the
- * Err() type describing which state the payment is in, see the description of individual enum
- * states for more.
+ * If a payment fails to send with [`ChannelManager::send_payment`], it can be in one of several
+ * states. This enum is returned as the Err() type describing which state the payment is in, see
+ * the description of individual enum states for more.
+ * 
+ * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PaymentSendFailure extends CommonBase {
@@ -47,9 +49,11 @@ public class PaymentSendFailure extends CommonBase {
 	 * 
 	 * You can freely resend the payment in full (with the parameter error fixed).
 	 * 
-	 * Because the payment failed outright, no payment tracking is done, you do not need to call
-	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
-	 * for this payment.
+	 * Because the payment failed outright, no payment tracking is done and no
+	 * [`Event::PaymentPathFailed`] or [`Event::PaymentFailed`] events will be generated.
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
 	 */
 	public final static class ParameterError extends PaymentSendFailure {
 		public final org.ldk.structs.APIError parameter_error;
@@ -67,12 +71,14 @@ public class PaymentSendFailure extends CommonBase {
 	 * 
 	 * You can freely resend the payment in full (with the parameter error fixed).
 	 * 
+	 * Because the payment failed outright, no payment tracking is done and no
+	 * [`Event::PaymentPathFailed`] or [`Event::PaymentFailed`] events will be generated.
+	 * 
 	 * The results here are ordered the same as the paths in the route object which was passed to
 	 * send_payment.
 	 * 
-	 * Because the payment failed outright, no payment tracking is done, you do not need to call
-	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
-	 * for this payment.
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
 	 */
 	public final static class PathParameterError extends PaymentSendFailure {
 		public final Result_NoneAPIErrorZ[] path_parameter_error;
@@ -94,9 +100,11 @@ public class PaymentSendFailure extends CommonBase {
 	 * You can freely resend the payment in full (though you probably want to do so over different
 	 * paths than the ones selected).
 	 * 
-	 * Because the payment failed outright, no payment tracking is done, you do not need to call
-	 * [`ChannelManager::abandon_payment`] and [`ChannelManager::retry_payment`] will *not* work
-	 * for this payment.
+	 * Because the payment failed outright, no payment tracking is done and no
+	 * [`Event::PaymentPathFailed`] or [`Event::PaymentFailed`] events will be generated.
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
 	 */
 	public final static class AllFailedResendSafe extends PaymentSendFailure {
 		public final APIError[] all_failed_resend_safe;
@@ -116,10 +124,11 @@ public class PaymentSendFailure extends CommonBase {
 	}
 	/**
 	 * Indicates that a payment for the provided [`PaymentId`] is already in-flight and has not
-	 * yet completed (i.e. generated an [`Event::PaymentSent`]) or been abandoned (via
-	 * [`ChannelManager::abandon_payment`]).
+	 * yet completed (i.e. generated an [`Event::PaymentSent`] or [`Event::PaymentFailed`]).
 	 * 
-	 * [`Event::PaymentSent`]: events::Event::PaymentSent
+	 * [`PaymentId`]: crate::ln::channelmanager::PaymentId
+	 * [`Event::PaymentSent`]: crate::util::events::Event::PaymentSent
+	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
 	 */
 	public final static class DuplicatePayment extends PaymentSendFailure {
 		private DuplicatePayment(long ptr, bindings.LDKPaymentSendFailure.DuplicatePayment obj) {
@@ -127,28 +136,25 @@ public class PaymentSendFailure extends CommonBase {
 		}
 	}
 	/**
-	 * Some paths which were attempted failed to send, though possibly not all. At least some
-	 * paths have irrevocably committed to the HTLC and retrying the payment in full would result
-	 * in over-/re-payment.
+	 * Some paths that were attempted failed to send, though some paths may have succeeded. At least
+	 * some paths have irrevocably committed to the HTLC.
 	 * 
-	 * The results here are ordered the same as the paths in the route object which was passed to
-	 * send_payment, and any `Err`s which are not [`APIError::MonitorUpdateInProgress`] can be
-	 * safely retried via [`ChannelManager::retry_payment`].
+	 * The results here are ordered the same as the paths in the route object that was passed to
+	 * send_payment.
 	 * 
-	 * Any entries which contain `Err(APIError::MonitorUpdateInprogress)` or `Ok(())` MUST NOT be
-	 * retried as they will result in over-/re-payment. These HTLCs all either successfully sent
-	 * (in the case of `Ok(())`) or will send once a [`MonitorEvent::Completed`] is provided for
-	 * the next-hop channel with the latest update_id.
+	 * Any entries that contain `Err(APIError::MonitorUpdateInprogress)` will send once a
+	 * [`MonitorEvent::Completed`] is provided for the next-hop channel with the latest update_id.
+	 * 
+	 * [`MonitorEvent::Completed`]: crate::chain::channelmonitor::MonitorEvent::Completed
 	 */
 	public final static class PartialFailure extends PaymentSendFailure {
 		/**
-		 * The errors themselves, in the same order as the route hops.
+		 * The errors themselves, in the same order as the paths from the route.
 		*/
 		public final Result_NoneAPIErrorZ[] results;
 		/**
 		 * If some paths failed without irrevocably committing to the new HTLC(s), this will
-		 * contain a [`RouteParameters`] object which can be used to calculate a new route that
-		 * will pay all remaining unpaid balance.
+		 * contain a [`RouteParameters`] object for the failing paths.
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
@@ -202,6 +208,7 @@ public class PaymentSendFailure extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 
@@ -226,6 +233,7 @@ public class PaymentSendFailure extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (APIError a_conv_10: a) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a_conv_10); }; };
 		return ret_hu_conv;
 	}
 

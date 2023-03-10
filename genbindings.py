@@ -143,6 +143,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
+    elif fn_arg.startswith("LDKEightU16s"):
+        fn_arg = "uint16_t (*" + fn_arg[13:] + ")[8]"
+        assert var_is_arr_regex.match(fn_arg[9:])
+        rust_obj = "LDKEightU16s"
+        arr_access = "data"
     elif fn_arg.startswith("LDKU128"):
         if fn_arg == "LDKU128":
             fn_arg = "LDKU128 arg"
@@ -760,13 +765,20 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
                     field_var_convs.append((var_line.group(1), var_line.group(2), trait_structs[var_line.group(1)]))
-                    flattened_field_var_convs.append((var_line.group(1), var_line.group(2), ))
-                    flattened_field_var_convs.extend(trait_structs[var_line.group(1)])
+                    flattened_field_var_convs.append((var_line.group(1), var_line.group(2), var_line.group(2)))
+                    for field_var in trait_structs[var_line.group(1)]:
+                        if isinstance(field_var, ConvInfo):
+                            flattened_field_var_convs.append(field_var)
+                        else:
+                            path = var_line.group(2)
+                            if len(field_var) > 2:
+                                path = var_line.group(2) + "." + field_var[2]
+                            flattened_field_var_convs.append((field_var[0], field_var[1], path))
                 else:
                     mapped = type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False)
                     field_var_convs.append(mapped)
                     flattened_field_var_convs.append(mapped)
-            trait_structs[struct_name] = field_var_convs
+            trait_structs[struct_name] = flattened_field_var_convs
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:

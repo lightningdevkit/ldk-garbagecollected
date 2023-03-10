@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An init message to be sent or received from a peer
+ * An [`init`] message to be sent to or received from a peer.
+ * 
+ * [`init`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-init-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Init extends CommonBase {
@@ -21,7 +23,7 @@ public class Init extends CommonBase {
 	}
 
 	/**
-	 * The relevant features which the sender supports
+	 * The relevant features which the sender supports.
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.Init_get_features(this.ptr);
@@ -33,7 +35,7 @@ public class Init extends CommonBase {
 	}
 
 	/**
-	 * The relevant features which the sender supports
+	 * The relevant features which the sender supports.
 	 */
 	public void set_features(org.ldk.structs.InitFeatures val) {
 		bindings.Init_set_features(this.ptr, val == null ? 0 : val.ptr);
@@ -43,10 +45,12 @@ public class Init extends CommonBase {
 	}
 
 	/**
-	 * The receipient's network address. This adds the option to report a remote IP address
-	 * back to a connecting peer using the init message. A node can decide to use that information
-	 * to discover a potential update to its public IPv4 address (NAT) and use
-	 * that for a node_announcement update message containing the new address.
+	 * The receipient's network address.
+	 * 
+	 * This adds the option to report a remote IP address back to a connecting peer using the init
+	 * message. A node can decide to use that information to discover a potential update to its
+	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
+	 * the new address.
 	 */
 	public Option_NetAddressZ get_remote_network_address() {
 		long ret = bindings.Init_get_remote_network_address(this.ptr);
@@ -58,15 +62,18 @@ public class Init extends CommonBase {
 	}
 
 	/**
-	 * The receipient's network address. This adds the option to report a remote IP address
-	 * back to a connecting peer using the init message. A node can decide to use that information
-	 * to discover a potential update to its public IPv4 address (NAT) and use
-	 * that for a node_announcement update message containing the new address.
+	 * The receipient's network address.
+	 * 
+	 * This adds the option to report a remote IP address back to a connecting peer using the init
+	 * message. A node can decide to use that information to discover a potential update to its
+	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
+	 * the new address.
 	 */
 	public void set_remote_network_address(org.ldk.structs.Option_NetAddressZ val) {
 		bindings.Init_set_remote_network_address(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -80,6 +87,7 @@ public class Init extends CommonBase {
 		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(remote_network_address_arg); };
 		return ret_hu_conv;
 	}
 

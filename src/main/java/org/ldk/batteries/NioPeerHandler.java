@@ -318,7 +318,7 @@ public class NioPeerHandler {
      * @param their_node_id must be a valid 33-byte public key
      */
     public void disconnect(byte[] their_node_id) {
-        this.peer_manager.disconnect_by_node_id(their_node_id, false);
+        this.peer_manager.disconnect_by_node_id(their_node_id);
     }
 
     /**

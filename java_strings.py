@@ -426,6 +426,7 @@ _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
 
 typedef jlongArray int64_tArray;
 typedef jbyteArray int8_tArray;
+typedef jshortArray int16_tArray;
 
 static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
 	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
@@ -525,14 +526,17 @@ import javax.annotation.Nullable;
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return ("(*env)->SetByteArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", ", ")")
+        elif ty_info.c_ty == "int16_tArray":
+            return ("(*env)->SetShortArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", ", ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
-        if ty_info.c_ty == "int8_tArray":
+        if ty_info.c_ty == "int8_tArray" or ty_info.c_ty == "int16_tArray":
+            fn_ty = "Byte" if ty_info.c_ty == "int8_tArray" else "Short"
             if copy:
-                return "(*env)->GetByteArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", " + dest_name + ")"
+                return "(*env)->Get" + fn_ty + "ArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", " + dest_name + ")"
             else:
-                return "(*env)->GetByteArrayElements (env, " + arr_name + ", NULL)"
+                return "(*env)->Get" + fn_ty + "ArrayElements (env, " + arr_name + ", NULL)"
         elif not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
             return "(*env)->Get" + ty_info.subty.java_ty.title() + "ArrayElements (env, " + arr_name + ", NULL)"
         else:
@@ -616,7 +620,13 @@ import javax.annotation.Nullable;
         if arr_ty.rust_obj == "LDKU128":
             return ("" + arr_name + ".getLEBytes()", "")
         if fixed_len is not None:
-            return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
+            if mapped_ty.c_ty == "int8_t" or mapped_ty.c_ty == "uint8_t":
+                return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
+            elif mapped_ty.c_ty == "int16_t" or mapped_ty.c_ty == "uint16_t":
+                return ("InternalUtils.check_arr_16_len(" + arr_name + ", " + fixed_len + ")", "")
+            else:
+                print(arr_ty.c_ty)
+                assert False
         return None
     def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
         if arr_ty.rust_obj == "LDKU128":
@@ -767,12 +777,26 @@ import javax.annotation.Nullable;
                     out_java_trait = out_java_trait + "\t\t" + var.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n"
             else:
                 out_java_trait = out_java_trait + "\t\tthis.ptrs_to.add(" + var[1] + ");\n"
-        out_java_trait = out_java_trait + "\t\tthis.bindings_instance = arg;\n"
-        out_java_trait = out_java_trait + "\t}\n"
-        out_java_trait = out_java_trait + "\t@Override @SuppressWarnings(\"deprecation\")\n"
-        out_java_trait = out_java_trait + "\tprotected void finalize() throws Throwable {\n"
-        out_java_trait = out_java_trait + "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n"
-        out_java_trait = out_java_trait + "\t}\n\n"
+        out_java_trait += f"""		this.bindings_instance = arg;
+	}}
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {{
+		if (ptr != 0) {{ bindings.{struct_name.replace("LDK","")}_free(ptr); }} super.finalize();
+	}}
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {{
+		if (ptr != 0) {{ bindings.{struct_name.replace("LDK","")}_free(ptr); }}
+		ptr = 0;
+	}}
+"""
 
         java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
         java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
@@ -847,17 +871,21 @@ import javax.annotation.Nullable;
                 java_trait_constr = java_trait_constr + ", " + var.arg_name
             else:
                 java_trait_constr += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
+                suptrait_constr = ""
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        suptrait_constr += ", " + suparg.arg_name
+                    else:
+                        suptrait_constr += ", " + suparg[1] + "_impl"
+                java_trait_constr += suptrait_constr + ").bindings_instance"
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
                         java_trait_constr += ", " + suparg.arg_name
                     else:
-                        java_trait_constr += ", " + suparg[1]
-                java_trait_constr += ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        java_trait_constr += ", " + suparg.arg_name
-                    else:
-                        java_trait_constr += ", " + suparg[1]
+                        java_trait_constr += ", " + suparg[1] + ".new_impl("
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        java_trait_constr += suptrait_constr.split(", ", 1)[1]
+                        java_trait_constr += ").bindings_instance"
         out_java_trait = out_java_trait + "\t}\n"
         out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
@@ -966,9 +994,9 @@ import javax.annotation.Nullable;
             out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
             out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
             out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
-            for var in field_vars:
+            for var in flattened_field_vars:
                 if not isinstance(var, ConvInfo):
-                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[2].replace(".", "->") + "->refcnt, 1, memory_order_release);\n"
             out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
@@ -1022,7 +1050,7 @@ import javax.annotation.Nullable;
         out_c = out_c + "\t};\n"
         for var in flattened_field_vars:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[2] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
@@ -1052,7 +1080,7 @@ import javax.annotation.Nullable;
                 underscore_name = ''.join('_' + c.lower() if c.isupper() else c for c in var[1]).strip('_')
                 out_java_trait += "\tpublic " + var[1] + " get_" + underscore_name + "() {\n"
                 out_java_trait += "\t\t" + var[1] + " res = new " + var[1] + "(null, bindings." + struct_name + "_get_" + var[1] + "(this.ptr));\n"
-                out_java_trait += "\t\tthis.ptrs_to.add(res);\n"
+                out_java_trait += "\t\tres.ptrs_to.add(this);\n"
                 out_java_trait += "\t\treturn res;\n"
                 out_java_trait += "\t}\n"
                 out_java_trait += "\n"
@@ -1061,7 +1089,7 @@ import javax.annotation.Nullable;
 
                 out_c += "JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_" + struct_name + "_1get_1" + var[1] + "(JNIEnv *env, jclass clz, int64_t arg) {\n"
                 out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)untag_ptr(arg);\n"
-                out_c += "\treturn tag_ptr(&inp->" + var[1] + ", false);\n"
+                out_c += "\treturn tag_ptr(&inp->" + var[2] + ", false);\n"
                 out_c += "}\n"
 
         return (out_java, out_java_trait, out_c)

@@ -21,7 +21,7 @@ public class RoutingFees extends CommonBase {
 	}
 
 	/**
-	 * Flat routing fee in satoshis
+	 * Flat routing fee in millisatoshis.
 	 */
 	public int get_base_msat() {
 		int ret = bindings.RoutingFees_get_base_msat(this.ptr);
@@ -30,7 +30,7 @@ public class RoutingFees extends CommonBase {
 	}
 
 	/**
-	 * Flat routing fee in satoshis
+	 * Flat routing fee in millisatoshis.
 	 */
 	public void set_base_msat(int val) {
 		bindings.RoutingFees_set_base_msat(this.ptr, val);

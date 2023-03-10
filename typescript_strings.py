@@ -188,6 +188,16 @@ export function encodeUint8Array (inputArray: Uint8Array|null): number {
 	return cArrayPointer;
 }
 /* @internal */
+export function encodeUint16Array (inputArray: Uint16Array|Array<number>|null): number {
+	if (inputArray == null) return 0;
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 4) * 2);
+	const arrayLengthView = new BigUint64Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = BigInt(inputArray.length);
+	const arrayMemoryView = new Uint16Array(wasm.memory.buffer, cArrayPointer + 8, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+/* @internal */
 export function encodeUint32Array (inputArray: Uint32Array|Array<number>|null): number {
 	if (inputArray == null) return 0;
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 2) * 4);
@@ -209,6 +219,12 @@ export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>|null
 
 /* @internal */
 export function check_arr_len(arr: Uint8Array|null, len: number): Uint8Array|null {
+	if (arr !== null && arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
+	return arr;
+}
+
+/* @internal */
+export function check_16_arr_len(arr: Uint16Array|null, len: number): Uint16Array|null {
 	if (arr !== null && arr.length != len) { throw new Error("Expected array of length " + len + " got " + arr.length); }
 	return arr;
 }
@@ -248,15 +264,13 @@ export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array
 	}
 	return actualArray;
 }
-const decodeUint32Array = (arrayPointer: number, free = true) => {
+/* @internal */
+export function decodeUint16Array (arrayPointer: number, free = true): Uint16Array {
 	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint32Array(
-		wasm.memory.buffer, // value
-		arrayPointer + 8, // offset (ignoring length bytes)
-		arraySize // uint32 count
-	);
+	const actualArrayViewer = new Uint16Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
+	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
 		wasm.TS_free(arrayPointer);
@@ -643,6 +657,7 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 DECL_ARR_TYPE(int64_t, int64_t);
 DECL_ARR_TYPE(uint64_t, uint64_t);
 DECL_ARR_TYPE(int8_t, int8_t);
+DECL_ARR_TYPE(int16_t, int16_t);
 DECL_ARR_TYPE(uint32_t, uint32_t);
 DECL_ARR_TYPE(void*, ptr);
 DECL_ARR_TYPE(char, char);
@@ -724,12 +739,17 @@ import * as bindings from '../bindings.mjs'
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + ")")
+        elif ty_info.c_ty == "int16_tArray":
+            return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + " * 2)")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
-        if ty_info.c_ty == "int8_tArray":
+        if ty_info.c_ty == "int8_tArray" or ty_info.c_ty == "int16_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + "); FREE(" + arr_name + ")"
+                byte_len = arr_len
+                if ty_info.c_ty == "int16_tArray":
+                    byte_len = arr_len + " * 2"
+                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + byte_len + "); FREE(" + arr_name + ")"
         assert not copy
         if ty_info.c_ty == "ptrArray":
             return "(void*) " + arr_name + "->elems"
@@ -792,12 +812,16 @@ import * as bindings from '../bindings.mjs'
         if arr_ty.rust_obj == "LDKU128":
             return ("bindings.encodeUint128(" + inner + ")", "")
         if fixed_len is not None:
-            assert mapped_ty.c_ty == "int8_t"
-            inner = "bindings.check_arr_len(" + arr_name + ", " + fixed_len + ")"
+            if mapped_ty.c_ty == "int8_t":
+                inner = "bindings.check_arr_len(" + arr_name + ", " + fixed_len + ")"
+            elif mapped_ty.c_ty == "int16_t":
+                inner = "bindings.check_16_arr_len(" + arr_name + ", " + fixed_len + ")"
         if mapped_ty.c_ty.endswith("Array"):
             return ("bindings.encodeUint32Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
             return ("bindings.encodeUint8Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
+            return ("bindings.encodeUint16Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "uint32_t":
             return ("bindings.encodeUint32Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "int64_t" or mapped_ty.c_ty == "uint64_t":
@@ -812,6 +836,8 @@ import * as bindings from '../bindings.mjs'
             return "const " + conv_name + ": bigint = bindings.decodeUint128(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
             return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
+            return "const " + conv_name + ": Uint16Array = bindings.decodeUint16Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
             return "const " + conv_name + ": bigint[] = bindings.decodeUint64Array(" + arr_name + ");"
         else:
@@ -926,6 +952,8 @@ export enum {struct_name} {{
                     if isinstance(suparg, ConvInfo):
                         trait_constructor_arguments += ", " + suparg.arg_name
                     else:
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        super_constructor_statements += "\t\tconst " + first_to_lower(suparg[1]) + " = " + suparg[1] + ".new_impl(" + super_instantiator.split(", ", 1)[1] + ");\n"
                         trait_constructor_arguments += ", " + suparg[1]
 
         # BUILD INTERFACE METHODS
@@ -1154,9 +1182,9 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
         out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[2].replace(".", "->") + "->refcnt, 1, memory_order_release);\n"
         out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (JSValue o"
@@ -1207,7 +1235,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "\t};\n"
         for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[2] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
@@ -1317,7 +1345,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
-        implementations = ""
         method_header = ""
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
@@ -1339,7 +1366,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 /**{extra_docs}
  * {formatted_doc_comment}
  */
-export class {hu_name} extends CommonBase {implementations}{{
+export class {hu_name} extends CommonBase {{
 	/* @internal */
 	public constructor(_dummy: null, ptr: bigint) {{
 		{constructor_body}
@@ -1603,12 +1630,12 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: 
                 bindings.write(f"\t\tcase {str(f)}: fn = Object.getOwnPropertyDescriptor(obj, \"{self.function_ptrs[f][1]}\"); break;\n")
 
             bindings.write("""\t\tdefault:
-			console.error("Got unknown function call from C!");
-			throw new Error("Got unknown function call from C!");
+			console.error("Got unknown function call with id " + fn_id + " from C!");
+			throw new Error("Got unknown function call with id " + fn_id + " from C!");
 	}
 	if (fn == null || fn == undefined) {
-		console.error("Got function call on incorrect JS object!");
-		throw new Error("Got function call on incorrect JS object!");
+		console.error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
+		throw new Error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
 	}
 	const ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 	if (ret === undefined || ret === null) return BigInt(0);

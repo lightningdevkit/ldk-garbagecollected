@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An error message to be sent or received from a peer
+ * An [`error`] message to be sent to or received from a peer.
+ * 
+ * [`error`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-error-and-warning-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ErrorMessage extends CommonBase {
@@ -46,8 +48,9 @@ public class ErrorMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
-	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * 
+	 * The string should be sanitized before it is used (e.g., emitted to logs or printed to
+	 * `stdout`). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public String get_data() {
@@ -58,8 +61,9 @@ public class ErrorMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
-	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * 
+	 * The string should be sanitized before it is used (e.g., emitted to logs or printed to
+	 * `stdout`). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public void set_data(java.lang.String val) {

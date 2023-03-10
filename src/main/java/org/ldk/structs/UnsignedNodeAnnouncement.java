@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * The unsigned part of a node_announcement
+ * The unsigned part of a [`node_announcement`] message.
+ * 
+ * [`node_announcement`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-node_announcement-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UnsignedNodeAnnouncement extends CommonBase {
@@ -61,23 +63,27 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	}
 
 	/**
-	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * The `node_id` this announcement originated from (don't rebroadcast the `node_announcement` back
 	 * to this node).
 	 */
-	public byte[] get_node_id() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
+	public NodeId get_node_id() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * The `node_id` this announcement originated from (don't rebroadcast the `node_announcement` back
 	 * to this node).
 	 */
-	public void set_node_id(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_node_id(org.ldk.structs.NodeId val) {
+		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -99,8 +105,9 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	}
 
 	/**
-	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
-	 * of uniqueness.
+	 * An alias, for UI purposes.
+	 * 
+	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
 	public byte[] get_alias() {
 		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
@@ -109,8 +116,9 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	}
 
 	/**
-	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
-	 * of uniqueness.
+	 * An alias, for UI purposes.
+	 * 
+	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
 	public void set_alias(byte[] val) {
 		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -144,6 +152,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		for (NetAddress val_conv_12: val) { if (this != null) { this.ptrs_to.add(val_conv_12); }; };
 	}
 
 	long clone_ptr() {

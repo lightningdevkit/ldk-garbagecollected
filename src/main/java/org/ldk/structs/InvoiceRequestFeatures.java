@@ -76,24 +76,4 @@ public class InvoiceRequestFeatures extends CommonBase {
 		return ret;
 	}
 
-	/**
-	 * Serialize the InvoiceRequestFeatures object into a byte array which can be read by InvoiceRequestFeatures_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.InvoiceRequestFeatures_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Read a InvoiceRequestFeatures from a byte array, created by InvoiceRequestFeatures_write
-	 */
-	public static Result_InvoiceRequestFeaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.InvoiceRequestFeatures_read(ser);
-		Reference.reachabilityFence(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_InvoiceRequestFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceRequestFeaturesDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
 }

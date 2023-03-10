@@ -1,20 +1,25 @@
 import { TxOut } from '../structs/TxOut.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
-import { AccessError } from '../enums/AccessError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
+import { FailureCode } from '../enums/FailureCode.mjs';
 import { HTLCClaim } from '../enums/HTLCClaim.mjs';
 import { IOError } from '../enums/IOError.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
+import { RetryableSendFailure } from '../enums/RetryableSendFailure.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { UtxoLookupError } from '../enums/UtxoLookupError.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
+import { ShutdownScript } from '../structs/ShutdownScript.mjs';
+import { APIError } from '../structs/APIError.mjs';
+import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Option_HTLCClaimZ } from '../structs/Option_HTLCClaimZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
@@ -42,7 +47,6 @@ import { Result_CommitmentTransactionDecodeErrorZ } from '../structs/Result_Comm
 import { TrustedCommitmentTransaction } from '../structs/TrustedCommitmentTransaction.mjs';
 import { Result_TrustedCommitmentTransactionNoneZ } from '../structs/Result_TrustedCommitmentTransactionNoneZ.mjs';
 import { Result_CVec_SignatureZNoneZ } from '../structs/Result_CVec_SignatureZNoneZ.mjs';
-import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { Result_ShutdownScriptDecodeErrorZ } from '../structs/Result_ShutdownScriptDecodeErrorZ.mjs';
 import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
@@ -71,6 +75,12 @@ import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeE
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
 import { Result_PaymentPurposeDecodeErrorZ } from '../structs/Result_PaymentPurposeDecodeErrorZ.mjs';
+import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
+import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
+import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
+import { PathFailure } from '../structs/PathFailure.mjs';
+import { Option_PathFailureZ } from '../structs/Option_PathFailureZ.mjs';
+import { Result_COption_PathFailureZDecodeErrorZ } from '../structs/Result_COption_PathFailureZDecodeErrorZ.mjs';
 import { ClosureReason } from '../structs/ClosureReason.mjs';
 import { Option_ClosureReasonZ } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
@@ -78,9 +88,6 @@ import { HTLCDestination } from '../structs/HTLCDestination.mjs';
 import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs';
 import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { Option_u128Z } from '../structs/Option_u128Z.mjs';
-import { ChannelUpdate } from '../structs/ChannelUpdate.mjs';
-import { NetworkUpdate } from '../structs/NetworkUpdate.mjs';
-import { Option_NetworkUpdateZ } from '../structs/Option_NetworkUpdateZ.mjs';
 import { OutPoint } from '../structs/OutPoint.mjs';
 import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
@@ -101,6 +108,7 @@ import { ClosingSigned } from '../structs/ClosingSigned.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
+import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { ErrorMessage } from '../structs/ErrorMessage.mjs';
 import { WarningMessage } from '../structs/WarningMessage.mjs';
 import { ErrorAction } from '../structs/ErrorAction.mjs';
@@ -109,7 +117,6 @@ import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
-import { Result_TxOutAccessErrorZ } from '../structs/Result_TxOutAccessErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
 import { TwoTuple_TxidBlockHashZ } from '../structs/TwoTuple_TxidBlockHashZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
@@ -119,6 +126,9 @@ import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
 import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
+import { TwoTuple_Z } from '../structs/TwoTuple_Z.mjs';
+import { TwoTuple__u168_u168Z } from '../structs/TwoTuple__u168_u168Z.mjs';
+import { Option_C2Tuple_EightU16sEightU16sZZ } from '../structs/Option_C2Tuple_EightU16sEightU16sZZ.mjs';
 import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
@@ -133,15 +143,16 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
+import { BlindedHopFeatures } from '../structs/BlindedHopFeatures.mjs';
+import { Result_BlindedHopFeaturesDecodeErrorZ } from '../structs/Result_BlindedHopFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
-import { OfferFeatures } from '../structs/OfferFeatures.mjs';
-import { Result_OfferFeaturesDecodeErrorZ } from '../structs/Result_OfferFeaturesDecodeErrorZ.mjs';
-import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
-import { Result_InvoiceRequestFeaturesDecodeErrorZ } from '../structs/Result_InvoiceRequestFeaturesDecodeErrorZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
-import { Access, AccessInterface } from '../structs/Access.mjs';
-import { Option_AccessZ } from '../structs/Option_AccessZ.mjs';
+import { Result_TxOutUtxoLookupErrorZ } from '../structs/Result_TxOutUtxoLookupErrorZ.mjs';
+import { UtxoFuture } from '../structs/UtxoFuture.mjs';
+import { UtxoResult } from '../structs/UtxoResult.mjs';
+import { UtxoLookup, UtxoLookupInterface } from '../structs/UtxoLookup.mjs';
+import { Option_UtxoLookupZ } from '../structs/Option_UtxoLookupZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
@@ -168,29 +179,28 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { TwoTuple_SignatureCVec_SignatureZZ } from '../structs/TwoTuple_SignatureCVec_SignatureZZ.mjs';
 import { Result_C2Tuple_SignatureCVec_SignatureZZNoneZ } from '../structs/Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.mjs';
 import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
-import { TwoTuple_SignatureSignatureZ } from '../structs/TwoTuple_SignatureSignatureZ.mjs';
-import { Result_C2Tuple_SignatureSignatureZNoneZ } from '../structs/Result_C2Tuple_SignatureSignatureZNoneZ.mjs';
-import { Result_SecretKeyNoneZ } from '../structs/Result_SecretKeyNoneZ.mjs';
 import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
 import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
 import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
+import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
-import { BaseSign, BaseSignInterface } from '../structs/BaseSign.mjs';
-import { Sign, SignInterface } from '../structs/Sign.mjs';
-import { Result_SignDecodeErrorZ } from '../structs/Result_SignDecodeErrorZ.mjs';
-import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
+import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
+import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
+import { WriteableEcdsaChannelSigner, WriteableEcdsaChannelSignerInterface } from '../structs/WriteableEcdsaChannelSigner.mjs';
+import { Result_WriteableEcdsaChannelSignerDecodeErrorZ } from '../structs/Result_WriteableEcdsaChannelSignerDecodeErrorZ.mjs';
 import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
 import { InMemorySigner } from '../structs/InMemorySigner.mjs';
 import { Result_InMemorySignerDecodeErrorZ } from '../structs/Result_InMemorySignerDecodeErrorZ.mjs';
 import { Result_TransactionNoneZ } from '../structs/Result_TransactionNoneZ.mjs';
 import { Option_u16Z } from '../structs/Option_u16Z.mjs';
-import { APIError } from '../structs/APIError.mjs';
-import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Result__u832APIErrorZ } from '../structs/Result__u832APIErrorZ.mjs';
+import { RecentPaymentDetails } from '../structs/RecentPaymentDetails.mjs';
 import { PaymentSendFailure } from '../structs/PaymentSendFailure.mjs';
 import { Result_NonePaymentSendFailureZ } from '../structs/Result_NonePaymentSendFailureZ.mjs';
+import { Result_NoneRetryableSendFailureZ } from '../structs/Result_NoneRetryableSendFailureZ.mjs';
 import { Result_PaymentHashPaymentSendFailureZ } from '../structs/Result_PaymentHashPaymentSendFailureZ.mjs';
+import { Result_PaymentHashRetryableSendFailureZ } from '../structs/Result_PaymentHashRetryableSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashPaymentIdZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
@@ -210,13 +220,21 @@ import { ChannelMonitor } from '../structs/ChannelMonitor.mjs';
 import { ChannelMonitorUpdate } from '../structs/ChannelMonitorUpdate.mjs';
 import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
-import { KeysInterface, KeysInterfaceInterface } from '../structs/KeysInterface.mjs';
+import { EntropySource, EntropySourceInterface } from '../structs/EntropySource.mjs';
+import { UnsignedChannelUpdate } from '../structs/UnsignedChannelUpdate.mjs';
+import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
+import { UnsignedGossipMessage } from '../structs/UnsignedGossipMessage.mjs';
+import { NodeSigner, NodeSignerInterface } from '../structs/NodeSigner.mjs';
+import { SignerProvider, SignerProviderInterface } from '../structs/SignerProvider.mjs';
 import { FeeEstimator, FeeEstimatorInterface } from '../structs/FeeEstimator.mjs';
+import { Router, RouterInterface } from '../structs/Router.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
 import { ChannelConfig } from '../structs/ChannelConfig.mjs';
 import { Result_ChannelConfigDecodeErrorZ } from '../structs/Result_ChannelConfigDecodeErrorZ.mjs';
+import { Option_APIErrorZ } from '../structs/Option_APIErrorZ.mjs';
+import { Result_COption_APIErrorZDecodeErrorZ } from '../structs/Result_COption_APIErrorZDecodeErrorZ.mjs';
 import { Result_OutPointDecodeErrorZ } from '../structs/Result_OutPointDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
@@ -243,6 +261,7 @@ import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from 
 import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
 import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
 import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
+import { TwoTuple_PublicKeyCOption_NetAddressZZ } from '../structs/TwoTuple_PublicKeyCOption_NetAddressZZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -307,14 +326,11 @@ import { Pong } from '../structs/Pong.mjs';
 import { Result_PongDecodeErrorZ } from '../structs/Result_PongDecodeErrorZ.mjs';
 import { Result_UnsignedChannelAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedChannelAnnouncementDecodeErrorZ.mjs';
 import { Result_ChannelAnnouncementDecodeErrorZ } from '../structs/Result_ChannelAnnouncementDecodeErrorZ.mjs';
-import { UnsignedChannelUpdate } from '../structs/UnsignedChannelUpdate.mjs';
 import { Result_UnsignedChannelUpdateDecodeErrorZ } from '../structs/Result_UnsignedChannelUpdateDecodeErrorZ.mjs';
 import { Result_ChannelUpdateDecodeErrorZ } from '../structs/Result_ChannelUpdateDecodeErrorZ.mjs';
 import { Result_ErrorMessageDecodeErrorZ } from '../structs/Result_ErrorMessageDecodeErrorZ.mjs';
 import { Result_WarningMessageDecodeErrorZ } from '../structs/Result_WarningMessageDecodeErrorZ.mjs';
-import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
 import { Result_UnsignedNodeAnnouncementDecodeErrorZ } from '../structs/Result_UnsignedNodeAnnouncementDecodeErrorZ.mjs';
-import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
 import { Result_NodeAnnouncementDecodeErrorZ } from '../structs/Result_NodeAnnouncementDecodeErrorZ.mjs';
 import { Result_QueryShortChannelIdsDecodeErrorZ } from '../structs/Result_QueryShortChannelIdsDecodeErrorZ.mjs';
 import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs';
@@ -355,6 +371,7 @@ import { ChainMonitor } from '../structs/ChainMonitor.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
+import { Retry } from '../structs/Retry.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { DataLossProtect } from '../structs/DataLossProtect.mjs';
@@ -369,12 +386,14 @@ import { MessageHandler } from '../structs/MessageHandler.mjs';
 import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
 import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
-import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
+import { OfferFeatures } from '../structs/OfferFeatures.mjs';
+import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
+import { Bolt12InvoiceFeatures } from '../structs/Bolt12InvoiceFeatures.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
+import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
-import { Router, RouterInterface } from '../structs/Router.mjs';
 import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
@@ -383,14 +402,12 @@ import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { Destination } from '../structs/Destination.mjs';
 import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
+import { GossipSync } from '../structs/GossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
-import { MinFinalCltvExpiry } from '../structs/MinFinalCltvExpiry.mjs';
+import { MinFinalCltvExpiryDelta } from '../structs/MinFinalCltvExpiryDelta.mjs';
 import { Fallback } from '../structs/Fallback.mjs';
-import { Payer, PayerInterface } from '../structs/Payer.mjs';
-import { InvoicePayer } from '../structs/InvoicePayer.mjs';
-import { Retry } from '../structs/Retry.mjs';
 
 
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
@@ -400,74 +417,68 @@ import * as bindings from '../bindings.mjs'
 
 /** An implementation of ChannelMessageHandler */
 export interface ChannelMessageHandlerInterface {
-	/**Handle an incoming open_channel message from the given peer.
+	/**Handle an incoming `open_channel` message from the given peer.
 	 */
-	handle_open_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: OpenChannel): void;
-	/**Handle an incoming accept_channel message from the given peer.
+	handle_open_channel(their_node_id: Uint8Array, msg: OpenChannel): void;
+	/**Handle an incoming `accept_channel` message from the given peer.
 	 */
-	handle_accept_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: AcceptChannel): void;
-	/**Handle an incoming funding_created message from the given peer.
+	handle_accept_channel(their_node_id: Uint8Array, msg: AcceptChannel): void;
+	/**Handle an incoming `funding_created` message from the given peer.
 	 */
 	handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void;
-	/**Handle an incoming funding_signed message from the given peer.
+	/**Handle an incoming `funding_signed` message from the given peer.
 	 */
 	handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void;
-	/**Handle an incoming channel_ready message from the given peer.
+	/**Handle an incoming `channel_ready` message from the given peer.
 	 */
 	handle_channel_ready(their_node_id: Uint8Array, msg: ChannelReady): void;
-	/**Handle an incoming shutdown message from the given peer.
+	/**Handle an incoming `shutdown` message from the given peer.
 	 */
-	handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void;
-	/**Handle an incoming closing_signed message from the given peer.
+	handle_shutdown(their_node_id: Uint8Array, msg: Shutdown): void;
+	/**Handle an incoming `closing_signed` message from the given peer.
 	 */
 	handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void;
-	/**Handle an incoming update_add_htlc message from the given peer.
+	/**Handle an incoming `update_add_htlc` message from the given peer.
 	 */
 	handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void;
-	/**Handle an incoming update_fulfill_htlc message from the given peer.
+	/**Handle an incoming `update_fulfill_htlc` message from the given peer.
 	 */
 	handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void;
-	/**Handle an incoming update_fail_htlc message from the given peer.
+	/**Handle an incoming `update_fail_htlc` message from the given peer.
 	 */
 	handle_update_fail_htlc(their_node_id: Uint8Array, msg: UpdateFailHTLC): void;
-	/**Handle an incoming update_fail_malformed_htlc message from the given peer.
+	/**Handle an incoming `update_fail_malformed_htlc` message from the given peer.
 	 */
 	handle_update_fail_malformed_htlc(their_node_id: Uint8Array, msg: UpdateFailMalformedHTLC): void;
-	/**Handle an incoming commitment_signed message from the given peer.
+	/**Handle an incoming `commitment_signed` message from the given peer.
 	 */
 	handle_commitment_signed(their_node_id: Uint8Array, msg: CommitmentSigned): void;
-	/**Handle an incoming revoke_and_ack message from the given peer.
+	/**Handle an incoming `revoke_and_ack` message from the given peer.
 	 */
 	handle_revoke_and_ack(their_node_id: Uint8Array, msg: RevokeAndACK): void;
-	/**Handle an incoming update_fee message from the given peer.
+	/**Handle an incoming `update_fee` message from the given peer.
 	 */
 	handle_update_fee(their_node_id: Uint8Array, msg: UpdateFee): void;
-	/**Handle an incoming announcement_signatures message from the given peer.
+	/**Handle an incoming `announcement_signatures` message from the given peer.
 	 */
 	handle_announcement_signatures(their_node_id: Uint8Array, msg: AnnouncementSignatures): void;
-	/**Indicates a connection to the peer failed/an existing connection was lost. If no connection
-	 * is believed to be possible in the future (eg they're sending us messages we don't
-	 * understand or indicate they require unknown feature bits), no_connection_possible is set
-	 * and any outstanding channels should be failed.
-	 * 
-	 * Note that in some rare cases this may be called without a corresponding
-	 * [`Self::peer_connected`].
+	/**Indicates a connection to the peer failed/an existing connection was lost.
 	 */
-	peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void;
-	/**Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	peer_disconnected(their_node_id: Uint8Array): void;
+	/**Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
 	 * 
 	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	peer_connected(their_node_id: Uint8Array, msg: Init): Result_NoneNoneZ;
-	/**Handle an incoming channel_reestablish message from the given peer.
+	peer_connected(their_node_id: Uint8Array, msg: Init, inbound: boolean): Result_NoneNoneZ;
+	/**Handle an incoming `channel_reestablish` message from the given peer.
 	 */
 	handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void;
-	/**Handle an incoming channel update from the given peer.
+	/**Handle an incoming `channel_update` message from the given peer.
 	 */
 	handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void;
-	/**Handle an incoming error message from the given peer.
+	/**Handle an incoming `error` message from the given peer.
 	 */
 	handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void;
 	/**Gets the node feature flags which this handler itself supports. All available handlers are
@@ -491,8 +502,8 @@ class LDKChannelMessageHandlerHolder {
 /**
  * A trait to describe an object which can receive channel messages.
  * 
- * Messages MAY be called in parallel when they originate from different their_node_ids, however
- * they MUST NOT be called in parallel when the two calls have the same their_node_id.
+ * Messages MAY be called in parallel when they originate from different `their_node_ids`, however
+ * they MUST NOT be called in parallel when the two calls have the same `their_node_id`.
  */
 export class ChannelMessageHandler extends CommonBase {
 	/* @internal */
@@ -511,19 +522,15 @@ export class ChannelMessageHandler extends CommonBase {
 	public static new_impl(arg: ChannelMessageHandlerInterface, messageSendEventsProvider_impl: MessageSendEventsProviderInterface): ChannelMessageHandler {
 		const impl_holder: LDKChannelMessageHandlerHolder = new LDKChannelMessageHandlerHolder();
 		let structImplementation = {
-			handle_open_channel (their_node_id: number, their_features: bigint, msg: bigint): void {
+			handle_open_channel (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
-				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
-				CommonBase.add_ref_from(their_features_hu_conv, this);
 				const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
-				arg.handle_open_channel(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
+				arg.handle_open_channel(their_node_id_conv, msg_hu_conv);
 			},
-			handle_accept_channel (their_node_id: number, their_features: bigint, msg: bigint): void {
+			handle_accept_channel (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
-				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
-				CommonBase.add_ref_from(their_features_hu_conv, this);
 				const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
-				arg.handle_accept_channel(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
+				arg.handle_accept_channel(their_node_id_conv, msg_hu_conv);
 			},
 			handle_funding_created (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
@@ -540,11 +547,10 @@ export class ChannelMessageHandler extends CommonBase {
 				const msg_hu_conv: ChannelReady = new ChannelReady(null, msg);
 				arg.handle_channel_ready(their_node_id_conv, msg_hu_conv);
 			},
-			handle_shutdown (their_node_id: number, their_features: bigint, msg: bigint): void {
+			handle_shutdown (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
-				const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 				const msg_hu_conv: Shutdown = new Shutdown(null, msg);
-				arg.handle_shutdown(their_node_id_conv, their_features_hu_conv, msg_hu_conv);
+				arg.handle_shutdown(their_node_id_conv, msg_hu_conv);
 			},
 			handle_closing_signed (their_node_id: number, msg: bigint): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
@@ -591,14 +597,14 @@ export class ChannelMessageHandler extends CommonBase {
 				const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
 				arg.handle_announcement_signatures(their_node_id_conv, msg_hu_conv);
 			},
-			peer_disconnected (their_node_id: number, no_connection_possible: boolean): void {
+			peer_disconnected (their_node_id: number): void {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
-				arg.peer_disconnected(their_node_id_conv, no_connection_possible);
+				arg.peer_disconnected(their_node_id_conv);
 			},
-			peer_connected (their_node_id: number, msg: bigint): bigint {
+			peer_connected (their_node_id: number, msg: bigint, inbound: boolean): bigint {
 				const their_node_id_conv: Uint8Array = bindings.decodeUint8Array(their_node_id);
 				const msg_hu_conv: Init = new Init(null, msg);
-				const ret: Result_NoneNoneZ = arg.peer_connected(their_node_id_conv, msg_hu_conv);
+				const ret: Result_NoneNoneZ = arg.peer_connected(their_node_id_conv, msg_hu_conv, inbound);
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
@@ -640,25 +646,23 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming open_channel message from the given peer.
+	 * Handle an incoming `open_channel` message from the given peer.
 	 */
-	public handle_open_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: OpenChannel): void {
-		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
-		CommonBase.add_ref_from(this, their_features);
+	public handle_open_channel(their_node_id: Uint8Array, msg: OpenChannel): void {
+		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
 	/**
-	 * Handle an incoming accept_channel message from the given peer.
+	 * Handle an incoming `accept_channel` message from the given peer.
 	 */
-	public handle_accept_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: AcceptChannel): void {
-		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
-		CommonBase.add_ref_from(this, their_features);
+	public handle_accept_channel(their_node_id: Uint8Array, msg: AcceptChannel): void {
+		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
 	/**
-	 * Handle an incoming funding_created message from the given peer.
+	 * Handle an incoming `funding_created` message from the given peer.
 	 */
 	public handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void {
 		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -666,7 +670,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming funding_signed message from the given peer.
+	 * Handle an incoming `funding_signed` message from the given peer.
 	 */
 	public handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void {
 		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -674,7 +678,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming channel_ready message from the given peer.
+	 * Handle an incoming `channel_ready` message from the given peer.
 	 */
 	public handle_channel_ready(their_node_id: Uint8Array, msg: ChannelReady): void {
 		bindings.ChannelMessageHandler_handle_channel_ready(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -682,16 +686,15 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming shutdown message from the given peer.
+	 * Handle an incoming `shutdown` message from the given peer.
 	 */
-	public handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0n : CommonBase.get_ptr_of(their_features), msg == null ? 0n : CommonBase.get_ptr_of(msg));
-		CommonBase.add_ref_from(this, their_features);
+	public handle_shutdown(their_node_id: Uint8Array, msg: Shutdown): void {
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 
 	/**
-	 * Handle an incoming closing_signed message from the given peer.
+	 * Handle an incoming `closing_signed` message from the given peer.
 	 */
 	public handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -699,7 +702,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming update_add_htlc message from the given peer.
+	 * Handle an incoming `update_add_htlc` message from the given peer.
 	 */
 	public handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -707,7 +710,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming update_fulfill_htlc message from the given peer.
+	 * Handle an incoming `update_fulfill_htlc` message from the given peer.
 	 */
 	public handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -715,7 +718,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming update_fail_htlc message from the given peer.
+	 * Handle an incoming `update_fail_htlc` message from the given peer.
 	 */
 	public handle_update_fail_htlc(their_node_id: Uint8Array, msg: UpdateFailHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -723,7 +726,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming update_fail_malformed_htlc message from the given peer.
+	 * Handle an incoming `update_fail_malformed_htlc` message from the given peer.
 	 */
 	public handle_update_fail_malformed_htlc(their_node_id: Uint8Array, msg: UpdateFailMalformedHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -731,7 +734,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming commitment_signed message from the given peer.
+	 * Handle an incoming `commitment_signed` message from the given peer.
 	 */
 	public handle_commitment_signed(their_node_id: Uint8Array, msg: CommitmentSigned): void {
 		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -739,7 +742,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming revoke_and_ack message from the given peer.
+	 * Handle an incoming `revoke_and_ack` message from the given peer.
 	 */
 	public handle_revoke_and_ack(their_node_id: Uint8Array, msg: RevokeAndACK): void {
 		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -747,7 +750,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming update_fee message from the given peer.
+	 * Handle an incoming `update_fee` message from the given peer.
 	 */
 	public handle_update_fee(their_node_id: Uint8Array, msg: UpdateFee): void {
 		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -755,7 +758,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming announcement_signatures message from the given peer.
+	 * Handle an incoming `announcement_signatures` message from the given peer.
 	 */
 	public handle_announcement_signatures(their_node_id: Uint8Array, msg: AnnouncementSignatures): void {
 		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -763,34 +766,28 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Indicates a connection to the peer failed/an existing connection was lost. If no connection
-	 * is believed to be possible in the future (eg they're sending us messages we don't
-	 * understand or indicate they require unknown feature bits), no_connection_possible is set
-	 * and any outstanding channels should be failed.
-	 * 
-	 * Note that in some rare cases this may be called without a corresponding
-	 * [`Self::peer_connected`].
+	 * Indicates a connection to the peer failed/an existing connection was lost.
 	 */
-	public peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void {
-		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), no_connection_possible);
+	public peer_disconnected(their_node_id: Uint8Array): void {
+		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)));
 	}
 
 	/**
-	 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 * Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
 	 * 
 	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public peer_connected(their_node_id: Uint8Array, msg: Init): Result_NoneNoneZ {
-		const ret: bigint = bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+	public peer_connected(their_node_id: Uint8Array, msg: Init, inbound: boolean): Result_NoneNoneZ {
+		const ret: bigint = bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg), inbound);
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Handle an incoming channel_reestablish message from the given peer.
+	 * Handle an incoming `channel_reestablish` message from the given peer.
 	 */
 	public handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void {
 		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -798,7 +795,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming channel update from the given peer.
+	 * Handle an incoming `channel_update` message from the given peer.
 	 */
 	public handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void {
 		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
@@ -806,7 +803,7 @@ export class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Handle an incoming error message from the given peer.
+	 * Handle an incoming `error` message from the given peer.
 	 */
 	public handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void {
 		bindings.ChannelMessageHandler_handle_error(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));

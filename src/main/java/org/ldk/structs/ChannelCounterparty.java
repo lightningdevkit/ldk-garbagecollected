@@ -147,6 +147,7 @@ public class ChannelCounterparty extends CommonBase {
 		bindings.ChannelCounterparty_set_outbound_htlc_minimum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -168,6 +169,7 @@ public class ChannelCounterparty extends CommonBase {
 		bindings.ChannelCounterparty_set_outbound_htlc_maximum_msat(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -186,6 +188,8 @@ public class ChannelCounterparty extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(forwarding_info_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outbound_htlc_minimum_msat_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outbound_htlc_maximum_msat_arg); };
 		return ret_hu_conv;
 	}
 

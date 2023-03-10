@@ -65,6 +65,9 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastChannelUpdate.class) {
 			return new BroadcastChannelUpdate(ptr, (bindings.LDKMessageSendEvent.BroadcastChannelUpdate)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement.class) {
+			return new BroadcastNodeAnnouncement(ptr, (bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelUpdate.class) {
 			return new SendChannelUpdate(ptr, (bindings.LDKMessageSendEvent.SendChannelUpdate)raw_val);
 		}
@@ -369,8 +372,10 @@ public class MessageSendEvent extends CommonBase {
 		public final org.ldk.structs.ChannelAnnouncement msg;
 		/**
 		 * The followup channel_update which should be sent.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		public final org.ldk.structs.ChannelUpdate update_msg;
+		@Nullable public final org.ldk.structs.ChannelUpdate update_msg;
 		private BroadcastChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -395,6 +400,22 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelUpdate(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a node_announcement should be broadcast to all peers.
+	 */
+	public final static class BroadcastNodeAnnouncement extends MessageSendEvent {
+		/**
+		 * The node_announcement which should be sent.
+		*/
+		public final org.ldk.structs.NodeAnnouncement msg;
+		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
+			super(null, ptr);
+			long msg = obj.msg;
+			org.ldk.structs.NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.NodeAnnouncement(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -747,6 +768,19 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new BroadcastNodeAnnouncement-variant MessageSendEvent
+	 */
+	public static MessageSendEvent broadcast_node_announcement(org.ldk.structs.NodeAnnouncement msg) {
+		long ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new SendChannelUpdate-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_channel_update(byte[] node_id, org.ldk.structs.ChannelUpdate msg) {
@@ -770,6 +804,7 @@ public class MessageSendEvent extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(action); };
 		return ret_hu_conv;
 	}
 

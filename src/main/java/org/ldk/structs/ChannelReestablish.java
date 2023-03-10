@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A channel_reestablish message to be sent or received from a peer
+ * A [`channel_reestablish`] message to be sent to or received from a peer.
+ * 
+ * [`channel_reestablish`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#message-retransmission
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelReestablish extends CommonBase {

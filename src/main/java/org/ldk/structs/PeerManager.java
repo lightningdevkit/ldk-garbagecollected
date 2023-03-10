@@ -48,16 +48,16 @@ public class PeerManager extends CommonBase {
 	 * timestamp, however if it is not available a persistent counter that increases once per
 	 * minute should suffice.
 	 */
-	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, byte[] our_node_secret, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.CustomMessageHandler custom_message_handler) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.CustomMessageHandler custom_message_handler, org.ldk.structs.NodeSigner node_signer) {
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr, node_signer == null ? 0 : node_signer.ptr);
 		Reference.reachabilityFence(message_handler_chan_handler_arg);
 		Reference.reachabilityFence(message_handler_route_handler_arg);
 		Reference.reachabilityFence(message_handler_onion_message_handler_arg);
-		Reference.reachabilityFence(our_node_secret);
 		Reference.reachabilityFence(current_time);
 		Reference.reachabilityFence(ephemeral_random_data);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(custom_message_handler);
+		Reference.reachabilityFence(node_signer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -66,24 +66,38 @@ public class PeerManager extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_onion_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Get the list of node ids for peers which have completed the initial handshake.
+	 * Get a list of tuples mapping from node id to network addresses for peers which have
+	 * completed the initial handshake.
 	 * 
-	 * For outbound connections, this will be the same as the their_node_id parameter passed in to
-	 * new_outbound_connection, however entries will only appear once the initial handshake has
-	 * completed and we are sure the remote peer has the private key for the given node_id.
+	 * For outbound connections, the [`PublicKey`] will be the same as the `their_node_id` parameter
+	 * passed in to [`Self::new_outbound_connection`], however entries will only appear once the initial
+	 * handshake has completed and we are sure the remote peer has the private key for the given
+	 * [`PublicKey`].
+	 * 
+	 * The returned `Option`s will only be `Some` if an address had been previously given via
+	 * [`Self::new_outbound_connection`] or [`Self::new_inbound_connection`].
 	 */
-	public byte[][] get_peer_node_ids() {
-		byte[][] ret = bindings.PeerManager_get_peer_node_ids(this.ptr);
+	public TwoTuple_PublicKeyCOption_NetAddressZZ[] get_peer_node_ids() {
+		long[] ret = bindings.PeerManager_get_peer_node_ids(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		int ret_conv_40_len = ret.length;
+		TwoTuple_PublicKeyCOption_NetAddressZZ[] ret_conv_40_arr = new TwoTuple_PublicKeyCOption_NetAddressZZ[ret_conv_40_len];
+		for (int o = 0; o < ret_conv_40_len; o++) {
+			long ret_conv_40 = ret[o];
+			TwoTuple_PublicKeyCOption_NetAddressZZ ret_conv_40_hu_conv = new TwoTuple_PublicKeyCOption_NetAddressZZ(null, ret_conv_40);
+			if (ret_conv_40_hu_conv != null) { ret_conv_40_hu_conv.ptrs_to.add(this); };
+			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
+		}
+		return ret_conv_40_arr;
 	}
 
 	/**
-	 * Indicates a new outbound connection has been established to a node with the given node_id
+	 * Indicates a new outbound connection has been established to a node with the given `node_id`
 	 * and an optional remote network address.
 	 * 
 	 * The remote network address adds the option to report a remote IP address back to a connecting
@@ -108,6 +122,7 @@ public class PeerManager extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(descriptor); };
+		if (this != null) { this.ptrs_to.add(remote_network_address); };
 		return ret_hu_conv;
 	}
 
@@ -136,6 +151,7 @@ public class PeerManager extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(descriptor); };
+		if (this != null) { this.ptrs_to.add(remote_network_address); };
 		return ret_hu_conv;
 	}
 
@@ -174,6 +190,9 @@ public class PeerManager extends CommonBase {
 	 * If `Ok(true)` is returned, further read_events should not be triggered until a
 	 * [`send_data`] call on this descriptor has `resume_read` set (preventing DoS issues in the
 	 * send buffer).
+	 * 
+	 * In order to avoid processing too many messages at once per peer, `data` should be on the
+	 * order of 4KiB.
 	 * 
 	 * [`send_data`]: SocketDescriptor::send_data
 	 * [`process_events`]: PeerManager::process_events
@@ -224,19 +243,15 @@ public class PeerManager extends CommonBase {
 	/**
 	 * Disconnect a peer given its node id.
 	 * 
-	 * Set `no_connection_possible` to true to prevent any further connection with this peer,
-	 * force-closing any channels we have with it.
-	 * 
 	 * If a peer is connected, this will call [`disconnect_socket`] on the descriptor for the
 	 * peer. Thus, be very careful about reentrancy issues.
 	 * 
 	 * [`disconnect_socket`]: SocketDescriptor::disconnect_socket
 	 */
-	public void disconnect_by_node_id(byte[] node_id, boolean no_connection_possible) {
-		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33), no_connection_possible);
+	public void disconnect_by_node_id(byte[] node_id) {
+		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		Reference.reachabilityFence(no_connection_possible);
 	}
 
 	/**
@@ -290,6 +305,7 @@ public class PeerManager extends CommonBase {
 		Reference.reachabilityFence(rgb);
 		Reference.reachabilityFence(alias);
 		Reference.reachabilityFence(addresses);
+		for (NetAddress addresses_conv_12: addresses) { if (this != null) { this.ptrs_to.add(addresses_conv_12); }; };
 	}
 
 }

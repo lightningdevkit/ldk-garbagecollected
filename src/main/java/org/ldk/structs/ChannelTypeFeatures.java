@@ -142,6 +142,40 @@ public class ChannelTypeFeatures extends CommonBase {
 	/**
 	 * Set this feature as optional.
 	 */
+	public void set_anchors_zero_fee_htlc_tx_optional() {
+		bindings.ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_anchors_zero_fee_htlc_tx_required() {
+		bindings.ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_anchors_zero_fee_htlc_tx() {
+		boolean ret = bindings.ChannelTypeFeatures_supports_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_anchors_zero_fee_htlc_tx() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
 	public void set_scid_privacy_optional() {
 		bindings.ChannelTypeFeatures_set_scid_privacy_optional(this.ptr);
 		Reference.reachabilityFence(this);

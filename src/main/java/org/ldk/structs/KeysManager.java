@@ -9,8 +9,8 @@ import javax.annotation.Nullable;
 
 
 /**
- * Simple [`KeysInterface`] implementation that takes a 32-byte seed for use as a BIP 32 extended
- * key and derives keys from that.
+ * Simple implementation of [`EntropySource`], [`NodeSigner`], and [`SignerProvider`] that takes a
+ * 32-byte seed for use as a BIP 32 extended key and derives keys from that.
  * 
  * Your `node_id` is seed/0'.
  * Unilateral closes may use seed/1'.
@@ -63,7 +63,16 @@ public class KeysManager extends CommonBase {
 	}
 
 	/**
-	 * Derive an old [`Sign`] containing per-channel secrets based on a key derivation parameters.
+	 * Gets the \"node_id\" secret key used to sign gossip announcements, decode onion data, etc.
+	 */
+	public byte[] get_node_secret_key() {
+		byte[] ret = bindings.KeysManager_get_node_secret_key(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Derive an old [`WriteableEcdsaChannelSigner`] containing per-channel secrets based on a key derivation parameters.
 	 */
 	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] params) {
 		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
@@ -99,18 +108,45 @@ public class KeysManager extends CommonBase {
 		Reference.reachabilityFence(feerate_sat_per_1000_weight);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		for (SpendableOutputDescriptor descriptors_conv_27: descriptors) { if (this != null) { this.ptrs_to.add(descriptors_conv_27); }; };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Constructs a new KeysInterface which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned KeysInterface must be freed before this_arg is
+	 * Constructs a new EntropySource which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EntropySource must be freed before this_arg is
 	 */
-	public KeysInterface as_KeysInterface() {
-		long ret = bindings.KeysManager_as_KeysInterface(this.ptr);
+	public EntropySource as_EntropySource() {
+		long ret = bindings.KeysManager_as_EntropySource(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new NodeSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned NodeSigner must be freed before this_arg is
+	 */
+	public NodeSigner as_NodeSigner() {
+		long ret = bindings.KeysManager_as_NodeSigner(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeSigner ret_hu_conv = new NodeSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new SignerProvider which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned SignerProvider must be freed before this_arg is
+	 */
+	public SignerProvider as_SignerProvider() {
+		long ret = bindings.KeysManager_as_SignerProvider(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		SignerProvider ret_hu_conv = new SignerProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

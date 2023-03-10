@@ -67,7 +67,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * Arbitrary identification information returned by a call to [`ChannelSigner::channel_keys_id`].
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public byte[] get_channel_keys_id() {
@@ -77,7 +77,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * Arbitrary identification information returned by a call to [`ChannelSigner::channel_keys_id`].
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {

@@ -121,6 +121,7 @@ public class PaymentParameters extends CommonBase {
 		bindings.PaymentParameters_set_expiry_time(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -230,10 +231,28 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
+	 * The minimum CLTV delta at the end of the route. This value must not be zero.
+	 */
+	public int get_final_cltv_expiry_delta() {
+		int ret = bindings.PaymentParameters_get_final_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The minimum CLTV delta at the end of the route. This value must not be zero.
+	 */
+	public void set_final_cltv_expiry_delta(int val) {
+		bindings.PaymentParameters_set_final_cltv_expiry_delta(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, RouteHint[] route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
+	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, RouteHint[] route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, int final_cltv_expiry_delta_arg) {
+		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg, final_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(payee_pubkey_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(route_hints_arg);
@@ -242,11 +261,13 @@ public class PaymentParameters extends CommonBase {
 		Reference.reachabilityFence(max_path_count_arg);
 		Reference.reachabilityFence(max_channel_saturation_power_of_half_arg);
 		Reference.reachabilityFence(previously_failed_channels_arg);
+		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
 		for (RouteHint route_hints_arg_conv_11: route_hints_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_hints_arg_conv_11); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(expiry_time_arg); };
 		return ret_hu_conv;
 	}
 
@@ -309,9 +330,10 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Read a PaymentParameters from a byte array, created by PaymentParameters_write
 	 */
-	public static Result_PaymentParametersDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.PaymentParameters_read(ser);
+	public static Result_PaymentParametersDecodeErrorZ read(byte[] ser, int arg) {
+		long ret = bindings.PaymentParameters_read(ser, arg);
 		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentParametersDecodeErrorZ ret_hu_conv = Result_PaymentParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -319,10 +341,14 @@ public class PaymentParameters extends CommonBase {
 
 	/**
 	 * Creates a payee with the node id of the given `pubkey`.
+	 * 
+	 * The `final_cltv_expiry_delta` should match the expected final CLTV delta the recipient has
+	 * provided.
 	 */
-	public static PaymentParameters from_node_id(byte[] payee_pubkey) {
-		long ret = bindings.PaymentParameters_from_node_id(InternalUtils.check_arr_len(payee_pubkey, 33));
+	public static PaymentParameters from_node_id(byte[] payee_pubkey, int final_cltv_expiry_delta) {
+		long ret = bindings.PaymentParameters_from_node_id(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta);
 		Reference.reachabilityFence(payee_pubkey);
+		Reference.reachabilityFence(final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -331,10 +357,14 @@ public class PaymentParameters extends CommonBase {
 
 	/**
 	 * Creates a payee with the node id of the given `pubkey` to use for keysend payments.
+	 * 
+	 * The `final_cltv_expiry_delta` should match the expected final CLTV delta the recipient has
+	 * provided.
 	 */
-	public static PaymentParameters for_keysend(byte[] payee_pubkey) {
-		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33));
+	public static PaymentParameters for_keysend(byte[] payee_pubkey, int final_cltv_expiry_delta) {
+		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta);
 		Reference.reachabilityFence(payee_pubkey);
+		Reference.reachabilityFence(final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

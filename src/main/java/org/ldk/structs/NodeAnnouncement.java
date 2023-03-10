@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A node_announcement message to be sent or received from a peer
+ * A [`node_announcement`] message to be sent to or received from a peer.
+ * 
+ * [`node_announcement`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-node_announcement-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NodeAnnouncement extends CommonBase {

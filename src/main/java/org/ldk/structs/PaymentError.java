@@ -24,9 +24,6 @@ public class PaymentError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKPaymentError.Invoice.class) {
 			return new Invoice(ptr, (bindings.LDKPaymentError.Invoice)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKPaymentError.Routing.class) {
-			return new Routing(ptr, (bindings.LDKPaymentError.Routing)raw_val);
-		}
 		if (raw_val.getClass() == bindings.LDKPaymentError.Sending.class) {
 			return new Sending(ptr, (bindings.LDKPaymentError.Sending)raw_val);
 		}
@@ -44,29 +41,13 @@ public class PaymentError extends CommonBase {
 		}
 	}
 	/**
-	 * An error occurring when finding a route.
-	 */
-	public final static class Routing extends PaymentError {
-		public final org.ldk.structs.LightningError routing;
-		private Routing(long ptr, bindings.LDKPaymentError.Routing obj) {
-			super(null, ptr);
-			long routing = obj.routing;
-			org.ldk.structs.LightningError routing_hu_conv = null; if (routing < 0 || routing > 4096) { routing_hu_conv = new org.ldk.structs.LightningError(null, routing); }
-			if (routing_hu_conv != null) { routing_hu_conv.ptrs_to.add(this); };
-			this.routing = routing_hu_conv;
-		}
-	}
-	/**
 	 * An error occurring when sending a payment.
 	 */
 	public final static class Sending extends PaymentError {
-		public final org.ldk.structs.PaymentSendFailure sending;
+		public final org.ldk.enums.RetryableSendFailure sending;
 		private Sending(long ptr, bindings.LDKPaymentError.Sending obj) {
 			super(null, ptr);
-			long sending = obj.sending;
-			org.ldk.structs.PaymentSendFailure sending_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(sending);
-			if (sending_hu_conv != null) { sending_hu_conv.ptrs_to.add(this); };
-			this.sending = sending_hu_conv;
+			this.sending = obj.sending;
 		}
 	}
 	long clone_ptr() {
@@ -100,23 +81,10 @@ public class PaymentError extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new Routing-variant PaymentError
-	 */
-	public static PaymentError routing(org.ldk.structs.LightningError a) {
-		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr);
-		Reference.reachabilityFence(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Utility method to constructs a new Sending-variant PaymentError
 	 */
-	public static PaymentError sending(org.ldk.structs.PaymentSendFailure a) {
-		long ret = bindings.PaymentError_sending(a.ptr);
+	public static PaymentError sending(org.ldk.enums.RetryableSendFailure a) {
+		long ret = bindings.PaymentError_sending(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);

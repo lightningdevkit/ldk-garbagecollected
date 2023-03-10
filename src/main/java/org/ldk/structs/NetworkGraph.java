@@ -56,9 +56,9 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static NetworkGraph of(byte[] genesis_hash, org.ldk.structs.Logger logger) {
-		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32), logger == null ? 0 : logger.ptr);
-		Reference.reachabilityFence(genesis_hash);
+	public static NetworkGraph of(org.ldk.enums.Network network, org.ldk.structs.Logger logger) {
+		long ret = bindings.NetworkGraph_new(network, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NetworkGraph(null, ret); }
@@ -143,18 +143,18 @@ public class NetworkGraph extends CommonBase {
 	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
-	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
+	 * If a [`UtxoLookup`] object is provided via `utxo_lookup`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.Option_UtxoLookupZ utxo_lookup) {
+		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, utxo_lookup.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
-		Reference.reachabilityFence(chain_access);
+		Reference.reachabilityFence(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
-		if (this != null) { this.ptrs_to.add(chain_access); };
+		if (this != null) { this.ptrs_to.add(utxo_lookup); };
 		return ret_hu_conv;
 	}
 
@@ -163,18 +163,18 @@ public class NetworkGraph extends CommonBase {
 	 * signatures. Because we aren't given the associated signatures here we cannot relay the
 	 * channel announcement to any of our peers.
 	 * 
-	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
+	 * If a [`UtxoLookup`] object is provided via `utxo_lookup`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg, org.ldk.structs.Option_UtxoLookupZ utxo_lookup) {
+		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, utxo_lookup.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
-		Reference.reachabilityFence(chain_access);
+		Reference.reachabilityFence(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
-		if (this != null) { this.ptrs_to.add(chain_access); };
+		if (this != null) { this.ptrs_to.add(utxo_lookup); };
 		return ret_hu_conv;
 	}
 

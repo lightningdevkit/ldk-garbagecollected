@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * The unsigned part of a channel_update
+ * The unsigned part of a [`channel_update`] message.
+ * 
+ * [`channel_update`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-channel_update-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UnsignedChannelUpdate extends CommonBase {
@@ -95,10 +97,10 @@ public class UnsignedChannelUpdate extends CommonBase {
 	/**
 	 * The number of blocks such that if:
 	 * `incoming_htlc.cltv_expiry < outgoing_htlc.cltv_expiry + cltv_expiry_delta`
-	 * then we need to fail the HTLC backwards. When forwarding an HTLC, cltv_expiry_delta determines
-	 * the outgoing HTLC's minimum cltv_expiry value -- so, if an incoming HTLC comes in with a
-	 * cltv_expiry of 100000, and the node we're forwarding to has a cltv_expiry_delta value of 10,
-	 * then we'll check that the outgoing HTLC's cltv_expiry value is at least 100010 before
+	 * then we need to fail the HTLC backwards. When forwarding an HTLC, `cltv_expiry_delta` determines
+	 * the outgoing HTLC's minimum `cltv_expiry` value -- so, if an incoming HTLC comes in with a
+	 * `cltv_expiry` of 100000, and the node we're forwarding to has a `cltv_expiry_delta` value of 10,
+	 * then we'll check that the outgoing HTLC's `cltv_expiry` value is at least 100010 before
 	 * forwarding. Note that the HTLC sender is the one who originally sets this value when
 	 * constructing the route.
 	 */
@@ -111,10 +113,10 @@ public class UnsignedChannelUpdate extends CommonBase {
 	/**
 	 * The number of blocks such that if:
 	 * `incoming_htlc.cltv_expiry < outgoing_htlc.cltv_expiry + cltv_expiry_delta`
-	 * then we need to fail the HTLC backwards. When forwarding an HTLC, cltv_expiry_delta determines
-	 * the outgoing HTLC's minimum cltv_expiry value -- so, if an incoming HTLC comes in with a
-	 * cltv_expiry of 100000, and the node we're forwarding to has a cltv_expiry_delta value of 10,
-	 * then we'll check that the outgoing HTLC's cltv_expiry value is at least 100010 before
+	 * then we need to fail the HTLC backwards. When forwarding an HTLC, `cltv_expiry_delta` determines
+	 * the outgoing HTLC's minimum `cltv_expiry` value -- so, if an incoming HTLC comes in with a
+	 * `cltv_expiry` of 100000, and the node we're forwarding to has a `cltv_expiry_delta` value of 10,
+	 * then we'll check that the outgoing HTLC's `cltv_expiry` value is at least 100010 before
 	 * forwarding. Note that the HTLC sender is the one who originally sets this value when
 	 * constructing the route.
 	 */
@@ -143,7 +145,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	/**
-	 * The maximum HTLC value incoming to sender, in milli-satoshi. Used to be optional.
+	 * The maximum HTLC value incoming to sender, in milli-satoshi.
+	 * 
+	 * This used to be optional.
 	 */
 	public long get_htlc_maximum_msat() {
 		long ret = bindings.UnsignedChannelUpdate_get_htlc_maximum_msat(this.ptr);
@@ -152,7 +156,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	/**
-	 * The maximum HTLC value incoming to sender, in milli-satoshi. Used to be optional.
+	 * The maximum HTLC value incoming to sender, in milli-satoshi.
+	 * 
+	 * This used to be optional.
 	 */
 	public void set_htlc_maximum_msat(long val) {
 		bindings.UnsignedChannelUpdate_set_htlc_maximum_msat(this.ptr, val);
@@ -198,8 +204,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 
 	/**
 	 * Excess data which was signed as a part of the message which we do not (yet) understand how
-	 * to decode. This is stored to ensure forward-compatibility as new fields are added to the
-	 * lightning gossip
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
 	 * 
 	 * Returns a copy of the field.
 	 */
@@ -211,8 +218,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 
 	/**
 	 * Excess data which was signed as a part of the message which we do not (yet) understand how
-	 * to decode. This is stored to ensure forward-compatibility as new fields are added to the
-	 * lightning gossip
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
 	 */
 	public void set_excess_data(byte[] val) {
 		bindings.UnsignedChannelUpdate_set_excess_data(this.ptr, val);

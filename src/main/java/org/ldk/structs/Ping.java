@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A ping message to be sent or received from a peer
+ * A [`ping`] message to be sent to or received from a peer.
+ * 
+ * [`ping`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-ping-and-pong-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Ping extends CommonBase {
@@ -21,7 +23,7 @@ public class Ping extends CommonBase {
 	}
 
 	/**
-	 * The desired response length
+	 * The desired response length.
 	 */
 	public short get_ponglen() {
 		short ret = bindings.Ping_get_ponglen(this.ptr);
@@ -30,7 +32,7 @@ public class Ping extends CommonBase {
 	}
 
 	/**
-	 * The desired response length
+	 * The desired response length.
 	 */
 	public void set_ponglen(short val) {
 		bindings.Ping_set_ponglen(this.ptr, val);
@@ -40,6 +42,7 @@ public class Ping extends CommonBase {
 
 	/**
 	 * The ping packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public short get_byteslen() {
@@ -50,6 +53,7 @@ public class Ping extends CommonBase {
 
 	/**
 	 * The ping packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public void set_byteslen(short val) {

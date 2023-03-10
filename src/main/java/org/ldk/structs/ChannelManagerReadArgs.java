@@ -52,15 +52,59 @@ public class ChannelManagerReadArgs extends CommonBase {
 	}
 
 	/**
+	 * A cryptographically secure source of entropy.
+	 */
+	public EntropySource get_entropy_source() {
+		long ret = bindings.ChannelManagerReadArgs_get_entropy_source(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A cryptographically secure source of entropy.
+	 */
+	public void set_entropy_source(org.ldk.structs.EntropySource val) {
+		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
+	 * A signer that is able to perform node-scoped cryptographic operations.
+	 */
+	public NodeSigner get_node_signer() {
+		long ret = bindings.ChannelManagerReadArgs_get_node_signer(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeSigner ret_hu_conv = new NodeSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A signer that is able to perform node-scoped cryptographic operations.
+	 */
+	public void set_node_signer(org.ldk.structs.NodeSigner val) {
+		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * The keys provider which will give us relevant keys. Some keys will be loaded during
 	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
 	 * signing data.
 	 */
-	public KeysInterface get_keys_manager() {
-		long ret = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
+	public SignerProvider get_signer_provider() {
+		long ret = bindings.ChannelManagerReadArgs_get_signer_provider(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
+		SignerProvider ret_hu_conv = new SignerProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -70,8 +114,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
 	 * signing data.
 	 */
-	public void set_keys_manager(org.ldk.structs.KeysInterface val) {
-		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0 : val.ptr);
+	public void set_signer_provider(org.ldk.structs.SignerProvider val) {
+		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -160,6 +204,34 @@ public class ChannelManagerReadArgs extends CommonBase {
 	}
 
 	/**
+	 * The router which will be used in the ChannelManager in the future for finding routes
+	 * on-the-fly for trampoline payments. Absent in private nodes that don't support forwarding.
+	 * 
+	 * No calls to the router will be made during deserialization.
+	 */
+	public Router get_router() {
+		long ret = bindings.ChannelManagerReadArgs_get_router(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Router ret_hu_conv = new Router(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The router which will be used in the ChannelManager in the future for finding routes
+	 * on-the-fly for trampoline payments. Absent in private nodes that don't support forwarding.
+	 * 
+	 * No calls to the router will be made during deserialization.
+	 */
+	public void set_router(org.ldk.structs.Router val) {
+		bindings.ChannelManagerReadArgs_set_router(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * The Logger for use in the ChannelManager and which may be used to log information during
 	 * deserialization.
 	 */
@@ -212,22 +284,28 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * HashMap for you. This is primarily useful for C bindings where it is not practical to
 	 * populate a HashMap directly from C.
 	 */
-	public static ChannelManagerReadArgs of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
-		Reference.reachabilityFence(keys_manager);
+	public static ChannelManagerReadArgs of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
+		long ret = bindings.ChannelManagerReadArgs_new(entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, signer_provider == null ? 0 : signer_provider.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
+		Reference.reachabilityFence(entropy_source);
+		Reference.reachabilityFence(node_signer);
+		Reference.reachabilityFence(signer_provider);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(chain_monitor);
 		Reference.reachabilityFence(tx_broadcaster);
+		Reference.reachabilityFence(router);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(default_config);
 		Reference.reachabilityFence(channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManagerReadArgs(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(signer_provider); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(fee_estimator); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(router); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(default_config); };
 		for (ChannelMonitor channel_monitors_conv_16: channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_monitors_conv_16); }; };

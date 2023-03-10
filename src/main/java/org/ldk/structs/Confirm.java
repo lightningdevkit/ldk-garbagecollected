@@ -58,7 +58,19 @@ public class Confirm extends CommonBase {
 	protected void finalize() throws Throwable {
 		if (ptr != 0) { bindings.Confirm_free(ptr); } super.finalize();
 	}
-
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.Confirm_free(ptr); }
+		ptr = 0;
+	}
 	public static interface ConfirmInterface {
 		/**
 		 * Notifies LDK of transactions confirmed in a block with a given header and height.
@@ -98,6 +110,9 @@ public class Confirm extends CommonBase {
 		/**
 		 * Returns transactions that must be monitored for reorganization out of the chain along
 		 * with the hash of the block as part of which it had been previously confirmed.
+		 * 
+		 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
+		 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
 		 * 
 		 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 		 * confirmations to be safe from a chain reorganization. Will not include any transactions
@@ -206,6 +221,9 @@ public class Confirm extends CommonBase {
 	/**
 	 * Returns transactions that must be monitored for reorganization out of the chain along
 	 * with the hash of the block as part of which it had been previously confirmed.
+	 * 
+	 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
+	 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
 	 * 
 	 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 	 * confirmations to be safe from a chain reorganization. Will not include any transactions

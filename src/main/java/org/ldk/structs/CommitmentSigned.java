@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A commitment_signed message to be sent or received from a peer
+ * A [`commitment_signed`] message to be sent to or received from a peer.
+ * 
+ * [`commitment_signed`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#committing-updates-so-far-commitment_signed
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class CommitmentSigned extends CommonBase {

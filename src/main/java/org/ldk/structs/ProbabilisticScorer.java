@@ -101,6 +101,41 @@ public class ProbabilisticScorer extends CommonBase {
 	}
 
 	/**
+	 * Query the historical estimated minimum and maximum liquidity available for sending a
+	 * payment over the channel with `scid` towards the given `target` node.
+	 * 
+	 * Returns two sets of 8 buckets. The first set describes the octiles for lower-bound
+	 * liquidity estimates, the second set describes the octiles for upper-bound liquidity
+	 * estimates. Each bucket describes the relative frequency at which we've seen a liquidity
+	 * bound in the octile relative to the channel's total capacity, on an arbitrary scale.
+	 * Because the values are slowly decayed, more recent data points are weighted more heavily
+	 * than older datapoints.
+	 * 
+	 * When scoring, the estimated probability that an upper-/lower-bound lies in a given octile
+	 * relative to the channel's total capacity is calculated by dividing that bucket's value with
+	 * the total of all buckets for the given bound.
+	 * 
+	 * For example, a value of `[0, 0, 0, 0, 0, 0, 32]` indicates that we believe the probability
+	 * of a bound being in the top octile to be 100%, and have never (recently) seen it in any
+	 * other octiles. A value of `[31, 0, 0, 0, 0, 0, 0, 32]` indicates we've seen the bound being
+	 * both in the top and bottom octile, and roughly with similar (recent) frequency.
+	 * 
+	 * Because the datapoints are decayed slowly over time, values will eventually return to
+	 * `Some(([0; 8], [0; 8]))`.
+	 */
+	public Option_C2Tuple_EightU16sEightU16sZZ historical_estimated_channel_liquidity_probabilities(long scid, org.ldk.structs.NodeId target) {
+		long ret = bindings.ProbabilisticScorer_historical_estimated_channel_liquidity_probabilities(this.ptr, scid, target == null ? 0 : target.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(scid);
+		Reference.reachabilityFence(target);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		if (this != null) { this.ptrs_to.add(target); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Marks the node with the given `node_id` as banned, i.e.,
 	 * it will be avoided during path finding.
 	 */

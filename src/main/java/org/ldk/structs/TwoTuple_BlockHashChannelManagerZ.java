@@ -44,14 +44,17 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_BlockHashChannelManagerZ from the contained elements.
 	 */
-	public static TwoTuple_BlockHashChannelManagerZ of(byte[] a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Logger b_logger, KeysInterface b_keys_manager, UserConfig b_config, ChainParameters b_params) {
-		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_logger == null ? 0 : b_logger.ptr, b_keys_manager == null ? 0 : b_keys_manager.ptr, b_config == null ? 0 : b_config.ptr, b_params == null ? 0 : b_params.ptr));
+	public static TwoTuple_BlockHashChannelManagerZ of(byte[] a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Router b_router, Logger b_logger, EntropySource b_entropy_source, NodeSigner b_node_signer, SignerProvider b_signer_provider, UserConfig b_config, ChainParameters b_params) {
+		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_router == null ? 0 : b_router.ptr, b_logger == null ? 0 : b_logger.ptr, b_entropy_source == null ? 0 : b_entropy_source.ptr, b_node_signer == null ? 0 : b_node_signer.ptr, b_signer_provider == null ? 0 : b_signer_provider.ptr, b_config == null ? 0 : b_config.ptr, b_params == null ? 0 : b_params.ptr));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b_fee_est);
 		Reference.reachabilityFence(b_chain_monitor);
 		Reference.reachabilityFence(b_tx_broadcaster);
+		Reference.reachabilityFence(b_router);
 		Reference.reachabilityFence(b_logger);
-		Reference.reachabilityFence(b_keys_manager);
+		Reference.reachabilityFence(b_entropy_source);
+		Reference.reachabilityFence(b_node_signer);
+		Reference.reachabilityFence(b_signer_provider);
 		Reference.reachabilityFence(b_config);
 		Reference.reachabilityFence(b_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -60,8 +63,11 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_fee_est); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_router); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_logger); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_signer_provider); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_config); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(b_params); };
 		return ret_hu_conv;

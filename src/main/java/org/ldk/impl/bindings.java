@@ -45,20 +45,22 @@ public class bindings {
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
 
-	static { AccessError.values(); /* Force enum statics to run */ }
 	static { COption_NoneZ.values(); /* Force enum statics to run */ }
 	static { ChannelMonitorUpdateStatus.values(); /* Force enum statics to run */ }
 	static { ConfirmationTarget.values(); /* Force enum statics to run */ }
 	static { CreationError.values(); /* Force enum statics to run */ }
 	static { Currency.values(); /* Force enum statics to run */ }
+	static { FailureCode.values(); /* Force enum statics to run */ }
 	static { HTLCClaim.values(); /* Force enum statics to run */ }
 	static { IOError.values(); /* Force enum statics to run */ }
 	static { Level.values(); /* Force enum statics to run */ }
 	static { Network.values(); /* Force enum statics to run */ }
 	static { Recipient.values(); /* Force enum statics to run */ }
+	static { RetryableSendFailure.values(); /* Force enum statics to run */ }
 	static { Secp256k1Error.values(); /* Force enum statics to run */ }
 	static { SemanticError.values(); /* Force enum statics to run */ }
 	static { SiPrefix.values(); /* Force enum statics to run */ }
+	static { UtxoLookupError.values(); /* Force enum statics to run */ }
 	// struct LDKThirtyTwoBytes BigEndianScalar_get_bytes (struct LDKBigEndianScalar* thing)
 	public static native byte[] BigEndianScalar_get_bytes(long thing);
 	// static void BigEndianScalar_free (struct LDKBigEndianScalar thing)
@@ -96,6 +98,40 @@ public class bindings {
 	public static native byte[] TxOut_get_script_pubkey(long thing);
 	// uint64_t TxOut_get_value (struct LDKTxOut* thing)
 	public static native long TxOut_get_value(long thing);
+	public static class LDKAPIError {
+		private LDKAPIError() {}
+		public final static class APIMisuseError extends LDKAPIError {
+			public java.lang.String err;
+			APIMisuseError(java.lang.String err) { this.err = err; }
+		}
+		public final static class FeeRateTooHigh extends LDKAPIError {
+			public java.lang.String err;
+			public int feerate;
+			FeeRateTooHigh(java.lang.String err, int feerate) { this.err = err; this.feerate = feerate; }
+		}
+		public final static class InvalidRoute extends LDKAPIError {
+			public java.lang.String err;
+			InvalidRoute(java.lang.String err) { this.err = err; }
+		}
+		public final static class ChannelUnavailable extends LDKAPIError {
+			public java.lang.String err;
+			ChannelUnavailable(java.lang.String err) { this.err = err; }
+		}
+		public final static class MonitorUpdateInProgress extends LDKAPIError {
+			MonitorUpdateInProgress() { }
+		}
+		public final static class IncompatibleShutdownScript extends LDKAPIError {
+			public long script;
+			IncompatibleShutdownScript(long script) { this.script = script; }
+		}
+		static native void init();
+	}
+	static { LDKAPIError.init(); }
+	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
+	// void CResult_NoneAPIErrorZ_get_ok(LDKCResult_NoneAPIErrorZ *NONNULL_PTR owner);
+	public static native void CResult_NoneAPIErrorZ_get_ok(long owner);
+	// struct LDKAPIError CResult_NoneAPIErrorZ_get_err(LDKCResult_NoneAPIErrorZ *NONNULL_PTR owner);
+	public static native long CResult_NoneAPIErrorZ_get_err(long owner);
 	public static class LDKCOption_HTLCClaimZ {
 		private LDKCOption_HTLCClaimZ() {}
 		public final static class Some extends LDKCOption_HTLCClaimZ {
@@ -337,6 +373,70 @@ public class bindings {
 	public static native long CResult_PaymentPurposeDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_PaymentPurposeDecodeErrorZ_get_err(LDKCResult_PaymentPurposeDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_PaymentPurposeDecodeErrorZ_get_err(long owner);
+	public static class LDKNetworkUpdate {
+		private LDKNetworkUpdate() {}
+		public final static class ChannelUpdateMessage extends LDKNetworkUpdate {
+			public long msg;
+			ChannelUpdateMessage(long msg) { this.msg = msg; }
+		}
+		public final static class ChannelFailure extends LDKNetworkUpdate {
+			public long short_channel_id;
+			public boolean is_permanent;
+			ChannelFailure(long short_channel_id, boolean is_permanent) { this.short_channel_id = short_channel_id; this.is_permanent = is_permanent; }
+		}
+		public final static class NodeFailure extends LDKNetworkUpdate {
+			public byte[] node_id;
+			public boolean is_permanent;
+			NodeFailure(byte[] node_id, boolean is_permanent) { this.node_id = node_id; this.is_permanent = is_permanent; }
+		}
+		static native void init();
+	}
+	static { LDKNetworkUpdate.init(); }
+	public static native LDKNetworkUpdate LDKNetworkUpdate_ref_from_ptr(long ptr);
+	public static class LDKCOption_NetworkUpdateZ {
+		private LDKCOption_NetworkUpdateZ() {}
+		public final static class Some extends LDKCOption_NetworkUpdateZ {
+			public long some;
+			Some(long some) { this.some = some; }
+		}
+		public final static class None extends LDKCOption_NetworkUpdateZ {
+			None() { }
+		}
+		static native void init();
+	}
+	static { LDKCOption_NetworkUpdateZ.init(); }
+	public static native LDKCOption_NetworkUpdateZ LDKCOption_NetworkUpdateZ_ref_from_ptr(long ptr);
+	public static class LDKPathFailure {
+		private LDKPathFailure() {}
+		public final static class InitialSend extends LDKPathFailure {
+			public long err;
+			InitialSend(long err) { this.err = err; }
+		}
+		public final static class OnPath extends LDKPathFailure {
+			public long network_update;
+			OnPath(long network_update) { this.network_update = network_update; }
+		}
+		static native void init();
+	}
+	static { LDKPathFailure.init(); }
+	public static native LDKPathFailure LDKPathFailure_ref_from_ptr(long ptr);
+	public static class LDKCOption_PathFailureZ {
+		private LDKCOption_PathFailureZ() {}
+		public final static class Some extends LDKCOption_PathFailureZ {
+			public long some;
+			Some(long some) { this.some = some; }
+		}
+		public final static class None extends LDKCOption_PathFailureZ {
+			None() { }
+		}
+		static native void init();
+	}
+	static { LDKCOption_PathFailureZ.init(); }
+	public static native LDKCOption_PathFailureZ LDKCOption_PathFailureZ_ref_from_ptr(long ptr);
+	// struct LDKCOption_PathFailureZ CResult_COption_PathFailureZDecodeErrorZ_get_ok(LDKCResult_COption_PathFailureZDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_get_ok(long owner);
+	// struct LDKDecodeError CResult_COption_PathFailureZDecodeErrorZ_get_err(LDKCResult_COption_PathFailureZDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_get_err(long owner);
 	public static class LDKClosureReason {
 		private LDKClosureReason() {}
 		public final static class CounterpartyForceClosed extends LDKClosureReason {
@@ -439,39 +539,6 @@ public class bindings {
 	}
 	static { LDKCOption_u128Z.init(); }
 	public static native LDKCOption_u128Z LDKCOption_u128Z_ref_from_ptr(long ptr);
-	public static class LDKNetworkUpdate {
-		private LDKNetworkUpdate() {}
-		public final static class ChannelUpdateMessage extends LDKNetworkUpdate {
-			public long msg;
-			ChannelUpdateMessage(long msg) { this.msg = msg; }
-		}
-		public final static class ChannelFailure extends LDKNetworkUpdate {
-			public long short_channel_id;
-			public boolean is_permanent;
-			ChannelFailure(long short_channel_id, boolean is_permanent) { this.short_channel_id = short_channel_id; this.is_permanent = is_permanent; }
-		}
-		public final static class NodeFailure extends LDKNetworkUpdate {
-			public byte[] node_id;
-			public boolean is_permanent;
-			NodeFailure(byte[] node_id, boolean is_permanent) { this.node_id = node_id; this.is_permanent = is_permanent; }
-		}
-		static native void init();
-	}
-	static { LDKNetworkUpdate.init(); }
-	public static native LDKNetworkUpdate LDKNetworkUpdate_ref_from_ptr(long ptr);
-	public static class LDKCOption_NetworkUpdateZ {
-		private LDKCOption_NetworkUpdateZ() {}
-		public final static class Some extends LDKCOption_NetworkUpdateZ {
-			public long some;
-			Some(long some) { this.some = some; }
-		}
-		public final static class None extends LDKCOption_NetworkUpdateZ {
-			None() { }
-		}
-		static native void init();
-	}
-	static { LDKCOption_NetworkUpdateZ.init(); }
-	public static native LDKCOption_NetworkUpdateZ LDKCOption_NetworkUpdateZ_ref_from_ptr(long ptr);
 	public static class LDKSpendableOutputDescriptor {
 		private LDKSpendableOutputDescriptor() {}
 		public final static class StaticOutput extends LDKSpendableOutputDescriptor {
@@ -539,12 +606,11 @@ public class bindings {
 			public byte[] payment_id;
 			public byte[] payment_hash;
 			public boolean payment_failed_permanently;
-			public long network_update;
-			public boolean all_paths_failed;
+			public long failure;
 			public long[] path;
 			public long short_channel_id;
 			public long retry;
-			PaymentPathFailed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, long network_update, boolean all_paths_failed, long[] path, long short_channel_id, long retry) { this.payment_id = payment_id; this.payment_hash = payment_hash; this.payment_failed_permanently = payment_failed_permanently; this.network_update = network_update; this.all_paths_failed = all_paths_failed; this.path = path; this.short_channel_id = short_channel_id; this.retry = retry; }
+			PaymentPathFailed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, long failure, long[] path, long short_channel_id, long retry) { this.payment_id = payment_id; this.payment_hash = payment_hash; this.payment_failed_permanently = payment_failed_permanently; this.failure = failure; this.path = path; this.short_channel_id = short_channel_id; this.retry = retry; }
 		}
 		public final static class ProbeSuccessful extends LDKEvent {
 			public byte[] payment_id;
@@ -735,6 +801,10 @@ public class bindings {
 			public long msg;
 			BroadcastChannelUpdate(long msg) { this.msg = msg; }
 		}
+		public final static class BroadcastNodeAnnouncement extends LDKMessageSendEvent {
+			public long msg;
+			BroadcastNodeAnnouncement(long msg) { this.msg = msg; }
+		}
 		public final static class SendChannelUpdate extends LDKMessageSendEvent {
 			public byte[] node_id;
 			public long msg;
@@ -769,10 +839,6 @@ public class bindings {
 	}
 	static { LDKMessageSendEvent.init(); }
 	public static native LDKMessageSendEvent LDKMessageSendEvent_ref_from_ptr(long ptr);
-	// struct LDKTxOut CResult_TxOutAccessErrorZ_get_ok(LDKCResult_TxOutAccessErrorZ *NONNULL_PTR owner);
-	public static native long CResult_TxOutAccessErrorZ_get_ok(long owner);
-	// enum LDKAccessError CResult_TxOutAccessErrorZ_get_err(LDKCResult_TxOutAccessErrorZ *NONNULL_PTR owner);
-	public static native AccessError CResult_TxOutAccessErrorZ_get_err(long owner);
 	// uintptr_t C2Tuple_usizeTransactionZ_get_a(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR owner);
 	public static native long C2Tuple_usizeTransactionZ_get_a(long owner);
 	// struct LDKTransaction C2Tuple_usizeTransactionZ_get_b(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR owner);
@@ -831,6 +897,27 @@ public class bindings {
 	}
 	static { LDKCOption_C2Tuple_u64u64ZZ.init(); }
 	public static native LDKCOption_C2Tuple_u64u64ZZ LDKCOption_C2Tuple_u64u64ZZ_ref_from_ptr(long ptr);
+	// struct LDKEightU16s C2Tuple_Z_get_a(LDKC2Tuple_Z *NONNULL_PTR owner);
+	public static native short[] C2Tuple_Z_get_a(long owner);
+	// struct LDKEightU16s C2Tuple_Z_get_b(LDKC2Tuple_Z *NONNULL_PTR owner);
+	public static native short[] C2Tuple_Z_get_b(long owner);
+	// struct LDKEightU16s C2Tuple__u168_u168Z_get_a(LDKC2Tuple__u168_u168Z *NONNULL_PTR owner);
+	public static native short[] C2Tuple__u168_u168Z_get_a(long owner);
+	// struct LDKEightU16s C2Tuple__u168_u168Z_get_b(LDKC2Tuple__u168_u168Z *NONNULL_PTR owner);
+	public static native short[] C2Tuple__u168_u168Z_get_b(long owner);
+	public static class LDKCOption_C2Tuple_EightU16sEightU16sZZ {
+		private LDKCOption_C2Tuple_EightU16sEightU16sZZ() {}
+		public final static class Some extends LDKCOption_C2Tuple_EightU16sEightU16sZZ {
+			public long some;
+			Some(long some) { this.some = some; }
+		}
+		public final static class None extends LDKCOption_C2Tuple_EightU16sEightU16sZZ {
+			None() { }
+		}
+		static native void init();
+	}
+	static { LDKCOption_C2Tuple_EightU16sEightU16sZZ.init(); }
+	public static native LDKCOption_C2Tuple_EightU16sEightU16sZZ LDKCOption_C2Tuple_EightU16sEightU16sZZ_ref_from_ptr(long ptr);
 	public interface LDKLogger {
 		 void log(long record);
 	}
@@ -855,18 +942,14 @@ public class bindings {
 	public static native long CResult_InvoiceFeaturesDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_InvoiceFeaturesDecodeErrorZ_get_err(LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_InvoiceFeaturesDecodeErrorZ_get_err(long owner);
+	// struct LDKBlindedHopFeatures CResult_BlindedHopFeaturesDecodeErrorZ_get_ok(LDKCResult_BlindedHopFeaturesDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_get_ok(long owner);
+	// struct LDKDecodeError CResult_BlindedHopFeaturesDecodeErrorZ_get_err(LDKCResult_BlindedHopFeaturesDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_get_err(long owner);
 	// struct LDKChannelTypeFeatures CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ChannelTypeFeaturesDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ChannelTypeFeaturesDecodeErrorZ_get_err(long owner);
-	// struct LDKOfferFeatures CResult_OfferFeaturesDecodeErrorZ_get_ok(LDKCResult_OfferFeaturesDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_get_ok(long owner);
-	// struct LDKDecodeError CResult_OfferFeaturesDecodeErrorZ_get_err(LDKCResult_OfferFeaturesDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_get_err(long owner);
-	// struct LDKInvoiceRequestFeatures CResult_InvoiceRequestFeaturesDecodeErrorZ_get_ok(LDKCResult_InvoiceRequestFeaturesDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_get_ok(long owner);
-	// struct LDKDecodeError CResult_InvoiceRequestFeaturesDecodeErrorZ_get_err(LDKCResult_InvoiceRequestFeaturesDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_get_err(long owner);
 	// struct LDKNodeId CResult_NodeIdDecodeErrorZ_get_ok(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_NodeIdDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_NodeIdDecodeErrorZ_get_err(LDKCResult_NodeIdDecodeErrorZ *NONNULL_PTR owner);
@@ -875,25 +958,43 @@ public class bindings {
 	public static native long CResult_COption_NetworkUpdateZDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(LDKCResult_COption_NetworkUpdateZDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(long owner);
-	public interface LDKAccess {
+	// struct LDKTxOut CResult_TxOutUtxoLookupErrorZ_get_ok(LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR owner);
+	public static native long CResult_TxOutUtxoLookupErrorZ_get_ok(long owner);
+	// enum LDKUtxoLookupError CResult_TxOutUtxoLookupErrorZ_get_err(LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR owner);
+	public static native UtxoLookupError CResult_TxOutUtxoLookupErrorZ_get_err(long owner);
+	public static class LDKUtxoResult {
+		private LDKUtxoResult() {}
+		public final static class Sync extends LDKUtxoResult {
+			public long sync;
+			Sync(long sync) { this.sync = sync; }
+		}
+		public final static class Async extends LDKUtxoResult {
+			public long async;
+			Async(long async) { this.async = async; }
+		}
+		static native void init();
+	}
+	static { LDKUtxoResult.init(); }
+	public static native LDKUtxoResult LDKUtxoResult_ref_from_ptr(long ptr);
+	public interface LDKUtxoLookup {
 		 long get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
-	public static native long LDKAccess_new(LDKAccess impl);
-	// LDKCResult_TxOutAccessErrorZ Access_get_utxo LDKAccess *NONNULL_PTR this_arg, const uint8_t (*genesis_hash)[32], uint64_t short_channel_id
-	public static native long Access_get_utxo(long this_arg, byte[] genesis_hash, long short_channel_id);
-	public static class LDKCOption_AccessZ {
-		private LDKCOption_AccessZ() {}
-		public final static class Some extends LDKCOption_AccessZ {
+	public static native long LDKUtxoLookup_new(LDKUtxoLookup impl);
+	// LDKUtxoResult UtxoLookup_get_utxo LDKUtxoLookup *NONNULL_PTR this_arg, const uint8_t (*genesis_hash)[32], uint64_t short_channel_id
+	public static native long UtxoLookup_get_utxo(long this_arg, byte[] genesis_hash, long short_channel_id);
+	public static class LDKCOption_UtxoLookupZ {
+		private LDKCOption_UtxoLookupZ() {}
+		public final static class Some extends LDKCOption_UtxoLookupZ {
 			public long some;
 			Some(long some) { this.some = some; }
 		}
-		public final static class None extends LDKCOption_AccessZ {
+		public final static class None extends LDKCOption_UtxoLookupZ {
 			None() { }
 		}
 		static native void init();
 	}
-	static { LDKCOption_AccessZ.init(); }
-	public static native LDKCOption_AccessZ LDKCOption_AccessZ_ref_from_ptr(long ptr);
+	static { LDKCOption_UtxoLookupZ.init(); }
+	public static native LDKCOption_UtxoLookupZ LDKCOption_UtxoLookupZ_ref_from_ptr(long ptr);
 	// bool CResult_boolLightningErrorZ_get_ok(LDKCResult_boolLightningErrorZ *NONNULL_PTR owner);
 	public static native boolean CResult_boolLightningErrorZ_get_ok(long owner);
 	// struct LDKLightningError CResult_boolLightningErrorZ_get_err(LDKCResult_boolLightningErrorZ *NONNULL_PTR owner);
@@ -1018,18 +1119,6 @@ public class bindings {
 	public static native byte[] CResult_SignatureNoneZ_get_ok(long owner);
 	// void CResult_SignatureNoneZ_get_err(LDKCResult_SignatureNoneZ *NONNULL_PTR owner);
 	public static native void CResult_SignatureNoneZ_get_err(long owner);
-	// struct LDKSignature C2Tuple_SignatureSignatureZ_get_a(LDKC2Tuple_SignatureSignatureZ *NONNULL_PTR owner);
-	public static native byte[] C2Tuple_SignatureSignatureZ_get_a(long owner);
-	// struct LDKSignature C2Tuple_SignatureSignatureZ_get_b(LDKC2Tuple_SignatureSignatureZ *NONNULL_PTR owner);
-	public static native byte[] C2Tuple_SignatureSignatureZ_get_b(long owner);
-	// struct LDKC2Tuple_SignatureSignatureZ CResult_C2Tuple_SignatureSignatureZNoneZ_get_ok(LDKCResult_C2Tuple_SignatureSignatureZNoneZ *NONNULL_PTR owner);
-	public static native long CResult_C2Tuple_SignatureSignatureZNoneZ_get_ok(long owner);
-	// void CResult_C2Tuple_SignatureSignatureZNoneZ_get_err(LDKCResult_C2Tuple_SignatureSignatureZNoneZ *NONNULL_PTR owner);
-	public static native void CResult_C2Tuple_SignatureSignatureZNoneZ_get_err(long owner);
-	// struct LDKSecretKey CResult_SecretKeyNoneZ_get_ok(LDKCResult_SecretKeyNoneZ *NONNULL_PTR owner);
-	public static native byte[] CResult_SecretKeyNoneZ_get_ok(long owner);
-	// void CResult_SecretKeyNoneZ_get_err(LDKCResult_SecretKeyNoneZ *NONNULL_PTR owner);
-	public static native void CResult_SecretKeyNoneZ_get_err(long owner);
 	// struct LDKPublicKey CResult_PublicKeyNoneZ_get_ok(LDKCResult_PublicKeyNoneZ *NONNULL_PTR owner);
 	public static native byte[] CResult_PublicKeyNoneZ_get_ok(long owner);
 	// void CResult_PublicKeyNoneZ_get_err(LDKCResult_PublicKeyNoneZ *NONNULL_PTR owner);
@@ -1051,11 +1140,31 @@ public class bindings {
 	public static native byte[] CResult_SharedSecretNoneZ_get_ok(long owner);
 	// void CResult_SharedSecretNoneZ_get_err(LDKCResult_SharedSecretNoneZ *NONNULL_PTR owner);
 	public static native void CResult_SharedSecretNoneZ_get_err(long owner);
-	public interface LDKBaseSign {
+	// struct LDKRecoverableSignature CResult_RecoverableSignatureNoneZ_get_ok(LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR owner);
+	public static native byte[] CResult_RecoverableSignatureNoneZ_get_ok(long owner);
+	// void CResult_RecoverableSignatureNoneZ_get_err(LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR owner);
+	public static native void CResult_RecoverableSignatureNoneZ_get_err(long owner);
+	public interface LDKChannelSigner {
 		 byte[] get_per_commitment_point(long idx);
 		 byte[] release_commitment_secret(long idx);
 		 long validate_holder_commitment(long holder_tx, byte[][] preimages);
 		 byte[] channel_keys_id();
+		 void provide_channel_parameters(long channel_parameters);
+	}
+	public static native long LDKChannelSigner_new(LDKChannelSigner impl, long pubkeys);
+	// LDKPublicKey ChannelSigner_get_per_commitment_point LDKChannelSigner *NONNULL_PTR this_arg, uint64_t idx
+	public static native byte[] ChannelSigner_get_per_commitment_point(long this_arg, long idx);
+	// LDKThirtyTwoBytes ChannelSigner_release_commitment_secret LDKChannelSigner *NONNULL_PTR this_arg, uint64_t idx
+	public static native byte[] ChannelSigner_release_commitment_secret(long this_arg, long idx);
+	// LDKCResult_NoneNoneZ ChannelSigner_validate_holder_commitment LDKChannelSigner *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR holder_tx, struct LDKCVec_PaymentPreimageZ preimages
+	public static native long ChannelSigner_validate_holder_commitment(long this_arg, long holder_tx, byte[][] preimages);
+	// LDKThirtyTwoBytes ChannelSigner_channel_keys_id LDKChannelSigner *NONNULL_PTR this_arg
+	public static native byte[] ChannelSigner_channel_keys_id(long this_arg);
+	// void ChannelSigner_provide_channel_parameters LDKChannelSigner *NONNULL_PTR this_arg, const struct LDKChannelTransactionParameters *NONNULL_PTR channel_parameters
+	public static native void ChannelSigner_provide_channel_parameters(long this_arg, long channel_parameters);
+	// LDKChannelPublicKeys ChannelSigner_get_pubkeys LDKChannelSigner *NONNULL_PTR this_arg
+	public static native long ChannelSigner_get_pubkeys(long this_arg);
+	public interface LDKEcdsaChannelSigner {
 		 long sign_counterparty_commitment(long commitment_tx, byte[][] preimages);
 		 long validate_counterparty_revocation(long idx, byte[] secret);
 		 long sign_holder_commitment_and_htlcs(long commitment_tx);
@@ -1064,55 +1173,40 @@ public class bindings {
 		 long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
 		 long sign_closing_transaction(long closing_tx);
 		 long sign_holder_anchor_input(byte[] anchor_tx, long input);
-		 long sign_channel_announcement(long msg);
-		 void provide_channel_parameters(long channel_parameters);
+		 long sign_channel_announcement_with_funding_key(long msg);
 	}
-	public static native long LDKBaseSign_new(LDKBaseSign impl, long pubkeys);
-	// LDKPublicKey BaseSign_get_per_commitment_point LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
-	public static native byte[] BaseSign_get_per_commitment_point(long this_arg, long idx);
-	// LDKThirtyTwoBytes BaseSign_release_commitment_secret LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
-	public static native byte[] BaseSign_release_commitment_secret(long this_arg, long idx);
-	// LDKCResult_NoneNoneZ BaseSign_validate_holder_commitment LDKBaseSign *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR holder_tx, struct LDKCVec_PaymentPreimageZ preimages
-	public static native long BaseSign_validate_holder_commitment(long this_arg, long holder_tx, byte[][] preimages);
-	// LDKThirtyTwoBytes BaseSign_channel_keys_id LDKBaseSign *NONNULL_PTR this_arg
-	public static native byte[] BaseSign_channel_keys_id(long this_arg);
-	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_counterparty_commitment LDKBaseSign *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx, struct LDKCVec_PaymentPreimageZ preimages
-	public static native long BaseSign_sign_counterparty_commitment(long this_arg, long commitment_tx, byte[][] preimages);
-	// LDKCResult_NoneNoneZ BaseSign_validate_counterparty_revocation LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx, const uint8_t (*secret)[32]
-	public static native long BaseSign_validate_counterparty_revocation(long this_arg, long idx, byte[] secret);
-	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_holder_commitment_and_htlcs LDKBaseSign *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR commitment_tx
-	public static native long BaseSign_sign_holder_commitment_and_htlcs(long this_arg, long commitment_tx);
-	// LDKCResult_SignatureNoneZ BaseSign_sign_justice_revoked_output LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32]
-	public static native long BaseSign_sign_justice_revoked_output(long this_arg, byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
-	// LDKCResult_SignatureNoneZ BaseSign_sign_justice_revoked_htlc LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
-	public static native long BaseSign_sign_justice_revoked_htlc(long this_arg, byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
-	// LDKCResult_SignatureNoneZ BaseSign_sign_counterparty_htlc_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, struct LDKPublicKey per_commitment_point, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
-	public static native long BaseSign_sign_counterparty_htlc_transaction(long this_arg, byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
-	// LDKCResult_SignatureNoneZ BaseSign_sign_closing_transaction LDKBaseSign *NONNULL_PTR this_arg, const struct LDKClosingTransaction *NONNULL_PTR closing_tx
-	public static native long BaseSign_sign_closing_transaction(long this_arg, long closing_tx);
-	// LDKCResult_SignatureNoneZ BaseSign_sign_holder_anchor_input LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction anchor_tx, uintptr_t input
-	public static native long BaseSign_sign_holder_anchor_input(long this_arg, byte[] anchor_tx, long input);
-	// LDKCResult_C2Tuple_SignatureSignatureZNoneZ BaseSign_sign_channel_announcement LDKBaseSign *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg
-	public static native long BaseSign_sign_channel_announcement(long this_arg, long msg);
-	// void BaseSign_provide_channel_parameters LDKBaseSign *NONNULL_PTR this_arg, const struct LDKChannelTransactionParameters *NONNULL_PTR channel_parameters
-	public static native void BaseSign_provide_channel_parameters(long this_arg, long channel_parameters);
-	// LDKChannelPublicKeys BaseSign_get_pubkeys LDKBaseSign *NONNULL_PTR this_arg
-	public static native long BaseSign_get_pubkeys(long this_arg);
-	public interface LDKSign {
+	public static native long LDKEcdsaChannelSigner_new(LDKEcdsaChannelSigner impl, LDKChannelSigner ChannelSigner, long pubkeys);
+	public static native long LDKEcdsaChannelSigner_get_ChannelSigner(long arg);
+	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ EcdsaChannelSigner_sign_counterparty_commitment LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx, struct LDKCVec_PaymentPreimageZ preimages
+	public static native long EcdsaChannelSigner_sign_counterparty_commitment(long this_arg, long commitment_tx, byte[][] preimages);
+	// LDKCResult_NoneNoneZ EcdsaChannelSigner_validate_counterparty_revocation LDKEcdsaChannelSigner *NONNULL_PTR this_arg, uint64_t idx, const uint8_t (*secret)[32]
+	public static native long EcdsaChannelSigner_validate_counterparty_revocation(long this_arg, long idx, byte[] secret);
+	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ EcdsaChannelSigner_sign_holder_commitment_and_htlcs LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR commitment_tx
+	public static native long EcdsaChannelSigner_sign_holder_commitment_and_htlcs(long this_arg, long commitment_tx);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_justice_revoked_output LDKEcdsaChannelSigner *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32]
+	public static native long EcdsaChannelSigner_sign_justice_revoked_output(long this_arg, byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_justice_revoked_htlc LDKEcdsaChannelSigner *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
+	public static native long EcdsaChannelSigner_sign_justice_revoked_htlc(long this_arg, byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_counterparty_htlc_transaction LDKEcdsaChannelSigner *NONNULL_PTR this_arg, struct LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, struct LDKPublicKey per_commitment_point, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
+	public static native long EcdsaChannelSigner_sign_counterparty_htlc_transaction(long this_arg, byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_closing_transaction LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKClosingTransaction *NONNULL_PTR closing_tx
+	public static native long EcdsaChannelSigner_sign_closing_transaction(long this_arg, long closing_tx);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_holder_anchor_input LDKEcdsaChannelSigner *NONNULL_PTR this_arg, struct LDKTransaction anchor_tx, uintptr_t input
+	public static native long EcdsaChannelSigner_sign_holder_anchor_input(long this_arg, byte[] anchor_tx, long input);
+	// LDKCResult_SignatureNoneZ EcdsaChannelSigner_sign_channel_announcement_with_funding_key LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg
+	public static native long EcdsaChannelSigner_sign_channel_announcement_with_funding_key(long this_arg, long msg);
+	public interface LDKWriteableEcdsaChannelSigner {
 		 byte[] write();
 	}
-	public static native long LDKSign_new(LDKSign impl, LDKBaseSign BaseSign, long pubkeys);
-	public static native long LDKSign_get_BaseSign(long arg);
-	// LDKCVec_u8Z Sign_write LDKSign *NONNULL_PTR this_arg
-	public static native byte[] Sign_write(long this_arg);
-	// struct LDKSign CResult_SignDecodeErrorZ_get_ok(LDKCResult_SignDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_SignDecodeErrorZ_get_ok(long owner);
-	// struct LDKDecodeError CResult_SignDecodeErrorZ_get_err(LDKCResult_SignDecodeErrorZ *NONNULL_PTR owner);
-	public static native long CResult_SignDecodeErrorZ_get_err(long owner);
-	// struct LDKRecoverableSignature CResult_RecoverableSignatureNoneZ_get_ok(LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR owner);
-	public static native byte[] CResult_RecoverableSignatureNoneZ_get_ok(long owner);
-	// void CResult_RecoverableSignatureNoneZ_get_err(LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR owner);
-	public static native void CResult_RecoverableSignatureNoneZ_get_err(long owner);
+	public static native long LDKWriteableEcdsaChannelSigner_new(LDKWriteableEcdsaChannelSigner impl, LDKEcdsaChannelSigner EcdsaChannelSigner, LDKChannelSigner ChannelSigner, long pubkeys);
+	public static native long LDKWriteableEcdsaChannelSigner_get_EcdsaChannelSigner(long arg);
+	public static native long LDKWriteableEcdsaChannelSigner_get_ChannelSigner(long arg);
+	// LDKCVec_u8Z WriteableEcdsaChannelSigner_write LDKWriteableEcdsaChannelSigner *NONNULL_PTR this_arg
+	public static native byte[] WriteableEcdsaChannelSigner_write(long this_arg);
+	// struct LDKWriteableEcdsaChannelSigner CResult_WriteableEcdsaChannelSignerDecodeErrorZ_get_ok(LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_get_ok(long owner);
+	// struct LDKDecodeError CResult_WriteableEcdsaChannelSignerDecodeErrorZ_get_err(LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_get_err(long owner);
 	// struct LDKCVec_CVec_u8ZZ CResult_CVec_CVec_u8ZZNoneZ_get_ok(LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR owner);
 	public static native byte[][] CResult_CVec_CVec_u8ZZNoneZ_get_ok(long owner);
 	// void CResult_CVec_CVec_u8ZZNoneZ_get_err(LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR owner);
@@ -1146,44 +1240,29 @@ public class bindings {
 	}
 	static { LDKCOption_u16Z.init(); }
 	public static native LDKCOption_u16Z LDKCOption_u16Z_ref_from_ptr(long ptr);
-	public static class LDKAPIError {
-		private LDKAPIError() {}
-		public final static class APIMisuseError extends LDKAPIError {
-			public java.lang.String err;
-			APIMisuseError(java.lang.String err) { this.err = err; }
-		}
-		public final static class FeeRateTooHigh extends LDKAPIError {
-			public java.lang.String err;
-			public int feerate;
-			FeeRateTooHigh(java.lang.String err, int feerate) { this.err = err; this.feerate = feerate; }
-		}
-		public final static class InvalidRoute extends LDKAPIError {
-			public java.lang.String err;
-			InvalidRoute(java.lang.String err) { this.err = err; }
-		}
-		public final static class ChannelUnavailable extends LDKAPIError {
-			public java.lang.String err;
-			ChannelUnavailable(java.lang.String err) { this.err = err; }
-		}
-		public final static class MonitorUpdateInProgress extends LDKAPIError {
-			MonitorUpdateInProgress() { }
-		}
-		public final static class IncompatibleShutdownScript extends LDKAPIError {
-			public long script;
-			IncompatibleShutdownScript(long script) { this.script = script; }
-		}
-		static native void init();
-	}
-	static { LDKAPIError.init(); }
-	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
-	// void CResult_NoneAPIErrorZ_get_ok(LDKCResult_NoneAPIErrorZ *NONNULL_PTR owner);
-	public static native void CResult_NoneAPIErrorZ_get_ok(long owner);
-	// struct LDKAPIError CResult_NoneAPIErrorZ_get_err(LDKCResult_NoneAPIErrorZ *NONNULL_PTR owner);
-	public static native long CResult_NoneAPIErrorZ_get_err(long owner);
 	// struct LDKThirtyTwoBytes CResult__u832APIErrorZ_get_ok(LDKCResult__u832APIErrorZ *NONNULL_PTR owner);
 	public static native byte[] CResult__u832APIErrorZ_get_ok(long owner);
 	// struct LDKAPIError CResult__u832APIErrorZ_get_err(LDKCResult__u832APIErrorZ *NONNULL_PTR owner);
 	public static native long CResult__u832APIErrorZ_get_err(long owner);
+	public static class LDKRecentPaymentDetails {
+		private LDKRecentPaymentDetails() {}
+		public final static class Pending extends LDKRecentPaymentDetails {
+			public byte[] payment_hash;
+			public long total_msat;
+			Pending(byte[] payment_hash, long total_msat) { this.payment_hash = payment_hash; this.total_msat = total_msat; }
+		}
+		public final static class Fulfilled extends LDKRecentPaymentDetails {
+			public byte[] payment_hash;
+			Fulfilled(byte[] payment_hash) { this.payment_hash = payment_hash; }
+		}
+		public final static class Abandoned extends LDKRecentPaymentDetails {
+			public byte[] payment_hash;
+			Abandoned(byte[] payment_hash) { this.payment_hash = payment_hash; }
+		}
+		static native void init();
+	}
+	static { LDKRecentPaymentDetails.init(); }
+	public static native LDKRecentPaymentDetails LDKRecentPaymentDetails_ref_from_ptr(long ptr);
 	public static class LDKPaymentSendFailure {
 		private LDKPaymentSendFailure() {}
 		public final static class ParameterError extends LDKPaymentSendFailure {
@@ -1215,10 +1294,18 @@ public class bindings {
 	public static native void CResult_NonePaymentSendFailureZ_get_ok(long owner);
 	// struct LDKPaymentSendFailure CResult_NonePaymentSendFailureZ_get_err(LDKCResult_NonePaymentSendFailureZ *NONNULL_PTR owner);
 	public static native long CResult_NonePaymentSendFailureZ_get_err(long owner);
+	// void CResult_NoneRetryableSendFailureZ_get_ok(LDKCResult_NoneRetryableSendFailureZ *NONNULL_PTR owner);
+	public static native void CResult_NoneRetryableSendFailureZ_get_ok(long owner);
+	// enum LDKRetryableSendFailure CResult_NoneRetryableSendFailureZ_get_err(LDKCResult_NoneRetryableSendFailureZ *NONNULL_PTR owner);
+	public static native RetryableSendFailure CResult_NoneRetryableSendFailureZ_get_err(long owner);
 	// struct LDKThirtyTwoBytes CResult_PaymentHashPaymentSendFailureZ_get_ok(LDKCResult_PaymentHashPaymentSendFailureZ *NONNULL_PTR owner);
 	public static native byte[] CResult_PaymentHashPaymentSendFailureZ_get_ok(long owner);
 	// struct LDKPaymentSendFailure CResult_PaymentHashPaymentSendFailureZ_get_err(LDKCResult_PaymentHashPaymentSendFailureZ *NONNULL_PTR owner);
 	public static native long CResult_PaymentHashPaymentSendFailureZ_get_err(long owner);
+	// struct LDKThirtyTwoBytes CResult_PaymentHashRetryableSendFailureZ_get_ok(LDKCResult_PaymentHashRetryableSendFailureZ *NONNULL_PTR owner);
+	public static native byte[] CResult_PaymentHashRetryableSendFailureZ_get_ok(long owner);
+	// enum LDKRetryableSendFailure CResult_PaymentHashRetryableSendFailureZ_get_err(LDKCResult_PaymentHashRetryableSendFailureZ *NONNULL_PTR owner);
+	public static native RetryableSendFailure CResult_PaymentHashRetryableSendFailureZ_get_err(long owner);
 	// struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentIdZ_get_a(LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR owner);
 	public static native byte[] C2Tuple_PaymentHashPaymentIdZ_get_a(long owner);
 	// struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentIdZ_get_b(LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR owner);
@@ -1275,7 +1362,7 @@ public class bindings {
 	public static native long LDKWatch_new(LDKWatch impl);
 	// LDKChannelMonitorUpdateStatus Watch_watch_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitor monitor
 	public static native ChannelMonitorUpdateStatus Watch_watch_channel(long this_arg, long funding_txo, long monitor);
-	// LDKChannelMonitorUpdateStatus Watch_update_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitorUpdate update
+	// LDKChannelMonitorUpdateStatus Watch_update_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, const struct LDKChannelMonitorUpdate *NONNULL_PTR update
 	public static native ChannelMonitorUpdateStatus Watch_update_channel(long this_arg, long funding_txo, long update);
 	// LDKCVec_C3Tuple_OutPointCVec_MonitorEventZPublicKeyZZ Watch_release_pending_monitor_events LDKWatch *NONNULL_PTR this_arg
 	public static native long[] Watch_release_pending_monitor_events(long this_arg);
@@ -1285,48 +1372,81 @@ public class bindings {
 	public static native long LDKBroadcasterInterface_new(LDKBroadcasterInterface impl);
 	// void BroadcasterInterface_broadcast_transaction LDKBroadcasterInterface *NONNULL_PTR this_arg, struct LDKTransaction tx
 	public static native void BroadcasterInterface_broadcast_transaction(long this_arg, byte[] tx);
-	public interface LDKKeysInterface {
-		 long get_node_secret(Recipient recipient);
+	public interface LDKEntropySource {
+		 byte[] get_secure_random_bytes();
+	}
+	public static native long LDKEntropySource_new(LDKEntropySource impl);
+	// LDKThirtyTwoBytes EntropySource_get_secure_random_bytes LDKEntropySource *NONNULL_PTR this_arg
+	public static native byte[] EntropySource_get_secure_random_bytes(long this_arg);
+	public static class LDKUnsignedGossipMessage {
+		private LDKUnsignedGossipMessage() {}
+		public final static class ChannelAnnouncement extends LDKUnsignedGossipMessage {
+			public long channel_announcement;
+			ChannelAnnouncement(long channel_announcement) { this.channel_announcement = channel_announcement; }
+		}
+		public final static class ChannelUpdate extends LDKUnsignedGossipMessage {
+			public long channel_update;
+			ChannelUpdate(long channel_update) { this.channel_update = channel_update; }
+		}
+		public final static class NodeAnnouncement extends LDKUnsignedGossipMessage {
+			public long node_announcement;
+			NodeAnnouncement(long node_announcement) { this.node_announcement = node_announcement; }
+		}
+		static native void init();
+	}
+	static { LDKUnsignedGossipMessage.init(); }
+	public static native LDKUnsignedGossipMessage LDKUnsignedGossipMessage_ref_from_ptr(long ptr);
+	public interface LDKNodeSigner {
+		 byte[] get_inbound_payment_key_material();
 		 long get_node_id(Recipient recipient);
 		 long ecdh(Recipient recipient, byte[] other_key, long tweak);
-		 byte[] get_destination_script();
-		 long get_shutdown_scriptpubkey();
+		 long sign_invoice(byte[] hrp_bytes, byte[] invoice_data, Recipient recipient);
+		 long sign_gossip_message(long msg);
+	}
+	public static native long LDKNodeSigner_new(LDKNodeSigner impl);
+	// LDKThirtyTwoBytes NodeSigner_get_inbound_payment_key_material LDKNodeSigner *NONNULL_PTR this_arg
+	public static native byte[] NodeSigner_get_inbound_payment_key_material(long this_arg);
+	// LDKCResult_PublicKeyNoneZ NodeSigner_get_node_id LDKNodeSigner *NONNULL_PTR this_arg, enum LDKRecipient recipient
+	public static native long NodeSigner_get_node_id(long this_arg, Recipient recipient);
+	// LDKCResult_SharedSecretNoneZ NodeSigner_ecdh LDKNodeSigner *NONNULL_PTR this_arg, enum LDKRecipient recipient, struct LDKPublicKey other_key, struct LDKCOption_ScalarZ tweak
+	public static native long NodeSigner_ecdh(long this_arg, Recipient recipient, byte[] other_key, long tweak);
+	// LDKCResult_RecoverableSignatureNoneZ NodeSigner_sign_invoice LDKNodeSigner *NONNULL_PTR this_arg, struct LDKu8slice hrp_bytes, struct LDKCVec_U5Z invoice_data, enum LDKRecipient recipient
+	public static native long NodeSigner_sign_invoice(long this_arg, byte[] hrp_bytes, byte[] invoice_data, Recipient recipient);
+	// LDKCResult_SignatureNoneZ NodeSigner_sign_gossip_message LDKNodeSigner *NONNULL_PTR this_arg, struct LDKUnsignedGossipMessage msg
+	public static native long NodeSigner_sign_gossip_message(long this_arg, long msg);
+	public interface LDKSignerProvider {
 		 byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, byte[] user_channel_id);
 		 long derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id);
-		 byte[] get_secure_random_bytes();
 		 long read_chan_signer(byte[] reader);
-		 long sign_invoice(byte[] hrp_bytes, byte[] invoice_data, Recipient receipient);
-		 byte[] get_inbound_payment_key_material();
+		 byte[] get_destination_script();
+		 long get_shutdown_scriptpubkey();
 	}
-	public static native long LDKKeysInterface_new(LDKKeysInterface impl);
-	// LDKCResult_SecretKeyNoneZ KeysInterface_get_node_secret LDKKeysInterface *NONNULL_PTR this_arg, enum LDKRecipient recipient
-	public static native long KeysInterface_get_node_secret(long this_arg, Recipient recipient);
-	// LDKCResult_PublicKeyNoneZ KeysInterface_get_node_id LDKKeysInterface *NONNULL_PTR this_arg, enum LDKRecipient recipient
-	public static native long KeysInterface_get_node_id(long this_arg, Recipient recipient);
-	// LDKCResult_SharedSecretNoneZ KeysInterface_ecdh LDKKeysInterface *NONNULL_PTR this_arg, enum LDKRecipient recipient, struct LDKPublicKey other_key, struct LDKCOption_ScalarZ tweak
-	public static native long KeysInterface_ecdh(long this_arg, Recipient recipient, byte[] other_key, long tweak);
-	// LDKCVec_u8Z KeysInterface_get_destination_script LDKKeysInterface *NONNULL_PTR this_arg
-	public static native byte[] KeysInterface_get_destination_script(long this_arg);
-	// LDKShutdownScript KeysInterface_get_shutdown_scriptpubkey LDKKeysInterface *NONNULL_PTR this_arg
-	public static native long KeysInterface_get_shutdown_scriptpubkey(long this_arg);
-	// LDKThirtyTwoBytes KeysInterface_generate_channel_keys_id LDKKeysInterface *NONNULL_PTR this_arg, bool inbound, uint64_t channel_value_satoshis, struct LDKU128 user_channel_id
-	public static native byte[] KeysInterface_generate_channel_keys_id(long this_arg, boolean inbound, long channel_value_satoshis, byte[] user_channel_id);
-	// LDKSign KeysInterface_derive_channel_signer LDKKeysInterface *NONNULL_PTR this_arg, uint64_t channel_value_satoshis, struct LDKThirtyTwoBytes channel_keys_id
-	public static native long KeysInterface_derive_channel_signer(long this_arg, long channel_value_satoshis, byte[] channel_keys_id);
-	// LDKThirtyTwoBytes KeysInterface_get_secure_random_bytes LDKKeysInterface *NONNULL_PTR this_arg
-	public static native byte[] KeysInterface_get_secure_random_bytes(long this_arg);
-	// LDKCResult_SignDecodeErrorZ KeysInterface_read_chan_signer LDKKeysInterface *NONNULL_PTR this_arg, struct LDKu8slice reader
-	public static native long KeysInterface_read_chan_signer(long this_arg, byte[] reader);
-	// LDKCResult_RecoverableSignatureNoneZ KeysInterface_sign_invoice LDKKeysInterface *NONNULL_PTR this_arg, struct LDKu8slice hrp_bytes, struct LDKCVec_U5Z invoice_data, enum LDKRecipient receipient
-	public static native long KeysInterface_sign_invoice(long this_arg, byte[] hrp_bytes, byte[] invoice_data, Recipient receipient);
-	// LDKThirtyTwoBytes KeysInterface_get_inbound_payment_key_material LDKKeysInterface *NONNULL_PTR this_arg
-	public static native byte[] KeysInterface_get_inbound_payment_key_material(long this_arg);
+	public static native long LDKSignerProvider_new(LDKSignerProvider impl);
+	// LDKThirtyTwoBytes SignerProvider_generate_channel_keys_id LDKSignerProvider *NONNULL_PTR this_arg, bool inbound, uint64_t channel_value_satoshis, struct LDKU128 user_channel_id
+	public static native byte[] SignerProvider_generate_channel_keys_id(long this_arg, boolean inbound, long channel_value_satoshis, byte[] user_channel_id);
+	// LDKWriteableEcdsaChannelSigner SignerProvider_derive_channel_signer LDKSignerProvider *NONNULL_PTR this_arg, uint64_t channel_value_satoshis, struct LDKThirtyTwoBytes channel_keys_id
+	public static native long SignerProvider_derive_channel_signer(long this_arg, long channel_value_satoshis, byte[] channel_keys_id);
+	// LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ SignerProvider_read_chan_signer LDKSignerProvider *NONNULL_PTR this_arg, struct LDKu8slice reader
+	public static native long SignerProvider_read_chan_signer(long this_arg, byte[] reader);
+	// LDKCVec_u8Z SignerProvider_get_destination_script LDKSignerProvider *NONNULL_PTR this_arg
+	public static native byte[] SignerProvider_get_destination_script(long this_arg);
+	// LDKShutdownScript SignerProvider_get_shutdown_scriptpubkey LDKSignerProvider *NONNULL_PTR this_arg
+	public static native long SignerProvider_get_shutdown_scriptpubkey(long this_arg);
 	public interface LDKFeeEstimator {
 		 int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target);
 	}
 	public static native long LDKFeeEstimator_new(LDKFeeEstimator impl);
 	// uint32_t FeeEstimator_get_est_sat_per_1000_weight LDKFeeEstimator *NONNULL_PTR this_arg, enum LDKConfirmationTarget confirmation_target
 	public static native int FeeEstimator_get_est_sat_per_1000_weight(long this_arg, ConfirmationTarget confirmation_target);
+	public interface LDKRouter {
+		 long find_route(byte[] payer, long route_params, long[] first_hops, long inflight_htlcs);
+		 long find_route_with_id(byte[] payer, long route_params, long[] first_hops, long inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
+	}
+	public static native long LDKRouter_new(LDKRouter impl);
+	// LDKCResult_RouteLightningErrorZ Router_find_route LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey payer, const struct LDKRouteParameters *NONNULL_PTR route_params, struct LDKCVec_ChannelDetailsZ *first_hops, const struct LDKInFlightHtlcs *NONNULL_PTR inflight_htlcs
+	public static native long Router_find_route(long this_arg, byte[] payer, long route_params, long[] first_hops, long inflight_htlcs);
+	// LDKCResult_RouteLightningErrorZ Router_find_route_with_id LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey payer, const struct LDKRouteParameters *NONNULL_PTR route_params, struct LDKCVec_ChannelDetailsZ *first_hops, const struct LDKInFlightHtlcs *NONNULL_PTR inflight_htlcs, struct LDKThirtyTwoBytes _payment_hash, struct LDKThirtyTwoBytes _payment_id
+	public static native long Router_find_route_with_id(long this_arg, byte[] payer, long route_params, long[] first_hops, long inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
 	// struct LDKThirtyTwoBytes C2Tuple_BlockHashChannelManagerZ_get_a(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 	public static native byte[] C2Tuple_BlockHashChannelManagerZ_get_a(long owner);
 	// struct LDKChannelManager C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
@@ -1339,6 +1459,23 @@ public class bindings {
 	public static native long CResult_ChannelConfigDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ChannelConfigDecodeErrorZ_get_err(LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ChannelConfigDecodeErrorZ_get_err(long owner);
+	public static class LDKCOption_APIErrorZ {
+		private LDKCOption_APIErrorZ() {}
+		public final static class Some extends LDKCOption_APIErrorZ {
+			public long some;
+			Some(long some) { this.some = some; }
+		}
+		public final static class None extends LDKCOption_APIErrorZ {
+			None() { }
+		}
+		static native void init();
+	}
+	static { LDKCOption_APIErrorZ.init(); }
+	public static native LDKCOption_APIErrorZ LDKCOption_APIErrorZ_ref_from_ptr(long ptr);
+	// struct LDKCOption_APIErrorZ CResult_COption_APIErrorZDecodeErrorZ_get_ok(LDKCResult_COption_APIErrorZDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_get_ok(long owner);
+	// struct LDKDecodeError CResult_COption_APIErrorZDecodeErrorZ_get_err(LDKCResult_COption_APIErrorZDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_get_err(long owner);
 	// struct LDKOutPoint CResult_OutPointDecodeErrorZ_get_ok(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_OutPointDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_OutPointDecodeErrorZ_get_err(LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR owner);
@@ -1378,13 +1515,9 @@ public class bindings {
 			public java.lang.String invoice;
 			Invoice(java.lang.String invoice) { this.invoice = invoice; }
 		}
-		public final static class Routing extends LDKPaymentError {
-			public long routing;
-			Routing(long routing) { this.routing = routing; }
-		}
 		public final static class Sending extends LDKPaymentError {
-			public long sending;
-			Sending(long sending) { this.sending = sending; }
+			public org.ldk.enums.RetryableSendFailure sending;
+			Sending(org.ldk.enums.RetryableSendFailure sending) { this.sending = sending; }
 		}
 		static native void init();
 	}
@@ -1532,6 +1665,10 @@ public class bindings {
 	}
 	static { LDKCOption_NetAddressZ.init(); }
 	public static native LDKCOption_NetAddressZ LDKCOption_NetAddressZ_ref_from_ptr(long ptr);
+	// struct LDKPublicKey C2Tuple_PublicKeyCOption_NetAddressZZ_get_a(LDKC2Tuple_PublicKeyCOption_NetAddressZZ *NONNULL_PTR owner);
+	public static native byte[] C2Tuple_PublicKeyCOption_NetAddressZZ_get_a(long owner);
+	// struct LDKCOption_NetAddressZ C2Tuple_PublicKeyCOption_NetAddressZZ_get_b(LDKC2Tuple_PublicKeyCOption_NetAddressZZ *NONNULL_PTR owner);
+	public static native long C2Tuple_PublicKeyCOption_NetAddressZZ_get_b(long owner);
 	// struct LDKCVec_u8Z CResult_CVec_u8ZPeerHandleErrorZ_get_ok(LDKCResult_CVec_u8ZPeerHandleErrorZ *NONNULL_PTR owner);
 	public static native byte[] CResult_CVec_u8ZPeerHandleErrorZ_get_ok(long owner);
 	// struct LDKPeerHandleError CResult_CVec_u8ZPeerHandleErrorZ_get_err(LDKCResult_CVec_u8ZPeerHandleErrorZ *NONNULL_PTR owner);
@@ -1981,15 +2118,29 @@ public class bindings {
 	public static native long LDKPersist_new(LDKPersist impl);
 	// LDKChannelMonitorUpdateStatus Persist_persist_new_channel LDKPersist *NONNULL_PTR this_arg, struct LDKOutPoint channel_id, const struct LDKChannelMonitor *NONNULL_PTR data, struct LDKMonitorUpdateId update_id
 	public static native ChannelMonitorUpdateStatus Persist_persist_new_channel(long this_arg, long channel_id, long data, long update_id);
-	// LDKChannelMonitorUpdateStatus Persist_update_persisted_channel LDKPersist *NONNULL_PTR this_arg, struct LDKOutPoint channel_id, const struct LDKChannelMonitorUpdate *NONNULL_PTR update, const struct LDKChannelMonitor *NONNULL_PTR data, struct LDKMonitorUpdateId update_id
+	// LDKChannelMonitorUpdateStatus Persist_update_persisted_channel LDKPersist *NONNULL_PTR this_arg, struct LDKOutPoint channel_id, struct LDKChannelMonitorUpdate update, const struct LDKChannelMonitor *NONNULL_PTR data, struct LDKMonitorUpdateId update_id
 	public static native ChannelMonitorUpdateStatus Persist_update_persisted_channel(long this_arg, long channel_id, long update, long data, long update_id);
+	public static class LDKRetry {
+		private LDKRetry() {}
+		public final static class Attempts extends LDKRetry {
+			public long attempts;
+			Attempts(long attempts) { this.attempts = attempts; }
+		}
+		public final static class Timeout extends LDKRetry {
+			public long timeout;
+			Timeout(long timeout) { this.timeout = timeout; }
+		}
+		static native void init();
+	}
+	static { LDKRetry.init(); }
+	public static native LDKRetry LDKRetry_ref_from_ptr(long ptr);
 	public interface LDKChannelMessageHandler {
-		 void handle_open_channel(byte[] their_node_id, long their_features, long msg);
-		 void handle_accept_channel(byte[] their_node_id, long their_features, long msg);
+		 void handle_open_channel(byte[] their_node_id, long msg);
+		 void handle_accept_channel(byte[] their_node_id, long msg);
 		 void handle_funding_created(byte[] their_node_id, long msg);
 		 void handle_funding_signed(byte[] their_node_id, long msg);
 		 void handle_channel_ready(byte[] their_node_id, long msg);
-		 void handle_shutdown(byte[] their_node_id, long their_features, long msg);
+		 void handle_shutdown(byte[] their_node_id, long msg);
 		 void handle_closing_signed(byte[] their_node_id, long msg);
 		 void handle_update_add_htlc(byte[] their_node_id, long msg);
 		 void handle_update_fulfill_htlc(byte[] their_node_id, long msg);
@@ -1999,8 +2150,8 @@ public class bindings {
 		 void handle_revoke_and_ack(byte[] their_node_id, long msg);
 		 void handle_update_fee(byte[] their_node_id, long msg);
 		 void handle_announcement_signatures(byte[] their_node_id, long msg);
-		 void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
-		 long peer_connected(byte[] their_node_id, long msg);
+		 void peer_disconnected(byte[] their_node_id);
+		 long peer_connected(byte[] their_node_id, long msg, boolean inbound);
 		 void handle_channel_reestablish(byte[] their_node_id, long msg);
 		 void handle_channel_update(byte[] their_node_id, long msg);
 		 void handle_error(byte[] their_node_id, long msg);
@@ -2009,18 +2160,18 @@ public class bindings {
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
 	public static native long LDKChannelMessageHandler_get_MessageSendEventsProvider(long arg);
-	// void ChannelMessageHandler_handle_open_channel LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKInitFeatures their_features, const struct LDKOpenChannel *NONNULL_PTR msg
-	public static native void ChannelMessageHandler_handle_open_channel(long this_arg, byte[] their_node_id, long their_features, long msg);
-	// void ChannelMessageHandler_handle_accept_channel LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKInitFeatures their_features, const struct LDKAcceptChannel *NONNULL_PTR msg
-	public static native void ChannelMessageHandler_handle_accept_channel(long this_arg, byte[] their_node_id, long their_features, long msg);
+	// void ChannelMessageHandler_handle_open_channel LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKOpenChannel *NONNULL_PTR msg
+	public static native void ChannelMessageHandler_handle_open_channel(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_handle_accept_channel LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKAcceptChannel *NONNULL_PTR msg
+	public static native void ChannelMessageHandler_handle_accept_channel(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_funding_created LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKFundingCreated *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_funding_created(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_funding_signed LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKFundingSigned *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_funding_signed(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_channel_ready LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKChannelReady *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_channel_ready(long this_arg, byte[] their_node_id, long msg);
-	// void ChannelMessageHandler_handle_shutdown LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInitFeatures *NONNULL_PTR their_features, const struct LDKShutdown *NONNULL_PTR msg
-	public static native void ChannelMessageHandler_handle_shutdown(long this_arg, byte[] their_node_id, long their_features, long msg);
+	// void ChannelMessageHandler_handle_shutdown LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKShutdown *NONNULL_PTR msg
+	public static native void ChannelMessageHandler_handle_shutdown(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_closing_signed LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKClosingSigned *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_closing_signed(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_update_add_htlc LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKUpdateAddHTLC *NONNULL_PTR msg
@@ -2039,10 +2190,10 @@ public class bindings {
 	public static native void ChannelMessageHandler_handle_update_fee(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_announcement_signatures LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKAnnouncementSignatures *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_announcement_signatures(long this_arg, byte[] their_node_id, long msg);
-	// void ChannelMessageHandler_peer_disconnected LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, bool no_connection_possible
-	public static native void ChannelMessageHandler_peer_disconnected(long this_arg, byte[] their_node_id, boolean no_connection_possible);
-	// LDKCResult_NoneNoneZ ChannelMessageHandler_peer_connected LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR msg
-	public static native long ChannelMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_peer_disconnected LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
+	public static native void ChannelMessageHandler_peer_disconnected(long this_arg, byte[] their_node_id);
+	// LDKCResult_NoneNoneZ ChannelMessageHandler_peer_connected LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR msg, bool inbound
+	public static native long ChannelMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long msg, boolean inbound);
 	// void ChannelMessageHandler_handle_channel_reestablish LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKChannelReestablish *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_channel_reestablish(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_channel_update LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKChannelUpdate *NONNULL_PTR msg
@@ -2058,12 +2209,13 @@ public class bindings {
 		 long handle_channel_announcement(long msg);
 		 long handle_channel_update(long msg);
 		 long get_next_channel_announcement(long starting_point);
-		 long get_next_node_announcement(byte[] starting_point);
-		 long peer_connected(byte[] their_node_id, long init);
+		 long get_next_node_announcement(long starting_point);
+		 long peer_connected(byte[] their_node_id, long init, boolean inbound);
 		 long handle_reply_channel_range(byte[] their_node_id, long msg);
 		 long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg);
 		 long handle_query_channel_range(byte[] their_node_id, long msg);
 		 long handle_query_short_channel_ids(byte[] their_node_id, long msg);
+		 boolean processing_queue_high();
 		 long provided_node_features();
 		 long provided_init_features(byte[] their_node_id);
 	}
@@ -2077,10 +2229,10 @@ public class bindings {
 	public static native long RoutingMessageHandler_handle_channel_update(long this_arg, long msg);
 	// LDKCOption_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ RoutingMessageHandler_get_next_channel_announcement LDKRoutingMessageHandler *NONNULL_PTR this_arg, uint64_t starting_point
 	public static native long RoutingMessageHandler_get_next_channel_announcement(long this_arg, long starting_point);
-	// LDKNodeAnnouncement RoutingMessageHandler_get_next_node_announcement LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey starting_point
-	public static native long RoutingMessageHandler_get_next_node_announcement(long this_arg, byte[] starting_point);
-	// LDKCResult_NoneNoneZ RoutingMessageHandler_peer_connected LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR init
-	public static native long RoutingMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long init);
+	// LDKNodeAnnouncement RoutingMessageHandler_get_next_node_announcement LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKNodeId starting_point
+	public static native long RoutingMessageHandler_get_next_node_announcement(long this_arg, long starting_point);
+	// LDKCResult_NoneNoneZ RoutingMessageHandler_peer_connected LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR init, bool inbound
+	public static native long RoutingMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long init, boolean inbound);
 	// LDKCResult_NoneLightningErrorZ RoutingMessageHandler_handle_reply_channel_range LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKReplyChannelRange msg
 	public static native long RoutingMessageHandler_handle_reply_channel_range(long this_arg, byte[] their_node_id, long msg);
 	// LDKCResult_NoneLightningErrorZ RoutingMessageHandler_handle_reply_short_channel_ids_end LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKReplyShortChannelIdsEnd msg
@@ -2089,14 +2241,16 @@ public class bindings {
 	public static native long RoutingMessageHandler_handle_query_channel_range(long this_arg, byte[] their_node_id, long msg);
 	// LDKCResult_NoneLightningErrorZ RoutingMessageHandler_handle_query_short_channel_ids LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKQueryShortChannelIds msg
 	public static native long RoutingMessageHandler_handle_query_short_channel_ids(long this_arg, byte[] their_node_id, long msg);
+	// bool RoutingMessageHandler_processing_queue_high LDKRoutingMessageHandler *NONNULL_PTR this_arg
+	public static native boolean RoutingMessageHandler_processing_queue_high(long this_arg);
 	// LDKNodeFeatures RoutingMessageHandler_provided_node_features LDKRoutingMessageHandler *NONNULL_PTR this_arg
 	public static native long RoutingMessageHandler_provided_node_features(long this_arg);
 	// LDKInitFeatures RoutingMessageHandler_provided_init_features LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
 	public static native long RoutingMessageHandler_provided_init_features(long this_arg, byte[] their_node_id);
 	public interface LDKOnionMessageHandler {
 		 void handle_onion_message(byte[] peer_node_id, long msg);
-		 long peer_connected(byte[] their_node_id, long init);
-		 void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
+		 long peer_connected(byte[] their_node_id, long init, boolean inbound);
+		 void peer_disconnected(byte[] their_node_id);
 		 long provided_node_features();
 		 long provided_init_features(byte[] their_node_id);
 	}
@@ -2104,10 +2258,10 @@ public class bindings {
 	public static native long LDKOnionMessageHandler_get_OnionMessageProvider(long arg);
 	// void OnionMessageHandler_handle_onion_message LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey peer_node_id, const struct LDKOnionMessage *NONNULL_PTR msg
 	public static native void OnionMessageHandler_handle_onion_message(long this_arg, byte[] peer_node_id, long msg);
-	// LDKCResult_NoneNoneZ OnionMessageHandler_peer_connected LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR init
-	public static native long OnionMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long init);
-	// void OnionMessageHandler_peer_disconnected LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, bool no_connection_possible
-	public static native void OnionMessageHandler_peer_disconnected(long this_arg, byte[] their_node_id, boolean no_connection_possible);
+	// LDKCResult_NoneNoneZ OnionMessageHandler_peer_connected LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKInit *NONNULL_PTR init, bool inbound
+	public static native long OnionMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long init, boolean inbound);
+	// void OnionMessageHandler_peer_disconnected LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
+	public static native void OnionMessageHandler_peer_disconnected(long this_arg, byte[] their_node_id);
 	// LDKNodeFeatures OnionMessageHandler_provided_node_features LDKOnionMessageHandler *NONNULL_PTR this_arg
 	public static native long OnionMessageHandler_provided_node_features(long this_arg);
 	// LDKInitFeatures OnionMessageHandler_provided_init_features LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
@@ -2175,27 +2329,6 @@ public class bindings {
 	}
 	static { LDKEffectiveCapacity.init(); }
 	public static native LDKEffectiveCapacity LDKEffectiveCapacity_ref_from_ptr(long ptr);
-	public interface LDKRouter {
-		 long find_route(byte[] payer, long route_params, long[] first_hops, long inflight_htlcs);
-		 long find_route_with_id(byte[] payer, long route_params, long[] first_hops, long inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
-		 void notify_payment_path_failed(long[] path, long short_channel_id);
-		 void notify_payment_path_successful(long[] path);
-		 void notify_payment_probe_successful(long[] path);
-		 void notify_payment_probe_failed(long[] path, long short_channel_id);
-	}
-	public static native long LDKRouter_new(LDKRouter impl);
-	// LDKCResult_RouteLightningErrorZ Router_find_route LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey payer, const struct LDKRouteParameters *NONNULL_PTR route_params, struct LDKCVec_ChannelDetailsZ *first_hops, struct LDKInFlightHtlcs inflight_htlcs
-	public static native long Router_find_route(long this_arg, byte[] payer, long route_params, long[] first_hops, long inflight_htlcs);
-	// LDKCResult_RouteLightningErrorZ Router_find_route_with_id LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey payer, const struct LDKRouteParameters *NONNULL_PTR route_params, struct LDKCVec_ChannelDetailsZ *first_hops, struct LDKInFlightHtlcs inflight_htlcs, struct LDKThirtyTwoBytes _payment_hash, struct LDKThirtyTwoBytes _payment_id
-	public static native long Router_find_route_with_id(long this_arg, byte[] payer, long route_params, long[] first_hops, long inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
-	// void Router_notify_payment_path_failed LDKRouter *NONNULL_PTR this_arg, struct LDKCVec_RouteHopZ path, uint64_t short_channel_id
-	public static native void Router_notify_payment_path_failed(long this_arg, long[] path, long short_channel_id);
-	// void Router_notify_payment_path_successful LDKRouter *NONNULL_PTR this_arg, struct LDKCVec_RouteHopZ path
-	public static native void Router_notify_payment_path_successful(long this_arg, long[] path);
-	// void Router_notify_payment_probe_successful LDKRouter *NONNULL_PTR this_arg, struct LDKCVec_RouteHopZ path
-	public static native void Router_notify_payment_probe_successful(long this_arg, long[] path);
-	// void Router_notify_payment_probe_failed LDKRouter *NONNULL_PTR this_arg, struct LDKCVec_RouteHopZ path, uint64_t short_channel_id
-	public static native void Router_notify_payment_probe_failed(long this_arg, long[] path, long short_channel_id);
 	public static class LDKDestination {
 		private LDKDestination() {}
 		public final static class Node extends LDKDestination {
@@ -2256,44 +2389,6 @@ public class bindings {
 	}
 	static { LDKFallback.init(); }
 	public static native LDKFallback LDKFallback_ref_from_ptr(long ptr);
-	public interface LDKPayer {
-		 byte[] node_id();
-		 long[] first_hops();
-		 long send_payment(long route, byte[] payment_hash, byte[] payment_secret, byte[] payment_id);
-		 long send_spontaneous_payment(long route, byte[] payment_preimage, byte[] payment_id);
-		 long retry_payment(long route, byte[] payment_id);
-		 void abandon_payment(byte[] payment_id);
-		 long inflight_htlcs();
-	}
-	public static native long LDKPayer_new(LDKPayer impl);
-	// LDKPublicKey Payer_node_id LDKPayer *NONNULL_PTR this_arg
-	public static native byte[] Payer_node_id(long this_arg);
-	// LDKCVec_ChannelDetailsZ Payer_first_hops LDKPayer *NONNULL_PTR this_arg
-	public static native long[] Payer_first_hops(long this_arg);
-	// LDKCResult_NonePaymentSendFailureZ Payer_send_payment LDKPayer *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_hash, struct LDKThirtyTwoBytes payment_secret, struct LDKThirtyTwoBytes payment_id
-	public static native long Payer_send_payment(long this_arg, long route, byte[] payment_hash, byte[] payment_secret, byte[] payment_id);
-	// LDKCResult_NonePaymentSendFailureZ Payer_send_spontaneous_payment LDKPayer *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_id
-	public static native long Payer_send_spontaneous_payment(long this_arg, long route, byte[] payment_preimage, byte[] payment_id);
-	// LDKCResult_NonePaymentSendFailureZ Payer_retry_payment LDKPayer *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_id
-	public static native long Payer_retry_payment(long this_arg, long route, byte[] payment_id);
-	// void Payer_abandon_payment LDKPayer *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_id
-	public static native void Payer_abandon_payment(long this_arg, byte[] payment_id);
-	// LDKInFlightHtlcs Payer_inflight_htlcs LDKPayer *NONNULL_PTR this_arg
-	public static native long Payer_inflight_htlcs(long this_arg);
-	public static class LDKRetry {
-		private LDKRetry() {}
-		public final static class Attempts extends LDKRetry {
-			public long attempts;
-			Attempts(long attempts) { this.attempts = attempts; }
-		}
-		public final static class Timeout extends LDKRetry {
-			public long timeout;
-			Timeout(long timeout) { this.timeout = timeout; }
-		}
-		static native void init();
-	}
-	static { LDKRetry.init(); }
-	public static native LDKRetry LDKRetry_ref_from_ptr(long ptr);
 	// struct LDKStr _ldk_get_compiled_version(void);
 	public static native String _ldk_get_compiled_version();
 	// struct LDKStr _ldk_c_bindings_get_compiled_version(void);
@@ -2324,6 +2419,22 @@ public class bindings {
 	public static native long TxOut_clone(long orig);
 	// void Str_free(struct LDKStr _res);
 	public static native void Str_free(String _res);
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_ok(void);
+	public static native long CResult_NoneAPIErrorZ_ok();
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_err(struct LDKAPIError e);
+	public static native long CResult_NoneAPIErrorZ_err(long e);
+	// bool CResult_NoneAPIErrorZ_is_ok(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_NoneAPIErrorZ_is_ok(long o);
+	// void CResult_NoneAPIErrorZ_free(struct LDKCResult_NoneAPIErrorZ _res);
+	public static native void CResult_NoneAPIErrorZ_free(long _res);
+	// uint64_t CResult_NoneAPIErrorZ_clone_ptr(LDKCResult_NoneAPIErrorZ *NONNULL_PTR arg);
+	public static native long CResult_NoneAPIErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR orig);
+	public static native long CResult_NoneAPIErrorZ_clone(long orig);
+	// void CVec_CResult_NoneAPIErrorZZ_free(struct LDKCVec_CResult_NoneAPIErrorZZ _res);
+	public static native void CVec_CResult_NoneAPIErrorZZ_free(long[] _res);
+	// void CVec_APIErrorZ_free(struct LDKCVec_APIErrorZ _res);
+	public static native void CVec_APIErrorZ_free(long[] _res);
 	// struct LDKCOption_HTLCClaimZ COption_HTLCClaimZ_some(enum LDKHTLCClaim o);
 	public static native long COption_HTLCClaimZ_some(HTLCClaim o);
 	// struct LDKCOption_HTLCClaimZ COption_HTLCClaimZ_none(void);
@@ -2706,6 +2817,38 @@ public class bindings {
 	public static native long CResult_PaymentPurposeDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_PaymentPurposeDecodeErrorZ CResult_PaymentPurposeDecodeErrorZ_clone(const struct LDKCResult_PaymentPurposeDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_PaymentPurposeDecodeErrorZ_clone(long orig);
+	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_some(struct LDKNetworkUpdate o);
+	public static native long COption_NetworkUpdateZ_some(long o);
+	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_none(void);
+	public static native long COption_NetworkUpdateZ_none();
+	// void COption_NetworkUpdateZ_free(struct LDKCOption_NetworkUpdateZ _res);
+	public static native void COption_NetworkUpdateZ_free(long _res);
+	// uint64_t COption_NetworkUpdateZ_clone_ptr(LDKCOption_NetworkUpdateZ *NONNULL_PTR arg);
+	public static native long COption_NetworkUpdateZ_clone_ptr(long arg);
+	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_clone(const struct LDKCOption_NetworkUpdateZ *NONNULL_PTR orig);
+	public static native long COption_NetworkUpdateZ_clone(long orig);
+	// struct LDKCOption_PathFailureZ COption_PathFailureZ_some(struct LDKPathFailure o);
+	public static native long COption_PathFailureZ_some(long o);
+	// struct LDKCOption_PathFailureZ COption_PathFailureZ_none(void);
+	public static native long COption_PathFailureZ_none();
+	// void COption_PathFailureZ_free(struct LDKCOption_PathFailureZ _res);
+	public static native void COption_PathFailureZ_free(long _res);
+	// uint64_t COption_PathFailureZ_clone_ptr(LDKCOption_PathFailureZ *NONNULL_PTR arg);
+	public static native long COption_PathFailureZ_clone_ptr(long arg);
+	// struct LDKCOption_PathFailureZ COption_PathFailureZ_clone(const struct LDKCOption_PathFailureZ *NONNULL_PTR orig);
+	public static native long COption_PathFailureZ_clone(long orig);
+	// struct LDKCResult_COption_PathFailureZDecodeErrorZ CResult_COption_PathFailureZDecodeErrorZ_ok(struct LDKCOption_PathFailureZ o);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_ok(long o);
+	// struct LDKCResult_COption_PathFailureZDecodeErrorZ CResult_COption_PathFailureZDecodeErrorZ_err(struct LDKDecodeError e);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_err(long e);
+	// bool CResult_COption_PathFailureZDecodeErrorZ_is_ok(const struct LDKCResult_COption_PathFailureZDecodeErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_COption_PathFailureZDecodeErrorZ_is_ok(long o);
+	// void CResult_COption_PathFailureZDecodeErrorZ_free(struct LDKCResult_COption_PathFailureZDecodeErrorZ _res);
+	public static native void CResult_COption_PathFailureZDecodeErrorZ_free(long _res);
+	// uint64_t CResult_COption_PathFailureZDecodeErrorZ_clone_ptr(LDKCResult_COption_PathFailureZDecodeErrorZ *NONNULL_PTR arg);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_COption_PathFailureZDecodeErrorZ CResult_COption_PathFailureZDecodeErrorZ_clone(const struct LDKCResult_COption_PathFailureZDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_COption_PathFailureZDecodeErrorZ_clone(long orig);
 	// struct LDKCOption_ClosureReasonZ COption_ClosureReasonZ_some(struct LDKClosureReason o);
 	public static native long COption_ClosureReasonZ_some(long o);
 	// struct LDKCOption_ClosureReasonZ COption_ClosureReasonZ_none(void);
@@ -2760,16 +2903,6 @@ public class bindings {
 	public static native long COption_u128Z_clone_ptr(long arg);
 	// struct LDKCOption_u128Z COption_u128Z_clone(const struct LDKCOption_u128Z *NONNULL_PTR orig);
 	public static native long COption_u128Z_clone(long orig);
-	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_some(struct LDKNetworkUpdate o);
-	public static native long COption_NetworkUpdateZ_some(long o);
-	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_none(void);
-	public static native long COption_NetworkUpdateZ_none();
-	// void COption_NetworkUpdateZ_free(struct LDKCOption_NetworkUpdateZ _res);
-	public static native void COption_NetworkUpdateZ_free(long _res);
-	// uint64_t COption_NetworkUpdateZ_clone_ptr(LDKCOption_NetworkUpdateZ *NONNULL_PTR arg);
-	public static native long COption_NetworkUpdateZ_clone_ptr(long arg);
-	// struct LDKCOption_NetworkUpdateZ COption_NetworkUpdateZ_clone(const struct LDKCOption_NetworkUpdateZ *NONNULL_PTR orig);
-	public static native long COption_NetworkUpdateZ_clone(long orig);
 	// void CVec_SpendableOutputDescriptorZ_free(struct LDKCVec_SpendableOutputDescriptorZ _res);
 	public static native void CVec_SpendableOutputDescriptorZ_free(long[] _res);
 	// struct LDKCOption_EventZ COption_EventZ_some(struct LDKEvent o);
@@ -2796,18 +2929,6 @@ public class bindings {
 	public static native long CResult_COption_EventZDecodeErrorZ_clone(long orig);
 	// void CVec_MessageSendEventZ_free(struct LDKCVec_MessageSendEventZ _res);
 	public static native void CVec_MessageSendEventZ_free(long[] _res);
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_ok(struct LDKTxOut o);
-	public static native long CResult_TxOutAccessErrorZ_ok(long o);
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_err(enum LDKAccessError e);
-	public static native long CResult_TxOutAccessErrorZ_err(AccessError e);
-	// bool CResult_TxOutAccessErrorZ_is_ok(const struct LDKCResult_TxOutAccessErrorZ *NONNULL_PTR o);
-	public static native boolean CResult_TxOutAccessErrorZ_is_ok(long o);
-	// void CResult_TxOutAccessErrorZ_free(struct LDKCResult_TxOutAccessErrorZ _res);
-	public static native void CResult_TxOutAccessErrorZ_free(long _res);
-	// uint64_t CResult_TxOutAccessErrorZ_clone_ptr(LDKCResult_TxOutAccessErrorZ *NONNULL_PTR arg);
-	public static native long CResult_TxOutAccessErrorZ_clone_ptr(long arg);
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_clone(const struct LDKCResult_TxOutAccessErrorZ *NONNULL_PTR orig);
-	public static native long CResult_TxOutAccessErrorZ_clone(long orig);
 	// uint64_t C2Tuple_usizeTransactionZ_clone_ptr(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR arg);
 	public static native long C2Tuple_usizeTransactionZ_clone_ptr(long arg);
 	// struct LDKC2Tuple_usizeTransactionZ C2Tuple_usizeTransactionZ_clone(const struct LDKC2Tuple_usizeTransactionZ *NONNULL_PTR orig);
@@ -2870,6 +2991,32 @@ public class bindings {
 	public static native long COption_C2Tuple_u64u64ZZ_clone_ptr(long arg);
 	// struct LDKCOption_C2Tuple_u64u64ZZ COption_C2Tuple_u64u64ZZ_clone(const struct LDKCOption_C2Tuple_u64u64ZZ *NONNULL_PTR orig);
 	public static native long COption_C2Tuple_u64u64ZZ_clone(long orig);
+	// uint64_t C2Tuple_Z_clone_ptr(LDKC2Tuple_Z *NONNULL_PTR arg);
+	public static native long C2Tuple_Z_clone_ptr(long arg);
+	// struct LDKC2Tuple_Z C2Tuple_Z_clone(const struct LDKC2Tuple_Z *NONNULL_PTR orig);
+	public static native long C2Tuple_Z_clone(long orig);
+	// struct LDKC2Tuple_Z C2Tuple_Z_new(struct LDKEightU16s a, struct LDKEightU16s b);
+	public static native long C2Tuple_Z_new(short[] a, short[] b);
+	// void C2Tuple_Z_free(struct LDKC2Tuple_Z _res);
+	public static native void C2Tuple_Z_free(long _res);
+	// uint64_t C2Tuple__u168_u168Z_clone_ptr(LDKC2Tuple__u168_u168Z *NONNULL_PTR arg);
+	public static native long C2Tuple__u168_u168Z_clone_ptr(long arg);
+	// struct LDKC2Tuple__u168_u168Z C2Tuple__u168_u168Z_clone(const struct LDKC2Tuple__u168_u168Z *NONNULL_PTR orig);
+	public static native long C2Tuple__u168_u168Z_clone(long orig);
+	// struct LDKC2Tuple__u168_u168Z C2Tuple__u168_u168Z_new(struct LDKEightU16s a, struct LDKEightU16s b);
+	public static native long C2Tuple__u168_u168Z_new(short[] a, short[] b);
+	// void C2Tuple__u168_u168Z_free(struct LDKC2Tuple__u168_u168Z _res);
+	public static native void C2Tuple__u168_u168Z_free(long _res);
+	// struct LDKCOption_C2Tuple_EightU16sEightU16sZZ COption_C2Tuple_EightU16sEightU16sZZ_some(struct LDKC2Tuple__u168_u168Z o);
+	public static native long COption_C2Tuple_EightU16sEightU16sZZ_some(long o);
+	// struct LDKCOption_C2Tuple_EightU16sEightU16sZZ COption_C2Tuple_EightU16sEightU16sZZ_none(void);
+	public static native long COption_C2Tuple_EightU16sEightU16sZZ_none();
+	// void COption_C2Tuple_EightU16sEightU16sZZ_free(struct LDKCOption_C2Tuple_EightU16sEightU16sZZ _res);
+	public static native void COption_C2Tuple_EightU16sEightU16sZZ_free(long _res);
+	// uint64_t COption_C2Tuple_EightU16sEightU16sZZ_clone_ptr(LDKCOption_C2Tuple_EightU16sEightU16sZZ *NONNULL_PTR arg);
+	public static native long COption_C2Tuple_EightU16sEightU16sZZ_clone_ptr(long arg);
+	// struct LDKCOption_C2Tuple_EightU16sEightU16sZZ COption_C2Tuple_EightU16sEightU16sZZ_clone(const struct LDKCOption_C2Tuple_EightU16sEightU16sZZ *NONNULL_PTR orig);
+	public static native long COption_C2Tuple_EightU16sEightU16sZZ_clone(long orig);
 	// void CVec_NodeIdZ_free(struct LDKCVec_NodeIdZ _res);
 	public static native void CVec_NodeIdZ_free(long[] _res);
 	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ CResult_ProbabilisticScorerDecodeErrorZ_ok(struct LDKProbabilisticScorer o);
@@ -2928,6 +3075,18 @@ public class bindings {
 	public static native long CResult_InvoiceFeaturesDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ CResult_InvoiceFeaturesDecodeErrorZ_clone(const struct LDKCResult_InvoiceFeaturesDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_InvoiceFeaturesDecodeErrorZ_clone(long orig);
+	// struct LDKCResult_BlindedHopFeaturesDecodeErrorZ CResult_BlindedHopFeaturesDecodeErrorZ_ok(struct LDKBlindedHopFeatures o);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_ok(long o);
+	// struct LDKCResult_BlindedHopFeaturesDecodeErrorZ CResult_BlindedHopFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_err(long e);
+	// bool CResult_BlindedHopFeaturesDecodeErrorZ_is_ok(const struct LDKCResult_BlindedHopFeaturesDecodeErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_BlindedHopFeaturesDecodeErrorZ_is_ok(long o);
+	// void CResult_BlindedHopFeaturesDecodeErrorZ_free(struct LDKCResult_BlindedHopFeaturesDecodeErrorZ _res);
+	public static native void CResult_BlindedHopFeaturesDecodeErrorZ_free(long _res);
+	// uint64_t CResult_BlindedHopFeaturesDecodeErrorZ_clone_ptr(LDKCResult_BlindedHopFeaturesDecodeErrorZ *NONNULL_PTR arg);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_BlindedHopFeaturesDecodeErrorZ CResult_BlindedHopFeaturesDecodeErrorZ_clone(const struct LDKCResult_BlindedHopFeaturesDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_BlindedHopFeaturesDecodeErrorZ_clone(long orig);
 	// struct LDKCResult_ChannelTypeFeaturesDecodeErrorZ CResult_ChannelTypeFeaturesDecodeErrorZ_ok(struct LDKChannelTypeFeatures o);
 	public static native long CResult_ChannelTypeFeaturesDecodeErrorZ_ok(long o);
 	// struct LDKCResult_ChannelTypeFeaturesDecodeErrorZ CResult_ChannelTypeFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
@@ -2940,30 +3099,6 @@ public class bindings {
 	public static native long CResult_ChannelTypeFeaturesDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_ChannelTypeFeaturesDecodeErrorZ CResult_ChannelTypeFeaturesDecodeErrorZ_clone(const struct LDKCResult_ChannelTypeFeaturesDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_ChannelTypeFeaturesDecodeErrorZ_clone(long orig);
-	// struct LDKCResult_OfferFeaturesDecodeErrorZ CResult_OfferFeaturesDecodeErrorZ_ok(struct LDKOfferFeatures o);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_ok(long o);
-	// struct LDKCResult_OfferFeaturesDecodeErrorZ CResult_OfferFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_err(long e);
-	// bool CResult_OfferFeaturesDecodeErrorZ_is_ok(const struct LDKCResult_OfferFeaturesDecodeErrorZ *NONNULL_PTR o);
-	public static native boolean CResult_OfferFeaturesDecodeErrorZ_is_ok(long o);
-	// void CResult_OfferFeaturesDecodeErrorZ_free(struct LDKCResult_OfferFeaturesDecodeErrorZ _res);
-	public static native void CResult_OfferFeaturesDecodeErrorZ_free(long _res);
-	// uint64_t CResult_OfferFeaturesDecodeErrorZ_clone_ptr(LDKCResult_OfferFeaturesDecodeErrorZ *NONNULL_PTR arg);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_clone_ptr(long arg);
-	// struct LDKCResult_OfferFeaturesDecodeErrorZ CResult_OfferFeaturesDecodeErrorZ_clone(const struct LDKCResult_OfferFeaturesDecodeErrorZ *NONNULL_PTR orig);
-	public static native long CResult_OfferFeaturesDecodeErrorZ_clone(long orig);
-	// struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ CResult_InvoiceRequestFeaturesDecodeErrorZ_ok(struct LDKInvoiceRequestFeatures o);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_ok(long o);
-	// struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ CResult_InvoiceRequestFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_err(long e);
-	// bool CResult_InvoiceRequestFeaturesDecodeErrorZ_is_ok(const struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ *NONNULL_PTR o);
-	public static native boolean CResult_InvoiceRequestFeaturesDecodeErrorZ_is_ok(long o);
-	// void CResult_InvoiceRequestFeaturesDecodeErrorZ_free(struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ _res);
-	public static native void CResult_InvoiceRequestFeaturesDecodeErrorZ_free(long _res);
-	// uint64_t CResult_InvoiceRequestFeaturesDecodeErrorZ_clone_ptr(LDKCResult_InvoiceRequestFeaturesDecodeErrorZ *NONNULL_PTR arg);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_clone_ptr(long arg);
-	// struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ CResult_InvoiceRequestFeaturesDecodeErrorZ_clone(const struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ *NONNULL_PTR orig);
-	public static native long CResult_InvoiceRequestFeaturesDecodeErrorZ_clone(long orig);
 	// struct LDKCResult_NodeIdDecodeErrorZ CResult_NodeIdDecodeErrorZ_ok(struct LDKNodeId o);
 	public static native long CResult_NodeIdDecodeErrorZ_ok(long o);
 	// struct LDKCResult_NodeIdDecodeErrorZ CResult_NodeIdDecodeErrorZ_err(struct LDKDecodeError e);
@@ -2988,12 +3123,12 @@ public class bindings {
 	public static native long CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_COption_NetworkUpdateZDecodeErrorZ CResult_COption_NetworkUpdateZDecodeErrorZ_clone(const struct LDKCResult_COption_NetworkUpdateZDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_COption_NetworkUpdateZDecodeErrorZ_clone(long orig);
-	// struct LDKCOption_AccessZ COption_AccessZ_some(struct LDKAccess o);
-	public static native long COption_AccessZ_some(long o);
-	// struct LDKCOption_AccessZ COption_AccessZ_none(void);
-	public static native long COption_AccessZ_none();
-	// void COption_AccessZ_free(struct LDKCOption_AccessZ _res);
-	public static native void COption_AccessZ_free(long _res);
+	// struct LDKCOption_UtxoLookupZ COption_UtxoLookupZ_some(struct LDKUtxoLookup o);
+	public static native long COption_UtxoLookupZ_some(long o);
+	// struct LDKCOption_UtxoLookupZ COption_UtxoLookupZ_none(void);
+	public static native long COption_UtxoLookupZ_none();
+	// void COption_UtxoLookupZ_free(struct LDKCOption_UtxoLookupZ _res);
+	public static native void COption_UtxoLookupZ_free(long _res);
 	// struct LDKCResult_boolLightningErrorZ CResult_boolLightningErrorZ_ok(bool o);
 	public static native long CResult_boolLightningErrorZ_ok(boolean o);
 	// struct LDKCResult_boolLightningErrorZ CResult_boolLightningErrorZ_err(struct LDKLightningError e);
@@ -3198,38 +3333,6 @@ public class bindings {
 	public static native long CResult_SignatureNoneZ_clone_ptr(long arg);
 	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_clone(const struct LDKCResult_SignatureNoneZ *NONNULL_PTR orig);
 	public static native long CResult_SignatureNoneZ_clone(long orig);
-	// uint64_t C2Tuple_SignatureSignatureZ_clone_ptr(LDKC2Tuple_SignatureSignatureZ *NONNULL_PTR arg);
-	public static native long C2Tuple_SignatureSignatureZ_clone_ptr(long arg);
-	// struct LDKC2Tuple_SignatureSignatureZ C2Tuple_SignatureSignatureZ_clone(const struct LDKC2Tuple_SignatureSignatureZ *NONNULL_PTR orig);
-	public static native long C2Tuple_SignatureSignatureZ_clone(long orig);
-	// struct LDKC2Tuple_SignatureSignatureZ C2Tuple_SignatureSignatureZ_new(struct LDKSignature a, struct LDKSignature b);
-	public static native long C2Tuple_SignatureSignatureZ_new(byte[] a, byte[] b);
-	// void C2Tuple_SignatureSignatureZ_free(struct LDKC2Tuple_SignatureSignatureZ _res);
-	public static native void C2Tuple_SignatureSignatureZ_free(long _res);
-	// struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ CResult_C2Tuple_SignatureSignatureZNoneZ_ok(struct LDKC2Tuple_SignatureSignatureZ o);
-	public static native long CResult_C2Tuple_SignatureSignatureZNoneZ_ok(long o);
-	// struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ CResult_C2Tuple_SignatureSignatureZNoneZ_err(void);
-	public static native long CResult_C2Tuple_SignatureSignatureZNoneZ_err();
-	// bool CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok(const struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ *NONNULL_PTR o);
-	public static native boolean CResult_C2Tuple_SignatureSignatureZNoneZ_is_ok(long o);
-	// void CResult_C2Tuple_SignatureSignatureZNoneZ_free(struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ _res);
-	public static native void CResult_C2Tuple_SignatureSignatureZNoneZ_free(long _res);
-	// uint64_t CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(LDKCResult_C2Tuple_SignatureSignatureZNoneZ *NONNULL_PTR arg);
-	public static native long CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(long arg);
-	// struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ CResult_C2Tuple_SignatureSignatureZNoneZ_clone(const struct LDKCResult_C2Tuple_SignatureSignatureZNoneZ *NONNULL_PTR orig);
-	public static native long CResult_C2Tuple_SignatureSignatureZNoneZ_clone(long orig);
-	// struct LDKCResult_SecretKeyNoneZ CResult_SecretKeyNoneZ_ok(struct LDKSecretKey o);
-	public static native long CResult_SecretKeyNoneZ_ok(byte[] o);
-	// struct LDKCResult_SecretKeyNoneZ CResult_SecretKeyNoneZ_err(void);
-	public static native long CResult_SecretKeyNoneZ_err();
-	// bool CResult_SecretKeyNoneZ_is_ok(const struct LDKCResult_SecretKeyNoneZ *NONNULL_PTR o);
-	public static native boolean CResult_SecretKeyNoneZ_is_ok(long o);
-	// void CResult_SecretKeyNoneZ_free(struct LDKCResult_SecretKeyNoneZ _res);
-	public static native void CResult_SecretKeyNoneZ_free(long _res);
-	// uint64_t CResult_SecretKeyNoneZ_clone_ptr(LDKCResult_SecretKeyNoneZ *NONNULL_PTR arg);
-	public static native long CResult_SecretKeyNoneZ_clone_ptr(long arg);
-	// struct LDKCResult_SecretKeyNoneZ CResult_SecretKeyNoneZ_clone(const struct LDKCResult_SecretKeyNoneZ *NONNULL_PTR orig);
-	public static native long CResult_SecretKeyNoneZ_clone(long orig);
 	// struct LDKCResult_PublicKeyNoneZ CResult_PublicKeyNoneZ_ok(struct LDKPublicKey o);
 	public static native long CResult_PublicKeyNoneZ_ok(byte[] o);
 	// struct LDKCResult_PublicKeyNoneZ CResult_PublicKeyNoneZ_err(void);
@@ -3260,18 +3363,6 @@ public class bindings {
 	public static native long CResult_SharedSecretNoneZ_clone_ptr(long arg);
 	// struct LDKCResult_SharedSecretNoneZ CResult_SharedSecretNoneZ_clone(const struct LDKCResult_SharedSecretNoneZ *NONNULL_PTR orig);
 	public static native long CResult_SharedSecretNoneZ_clone(long orig);
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_ok(struct LDKSign o);
-	public static native long CResult_SignDecodeErrorZ_ok(long o);
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_err(struct LDKDecodeError e);
-	public static native long CResult_SignDecodeErrorZ_err(long e);
-	// bool CResult_SignDecodeErrorZ_is_ok(const struct LDKCResult_SignDecodeErrorZ *NONNULL_PTR o);
-	public static native boolean CResult_SignDecodeErrorZ_is_ok(long o);
-	// void CResult_SignDecodeErrorZ_free(struct LDKCResult_SignDecodeErrorZ _res);
-	public static native void CResult_SignDecodeErrorZ_free(long _res);
-	// uint64_t CResult_SignDecodeErrorZ_clone_ptr(LDKCResult_SignDecodeErrorZ *NONNULL_PTR arg);
-	public static native long CResult_SignDecodeErrorZ_clone_ptr(long arg);
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_clone(const struct LDKCResult_SignDecodeErrorZ *NONNULL_PTR orig);
-	public static native long CResult_SignDecodeErrorZ_clone(long orig);
 	// void CVec_U5Z_free(struct LDKCVec_U5Z _res);
 	public static native void CVec_U5Z_free(byte[] _res);
 	// struct LDKCResult_RecoverableSignatureNoneZ CResult_RecoverableSignatureNoneZ_ok(struct LDKRecoverableSignature o);
@@ -3286,6 +3377,18 @@ public class bindings {
 	public static native long CResult_RecoverableSignatureNoneZ_clone_ptr(long arg);
 	// struct LDKCResult_RecoverableSignatureNoneZ CResult_RecoverableSignatureNoneZ_clone(const struct LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR orig);
 	public static native long CResult_RecoverableSignatureNoneZ_clone(long orig);
+	// struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(struct LDKWriteableEcdsaChannelSigner o);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(long o);
+	// struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ CResult_WriteableEcdsaChannelSignerDecodeErrorZ_err(struct LDKDecodeError e);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_err(long e);
+	// bool CResult_WriteableEcdsaChannelSignerDecodeErrorZ_is_ok(const struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_WriteableEcdsaChannelSignerDecodeErrorZ_is_ok(long o);
+	// void CResult_WriteableEcdsaChannelSignerDecodeErrorZ_free(struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ _res);
+	public static native void CResult_WriteableEcdsaChannelSignerDecodeErrorZ_free(long _res);
+	// uint64_t CResult_WriteableEcdsaChannelSignerDecodeErrorZ_clone_ptr(LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ *NONNULL_PTR arg);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ CResult_WriteableEcdsaChannelSignerDecodeErrorZ_clone(const struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_clone(long orig);
 	// void CVec_u8Z_free(struct LDKCVec_u8Z _res);
 	public static native void CVec_u8Z_free(byte[] _res);
 	// void CVec_CVec_u8ZZ_free(struct LDKCVec_CVec_u8ZZ _res);
@@ -3360,22 +3463,6 @@ public class bindings {
 	public static native long COption_u16Z_clone_ptr(long arg);
 	// struct LDKCOption_u16Z COption_u16Z_clone(const struct LDKCOption_u16Z *NONNULL_PTR orig);
 	public static native long COption_u16Z_clone(long orig);
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_ok(void);
-	public static native long CResult_NoneAPIErrorZ_ok();
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_err(struct LDKAPIError e);
-	public static native long CResult_NoneAPIErrorZ_err(long e);
-	// bool CResult_NoneAPIErrorZ_is_ok(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR o);
-	public static native boolean CResult_NoneAPIErrorZ_is_ok(long o);
-	// void CResult_NoneAPIErrorZ_free(struct LDKCResult_NoneAPIErrorZ _res);
-	public static native void CResult_NoneAPIErrorZ_free(long _res);
-	// uint64_t CResult_NoneAPIErrorZ_clone_ptr(LDKCResult_NoneAPIErrorZ *NONNULL_PTR arg);
-	public static native long CResult_NoneAPIErrorZ_clone_ptr(long arg);
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR orig);
-	public static native long CResult_NoneAPIErrorZ_clone(long orig);
-	// void CVec_CResult_NoneAPIErrorZZ_free(struct LDKCVec_CResult_NoneAPIErrorZZ _res);
-	public static native void CVec_CResult_NoneAPIErrorZZ_free(long[] _res);
-	// void CVec_APIErrorZ_free(struct LDKCVec_APIErrorZ _res);
-	public static native void CVec_APIErrorZ_free(long[] _res);
 	// struct LDKCResult__u832APIErrorZ CResult__u832APIErrorZ_ok(struct LDKThirtyTwoBytes o);
 	public static native long CResult__u832APIErrorZ_ok(byte[] o);
 	// struct LDKCResult__u832APIErrorZ CResult__u832APIErrorZ_err(struct LDKAPIError e);
@@ -3388,6 +3475,8 @@ public class bindings {
 	public static native long CResult__u832APIErrorZ_clone_ptr(long arg);
 	// struct LDKCResult__u832APIErrorZ CResult__u832APIErrorZ_clone(const struct LDKCResult__u832APIErrorZ *NONNULL_PTR orig);
 	public static native long CResult__u832APIErrorZ_clone(long orig);
+	// void CVec_RecentPaymentDetailsZ_free(struct LDKCVec_RecentPaymentDetailsZ _res);
+	public static native void CVec_RecentPaymentDetailsZ_free(long[] _res);
 	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_ok(void);
 	public static native long CResult_NonePaymentSendFailureZ_ok();
 	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_err(struct LDKPaymentSendFailure e);
@@ -3400,6 +3489,18 @@ public class bindings {
 	public static native long CResult_NonePaymentSendFailureZ_clone_ptr(long arg);
 	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_clone(const struct LDKCResult_NonePaymentSendFailureZ *NONNULL_PTR orig);
 	public static native long CResult_NonePaymentSendFailureZ_clone(long orig);
+	// struct LDKCResult_NoneRetryableSendFailureZ CResult_NoneRetryableSendFailureZ_ok(void);
+	public static native long CResult_NoneRetryableSendFailureZ_ok();
+	// struct LDKCResult_NoneRetryableSendFailureZ CResult_NoneRetryableSendFailureZ_err(enum LDKRetryableSendFailure e);
+	public static native long CResult_NoneRetryableSendFailureZ_err(RetryableSendFailure e);
+	// bool CResult_NoneRetryableSendFailureZ_is_ok(const struct LDKCResult_NoneRetryableSendFailureZ *NONNULL_PTR o);
+	public static native boolean CResult_NoneRetryableSendFailureZ_is_ok(long o);
+	// void CResult_NoneRetryableSendFailureZ_free(struct LDKCResult_NoneRetryableSendFailureZ _res);
+	public static native void CResult_NoneRetryableSendFailureZ_free(long _res);
+	// uint64_t CResult_NoneRetryableSendFailureZ_clone_ptr(LDKCResult_NoneRetryableSendFailureZ *NONNULL_PTR arg);
+	public static native long CResult_NoneRetryableSendFailureZ_clone_ptr(long arg);
+	// struct LDKCResult_NoneRetryableSendFailureZ CResult_NoneRetryableSendFailureZ_clone(const struct LDKCResult_NoneRetryableSendFailureZ *NONNULL_PTR orig);
+	public static native long CResult_NoneRetryableSendFailureZ_clone(long orig);
 	// struct LDKCResult_PaymentHashPaymentSendFailureZ CResult_PaymentHashPaymentSendFailureZ_ok(struct LDKThirtyTwoBytes o);
 	public static native long CResult_PaymentHashPaymentSendFailureZ_ok(byte[] o);
 	// struct LDKCResult_PaymentHashPaymentSendFailureZ CResult_PaymentHashPaymentSendFailureZ_err(struct LDKPaymentSendFailure e);
@@ -3412,6 +3513,18 @@ public class bindings {
 	public static native long CResult_PaymentHashPaymentSendFailureZ_clone_ptr(long arg);
 	// struct LDKCResult_PaymentHashPaymentSendFailureZ CResult_PaymentHashPaymentSendFailureZ_clone(const struct LDKCResult_PaymentHashPaymentSendFailureZ *NONNULL_PTR orig);
 	public static native long CResult_PaymentHashPaymentSendFailureZ_clone(long orig);
+	// struct LDKCResult_PaymentHashRetryableSendFailureZ CResult_PaymentHashRetryableSendFailureZ_ok(struct LDKThirtyTwoBytes o);
+	public static native long CResult_PaymentHashRetryableSendFailureZ_ok(byte[] o);
+	// struct LDKCResult_PaymentHashRetryableSendFailureZ CResult_PaymentHashRetryableSendFailureZ_err(enum LDKRetryableSendFailure e);
+	public static native long CResult_PaymentHashRetryableSendFailureZ_err(RetryableSendFailure e);
+	// bool CResult_PaymentHashRetryableSendFailureZ_is_ok(const struct LDKCResult_PaymentHashRetryableSendFailureZ *NONNULL_PTR o);
+	public static native boolean CResult_PaymentHashRetryableSendFailureZ_is_ok(long o);
+	// void CResult_PaymentHashRetryableSendFailureZ_free(struct LDKCResult_PaymentHashRetryableSendFailureZ _res);
+	public static native void CResult_PaymentHashRetryableSendFailureZ_free(long _res);
+	// uint64_t CResult_PaymentHashRetryableSendFailureZ_clone_ptr(LDKCResult_PaymentHashRetryableSendFailureZ *NONNULL_PTR arg);
+	public static native long CResult_PaymentHashRetryableSendFailureZ_clone_ptr(long arg);
+	// struct LDKCResult_PaymentHashRetryableSendFailureZ CResult_PaymentHashRetryableSendFailureZ_clone(const struct LDKCResult_PaymentHashRetryableSendFailureZ *NONNULL_PTR orig);
+	public static native long CResult_PaymentHashRetryableSendFailureZ_clone(long orig);
 	// uint64_t C2Tuple_PaymentHashPaymentIdZ_clone_ptr(LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR arg);
 	public static native long C2Tuple_PaymentHashPaymentIdZ_clone_ptr(long arg);
 	// struct LDKC2Tuple_PaymentHashPaymentIdZ C2Tuple_PaymentHashPaymentIdZ_clone(const struct LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR orig);
@@ -3576,6 +3689,28 @@ public class bindings {
 	public static native long CResult_ChannelConfigDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_clone(const struct LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_ChannelConfigDecodeErrorZ_clone(long orig);
+	// struct LDKCOption_APIErrorZ COption_APIErrorZ_some(struct LDKAPIError o);
+	public static native long COption_APIErrorZ_some(long o);
+	// struct LDKCOption_APIErrorZ COption_APIErrorZ_none(void);
+	public static native long COption_APIErrorZ_none();
+	// void COption_APIErrorZ_free(struct LDKCOption_APIErrorZ _res);
+	public static native void COption_APIErrorZ_free(long _res);
+	// uint64_t COption_APIErrorZ_clone_ptr(LDKCOption_APIErrorZ *NONNULL_PTR arg);
+	public static native long COption_APIErrorZ_clone_ptr(long arg);
+	// struct LDKCOption_APIErrorZ COption_APIErrorZ_clone(const struct LDKCOption_APIErrorZ *NONNULL_PTR orig);
+	public static native long COption_APIErrorZ_clone(long orig);
+	// struct LDKCResult_COption_APIErrorZDecodeErrorZ CResult_COption_APIErrorZDecodeErrorZ_ok(struct LDKCOption_APIErrorZ o);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_ok(long o);
+	// struct LDKCResult_COption_APIErrorZDecodeErrorZ CResult_COption_APIErrorZDecodeErrorZ_err(struct LDKDecodeError e);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_err(long e);
+	// bool CResult_COption_APIErrorZDecodeErrorZ_is_ok(const struct LDKCResult_COption_APIErrorZDecodeErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_COption_APIErrorZDecodeErrorZ_is_ok(long o);
+	// void CResult_COption_APIErrorZDecodeErrorZ_free(struct LDKCResult_COption_APIErrorZDecodeErrorZ _res);
+	public static native void CResult_COption_APIErrorZDecodeErrorZ_free(long _res);
+	// uint64_t CResult_COption_APIErrorZDecodeErrorZ_clone_ptr(LDKCResult_COption_APIErrorZDecodeErrorZ *NONNULL_PTR arg);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_COption_APIErrorZDecodeErrorZ CResult_COption_APIErrorZDecodeErrorZ_clone(const struct LDKCResult_COption_APIErrorZDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_COption_APIErrorZDecodeErrorZ_clone(long orig);
 	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_ok(struct LDKOutPoint o);
 	public static native long CResult_OutPointDecodeErrorZ_ok(long o);
 	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_err(struct LDKDecodeError e);
@@ -3812,6 +3947,16 @@ public class bindings {
 	public static native long COption_NetAddressZ_clone_ptr(long arg);
 	// struct LDKCOption_NetAddressZ COption_NetAddressZ_clone(const struct LDKCOption_NetAddressZ *NONNULL_PTR orig);
 	public static native long COption_NetAddressZ_clone(long orig);
+	// uint64_t C2Tuple_PublicKeyCOption_NetAddressZZ_clone_ptr(LDKC2Tuple_PublicKeyCOption_NetAddressZZ *NONNULL_PTR arg);
+	public static native long C2Tuple_PublicKeyCOption_NetAddressZZ_clone_ptr(long arg);
+	// struct LDKC2Tuple_PublicKeyCOption_NetAddressZZ C2Tuple_PublicKeyCOption_NetAddressZZ_clone(const struct LDKC2Tuple_PublicKeyCOption_NetAddressZZ *NONNULL_PTR orig);
+	public static native long C2Tuple_PublicKeyCOption_NetAddressZZ_clone(long orig);
+	// struct LDKC2Tuple_PublicKeyCOption_NetAddressZZ C2Tuple_PublicKeyCOption_NetAddressZZ_new(struct LDKPublicKey a, struct LDKCOption_NetAddressZ b);
+	public static native long C2Tuple_PublicKeyCOption_NetAddressZZ_new(byte[] a, long b);
+	// void C2Tuple_PublicKeyCOption_NetAddressZZ_free(struct LDKC2Tuple_PublicKeyCOption_NetAddressZZ _res);
+	public static native void C2Tuple_PublicKeyCOption_NetAddressZZ_free(long _res);
+	// void CVec_C2Tuple_PublicKeyCOption_NetAddressZZZ_free(struct LDKCVec_C2Tuple_PublicKeyCOption_NetAddressZZZ _res);
+	public static native void CVec_C2Tuple_PublicKeyCOption_NetAddressZZZ_free(long[] _res);
 	// struct LDKCResult_CVec_u8ZPeerHandleErrorZ CResult_CVec_u8ZPeerHandleErrorZ_ok(struct LDKCVec_u8Z o);
 	public static native long CResult_CVec_u8ZPeerHandleErrorZ_ok(byte[] o);
 	// struct LDKCResult_CVec_u8ZPeerHandleErrorZ CResult_CVec_u8ZPeerHandleErrorZ_err(struct LDKPeerHandleError e);
@@ -3848,6 +3993,18 @@ public class bindings {
 	public static native long CResult_boolPeerHandleErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_boolPeerHandleErrorZ CResult_boolPeerHandleErrorZ_clone(const struct LDKCResult_boolPeerHandleErrorZ *NONNULL_PTR orig);
 	public static native long CResult_boolPeerHandleErrorZ_clone(long orig);
+	// struct LDKCResult_TxOutUtxoLookupErrorZ CResult_TxOutUtxoLookupErrorZ_ok(struct LDKTxOut o);
+	public static native long CResult_TxOutUtxoLookupErrorZ_ok(long o);
+	// struct LDKCResult_TxOutUtxoLookupErrorZ CResult_TxOutUtxoLookupErrorZ_err(enum LDKUtxoLookupError e);
+	public static native long CResult_TxOutUtxoLookupErrorZ_err(UtxoLookupError e);
+	// bool CResult_TxOutUtxoLookupErrorZ_is_ok(const struct LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_TxOutUtxoLookupErrorZ_is_ok(long o);
+	// void CResult_TxOutUtxoLookupErrorZ_free(struct LDKCResult_TxOutUtxoLookupErrorZ _res);
+	public static native void CResult_TxOutUtxoLookupErrorZ_free(long _res);
+	// uint64_t CResult_TxOutUtxoLookupErrorZ_clone_ptr(LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR arg);
+	public static native long CResult_TxOutUtxoLookupErrorZ_clone_ptr(long arg);
+	// struct LDKCResult_TxOutUtxoLookupErrorZ CResult_TxOutUtxoLookupErrorZ_clone(const struct LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR orig);
+	public static native long CResult_TxOutUtxoLookupErrorZ_clone(long orig);
 	// struct LDKCResult_NoneSendErrorZ CResult_NoneSendErrorZ_ok(void);
 	public static native long CResult_NoneSendErrorZ_ok();
 	// struct LDKCResult_NoneSendErrorZ CResult_NoneSendErrorZ_err(struct LDKSendError e);
@@ -4462,10 +4619,28 @@ public class bindings {
 	public static native long PaymentPurpose_invoice_payment(byte[] payment_preimage, byte[] payment_secret);
 	// struct LDKPaymentPurpose PaymentPurpose_spontaneous_payment(struct LDKThirtyTwoBytes a);
 	public static native long PaymentPurpose_spontaneous_payment(byte[] a);
+	// bool PaymentPurpose_eq(const struct LDKPaymentPurpose *NONNULL_PTR a, const struct LDKPaymentPurpose *NONNULL_PTR b);
+	public static native boolean PaymentPurpose_eq(long a, long b);
 	// struct LDKCVec_u8Z PaymentPurpose_write(const struct LDKPaymentPurpose *NONNULL_PTR obj);
 	public static native byte[] PaymentPurpose_write(long obj);
 	// struct LDKCResult_PaymentPurposeDecodeErrorZ PaymentPurpose_read(struct LDKu8slice ser);
 	public static native long PaymentPurpose_read(byte[] ser);
+	// void PathFailure_free(struct LDKPathFailure this_ptr);
+	public static native void PathFailure_free(long this_ptr);
+	// uint64_t PathFailure_clone_ptr(LDKPathFailure *NONNULL_PTR arg);
+	public static native long PathFailure_clone_ptr(long arg);
+	// struct LDKPathFailure PathFailure_clone(const struct LDKPathFailure *NONNULL_PTR orig);
+	public static native long PathFailure_clone(long orig);
+	// struct LDKPathFailure PathFailure_initial_send(struct LDKAPIError err);
+	public static native long PathFailure_initial_send(long err);
+	// struct LDKPathFailure PathFailure_on_path(struct LDKCOption_NetworkUpdateZ network_update);
+	public static native long PathFailure_on_path(long network_update);
+	// bool PathFailure_eq(const struct LDKPathFailure *NONNULL_PTR a, const struct LDKPathFailure *NONNULL_PTR b);
+	public static native boolean PathFailure_eq(long a, long b);
+	// struct LDKCVec_u8Z PathFailure_write(const struct LDKPathFailure *NONNULL_PTR obj);
+	public static native byte[] PathFailure_write(long obj);
+	// struct LDKCResult_COption_PathFailureZDecodeErrorZ PathFailure_read(struct LDKu8slice ser);
+	public static native long PathFailure_read(byte[] ser);
 	// void ClosureReason_free(struct LDKClosureReason this_ptr);
 	public static native void ClosureReason_free(long this_ptr);
 	// uint64_t ClosureReason_clone_ptr(LDKClosureReason *NONNULL_PTR arg);
@@ -4532,8 +4707,8 @@ public class bindings {
 	public static native long Event_payment_failed(byte[] payment_id, byte[] payment_hash);
 	// struct LDKEvent Event_payment_path_successful(struct LDKThirtyTwoBytes payment_id, struct LDKThirtyTwoBytes payment_hash, struct LDKCVec_RouteHopZ path);
 	public static native long Event_payment_path_successful(byte[] payment_id, byte[] payment_hash, long[] path);
-	// struct LDKEvent Event_payment_path_failed(struct LDKThirtyTwoBytes payment_id, struct LDKThirtyTwoBytes payment_hash, bool payment_failed_permanently, struct LDKCOption_NetworkUpdateZ network_update, bool all_paths_failed, struct LDKCVec_RouteHopZ path, struct LDKCOption_u64Z short_channel_id, struct LDKRouteParameters retry);
-	public static native long Event_payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, long network_update, boolean all_paths_failed, long[] path, long short_channel_id, long retry);
+	// struct LDKEvent Event_payment_path_failed(struct LDKThirtyTwoBytes payment_id, struct LDKThirtyTwoBytes payment_hash, bool payment_failed_permanently, struct LDKPathFailure failure, struct LDKCVec_RouteHopZ path, struct LDKCOption_u64Z short_channel_id, struct LDKRouteParameters retry);
+	public static native long Event_payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, long failure, long[] path, long short_channel_id, long retry);
 	// struct LDKEvent Event_probe_successful(struct LDKThirtyTwoBytes payment_id, struct LDKThirtyTwoBytes payment_hash, struct LDKCVec_RouteHopZ path);
 	public static native long Event_probe_successful(byte[] payment_id, byte[] payment_hash, long[] path);
 	// struct LDKEvent Event_probe_failed(struct LDKThirtyTwoBytes payment_id, struct LDKThirtyTwoBytes payment_hash, struct LDKCVec_RouteHopZ path, struct LDKCOption_u64Z short_channel_id);
@@ -4556,6 +4731,8 @@ public class bindings {
 	public static native long Event_open_channel_request(byte[] temporary_channel_id, byte[] counterparty_node_id, long funding_satoshis, long push_msat, long channel_type);
 	// struct LDKEvent Event_htlchandling_failed(struct LDKThirtyTwoBytes prev_channel_id, struct LDKHTLCDestination failed_next_destination);
 	public static native long Event_htlchandling_failed(byte[] prev_channel_id, long failed_next_destination);
+	// bool Event_eq(const struct LDKEvent *NONNULL_PTR a, const struct LDKEvent *NONNULL_PTR b);
+	public static native boolean Event_eq(long a, long b);
 	// struct LDKCVec_u8Z Event_write(const struct LDKEvent *NONNULL_PTR obj);
 	public static native byte[] Event_write(long obj);
 	// struct LDKCResult_COption_EventZDecodeErrorZ Event_read(struct LDKu8slice ser);
@@ -4594,6 +4771,8 @@ public class bindings {
 	public static native long MessageSendEvent_broadcast_channel_announcement(long msg, long update_msg);
 	// struct LDKMessageSendEvent MessageSendEvent_broadcast_channel_update(struct LDKChannelUpdate msg);
 	public static native long MessageSendEvent_broadcast_channel_update(long msg);
+	// struct LDKMessageSendEvent MessageSendEvent_broadcast_node_announcement(struct LDKNodeAnnouncement msg);
+	public static native long MessageSendEvent_broadcast_node_announcement(long msg);
 	// struct LDKMessageSendEvent MessageSendEvent_send_channel_update(struct LDKPublicKey node_id, struct LDKChannelUpdate msg);
 	public static native long MessageSendEvent_send_channel_update(byte[] node_id, long msg);
 	// struct LDKMessageSendEvent MessageSendEvent_handle_error(struct LDKPublicKey node_id, struct LDKErrorAction action);
@@ -4634,6 +4813,10 @@ public class bindings {
 	public static native long APIError_incompatible_shutdown_script(long script);
 	// bool APIError_eq(const struct LDKAPIError *NONNULL_PTR a, const struct LDKAPIError *NONNULL_PTR b);
 	public static native boolean APIError_eq(long a, long b);
+	// struct LDKCVec_u8Z APIError_write(const struct LDKAPIError *NONNULL_PTR obj);
+	public static native byte[] APIError_write(long obj);
+	// struct LDKCResult_COption_APIErrorZDecodeErrorZ APIError_read(struct LDKu8slice ser);
+	public static native long APIError_read(byte[] ser);
 	// void BigSize_free(struct LDKBigSize this_obj);
 	public static native void BigSize_free(long this_obj);
 	// uint64_t BigSize_get_a(const struct LDKBigSize *NONNULL_PTR this_ptr);
@@ -4898,22 +5081,14 @@ public class bindings {
 	public static native long BestBlock_clone(long orig);
 	// bool BestBlock_eq(const struct LDKBestBlock *NONNULL_PTR a, const struct LDKBestBlock *NONNULL_PTR b);
 	public static native boolean BestBlock_eq(long a, long b);
-	// MUST_USE_RES struct LDKBestBlock BestBlock_from_genesis(enum LDKNetwork network);
-	public static native long BestBlock_from_genesis(Network network);
+	// MUST_USE_RES struct LDKBestBlock BestBlock_from_network(enum LDKNetwork network);
+	public static native long BestBlock_from_network(Network network);
 	// MUST_USE_RES struct LDKBestBlock BestBlock_new(struct LDKThirtyTwoBytes block_hash, uint32_t height);
 	public static native long BestBlock_new(byte[] block_hash, int height);
 	// MUST_USE_RES struct LDKThirtyTwoBytes BestBlock_block_hash(const struct LDKBestBlock *NONNULL_PTR this_arg);
 	public static native byte[] BestBlock_block_hash(long this_arg);
 	// MUST_USE_RES uint32_t BestBlock_height(const struct LDKBestBlock *NONNULL_PTR this_arg);
 	public static native int BestBlock_height(long this_arg);
-	// enum LDKAccessError AccessError_clone(const enum LDKAccessError *NONNULL_PTR orig);
-	public static native AccessError AccessError_clone(long orig);
-	// enum LDKAccessError AccessError_unknown_chain(void);
-	public static native AccessError AccessError_unknown_chain();
-	// enum LDKAccessError AccessError_unknown_tx(void);
-	public static native AccessError AccessError_unknown_tx();
-	// void Access_free(struct LDKAccess this_ptr);
-	public static native void Access_free(long this_ptr);
 	// void Listen_free(struct LDKListen this_ptr);
 	public static native void Listen_free(long this_ptr);
 	// void Confirm_free(struct LDKConfirm this_ptr);
@@ -5116,8 +5291,8 @@ public class bindings {
 	public static native long ChannelMonitor_current_best_block(long this_arg);
 	// MUST_USE_RES struct LDKCVec_BalanceZ ChannelMonitor_get_claimable_balances(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
 	public static native long[] ChannelMonitor_get_claimable_balances(long this_arg);
-	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(struct LDKu8slice ser, const struct LDKKeysInterface *NONNULL_PTR arg);
-	public static native long C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, long arg);
+	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(struct LDKu8slice ser, const struct LDKEntropySource *NONNULL_PTR arg_a, const struct LDKSignerProvider *NONNULL_PTR arg_b);
+	public static native long C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, long arg_a, long arg_b);
 	// void OutPoint_free(struct LDKOutPoint this_obj);
 	public static native void OutPoint_free(long this_obj);
 	// const uint8_t (*OutPoint_get_txid(const struct LDKOutPoint *NONNULL_PTR this_ptr))[32];
@@ -5234,22 +5409,28 @@ public class bindings {
 	public static native byte[] SpendableOutputDescriptor_write(long obj);
 	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ SpendableOutputDescriptor_read(struct LDKu8slice ser);
 	public static native long SpendableOutputDescriptor_read(byte[] ser);
-	// void BaseSign_free(struct LDKBaseSign this_ptr);
-	public static native void BaseSign_free(long this_ptr);
-	// uint64_t Sign_clone_ptr(LDKSign *NONNULL_PTR arg);
-	public static native long Sign_clone_ptr(long arg);
-	// struct LDKSign Sign_clone(const struct LDKSign *NONNULL_PTR orig);
-	public static native long Sign_clone(long orig);
-	// void Sign_free(struct LDKSign this_ptr);
-	public static native void Sign_free(long this_ptr);
+	// void ChannelSigner_free(struct LDKChannelSigner this_ptr);
+	public static native void ChannelSigner_free(long this_ptr);
+	// void EcdsaChannelSigner_free(struct LDKEcdsaChannelSigner this_ptr);
+	public static native void EcdsaChannelSigner_free(long this_ptr);
+	// uint64_t WriteableEcdsaChannelSigner_clone_ptr(LDKWriteableEcdsaChannelSigner *NONNULL_PTR arg);
+	public static native long WriteableEcdsaChannelSigner_clone_ptr(long arg);
+	// struct LDKWriteableEcdsaChannelSigner WriteableEcdsaChannelSigner_clone(const struct LDKWriteableEcdsaChannelSigner *NONNULL_PTR orig);
+	public static native long WriteableEcdsaChannelSigner_clone(long orig);
+	// void WriteableEcdsaChannelSigner_free(struct LDKWriteableEcdsaChannelSigner this_ptr);
+	public static native void WriteableEcdsaChannelSigner_free(long this_ptr);
 	// enum LDKRecipient Recipient_clone(const enum LDKRecipient *NONNULL_PTR orig);
 	public static native Recipient Recipient_clone(long orig);
 	// enum LDKRecipient Recipient_node(void);
 	public static native Recipient Recipient_node();
 	// enum LDKRecipient Recipient_phantom_node(void);
 	public static native Recipient Recipient_phantom_node();
-	// void KeysInterface_free(struct LDKKeysInterface this_ptr);
-	public static native void KeysInterface_free(long this_ptr);
+	// void EntropySource_free(struct LDKEntropySource this_ptr);
+	public static native void EntropySource_free(long this_ptr);
+	// void NodeSigner_free(struct LDKNodeSigner this_ptr);
+	public static native void NodeSigner_free(long this_ptr);
+	// void SignerProvider_free(struct LDKSignerProvider this_ptr);
+	public static native void SignerProvider_free(long this_ptr);
 	// void InMemorySigner_free(struct LDKInMemorySigner this_obj);
 	public static native void InMemorySigner_free(long this_obj);
 	// const uint8_t (*InMemorySigner_get_funding_key(const struct LDKInMemorySigner *NONNULL_PTR this_ptr))[32];
@@ -5280,8 +5461,8 @@ public class bindings {
 	public static native long InMemorySigner_clone_ptr(long arg);
 	// struct LDKInMemorySigner InMemorySigner_clone(const struct LDKInMemorySigner *NONNULL_PTR orig);
 	public static native long InMemorySigner_clone(long orig);
-	// MUST_USE_RES struct LDKInMemorySigner InMemorySigner_new(struct LDKSecretKey node_secret, struct LDKSecretKey funding_key, struct LDKSecretKey revocation_base_key, struct LDKSecretKey payment_key, struct LDKSecretKey delayed_payment_base_key, struct LDKSecretKey htlc_base_key, struct LDKThirtyTwoBytes commitment_seed, uint64_t channel_value_satoshis, struct LDKThirtyTwoBytes channel_keys_id);
-	public static native long InMemorySigner_new(byte[] node_secret, byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id);
+	// MUST_USE_RES struct LDKInMemorySigner InMemorySigner_new(struct LDKSecretKey funding_key, struct LDKSecretKey revocation_base_key, struct LDKSecretKey payment_key, struct LDKSecretKey delayed_payment_base_key, struct LDKSecretKey htlc_base_key, struct LDKThirtyTwoBytes commitment_seed, uint64_t channel_value_satoshis, struct LDKThirtyTwoBytes channel_keys_id);
+	public static native long InMemorySigner_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id);
 	// MUST_USE_RES struct LDKChannelPublicKeys InMemorySigner_counterparty_pubkeys(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
 	public static native long InMemorySigner_counterparty_pubkeys(long this_arg);
 	// MUST_USE_RES uint16_t InMemorySigner_counterparty_selected_contest_delay(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
@@ -5300,34 +5481,58 @@ public class bindings {
 	public static native long InMemorySigner_sign_counterparty_payment_input(long this_arg, byte[] spend_tx, long input_idx, long descriptor);
 	// MUST_USE_RES struct LDKCResult_CVec_CVec_u8ZZNoneZ InMemorySigner_sign_dynamic_p2wsh_input(const struct LDKInMemorySigner *NONNULL_PTR this_arg, struct LDKTransaction spend_tx, uintptr_t input_idx, const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR descriptor);
 	public static native long InMemorySigner_sign_dynamic_p2wsh_input(long this_arg, byte[] spend_tx, long input_idx, long descriptor);
-	// struct LDKBaseSign InMemorySigner_as_BaseSign(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
-	public static native long InMemorySigner_as_BaseSign(long this_arg);
-	// struct LDKSign InMemorySigner_as_Sign(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
-	public static native long InMemorySigner_as_Sign(long this_arg);
+	// struct LDKChannelSigner InMemorySigner_as_ChannelSigner(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
+	public static native long InMemorySigner_as_ChannelSigner(long this_arg);
+	// struct LDKEcdsaChannelSigner InMemorySigner_as_EcdsaChannelSigner(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
+	public static native long InMemorySigner_as_EcdsaChannelSigner(long this_arg);
+	// struct LDKWriteableEcdsaChannelSigner InMemorySigner_as_WriteableEcdsaChannelSigner(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
+	public static native long InMemorySigner_as_WriteableEcdsaChannelSigner(long this_arg);
 	// struct LDKCVec_u8Z InMemorySigner_write(const struct LDKInMemorySigner *NONNULL_PTR obj);
 	public static native byte[] InMemorySigner_write(long obj);
-	// struct LDKCResult_InMemorySignerDecodeErrorZ InMemorySigner_read(struct LDKu8slice ser, struct LDKSecretKey arg);
-	public static native long InMemorySigner_read(byte[] ser, byte[] arg);
+	// struct LDKCResult_InMemorySignerDecodeErrorZ InMemorySigner_read(struct LDKu8slice ser);
+	public static native long InMemorySigner_read(byte[] ser);
 	// void KeysManager_free(struct LDKKeysManager this_obj);
 	public static native void KeysManager_free(long this_obj);
 	// MUST_USE_RES struct LDKKeysManager KeysManager_new(const uint8_t (*seed)[32], uint64_t starting_time_secs, uint32_t starting_time_nanos);
 	public static native long KeysManager_new(byte[] seed, long starting_time_secs, int starting_time_nanos);
+	// MUST_USE_RES struct LDKSecretKey KeysManager_get_node_secret_key(const struct LDKKeysManager *NONNULL_PTR this_arg);
+	public static native byte[] KeysManager_get_node_secret_key(long this_arg);
 	// MUST_USE_RES struct LDKInMemorySigner KeysManager_derive_channel_keys(const struct LDKKeysManager *NONNULL_PTR this_arg, uint64_t channel_value_satoshis, const uint8_t (*params)[32]);
 	public static native long KeysManager_derive_channel_keys(long this_arg, long channel_value_satoshis, byte[] params);
 	// MUST_USE_RES struct LDKCResult_TransactionNoneZ KeysManager_spend_spendable_outputs(const struct LDKKeysManager *NONNULL_PTR this_arg, struct LDKCVec_SpendableOutputDescriptorZ descriptors, struct LDKCVec_TxOutZ outputs, struct LDKCVec_u8Z change_destination_script, uint32_t feerate_sat_per_1000_weight);
 	public static native long KeysManager_spend_spendable_outputs(long this_arg, long[] descriptors, long[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight);
-	// struct LDKKeysInterface KeysManager_as_KeysInterface(const struct LDKKeysManager *NONNULL_PTR this_arg);
-	public static native long KeysManager_as_KeysInterface(long this_arg);
+	// struct LDKEntropySource KeysManager_as_EntropySource(const struct LDKKeysManager *NONNULL_PTR this_arg);
+	public static native long KeysManager_as_EntropySource(long this_arg);
+	// struct LDKNodeSigner KeysManager_as_NodeSigner(const struct LDKKeysManager *NONNULL_PTR this_arg);
+	public static native long KeysManager_as_NodeSigner(long this_arg);
+	// struct LDKSignerProvider KeysManager_as_SignerProvider(const struct LDKKeysManager *NONNULL_PTR this_arg);
+	public static native long KeysManager_as_SignerProvider(long this_arg);
 	// void PhantomKeysManager_free(struct LDKPhantomKeysManager this_obj);
 	public static native void PhantomKeysManager_free(long this_obj);
-	// struct LDKKeysInterface PhantomKeysManager_as_KeysInterface(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
-	public static native long PhantomKeysManager_as_KeysInterface(long this_arg);
+	// struct LDKEntropySource PhantomKeysManager_as_EntropySource(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
+	public static native long PhantomKeysManager_as_EntropySource(long this_arg);
+	// struct LDKNodeSigner PhantomKeysManager_as_NodeSigner(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
+	public static native long PhantomKeysManager_as_NodeSigner(long this_arg);
+	// struct LDKSignerProvider PhantomKeysManager_as_SignerProvider(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
+	public static native long PhantomKeysManager_as_SignerProvider(long this_arg);
 	// MUST_USE_RES struct LDKPhantomKeysManager PhantomKeysManager_new(const uint8_t (*seed)[32], uint64_t starting_time_secs, uint32_t starting_time_nanos, const uint8_t (*cross_node_seed)[32]);
 	public static native long PhantomKeysManager_new(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed);
 	// MUST_USE_RES struct LDKCResult_TransactionNoneZ PhantomKeysManager_spend_spendable_outputs(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg, struct LDKCVec_SpendableOutputDescriptorZ descriptors, struct LDKCVec_TxOutZ outputs, struct LDKCVec_u8Z change_destination_script, uint32_t feerate_sat_per_1000_weight);
 	public static native long PhantomKeysManager_spend_spendable_outputs(long this_arg, long[] descriptors, long[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight);
 	// MUST_USE_RES struct LDKInMemorySigner PhantomKeysManager_derive_channel_keys(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg, uint64_t channel_value_satoshis, const uint8_t (*params)[32]);
 	public static native long PhantomKeysManager_derive_channel_keys(long this_arg, long channel_value_satoshis, byte[] params);
+	// MUST_USE_RES struct LDKSecretKey PhantomKeysManager_get_node_secret_key(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
+	public static native byte[] PhantomKeysManager_get_node_secret_key(long this_arg);
+	// MUST_USE_RES struct LDKSecretKey PhantomKeysManager_get_phantom_node_secret_key(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
+	public static native byte[] PhantomKeysManager_get_phantom_node_secret_key(long this_arg);
+	// enum LDKFailureCode FailureCode_clone(const enum LDKFailureCode *NONNULL_PTR orig);
+	public static native FailureCode FailureCode_clone(long orig);
+	// enum LDKFailureCode FailureCode_temporary_node_failure(void);
+	public static native FailureCode FailureCode_temporary_node_failure();
+	// enum LDKFailureCode FailureCode_required_node_feature_missing(void);
+	public static native FailureCode FailureCode_required_node_feature_missing();
+	// enum LDKFailureCode FailureCode_incorrect_or_unknown_payment_details(void);
+	public static native FailureCode FailureCode_incorrect_or_unknown_payment_details();
 	// void ChannelManager_free(struct LDKChannelManager this_obj);
 	public static native void ChannelManager_free(long this_obj);
 	// void ChainParameters_free(struct LDKChainParameters this_obj);
@@ -5506,22 +5711,18 @@ public class bindings {
 	public static native long ChannelDetails_get_inbound_payment_scid(long this_arg);
 	// MUST_USE_RES struct LDKCOption_u64Z ChannelDetails_get_outbound_payment_scid(const struct LDKChannelDetails *NONNULL_PTR this_arg);
 	public static native long ChannelDetails_get_outbound_payment_scid(long this_arg);
-	// void PaymentSendFailure_free(struct LDKPaymentSendFailure this_ptr);
-	public static native void PaymentSendFailure_free(long this_ptr);
-	// uint64_t PaymentSendFailure_clone_ptr(LDKPaymentSendFailure *NONNULL_PTR arg);
-	public static native long PaymentSendFailure_clone_ptr(long arg);
-	// struct LDKPaymentSendFailure PaymentSendFailure_clone(const struct LDKPaymentSendFailure *NONNULL_PTR orig);
-	public static native long PaymentSendFailure_clone(long orig);
-	// struct LDKPaymentSendFailure PaymentSendFailure_parameter_error(struct LDKAPIError a);
-	public static native long PaymentSendFailure_parameter_error(long a);
-	// struct LDKPaymentSendFailure PaymentSendFailure_path_parameter_error(struct LDKCVec_CResult_NoneAPIErrorZZ a);
-	public static native long PaymentSendFailure_path_parameter_error(long[] a);
-	// struct LDKPaymentSendFailure PaymentSendFailure_all_failed_resend_safe(struct LDKCVec_APIErrorZ a);
-	public static native long PaymentSendFailure_all_failed_resend_safe(long[] a);
-	// struct LDKPaymentSendFailure PaymentSendFailure_duplicate_payment(void);
-	public static native long PaymentSendFailure_duplicate_payment();
-	// struct LDKPaymentSendFailure PaymentSendFailure_partial_failure(struct LDKCVec_CResult_NoneAPIErrorZZ results, struct LDKRouteParameters failed_paths_retry, struct LDKThirtyTwoBytes payment_id);
-	public static native long PaymentSendFailure_partial_failure(long[] results, long failed_paths_retry, byte[] payment_id);
+	// void RecentPaymentDetails_free(struct LDKRecentPaymentDetails this_ptr);
+	public static native void RecentPaymentDetails_free(long this_ptr);
+	// uint64_t RecentPaymentDetails_clone_ptr(LDKRecentPaymentDetails *NONNULL_PTR arg);
+	public static native long RecentPaymentDetails_clone_ptr(long arg);
+	// struct LDKRecentPaymentDetails RecentPaymentDetails_clone(const struct LDKRecentPaymentDetails *NONNULL_PTR orig);
+	public static native long RecentPaymentDetails_clone(long orig);
+	// struct LDKRecentPaymentDetails RecentPaymentDetails_pending(struct LDKThirtyTwoBytes payment_hash, uint64_t total_msat);
+	public static native long RecentPaymentDetails_pending(byte[] payment_hash, long total_msat);
+	// struct LDKRecentPaymentDetails RecentPaymentDetails_fulfilled(struct LDKThirtyTwoBytes payment_hash);
+	public static native long RecentPaymentDetails_fulfilled(byte[] payment_hash);
+	// struct LDKRecentPaymentDetails RecentPaymentDetails_abandoned(struct LDKThirtyTwoBytes payment_hash);
+	public static native long RecentPaymentDetails_abandoned(byte[] payment_hash);
 	// void PhantomRouteHints_free(struct LDKPhantomRouteHints this_obj);
 	public static native void PhantomRouteHints_free(long this_obj);
 	// struct LDKCVec_ChannelDetailsZ PhantomRouteHints_get_channels(const struct LDKPhantomRouteHints *NONNULL_PTR this_ptr);
@@ -5542,8 +5743,8 @@ public class bindings {
 	public static native long PhantomRouteHints_clone_ptr(long arg);
 	// struct LDKPhantomRouteHints PhantomRouteHints_clone(const struct LDKPhantomRouteHints *NONNULL_PTR orig);
 	public static native long PhantomRouteHints_clone(long orig);
-	// MUST_USE_RES struct LDKChannelManager ChannelManager_new(struct LDKFeeEstimator fee_est, struct LDKWatch chain_monitor, struct LDKBroadcasterInterface tx_broadcaster, struct LDKLogger logger, struct LDKKeysInterface keys_manager, struct LDKUserConfig config, struct LDKChainParameters params);
-	public static native long ChannelManager_new(long fee_est, long chain_monitor, long tx_broadcaster, long logger, long keys_manager, long config, long params);
+	// MUST_USE_RES struct LDKChannelManager ChannelManager_new(struct LDKFeeEstimator fee_est, struct LDKWatch chain_monitor, struct LDKBroadcasterInterface tx_broadcaster, struct LDKRouter router, struct LDKLogger logger, struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKSignerProvider signer_provider, struct LDKUserConfig config, struct LDKChainParameters params);
+	public static native long ChannelManager_new(long fee_est, long chain_monitor, long tx_broadcaster, long router, long logger, long entropy_source, long node_signer, long signer_provider, long config, long params);
 	// MUST_USE_RES struct LDKUserConfig ChannelManager_get_current_default_configuration(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native long ChannelManager_get_current_default_configuration(long this_arg);
 	// MUST_USE_RES struct LDKCResult__u832APIErrorZ ChannelManager_create_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, struct LDKU128 user_channel_id, struct LDKUserConfig override_config);
@@ -5552,6 +5753,8 @@ public class bindings {
 	public static native long[] ChannelManager_list_channels(long this_arg);
 	// MUST_USE_RES struct LDKCVec_ChannelDetailsZ ChannelManager_list_usable_channels(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native long[] ChannelManager_list_usable_channels(long this_arg);
+	// MUST_USE_RES struct LDKCVec_RecentPaymentDetailsZ ChannelManager_list_recent_payments(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long[] ChannelManager_list_recent_payments(long this_arg);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_close_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*channel_id)[32], struct LDKPublicKey counterparty_node_id);
 	public static native long ChannelManager_close_channel(long this_arg, byte[] channel_id, byte[] counterparty_node_id);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_close_channel_with_target_feerate(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*channel_id)[32], struct LDKPublicKey counterparty_node_id, uint32_t target_feerate_sats_per_1000_weight);
@@ -5566,20 +5769,22 @@ public class bindings {
 	public static native void ChannelManager_force_close_all_channels_without_broadcasting_txn(long this_arg);
 	// MUST_USE_RES struct LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_hash, struct LDKThirtyTwoBytes payment_secret, struct LDKThirtyTwoBytes payment_id);
 	public static native long ChannelManager_send_payment(long this_arg, long route, byte[] payment_hash, byte[] payment_secret, byte[] payment_id);
-	// MUST_USE_RES struct LDKCResult_NonePaymentSendFailureZ ChannelManager_retry_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_id);
-	public static native long ChannelManager_retry_payment(long this_arg, long route, byte[] payment_id);
+	// MUST_USE_RES struct LDKCResult_NoneRetryableSendFailureZ ChannelManager_send_payment_with_retry(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKThirtyTwoBytes payment_secret, struct LDKThirtyTwoBytes payment_id, struct LDKRouteParameters route_params, struct LDKRetry retry_strategy);
+	public static native long ChannelManager_send_payment_with_retry(long this_arg, byte[] payment_hash, byte[] payment_secret, byte[] payment_id, long route_params, long retry_strategy);
 	// void ChannelManager_abandon_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_id);
 	public static native void ChannelManager_abandon_payment(long this_arg, byte[] payment_id);
 	// MUST_USE_RES struct LDKCResult_PaymentHashPaymentSendFailureZ ChannelManager_send_spontaneous_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_id);
 	public static native long ChannelManager_send_spontaneous_payment(long this_arg, long route, byte[] payment_preimage, byte[] payment_id);
+	// MUST_USE_RES struct LDKCResult_PaymentHashRetryableSendFailureZ ChannelManager_send_spontaneous_payment_with_retry(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_id, struct LDKRouteParameters route_params, struct LDKRetry retry_strategy);
+	public static native long ChannelManager_send_spontaneous_payment_with_retry(long this_arg, byte[] payment_preimage, byte[] payment_id, long route_params, long retry_strategy);
 	// MUST_USE_RES struct LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ChannelManager_send_probe(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKCVec_RouteHopZ hops);
 	public static native long ChannelManager_send_probe(long this_arg, long[] hops);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_funding_transaction_generated(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKPublicKey counterparty_node_id, struct LDKTransaction funding_transaction);
 	public static native long ChannelManager_funding_transaction_generated(long this_arg, byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] funding_transaction);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_update_channel_config(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey counterparty_node_id, struct LDKCVec_ThirtyTwoBytesZ channel_ids, const struct LDKChannelConfig *NONNULL_PTR config);
 	public static native long ChannelManager_update_channel_config(long this_arg, byte[] counterparty_node_id, byte[][] channel_ids, long config);
-	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_forward_intercepted_htlc(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes intercept_id, const uint8_t (*next_hop_channel_id)[32], struct LDKPublicKey _next_node_id, uint64_t amt_to_forward_msat);
-	public static native long ChannelManager_forward_intercepted_htlc(long this_arg, byte[] intercept_id, byte[] next_hop_channel_id, byte[] _next_node_id, long amt_to_forward_msat);
+	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_forward_intercepted_htlc(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes intercept_id, const uint8_t (*next_hop_channel_id)[32], struct LDKPublicKey next_node_id, uint64_t amt_to_forward_msat);
+	public static native long ChannelManager_forward_intercepted_htlc(long this_arg, byte[] intercept_id, byte[] next_hop_channel_id, byte[] next_node_id, long amt_to_forward_msat);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_fail_intercepted_htlc(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes intercept_id);
 	public static native long ChannelManager_fail_intercepted_htlc(long this_arg, byte[] intercept_id);
 	// void ChannelManager_process_pending_htlc_forwards(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -5588,6 +5793,8 @@ public class bindings {
 	public static native void ChannelManager_timer_tick_occurred(long this_arg);
 	// void ChannelManager_fail_htlc_backwards(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*payment_hash)[32]);
 	public static native void ChannelManager_fail_htlc_backwards(long this_arg, byte[] payment_hash);
+	// void ChannelManager_fail_htlc_backwards_with_reason(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*payment_hash)[32], enum LDKFailureCode failure_code);
+	public static native void ChannelManager_fail_htlc_backwards_with_reason(long this_arg, byte[] payment_hash, FailureCode failure_code);
 	// void ChannelManager_claim_funds(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_preimage);
 	public static native void ChannelManager_claim_funds(long this_arg, byte[] payment_preimage);
 	// MUST_USE_RES struct LDKPublicKey ChannelManager_get_our_node_id(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -5596,12 +5803,12 @@ public class bindings {
 	public static native long ChannelManager_accept_inbound_channel(long this_arg, byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] user_channel_id);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKPublicKey counterparty_node_id, struct LDKU128 user_channel_id);
 	public static native long ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(long this_arg, byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] user_channel_id);
-	// MUST_USE_RES struct LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ ChannelManager_create_inbound_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs);
-	public static native long ChannelManager_create_inbound_payment(long this_arg, long min_value_msat, int invoice_expiry_delta_secs);
+	// MUST_USE_RES struct LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ ChannelManager_create_inbound_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long ChannelManager_create_inbound_payment(long this_arg, long min_value_msat, int invoice_expiry_delta_secs, long min_final_cltv_expiry_delta);
 	// MUST_USE_RES struct LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ ChannelManager_create_inbound_payment_legacy(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs);
 	public static native long ChannelManager_create_inbound_payment_legacy(long this_arg, long min_value_msat, int invoice_expiry_delta_secs);
-	// MUST_USE_RES struct LDKCResult_PaymentSecretNoneZ ChannelManager_create_inbound_payment_for_hash(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs);
-	public static native long ChannelManager_create_inbound_payment_for_hash(long this_arg, byte[] payment_hash, long min_value_msat, int invoice_expiry_delta_secs);
+	// MUST_USE_RES struct LDKCResult_PaymentSecretNoneZ ChannelManager_create_inbound_payment_for_hash(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry);
+	public static native long ChannelManager_create_inbound_payment_for_hash(long this_arg, byte[] payment_hash, long min_value_msat, int invoice_expiry_delta_secs, long min_final_cltv_expiry);
 	// MUST_USE_RES struct LDKCResult_PaymentSecretAPIErrorZ ChannelManager_create_inbound_payment_for_hash_legacy(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs);
 	public static native long ChannelManager_create_inbound_payment_for_hash_legacy(long this_arg, byte[] payment_hash, long min_value_msat, int invoice_expiry_delta_secs);
 	// MUST_USE_RES struct LDKCResult_PaymentPreimageAPIErrorZ ChannelManager_get_payment_preimage(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKThirtyTwoBytes payment_secret);
@@ -5630,14 +5837,18 @@ public class bindings {
 	public static native long ChannelManager_get_persistable_update_future(long this_arg);
 	// MUST_USE_RES struct LDKBestBlock ChannelManager_current_best_block(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native long ChannelManager_current_best_block(long this_arg);
+	// MUST_USE_RES struct LDKNodeFeatures ChannelManager_node_features(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long ChannelManager_node_features(long this_arg);
+	// MUST_USE_RES struct LDKChannelFeatures ChannelManager_channel_features(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long ChannelManager_channel_features(long this_arg);
+	// MUST_USE_RES struct LDKChannelTypeFeatures ChannelManager_channel_type_features(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long ChannelManager_channel_type_features(long this_arg);
+	// MUST_USE_RES struct LDKInitFeatures ChannelManager_init_features(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long ChannelManager_init_features(long this_arg);
 	// struct LDKChannelMessageHandler ChannelManager_as_ChannelMessageHandler(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native long ChannelManager_as_ChannelMessageHandler(long this_arg);
-	// struct LDKNodeFeatures provided_node_features(void);
-	public static native long provided_node_features();
-	// struct LDKChannelFeatures provided_channel_features(void);
-	public static native long provided_channel_features();
-	// struct LDKInitFeatures provided_init_features(void);
-	public static native long provided_init_features();
+	// struct LDKInitFeatures provided_init_features(const struct LDKUserConfig *NONNULL_PTR _config);
+	public static native long provided_init_features(long _config);
 	// struct LDKCVec_u8Z CounterpartyForwardingInfo_write(const struct LDKCounterpartyForwardingInfo *NONNULL_PTR obj);
 	public static native byte[] CounterpartyForwardingInfo_write(long obj);
 	// struct LDKCResult_CounterpartyForwardingInfoDecodeErrorZ CounterpartyForwardingInfo_read(struct LDKu8slice ser);
@@ -5658,10 +5869,18 @@ public class bindings {
 	public static native byte[] ChannelManager_write(long obj);
 	// void ChannelManagerReadArgs_free(struct LDKChannelManagerReadArgs this_obj);
 	public static native void ChannelManagerReadArgs_free(long this_obj);
-	// const struct LDKKeysInterface *ChannelManagerReadArgs_get_keys_manager(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
-	public static native long ChannelManagerReadArgs_get_keys_manager(long this_ptr);
-	// void ChannelManagerReadArgs_set_keys_manager(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKKeysInterface val);
-	public static native void ChannelManagerReadArgs_set_keys_manager(long this_ptr, long val);
+	// const struct LDKEntropySource *ChannelManagerReadArgs_get_entropy_source(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
+	public static native long ChannelManagerReadArgs_get_entropy_source(long this_ptr);
+	// void ChannelManagerReadArgs_set_entropy_source(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKEntropySource val);
+	public static native void ChannelManagerReadArgs_set_entropy_source(long this_ptr, long val);
+	// const struct LDKNodeSigner *ChannelManagerReadArgs_get_node_signer(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
+	public static native long ChannelManagerReadArgs_get_node_signer(long this_ptr);
+	// void ChannelManagerReadArgs_set_node_signer(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKNodeSigner val);
+	public static native void ChannelManagerReadArgs_set_node_signer(long this_ptr, long val);
+	// const struct LDKSignerProvider *ChannelManagerReadArgs_get_signer_provider(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
+	public static native long ChannelManagerReadArgs_get_signer_provider(long this_ptr);
+	// void ChannelManagerReadArgs_set_signer_provider(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKSignerProvider val);
+	public static native void ChannelManagerReadArgs_set_signer_provider(long this_ptr, long val);
 	// const struct LDKFeeEstimator *ChannelManagerReadArgs_get_fee_estimator(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
 	public static native long ChannelManagerReadArgs_get_fee_estimator(long this_ptr);
 	// void ChannelManagerReadArgs_set_fee_estimator(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKFeeEstimator val);
@@ -5674,6 +5893,10 @@ public class bindings {
 	public static native long ChannelManagerReadArgs_get_tx_broadcaster(long this_ptr);
 	// void ChannelManagerReadArgs_set_tx_broadcaster(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKBroadcasterInterface val);
 	public static native void ChannelManagerReadArgs_set_tx_broadcaster(long this_ptr, long val);
+	// const struct LDKRouter *ChannelManagerReadArgs_get_router(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
+	public static native long ChannelManagerReadArgs_get_router(long this_ptr);
+	// void ChannelManagerReadArgs_set_router(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKRouter val);
+	public static native void ChannelManagerReadArgs_set_router(long this_ptr, long val);
 	// const struct LDKLogger *ChannelManagerReadArgs_get_logger(const struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr);
 	public static native long ChannelManagerReadArgs_get_logger(long this_ptr);
 	// void ChannelManagerReadArgs_set_logger(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKLogger val);
@@ -5682,18 +5905,18 @@ public class bindings {
 	public static native long ChannelManagerReadArgs_get_default_config(long this_ptr);
 	// void ChannelManagerReadArgs_set_default_config(struct LDKChannelManagerReadArgs *NONNULL_PTR this_ptr, struct LDKUserConfig val);
 	public static native void ChannelManagerReadArgs_set_default_config(long this_ptr, long val);
-	// MUST_USE_RES struct LDKChannelManagerReadArgs ChannelManagerReadArgs_new(struct LDKKeysInterface keys_manager, struct LDKFeeEstimator fee_estimator, struct LDKWatch chain_monitor, struct LDKBroadcasterInterface tx_broadcaster, struct LDKLogger logger, struct LDKUserConfig default_config, struct LDKCVec_ChannelMonitorZ channel_monitors);
-	public static native long ChannelManagerReadArgs_new(long keys_manager, long fee_estimator, long chain_monitor, long tx_broadcaster, long logger, long default_config, long[] channel_monitors);
+	// MUST_USE_RES struct LDKChannelManagerReadArgs ChannelManagerReadArgs_new(struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKSignerProvider signer_provider, struct LDKFeeEstimator fee_estimator, struct LDKWatch chain_monitor, struct LDKBroadcasterInterface tx_broadcaster, struct LDKRouter router, struct LDKLogger logger, struct LDKUserConfig default_config, struct LDKCVec_ChannelMonitorZ channel_monitors);
+	public static native long ChannelManagerReadArgs_new(long entropy_source, long node_signer, long signer_provider, long fee_estimator, long chain_monitor, long tx_broadcaster, long router, long logger, long default_config, long[] channel_monitors);
 	// struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(struct LDKu8slice ser, struct LDKChannelManagerReadArgs arg);
 	public static native long C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, long arg);
 	// void ExpandedKey_free(struct LDKExpandedKey this_obj);
 	public static native void ExpandedKey_free(long this_obj);
 	// MUST_USE_RES struct LDKExpandedKey ExpandedKey_new(const uint8_t (*key_material)[32]);
 	public static native long ExpandedKey_new(byte[] key_material);
-	// struct LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ create(const struct LDKExpandedKey *NONNULL_PTR keys, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, const struct LDKKeysInterface *NONNULL_PTR keys_manager, uint64_t current_time);
-	public static native long create(long keys, long min_value_msat, int invoice_expiry_delta_secs, long keys_manager, long current_time);
-	// struct LDKCResult_PaymentSecretNoneZ create_from_hash(const struct LDKExpandedKey *NONNULL_PTR keys, struct LDKCOption_u64Z min_value_msat, struct LDKThirtyTwoBytes payment_hash, uint32_t invoice_expiry_delta_secs, uint64_t current_time);
-	public static native long create_from_hash(long keys, long min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time);
+	// struct LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ create(const struct LDKExpandedKey *NONNULL_PTR keys, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, const struct LDKEntropySource *NONNULL_PTR entropy_source, uint64_t current_time, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create(long keys, long min_value_msat, int invoice_expiry_delta_secs, long entropy_source, long current_time, long min_final_cltv_expiry_delta);
+	// struct LDKCResult_PaymentSecretNoneZ create_from_hash(const struct LDKExpandedKey *NONNULL_PTR keys, struct LDKCOption_u64Z min_value_msat, struct LDKThirtyTwoBytes payment_hash, uint32_t invoice_expiry_delta_secs, uint64_t current_time, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_from_hash(long keys, long min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time, long min_final_cltv_expiry_delta);
 	// void DecodeError_free(struct LDKDecodeError this_ptr);
 	public static native void DecodeError_free(long this_ptr);
 	// uint64_t DecodeError_clone_ptr(LDKDecodeError *NONNULL_PTR arg);
@@ -6328,6 +6551,20 @@ public class bindings {
 	public static native byte[] NetAddress_write(long obj);
 	// struct LDKCResult_NetAddressDecodeErrorZ NetAddress_read(struct LDKu8slice ser);
 	public static native long NetAddress_read(byte[] ser);
+	// void UnsignedGossipMessage_free(struct LDKUnsignedGossipMessage this_ptr);
+	public static native void UnsignedGossipMessage_free(long this_ptr);
+	// uint64_t UnsignedGossipMessage_clone_ptr(LDKUnsignedGossipMessage *NONNULL_PTR arg);
+	public static native long UnsignedGossipMessage_clone_ptr(long arg);
+	// struct LDKUnsignedGossipMessage UnsignedGossipMessage_clone(const struct LDKUnsignedGossipMessage *NONNULL_PTR orig);
+	public static native long UnsignedGossipMessage_clone(long orig);
+	// struct LDKUnsignedGossipMessage UnsignedGossipMessage_channel_announcement(struct LDKUnsignedChannelAnnouncement a);
+	public static native long UnsignedGossipMessage_channel_announcement(long a);
+	// struct LDKUnsignedGossipMessage UnsignedGossipMessage_channel_update(struct LDKUnsignedChannelUpdate a);
+	public static native long UnsignedGossipMessage_channel_update(long a);
+	// struct LDKUnsignedGossipMessage UnsignedGossipMessage_node_announcement(struct LDKUnsignedNodeAnnouncement a);
+	public static native long UnsignedGossipMessage_node_announcement(long a);
+	// struct LDKCVec_u8Z UnsignedGossipMessage_write(const struct LDKUnsignedGossipMessage *NONNULL_PTR obj);
+	public static native byte[] UnsignedGossipMessage_write(long obj);
 	// void UnsignedNodeAnnouncement_free(struct LDKUnsignedNodeAnnouncement this_obj);
 	public static native void UnsignedNodeAnnouncement_free(long this_obj);
 	// struct LDKNodeFeatures UnsignedNodeAnnouncement_get_features(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr);
@@ -6338,10 +6575,10 @@ public class bindings {
 	public static native int UnsignedNodeAnnouncement_get_timestamp(long this_ptr);
 	// void UnsignedNodeAnnouncement_set_timestamp(struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr, uint32_t val);
 	public static native void UnsignedNodeAnnouncement_set_timestamp(long this_ptr, int val);
-	// struct LDKPublicKey UnsignedNodeAnnouncement_get_node_id(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr);
-	public static native byte[] UnsignedNodeAnnouncement_get_node_id(long this_ptr);
-	// void UnsignedNodeAnnouncement_set_node_id(struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	public static native void UnsignedNodeAnnouncement_set_node_id(long this_ptr, byte[] val);
+	// struct LDKNodeId UnsignedNodeAnnouncement_get_node_id(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr);
+	public static native long UnsignedNodeAnnouncement_get_node_id(long this_ptr);
+	// void UnsignedNodeAnnouncement_set_node_id(struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr, struct LDKNodeId val);
+	public static native void UnsignedNodeAnnouncement_set_node_id(long this_ptr, long val);
 	// const uint8_t (*UnsignedNodeAnnouncement_get_rgb(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr))[3];
 	public static native byte[] UnsignedNodeAnnouncement_get_rgb(long this_ptr);
 	// void UnsignedNodeAnnouncement_set_rgb(struct LDKUnsignedNodeAnnouncement *NONNULL_PTR this_ptr, struct LDKThreeBytes val);
@@ -6392,22 +6629,22 @@ public class bindings {
 	public static native long UnsignedChannelAnnouncement_get_short_channel_id(long this_ptr);
 	// void UnsignedChannelAnnouncement_set_short_channel_id(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, uint64_t val);
 	public static native void UnsignedChannelAnnouncement_set_short_channel_id(long this_ptr, long val);
-	// struct LDKPublicKey UnsignedChannelAnnouncement_get_node_id_1(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
-	public static native byte[] UnsignedChannelAnnouncement_get_node_id_1(long this_ptr);
-	// void UnsignedChannelAnnouncement_set_node_id_1(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	public static native void UnsignedChannelAnnouncement_set_node_id_1(long this_ptr, byte[] val);
-	// struct LDKPublicKey UnsignedChannelAnnouncement_get_node_id_2(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
-	public static native byte[] UnsignedChannelAnnouncement_get_node_id_2(long this_ptr);
-	// void UnsignedChannelAnnouncement_set_node_id_2(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	public static native void UnsignedChannelAnnouncement_set_node_id_2(long this_ptr, byte[] val);
-	// struct LDKPublicKey UnsignedChannelAnnouncement_get_bitcoin_key_1(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
-	public static native byte[] UnsignedChannelAnnouncement_get_bitcoin_key_1(long this_ptr);
-	// void UnsignedChannelAnnouncement_set_bitcoin_key_1(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	public static native void UnsignedChannelAnnouncement_set_bitcoin_key_1(long this_ptr, byte[] val);
-	// struct LDKPublicKey UnsignedChannelAnnouncement_get_bitcoin_key_2(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
-	public static native byte[] UnsignedChannelAnnouncement_get_bitcoin_key_2(long this_ptr);
-	// void UnsignedChannelAnnouncement_set_bitcoin_key_2(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	public static native void UnsignedChannelAnnouncement_set_bitcoin_key_2(long this_ptr, byte[] val);
+	// struct LDKNodeId UnsignedChannelAnnouncement_get_node_id_1(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
+	public static native long UnsignedChannelAnnouncement_get_node_id_1(long this_ptr);
+	// void UnsignedChannelAnnouncement_set_node_id_1(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKNodeId val);
+	public static native void UnsignedChannelAnnouncement_set_node_id_1(long this_ptr, long val);
+	// struct LDKNodeId UnsignedChannelAnnouncement_get_node_id_2(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
+	public static native long UnsignedChannelAnnouncement_get_node_id_2(long this_ptr);
+	// void UnsignedChannelAnnouncement_set_node_id_2(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKNodeId val);
+	public static native void UnsignedChannelAnnouncement_set_node_id_2(long this_ptr, long val);
+	// struct LDKNodeId UnsignedChannelAnnouncement_get_bitcoin_key_1(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
+	public static native long UnsignedChannelAnnouncement_get_bitcoin_key_1(long this_ptr);
+	// void UnsignedChannelAnnouncement_set_bitcoin_key_1(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKNodeId val);
+	public static native void UnsignedChannelAnnouncement_set_bitcoin_key_1(long this_ptr, long val);
+	// struct LDKNodeId UnsignedChannelAnnouncement_get_bitcoin_key_2(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr);
+	public static native long UnsignedChannelAnnouncement_get_bitcoin_key_2(long this_ptr);
+	// void UnsignedChannelAnnouncement_set_bitcoin_key_2(struct LDKUnsignedChannelAnnouncement *NONNULL_PTR this_ptr, struct LDKNodeId val);
+	public static native void UnsignedChannelAnnouncement_set_bitcoin_key_2(long this_ptr, long val);
 	// uint64_t UnsignedChannelAnnouncement_clone_ptr(LDKUnsignedChannelAnnouncement *NONNULL_PTR arg);
 	public static native long UnsignedChannelAnnouncement_clone_ptr(long arg);
 	// struct LDKUnsignedChannelAnnouncement UnsignedChannelAnnouncement_clone(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR orig);
@@ -6886,22 +7123,18 @@ public class bindings {
 	public static native void SocketDescriptor_free(long this_ptr);
 	// void PeerHandleError_free(struct LDKPeerHandleError this_obj);
 	public static native void PeerHandleError_free(long this_obj);
-	// bool PeerHandleError_get_no_connection_possible(const struct LDKPeerHandleError *NONNULL_PTR this_ptr);
-	public static native boolean PeerHandleError_get_no_connection_possible(long this_ptr);
-	// void PeerHandleError_set_no_connection_possible(struct LDKPeerHandleError *NONNULL_PTR this_ptr, bool val);
-	public static native void PeerHandleError_set_no_connection_possible(long this_ptr, boolean val);
-	// MUST_USE_RES struct LDKPeerHandleError PeerHandleError_new(bool no_connection_possible_arg);
-	public static native long PeerHandleError_new(boolean no_connection_possible_arg);
+	// MUST_USE_RES struct LDKPeerHandleError PeerHandleError_new(void);
+	public static native long PeerHandleError_new();
 	// uint64_t PeerHandleError_clone_ptr(LDKPeerHandleError *NONNULL_PTR arg);
 	public static native long PeerHandleError_clone_ptr(long arg);
 	// struct LDKPeerHandleError PeerHandleError_clone(const struct LDKPeerHandleError *NONNULL_PTR orig);
 	public static native long PeerHandleError_clone(long orig);
 	// void PeerManager_free(struct LDKPeerManager this_obj);
 	public static native void PeerManager_free(long this_obj);
-	// MUST_USE_RES struct LDKPeerManager PeerManager_new(struct LDKMessageHandler message_handler, struct LDKSecretKey our_node_secret, uint32_t current_time, const uint8_t (*ephemeral_random_data)[32], struct LDKLogger logger, struct LDKCustomMessageHandler custom_message_handler);
-	public static native long PeerManager_new(long message_handler, byte[] our_node_secret, int current_time, byte[] ephemeral_random_data, long logger, long custom_message_handler);
-	// MUST_USE_RES struct LDKCVec_PublicKeyZ PeerManager_get_peer_node_ids(const struct LDKPeerManager *NONNULL_PTR this_arg);
-	public static native byte[][] PeerManager_get_peer_node_ids(long this_arg);
+	// MUST_USE_RES struct LDKPeerManager PeerManager_new(struct LDKMessageHandler message_handler, uint32_t current_time, const uint8_t (*ephemeral_random_data)[32], struct LDKLogger logger, struct LDKCustomMessageHandler custom_message_handler, struct LDKNodeSigner node_signer);
+	public static native long PeerManager_new(long message_handler, int current_time, byte[] ephemeral_random_data, long logger, long custom_message_handler, long node_signer);
+	// MUST_USE_RES struct LDKCVec_C2Tuple_PublicKeyCOption_NetAddressZZZ PeerManager_get_peer_node_ids(const struct LDKPeerManager *NONNULL_PTR this_arg);
+	public static native long[] PeerManager_get_peer_node_ids(long this_arg);
 	// MUST_USE_RES struct LDKCResult_CVec_u8ZPeerHandleErrorZ PeerManager_new_outbound_connection(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, struct LDKSocketDescriptor descriptor, struct LDKCOption_NetAddressZ remote_network_address);
 	public static native long PeerManager_new_outbound_connection(long this_arg, byte[] their_node_id, long descriptor, long remote_network_address);
 	// MUST_USE_RES struct LDKCResult_NonePeerHandleErrorZ PeerManager_new_inbound_connection(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKSocketDescriptor descriptor, struct LDKCOption_NetAddressZ remote_network_address);
@@ -6914,8 +7147,8 @@ public class bindings {
 	public static native void PeerManager_process_events(long this_arg);
 	// void PeerManager_socket_disconnected(const struct LDKPeerManager *NONNULL_PTR this_arg, const struct LDKSocketDescriptor *NONNULL_PTR descriptor);
 	public static native void PeerManager_socket_disconnected(long this_arg, long descriptor);
-	// void PeerManager_disconnect_by_node_id(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKPublicKey node_id, bool no_connection_possible);
-	public static native void PeerManager_disconnect_by_node_id(long this_arg, byte[] node_id, boolean no_connection_possible);
+	// void PeerManager_disconnect_by_node_id(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKPublicKey node_id);
+	public static native void PeerManager_disconnect_by_node_id(long this_arg, byte[] node_id);
 	// void PeerManager_disconnect_all_peers(const struct LDKPeerManager *NONNULL_PTR this_arg);
 	public static native void PeerManager_disconnect_all_peers(long this_arg);
 	// void PeerManager_timer_tick_occurred(const struct LDKPeerManager *NONNULL_PTR this_arg);
@@ -7298,6 +7531,10 @@ public class bindings {
 	public static native boolean OfferFeatures_eq(long a, long b);
 	// bool InvoiceRequestFeatures_eq(const struct LDKInvoiceRequestFeatures *NONNULL_PTR a, const struct LDKInvoiceRequestFeatures *NONNULL_PTR b);
 	public static native boolean InvoiceRequestFeatures_eq(long a, long b);
+	// bool Bolt12InvoiceFeatures_eq(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR a, const struct LDKBolt12InvoiceFeatures *NONNULL_PTR b);
+	public static native boolean Bolt12InvoiceFeatures_eq(long a, long b);
+	// bool BlindedHopFeatures_eq(const struct LDKBlindedHopFeatures *NONNULL_PTR a, const struct LDKBlindedHopFeatures *NONNULL_PTR b);
+	public static native boolean BlindedHopFeatures_eq(long a, long b);
 	// bool ChannelTypeFeatures_eq(const struct LDKChannelTypeFeatures *NONNULL_PTR a, const struct LDKChannelTypeFeatures *NONNULL_PTR b);
 	public static native boolean ChannelTypeFeatures_eq(long a, long b);
 	// uint64_t InitFeatures_clone_ptr(LDKInitFeatures *NONNULL_PTR arg);
@@ -7324,6 +7561,14 @@ public class bindings {
 	public static native long InvoiceRequestFeatures_clone_ptr(long arg);
 	// struct LDKInvoiceRequestFeatures InvoiceRequestFeatures_clone(const struct LDKInvoiceRequestFeatures *NONNULL_PTR orig);
 	public static native long InvoiceRequestFeatures_clone(long orig);
+	// uint64_t Bolt12InvoiceFeatures_clone_ptr(LDKBolt12InvoiceFeatures *NONNULL_PTR arg);
+	public static native long Bolt12InvoiceFeatures_clone_ptr(long arg);
+	// struct LDKBolt12InvoiceFeatures Bolt12InvoiceFeatures_clone(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR orig);
+	public static native long Bolt12InvoiceFeatures_clone(long orig);
+	// uint64_t BlindedHopFeatures_clone_ptr(LDKBlindedHopFeatures *NONNULL_PTR arg);
+	public static native long BlindedHopFeatures_clone_ptr(long arg);
+	// struct LDKBlindedHopFeatures BlindedHopFeatures_clone(const struct LDKBlindedHopFeatures *NONNULL_PTR orig);
+	public static native long BlindedHopFeatures_clone(long orig);
 	// uint64_t ChannelTypeFeatures_clone_ptr(LDKChannelTypeFeatures *NONNULL_PTR arg);
 	public static native long ChannelTypeFeatures_clone_ptr(long arg);
 	// struct LDKChannelTypeFeatures ChannelTypeFeatures_clone(const struct LDKChannelTypeFeatures *NONNULL_PTR orig);
@@ -7340,6 +7585,10 @@ public class bindings {
 	public static native void OfferFeatures_free(long this_obj);
 	// void InvoiceRequestFeatures_free(struct LDKInvoiceRequestFeatures this_obj);
 	public static native void InvoiceRequestFeatures_free(long this_obj);
+	// void Bolt12InvoiceFeatures_free(struct LDKBolt12InvoiceFeatures this_obj);
+	public static native void Bolt12InvoiceFeatures_free(long this_obj);
+	// void BlindedHopFeatures_free(struct LDKBlindedHopFeatures this_obj);
+	public static native void BlindedHopFeatures_free(long this_obj);
 	// void ChannelTypeFeatures_free(struct LDKChannelTypeFeatures this_obj);
 	public static native void ChannelTypeFeatures_free(long this_obj);
 	// MUST_USE_RES struct LDKInitFeatures InitFeatures_empty(void);
@@ -7366,6 +7615,14 @@ public class bindings {
 	public static native long InvoiceRequestFeatures_empty();
 	// MUST_USE_RES bool InvoiceRequestFeatures_requires_unknown_bits(const struct LDKInvoiceRequestFeatures *NONNULL_PTR this_arg);
 	public static native boolean InvoiceRequestFeatures_requires_unknown_bits(long this_arg);
+	// MUST_USE_RES struct LDKBolt12InvoiceFeatures Bolt12InvoiceFeatures_empty(void);
+	public static native long Bolt12InvoiceFeatures_empty();
+	// MUST_USE_RES bool Bolt12InvoiceFeatures_requires_unknown_bits(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR this_arg);
+	public static native boolean Bolt12InvoiceFeatures_requires_unknown_bits(long this_arg);
+	// MUST_USE_RES struct LDKBlindedHopFeatures BlindedHopFeatures_empty(void);
+	public static native long BlindedHopFeatures_empty();
+	// MUST_USE_RES bool BlindedHopFeatures_requires_unknown_bits(const struct LDKBlindedHopFeatures *NONNULL_PTR this_arg);
+	public static native boolean BlindedHopFeatures_requires_unknown_bits(long this_arg);
 	// MUST_USE_RES struct LDKChannelTypeFeatures ChannelTypeFeatures_empty(void);
 	public static native long ChannelTypeFeatures_empty();
 	// MUST_USE_RES bool ChannelTypeFeatures_requires_unknown_bits(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
@@ -7386,18 +7643,14 @@ public class bindings {
 	public static native byte[] InvoiceFeatures_write(long obj);
 	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ InvoiceFeatures_read(struct LDKu8slice ser);
 	public static native long InvoiceFeatures_read(byte[] ser);
+	// struct LDKCVec_u8Z BlindedHopFeatures_write(const struct LDKBlindedHopFeatures *NONNULL_PTR obj);
+	public static native byte[] BlindedHopFeatures_write(long obj);
+	// struct LDKCResult_BlindedHopFeaturesDecodeErrorZ BlindedHopFeatures_read(struct LDKu8slice ser);
+	public static native long BlindedHopFeatures_read(byte[] ser);
 	// struct LDKCVec_u8Z ChannelTypeFeatures_write(const struct LDKChannelTypeFeatures *NONNULL_PTR obj);
 	public static native byte[] ChannelTypeFeatures_write(long obj);
 	// struct LDKCResult_ChannelTypeFeaturesDecodeErrorZ ChannelTypeFeatures_read(struct LDKu8slice ser);
 	public static native long ChannelTypeFeatures_read(byte[] ser);
-	// struct LDKCVec_u8Z OfferFeatures_write(const struct LDKOfferFeatures *NONNULL_PTR obj);
-	public static native byte[] OfferFeatures_write(long obj);
-	// struct LDKCResult_OfferFeaturesDecodeErrorZ OfferFeatures_read(struct LDKu8slice ser);
-	public static native long OfferFeatures_read(byte[] ser);
-	// struct LDKCVec_u8Z InvoiceRequestFeatures_write(const struct LDKInvoiceRequestFeatures *NONNULL_PTR obj);
-	public static native byte[] InvoiceRequestFeatures_write(long obj);
-	// struct LDKCResult_InvoiceRequestFeaturesDecodeErrorZ InvoiceRequestFeatures_read(struct LDKu8slice ser);
-	public static native long InvoiceRequestFeatures_read(byte[] ser);
 	// void InitFeatures_set_data_loss_protect_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
 	public static native void InitFeatures_set_data_loss_protect_optional(long this_arg);
 	// void InitFeatures_set_data_loss_protect_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
@@ -7542,12 +7795,20 @@ public class bindings {
 	public static native void InvoiceFeatures_set_basic_mpp_required(long this_arg);
 	// MUST_USE_RES bool InvoiceFeatures_supports_basic_mpp(const struct LDKInvoiceFeatures *NONNULL_PTR this_arg);
 	public static native boolean InvoiceFeatures_supports_basic_mpp(long this_arg);
+	// void Bolt12InvoiceFeatures_set_basic_mpp_optional(struct LDKBolt12InvoiceFeatures *NONNULL_PTR this_arg);
+	public static native void Bolt12InvoiceFeatures_set_basic_mpp_optional(long this_arg);
+	// void Bolt12InvoiceFeatures_set_basic_mpp_required(struct LDKBolt12InvoiceFeatures *NONNULL_PTR this_arg);
+	public static native void Bolt12InvoiceFeatures_set_basic_mpp_required(long this_arg);
+	// MUST_USE_RES bool Bolt12InvoiceFeatures_supports_basic_mpp(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR this_arg);
+	public static native boolean Bolt12InvoiceFeatures_supports_basic_mpp(long this_arg);
 	// MUST_USE_RES bool InitFeatures_requires_basic_mpp(const struct LDKInitFeatures *NONNULL_PTR this_arg);
 	public static native boolean InitFeatures_requires_basic_mpp(long this_arg);
 	// MUST_USE_RES bool NodeFeatures_requires_basic_mpp(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
 	public static native boolean NodeFeatures_requires_basic_mpp(long this_arg);
 	// MUST_USE_RES bool InvoiceFeatures_requires_basic_mpp(const struct LDKInvoiceFeatures *NONNULL_PTR this_arg);
 	public static native boolean InvoiceFeatures_requires_basic_mpp(long this_arg);
+	// MUST_USE_RES bool Bolt12InvoiceFeatures_requires_basic_mpp(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR this_arg);
+	public static native boolean Bolt12InvoiceFeatures_requires_basic_mpp(long this_arg);
 	// void InitFeatures_set_wumbo_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
 	public static native void InitFeatures_set_wumbo_optional(long this_arg);
 	// void InitFeatures_set_wumbo_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
@@ -7564,6 +7825,30 @@ public class bindings {
 	public static native boolean InitFeatures_requires_wumbo(long this_arg);
 	// MUST_USE_RES bool NodeFeatures_requires_wumbo(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
 	public static native boolean NodeFeatures_requires_wumbo(long this_arg);
+	// void InitFeatures_set_anchors_zero_fee_htlc_tx_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
+	public static native void InitFeatures_set_anchors_zero_fee_htlc_tx_optional(long this_arg);
+	// void InitFeatures_set_anchors_zero_fee_htlc_tx_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
+	public static native void InitFeatures_set_anchors_zero_fee_htlc_tx_required(long this_arg);
+	// MUST_USE_RES bool InitFeatures_supports_anchors_zero_fee_htlc_tx(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+	public static native boolean InitFeatures_supports_anchors_zero_fee_htlc_tx(long this_arg);
+	// void NodeFeatures_set_anchors_zero_fee_htlc_tx_optional(struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	public static native void NodeFeatures_set_anchors_zero_fee_htlc_tx_optional(long this_arg);
+	// void NodeFeatures_set_anchors_zero_fee_htlc_tx_required(struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	public static native void NodeFeatures_set_anchors_zero_fee_htlc_tx_required(long this_arg);
+	// MUST_USE_RES bool NodeFeatures_supports_anchors_zero_fee_htlc_tx(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	public static native boolean NodeFeatures_supports_anchors_zero_fee_htlc_tx(long this_arg);
+	// void ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_optional(struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+	public static native void ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_optional(long this_arg);
+	// void ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_required(struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+	public static native void ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_required(long this_arg);
+	// MUST_USE_RES bool ChannelTypeFeatures_supports_anchors_zero_fee_htlc_tx(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+	public static native boolean ChannelTypeFeatures_supports_anchors_zero_fee_htlc_tx(long this_arg);
+	// MUST_USE_RES bool InitFeatures_requires_anchors_zero_fee_htlc_tx(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+	public static native boolean InitFeatures_requires_anchors_zero_fee_htlc_tx(long this_arg);
+	// MUST_USE_RES bool NodeFeatures_requires_anchors_zero_fee_htlc_tx(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	public static native boolean NodeFeatures_requires_anchors_zero_fee_htlc_tx(long this_arg);
+	// MUST_USE_RES bool ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+	public static native boolean ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx(long this_arg);
 	// void InitFeatures_set_shutdown_any_segwit_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
 	public static native void InitFeatures_set_shutdown_any_segwit_optional(long this_arg);
 	// void InitFeatures_set_shutdown_any_segwit_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
@@ -7704,6 +7989,44 @@ public class bindings {
 	public static native byte[] ShutdownScript_as_legacy_pubkey(long this_arg);
 	// MUST_USE_RES bool ShutdownScript_is_compatible(const struct LDKShutdownScript *NONNULL_PTR this_arg, const struct LDKInitFeatures *NONNULL_PTR features);
 	public static native boolean ShutdownScript_is_compatible(long this_arg, long features);
+	// void Retry_free(struct LDKRetry this_ptr);
+	public static native void Retry_free(long this_ptr);
+	// uint64_t Retry_clone_ptr(LDKRetry *NONNULL_PTR arg);
+	public static native long Retry_clone_ptr(long arg);
+	// struct LDKRetry Retry_clone(const struct LDKRetry *NONNULL_PTR orig);
+	public static native long Retry_clone(long orig);
+	// struct LDKRetry Retry_attempts(uintptr_t a);
+	public static native long Retry_attempts(long a);
+	// struct LDKRetry Retry_timeout(uint64_t a);
+	public static native long Retry_timeout(long a);
+	// bool Retry_eq(const struct LDKRetry *NONNULL_PTR a, const struct LDKRetry *NONNULL_PTR b);
+	public static native boolean Retry_eq(long a, long b);
+	// uint64_t Retry_hash(const struct LDKRetry *NONNULL_PTR o);
+	public static native long Retry_hash(long o);
+	// enum LDKRetryableSendFailure RetryableSendFailure_clone(const enum LDKRetryableSendFailure *NONNULL_PTR orig);
+	public static native RetryableSendFailure RetryableSendFailure_clone(long orig);
+	// enum LDKRetryableSendFailure RetryableSendFailure_payment_expired(void);
+	public static native RetryableSendFailure RetryableSendFailure_payment_expired();
+	// enum LDKRetryableSendFailure RetryableSendFailure_route_not_found(void);
+	public static native RetryableSendFailure RetryableSendFailure_route_not_found();
+	// enum LDKRetryableSendFailure RetryableSendFailure_duplicate_payment(void);
+	public static native RetryableSendFailure RetryableSendFailure_duplicate_payment();
+	// void PaymentSendFailure_free(struct LDKPaymentSendFailure this_ptr);
+	public static native void PaymentSendFailure_free(long this_ptr);
+	// uint64_t PaymentSendFailure_clone_ptr(LDKPaymentSendFailure *NONNULL_PTR arg);
+	public static native long PaymentSendFailure_clone_ptr(long arg);
+	// struct LDKPaymentSendFailure PaymentSendFailure_clone(const struct LDKPaymentSendFailure *NONNULL_PTR orig);
+	public static native long PaymentSendFailure_clone(long orig);
+	// struct LDKPaymentSendFailure PaymentSendFailure_parameter_error(struct LDKAPIError a);
+	public static native long PaymentSendFailure_parameter_error(long a);
+	// struct LDKPaymentSendFailure PaymentSendFailure_path_parameter_error(struct LDKCVec_CResult_NoneAPIErrorZZ a);
+	public static native long PaymentSendFailure_path_parameter_error(long[] a);
+	// struct LDKPaymentSendFailure PaymentSendFailure_all_failed_resend_safe(struct LDKCVec_APIErrorZ a);
+	public static native long PaymentSendFailure_all_failed_resend_safe(long[] a);
+	// struct LDKPaymentSendFailure PaymentSendFailure_duplicate_payment(void);
+	public static native long PaymentSendFailure_duplicate_payment();
+	// struct LDKPaymentSendFailure PaymentSendFailure_partial_failure(struct LDKCVec_CResult_NoneAPIErrorZZ results, struct LDKRouteParameters failed_paths_retry, struct LDKThirtyTwoBytes payment_id);
+	public static native long PaymentSendFailure_partial_failure(long[] results, long failed_paths_retry, byte[] payment_id);
 	// void CustomMessageReader_free(struct LDKCustomMessageReader this_ptr);
 	public static native void CustomMessageReader_free(long this_ptr);
 	// uint64_t Type_clone_ptr(LDKType *NONNULL_PTR arg);
@@ -7712,6 +8035,36 @@ public class bindings {
 	public static native long Type_clone(long orig);
 	// void Type_free(struct LDKType this_ptr);
 	public static native void Type_free(long this_ptr);
+	// enum LDKUtxoLookupError UtxoLookupError_clone(const enum LDKUtxoLookupError *NONNULL_PTR orig);
+	public static native UtxoLookupError UtxoLookupError_clone(long orig);
+	// enum LDKUtxoLookupError UtxoLookupError_unknown_chain(void);
+	public static native UtxoLookupError UtxoLookupError_unknown_chain();
+	// enum LDKUtxoLookupError UtxoLookupError_unknown_tx(void);
+	public static native UtxoLookupError UtxoLookupError_unknown_tx();
+	// void UtxoResult_free(struct LDKUtxoResult this_ptr);
+	public static native void UtxoResult_free(long this_ptr);
+	// uint64_t UtxoResult_clone_ptr(LDKUtxoResult *NONNULL_PTR arg);
+	public static native long UtxoResult_clone_ptr(long arg);
+	// struct LDKUtxoResult UtxoResult_clone(const struct LDKUtxoResult *NONNULL_PTR orig);
+	public static native long UtxoResult_clone(long orig);
+	// struct LDKUtxoResult UtxoResult_sync(struct LDKCResult_TxOutUtxoLookupErrorZ a);
+	public static native long UtxoResult_sync(long a);
+	// struct LDKUtxoResult UtxoResult_async(struct LDKUtxoFuture a);
+	public static native long UtxoResult_async(long a);
+	// void UtxoLookup_free(struct LDKUtxoLookup this_ptr);
+	public static native void UtxoLookup_free(long this_ptr);
+	// void UtxoFuture_free(struct LDKUtxoFuture this_obj);
+	public static native void UtxoFuture_free(long this_obj);
+	// uint64_t UtxoFuture_clone_ptr(LDKUtxoFuture *NONNULL_PTR arg);
+	public static native long UtxoFuture_clone_ptr(long arg);
+	// struct LDKUtxoFuture UtxoFuture_clone(const struct LDKUtxoFuture *NONNULL_PTR orig);
+	public static native long UtxoFuture_clone(long orig);
+	// MUST_USE_RES struct LDKUtxoFuture UtxoFuture_new(void);
+	public static native long UtxoFuture_new();
+	// void UtxoFuture_resolve_without_forwarding(const struct LDKUtxoFuture *NONNULL_PTR this_arg, const struct LDKNetworkGraph *NONNULL_PTR graph, struct LDKCResult_TxOutUtxoLookupErrorZ result);
+	public static native void UtxoFuture_resolve_without_forwarding(long this_arg, long graph, long result);
+	// void UtxoFuture_resolve(const struct LDKUtxoFuture *NONNULL_PTR this_arg, const struct LDKNetworkGraph *NONNULL_PTR graph, const struct LDKP2PGossipSync *NONNULL_PTR gossip, struct LDKCResult_TxOutUtxoLookupErrorZ result);
+	public static native void UtxoFuture_resolve(long this_arg, long graph, long gossip, long result);
 	// void NodeId_free(struct LDKNodeId this_obj);
 	public static native void NodeId_free(long this_obj);
 	// uint64_t NodeId_clone_ptr(LDKNodeId *NONNULL_PTR arg);
@@ -7752,10 +8105,10 @@ public class bindings {
 	public static native long NetworkUpdate_read(byte[] ser);
 	// void P2PGossipSync_free(struct LDKP2PGossipSync this_obj);
 	public static native void P2PGossipSync_free(long this_obj);
-	// MUST_USE_RES struct LDKP2PGossipSync P2PGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKCOption_AccessZ chain_access, struct LDKLogger logger);
-	public static native long P2PGossipSync_new(long network_graph, long chain_access, long logger);
-	// void P2PGossipSync_add_chain_access(struct LDKP2PGossipSync *NONNULL_PTR this_arg, struct LDKCOption_AccessZ chain_access);
-	public static native void P2PGossipSync_add_chain_access(long this_arg, long chain_access);
+	// MUST_USE_RES struct LDKP2PGossipSync P2PGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKCOption_UtxoLookupZ utxo_lookup, struct LDKLogger logger);
+	public static native long P2PGossipSync_new(long network_graph, long utxo_lookup, long logger);
+	// void P2PGossipSync_add_utxo_lookup(struct LDKP2PGossipSync *NONNULL_PTR this_arg, struct LDKCOption_UtxoLookupZ utxo_lookup);
+	public static native void P2PGossipSync_add_utxo_lookup(long this_arg, long utxo_lookup);
 	// void NetworkGraph_handle_network_update(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKNetworkUpdate *NONNULL_PTR network_update);
 	public static native void NetworkGraph_handle_network_update(long this_arg, long network_update);
 	// struct LDKRoutingMessageHandler P2PGossipSync_as_RoutingMessageHandler(const struct LDKP2PGossipSync *NONNULL_PTR this_arg);
@@ -7962,16 +8315,12 @@ public class bindings {
 	public static native long[] NodeInfo_get_channels(long this_ptr);
 	// void NodeInfo_set_channels(struct LDKNodeInfo *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 	public static native void NodeInfo_set_channels(long this_ptr, long[] val);
-	// struct LDKRoutingFees NodeInfo_get_lowest_inbound_channel_fees(const struct LDKNodeInfo *NONNULL_PTR this_ptr);
-	public static native long NodeInfo_get_lowest_inbound_channel_fees(long this_ptr);
-	// void NodeInfo_set_lowest_inbound_channel_fees(struct LDKNodeInfo *NONNULL_PTR this_ptr, struct LDKRoutingFees val);
-	public static native void NodeInfo_set_lowest_inbound_channel_fees(long this_ptr, long val);
 	// struct LDKNodeAnnouncementInfo NodeInfo_get_announcement_info(const struct LDKNodeInfo *NONNULL_PTR this_ptr);
 	public static native long NodeInfo_get_announcement_info(long this_ptr);
 	// void NodeInfo_set_announcement_info(struct LDKNodeInfo *NONNULL_PTR this_ptr, struct LDKNodeAnnouncementInfo val);
 	public static native void NodeInfo_set_announcement_info(long this_ptr, long val);
-	// MUST_USE_RES struct LDKNodeInfo NodeInfo_new(struct LDKCVec_u64Z channels_arg, struct LDKRoutingFees lowest_inbound_channel_fees_arg, struct LDKNodeAnnouncementInfo announcement_info_arg);
-	public static native long NodeInfo_new(long[] channels_arg, long lowest_inbound_channel_fees_arg, long announcement_info_arg);
+	// MUST_USE_RES struct LDKNodeInfo NodeInfo_new(struct LDKCVec_u64Z channels_arg, struct LDKNodeAnnouncementInfo announcement_info_arg);
+	public static native long NodeInfo_new(long[] channels_arg, long announcement_info_arg);
 	// uint64_t NodeInfo_clone_ptr(LDKNodeInfo *NONNULL_PTR arg);
 	public static native long NodeInfo_clone_ptr(long arg);
 	// struct LDKNodeInfo NodeInfo_clone(const struct LDKNodeInfo *NONNULL_PTR orig);
@@ -7986,8 +8335,8 @@ public class bindings {
 	public static native byte[] NetworkGraph_write(long obj);
 	// struct LDKCResult_NetworkGraphDecodeErrorZ NetworkGraph_read(struct LDKu8slice ser, struct LDKLogger arg);
 	public static native long NetworkGraph_read(byte[] ser, long arg);
-	// MUST_USE_RES struct LDKNetworkGraph NetworkGraph_new(struct LDKThirtyTwoBytes genesis_hash, struct LDKLogger logger);
-	public static native long NetworkGraph_new(byte[] genesis_hash, long logger);
+	// MUST_USE_RES struct LDKNetworkGraph NetworkGraph_new(enum LDKNetwork network, struct LDKLogger logger);
+	public static native long NetworkGraph_new(Network network, long logger);
 	// MUST_USE_RES struct LDKReadOnlyNetworkGraph NetworkGraph_read_only(const struct LDKNetworkGraph *NONNULL_PTR this_arg);
 	public static native long NetworkGraph_read_only(long this_arg);
 	// MUST_USE_RES struct LDKCOption_u32Z NetworkGraph_get_last_rapid_gossip_sync_timestamp(const struct LDKNetworkGraph *NONNULL_PTR this_arg);
@@ -7998,10 +8347,10 @@ public class bindings {
 	public static native long NetworkGraph_update_node_from_announcement(long this_arg, long msg);
 	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_update_node_from_unsigned_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR msg);
 	public static native long NetworkGraph_update_node_from_unsigned_announcement(long this_arg, long msg);
-	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_update_channel_from_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKChannelAnnouncement *NONNULL_PTR msg, struct LDKCOption_AccessZ chain_access);
-	public static native long NetworkGraph_update_channel_from_announcement(long this_arg, long msg, long chain_access);
-	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_update_channel_from_unsigned_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg, struct LDKCOption_AccessZ chain_access);
-	public static native long NetworkGraph_update_channel_from_unsigned_announcement(long this_arg, long msg, long chain_access);
+	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_update_channel_from_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKChannelAnnouncement *NONNULL_PTR msg, struct LDKCOption_UtxoLookupZ utxo_lookup);
+	public static native long NetworkGraph_update_channel_from_announcement(long this_arg, long msg, long utxo_lookup);
+	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_update_channel_from_unsigned_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg, struct LDKCOption_UtxoLookupZ utxo_lookup);
+	public static native long NetworkGraph_update_channel_from_unsigned_announcement(long this_arg, long msg, long utxo_lookup);
 	// MUST_USE_RES struct LDKCResult_NoneLightningErrorZ NetworkGraph_add_channel_from_partial_announcement(const struct LDKNetworkGraph *NONNULL_PTR this_arg, uint64_t short_channel_id, uint64_t timestamp, struct LDKChannelFeatures features, struct LDKPublicKey node_id_1, struct LDKPublicKey node_id_2);
 	public static native long NetworkGraph_add_channel_from_partial_announcement(long this_arg, long short_channel_id, long timestamp, long features, byte[] node_id_1, byte[] node_id_2);
 	// void NetworkGraph_channel_failed(const struct LDKNetworkGraph *NONNULL_PTR this_arg, uint64_t short_channel_id, bool is_permanent);
@@ -8036,7 +8385,7 @@ public class bindings {
 	public static native void Router_free(long this_ptr);
 	// void ScorerAccountingForInFlightHtlcs_free(struct LDKScorerAccountingForInFlightHtlcs this_obj);
 	public static native void ScorerAccountingForInFlightHtlcs_free(long this_obj);
-	// MUST_USE_RES struct LDKScorerAccountingForInFlightHtlcs ScorerAccountingForInFlightHtlcs_new(struct LDKScore scorer, struct LDKInFlightHtlcs inflight_htlcs);
+	// MUST_USE_RES struct LDKScorerAccountingForInFlightHtlcs ScorerAccountingForInFlightHtlcs_new(struct LDKScore scorer, const struct LDKInFlightHtlcs *NONNULL_PTR inflight_htlcs);
 	public static native long ScorerAccountingForInFlightHtlcs_new(long scorer, long inflight_htlcs);
 	// struct LDKCVec_u8Z ScorerAccountingForInFlightHtlcs_write(const struct LDKScorerAccountingForInFlightHtlcs *NONNULL_PTR obj);
 	public static native byte[] ScorerAccountingForInFlightHtlcs_write(long obj);
@@ -8134,16 +8483,14 @@ public class bindings {
 	public static native long RouteParameters_get_final_value_msat(long this_ptr);
 	// void RouteParameters_set_final_value_msat(struct LDKRouteParameters *NONNULL_PTR this_ptr, uint64_t val);
 	public static native void RouteParameters_set_final_value_msat(long this_ptr, long val);
-	// uint32_t RouteParameters_get_final_cltv_expiry_delta(const struct LDKRouteParameters *NONNULL_PTR this_ptr);
-	public static native int RouteParameters_get_final_cltv_expiry_delta(long this_ptr);
-	// void RouteParameters_set_final_cltv_expiry_delta(struct LDKRouteParameters *NONNULL_PTR this_ptr, uint32_t val);
-	public static native void RouteParameters_set_final_cltv_expiry_delta(long this_ptr, int val);
-	// MUST_USE_RES struct LDKRouteParameters RouteParameters_new(struct LDKPaymentParameters payment_params_arg, uint64_t final_value_msat_arg, uint32_t final_cltv_expiry_delta_arg);
-	public static native long RouteParameters_new(long payment_params_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg);
+	// MUST_USE_RES struct LDKRouteParameters RouteParameters_new(struct LDKPaymentParameters payment_params_arg, uint64_t final_value_msat_arg);
+	public static native long RouteParameters_new(long payment_params_arg, long final_value_msat_arg);
 	// uint64_t RouteParameters_clone_ptr(LDKRouteParameters *NONNULL_PTR arg);
 	public static native long RouteParameters_clone_ptr(long arg);
 	// struct LDKRouteParameters RouteParameters_clone(const struct LDKRouteParameters *NONNULL_PTR orig);
 	public static native long RouteParameters_clone(long orig);
+	// bool RouteParameters_eq(const struct LDKRouteParameters *NONNULL_PTR a, const struct LDKRouteParameters *NONNULL_PTR b);
+	public static native boolean RouteParameters_eq(long a, long b);
 	// struct LDKCVec_u8Z RouteParameters_write(const struct LDKRouteParameters *NONNULL_PTR obj);
 	public static native byte[] RouteParameters_write(long obj);
 	// struct LDKCResult_RouteParametersDecodeErrorZ RouteParameters_read(struct LDKu8slice ser);
@@ -8182,8 +8529,12 @@ public class bindings {
 	public static native long[] PaymentParameters_get_previously_failed_channels(long this_ptr);
 	// void PaymentParameters_set_previously_failed_channels(struct LDKPaymentParameters *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 	public static native void PaymentParameters_set_previously_failed_channels(long this_ptr, long[] val);
-	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_new(struct LDKPublicKey payee_pubkey_arg, struct LDKInvoiceFeatures features_arg, struct LDKCVec_RouteHintZ route_hints_arg, struct LDKCOption_u64Z expiry_time_arg, uint32_t max_total_cltv_expiry_delta_arg, uint8_t max_path_count_arg, uint8_t max_channel_saturation_power_of_half_arg, struct LDKCVec_u64Z previously_failed_channels_arg);
-	public static native long PaymentParameters_new(byte[] payee_pubkey_arg, long features_arg, long[] route_hints_arg, long expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg);
+	// uint32_t PaymentParameters_get_final_cltv_expiry_delta(const struct LDKPaymentParameters *NONNULL_PTR this_ptr);
+	public static native int PaymentParameters_get_final_cltv_expiry_delta(long this_ptr);
+	// void PaymentParameters_set_final_cltv_expiry_delta(struct LDKPaymentParameters *NONNULL_PTR this_ptr, uint32_t val);
+	public static native void PaymentParameters_set_final_cltv_expiry_delta(long this_ptr, int val);
+	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_new(struct LDKPublicKey payee_pubkey_arg, struct LDKInvoiceFeatures features_arg, struct LDKCVec_RouteHintZ route_hints_arg, struct LDKCOption_u64Z expiry_time_arg, uint32_t max_total_cltv_expiry_delta_arg, uint8_t max_path_count_arg, uint8_t max_channel_saturation_power_of_half_arg, struct LDKCVec_u64Z previously_failed_channels_arg, uint32_t final_cltv_expiry_delta_arg);
+	public static native long PaymentParameters_new(byte[] payee_pubkey_arg, long features_arg, long[] route_hints_arg, long expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, int final_cltv_expiry_delta_arg);
 	// uint64_t PaymentParameters_clone_ptr(LDKPaymentParameters *NONNULL_PTR arg);
 	public static native long PaymentParameters_clone_ptr(long arg);
 	// struct LDKPaymentParameters PaymentParameters_clone(const struct LDKPaymentParameters *NONNULL_PTR orig);
@@ -8194,12 +8545,12 @@ public class bindings {
 	public static native boolean PaymentParameters_eq(long a, long b);
 	// struct LDKCVec_u8Z PaymentParameters_write(const struct LDKPaymentParameters *NONNULL_PTR obj);
 	public static native byte[] PaymentParameters_write(long obj);
-	// struct LDKCResult_PaymentParametersDecodeErrorZ PaymentParameters_read(struct LDKu8slice ser);
-	public static native long PaymentParameters_read(byte[] ser);
-	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_from_node_id(struct LDKPublicKey payee_pubkey);
-	public static native long PaymentParameters_from_node_id(byte[] payee_pubkey);
-	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_for_keysend(struct LDKPublicKey payee_pubkey);
-	public static native long PaymentParameters_for_keysend(byte[] payee_pubkey);
+	// struct LDKCResult_PaymentParametersDecodeErrorZ PaymentParameters_read(struct LDKu8slice ser, uint32_t arg);
+	public static native long PaymentParameters_read(byte[] ser, int arg);
+	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_from_node_id(struct LDKPublicKey payee_pubkey, uint32_t final_cltv_expiry_delta);
+	public static native long PaymentParameters_from_node_id(byte[] payee_pubkey, int final_cltv_expiry_delta);
+	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_for_keysend(struct LDKPublicKey payee_pubkey, uint32_t final_cltv_expiry_delta);
+	public static native long PaymentParameters_for_keysend(byte[] payee_pubkey, int final_cltv_expiry_delta);
 	// void RouteHint_free(struct LDKRouteHint this_obj);
 	public static native void RouteHint_free(long this_obj);
 	// struct LDKCVec_RouteHintHopZ RouteHint_get_a(const struct LDKRouteHint *NONNULL_PTR this_ptr);
@@ -8374,6 +8725,8 @@ public class bindings {
 	public static native void ProbabilisticScorer_debug_log_liquidity_stats(long this_arg);
 	// MUST_USE_RES struct LDKCOption_C2Tuple_u64u64ZZ ProbabilisticScorer_estimated_channel_liquidity_range(const struct LDKProbabilisticScorer *NONNULL_PTR this_arg, uint64_t scid, const struct LDKNodeId *NONNULL_PTR target);
 	public static native long ProbabilisticScorer_estimated_channel_liquidity_range(long this_arg, long scid, long target);
+	// MUST_USE_RES struct LDKCOption_C2Tuple_EightU16sEightU16sZZ ProbabilisticScorer_historical_estimated_channel_liquidity_probabilities(const struct LDKProbabilisticScorer *NONNULL_PTR this_arg, uint64_t scid, const struct LDKNodeId *NONNULL_PTR target);
+	public static native long ProbabilisticScorer_historical_estimated_channel_liquidity_probabilities(long this_arg, long scid, long target);
 	// void ProbabilisticScorer_add_banned(struct LDKProbabilisticScorer *NONNULL_PTR this_arg, const struct LDKNodeId *NONNULL_PTR node_id);
 	public static native void ProbabilisticScorer_add_banned(long this_arg, long node_id);
 	// void ProbabilisticScorer_remove_banned(struct LDKProbabilisticScorer *NONNULL_PTR this_arg, const struct LDKNodeId *NONNULL_PTR node_id);
@@ -8406,8 +8759,8 @@ public class bindings {
 	public static native long BlindedHop_clone_ptr(long arg);
 	// struct LDKBlindedHop BlindedHop_clone(const struct LDKBlindedHop *NONNULL_PTR orig);
 	public static native long BlindedHop_clone(long orig);
-	// MUST_USE_RES struct LDKCResult_BlindedPathNoneZ BlindedPath_new(struct LDKCVec_PublicKeyZ node_pks, const struct LDKKeysInterface *NONNULL_PTR keys_manager);
-	public static native long BlindedPath_new(byte[][] node_pks, long keys_manager);
+	// MUST_USE_RES struct LDKCResult_BlindedPathNoneZ BlindedPath_new(struct LDKCVec_PublicKeyZ node_pks, const struct LDKEntropySource *NONNULL_PTR entropy_source);
+	public static native long BlindedPath_new(byte[][] node_pks, long entropy_source);
 	// struct LDKCVec_u8Z BlindedPath_write(const struct LDKBlindedPath *NONNULL_PTR obj);
 	public static native byte[] BlindedPath_write(long obj);
 	// struct LDKCResult_BlindedPathDecodeErrorZ BlindedPath_read(struct LDKu8slice ser);
@@ -8454,8 +8807,8 @@ public class bindings {
 	public static native boolean SendError_eq(long a, long b);
 	// void CustomOnionMessageHandler_free(struct LDKCustomOnionMessageHandler this_ptr);
 	public static native void CustomOnionMessageHandler_free(long this_ptr);
-	// MUST_USE_RES struct LDKOnionMessenger OnionMessenger_new(struct LDKKeysInterface keys_manager, struct LDKLogger logger, struct LDKCustomOnionMessageHandler custom_handler);
-	public static native long OnionMessenger_new(long keys_manager, long logger, long custom_handler);
+	// MUST_USE_RES struct LDKOnionMessenger OnionMessenger_new(struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, struct LDKCustomOnionMessageHandler custom_handler);
+	public static native long OnionMessenger_new(long entropy_source, long node_signer, long logger, long custom_handler);
 	// MUST_USE_RES struct LDKCResult_NoneSendErrorZ OnionMessenger_send_onion_message(const struct LDKOnionMessenger *NONNULL_PTR this_arg, struct LDKCVec_PublicKeyZ intermediate_nodes, struct LDKDestination destination, struct LDKOnionMessageContents message, struct LDKBlindedPath reply_path);
 	public static native long OnionMessenger_send_onion_message(long this_arg, byte[][] intermediate_nodes, long destination, long message, long reply_path);
 	// struct LDKOnionMessageHandler OnionMessenger_as_OnionMessageHandler(const struct LDKOnionMessenger *NONNULL_PTR this_arg);
@@ -8482,8 +8835,8 @@ public class bindings {
 	public static native long FilesystemPersister_new(String path_to_channel_data);
 	// MUST_USE_RES struct LDKStr FilesystemPersister_get_data_dir(const struct LDKFilesystemPersister *NONNULL_PTR this_arg);
 	public static native String FilesystemPersister_get_data_dir(long this_arg);
-	// MUST_USE_RES struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ FilesystemPersister_read_channelmonitors(const struct LDKFilesystemPersister *NONNULL_PTR this_arg, struct LDKKeysInterface keys_manager);
-	public static native long FilesystemPersister_read_channelmonitors(long this_arg, long keys_manager);
+	// MUST_USE_RES struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ FilesystemPersister_read_channelmonitors(const struct LDKFilesystemPersister *NONNULL_PTR this_arg, struct LDKEntropySource entropy_source, const struct LDKSignerProvider *NONNULL_PTR signer_provider);
+	public static native long FilesystemPersister_read_channelmonitors(long this_arg, long entropy_source, long signer_provider);
 	// void BackgroundProcessor_free(struct LDKBackgroundProcessor this_obj);
 	public static native void BackgroundProcessor_free(long this_obj);
 	// void GossipSync_free(struct LDKGossipSync this_ptr);
@@ -8692,22 +9045,22 @@ public class bindings {
 	public static native long ExpiryTime_hash(long o);
 	// bool ExpiryTime_eq(const struct LDKExpiryTime *NONNULL_PTR a, const struct LDKExpiryTime *NONNULL_PTR b);
 	public static native boolean ExpiryTime_eq(long a, long b);
-	// void MinFinalCltvExpiry_free(struct LDKMinFinalCltvExpiry this_obj);
-	public static native void MinFinalCltvExpiry_free(long this_obj);
-	// uint64_t MinFinalCltvExpiry_get_a(const struct LDKMinFinalCltvExpiry *NONNULL_PTR this_ptr);
-	public static native long MinFinalCltvExpiry_get_a(long this_ptr);
-	// void MinFinalCltvExpiry_set_a(struct LDKMinFinalCltvExpiry *NONNULL_PTR this_ptr, uint64_t val);
-	public static native void MinFinalCltvExpiry_set_a(long this_ptr, long val);
-	// MUST_USE_RES struct LDKMinFinalCltvExpiry MinFinalCltvExpiry_new(uint64_t a_arg);
-	public static native long MinFinalCltvExpiry_new(long a_arg);
-	// uint64_t MinFinalCltvExpiry_clone_ptr(LDKMinFinalCltvExpiry *NONNULL_PTR arg);
-	public static native long MinFinalCltvExpiry_clone_ptr(long arg);
-	// struct LDKMinFinalCltvExpiry MinFinalCltvExpiry_clone(const struct LDKMinFinalCltvExpiry *NONNULL_PTR orig);
-	public static native long MinFinalCltvExpiry_clone(long orig);
-	// uint64_t MinFinalCltvExpiry_hash(const struct LDKMinFinalCltvExpiry *NONNULL_PTR o);
-	public static native long MinFinalCltvExpiry_hash(long o);
-	// bool MinFinalCltvExpiry_eq(const struct LDKMinFinalCltvExpiry *NONNULL_PTR a, const struct LDKMinFinalCltvExpiry *NONNULL_PTR b);
-	public static native boolean MinFinalCltvExpiry_eq(long a, long b);
+	// void MinFinalCltvExpiryDelta_free(struct LDKMinFinalCltvExpiryDelta this_obj);
+	public static native void MinFinalCltvExpiryDelta_free(long this_obj);
+	// uint64_t MinFinalCltvExpiryDelta_get_a(const struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR this_ptr);
+	public static native long MinFinalCltvExpiryDelta_get_a(long this_ptr);
+	// void MinFinalCltvExpiryDelta_set_a(struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR this_ptr, uint64_t val);
+	public static native void MinFinalCltvExpiryDelta_set_a(long this_ptr, long val);
+	// MUST_USE_RES struct LDKMinFinalCltvExpiryDelta MinFinalCltvExpiryDelta_new(uint64_t a_arg);
+	public static native long MinFinalCltvExpiryDelta_new(long a_arg);
+	// uint64_t MinFinalCltvExpiryDelta_clone_ptr(LDKMinFinalCltvExpiryDelta *NONNULL_PTR arg);
+	public static native long MinFinalCltvExpiryDelta_clone_ptr(long arg);
+	// struct LDKMinFinalCltvExpiryDelta MinFinalCltvExpiryDelta_clone(const struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR orig);
+	public static native long MinFinalCltvExpiryDelta_clone(long orig);
+	// uint64_t MinFinalCltvExpiryDelta_hash(const struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR o);
+	public static native long MinFinalCltvExpiryDelta_hash(long o);
+	// bool MinFinalCltvExpiryDelta_eq(const struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR a, const struct LDKMinFinalCltvExpiryDelta *NONNULL_PTR b);
+	public static native boolean MinFinalCltvExpiryDelta_eq(long a, long b);
 	// void Fallback_free(struct LDKFallback this_ptr);
 	public static native void Fallback_free(long this_ptr);
 	// uint64_t Fallback_clone_ptr(LDKFallback *NONNULL_PTR arg);
@@ -8768,8 +9121,8 @@ public class bindings {
 	public static native long RawInvoice_description_hash(long this_arg);
 	// MUST_USE_RES struct LDKExpiryTime RawInvoice_expiry_time(const struct LDKRawInvoice *NONNULL_PTR this_arg);
 	public static native long RawInvoice_expiry_time(long this_arg);
-	// MUST_USE_RES struct LDKMinFinalCltvExpiry RawInvoice_min_final_cltv_expiry(const struct LDKRawInvoice *NONNULL_PTR this_arg);
-	public static native long RawInvoice_min_final_cltv_expiry(long this_arg);
+	// MUST_USE_RES struct LDKMinFinalCltvExpiryDelta RawInvoice_min_final_cltv_expiry_delta(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	public static native long RawInvoice_min_final_cltv_expiry_delta(long this_arg);
 	// MUST_USE_RES struct LDKThirtyTwoBytes RawInvoice_payment_secret(const struct LDKRawInvoice *NONNULL_PTR this_arg);
 	public static native byte[] RawInvoice_payment_secret(long this_arg);
 	// MUST_USE_RES struct LDKInvoiceFeatures RawInvoice_features(const struct LDKRawInvoice *NONNULL_PTR this_arg);
@@ -8818,8 +9171,8 @@ public class bindings {
 	public static native boolean Invoice_is_expired(long this_arg);
 	// MUST_USE_RES bool Invoice_would_expire(const struct LDKInvoice *NONNULL_PTR this_arg, uint64_t at_time);
 	public static native boolean Invoice_would_expire(long this_arg, long at_time);
-	// MUST_USE_RES uint64_t Invoice_min_final_cltv_expiry(const struct LDKInvoice *NONNULL_PTR this_arg);
-	public static native long Invoice_min_final_cltv_expiry(long this_arg);
+	// MUST_USE_RES uint64_t Invoice_min_final_cltv_expiry_delta(const struct LDKInvoice *NONNULL_PTR this_arg);
+	public static native long Invoice_min_final_cltv_expiry_delta(long this_arg);
 	// MUST_USE_RES struct LDKCVec_PrivateRouteZ Invoice_private_routes(const struct LDKInvoice *NONNULL_PTR this_arg);
 	public static native long[] Invoice_private_routes(long this_arg);
 	// MUST_USE_RES struct LDKCVec_RouteHintZ Invoice_route_hints(const struct LDKInvoice *NONNULL_PTR this_arg);
@@ -8856,6 +9209,8 @@ public class bindings {
 	public static native CreationError CreationError_invalid_amount();
 	// enum LDKCreationError CreationError_missing_route_hints(void);
 	public static native CreationError CreationError_missing_route_hints();
+	// enum LDKCreationError CreationError_min_final_cltv_expiry_delta_too_short(void);
+	public static native CreationError CreationError_min_final_cltv_expiry_delta_too_short();
 	// bool CreationError_eq(const enum LDKCreationError *NONNULL_PTR a, const enum LDKCreationError *NONNULL_PTR b);
 	public static native boolean CreationError_eq(long a, long b);
 	// struct LDKStr CreationError_to_str(const enum LDKCreationError *NONNULL_PTR o);
@@ -8900,24 +9255,14 @@ public class bindings {
 	public static native boolean SignOrCreationError_eq(long a, long b);
 	// struct LDKStr SignOrCreationError_to_str(const struct LDKSignOrCreationError *NONNULL_PTR o);
 	public static native String SignOrCreationError_to_str(long o);
-	// void InvoicePayer_free(struct LDKInvoicePayer this_obj);
-	public static native void InvoicePayer_free(long this_obj);
-	// void Payer_free(struct LDKPayer this_ptr);
-	public static native void Payer_free(long this_ptr);
-	// void Retry_free(struct LDKRetry this_ptr);
-	public static native void Retry_free(long this_ptr);
-	// uint64_t Retry_clone_ptr(LDKRetry *NONNULL_PTR arg);
-	public static native long Retry_clone_ptr(long arg);
-	// struct LDKRetry Retry_clone(const struct LDKRetry *NONNULL_PTR orig);
-	public static native long Retry_clone(long orig);
-	// struct LDKRetry Retry_attempts(uintptr_t a);
-	public static native long Retry_attempts(long a);
-	// struct LDKRetry Retry_timeout(uint64_t a);
-	public static native long Retry_timeout(long a);
-	// bool Retry_eq(const struct LDKRetry *NONNULL_PTR a, const struct LDKRetry *NONNULL_PTR b);
-	public static native boolean Retry_eq(long a, long b);
-	// uint64_t Retry_hash(const struct LDKRetry *NONNULL_PTR o);
-	public static native long Retry_hash(long o);
+	// struct LDKCResult_PaymentIdPaymentErrorZ pay_invoice(const struct LDKInvoice *NONNULL_PTR invoice, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
+	public static native long pay_invoice(long invoice, long retry_strategy, long channelmanager);
+	// struct LDKCResult_NonePaymentErrorZ pay_invoice_with_id(const struct LDKInvoice *NONNULL_PTR invoice, struct LDKThirtyTwoBytes payment_id, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
+	public static native long pay_invoice_with_id(long invoice, byte[] payment_id, long retry_strategy, long channelmanager);
+	// struct LDKCResult_PaymentIdPaymentErrorZ pay_zero_value_invoice(const struct LDKInvoice *NONNULL_PTR invoice, uint64_t amount_msats, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
+	public static native long pay_zero_value_invoice(long invoice, long amount_msats, long retry_strategy, long channelmanager);
+	// struct LDKCResult_NonePaymentErrorZ pay_zero_value_invoice_with_id(const struct LDKInvoice *NONNULL_PTR invoice, uint64_t amount_msats, struct LDKThirtyTwoBytes payment_id, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
+	public static native long pay_zero_value_invoice_with_id(long invoice, long amount_msats, byte[] payment_id, long retry_strategy, long channelmanager);
 	// void PaymentError_free(struct LDKPaymentError this_ptr);
 	public static native void PaymentError_free(long this_ptr);
 	// uint64_t PaymentError_clone_ptr(LDKPaymentError *NONNULL_PTR arg);
@@ -8926,44 +9271,22 @@ public class bindings {
 	public static native long PaymentError_clone(long orig);
 	// struct LDKPaymentError PaymentError_invoice(struct LDKStr a);
 	public static native long PaymentError_invoice(String a);
-	// struct LDKPaymentError PaymentError_routing(struct LDKLightningError a);
-	public static native long PaymentError_routing(long a);
-	// struct LDKPaymentError PaymentError_sending(struct LDKPaymentSendFailure a);
-	public static native long PaymentError_sending(long a);
-	// MUST_USE_RES struct LDKInvoicePayer InvoicePayer_new(struct LDKPayer payer, struct LDKRouter router, struct LDKLogger logger, struct LDKEventHandler event_handler, struct LDKRetry retry);
-	public static native long InvoicePayer_new(long payer, long router, long logger, long event_handler, long retry);
-	// MUST_USE_RES struct LDKCResult_PaymentIdPaymentErrorZ InvoicePayer_pay_invoice(const struct LDKInvoicePayer *NONNULL_PTR this_arg, const struct LDKInvoice *NONNULL_PTR invoice);
-	public static native long InvoicePayer_pay_invoice(long this_arg, long invoice);
-	// MUST_USE_RES struct LDKCResult_NonePaymentErrorZ InvoicePayer_pay_invoice_with_id(const struct LDKInvoicePayer *NONNULL_PTR this_arg, const struct LDKInvoice *NONNULL_PTR invoice, struct LDKThirtyTwoBytes payment_id);
-	public static native long InvoicePayer_pay_invoice_with_id(long this_arg, long invoice, byte[] payment_id);
-	// MUST_USE_RES struct LDKCResult_PaymentIdPaymentErrorZ InvoicePayer_pay_zero_value_invoice(const struct LDKInvoicePayer *NONNULL_PTR this_arg, const struct LDKInvoice *NONNULL_PTR invoice, uint64_t amount_msats);
-	public static native long InvoicePayer_pay_zero_value_invoice(long this_arg, long invoice, long amount_msats);
-	// MUST_USE_RES struct LDKCResult_NonePaymentErrorZ InvoicePayer_pay_zero_value_invoice_with_id(const struct LDKInvoicePayer *NONNULL_PTR this_arg, const struct LDKInvoice *NONNULL_PTR invoice, uint64_t amount_msats, struct LDKThirtyTwoBytes payment_id);
-	public static native long InvoicePayer_pay_zero_value_invoice_with_id(long this_arg, long invoice, long amount_msats, byte[] payment_id);
-	// MUST_USE_RES struct LDKCResult_PaymentIdPaymentErrorZ InvoicePayer_pay_pubkey(const struct LDKInvoicePayer *NONNULL_PTR this_arg, struct LDKPublicKey pubkey, struct LDKThirtyTwoBytes payment_preimage, uint64_t amount_msats, uint32_t final_cltv_expiry_delta);
-	public static native long InvoicePayer_pay_pubkey(long this_arg, byte[] pubkey, byte[] payment_preimage, long amount_msats, int final_cltv_expiry_delta);
-	// MUST_USE_RES struct LDKCResult_NonePaymentErrorZ InvoicePayer_pay_pubkey_with_id(const struct LDKInvoicePayer *NONNULL_PTR this_arg, struct LDKPublicKey pubkey, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_id, uint64_t amount_msats, uint32_t final_cltv_expiry_delta);
-	public static native long InvoicePayer_pay_pubkey_with_id(long this_arg, byte[] pubkey, byte[] payment_preimage, byte[] payment_id, long amount_msats, int final_cltv_expiry_delta);
-	// void InvoicePayer_remove_cached_payment(const struct LDKInvoicePayer *NONNULL_PTR this_arg, const uint8_t (*payment_hash)[32]);
-	public static native void InvoicePayer_remove_cached_payment(long this_arg, byte[] payment_hash);
-	// struct LDKEventHandler InvoicePayer_as_EventHandler(const struct LDKInvoicePayer *NONNULL_PTR this_arg);
-	public static native long InvoicePayer_as_EventHandler(long this_arg);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_phantom_invoice(struct LDKCOption_u64Z amt_msat, struct LDKThirtyTwoBytes payment_hash, struct LDKStr description, uint32_t invoice_expiry_delta_secs, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network);
-	public static native long create_phantom_invoice(long amt_msat, byte[] payment_hash, String description, int invoice_expiry_delta_secs, long[] phantom_route_hints, long keys_manager, long logger, Currency network);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(struct LDKCOption_u64Z amt_msat, struct LDKThirtyTwoBytes payment_hash, uint32_t invoice_expiry_delta_secs, struct LDKSha256 description_hash, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network);
-	public static native long create_phantom_invoice_with_description_hash(long amt_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long description_hash, long[] phantom_route_hints, long keys_manager, long logger, Currency network);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint32_t invoice_expiry_delta_secs);
-	public static native long create_invoice_from_channelmanager(long channelmanager, long keys_manager, long logger, Currency network, long amt_msat, String description, int invoice_expiry_delta_secs);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKSha256 description_hash, uint32_t invoice_expiry_delta_secs);
-	public static native long create_invoice_from_channelmanager_with_description_hash(long channelmanager, long keys_manager, long logger, Currency network, long amt_msat, long description_hash, int invoice_expiry_delta_secs);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKSha256 description_hash, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs);
-	public static native long create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(long channelmanager, long keys_manager, long logger, Currency network, long amt_msat, long description_hash, long duration_since_epoch, int invoice_expiry_delta_secs);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs);
-	public static native long create_invoice_from_channelmanager_and_duration_since_epoch(long channelmanager, long keys_manager, long logger, Currency network, long amt_msat, String description, long duration_since_epoch, int invoice_expiry_delta_secs);
-	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs, struct LDKThirtyTwoBytes payment_hash);
-	public static native long create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(long channelmanager, long keys_manager, long logger, Currency network, long amt_msat, String description, long duration_since_epoch, int invoice_expiry_delta_secs, byte[] payment_hash);
-	// struct LDKPayer ChannelManager_as_Payer(const struct LDKChannelManager *NONNULL_PTR this_arg);
-	public static native long ChannelManager_as_Payer(long this_arg);
+	// struct LDKPaymentError PaymentError_sending(enum LDKRetryableSendFailure a);
+	public static native long PaymentError_sending(RetryableSendFailure a);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_phantom_invoice(struct LDKCOption_u64Z amt_msat, struct LDKThirtyTwoBytes payment_hash, struct LDKStr description, uint32_t invoice_expiry_delta_secs, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u16Z min_final_cltv_expiry_delta, uint64_t duration_since_epoch);
+	public static native long create_phantom_invoice(long amt_msat, byte[] payment_hash, String description, int invoice_expiry_delta_secs, long[] phantom_route_hints, long entropy_source, long node_signer, long logger, Currency network, long min_final_cltv_expiry_delta, long duration_since_epoch);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(struct LDKCOption_u64Z amt_msat, struct LDKThirtyTwoBytes payment_hash, uint32_t invoice_expiry_delta_secs, struct LDKSha256 description_hash, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u16Z min_final_cltv_expiry_delta, uint64_t duration_since_epoch);
+	public static native long create_phantom_invoice_with_description_hash(long amt_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long description_hash, long[] phantom_route_hints, long entropy_source, long node_signer, long logger, Currency network, long min_final_cltv_expiry_delta, long duration_since_epoch);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_invoice_from_channelmanager(long channelmanager, long node_signer, long logger, Currency network, long amt_msat, String description, int invoice_expiry_delta_secs, long min_final_cltv_expiry_delta);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKSha256 description_hash, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_invoice_from_channelmanager_with_description_hash(long channelmanager, long node_signer, long logger, Currency network, long amt_msat, long description_hash, int invoice_expiry_delta_secs, long min_final_cltv_expiry_delta);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKSha256 description_hash, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_invoice_from_channelmanager_with_description_hash_and_duration_since_epoch(long channelmanager, long node_signer, long logger, Currency network, long amt_msat, long description_hash, long duration_since_epoch, int invoice_expiry_delta_secs, long min_final_cltv_expiry_delta);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_invoice_from_channelmanager_and_duration_since_epoch(long channelmanager, long node_signer, long logger, Currency network, long amt_msat, String description, long duration_since_epoch, int invoice_expiry_delta_secs, long min_final_cltv_expiry_delta);
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description, uint64_t duration_since_epoch, uint32_t invoice_expiry_delta_secs, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u16Z min_final_cltv_expiry_delta);
+	public static native long create_invoice_from_channelmanager_and_duration_since_epoch_with_payment_hash(long channelmanager, long node_signer, long logger, Currency network, long amt_msat, String description, long duration_since_epoch, int invoice_expiry_delta_secs, byte[] payment_hash, long min_final_cltv_expiry_delta);
 	// struct LDKCResult_SiPrefixParseErrorZ SiPrefix_from_str(struct LDKStr s);
 	public static native long SiPrefix_from_str(String s);
 	// struct LDKCResult_InvoiceParseOrSemanticErrorZ Invoice_from_str(struct LDKStr s);
@@ -8984,10 +9307,12 @@ public class bindings {
 	public static native String SiPrefix_to_str(long o);
 	// void RapidGossipSync_free(struct LDKRapidGossipSync this_obj);
 	public static native void RapidGossipSync_free(long this_obj);
-	// MUST_USE_RES struct LDKRapidGossipSync RapidGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph);
-	public static native long RapidGossipSync_new(long network_graph);
+	// MUST_USE_RES struct LDKRapidGossipSync RapidGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKLogger logger);
+	public static native long RapidGossipSync_new(long network_graph, long logger);
 	// MUST_USE_RES struct LDKCResult_u32GraphSyncErrorZ RapidGossipSync_update_network_graph(const struct LDKRapidGossipSync *NONNULL_PTR this_arg, struct LDKu8slice update_data);
 	public static native long RapidGossipSync_update_network_graph(long this_arg, byte[] update_data);
+	// MUST_USE_RES struct LDKCResult_u32GraphSyncErrorZ RapidGossipSync_update_network_graph_no_std(const struct LDKRapidGossipSync *NONNULL_PTR this_arg, struct LDKu8slice update_data, struct LDKCOption_u64Z current_time_unix);
+	public static native long RapidGossipSync_update_network_graph_no_std(long this_arg, byte[] update_data, long current_time_unix);
 	// MUST_USE_RES bool RapidGossipSync_is_initial_sync_complete(const struct LDKRapidGossipSync *NONNULL_PTR this_arg);
 	public static native boolean RapidGossipSync_is_initial_sync_complete(long this_arg);
 	// void GraphSyncError_free(struct LDKGraphSyncError this_ptr);

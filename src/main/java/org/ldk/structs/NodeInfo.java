@@ -41,37 +41,6 @@ public class NodeInfo extends CommonBase {
 	}
 
 	/**
-	 * Lowest fees enabling routing via any of the enabled, known channels to a node.
-	 * The two fields (flat and proportional fee) are independent,
-	 * meaning they don't have to refer to the same channel.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public RoutingFees get_lowest_inbound_channel_fees() {
-		long ret = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.RoutingFees ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RoutingFees(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Lowest fees enabling routing via any of the enabled, known channels to a node.
-	 * The two fields (flat and proportional fee) are independent,
-	 * meaning they don't have to refer to the same channel.
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public void set_lowest_inbound_channel_fees(@Nullable org.ldk.structs.RoutingFees val) {
-		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-		if (this != null) { this.ptrs_to.add(val); };
-	}
-
-	/**
 	 * More information about a node from node_announcement.
 	 * Optional because we store a Node entry after learning about it from
 	 * a channel announcement, but before receiving a node announcement.
@@ -105,15 +74,13 @@ public class NodeInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeInfo given each field
 	 */
-	public static NodeInfo of(long[] channels_arg, org.ldk.structs.RoutingFees lowest_inbound_channel_fees_arg, org.ldk.structs.NodeAnnouncementInfo announcement_info_arg) {
-		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr, announcement_info_arg == null ? 0 : announcement_info_arg.ptr);
+	public static NodeInfo of(long[] channels_arg, org.ldk.structs.NodeAnnouncementInfo announcement_info_arg) {
+		long ret = bindings.NodeInfo_new(channels_arg, announcement_info_arg == null ? 0 : announcement_info_arg.ptr);
 		Reference.reachabilityFence(channels_arg);
-		Reference.reachabilityFence(lowest_inbound_channel_fees_arg);
 		Reference.reachabilityFence(announcement_info_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(announcement_info_arg); };
 		return ret_hu_conv;
 	}
