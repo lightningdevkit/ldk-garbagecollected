@@ -8,6 +8,12 @@ export class NodeLDKNet {
 	private ping_timer;
 	private servers: net.Server[];
 	public constructor(public peer_manager: ldk.PeerManager) {
+		// @ts-ignore
+		if (peer_manager._node_ldk_net_singleton_check != undefined) {
+			throw "Only one NdoeLDKNet should exist per PeerManager";
+		}
+		// @ts-ignore
+		peer_manager._node_ldk_net_singleton_check = this;
 		this.ping_timer = setInterval(function() {
 			peer_manager.timer_tick_occurred();
 			peer_manager.process_events();
@@ -24,6 +30,8 @@ export class NodeLDKNet {
 			server.close();
 		}
 		this.peer_manager.disconnect_all_peers();
+		// @ts-ignore
+		delete this.peer_manager._node_ldk_net_singleton_check;
 	}
 
 	/**
