@@ -361,6 +361,7 @@ export async function initializeWasmFromBinary(bin: Uint8Array) {
 	await initializeWasmFromUint8Array(bin);
 }
 
+export * from './structs/UtilMethods.mjs';
 """)
 
         self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {

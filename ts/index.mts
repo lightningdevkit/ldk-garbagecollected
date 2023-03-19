@@ -8,6 +8,7 @@ export async function initializeWasmFromBinary(bin: Uint8Array) {
 	await initializeWasmFromUint8Array(bin);
 }
 
+export * from './structs/UtilMethods.mjs';
 export * from './structs/TxOut.mjs';
 export * from './structs/BigEndianScalar.mjs';
 export * from './enums/COption_NoneZ.mjs';
