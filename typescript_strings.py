@@ -1638,7 +1638,14 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: 
 		console.error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
 		throw new Error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
 	}
-	const ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	var ret;
+	try {
+		ret = fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	} catch (e) {
+		console.error("Got an exception calling function with id " + fn_id + "! This is fatal.");
+		console.error(e);
+		throw e;
+	}
 	if (ret === undefined || ret === null) return BigInt(0);
 	return BigInt(ret);
 }""")
