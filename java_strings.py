@@ -1340,6 +1340,8 @@ import javax.annotation.Nullable;
                     extra_java_struct_out += "\t\tif (!(o instanceof " + struct_meth + ")) return false;\n"
                     extra_java_struct_out += "\t\treturn this.eq((" + struct_meth + ")o);\n"
                     extra_java_struct_out += "\t}\n"
+                if meth_n == "wait":
+                    meth_n = "wait_indefinite"
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
