@@ -521,6 +521,8 @@ import javax.annotation.Nullable;
             clz_var = ty_info.java_fn_ty_arg[1:].replace("[", "arr_of_")
             self.c_array_class_caches.add(clz_var)
             return "(*env)->NewObjectArray(env, " + arr_len + ", " + clz_var + "_clz, NULL);\n"
+        elif ty_info.subty.c_ty == "jstring":
+            return "(*env)->NewObjectArray(env, " + arr_len + ", String_clz, NULL);\n"
         else:
             return "(*env)->New" + ty_info.java_ty.strip("[]").title() + "Array(env, " + arr_len + ")"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
@@ -531,6 +533,8 @@ import javax.annotation.Nullable;
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
+        if "String" in ty_info.java_ty:
+            return None
         if ty_info.c_ty == "int8_tArray" or ty_info.c_ty == "int16_tArray":
             fn_ty = "Byte" if ty_info.c_ty == "int8_tArray" else "Short"
             if copy:
@@ -590,11 +594,16 @@ import javax.annotation.Nullable;
         res = ""
         for ty in sorted(self.c_array_class_caches):
             res = res + "static jclass " + ty + "_clz = NULL;\n"
+        res = res + "static jclass String_clz = NULL;\n"
         res = res + "JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {\n"
         for ty in sorted(self.c_array_class_caches):
             res = res + "\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n"
             res = res + "\tCHECK(" + ty + "_clz != NULL);\n"
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"
+        res = res + "\tString_clz = (*env)->FindClass(env, \"Ljava/lang/String;\");\n"
+        res = res + "\tCHECK(String_clz != NULL);\n"
+        res = res + "\tString_clz = (*env)->NewGlobalRef(env, String_clz);\n"
+
         res = res + "}\n"
         return res
 
