@@ -132,13 +132,15 @@ def java_c_types(fn_arg, ret_arr_len):
     rust_obj = None
     arr_access = None
     java_hu_ty = None
-    if fn_arg.startswith("LDKPaymentPreimage") or fn_arg.startswith("LDKPaymentSecret") or fn_arg.startswith("LDKPaymentHash"):
+    if fn_arg.startswith("LDKPaymentPreimage") or fn_arg.startswith("LDKPaymentSecret") or fn_arg.startswith("LDKPaymentHash") or fn_arg.startswith("LDKChainHash"):
         if fn_arg.startswith("LDKPaymentPreimage"):
             fn_arg = "uint8_t (*" + fn_arg[19:] + ")[32]"
         elif fn_arg.startswith("LDKPaymentSecret"):
             fn_arg = "uint8_t (*" + fn_arg[17:] + ")[32]"
         elif fn_arg.startswith("LDKPaymentHash"):
             fn_arg = "uint8_t (*" + fn_arg[15:] + ")[32]"
+        elif fn_arg.startswith("LDKChainHash"):
+            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
@@ -343,14 +345,17 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_ty = "LDKStr"
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
-    elif fn_arg.startswith("LDKStr"):
+    elif fn_arg.startswith("LDKStr") or fn_arg.startswith("LDKAddress"):
         rust_obj = "LDKStr"
         arr_ty = "LDKStr"
         java_ty = consts.java_type_map["String"]
         java_hu_ty = consts.java_hu_type_map["String"]
         c_ty = "jstring"
         fn_ty_arg = "Ljava/lang/String;"
-        fn_arg = fn_arg[6:].strip()
+        if fn_arg.startswith("LDKAddress"):
+            fn_arg = fn_arg[10:].strip()
+        else:
+            fn_arg = fn_arg[6:].strip()
         arr_access = "chars"
         arr_len = "len"
     elif fn_arg.startswith("LDKError ") or fn_arg == "LDKError":
