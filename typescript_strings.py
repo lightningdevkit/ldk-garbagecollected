@@ -735,7 +735,7 @@ import * as bindings from '../bindings.mjs'
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
-            assert ty_info.rust_obj == "LDKCVec_U5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
+            assert ty_info.rust_obj == "LDKCVec_U5Z" or (ty_info.subty is not None and (ty_info.subty.c_ty.endswith("Array") or ty_info.subty.rust_obj == "LDKStr"))
         return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
@@ -773,7 +773,7 @@ import * as bindings from '../bindings.mjs'
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
         if elem_ty.rust_obj == "LDKU5":
             return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
-        assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array")
+        assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array") or elem_ty.rust_obj == "LDKStr"
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
 
     def str_ref_to_native_call(self, var_name, str_len):
@@ -800,6 +800,8 @@ import * as bindings from '../bindings.mjs'
             return "bindings.getU64ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.rust_obj == "LDKU5":
             return "bindings.getU8ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.rust_obj == "LDKStr":
+            return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False
     def constr_hu_array(self, ty_info, arr_len):
@@ -827,6 +829,8 @@ import * as bindings from '../bindings.mjs'
             return ("bindings.encodeUint32Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "int64_t" or mapped_ty.c_ty == "uint64_t":
             return ("bindings.encodeUint64Array(" + inner + ")", "")
+        elif mapped_ty.rust_obj == "LDKStr":
+            return ("XXX-unused", "")
         else:
             print(mapped_ty.c_ty)
             assert False
