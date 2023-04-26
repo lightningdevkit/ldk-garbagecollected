@@ -12,9 +12,11 @@ import javax.annotation.Nullable;
  * Represents a syntactically and semantically correct lightning BOLT11 invoice.
  * 
  * There are three ways to construct an `Invoice`:
- * 1. using `InvoiceBuilder`
- * 2. using `Invoice::from_signed(SignedRawInvoice)`
- * 3. using `str::parse::<Invoice>(&str)`
+ * 1. using [`InvoiceBuilder`]
+ * 2. using [`Invoice::from_signed`]
+ * 3. using `str::parse::<Invoice>(&str)` (see [`Invoice::from_str`])
+ * 
+ * [`Invoice::from_str`]: crate::Invoice#impl-FromStr
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Invoice extends CommonBase {
@@ -61,7 +63,7 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
-	 * Checks if two Invoices contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Invoice.
 	 */
 	public long hash() {
 		long ret = bindings.Invoice_hash(this.ptr);
@@ -72,6 +74,15 @@ public class Invoice extends CommonBase {
 	@Override public int hashCode() {
 		return (int)this.hash();
 	}
+	/**
+	 * The hash of the [`RawInvoice`] that was signed.
+	 */
+	public byte[] signable_hash() {
+		byte[] ret = bindings.Invoice_signable_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 	/**
 	 * Transform the `Invoice` into it's unchecked version
 	 */
@@ -97,7 +108,7 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
-	 * Constructs an `Invoice` from a `SignedRawInvoice` by checking all its invariants.
+	 * Constructs an `Invoice` from a [`SignedRawInvoice`] by checking all its invariants.
 	 * ```
 	 * use lightning_invoice::*;
 	 * 
@@ -176,6 +187,18 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
+	 * Get the payment metadata blob if one was included in the invoice
+	 */
+	public Option_CVec_u8ZZ payment_metadata() {
+		long ret = bindings.Invoice_payment_metadata(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Get the invoice features if they were included in the invoice
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -200,6 +223,19 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
+	 * Returns the Duration since the Unix epoch at which the invoice expires.
+	 * Returning None if overflow occurred.
+	 */
+	public Option_DurationZ expires_at() {
+		long ret = bindings.Invoice_expires_at(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Returns the invoice's expiry time, if present, otherwise [`DEFAULT_EXPIRY_TIME`].
 	 */
 	public long expiry_time() {
@@ -214,6 +250,26 @@ public class Invoice extends CommonBase {
 	public boolean is_expired() {
 		boolean ret = bindings.Invoice_is_expired(this.ptr);
 		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the Duration remaining until the invoice expires.
+	 */
+	public long duration_until_expiry() {
+		long ret = bindings.Invoice_duration_until_expiry(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the Duration remaining until the invoice expires given the current time.
+	 * `time` is the timestamp as a duration since the Unix epoch.
+	 */
+	public long expiration_remaining_from_epoch(long time) {
+		long ret = bindings.Invoice_expiration_remaining_from_epoch(this.ptr, time);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(time);
 		return ret;
 	}
 
@@ -234,6 +290,15 @@ public class Invoice extends CommonBase {
 	 */
 	public long min_final_cltv_expiry_delta() {
 		long ret = bindings.Invoice_min_final_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns a list of all fallback addresses as [`Address`]es
+	 */
+	public String[] fallback_addresses() {
+		String[] ret = bindings.Invoice_fallback_addresses(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

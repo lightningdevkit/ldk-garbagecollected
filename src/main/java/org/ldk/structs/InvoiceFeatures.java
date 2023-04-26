@@ -198,4 +198,38 @@ public class InvoiceFeatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_payment_metadata_optional() {
+		bindings.InvoiceFeatures_set_payment_metadata_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_payment_metadata_required() {
+		bindings.InvoiceFeatures_set_payment_metadata_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_payment_metadata() {
+		boolean ret = bindings.InvoiceFeatures_supports_payment_metadata(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_payment_metadata() {
+		boolean ret = bindings.InvoiceFeatures_requires_payment_metadata(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 }

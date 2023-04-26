@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * to a remote host. You will need to be able to generate multiple of these which meet Eq and
  * implement Hash to meet the PeerManager API.
  * 
- * For efficiency, Clone should be relatively cheap for this type.
+ * For efficiency, [`Clone`] should be relatively cheap for this type.
  * 
  * Two descriptors may compare equal (by [`cmp::Eq`] and [`hash::Hash`]) as long as the original
  * has been disconnected, the [`PeerManager`] has been informed of the disconnection (either by it

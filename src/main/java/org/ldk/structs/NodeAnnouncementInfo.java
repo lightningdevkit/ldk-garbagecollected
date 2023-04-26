@@ -107,35 +107,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	/**
-	 * Internet-level addresses via which one can connect to the node
-	 * 
-	 * Returns a copy of the field.
-	 */
-	public NetAddress[] get_addresses() {
-		long[] ret = bindings.NodeAnnouncementInfo_get_addresses(this.ptr);
-		Reference.reachabilityFence(this);
-		int ret_conv_12_len = ret.length;
-		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
-			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
-			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.add(this); };
-			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
-		}
-		return ret_conv_12_arr;
-	}
-
-	/**
-	 * Internet-level addresses via which one can connect to the node
-	 */
-	public void set_addresses(NetAddress[] val) {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-		for (NetAddress val_conv_12: val) { if (this != null) { this.ptrs_to.add(val_conv_12); }; };
-	}
-
-	/**
 	 * An initial announcement of the node
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
@@ -171,20 +142,18 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, NetAddress[] addresses_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
-		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
+	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(last_update_arg);
 		Reference.reachabilityFence(rgb_arg);
 		Reference.reachabilityFence(alias_arg);
-		Reference.reachabilityFence(addresses_arg);
 		Reference.reachabilityFence(announcement_message_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncementInfo(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(alias_arg); };
-		for (NetAddress addresses_arg_conv_12: addresses_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(addresses_arg_conv_12); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(announcement_message_arg); };
 		return ret_hu_conv;
 	}
@@ -224,6 +193,23 @@ public class NodeAnnouncementInfo extends CommonBase {
 		if (!(o instanceof NodeAnnouncementInfo)) return false;
 		return this.eq((NodeAnnouncementInfo)o);
 	}
+	/**
+	 * Internet-level addresses via which one can connect to the node
+	 */
+	public NetAddress[] addresses() {
+		long[] ret = bindings.NodeAnnouncementInfo_addresses(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_12_len = ret.length;
+		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
+		for (int m = 0; m < ret_conv_12_len; m++) {
+			long ret_conv_12 = ret[m];
+			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
+			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.add(this); };
+			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		}
+		return ret_conv_12_arr;
+	}
+
 	/**
 	 * Serialize the NodeAnnouncementInfo object into a byte array which can be read by NodeAnnouncementInfo_read
 	 */

@@ -161,7 +161,7 @@ public class ChannelMonitor extends CommonBase {
 	 * This is called by the [`EventsProvider::process_pending_events`] implementation for
 	 * [`ChainMonitor`].
 	 * 
-	 * [`EventsProvider::process_pending_events`]: crate::util::events::EventsProvider::process_pending_events
+	 * [`EventsProvider::process_pending_events`]: crate::events::EventsProvider::process_pending_events
 	 * [`ChainMonitor`]: crate::chain::chainmonitor::ChainMonitor
 	 */
 	public Event[] get_and_clear_pending_events() {
@@ -382,6 +382,24 @@ public class ChannelMonitor extends CommonBase {
 		org.ldk.structs.BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BestBlock(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Triggers rebroadcasts/fee-bumps of pending claims from a force-closed channel. This is
+	 * crucial in preventing certain classes of pinning attacks, detecting substantial mempool
+	 * feerate changes between blocks, and ensuring reliability if broadcasting fails. We recommend
+	 * invoking this every 30 seconds, or lower if running in an environment with spotty
+	 * connections, like on mobile.
+	 */
+	public void rebroadcast_pending_claims(org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
+		bindings.ChannelMonitor_rebroadcast_pending_claims(this.ptr, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
+		if (this != null) { this.ptrs_to.add(broadcaster); };
+		if (this != null) { this.ptrs_to.add(fee_estimator); };
+		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**

@@ -63,7 +63,7 @@ public class PayeePubKey extends CommonBase {
 	}
 
 	/**
-	 * Checks if two PayeePubKeys contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the PayeePubKey.
 	 */
 	public long hash() {
 		long ret = bindings.PayeePubKey_hash(this.ptr);

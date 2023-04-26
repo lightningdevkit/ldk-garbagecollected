@@ -179,7 +179,7 @@ public class RouteHintHop extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RouteHintHops contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RouteHintHop.
 	 */
 	public long hash() {
 		long ret = bindings.RouteHintHop_hash(this.ptr);

@@ -53,19 +53,19 @@ public class Score extends CommonBase {
 		/**
 		 * Handles updating channel penalties after failing to route through a channel.
 		 */
-		void payment_path_failed(RouteHop[] path, long short_channel_id);
+		void payment_path_failed(Path path, long short_channel_id);
 		/**
 		 * Handles updating channel penalties after successfully routing along a path.
 		 */
-		void payment_path_successful(RouteHop[] path);
+		void payment_path_successful(Path path);
 		/**
 		 * Handles updating channel penalties after a probe over the given path failed.
 		 */
-		void probe_failed(RouteHop[] path, long short_channel_id);
+		void probe_failed(Path path, long short_channel_id);
 		/**
 		 * Handles updating channel penalties after a probe over the given path succeeded.
 		 */
-		void probe_successful(RouteHop[] path);
+		void probe_successful(Path path);
 		/**
 		 * Serialize the object into a byte array
 		 */
@@ -84,52 +84,24 @@ public class Score extends CommonBase {
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
-			@Override public void payment_path_failed(long[] path, long short_channel_id) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.payment_path_failed(path_conv_10_arr, short_channel_id);
+			@Override public void payment_path_failed(long path, long short_channel_id) {
+				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+				arg.payment_path_failed(path_hu_conv, short_channel_id);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void payment_path_successful(long[] path) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.payment_path_successful(path_conv_10_arr);
+			@Override public void payment_path_successful(long path) {
+				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+				arg.payment_path_successful(path_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void probe_failed(long[] path, long short_channel_id) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.probe_failed(path_conv_10_arr, short_channel_id);
+			@Override public void probe_failed(long path, long short_channel_id) {
+				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+				arg.probe_failed(path_hu_conv, short_channel_id);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void probe_successful(long[] path) {
-				int path_conv_10_len = path.length;
-				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-				for (int k = 0; k < path_conv_10_len; k++) {
-					long path_conv_10 = path[k];
-					org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-					if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-					path_conv_10_arr[k] = path_conv_10_hu_conv;
-				}
-				arg.probe_successful(path_conv_10_arr);
+			@Override public void probe_successful(long path) {
+				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+				arg.probe_successful(path_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public byte[] write() {
@@ -166,43 +138,43 @@ public class Score extends CommonBase {
 	/**
 	 * Handles updating channel penalties after failing to route through a channel.
 	 */
-	public void payment_path_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Score_payment_path_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
+	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id) {
+		bindings.Score_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
+		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after successfully routing along a path.
 	 */
-	public void payment_path_successful(RouteHop[] path) {
-		bindings.Score_payment_path_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
+	public void payment_path_successful(org.ldk.structs.Path path) {
+		bindings.Score_payment_path_successful(this.ptr, path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
+		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path failed.
 	 */
-	public void probe_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Score_probe_failed(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id);
+	public void probe_failed(org.ldk.structs.Path path, long short_channel_id) {
+		bindings.Score_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
+		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path succeeded.
 	 */
-	public void probe_successful(RouteHop[] path) {
-		bindings.Score_probe_successful(this.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
+	public void probe_successful(org.ldk.structs.Path path) {
+		bindings.Score_probe_successful(this.ptr, path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
-		for (RouteHop path_conv_10: path) { if (this != null) { this.ptrs_to.add(path_conv_10); }; };
+		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**

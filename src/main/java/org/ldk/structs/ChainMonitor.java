@@ -16,8 +16,15 @@ import javax.annotation.Nullable;
  * or used independently to monitor channels remotely. See the [module-level documentation] for
  * details.
  * 
+ * Note that `ChainMonitor` should regularly trigger rebroadcasts/fee bumps of pending claims from
+ * a force-closed channel. This is crucial in preventing certain classes of pinning attacks,
+ * detecting substantial mempool feerate changes between blocks, and ensuring reliability if
+ * broadcasting fails. We recommend invoking this every 30 seconds, or lower if running in an
+ * environment with spotty connections, like on mobile.
+ * 
  * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
  * [module-level documentation]: crate::chain::chainmonitor
+ * [`rebroadcast_pending_claims`]: Self::rebroadcast_pending_claims
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChainMonitor extends CommonBase {
@@ -161,6 +168,37 @@ public class ChainMonitor extends CommonBase {
 		if (this != null) { this.ptrs_to.add(funding_txo); };
 		if (this != null) { this.ptrs_to.add(completed_update_id); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets a [`Future`] that completes when an event is available either via
+	 * [`chain::Watch::release_pending_monitor_events`] or
+	 * [`EventsProvider::process_pending_events`].
+	 * 
+	 * Note that callbacks registered on the [`Future`] MUST NOT call back into this
+	 * [`ChainMonitor`] and should instead register actions to be taken later.
+	 * 
+	 * [`EventsProvider::process_pending_events`]: crate::events::EventsProvider::process_pending_events
+	 */
+	public Future get_update_future() {
+		long ret = bindings.ChainMonitor_get_update_future(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Future ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Future(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Triggers rebroadcasts/fee-bumps of pending claims from a force-closed channel. This is
+	 * crucial in preventing certain classes of pinning attacks, detecting substantial mempool
+	 * feerate changes between blocks, and ensuring reliability if broadcasting fails. We recommend
+	 * invoking this every 30 seconds, or lower if running in an environment with spotty
+	 * connections, like on mobile.
+	 */
+	public void rebroadcast_pending_claims() {
+		bindings.ChainMonitor_rebroadcast_pending_claims(this.ptr);
+		Reference.reachabilityFence(this);
 	}
 
 	/**

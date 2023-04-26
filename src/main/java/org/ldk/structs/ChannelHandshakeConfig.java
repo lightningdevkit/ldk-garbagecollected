@@ -397,10 +397,48 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
+	 * The maximum number of HTLCs in-flight from our counterparty towards us at the same time.
+	 * 
+	 * Increasing the value can help improve liquidity and stability in
+	 * routing at the cost of higher long term disk / DB usage.
+	 * 
+	 * Note: Versions of LDK earlier than v0.0.115 will fail to read channels with a configuration
+	 * other than the default value.
+	 * 
+	 * Default value: 50
+	 * Maximum value: 483, any values larger will be treated as 483.
+	 * This is the BOLT #2 spec limit on `max_accepted_htlcs`.
+	 */
+	public short get_our_max_accepted_htlcs() {
+		short ret = bindings.ChannelHandshakeConfig_get_our_max_accepted_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The maximum number of HTLCs in-flight from our counterparty towards us at the same time.
+	 * 
+	 * Increasing the value can help improve liquidity and stability in
+	 * routing at the cost of higher long term disk / DB usage.
+	 * 
+	 * Note: Versions of LDK earlier than v0.0.115 will fail to read channels with a configuration
+	 * other than the default value.
+	 * 
+	 * Default value: 50
+	 * Maximum value: 483, any values larger will be treated as 483.
+	 * This is the BOLT #2 spec limit on `max_accepted_htlcs`.
+	 */
+	public void set_our_max_accepted_htlcs(short val) {
+		bindings.ChannelHandshakeConfig_set_our_max_accepted_htlcs(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, int their_channel_reserve_proportional_millionths_arg) {
-		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, their_channel_reserve_proportional_millionths_arg);
+	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, int their_channel_reserve_proportional_millionths_arg, short our_max_accepted_htlcs_arg) {
+		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, their_channel_reserve_proportional_millionths_arg, our_max_accepted_htlcs_arg);
 		Reference.reachabilityFence(minimum_depth_arg);
 		Reference.reachabilityFence(our_to_self_delay_arg);
 		Reference.reachabilityFence(our_htlc_minimum_msat_arg);
@@ -409,6 +447,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 		Reference.reachabilityFence(announced_channel_arg);
 		Reference.reachabilityFence(commit_upfront_shutdown_pubkey_arg);
 		Reference.reachabilityFence(their_channel_reserve_proportional_millionths_arg);
+		Reference.reachabilityFence(our_max_accepted_htlcs_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeConfig(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

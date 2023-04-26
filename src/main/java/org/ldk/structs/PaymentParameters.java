@@ -78,28 +78,23 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
 	 */
-	public RouteHint[] get_route_hints() {
-		long[] ret = bindings.PaymentParameters_get_route_hints(this.ptr);
+	public Hints get_route_hints() {
+		long ret = bindings.PaymentParameters_get_route_hints(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_11_len = ret.length;
-		RouteHint[] ret_conv_11_arr = new RouteHint[ret_conv_11_len];
-		for (int l = 0; l < ret_conv_11_len; l++) {
-			long ret_conv_11 = ret[l];
-			org.ldk.structs.RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, ret_conv_11); }
-			if (ret_conv_11_hu_conv != null) { ret_conv_11_hu_conv.ptrs_to.add(this); };
-			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
-		}
-		return ret_conv_11_arr;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Hints ret_hu_conv = org.ldk.structs.Hints.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
 	 */
-	public void set_route_hints(RouteHint[] val) {
-		bindings.PaymentParameters_set_route_hints(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_11 -> val_conv_11 == null ? 0 : val_conv_11.ptr).toArray() : null);
+	public void set_route_hints(org.ldk.structs.Hints val) {
+		bindings.PaymentParameters_set_route_hints(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (RouteHint val_conv_11: val) { if (this != null) { this.ptrs_to.add(val_conv_11); }; };
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -251,8 +246,8 @@ public class PaymentParameters extends CommonBase {
 	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, RouteHint[] route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, int final_cltv_expiry_delta_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr).toArray() : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg, final_cltv_expiry_delta_arg);
+	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, org.ldk.structs.Hints route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, int final_cltv_expiry_delta_arg) {
+		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg, final_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(payee_pubkey_arg);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(route_hints_arg);
@@ -266,7 +261,7 @@ public class PaymentParameters extends CommonBase {
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
-		for (RouteHint route_hints_arg_conv_11: route_hints_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_hints_arg_conv_11); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_hints_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(expiry_time_arg); };
 		return ret_hu_conv;
 	}
@@ -290,7 +285,7 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
-	 * Checks if two PaymentParameterss contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the PaymentParameters.
 	 */
 	public long hash() {
 		long ret = bindings.PaymentParameters_hash(this.ptr);

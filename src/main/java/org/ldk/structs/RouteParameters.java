@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  * Passed to [`find_route`] and [`build_route_from_hops`], but also provided in
  * [`Event::PaymentPathFailed`].
  * 
- * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+ * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RouteParameters extends CommonBase {

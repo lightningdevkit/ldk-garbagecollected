@@ -22,44 +22,34 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
-	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
-	 * least length one. While the maximum length of any given path is variable, keeping the length
-	 * of any path less or equal to 19 should currently ensure it is viable.
+	 * The list of [`Path`]s taken for a single (potentially-)multi-part payment. If no
+	 * [`BlindedTail`]s are present, then the pubkey of the last [`RouteHop`] in each path must be
+	 * the same.
 	 */
-	public RouteHop[][] get_paths() {
-		long[][] ret = bindings.Route_get_paths(this.ptr);
+	public Path[] get_paths() {
+		long[] ret = bindings.Route_get_paths(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_12_len = ret.length;
-		RouteHop[][] ret_conv_12_arr = new RouteHop[ret_conv_12_len][];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long[] ret_conv_12 = ret[m];
-			int ret_conv_12_conv_10_len = ret_conv_12.length;
-			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12_conv_10_len];
-			for (int k = 0; k < ret_conv_12_conv_10_len; k++) {
-				long ret_conv_12_conv_10 = ret_conv_12[k];
-				org.ldk.structs.RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, ret_conv_12_conv_10); }
-				if (ret_conv_12_conv_10_hu_conv != null) { ret_conv_12_conv_10_hu_conv.ptrs_to.add(this); };
-				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
-			}
-			ret_conv_12_arr[m] = ret_conv_12_conv_10_arr;
+		int ret_conv_6_len = ret.length;
+		Path[] ret_conv_6_arr = new Path[ret_conv_6_len];
+		for (int g = 0; g < ret_conv_6_len; g++) {
+			long ret_conv_6 = ret[g];
+			org.ldk.structs.Path ret_conv_6_hu_conv = null; if (ret_conv_6 < 0 || ret_conv_6 > 4096) { ret_conv_6_hu_conv = new org.ldk.structs.Path(null, ret_conv_6); }
+			if (ret_conv_6_hu_conv != null) { ret_conv_6_hu_conv.ptrs_to.add(this); };
+			ret_conv_6_arr[g] = ret_conv_6_hu_conv;
 		}
-		return ret_conv_12_arr;
+		return ret_conv_6_arr;
 	}
 
 	/**
-	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
-	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
-	 * least length one. While the maximum length of any given path is variable, keeping the length
-	 * of any path less or equal to 19 should currently ensure it is viable.
+	 * The list of [`Path`]s taken for a single (potentially-)multi-part payment. If no
+	 * [`BlindedTail`]s are present, then the pubkey of the last [`RouteHop`] in each path must be
+	 * the same.
 	 */
-	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr).toArray() : null).toArray(long[][]::new) : null);
+	public void set_paths(Path[] val) {
+		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_6 -> val_conv_6 == null ? 0 : val_conv_6.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (RouteHop[] val_conv_12: val) { for (RouteHop val_conv_12_conv_10: val_conv_12) { if (this != null) { this.ptrs_to.add(val_conv_12_conv_10); }; }; };
+		for (Path val_conv_6: val) { if (this != null) { this.ptrs_to.add(val_conv_6); }; };
 	}
 
 	/**
@@ -67,7 +57,7 @@ public class Route extends CommonBase {
 	 * This is used by `ChannelManager` to track information which may be required for retries,
 	 * provided back to you via [`Event::PaymentPathFailed`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -86,7 +76,7 @@ public class Route extends CommonBase {
 	 * This is used by `ChannelManager` to track information which may be required for retries,
 	 * provided back to you via [`Event::PaymentPathFailed`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -100,14 +90,14 @@ public class Route extends CommonBase {
 	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route of(RouteHop[][] paths_arg, org.ldk.structs.PaymentParameters payment_params_arg) {
-		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr).toArray() : null).toArray(long[][]::new) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
+	public static Route of(Path[] paths_arg, org.ldk.structs.PaymentParameters payment_params_arg) {
+		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).mapToLong(paths_arg_conv_6 -> paths_arg_conv_6 == null ? 0 : paths_arg_conv_6.ptr).toArray() : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
 		Reference.reachabilityFence(paths_arg);
 		Reference.reachabilityFence(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		for (RouteHop[] paths_arg_conv_12: paths_arg) { for (RouteHop paths_arg_conv_12_conv_10: paths_arg_conv_12) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(paths_arg_conv_12_conv_10); }; }; };
+		for (Path paths_arg_conv_6: paths_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(paths_arg_conv_6); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_params_arg); };
 		return ret_hu_conv;
 	}
@@ -131,7 +121,7 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * Checks if two Routes contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Route.
 	 */
 	public long hash() {
 		long ret = bindings.Route_hash(this.ptr);
@@ -172,7 +162,8 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * Returns the total amount paid on this [`Route`], excluding the fees.
+	 * Returns the total amount paid on this [`Route`], excluding the fees. Might be more than
+	 * requested if we had to reach htlc_minimum_msat.
 	 */
 	public long get_total_amount() {
 		long ret = bindings.Route_get_total_amount(this.ptr);

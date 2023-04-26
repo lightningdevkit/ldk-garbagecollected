@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 
 
 /**
- * Represents a signed `RawInvoice` with cached hash. The signature is not checked and may be
+ * Represents a signed [`RawInvoice`] with cached hash. The signature is not checked and may be
  * invalid.
  * 
  * # Invariants
- * The hash has to be either from the deserialized invoice or from the serialized `raw_invoice`.
+ * The hash has to be either from the deserialized invoice or from the serialized [`RawInvoice`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SignedRawInvoice extends CommonBase {
@@ -60,7 +60,7 @@ public class SignedRawInvoice extends CommonBase {
 	}
 
 	/**
-	 * Checks if two SignedRawInvoices contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the SignedRawInvoice.
 	 */
 	public long hash() {
 		long ret = bindings.SignedRawInvoice_hash(this.ptr);
@@ -88,7 +88,7 @@ public class SignedRawInvoice extends CommonBase {
 	}
 
 	/**
-	 * The `RawInvoice` which was signed.
+	 * The [`RawInvoice`] which was signed.
 	 */
 	public RawInvoice raw_invoice() {
 		long ret = bindings.SignedRawInvoice_raw_invoice(this.ptr);
@@ -100,7 +100,7 @@ public class SignedRawInvoice extends CommonBase {
 	}
 
 	/**
-	 * The hash of the `RawInvoice` that was signed.
+	 * The hash of the [`RawInvoice`] that was signed.
 	 */
 	public byte[] signable_hash() {
 		byte[] ret = bindings.SignedRawInvoice_signable_hash(this.ptr);
@@ -109,7 +109,7 @@ public class SignedRawInvoice extends CommonBase {
 	}
 
 	/**
-	 * InvoiceSignature for the invoice.
+	 * Signature for the invoice.
 	 */
 	public InvoiceSignature signature() {
 		long ret = bindings.SignedRawInvoice_signature(this.ptr);

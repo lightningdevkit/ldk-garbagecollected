@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An enum which can either contain a crate::lightning::util::events::ClosureReason or not
+ * An enum which can either contain a crate::lightning::events::ClosureReason or not
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Option_ClosureReasonZ extends CommonBase {
@@ -31,7 +31,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 	}
 
 	/**
-	 * When we're in this state, this COption_ClosureReasonZ contains a crate::lightning::util::events::ClosureReason
+	 * When we're in this state, this COption_ClosureReasonZ contains a crate::lightning::events::ClosureReason
 	 */
 	public final static class Some extends Option_ClosureReasonZ {
 		public final org.ldk.structs.ClosureReason some;
@@ -52,7 +52,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::util::events::ClosureReason
+	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::events::ClosureReason
 	 */
 	public static Option_ClosureReasonZ some(org.ldk.structs.ClosureReason o) {
 		long ret = bindings.COption_ClosureReasonZ_some(o.ptr);

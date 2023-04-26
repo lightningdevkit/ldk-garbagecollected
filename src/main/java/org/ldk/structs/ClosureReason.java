@@ -58,14 +58,19 @@ public class ClosureReason extends CommonBase {
 		/**
 		 * The error which the peer sent us.
 		 * 
-		 * The string should be sanitized before it is used (e.g emitted to logs
-		 * or printed to stdout). Otherwise, a well crafted error message may exploit
+		 * Be careful about printing the peer_msg, a well-crafted message could exploit
 		 * a security vulnerability in the terminal emulator or the logging subsystem.
+		 * To be safe, use `Display` on `UntrustedString`
+		 * 
+		 * [`UntrustedString`]: crate::util::string::UntrustedString
 		*/
-		public final java.lang.String peer_msg;
+		public final org.ldk.structs.UntrustedString peer_msg;
 		private CounterpartyForceClosed(long ptr, bindings.LDKClosureReason.CounterpartyForceClosed obj) {
 			super(null, ptr);
-			this.peer_msg = obj.peer_msg;
+			long peer_msg = obj.peer_msg;
+			org.ldk.structs.UntrustedString peer_msg_hu_conv = null; if (peer_msg < 0 || peer_msg > 4096) { peer_msg_hu_conv = new org.ldk.structs.UntrustedString(null, peer_msg); }
+			if (peer_msg_hu_conv != null) { peer_msg_hu_conv.ptrs_to.add(this); };
+			this.peer_msg = peer_msg_hu_conv;
 		}
 	}
 	/**
@@ -168,12 +173,13 @@ public class ClosureReason extends CommonBase {
 	/**
 	 * Utility method to constructs a new CounterpartyForceClosed-variant ClosureReason
 	 */
-	public static ClosureReason counterparty_force_closed(java.lang.String peer_msg) {
-		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg);
+	public static ClosureReason counterparty_force_closed(org.ldk.structs.UntrustedString peer_msg) {
+		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg == null ? 0 : peer_msg.ptr);
 		Reference.reachabilityFence(peer_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(peer_msg); };
 		return ret_hu_conv;
 	}
 

@@ -51,6 +51,17 @@ public class InFlightHtlcs extends CommonBase {
 	}
 
 	/**
+	 * Takes in a path with payer's node id and adds the path's details to `InFlightHtlcs`.
+	 */
+	public void process_path(org.ldk.structs.Path path, byte[] payer_node_id) {
+		bindings.InFlightHtlcs_process_path(this.ptr, path == null ? 0 : path.ptr, InternalUtils.check_arr_len(payer_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(payer_node_id);
+		if (this != null) { this.ptrs_to.add(path); };
+	}
+
+	/**
 	 * Returns liquidity in msat given the public key of the HTLC source, target, and short channel
 	 * id.
 	 */

@@ -109,10 +109,13 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * 
 	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
-	public byte[] get_alias() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
+	public NodeAlias get_alias() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeAlias ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAlias(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -120,10 +123,11 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * 
 	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
-	public void set_alias(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_alias(org.ldk.structs.NodeAlias val) {
+		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**

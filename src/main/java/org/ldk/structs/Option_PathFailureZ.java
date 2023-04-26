@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An enum which can either contain a crate::lightning::util::events::PathFailure or not
+ * An enum which can either contain a crate::lightning::events::PathFailure or not
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Option_PathFailureZ extends CommonBase {
@@ -31,7 +31,7 @@ public class Option_PathFailureZ extends CommonBase {
 	}
 
 	/**
-	 * When we're in this state, this COption_PathFailureZ contains a crate::lightning::util::events::PathFailure
+	 * When we're in this state, this COption_PathFailureZ contains a crate::lightning::events::PathFailure
 	 */
 	public final static class Some extends Option_PathFailureZ {
 		public final org.ldk.structs.PathFailure some;
@@ -52,7 +52,7 @@ public class Option_PathFailureZ extends CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_PathFailureZ containing a crate::lightning::util::events::PathFailure
+	 * Constructs a new COption_PathFailureZ containing a crate::lightning::events::PathFailure
 	 */
 	public static Option_PathFailureZ some(org.ldk.structs.PathFailure o) {
 		long ret = bindings.COption_PathFailureZ_some(o.ptr);

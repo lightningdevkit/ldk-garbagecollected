@@ -9,8 +9,8 @@ import javax.annotation.Nullable;
 
 
 /**
- * Onion messages can be sent and received to blinded paths, which serve to hide the identity of
- * the recipient.
+ * Onion messages and payments can be sent and received to blinded paths, which serve to hide the
+ * identity of the recipient.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class BlindedPath extends CommonBase {
@@ -40,13 +40,42 @@ public class BlindedPath extends CommonBase {
 	}
 
 	/**
-	 * Create a blinded path to be forwarded along `node_pks`. The last node pubkey in `node_pks`
-	 * will be the destination node.
+	 * Generates a non-cryptographic 64-bit hash of the BlindedPath.
+	 */
+	public long hash() {
+		long ret = bindings.BlindedPath_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
+	 * Checks if two BlindedPaths contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(org.ldk.structs.BlindedPath b) {
+		boolean ret = bindings.BlindedPath_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		if (this != null) { this.ptrs_to.add(b); };
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof BlindedPath)) return false;
+		return this.eq((BlindedPath)o);
+	}
+	/**
+	 * Create a blinded path for an onion message, to be forwarded along `node_pks`. The last node
+	 * pubkey in `node_pks` will be the destination node.
 	 * 
 	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
 	 */
-	public static Result_BlindedPathNoneZ of(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
-		long ret = bindings.BlindedPath_new(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source == null ? 0 : entropy_source.ptr);
+	public static Result_BlindedPathNoneZ new_for_message(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedPath_new_for_message(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source == null ? 0 : entropy_source.ptr);
 		Reference.reachabilityFence(node_pks);
 		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 
 
 /**
- * Represents an syntactically correct Invoice for a payment on the lightning network,
+ * Represents an syntactically correct [`Invoice`] for a payment on the lightning network,
  * but without the signature information.
- * De- and encoding should not lead to information loss but may lead to different hashes.
+ * Decoding and encoding should not lead to information loss but may lead to different hashes.
  * 
- * For methods without docs see the corresponding methods in `Invoice`.
+ * For methods without docs see the corresponding methods in [`Invoice`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RawInvoice extends CommonBase {
@@ -82,7 +82,7 @@ public class RawInvoice extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RawInvoices contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RawInvoice.
 	 */
 	public long hash() {
 		long ret = bindings.RawInvoice_hash(this.ptr);
@@ -188,6 +188,15 @@ public class RawInvoice extends CommonBase {
 		byte[] ret = bindings.RawInvoice_payment_secret(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	public Option_CVec_u8ZZ payment_metadata() {
+		long ret = bindings.RawInvoice_payment_metadata(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

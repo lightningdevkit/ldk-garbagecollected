@@ -39,7 +39,7 @@ public class MonitorUpdateId extends CommonBase {
 	}
 
 	/**
-	 * Checks if two MonitorUpdateIds contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the MonitorUpdateId.
 	 */
 	public long hash() {
 		long ret = bindings.MonitorUpdateId_hash(this.ptr);

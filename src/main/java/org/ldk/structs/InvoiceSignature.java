@@ -39,7 +39,7 @@ public class InvoiceSignature extends CommonBase {
 	}
 
 	/**
-	 * Checks if two InvoiceSignatures contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the InvoiceSignature.
 	 */
 	public long hash() {
 		long ret = bindings.InvoiceSignature_hash(this.ptr);

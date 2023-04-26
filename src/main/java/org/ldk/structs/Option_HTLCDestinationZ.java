@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An enum which can either contain a crate::lightning::util::events::HTLCDestination or not
+ * An enum which can either contain a crate::lightning::events::HTLCDestination or not
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Option_HTLCDestinationZ extends CommonBase {
@@ -31,7 +31,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 	}
 
 	/**
-	 * When we're in this state, this COption_HTLCDestinationZ contains a crate::lightning::util::events::HTLCDestination
+	 * When we're in this state, this COption_HTLCDestinationZ contains a crate::lightning::events::HTLCDestination
 	 */
 	public final static class Some extends Option_HTLCDestinationZ {
 		public final org.ldk.structs.HTLCDestination some;
@@ -52,7 +52,7 @@ public class Option_HTLCDestinationZ extends CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::util::events::HTLCDestination
+	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::events::HTLCDestination
 	 */
 	public static Option_HTLCDestinationZ some(org.ldk.structs.HTLCDestination o) {
 		long ret = bindings.COption_HTLCDestinationZ_some(o.ptr);

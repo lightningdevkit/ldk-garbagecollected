@@ -144,7 +144,7 @@ public class WatchedOutput extends CommonBase {
 		return this.eq((WatchedOutput)o);
 	}
 	/**
-	 * Checks if two WatchedOutputs contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the WatchedOutput.
 	 */
 	public long hash() {
 		long ret = bindings.WatchedOutput_hash(this.ptr);

@@ -127,15 +127,28 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	}
 
 	/**
-	 * Sign a transaction, either because we are counter-signing the counterparty's transaction or
-	 * because we are about to broadcast a holder transaction.
+	 * Signs the counterparty's commitment transaction.
 	 */
-	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
+	public byte[] sign_counterparty_commitment(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign_counterparty_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_key);
 		Reference.reachabilityFence(funding_redeemscript);
 		Reference.reachabilityFence(channel_value_satoshis);
+		return ret;
+	}
+
+	/**
+	 * Signs the holder commitment transaction because we are about to broadcast it.
+	 */
+	public byte[] sign_holder_commitment(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis, org.ldk.structs.EntropySource entropy_source) {
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis, entropy_source == null ? 0 : entropy_source.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_key);
+		Reference.reachabilityFence(funding_redeemscript);
+		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(entropy_source);
+		if (this != null) { this.ptrs_to.add(entropy_source); };
 		return ret;
 	}
 
