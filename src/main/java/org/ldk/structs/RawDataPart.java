@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Data of the `RawInvoice` that is encoded in the data part
+ * Data of the [`RawInvoice`] that is encoded in the data part
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RawDataPart extends CommonBase {
@@ -78,7 +78,7 @@ public class RawDataPart extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RawDataParts contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RawDataPart.
 	 */
 	public long hash() {
 		long ret = bindings.RawDataPart_hash(this.ptr);

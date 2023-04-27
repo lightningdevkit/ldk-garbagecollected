@@ -168,7 +168,7 @@ public class UserConfig extends CommonBase {
 	 * 
 	 * Default value: false.
 	 * 
-	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`Event::OpenChannelRequest`]: crate::events::Event::OpenChannelRequest
 	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
 	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
 	 */
@@ -189,7 +189,7 @@ public class UserConfig extends CommonBase {
 	 * 
 	 * Default value: false.
 	 * 
-	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`Event::OpenChannelRequest`]: crate::events::Event::OpenChannelRequest
 	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
 	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
 	 */
@@ -209,7 +209,7 @@ public class UserConfig extends CommonBase {
 	 * Default value: false.
 	 * 
 	 * [`ChannelManager::get_intercept_scid`]: crate::ln::channelmanager::ChannelManager::get_intercept_scid
-	 * [`Event::HTLCIntercepted`]: crate::util::events::Event::HTLCIntercepted
+	 * [`Event::HTLCIntercepted`]: crate::events::Event::HTLCIntercepted
 	 */
 	public boolean get_accept_intercept_htlcs() {
 		boolean ret = bindings.UserConfig_get_accept_intercept_htlcs(this.ptr);
@@ -227,7 +227,7 @@ public class UserConfig extends CommonBase {
 	 * Default value: false.
 	 * 
 	 * [`ChannelManager::get_intercept_scid`]: crate::ln::channelmanager::ChannelManager::get_intercept_scid
-	 * [`Event::HTLCIntercepted`]: crate::util::events::Event::HTLCIntercepted
+	 * [`Event::HTLCIntercepted`]: crate::events::Event::HTLCIntercepted
 	 */
 	public void set_accept_intercept_htlcs(boolean val) {
 		bindings.UserConfig_set_accept_intercept_htlcs(this.ptr, val);

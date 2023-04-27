@@ -73,7 +73,7 @@ public class RouteHint extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RouteHints contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RouteHint.
 	 */
 	public long hash() {
 		long ret = bindings.RouteHint_hash(this.ptr);

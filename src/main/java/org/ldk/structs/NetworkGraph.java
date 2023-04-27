@@ -23,7 +23,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Handles any network updates originating from [`Event`]s.
 	 * 
-	 * [`Event`]: crate::util::events::Event
+	 * [`Event`]: crate::events::Event
 	 */
 	public void handle_network_update(org.ldk.structs.NetworkUpdate network_update) {
 		bindings.NetworkGraph_handle_network_update(this.ptr, network_update == null ? 0 : network_update.ptr);
@@ -201,16 +201,14 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Marks a channel in the graph as failed if a corresponding HTLC fail was sent.
-	 * If permanent, removes a channel from the local storage.
-	 * May cause the removal of nodes too, if this was their last channel.
-	 * If not permanent, makes channels unavailable for routing.
+	 * Marks a channel in the graph as failed permanently.
+	 * 
+	 * The channel and any node for which this was their last channel are removed from the graph.
 	 */
-	public void channel_failed(long short_channel_id, boolean is_permanent) {
-		bindings.NetworkGraph_channel_failed(this.ptr, short_channel_id, is_permanent);
+	public void channel_failed_permanent(long short_channel_id) {
+		bindings.NetworkGraph_channel_failed_permanent(this.ptr, short_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(short_channel_id);
-		Reference.reachabilityFence(is_permanent);
 	}
 
 	/**

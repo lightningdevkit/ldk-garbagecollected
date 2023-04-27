@@ -115,7 +115,7 @@ public class Retry extends CommonBase {
 		return this.eq((Retry)o);
 	}
 	/**
-	 * Checks if two Retrys contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Retry.
 	 */
 	public long hash() {
 		long ret = bindings.Retry_hash(this.ptr);

@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
  * outpoint describing which `txid` and output `index` is available, the full output which exists
  * at that `txid`/`index`, and any keys or other information required to sign.
  * 
- * [`SpendableOutputs`]: crate::util::events::Event::SpendableOutputs
+ * [`SpendableOutputs`]: crate::events::Event::SpendableOutputs
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SpendableOutputDescriptor extends CommonBase {

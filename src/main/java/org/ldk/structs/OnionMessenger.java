@@ -19,9 +19,9 @@ import javax.annotation.Nullable;
  * # extern crate bitcoin;
  * # use bitcoin::hashes::_export::_core::time::Duration;
  * # use bitcoin::secp256k1::{PublicKey, Secp256k1, SecretKey};
+ * # use lightning::blinded_path::BlindedPath;
  * # use lightning::chain::keysinterface::KeysManager;
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
- * # use lightning::onion_message::blinded_path::BlindedPath;
  * # use lightning::onion_message::messenger::{Destination, OnionMessenger};
  * # use lightning::onion_message::packet::{CustomOnionMessageContents, OnionMessageContents};
  * # use lightning::util::logger::{Logger, Record};
@@ -70,7 +70,7 @@ import javax.annotation.Nullable;
  * Create a blinded path to yourself, for someone to send an onion message to.
  * # let your_node_id = hop_node_id1;
  * let hops = [hop_node_id3, hop_node_id4, your_node_id];
- * let blinded_path = BlindedPath::new(&hops, &keys_manager, &secp_ctx).unwrap();
+ * let blinded_path = BlindedPath::new_for_message(&hops, &keys_manager, &secp_ctx).unwrap();
  * 
  * Send a custom onion message to a blinded path.
  * # let intermediate_hops = [hop_node_id1, hop_node_id2];

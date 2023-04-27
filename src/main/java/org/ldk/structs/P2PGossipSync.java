@@ -26,7 +26,7 @@ public class P2PGossipSync extends CommonBase {
 
 	/**
 	 * Creates a new tracker of the actual state of the network of channels and nodes,
-	 * assuming an existing Network Graph.
+	 * assuming an existing [`NetworkGraph`].
 	 * UTXO lookup is used to make sure announced channels exist on-chain, channel data is
 	 * correct, and the announcement is signed with channel owners' keys.
 	 */

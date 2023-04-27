@@ -12,35 +12,33 @@ import javax.annotation.Nullable;
  * Manager which keeps track of a number of channels and sends messages to the appropriate
  * channel, also tracking HTLC preimages and forwarding onion packets appropriately.
  * 
- * Implements ChannelMessageHandler, handling the multi-channel parts and passing things through
+ * Implements [`ChannelMessageHandler`], handling the multi-channel parts and passing things through
  * to individual Channels.
  * 
- * Implements Writeable to write out all channel state to disk. Implies peer_disconnected() for
+ * Implements [`Writeable`] to write out all channel state to disk. Implies [`peer_disconnected`] for
  * all peers during write/read (though does not modify this instance, only the instance being
- * serialized). This will result in any channels which have not yet exchanged funding_created (ie
- * called funding_transaction_generated for outbound channels).
+ * serialized). This will result in any channels which have not yet exchanged [`funding_created`] (i.e.,
+ * called [`funding_transaction_generated`] for outbound channels) being closed.
  * 
- * Note that you can be a bit lazier about writing out ChannelManager than you can be with
- * ChannelMonitors. With ChannelMonitors you MUST write each monitor update out to disk before
- * returning from chain::Watch::watch_/update_channel, with ChannelManagers, writing updates
- * happens out-of-band (and will prevent any other ChannelManager operations from occurring during
+ * Note that you can be a bit lazier about writing out `ChannelManager` than you can be with
+ * [`ChannelMonitor`]. With [`ChannelMonitor`] you MUST write each monitor update out to disk before
+ * returning from [`chain::Watch::watch_channel`]/[`update_channel`], with ChannelManagers, writing updates
+ * happens out-of-band (and will prevent any other `ChannelManager` operations from occurring during
  * the serialization process). If the deserialized version is out-of-date compared to the
- * ChannelMonitors passed by reference to read(), those channels will be force-closed based on the
- * ChannelMonitor state and no funds will be lost (mod on-chain transaction fees).
+ * [`ChannelMonitor`] passed by reference to [`read`], those channels will be force-closed based on the
+ * `ChannelMonitor` state and no funds will be lost (mod on-chain transaction fees).
  * 
- * Note that the deserializer is only implemented for (BlockHash, ChannelManager), which
- * tells you the last block hash which was block_connect()ed. You MUST rescan any blocks along
- * the \"reorg path\" (ie call block_disconnected() until you get to a common block and then call
- * block_connected() to step towards your best block) upon deserialization before using the
- * object!
+ * Note that the deserializer is only implemented for `(`[`BlockHash`]`, `[`ChannelManager`]`)`, which
+ * tells you the last block hash which was connected. You should get the best block tip before using the manager.
+ * See [`chain::Listen`] and [`chain::Confirm`] for more details.
  * 
- * Note that ChannelManager is responsible for tracking liveness of its channels and generating
- * ChannelUpdate messages informing peers that the channel is temporarily disabled. To avoid
+ * Note that `ChannelManager` is responsible for tracking liveness of its channels and generating
+ * [`ChannelUpdate`] messages informing peers that the channel is temporarily disabled. To avoid
  * spam due to quick disconnection/reconnection, updates are not sent until the channel has been
  * offline for a full minute. In order to track this, you must call
- * timer_tick_occurred roughly once per minute, though it doesn't have to be perfect.
+ * [`timer_tick_occurred`] roughly once per minute, though it doesn't have to be perfect.
  * 
- * To avoid trivial DoS issues, ChannelManager limits the number of inbound connections and
+ * To avoid trivial DoS issues, `ChannelManager` limits the number of inbound connections and
  * inbound channels without confirmed funding transactions. This may result in nodes which we do
  * not have a channel with being unable to connect to us or open new channels with us if we have
  * many peers with unfunded channels.
@@ -49,11 +47,20 @@ import javax.annotation.Nullable;
  * exempted from the count of unfunded channels. Similarly, outbound channels and connections are
  * never limited. Please ensure you limit the count of such channels yourself.
  * 
- * Rather than using a plain ChannelManager, it is preferable to use either a SimpleArcChannelManager
- * a SimpleRefChannelManager, for conciseness. See their documentation for more details, but
- * essentially you should default to using a SimpleRefChannelManager, and use a
- * SimpleArcChannelManager when you require a ChannelManager with a static lifetime, such as when
+ * Rather than using a plain `ChannelManager`, it is preferable to use either a [`SimpleArcChannelManager`]
+ * a [`SimpleRefChannelManager`], for conciseness. See their documentation for more details, but
+ * essentially you should default to using a [`SimpleRefChannelManager`], and use a
+ * [`SimpleArcChannelManager`] when you require a `ChannelManager` with a static lifetime, such as when
  * you're using lightning-net-tokio.
+ * 
+ * [`peer_disconnected`]: msgs::ChannelMessageHandler::peer_disconnected
+ * [`funding_created`]: msgs::FundingCreated
+ * [`funding_transaction_generated`]: Self::funding_transaction_generated
+ * [`BlockHash`]: bitcoin::hash_types::BlockHash
+ * [`update_channel`]: chain::Watch::update_channel
+ * [`ChannelUpdate`]: msgs::ChannelUpdate
+ * [`timer_tick_occurred`]: Self::timer_tick_occurred
+ * [`read`]: ReadableArgs::read
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelManager extends CommonBase {
@@ -65,16 +72,21 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new ChannelManager to hold several channels and route between them.
+	 * Constructs a new `ChannelManager` to hold several channels and route between them.
 	 * 
 	 * This is the main \"logic hub\" for all channel-related actions, and implements
-	 * ChannelMessageHandler.
+	 * [`ChannelMessageHandler`].
 	 * 
 	 * Non-proportional fees are fixed according to our risk using the provided fee estimator.
 	 * 
-	 * Users need to notify the new ChannelManager when a new block is connected or
-	 * disconnected using its `block_connected` and `block_disconnected` methods, starting
-	 * from after `params.latest_hash`.
+	 * Users need to notify the new `ChannelManager` when a new block is connected or
+	 * disconnected using its [`block_connected`] and [`block_disconnected`] methods, starting
+	 * from after [`params.best_block.block_hash`]. See [`chain::Listen`] and [`chain::Confirm`] for
+	 * more details.
+	 * 
+	 * [`block_connected`]: chain::Listen::block_connected
+	 * [`block_disconnected`]: chain::Listen::block_disconnected
+	 * [`params.best_block.block_hash`]: chain::BestBlock::block_hash
 	 */
 	public static ChannelManager of(org.ldk.structs.FeeEstimator fee_est, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.UserConfig config, org.ldk.structs.ChainParameters params) {
 		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, signer_provider == null ? 0 : signer_provider.ptr, config == null ? 0 : config.ptr, params == null ? 0 : params.ptr);
@@ -160,7 +172,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets the list of open channels, in random order. See ChannelDetail field documentation for
+	 * Gets the list of open channels, in random order. See [`ChannelDetails`] field documentation for
 	 * more information.
 	 */
 	public ChannelDetails[] list_channels() {
@@ -188,6 +200,24 @@ public class ChannelManager extends CommonBase {
 	public ChannelDetails[] list_usable_channels() {
 		long[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
 		Reference.reachabilityFence(this);
+		int ret_conv_16_len = ret.length;
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
+		for (int q = 0; q < ret_conv_16_len; q++) {
+			long ret_conv_16 = ret[q];
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
+			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.add(this); };
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
+		}
+		return ret_conv_16_arr;
+	}
+
+	/**
+	 * Gets the list of channels we have with a given counterparty, in random order.
+	 */
+	public ChannelDetails[] list_channels_with_counterparty(byte[] counterparty_node_id) {
+		long[] ret = bindings.ChannelManager_list_channels_with_counterparty(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(counterparty_node_id);
 		int ret_conv_16_len = ret.length;
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
@@ -236,11 +266,12 @@ public class ChannelManager extends CommonBase {
 	 * would appear on a force-closure transaction, whichever is lower. We will allow our
 	 * counterparty to pay as much fee as they'd like, however.
 	 * 
-	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * May generate a [`SendShutdown`] message event on success, which should be relayed.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
 	 */
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id, byte[] counterparty_node_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
@@ -267,11 +298,12 @@ public class ChannelManager extends CommonBase {
 	 * transaction feerate below `target_feerate_sat_per_1000_weight` (or the feerate which
 	 * will appear on a force-closure transaction, whichever is lower).
 	 * 
-	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * May generate a [`SendShutdown`] message event on success, which should be relayed.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
 	 */
 	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, byte[] counterparty_node_id, int target_feerate_sats_per_1000_weight) {
 		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), target_feerate_sats_per_1000_weight);
@@ -342,7 +374,7 @@ public class ChannelManager extends CommonBase {
 	 * Value parameters are provided via the last hop in route, see documentation for [`RouteHop`]
 	 * fields for more info.
 	 * 
-	 * May generate SendHTLCs message(s) event on success, which should be relayed (e.g. via
+	 * May generate [`UpdateHTLCs`] message(s) event on success, which should be relayed (e.g. via
 	 * [`PeerManager::process_events`]).
 	 * 
 	 * # Avoiding Duplicate Payments
@@ -366,7 +398,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * # Possible Error States on [`PaymentSendFailure`]
 	 * 
-	 * Each path may have a different return value, and PaymentSendValue may return a Vec with
+	 * Each path may have a different return value, and [`PaymentSendFailure`] may return a `Vec` with
 	 * each entry matching the corresponding-index entry in the route paths, see
 	 * [`PaymentSendFailure`] for more info.
 	 * 
@@ -379,58 +411,45 @@ public class ChannelManager extends CommonBase {
 	 * [`APIError::MonitorUpdateInProgress`] if a new monitor update failure prevented sending the
 	 * relevant updates.
 	 * 
-	 * Note that depending on the type of the PaymentSendFailure the HTLC may have been
+	 * Note that depending on the type of the [`PaymentSendFailure`] the HTLC may have been
 	 * irrevocably committed to on our end. In such a case, do NOT retry the payment with a
 	 * different route unless you intend to pay twice!
 	 * 
-	 * # A caution on `payment_secret`
-	 * 
-	 * `payment_secret` is unrelated to `payment_hash` (or [`PaymentPreimage`]) and exists to
-	 * authenticate the sender to the recipient and prevent payment-probing (deanonymization)
-	 * attacks. For newer nodes, it will be provided to you in the invoice. If you do not have one,
-	 * the [`Route`] must not contain multiple paths as multi-path payments require a
-	 * recipient-provided `payment_secret`.
-	 * 
-	 * If a `payment_secret` *is* provided, we assume that the invoice had the payment_secret
-	 * feature bit set (either as required or as available). If multiple paths are present in the
-	 * [`Route`], we assume the invoice had the basic_mpp feature set.
-	 * 
 	 * [`Event::PaymentSent`]: events::Event::PaymentSent
 	 * [`Event::PaymentFailed`]: events::Event::PaymentFailed
+	 * [`UpdateHTLCs`]: events::MessageSendEvent::UpdateHTLCs
 	 * [`PeerManager::process_events`]: crate::ln::peer_handler::PeerManager::process_events
 	 * [`ChannelMonitorUpdateStatus::InProgress`]: crate::chain::ChannelMonitorUpdateStatus::InProgress
-	 * 
-	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NonePaymentSendFailureZ send_payment(org.ldk.structs.Route route, byte[] payment_hash, @Nullable byte[] payment_secret, byte[] payment_id) {
-		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32), InternalUtils.check_arr_len(payment_id, 32));
+	public Result_NonePaymentSendFailureZ send_payment_with_route(org.ldk.structs.Route route, byte[] payment_hash, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
+		long ret = bindings.ChannelManager_send_payment_with_route(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_hash);
-		Reference.reachabilityFence(payment_secret);
+		Reference.reachabilityFence(recipient_onion);
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(route); };
+		if (this != null) { this.ptrs_to.add(recipient_onion); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Similar to [`ChannelManager::send_payment`], but will automatically find a route based on
 	 * `route_params` and retry failed payment paths based on `retry_strategy`.
-	 * 
-	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneRetryableSendFailureZ send_payment_with_retry(byte[] payment_hash, @Nullable byte[] payment_secret, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
-		long ret = bindings.ChannelManager_send_payment_with_retry(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32), InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
+	public Result_NoneRetryableSendFailureZ send_payment(byte[] payment_hash, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
+		long ret = bindings.ChannelManager_send_payment(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_hash);
-		Reference.reachabilityFence(payment_secret);
+		Reference.reachabilityFence(recipient_onion);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(route_params);
 		Reference.reachabilityFence(retry_strategy);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneRetryableSendFailureZ ret_hu_conv = Result_NoneRetryableSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(recipient_onion); };
 		if (this != null) { this.ptrs_to.add(route_params); };
 		if (this != null) { this.ptrs_to.add(retry_strategy); };
 		return ret_hu_conv;
@@ -479,15 +498,17 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, @Nullable byte[] payment_preimage, byte[] payment_id) {
-		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_id, 32));
+	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, @Nullable byte[] payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
+		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_preimage, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
 		Reference.reachabilityFence(payment_preimage);
+		Reference.reachabilityFence(recipient_onion);
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(route); };
+		if (this != null) { this.ptrs_to.add(recipient_onion); };
 		return ret_hu_conv;
 	}
 
@@ -502,15 +523,17 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_PaymentHashRetryableSendFailureZ send_spontaneous_payment_with_retry(@Nullable byte[] payment_preimage, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
-		long ret = bindings.ChannelManager_send_spontaneous_payment_with_retry(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
+	public Result_PaymentHashRetryableSendFailureZ send_spontaneous_payment_with_retry(@Nullable byte[] payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
+		long ret = bindings.ChannelManager_send_spontaneous_payment_with_retry(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_preimage);
+		Reference.reachabilityFence(recipient_onion);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(route_params);
 		Reference.reachabilityFence(retry_strategy);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentHashRetryableSendFailureZ ret_hu_conv = Result_PaymentHashRetryableSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(recipient_onion); };
 		if (this != null) { this.ptrs_to.add(route_params); };
 		if (this != null) { this.ptrs_to.add(retry_strategy); };
 		return ret_hu_conv;
@@ -521,13 +544,13 @@ public class ChannelManager extends CommonBase {
 	 * [`PaymentHash`] of probes based on a static secret and a random [`PaymentId`], which allows
 	 * us to easily discern them from real payments.
 	 */
-	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(RouteHop[] hops) {
-		long ret = bindings.ChannelManager_send_probe(this.ptr, hops != null ? Arrays.stream(hops).mapToLong(hops_conv_10 -> hops_conv_10 == null ? 0 : hops_conv_10.ptr).toArray() : null);
+	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(org.ldk.structs.Path path) {
+		long ret = bindings.ChannelManager_send_probe(this.ptr, path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(hops);
+		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
-		for (RouteHop hops_conv_10: hops) { if (this != null) { this.ptrs_to.add(hops_conv_10); }; };
+		if (this != null) { this.ptrs_to.add(path); };
 		return ret_hu_conv;
 	}
 
@@ -560,8 +583,8 @@ public class ChannelManager extends CommonBase {
 	 * implemented by Bitcoin Core wallet. See <https://bitcoinops.org/en/topics/fee-sniping/>
 	 * for more details.
 	 * 
-	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
-	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
+	 * [`Event::FundingGenerationReady`]: crate::events::Event::FundingGenerationReady
+	 * [`Event::ChannelClosed`]: crate::events::Event::ChannelClosed
 	 */
 	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] funding_transaction) {
 		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_transaction);
@@ -678,15 +701,18 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * This currently includes:
 	 * Increasing or decreasing the on-chain feerate estimates for our outbound channels,
-	 * Broadcasting `ChannelUpdate` messages if we've been disconnected from our peer for more
+	 * Broadcasting [`ChannelUpdate`] messages if we've been disconnected from our peer for more
 	 * than a minute, informing the network that they should no longer attempt to route over
 	 * the channel.
-	 * Expiring a channel's previous `ChannelConfig` if necessary to only allow forwarding HTLCs
-	 * with the current `ChannelConfig`.
+	 * Expiring a channel's previous [`ChannelConfig`] if necessary to only allow forwarding HTLCs
+	 * with the current [`ChannelConfig`].
 	 * Removing peers which have disconnected but and no longer have any channels.
 	 * 
-	 * Note that this may cause reentrancy through `chain::Watch::update_channel` calls or feerate
+	 * Note that this may cause reentrancy through [`chain::Watch::update_channel`] calls or feerate
 	 * estimate fetches.
+	 * 
+	 * [`ChannelUpdate`]: msgs::ChannelUpdate
+	 * [`ChannelConfig`]: crate::util::config::ChannelConfig
 	 */
 	public void timer_tick_occurred() {
 		bindings.ChannelManager_timer_tick_occurred(this.ptr);
@@ -731,17 +757,19 @@ public class ChannelManager extends CommonBase {
 	 * Provides a payment preimage in response to [`Event::PaymentClaimable`], generating any
 	 * [`MessageSendEvent`]s needed to claim the payment.
 	 * 
-	 * Note that calling this method does *not* guarantee that the payment has been claimed. You
-	 * must* wait for an [`Event::PaymentClaimed`] event which upon a successful claim will be
-	 * provided to your [`EventHandler`] when [`process_pending_events`] is next called.
+	 * This method is guaranteed to ensure the payment has been claimed but only if the current
+	 * height is strictly below [`Event::PaymentClaimable::claim_deadline`]. To avoid race
+	 * conditions, you should wait for an [`Event::PaymentClaimed`] before considering the payment
+	 * successful. It will generally be available in the next [`process_pending_events`] call.
 	 * 
 	 * Note that if you did not set an `amount_msat` when calling [`create_inbound_payment`] or
 	 * [`create_inbound_payment_for_hash`] you must check that the amount in the `PaymentClaimable`
 	 * event matches your expectation. If you fail to do so and call this method, you may provide
 	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
-	 * [`Event::PaymentClaimable`]: crate::util::events::Event::PaymentClaimable
-	 * [`Event::PaymentClaimed`]: crate::util::events::Event::PaymentClaimed
+	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 * [`Event::PaymentClaimable::claim_deadline`]: crate::events::Event::PaymentClaimable::claim_deadline
+	 * [`Event::PaymentClaimed`]: crate::events::Event::PaymentClaimed
 	 * [`process_pending_events`]: EventsProvider::process_pending_events
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
@@ -1097,41 +1125,10 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Blocks until ChannelManager needs to be persisted or a timeout is reached. It returns a bool
-	 * indicating whether persistence is necessary. Only one listener on
-	 * [`await_persistable_update`], [`await_persistable_update_timeout`], or a future returned by
-	 * [`get_persistable_update_future`] is guaranteed to be woken up.
+	 * Gets a [`Future`] that completes when this [`ChannelManager`] needs to be persisted.
 	 * 
-	 * Note that this method is not available with the `no-std` feature.
-	 * 
-	 * [`await_persistable_update`]: Self::await_persistable_update
-	 * [`await_persistable_update_timeout`]: Self::await_persistable_update_timeout
-	 * [`get_persistable_update_future`]: Self::get_persistable_update_future
-	 */
-	public boolean await_persistable_update_timeout(long max_wait) {
-		boolean ret = bindings.ChannelManager_await_persistable_update_timeout(this.ptr, max_wait);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(max_wait);
-		return ret;
-	}
-
-	/**
-	 * Blocks until ChannelManager needs to be persisted. Only one listener on
-	 * [`await_persistable_update`], `await_persistable_update_timeout`, or a future returned by
-	 * [`get_persistable_update_future`] is guaranteed to be woken up.
-	 * 
-	 * [`await_persistable_update`]: Self::await_persistable_update
-	 * [`get_persistable_update_future`]: Self::get_persistable_update_future
-	 */
-	public void await_persistable_update() {
-		bindings.ChannelManager_await_persistable_update(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
-	 * Gets a [`Future`] that completes when a persistable update is available. Note that
-	 * callbacks registered on the [`Future`] MUST NOT call back into this [`ChannelManager`] and
-	 * should instead register actions to be taken later.
+	 * Note that callbacks registered on the [`Future`] MUST NOT call back into this
+	 * [`ChannelManager`] and should instead register actions to be taken later.
 	 */
 	public Future get_persistable_update_future() {
 		long ret = bindings.ChannelManager_get_persistable_update_future(this.ptr);

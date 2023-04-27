@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * When signing using a fallible method either an user-supplied `SignError` or a `CreationError`
+ * When signing using a fallible method either an user-supplied `SignError` or a [`CreationError`]
  * may occur.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays

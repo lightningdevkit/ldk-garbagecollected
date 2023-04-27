@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 
 
 /**
- * If a payment fails to send with [`ChannelManager::send_payment`], it can be in one of several
- * states. This enum is returned as the Err() type describing which state the payment is in, see
- * the description of individual enum states for more.
+ * If a payment fails to send with [`ChannelManager::send_payment_with_route`], it can be in one
+ * of several states. This enum is returned as the Err() type describing which state the payment
+ * is in, see the description of individual enum states for more.
  * 
- * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+ * [`ChannelManager::send_payment_with_route`]: crate::ln::channelmanager::ChannelManager::send_payment_with_route
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PaymentSendFailure extends CommonBase {
@@ -52,8 +52,8 @@ public class PaymentSendFailure extends CommonBase {
 	 * Because the payment failed outright, no payment tracking is done and no
 	 * [`Event::PaymentPathFailed`] or [`Event::PaymentFailed`] events will be generated.
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
-	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
+	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::events::Event::PaymentFailed
 	 */
 	public final static class ParameterError extends PaymentSendFailure {
 		public final org.ldk.structs.APIError parameter_error;
@@ -77,8 +77,8 @@ public class PaymentSendFailure extends CommonBase {
 	 * The results here are ordered the same as the paths in the route object which was passed to
 	 * send_payment.
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
-	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
+	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::events::Event::PaymentFailed
 	 */
 	public final static class PathParameterError extends PaymentSendFailure {
 		public final Result_NoneAPIErrorZ[] path_parameter_error;
@@ -103,8 +103,8 @@ public class PaymentSendFailure extends CommonBase {
 	 * Because the payment failed outright, no payment tracking is done and no
 	 * [`Event::PaymentPathFailed`] or [`Event::PaymentFailed`] events will be generated.
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
-	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
+	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
+	 * [`Event::PaymentFailed`]: crate::events::Event::PaymentFailed
 	 */
 	public final static class AllFailedResendSafe extends PaymentSendFailure {
 		public final APIError[] all_failed_resend_safe;
@@ -127,8 +127,8 @@ public class PaymentSendFailure extends CommonBase {
 	 * yet completed (i.e. generated an [`Event::PaymentSent`] or [`Event::PaymentFailed`]).
 	 * 
 	 * [`PaymentId`]: crate::ln::channelmanager::PaymentId
-	 * [`Event::PaymentSent`]: crate::util::events::Event::PaymentSent
-	 * [`Event::PaymentFailed`]: crate::util::events::Event::PaymentFailed
+	 * [`Event::PaymentSent`]: crate::events::Event::PaymentSent
+	 * [`Event::PaymentFailed`]: crate::events::Event::PaymentFailed
 	 */
 	public final static class DuplicatePayment extends PaymentSendFailure {
 		private DuplicatePayment(long ptr, bindings.LDKPaymentSendFailure.DuplicatePayment obj) {

@@ -107,7 +107,7 @@ public class RoutingFees extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RoutingFeess contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RoutingFees.
 	 */
 	public long hash() {
 		long ret = bindings.RoutingFees_hash(this.ptr);

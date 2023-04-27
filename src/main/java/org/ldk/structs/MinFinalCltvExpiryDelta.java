@@ -63,7 +63,7 @@ public class MinFinalCltvExpiryDelta extends CommonBase {
 	}
 
 	/**
-	 * Checks if two MinFinalCltvExpiryDeltas contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the MinFinalCltvExpiryDelta.
 	 */
 	public long hash() {
 		long ret = bindings.MinFinalCltvExpiryDelta_hash(this.ptr);

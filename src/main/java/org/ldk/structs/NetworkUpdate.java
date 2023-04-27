@@ -55,7 +55,7 @@ public class NetworkUpdate extends CommonBase {
 	}
 	/**
 	 * An error indicating that a channel failed to route a payment, which should be applied via
-	 * [`NetworkGraph::channel_failed`].
+	 * [`NetworkGraph::channel_failed_permanent`] if permanent.
 	 */
 	public final static class ChannelFailure extends NetworkUpdate {
 		/**

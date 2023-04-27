@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An enum which can either contain a crate::lightning::util::events::Event or not
+ * An enum which can either contain a crate::lightning::events::Event or not
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Option_EventZ extends CommonBase {
@@ -31,7 +31,7 @@ public class Option_EventZ extends CommonBase {
 	}
 
 	/**
-	 * When we're in this state, this COption_EventZ contains a crate::lightning::util::events::Event
+	 * When we're in this state, this COption_EventZ contains a crate::lightning::events::Event
 	 */
 	public final static class Some extends Option_EventZ {
 		public final org.ldk.structs.Event some;
@@ -52,7 +52,7 @@ public class Option_EventZ extends CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_EventZ containing a crate::lightning::util::events::Event
+	 * Constructs a new COption_EventZ containing a crate::lightning::events::Event
 	 */
 	public static Option_EventZ some(org.ldk.structs.Event o) {
 		long ret = bindings.COption_EventZ_some(o.ptr);

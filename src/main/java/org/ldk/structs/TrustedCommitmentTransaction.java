@@ -75,14 +75,16 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 * 
 	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
-	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
-		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr);
+	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr, entropy_source == null ? 0 : entropy_source.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_base_key);
 		Reference.reachabilityFence(channel_parameters);
+		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(channel_parameters); };
+		if (this != null) { this.ptrs_to.add(entropy_source); };
 		return ret_hu_conv;
 	}
 

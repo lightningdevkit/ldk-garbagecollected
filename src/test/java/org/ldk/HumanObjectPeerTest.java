@@ -1,6 +1,10 @@
 package org.ldk;
 
+import org.bitcoinj.base.BitcoinNetwork;
+import org.bitcoinj.base.Coin;
+import org.bitcoinj.base.Sha256Hash;
 import org.bitcoinj.core.*;
+import org.bitcoinj.params.BitcoinNetworkParams;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.batteries.ChannelManagerConstructor;
@@ -425,11 +429,11 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
-                            @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                            @Override public void payment_path_failed(Path path, long scid) {}
                             @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
-                            @Override public void payment_path_successful(RouteHop[] path) {}
-                            @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
-                            @Override public void probe_successful(RouteHop[] path) { assert false; }
+                            @Override public void payment_path_successful(Path path) {}
+                            @Override public void probe_failed(Path path, long short_channel_id) { assert false; }
+                            @Override public void probe_successful(Path path) { assert false; }
                             @Override public byte[] write() { assert false; return null; }
                         }), new byte[32]);
                     }
@@ -530,11 +534,11 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
-                            @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                            @Override public void payment_path_failed(Path path, long scid) {}
                             @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage) { return 0; }
-                            @Override public void payment_path_successful(RouteHop[] path) {}
-                            @Override public void probe_failed(RouteHop[] path, long short_channel_id) { assert false; }
-                            @Override public void probe_successful(RouteHop[] path) { assert false; }
+                            @Override public void payment_path_successful(Path path) {}
+                            @Override public void probe_failed(Path path, long short_channel_id) { assert false; }
+                            @Override public void probe_successful(Path path) { assert false; }
                             @Override public byte[] write() { assert false; return null; }
                         }), new byte[32]);
                     }
@@ -817,7 +821,7 @@ class HumanObjectPeerTestInstance {
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
         byte[] chan_id = ((Event.FundingGenerationReady) events[0]).temporary_channel_id;
 
-        NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
+        BitcoinNetworkParams bitcoinj_net = BitcoinNetworkParams.of(BitcoinNetwork.MAINNET);
 
         Transaction funding = new Transaction(bitcoinj_net);
         funding.addInput(new TransactionInput(bitcoinj_net, funding, new byte[0]));
@@ -835,6 +839,12 @@ class HumanObjectPeerTestInstance {
                 peer1.broadcast_set.wait();
             }
         }
+
+        events = peer1.get_manager_events(1, peer1, peer2);
+        assert events[0] instanceof Event.ChannelPending;
+
+        events = peer2.get_manager_events(1, peer1, peer2);
+        assert events[0] instanceof Event.ChannelPending;
 
         assert peer1.broadcast_set.size() == 1;
         assert Arrays.equals(peer1.broadcast_set.get(0), funding.bitcoinSerialize());
@@ -877,6 +887,7 @@ class HumanObjectPeerTestInstance {
 
         Result_InvoiceParseOrSemanticErrorZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
         assert parsed_invoice instanceof Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK;
+        //assert ((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.fallback_addresses().length == 0;
         assert Arrays.equals(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
         SignedRawInvoice signed_raw = ((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.into_signed_raw();
         RawInvoice raw_invoice = signed_raw.raw_invoice();
@@ -893,7 +904,7 @@ class HumanObjectPeerTestInstance {
             InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
             RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0], 42);
+            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, Hints.clear(route_hints), Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0], 42);
             RouteParameters route_params = RouteParameters.of(payee, 10000000);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.net_graph,
@@ -901,22 +912,24 @@ class HumanObjectPeerTestInstance {
             assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
             Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
             assert route.get_paths().length == 1;
-            assert route.get_paths()[0].length == 1;
-            assert route.get_paths()[0][0].get_fee_msat() == 10000000;
+            assert route.get_paths()[0].get_hops().length == 1;
+            assert route.get_paths()[0].final_value_msat() == 10000000;
 
             byte[] payment_id = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
-            Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret, payment_id);
+            Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment_with_route(route, payment_hash, RecipientOnionFields.secret_only(payment_secret), payment_id);
             assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
 
-            RouteHop[][] hops = new RouteHop[1][1];
+            RouteHop[] hops = new RouteHop[1];
             byte[] hop_pubkey = new byte[33];
             hop_pubkey[0] = 3;
             hop_pubkey[1] = 42;
             NodeFeatures node_features = NodeFeatures.empty();
             ChannelFeatures channel_features = ChannelFeatures.empty();
-            hops[0][0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0);
-            Route r2 = Route.of(hops, payee);
-            payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret, payment_id);
+            hops[0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0);
+            Path[] paths = new Path[1];
+            paths[0] = Path.of(hops, null);
+            Route r2 = Route.of(paths, payee);
+            payment_res = peer1.chan_manager.send_payment_with_route(r2, payment_hash, RecipientOnionFields.secret_only(payment_secret), payment_id);
             assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
         } else {
             Result_PaymentIdPaymentErrorZ send_res = UtilMethods.pay_invoice(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res, Retry.attempts(0), peer1.chan_manager);
@@ -1050,7 +1063,7 @@ class HumanObjectPeerTestInstance {
         }
 
         if (!nice_close) {
-            NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
+            BitcoinNetworkParams bitcoinj_net = BitcoinNetworkParams.of(BitcoinNetwork.MAINNET);
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));

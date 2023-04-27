@@ -121,8 +121,73 @@ if [ "$2" = "c_sharp" ]; then
 		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
-		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=c_sharp/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
 		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+	fi
+elif [ "$2" = "python" ]; then
+	TARGET_STRING="$LDK_TARGET"
+	if [ "$TARGET_STRING" = "" ]; then
+		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
+		TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
+	fi
+	case "$TARGET_STRING" in
+		"x86_64-pc-linux"*)
+			LDK_TARGET_SUFFIX="_Linux-amd64"
+			LDK_JAR_TARGET=true
+			;;
+		"x86_64-apple-darwin"*)
+			LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+			LDK_JAR_TARGET=true
+			;;
+		"aarch64-apple-darwin"*)
+			LDK_TARGET_CPU="apple-a14"
+			LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+			LDK_JAR_TARGET=true
+			;;
+		*)
+			LDK_TARGET_SUFFIX="_${TARGET_STRING}"
+	esac
+	if [ "$LDK_TARGET_CPU" = "" ]; then
+		LDK_TARGET_CPU="sandybridge"
+	fi
+
+	echo "Creating Python bindings..."
+	mkdir -p python/src/{enums,structs,impl}
+	rm -f python/src/{enums,structs,impl}/*.py
+	./genbindings.py "./lightning.h" python/src/impl python/src python/ $DEBUG_ARG python $4
+	rm -f python/bindings.c
+	if [ "$3" = "true" ]; then
+		echo "#define LDK_DEBUG_BUILD" > python/bindings.c
+	elif [ "$3" = "leaks" ]; then
+		# For leak checking we use release libldk which doesn't expose
+		# __unmangle_inner_ptr, but the C code expects to be able to call it.
+		echo "#define __unmangle_inner_ptr(a) (a)" > python/bindings.c
+	fi
+	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> python/bindings.c
+	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> python/bindings.c
+	cat python/bindings.c.body >> python/bindings.c
+
+	IS_MAC=false
+	[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
+	IS_APPLE_CLANG=false
+	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
+
+	echo "Building Python bindings..."
+	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	LINK="-ldl -shared"
+	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
+	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
+	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
+	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
+	[ "$IS_MAC" = "false" -a "$3" != "false" ] && LINK="$LINK -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
+
+	exit 0 # Sadly compilation doesn't currently work
+	if [ "$3" = "true" ]; then
+		$COMPILE $LINK -o liblightningpython_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
+	else
+		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
+		$COMPILE $LINK -o liblightningpython_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=python/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
+		llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "wasm" ]; then
 	echo "Creating TS bindings..."

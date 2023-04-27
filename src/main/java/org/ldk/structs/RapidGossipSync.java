@@ -44,21 +44,6 @@ public class RapidGossipSync extends CommonBase {
 	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
 	 * 
 	 * `update_data`: `&[u8]` binary stream that comprises the update data
-	 */
-	public Result_u32GraphSyncErrorZ update_network_graph(byte[] update_data) {
-		long ret = bindings.RapidGossipSync_update_network_graph(this.ptr, update_data);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(update_data);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_u32GraphSyncErrorZ ret_hu_conv = Result_u32GraphSyncErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Update network graph from binary data.
-	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
-	 * 
-	 * `update_data`: `&[u8]` binary stream that comprises the update data
 	 * `current_time_unix`: `Option<u64>` optional current timestamp to verify data age
 	 */
 	public Result_u32GraphSyncErrorZ update_network_graph_no_std(byte[] update_data, org.ldk.structs.Option_u64Z current_time_unix) {

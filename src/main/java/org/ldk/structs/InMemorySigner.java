@@ -154,8 +154,8 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Creates a new [`InMemorySigner`].
 	 */
-	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
+	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id, byte[] rand_bytes_unique_start) {
+		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32), InternalUtils.check_arr_len(rand_bytes_unique_start, 32));
 		Reference.reachabilityFence(funding_key);
 		Reference.reachabilityFence(revocation_base_key);
 		Reference.reachabilityFence(payment_key);
@@ -164,6 +164,7 @@ public class InMemorySigner extends CommonBase {
 		Reference.reachabilityFence(commitment_seed);
 		Reference.reachabilityFence(channel_value_satoshis);
 		Reference.reachabilityFence(channel_keys_id);
+		Reference.reachabilityFence(rand_bytes_unique_start);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -308,6 +309,19 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
+	 * Constructs a new EntropySource which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EntropySource must be freed before this_arg is
+	 */
+	public EntropySource as_EntropySource() {
+		long ret = bindings.InMemorySigner_as_EntropySource(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new ChannelSigner which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned ChannelSigner must be freed before this_arg is
 	 */
@@ -358,11 +372,13 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
-	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.InMemorySigner_read(ser);
+	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, org.ldk.structs.EntropySource arg) {
+		long ret = bindings.InMemorySigner_read(ser, arg == null ? 0 : arg.ptr);
 		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg); };
 		return ret_hu_conv;
 	}
 

@@ -60,7 +60,18 @@ public class NodeId extends CommonBase {
 	}
 
 	/**
-	 * Checks if two NodeIds contain equal inner contents.
+	 * Get the public key from this NodeId
+	 */
+	public Result_PublicKeyErrorZ as_pubkey() {
+		long ret = bindings.NodeId_as_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Generates a non-cryptographic 64-bit hash of the NodeId.
 	 */
 	public long hash() {
 		long ret = bindings.NodeId_hash(this.ptr);

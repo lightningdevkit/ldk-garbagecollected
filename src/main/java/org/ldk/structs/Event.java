@@ -64,6 +64,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentForwarded.class) {
 			return new PaymentForwarded(ptr, (bindings.LDKEvent.PaymentForwarded)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.ChannelPending.class) {
+			return new ChannelPending(ptr, (bindings.LDKEvent.ChannelPending)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKEvent.ChannelReady.class) {
 			return new ChannelReady(ptr, (bindings.LDKEvent.ChannelReady)raw_val);
 		}
@@ -147,7 +150,9 @@ public class Event extends CommonBase {
 	 * 
 	 * # Note
 	 * LDK will not stop an inbound payment from being paid multiple times, so multiple
-	 * `PaymentClaimable` events may be generated for the same payment.
+	 * `PaymentClaimable` events may be generated for the same payment. In such a case it is
+	 * polite (and required in the lightning specification) to fail the payment the second time
+	 * and give the sender their money back rather than accepting double payment.
 	 * 
 	 * # Note
 	 * This event used to be called `PaymentReceived` in LDK versions 0.0.112 and earlier.
@@ -174,6 +179,15 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] payment_hash;
 		/**
+		 * The fields in the onion which were received with each HTLC. Only fields which were
+		 * identical in each HTLC involved in the payment will be included here.
+		 * 
+		 * Payments received on LDK versions prior to 0.0.115 will have this field unset.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final org.ldk.structs.RecipientOnionFields onion_fields;
+		/**
 		 * The value, in thousandths of a satoshi, that this payment is for.
 		*/
 		public final long amount_msat;
@@ -192,10 +206,24 @@ public class Event extends CommonBase {
 		 * The `user_channel_id` indicating over which channel we received the payment.
 		*/
 		public final org.ldk.structs.Option_u128Z via_user_channel_id;
+		/**
+		 * The block height at which this payment will be failed back and will no longer be
+		 * eligible for claiming.
+		 * 
+		 * Prior to this height, a call to [`ChannelManager::claim_funds`] is guaranteed to
+		 * succeed, however you should wait for [`Event::PaymentClaimed`] to be sure.
+		 * 
+		 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
+		*/
+		public final org.ldk.structs.Option_u32Z claim_deadline;
 		private PaymentClaimable(long ptr, bindings.LDKEvent.PaymentClaimable obj) {
 			super(null, ptr);
 			this.receiver_node_id = obj.receiver_node_id;
 			this.payment_hash = obj.payment_hash;
+			long onion_fields = obj.onion_fields;
+			org.ldk.structs.RecipientOnionFields onion_fields_hu_conv = null; if (onion_fields < 0 || onion_fields > 4096) { onion_fields_hu_conv = new org.ldk.structs.RecipientOnionFields(null, onion_fields); }
+			if (onion_fields_hu_conv != null) { onion_fields_hu_conv.ptrs_to.add(this); };
+			this.onion_fields = onion_fields_hu_conv;
 			this.amount_msat = obj.amount_msat;
 			long purpose = obj.purpose;
 			org.ldk.structs.PaymentPurpose purpose_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(purpose);
@@ -206,6 +234,10 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u128Z via_user_channel_id_hu_conv = org.ldk.structs.Option_u128Z.constr_from_ptr(via_user_channel_id);
 			if (via_user_channel_id_hu_conv != null) { via_user_channel_id_hu_conv.ptrs_to.add(this); };
 			this.via_user_channel_id = via_user_channel_id_hu_conv;
+			long claim_deadline = obj.claim_deadline;
+			org.ldk.structs.Option_u32Z claim_deadline_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(claim_deadline);
+			if (claim_deadline_hu_conv != null) { claim_deadline_hu_conv.ptrs_to.add(this); };
+			this.claim_deadline = claim_deadline_hu_conv;
 		}
 	}
 	/**
@@ -270,7 +302,7 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentSent extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`].
+		 * The `payment_id` passed to [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		 * 
@@ -325,11 +357,9 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentFailed extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::abandon_payment`].
+		 * The `payment_id` passed to [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 		*/
 		public final byte[] payment_id;
 		/**
@@ -338,10 +368,19 @@ public class Event extends CommonBase {
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		*/
 		public final byte[] payment_hash;
+		/**
+		 * The reason the payment failed. This is only `None` for events generated or serialized
+		 * by versions prior to 0.0.115.
+		*/
+		public final org.ldk.structs.Option_PaymentFailureReasonZ reason;
 		private PaymentFailed(long ptr, bindings.LDKEvent.PaymentFailed obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
+			long reason = obj.reason;
+			org.ldk.structs.Option_PaymentFailureReasonZ reason_hu_conv = org.ldk.structs.Option_PaymentFailureReasonZ.constr_from_ptr(reason);
+			if (reason_hu_conv != null) { reason_hu_conv.ptrs_to.add(this); };
+			this.reason = reason_hu_conv;
 		}
 	}
 	/**
@@ -352,7 +391,7 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentPathSuccessful extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`].
+		 * The `payment_id` passed to [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		*/
@@ -370,21 +409,15 @@ public class Event extends CommonBase {
 		 * 
 		 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
 		*/
-		public final RouteHop[] path;
+		public final org.ldk.structs.Path path;
 		private PaymentPathSuccessful(long ptr, bindings.LDKEvent.PaymentPathSuccessful obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
-			long[] path = obj.path;
-			int path_conv_10_len = path.length;
-			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-			for (int k = 0; k < path_conv_10_len; k++) {
-				long path_conv_10 = path[k];
-				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-				path_conv_10_arr[k] = path_conv_10_hu_conv;
-			}
-			this.path = path_conv_10_arr;
+			long path = obj.path;
+			org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+			if (path_hu_conv != null) { path_hu_conv.ptrs_to.add(this); };
+			this.path = path_hu_conv;
 		}
 	}
 	/**
@@ -401,8 +434,7 @@ public class Event extends CommonBase {
 	 */
 	public final static class PaymentPathFailed extends Event {
 		/**
-		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::abandon_payment`].
+		 * The `payment_id` passed to [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
@@ -432,7 +464,7 @@ public class Event extends CommonBase {
 		/**
 		 * The payment path that failed.
 		*/
-		public final RouteHop[] path;
+		public final org.ldk.structs.Path path;
 		/**
 		 * The channel responsible for the failed payment path.
 		 * 
@@ -444,14 +476,6 @@ public class Event extends CommonBase {
 		 * retried. May be `None` for older [`Event`] serializations.
 		*/
 		public final org.ldk.structs.Option_u64Z short_channel_id;
-		/**
-		 * Parameters used by LDK to compute a new [`Route`] when retrying the failed payment path.
-		 * 
-		 * [`Route`]: crate::routing::router::Route
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
-		*/
-		@Nullable public final org.ldk.structs.RouteParameters retry;
 		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
@@ -461,24 +485,14 @@ public class Event extends CommonBase {
 			org.ldk.structs.PathFailure failure_hu_conv = org.ldk.structs.PathFailure.constr_from_ptr(failure);
 			if (failure_hu_conv != null) { failure_hu_conv.ptrs_to.add(this); };
 			this.failure = failure_hu_conv;
-			long[] path = obj.path;
-			int path_conv_10_len = path.length;
-			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-			for (int k = 0; k < path_conv_10_len; k++) {
-				long path_conv_10 = path[k];
-				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-				path_conv_10_arr[k] = path_conv_10_hu_conv;
-			}
-			this.path = path_conv_10_arr;
+			long path = obj.path;
+			org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+			if (path_hu_conv != null) { path_hu_conv.ptrs_to.add(this); };
+			this.path = path_hu_conv;
 			long short_channel_id = obj.short_channel_id;
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
 			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
 			this.short_channel_id = short_channel_id_hu_conv;
-			long retry = obj.retry;
-			org.ldk.structs.RouteParameters retry_hu_conv = null; if (retry < 0 || retry > 4096) { retry_hu_conv = new org.ldk.structs.RouteParameters(null, retry); }
-			if (retry_hu_conv != null) { retry_hu_conv.ptrs_to.add(this); };
-			this.retry = retry_hu_conv;
 		}
 	}
 	/**
@@ -500,21 +514,15 @@ public class Event extends CommonBase {
 		/**
 		 * The payment path that was successful.
 		*/
-		public final RouteHop[] path;
+		public final org.ldk.structs.Path path;
 		private ProbeSuccessful(long ptr, bindings.LDKEvent.ProbeSuccessful obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
-			long[] path = obj.path;
-			int path_conv_10_len = path.length;
-			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-			for (int k = 0; k < path_conv_10_len; k++) {
-				long path_conv_10 = path[k];
-				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-				path_conv_10_arr[k] = path_conv_10_hu_conv;
-			}
-			this.path = path_conv_10_arr;
+			long path = obj.path;
+			org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+			if (path_hu_conv != null) { path_hu_conv.ptrs_to.add(this); };
+			this.path = path_hu_conv;
 		}
 	}
 	/**
@@ -536,7 +544,7 @@ public class Event extends CommonBase {
 		/**
 		 * The payment path that failed.
 		*/
-		public final RouteHop[] path;
+		public final org.ldk.structs.Path path;
 		/**
 		 * The channel responsible for the failed probe.
 		 * 
@@ -549,16 +557,10 @@ public class Event extends CommonBase {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
-			long[] path = obj.path;
-			int path_conv_10_len = path.length;
-			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
-			for (int k = 0; k < path_conv_10_len; k++) {
-				long path_conv_10 = path[k];
-				org.ldk.structs.RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, path_conv_10); }
-				if (path_conv_10_hu_conv != null) { path_conv_10_hu_conv.ptrs_to.add(this); };
-				path_conv_10_arr[k] = path_conv_10_hu_conv;
-			}
-			this.path = path_conv_10_arr;
+			long path = obj.path;
+			org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
+			if (path_hu_conv != null) { path_hu_conv.ptrs_to.add(this); };
+			this.path = path_hu_conv;
 			long short_channel_id = obj.short_channel_id;
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
 			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
@@ -702,6 +704,12 @@ public class Event extends CommonBase {
 		 * transaction.
 		*/
 		public final boolean claim_from_onchain_tx;
+		/**
+		 * The final amount forwarded, in milli-satoshis, after the fee is deducted.
+		 * 
+		 * The caveat described above the `fee_earned_msat` field applies here as well.
+		*/
+		public final org.ldk.structs.Option_u64Z outbound_amount_forwarded_msat;
 		private PaymentForwarded(long ptr, bindings.LDKEvent.PaymentForwarded obj) {
 			super(null, ptr);
 			this.prev_channel_id = obj.prev_channel_id;
@@ -711,17 +719,23 @@ public class Event extends CommonBase {
 			if (fee_earned_msat_hu_conv != null) { fee_earned_msat_hu_conv.ptrs_to.add(this); };
 			this.fee_earned_msat = fee_earned_msat_hu_conv;
 			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
+			long outbound_amount_forwarded_msat = obj.outbound_amount_forwarded_msat;
+			org.ldk.structs.Option_u64Z outbound_amount_forwarded_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(outbound_amount_forwarded_msat);
+			if (outbound_amount_forwarded_msat_hu_conv != null) { outbound_amount_forwarded_msat_hu_conv.ptrs_to.add(this); };
+			this.outbound_amount_forwarded_msat = outbound_amount_forwarded_msat_hu_conv;
 		}
 	}
 	/**
-	 * Used to indicate that a channel with the given `channel_id` is ready to
-	 * be used. This event is emitted either when the funding transaction has been confirmed
-	 * on-chain, or, in case of a 0conf channel, when both parties have confirmed the channel
-	 * establishment.
+	 * Used to indicate that a channel with the given `channel_id` is being opened and pending
+	 * confirmation on-chain.
+	 * 
+	 * This event is emitted when the funding transaction has been signed and is broadcast to the
+	 * network. For 0conf channels it will be immediately followed by the corresponding
+	 * [`Event::ChannelReady`] event.
 	 */
-	public final static class ChannelReady extends Event {
+	public final static class ChannelPending extends Event {
 		/**
-		 * The channel_id of the channel that is ready.
+		 * The `channel_id` of the channel that is pending confirmation.
 		*/
 		public final byte[] channel_id;
 		/**
@@ -736,7 +750,59 @@ public class Event extends CommonBase {
 		*/
 		public final org.ldk.util.UInt128 user_channel_id;
 		/**
-		 * The node_id of the channel counterparty.
+		 * The `temporary_channel_id` this channel used to be known by during channel establishment.
+		 * 
+		 * Will be `None` for channels created prior to LDK version 0.0.115.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final byte[] former_temporary_channel_id;
+		/**
+		 * The `node_id` of the channel counterparty.
+		*/
+		public final byte[] counterparty_node_id;
+		/**
+		 * The outpoint of the channel's funding transaction.
+		*/
+		public final org.ldk.structs.OutPoint funding_txo;
+		private ChannelPending(long ptr, bindings.LDKEvent.ChannelPending obj) {
+			super(null, ptr);
+			this.channel_id = obj.channel_id;
+			byte[] user_channel_id = obj.user_channel_id;
+			org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
+			this.user_channel_id = user_channel_id_conv;
+			this.former_temporary_channel_id = obj.former_temporary_channel_id;
+			this.counterparty_node_id = obj.counterparty_node_id;
+			long funding_txo = obj.funding_txo;
+			org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
+			if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
+			this.funding_txo = funding_txo_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a channel with the given `channel_id` is ready to
+	 * be used. This event is emitted either when the funding transaction has been confirmed
+	 * on-chain, or, in case of a 0conf channel, when both parties have confirmed the channel
+	 * establishment.
+	 */
+	public final static class ChannelReady extends Event {
+		/**
+		 * The `channel_id` of the channel that is ready.
+		*/
+		public final byte[] channel_id;
+		/**
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+		 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+		 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+		 * `user_channel_id` will be randomized for an inbound channel.
+		 * 
+		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+		 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
+		*/
+		public final org.ldk.util.UInt128 user_channel_id;
+		/**
+		 * The `node_id` of the channel counterparty.
 		*/
 		public final byte[] counterparty_node_id;
 		/**
@@ -762,7 +828,7 @@ public class Event extends CommonBase {
 	 */
 	public final static class ChannelClosed extends Event {
 		/**
-		 * The channel_id of the channel which has been closed. Note that on-chain transactions
+		 * The `channel_id` of the channel which has been closed. Note that on-chain transactions
 		 * resolving the channel are likely still awaiting confirmation.
 		*/
 		public final byte[] channel_id;
@@ -897,7 +963,7 @@ public class Event extends CommonBase {
 	 * Insufficient capacity in the outbound channel
 	 * While waiting to forward the HTLC, the channel it is meant to be forwarded through closes
 	 * When an unknown SCID is requested for forwarding a payment.
-	 * Claiming an amount for an MPP payment that exceeds the HTLC total
+	 * Expected MPP amount has already been reached
 	 * The HTLC has timed out
 	 * 
 	 * This event, however, does not get generated if an HTLC fails to meet the forwarding
@@ -958,19 +1024,23 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentClaimable-variant Event
 	 */
-	public static Event payment_claimable(byte[] receiver_node_id, byte[] payment_hash, long amount_msat, org.ldk.structs.PaymentPurpose purpose, byte[] via_channel_id, org.ldk.structs.Option_u128Z via_user_channel_id) {
-		long ret = bindings.Event_payment_claimable(InternalUtils.check_arr_len(receiver_node_id, 33), InternalUtils.check_arr_len(payment_hash, 32), amount_msat, purpose.ptr, InternalUtils.check_arr_len(via_channel_id, 32), via_user_channel_id.ptr);
+	public static Event payment_claimable(byte[] receiver_node_id, byte[] payment_hash, org.ldk.structs.RecipientOnionFields onion_fields, long amount_msat, org.ldk.structs.PaymentPurpose purpose, byte[] via_channel_id, org.ldk.structs.Option_u128Z via_user_channel_id, org.ldk.structs.Option_u32Z claim_deadline) {
+		long ret = bindings.Event_payment_claimable(InternalUtils.check_arr_len(receiver_node_id, 33), InternalUtils.check_arr_len(payment_hash, 32), onion_fields == null ? 0 : onion_fields.ptr, amount_msat, purpose.ptr, InternalUtils.check_arr_len(via_channel_id, 32), via_user_channel_id.ptr, claim_deadline.ptr);
 		Reference.reachabilityFence(receiver_node_id);
 		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(onion_fields);
 		Reference.reachabilityFence(amount_msat);
 		Reference.reachabilityFence(purpose);
 		Reference.reachabilityFence(via_channel_id);
 		Reference.reachabilityFence(via_user_channel_id);
+		Reference.reachabilityFence(claim_deadline);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(onion_fields); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(purpose); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(via_user_channel_id); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(claim_deadline); };
 		return ret_hu_conv;
 	}
 
@@ -1009,73 +1079,73 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentFailed-variant Event
 	 */
-	public static Event payment_failed(byte[] payment_id, byte[] payment_hash) {
-		long ret = bindings.Event_payment_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32));
+	public static Event payment_failed(byte[] payment_id, byte[] payment_hash, org.ldk.structs.Option_PaymentFailureReasonZ reason) {
+		long ret = bindings.Event_payment_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), reason.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(reason);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(reason); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
 	 */
-	public static Event payment_path_successful(byte[] payment_id, byte[] payment_hash, RouteHop[] path) {
-		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
+	public static Event payment_path_successful(byte[] payment_id, byte[] payment_hash, org.ldk.structs.Path path) {
+		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.PathFailure failure, RouteHop[] path, org.ldk.structs.Option_u64Z short_channel_id, org.ldk.structs.RouteParameters retry) {
-		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, failure.ptr, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr);
+	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.PathFailure failure, org.ldk.structs.Path path, org.ldk.structs.Option_u64Z short_channel_id) {
+		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, failure.ptr, path == null ? 0 : path.ptr, short_channel_id.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(payment_failed_permanently);
 		Reference.reachabilityFence(failure);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
-		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(failure); };
-		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(short_channel_id); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(retry); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Utility method to constructs a new ProbeSuccessful-variant Event
 	 */
-	public static Event probe_successful(byte[] payment_id, byte[] payment_hash, RouteHop[] path) {
-		long ret = bindings.Event_probe_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null);
+	public static Event probe_successful(byte[] payment_id, byte[] payment_hash, org.ldk.structs.Path path) {
+		long ret = bindings.Event_probe_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Utility method to constructs a new ProbeFailed-variant Event
 	 */
-	public static Event probe_failed(byte[] payment_id, byte[] payment_hash, RouteHop[] path, org.ldk.structs.Option_u64Z short_channel_id) {
-		long ret = bindings.Event_probe_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr).toArray() : null, short_channel_id.ptr);
+	public static Event probe_failed(byte[] payment_id, byte[] payment_hash, org.ldk.structs.Path path, org.ldk.structs.Option_u64Z short_channel_id) {
+		long ret = bindings.Event_probe_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path == null ? 0 : path.ptr, short_channel_id.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
@@ -1083,7 +1153,7 @@ public class Event extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		for (RouteHop path_conv_10: path) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path_conv_10); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(short_channel_id); };
 		return ret_hu_conv;
 	}
@@ -1132,16 +1202,35 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentForwarded-variant Event
 	 */
-	public static Event payment_forwarded(byte[] prev_channel_id, byte[] next_channel_id, org.ldk.structs.Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
-		long ret = bindings.Event_payment_forwarded(InternalUtils.check_arr_len(prev_channel_id, 32), InternalUtils.check_arr_len(next_channel_id, 32), fee_earned_msat.ptr, claim_from_onchain_tx);
+	public static Event payment_forwarded(byte[] prev_channel_id, byte[] next_channel_id, org.ldk.structs.Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx, org.ldk.structs.Option_u64Z outbound_amount_forwarded_msat) {
+		long ret = bindings.Event_payment_forwarded(InternalUtils.check_arr_len(prev_channel_id, 32), InternalUtils.check_arr_len(next_channel_id, 32), fee_earned_msat.ptr, claim_from_onchain_tx, outbound_amount_forwarded_msat.ptr);
 		Reference.reachabilityFence(prev_channel_id);
 		Reference.reachabilityFence(next_channel_id);
 		Reference.reachabilityFence(fee_earned_msat);
 		Reference.reachabilityFence(claim_from_onchain_tx);
+		Reference.reachabilityFence(outbound_amount_forwarded_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(fee_earned_msat); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outbound_amount_forwarded_msat); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ChannelPending-variant Event
+	 */
+	public static Event channel_pending(byte[] channel_id, org.ldk.util.UInt128 user_channel_id, byte[] former_temporary_channel_id, byte[] counterparty_node_id, org.ldk.structs.OutPoint funding_txo) {
+		long ret = bindings.Event_channel_pending(InternalUtils.check_arr_len(channel_id, 32), user_channel_id.getLEBytes(), InternalUtils.check_arr_len(former_temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_txo == null ? 0 : funding_txo.ptr);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(former_temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(funding_txo);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(funding_txo); };
 		return ret_hu_conv;
 	}
 

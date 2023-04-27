@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Details of a channel, as returned by ChannelManager::list_channels and ChannelManager::list_usable_channels
+ * Details of a channel, as returned by [`ChannelManager::list_channels`] and [`ChannelManager::list_usable_channels`]
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelDetails extends CommonBase {
@@ -333,6 +333,34 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_user_channel_id(this.ptr, val.getLEBytes());
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The currently negotiated fee rate denominated in satoshi per 1000 weight units,
+	 * which is applied to commitment and HTLC transactions.
+	 * 
+	 * This value will be `None` for objects serialized with LDK versions prior to 0.0.115.
+	 */
+	public Option_u32Z get_feerate_sat_per_1000_weight() {
+		long ret = bindings.ChannelDetails_get_feerate_sat_per_1000_weight(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The currently negotiated fee rate denominated in satoshi per 1000 weight units,
+	 * which is applied to commitment and HTLC transactions.
+	 * 
+	 * This value will be `None` for objects serialized with LDK versions prior to 0.0.115.
+	 */
+	public void set_feerate_sat_per_1000_weight(org.ldk.structs.Option_u32Z val) {
+		bindings.ChannelDetails_set_feerate_sat_per_1000_weight(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -741,8 +769,8 @@ public class ChannelDetails extends CommonBase {
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static ChannelDetails of(byte[] channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, org.ldk.structs.OutPoint funding_txo_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, org.ldk.structs.ChannelConfig config_arg) {
-		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
+	public static ChannelDetails of(byte[] channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, org.ldk.structs.OutPoint funding_txo_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, org.ldk.structs.Option_u32Z feerate_sat_per_1000_weight_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, boolean is_usable_arg, boolean is_public_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, org.ldk.structs.ChannelConfig config_arg) {
+		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), feerate_sat_per_1000_weight_arg.ptr, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(counterparty_arg);
 		Reference.reachabilityFence(funding_txo_arg);
@@ -753,6 +781,7 @@ public class ChannelDetails extends CommonBase {
 		Reference.reachabilityFence(channel_value_satoshis_arg);
 		Reference.reachabilityFence(unspendable_punishment_reserve_arg);
 		Reference.reachabilityFence(user_channel_id_arg);
+		Reference.reachabilityFence(feerate_sat_per_1000_weight_arg);
 		Reference.reachabilityFence(balance_msat_arg);
 		Reference.reachabilityFence(outbound_capacity_msat_arg);
 		Reference.reachabilityFence(next_outbound_htlc_limit_msat_arg);
@@ -777,6 +806,7 @@ public class ChannelDetails extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outbound_scid_alias_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(inbound_scid_alias_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(unspendable_punishment_reserve_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(feerate_sat_per_1000_weight_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(confirmations_required_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(confirmations_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(force_close_spend_delay_arg); };
