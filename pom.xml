@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.bitcoinj</groupId>
             <artifactId>bitcoinj-core</artifactId>
-            <version>RELEASE</version>
+            <version>0.17-alpha1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
