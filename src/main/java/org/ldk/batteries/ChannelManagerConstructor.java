@@ -78,7 +78,8 @@ public class ChannelManagerConstructor {
      */
     private final ProbabilisticScorer prob_scorer;
     private final Logger logger;
-    private final KeysManager keys_manager;
+    private final EntropySource entropy_source;
+    private final NodeSigner node_signer;
 
     /**
      * Exposes the `ProbabilisticScorer` wrapped inside a lock. Don't forget to `close` this lock when you're done with
@@ -132,13 +133,14 @@ public class ChannelManagerConstructor {
      * @param router_wrapper If provided, routes will be fetched by calling the given router rather than an LDK `DefaultRouter`.
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized, UserConfig config,
-                                     KeysManager keys_manager, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
+                                     FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable Filter filter, byte[] net_graph_serialized,
                                      ProbabilisticScoringParameters scoring_params, byte[] probabilistic_scorer_bytes,
                                      @Nullable RouterWrapper router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
-        this.keys_manager = keys_manager;
-        EntropySource entropy_source = keys_manager.as_EntropySource();
+        this.entropy_source = entropy_source;
+        this.node_signer = node_signer;
 
         Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized, logger);
         if (!graph_res.is_ok()) {
@@ -173,7 +175,7 @@ public class ChannelManagerConstructor {
         this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
         HashSet<OutPoint> monitor_funding_set = new HashSet();
         for (int i = 0; i < monitors.length; i++) {
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], entropy_source, keys_manager.as_SignerProvider());
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], entropy_source, signer_provider);
             if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
                 throw new InvalidSerializedDataException("Serialized ChannelMonitor was corrupt");
             }
@@ -184,8 +186,8 @@ public class ChannelManagerConstructor {
                 throw new InvalidSerializedDataException("Set of ChannelMonitors contained duplicates (ie the same funding_txo was set on multiple monitors)");
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_manager.as_EntropySource(),
-                        keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(), fee_estimator, chain_monitor.as_Watch(),
+                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, entropy_source,
+                        node_signer, signer_provider, fee_estimator, chain_monitor.as_Watch(),
                         tx_broadcaster, router, logger, config, monitors);
         if (!res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
@@ -207,13 +209,13 @@ public class ChannelManagerConstructor {
      * @param router_wrapper If provided, routes will be fetched by calling the given router rather than an LDK `DefaultRouter`.
      */
     public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
-                                     KeysManager keys_manager, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
+                                     FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      NetworkGraph net_graph, ProbabilisticScoringParameters scoring_params,
                                      @Nullable RouterWrapper router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
-        this.keys_manager = keys_manager;
-        EntropySource entropy_source = keys_manager.as_EntropySource();
-
+        this.entropy_source = entropy_source;
+        this.node_signer = node_signer;
         this.net_graph = net_graph;
         assert(scoring_params != null);
         this.prob_scorer = ProbabilisticScorer.of(scoring_params, net_graph, logger);
@@ -239,7 +241,7 @@ public class ChannelManagerConstructor {
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
         ChainParameters params = ChainParameters.of(network, block);
         channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, router, logger,
-            keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(), config, params);
+            entropy_source, node_signer, signer_provider, config, params);
         this.logger = logger;
     }
 
@@ -279,8 +281,8 @@ public class ChannelManagerConstructor {
         P2PGossipSync graph_msg_handler = P2PGossipSync.of(net_graph, Option_UtxoLookupZ.none(), logger);
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                 ignoring_handler.as_RoutingMessageHandler(), ignoring_handler.as_OnionMessageHandler(),
-                (int)(System.currentTimeMillis() / 1000), this.keys_manager.as_EntropySource().get_secure_random_bytes(),
-                logger, ignoring_handler.as_CustomMessageHandler(), keys_manager.as_NodeSigner());
+                (int)(System.currentTimeMillis() / 1000), this.entropy_source.get_secure_random_bytes(),
+                logger, ignoring_handler.as_CustomMessageHandler(), this.node_signer);
 
         try {
             this.nio_peer_handler = new NioPeerHandler(peer_manager);
