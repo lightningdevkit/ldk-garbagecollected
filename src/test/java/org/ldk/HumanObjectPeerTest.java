@@ -379,7 +379,8 @@ class HumanObjectPeerTestInstance {
 
             if (use_chan_manager_constructor) {
                 this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, get_config(), new byte[32], 0,
-                        this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, this.net_graph,
+                        this.explicit_keys_manager.as_EntropySource(), this.explicit_keys_manager.as_NodeSigner(), this.explicit_keys_manager.as_SignerProvider(),
+                        this.fee_estimator, this.chain_monitor, this.net_graph,
                         ProbabilisticScoringParameters.with_default(), (ChannelManagerConstructor.RouterWrapper)
                             (payer_node_id, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router) -> {
                                 assert payment_hash != null && payment_id != null;
@@ -466,7 +467,8 @@ class HumanObjectPeerTestInstance {
                         filter_nullable = ((Option_FilterZ.Some) this.filter).some;
                     }
                     this.constructor = new ChannelManagerConstructor(serialized, monitors, get_config(),
-                            this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, filter_nullable,
+                        this.explicit_keys_manager.as_EntropySource(), this.explicit_keys_manager.as_NodeSigner(), this.explicit_keys_manager.as_SignerProvider(),
+                        this.fee_estimator, this.chain_monitor, filter_nullable,
                             serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer, null,
                             this.tx_broadcaster, this.logger);
                     try {
@@ -475,7 +477,8 @@ class HumanObjectPeerTestInstance {
                         monitors_dupd[0] = monitors[0];
                         monitors_dupd[1] = monitors[0];
                         ChannelManagerConstructor constr = new ChannelManagerConstructor(serialized, monitors_dupd, get_config(),
-                                this.explicit_keys_manager, this.fee_estimator, this.chain_monitor, filter_nullable,
+                            this.explicit_keys_manager.as_EntropySource(), this.explicit_keys_manager.as_NodeSigner(), this.explicit_keys_manager.as_SignerProvider(),
+                            this.fee_estimator, this.chain_monitor, filter_nullable,
                                 serialized_graph, ProbabilisticScoringParameters.with_default(), serialized_scorer, null,
                                 this.tx_broadcaster, this.logger);
                         assert false;
