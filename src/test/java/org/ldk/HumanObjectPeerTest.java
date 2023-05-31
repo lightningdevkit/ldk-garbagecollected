@@ -214,6 +214,7 @@ class HumanObjectPeerTestInstance {
         final LinkedList<byte[]> received_custom_messages = new LinkedList<>();
         final LinkedList<byte[]> custom_messages_to_send = new LinkedList<>();
         ChannelManagerConstructor constructor = null;
+        long network_graph_persists = 0;
         GcCheck obj = new GcCheck();
 
         private ChannelMonitor test_mon_roundtrip(OutPoint expected_id, byte[] data) {
@@ -397,7 +398,7 @@ class HumanObjectPeerTestInstance {
                         }
                     }
                     @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                    @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
+                    @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; network_graph_persists += 1; }
                     @Override public void persist_scorer(byte[] scorer_bytes) { assert scorer_bytes.length > 1; }
                 }, !use_ignore_handler);
                 this.chan_manager = constructor.channel_manager;
@@ -493,7 +494,7 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                        @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
+                        @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; network_graph_persists += 1; }
                         @Override public void persist_scorer(byte[] scorer_bytes) { assert scorer_bytes.length > 1; }
                     }, !use_ignore_handler);
                     this.chan_manager = constructor.channel_manager;
@@ -956,9 +957,18 @@ class HumanObjectPeerTestInstance {
         }
 
         if (reload_peers) {
+            assert peer1.network_graph_persists == 0;
+            assert peer2.network_graph_persists == 0;
             if (use_chan_manager_constructor) {
                 peer1.constructor.interrupt();
                 peer2.constructor.interrupt();
+                if (!use_ignore_handler) {
+                    assert peer1.network_graph_persists >= 1;
+                    assert peer2.network_graph_persists >= 1;
+                } else {
+                    assert peer1.network_graph_persists == 0;
+                    assert peer2.network_graph_persists == 0;
+                }
             } else if (use_nio_peer_handler) {
                 peer1.nio_peer_handler.interrupt();
                 peer2.nio_peer_handler.interrupt();
@@ -1152,8 +1162,17 @@ class HumanObjectPeerTestInstance {
         state.peer2.get_monitor_events(0);
 
         if (use_chan_manager_constructor) {
+            assert state.peer1.network_graph_persists == 0;
+            assert state.peer2.network_graph_persists == 0;
             state.peer1.constructor.interrupt();
             state.peer2.constructor.interrupt();
+            if (!use_ignore_handler) {
+                assert state.peer1.network_graph_persists >= 1;
+                assert state.peer2.network_graph_persists >= 1;
+            } else {
+                assert state.peer1.network_graph_persists == 0;
+                assert state.peer2.network_graph_persists == 0;
+            }
         }
 
         t.interrupt();

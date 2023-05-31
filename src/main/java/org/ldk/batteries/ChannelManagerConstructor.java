@@ -297,9 +297,9 @@ public class ChannelManagerConstructor {
 
         GossipSync gossip_sync;
         if (use_p2p_graph_sync)
-            gossip_sync = GossipSync.none();
-        else
             gossip_sync = GossipSync.p2_p(graph_msg_handler);
+        else
+            gossip_sync = GossipSync.none();
 
         Option_WriteableScoreZ writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
 
