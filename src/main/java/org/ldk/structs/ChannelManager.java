@@ -89,7 +89,7 @@ public class ChannelManager extends CommonBase {
 	 * [`params.best_block.block_hash`]: chain::BestBlock::block_hash
 	 */
 	public static ChannelManager of(org.ldk.structs.FeeEstimator fee_est, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.UserConfig config, org.ldk.structs.ChainParameters params) {
-		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, signer_provider == null ? 0 : signer_provider.ptr, config == null ? 0 : config.ptr, params == null ? 0 : params.ptr);
+		long ret = bindings.ChannelManager_new(fee_est.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, logger.ptr, entropy_source.ptr, node_signer.ptr, signer_provider.ptr, config == null ? 0 : config.ptr, params == null ? 0 : params.ptr);
 		Reference.reachabilityFence(fee_est);
 		Reference.reachabilityFence(chain_monitor);
 		Reference.reachabilityFence(tx_broadcaster);

@@ -46,7 +46,7 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the success state.
 	 */
 	public static Result_ProbabilisticScorerDecodeErrorZ ok(ProbabilisticScoringParameters o_params, NetworkGraph o_network_graph, Logger o_logger) {
-		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : o_params.ptr, o_network_graph == null ? 0 : o_network_graph.ptr, o_logger == null ? 0 : o_logger.ptr));
+		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : o_params.ptr, o_network_graph == null ? 0 : o_network_graph.ptr, o_logger.ptr));
 		Reference.reachabilityFence(o_params);
 		Reference.reachabilityFence(o_network_graph);
 		Reference.reachabilityFence(o_logger);

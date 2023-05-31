@@ -100,7 +100,7 @@ public class SignerProvider extends CommonBase {
 			@Override public long derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
 				WriteableEcdsaChannelSigner ret = arg.derive_channel_signer(channel_value_satoshis, channel_keys_id);
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
+				long result = ret.clone_ptr();
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
 				return result;
 			}

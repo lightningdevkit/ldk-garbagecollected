@@ -46,7 +46,7 @@ public class Result_WriteableEcdsaChannelSignerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_WriteableEcdsaChannelSignerDecodeErrorZ in the success state.
 	 */
 	public static Result_WriteableEcdsaChannelSignerDecodeErrorZ ok(org.ldk.structs.WriteableEcdsaChannelSigner o) {
-		long ret = bindings.CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(o == null ? 0 : o.ptr);
+		long ret = bindings.CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_WriteableEcdsaChannelSignerDecodeErrorZ ret_hu_conv = Result_WriteableEcdsaChannelSignerDecodeErrorZ.constr_from_ptr(ret);

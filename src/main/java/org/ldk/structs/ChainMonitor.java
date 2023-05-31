@@ -45,7 +45,7 @@ public class ChainMonitor extends CommonBase {
 	 * transactions relevant to the watched channels.
 	 */
 	public static ChainMonitor of(org.ldk.structs.Option_FilterZ chain_source, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.FeeEstimator feeest, org.ldk.structs.Persist persister) {
-		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
+		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster.ptr, logger.ptr, feeest.ptr, persister.ptr);
 		Reference.reachabilityFence(chain_source);
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(logger);

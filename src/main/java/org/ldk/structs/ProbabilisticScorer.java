@@ -60,7 +60,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * through a network graph.
 	 */
 	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringParameters params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
-		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr);
+		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr, network_graph == null ? 0 : network_graph.ptr, logger.ptr);
 		Reference.reachabilityFence(params);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
@@ -211,7 +211,7 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
 	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
-		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c == null ? 0 : arg_c.ptr);
+		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg_a);
 		Reference.reachabilityFence(arg_b);

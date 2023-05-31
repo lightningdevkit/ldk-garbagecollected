@@ -55,7 +55,7 @@ public class Option_UtxoLookupZ extends CommonBase {
 	 * Constructs a new COption_UtxoLookupZ containing a crate::lightning::routing::utxo::UtxoLookup
 	 */
 	public static Option_UtxoLookupZ some(org.ldk.structs.UtxoLookup o) {
-		long ret = bindings.COption_UtxoLookupZ_some(o == null ? 0 : o.ptr);
+		long ret = bindings.COption_UtxoLookupZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_UtxoLookupZ ret_hu_conv = org.ldk.structs.Option_UtxoLookupZ.constr_from_ptr(ret);

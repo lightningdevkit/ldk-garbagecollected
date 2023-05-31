@@ -8729,6 +8729,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    COption_ScalarZ_clone_ptr
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1clone_1ptr
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    COption_ScalarZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CResult_SharedSecretNoneZ_ok
  * Signature: ([B)J
  */

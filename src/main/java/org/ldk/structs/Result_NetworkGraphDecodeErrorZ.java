@@ -46,7 +46,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
 	 */
 	public static Result_NetworkGraphDecodeErrorZ ok(Network o_network, Logger o_logger) {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_network, o_logger == null ? 0 : o_logger.ptr));
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_network, o_logger.ptr));
 		Reference.reachabilityFence(o_network);
 		Reference.reachabilityFence(o_logger);
 		if (ret >= 0 && ret <= 4096) { return null; }

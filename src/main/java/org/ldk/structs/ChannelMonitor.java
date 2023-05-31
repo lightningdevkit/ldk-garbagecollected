@@ -69,7 +69,7 @@ public class ChannelMonitor extends CommonBase {
 	 * panics if the given update is not the next update by update_id.
 	 */
 	public Result_NoneNoneZ update_monitor(org.ldk.structs.ChannelMonitorUpdate updates, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(updates);
 		Reference.reachabilityFence(broadcaster);
@@ -130,7 +130,7 @@ public class ChannelMonitor extends CommonBase {
 	 * have been registered.
 	 */
 	public void load_outputs_to_watch(org.ldk.structs.Filter filter) {
-		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0 : filter.ptr);
+		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(filter);
 		if (this != null) { this.ptrs_to.add(filter); };
@@ -211,7 +211,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
 	 */
 	public byte[][] get_latest_holder_commitment_txn(org.ldk.structs.Logger logger) {
-		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);
+		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(logger); };
@@ -232,7 +232,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`get_outputs_to_watch`]: #method.get_outputs_to_watch
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
 		Reference.reachabilityFence(txdata);
@@ -259,7 +259,7 @@ public class ChannelMonitor extends CommonBase {
 	 * appropriately.
 	 */
 	public void block_disconnected(byte[] header, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		bindings.ChannelMonitor_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		bindings.ChannelMonitor_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
 		Reference.reachabilityFence(height);
@@ -281,7 +281,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`block_connected`]: Self::block_connected
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
 		Reference.reachabilityFence(txdata);
@@ -312,7 +312,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`block_disconnected`]: Self::block_disconnected
 	 */
 	public void transaction_unconfirmed(byte[] txid, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32), broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32), broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(txid);
 		Reference.reachabilityFence(broadcaster);
@@ -333,7 +333,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`block_connected`]: Self::block_connected
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] best_block_updated(byte[] header, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		long[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
 		Reference.reachabilityFence(height);
@@ -392,7 +392,7 @@ public class ChannelMonitor extends CommonBase {
 	 * connections, like on mobile.
 	 */
 	public void rebroadcast_pending_claims(org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		bindings.ChannelMonitor_rebroadcast_pending_claims(this.ptr, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		bindings.ChannelMonitor_rebroadcast_pending_claims(this.ptr, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);

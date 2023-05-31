@@ -142,7 +142,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 * Signs the holder commitment transaction because we are about to broadcast it.
 	 */
 	public byte[] sign_holder_commitment(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis, org.ldk.structs.EntropySource entropy_source) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis, entropy_source == null ? 0 : entropy_source.ptr);
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis, entropy_source.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_key);
 		Reference.reachabilityFence(funding_redeemscript);

@@ -55,7 +55,7 @@ public class Option_FilterZ extends CommonBase {
 	 * Constructs a new COption_FilterZ containing a crate::lightning::chain::Filter
 	 */
 	public static Option_FilterZ some(org.ldk.structs.Filter o) {
-		long ret = bindings.COption_FilterZ_some(o == null ? 0 : o.ptr);
+		long ret = bindings.COption_FilterZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_FilterZ ret_hu_conv = org.ldk.structs.Option_FilterZ.constr_from_ptr(ret);

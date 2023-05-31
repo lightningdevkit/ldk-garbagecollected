@@ -42,7 +42,7 @@ public class MessageHandler extends CommonBase {
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public void set_chan_handler(org.ldk.structs.ChannelMessageHandler val) {
-		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : val.ptr);
+		bindings.MessageHandler_set_chan_handler(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -70,7 +70,7 @@ public class MessageHandler extends CommonBase {
 	 * [`P2PGossipSync`]: crate::routing::gossip::P2PGossipSync
 	 */
 	public void set_route_handler(org.ldk.structs.RoutingMessageHandler val) {
-		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : val.ptr);
+		bindings.MessageHandler_set_route_handler(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -94,7 +94,7 @@ public class MessageHandler extends CommonBase {
 	 * [`IgnoringMessageHandler`].
 	 */
 	public void set_onion_message_handler(org.ldk.structs.OnionMessageHandler val) {
-		bindings.MessageHandler_set_onion_message_handler(this.ptr, val == null ? 0 : val.ptr);
+		bindings.MessageHandler_set_onion_message_handler(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -104,7 +104,7 @@ public class MessageHandler extends CommonBase {
 	 * Constructs a new MessageHandler given each field
 	 */
 	public static MessageHandler of(org.ldk.structs.ChannelMessageHandler chan_handler_arg, org.ldk.structs.RoutingMessageHandler route_handler_arg, org.ldk.structs.OnionMessageHandler onion_message_handler_arg) {
-		long ret = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : chan_handler_arg.ptr, route_handler_arg == null ? 0 : route_handler_arg.ptr, onion_message_handler_arg == null ? 0 : onion_message_handler_arg.ptr);
+		long ret = bindings.MessageHandler_new(chan_handler_arg.ptr, route_handler_arg.ptr, onion_message_handler_arg.ptr);
 		Reference.reachabilityFence(chan_handler_arg);
 		Reference.reachabilityFence(route_handler_arg);
 		Reference.reachabilityFence(onion_message_handler_arg);

@@ -67,7 +67,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * A cryptographically secure source of entropy.
 	 */
 	public void set_entropy_source(org.ldk.structs.EntropySource val) {
-		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -89,7 +89,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * A signer that is able to perform node-scoped cryptographic operations.
 	 */
 	public void set_node_signer(org.ldk.structs.NodeSigner val) {
-		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -115,7 +115,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * signing data.
 	 */
 	public void set_signer_provider(org.ldk.structs.SignerProvider val) {
-		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -141,7 +141,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
 	public void set_fee_estimator(org.ldk.structs.FeeEstimator val) {
-		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -171,7 +171,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
 	public void set_chain_monitor(org.ldk.structs.Watch val) {
-		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -197,7 +197,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * force-closed during deserialization.
 	 */
 	public void set_tx_broadcaster(org.ldk.structs.BroadcasterInterface val) {
-		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -225,7 +225,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the router will be made during deserialization.
 	 */
 	public void set_router(org.ldk.structs.Router val) {
-		bindings.ChannelManagerReadArgs_set_router(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_router(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -249,7 +249,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization.
 	 */
 	public void set_logger(org.ldk.structs.Logger val) {
-		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -285,7 +285,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * populate a HashMap directly from C.
 	 */
 	public static ChannelManagerReadArgs of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, signer_provider == null ? 0 : signer_provider.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, router == null ? 0 : router.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
+		long ret = bindings.ChannelManagerReadArgs_new(entropy_source.ptr, node_signer.ptr, signer_provider.ptr, fee_estimator.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr).toArray() : null);
 		Reference.reachabilityFence(entropy_source);
 		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(signer_provider);

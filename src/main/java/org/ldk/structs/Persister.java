@@ -109,7 +109,7 @@ public class Persister extends CommonBase {
 	 * Persist the given [`WriteableScore`] to disk, returning an error if persistence failed.
 	 */
 	public Result_NoneErrorZ persist_scorer(org.ldk.structs.WriteableScore scorer) {
-		long ret = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0 : scorer.ptr);
+		long ret = bindings.Persister_persist_scorer(this.ptr, scorer.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }

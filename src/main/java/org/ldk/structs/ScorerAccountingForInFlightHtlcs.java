@@ -29,7 +29,7 @@ public class ScorerAccountingForInFlightHtlcs extends CommonBase {
 	 * Initialize a new `ScorerAccountingForInFlightHtlcs`.
 	 */
 	public static ScorerAccountingForInFlightHtlcs of(org.ldk.structs.Score scorer, org.ldk.structs.InFlightHtlcs inflight_htlcs) {
-		long ret = bindings.ScorerAccountingForInFlightHtlcs_new(scorer == null ? 0 : scorer.ptr, inflight_htlcs == null ? 0 : inflight_htlcs.ptr);
+		long ret = bindings.ScorerAccountingForInFlightHtlcs_new(scorer.ptr, inflight_htlcs == null ? 0 : inflight_htlcs.ptr);
 		Reference.reachabilityFence(scorer);
 		Reference.reachabilityFence(inflight_htlcs);
 		if (ret >= 0 && ret <= 4096) { return null; }
