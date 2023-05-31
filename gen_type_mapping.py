@@ -393,7 +393,7 @@ class TypeMappingGenerator:
                             if holds_ref:
                                 base_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                             else:
-                                from_hu_conv = (ty_info.var_name + " == null ? " + self.consts.native_zero_ptr + " : " + ty_info.var_name + ".clone_ptr()", "")
+                                from_hu_conv = (ty_info.var_name + ".clone_ptr()", "")
                                 base_conv += "\n" + "FREE(untag_ptr(" + ty_info.var_name + "));"
                         else:
                             base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
@@ -402,7 +402,7 @@ class TypeMappingGenerator:
                     else:
                         base_conv = base_conv + "\n" + "FREE(untag_ptr(" + ty_info.var_name + "));"
                     if from_hu_conv is None:
-                        from_hu_conv = (ty_info.var_name + " == null ? " + self.consts.native_zero_ptr + " : " + self.consts.get_ptr(ty_info.var_name), "")
+                        from_hu_conv = (self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], self.consts.add_ref("this", ty_info.var_name))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
@@ -553,6 +553,7 @@ class TypeMappingGenerator:
                         arg_conv += "if (ptr_is_owned(" + ty_info.var_name + ")) { CHECK_ACCESS(" + ty_info.var_name + "_ptr); }\n"
                         arg_conv += ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + "_ptr;"
                         arg_conv_name = ty_info.var_name + "_conv"
+                        from_hu_conv_pfx = self.consts.get_ptr(ty_info.var_name)
                     else:
                         # We map Option<Trait> as *mut Trait, which we can differentiate from &Trait by the NONNULL_PTR annotation.
                         # We handle the Option<Trait> case here.
@@ -567,6 +568,7 @@ class TypeMappingGenerator:
                         arg_conv += "\t*" + ty_info.var_name + "_conv_ptr = " + ty_info.var_name + "_conv;\n"
                         arg_conv += "}"
                         arg_conv_name = ty_info.var_name + "_conv_ptr"
+                        from_hu_conv_pfx = ty_info.var_name + " == null ? " + self.consts.native_zero_ptr + " : " + self.consts.get_ptr(ty_info.var_name)
                     if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
@@ -574,16 +576,14 @@ class TypeMappingGenerator:
                                 "*" + ty_info.var_name + "_clone = " + ty_info.rust_obj.replace("LDK", "") + "_clone(", ");"),
                             ret_conv_name = "tag_ptr(" + ty_info.var_name + "_clone, true)",
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
-                            to_hu_conv_name = "ret_hu_conv",
-                            from_hu_conv = (ty_info.var_name + " == null ? " + self.consts.native_zero_ptr + " : " + self.consts.get_ptr(ty_info.var_name), ""))
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = (from_hu_conv_pfx, ""))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                             ret_conv = ("// WARNING: This object doesn't live past this scope, needs clone!\n" + self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = tag_ptr(", ", false);"),
                             ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
-                            to_hu_conv_name = "ret_hu_conv",
-                            from_hu_conv = (ty_info.var_name + " == null ? " + self.consts.native_zero_ptr + " : " + self.consts.get_ptr(ty_info.var_name), self.consts.add_ref("this", ty_info.var_name)))
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = (from_hu_conv_pfx, self.consts.add_ref("this", ty_info.var_name)))
                 ret_conv = (self.consts.ptr_c_ty + " ret_" + ty_info.var_name + " = tag_ptr(", ", true);")
                 if holds_ref:
                     ret_conv = (ret_conv[0], ", false);")
