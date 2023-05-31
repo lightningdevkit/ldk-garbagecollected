@@ -600,7 +600,7 @@ import javax.annotation.Nullable;
             res = res + "\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n"
             res = res + "\tCHECK(" + ty + "_clz != NULL);\n"
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"
-        res = res + "\tString_clz = (*env)->FindClass(env, \"Ljava/lang/String;\");\n"
+        res = res + "\tString_clz = (*env)->FindClass(env, \"java/lang/String\");\n"
         res = res + "\tCHECK(String_clz != NULL);\n"
         res = res + "\tString_clz = (*env)->NewGlobalRef(env, String_clz);\n"
 
