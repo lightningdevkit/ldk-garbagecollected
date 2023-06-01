@@ -453,7 +453,7 @@ export class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o_params: ProbabilisticScoringParameters, o_network_graph: NetworkGraph, o_logger: Logger): Result_ProbabilisticScorerDecodeErrorZ {
-		const ret: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0n : CommonBase.get_ptr_of(o_params), o_network_graph == null ? 0n : CommonBase.get_ptr_of(o_network_graph), o_logger == null ? 0n : CommonBase.get_ptr_of(o_logger)));
+		const ret: bigint = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0n : CommonBase.get_ptr_of(o_params), o_network_graph == null ? 0n : CommonBase.get_ptr_of(o_network_graph), CommonBase.get_ptr_of(o_logger)));
 		const ret_hu_conv: Result_ProbabilisticScorerDecodeErrorZ = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o_params);
 		CommonBase.add_ref_from(ret_hu_conv, o_network_graph);

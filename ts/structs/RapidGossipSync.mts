@@ -453,7 +453,7 @@ export class RapidGossipSync extends CommonBase {
 	 * Instantiate a new [`RapidGossipSync`] instance.
 	 */
 	public static constructor_new(network_graph: NetworkGraph, logger: Logger): RapidGossipSync {
-		const ret: bigint = bindings.RapidGossipSync_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.RapidGossipSync_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: RapidGossipSync = new RapidGossipSync(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);

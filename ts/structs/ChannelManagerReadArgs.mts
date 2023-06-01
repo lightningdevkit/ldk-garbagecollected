@@ -490,7 +490,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * A cryptographically secure source of entropy.
 	 */
 	public set_entropy_source(val: EntropySource): void {
-		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -508,7 +508,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * A signer that is able to perform node-scoped cryptographic operations.
 	 */
 	public set_node_signer(val: NodeSigner): void {
-		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -530,7 +530,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * signing data.
 	 */
 	public set_signer_provider(val: SignerProvider): void {
-		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -552,7 +552,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
 	public set_fee_estimator(val: FeeEstimator): void {
-		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -578,7 +578,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
 	public set_chain_monitor(val: Watch): void {
-		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -600,7 +600,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * force-closed during deserialization.
 	 */
 	public set_tx_broadcaster(val: BroadcasterInterface): void {
-		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -624,7 +624,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * No calls to the router will be made during deserialization.
 	 */
 	public set_router(val: Router): void {
-		bindings.ChannelManagerReadArgs_set_router(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_router(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -644,7 +644,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * deserialization.
 	 */
 	public set_logger(val: Logger): void {
-		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0n : CommonBase.get_ptr_of(val));
+		bindings.ChannelManagerReadArgs_set_logger(this.ptr, CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
@@ -674,7 +674,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	 * populate a HashMap directly from C.
 	 */
 	public static constructor_new(entropy_source: EntropySource, node_signer: NodeSigner, signer_provider: SignerProvider, fee_estimator: FeeEstimator, chain_monitor: Watch, tx_broadcaster: BroadcasterInterface, router: Router, logger: Logger, default_config: UserConfig, channel_monitors: ChannelMonitor[]): ChannelManagerReadArgs {
-		const ret: bigint = bindings.ChannelManagerReadArgs_new(entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source), node_signer == null ? 0n : CommonBase.get_ptr_of(node_signer), signer_provider == null ? 0n : CommonBase.get_ptr_of(signer_provider), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), chain_monitor == null ? 0n : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0n : CommonBase.get_ptr_of(tx_broadcaster), router == null ? 0n : CommonBase.get_ptr_of(router), logger == null ? 0n : CommonBase.get_ptr_of(logger), default_config == null ? 0n : CommonBase.get_ptr_of(default_config), bindings.encodeUint64Array(channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0n : CommonBase.get_ptr_of(channel_monitors_conv_16)) : null));
+		const ret: bigint = bindings.ChannelManagerReadArgs_new(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(signer_provider), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(chain_monitor), CommonBase.get_ptr_of(tx_broadcaster), CommonBase.get_ptr_of(router), CommonBase.get_ptr_of(logger), default_config == null ? 0n : CommonBase.get_ptr_of(default_config), bindings.encodeUint64Array(channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0n : CommonBase.get_ptr_of(channel_monitors_conv_16)) : null));
 		const ret_hu_conv: ChannelManagerReadArgs = new ChannelManagerReadArgs(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, entropy_source);

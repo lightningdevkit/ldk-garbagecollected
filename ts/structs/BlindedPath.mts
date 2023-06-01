@@ -487,7 +487,7 @@ export class BlindedPath extends CommonBase {
 	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
 	 */
 	public static constructor_new_for_message(node_pks: Uint8Array[], entropy_source: EntropySource): Result_BlindedPathNoneZ {
-		const ret: bigint = bindings.BlindedPath_new_for_message(bindings.encodeUint32Array(node_pks != null ? node_pks.map(node_pks_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(node_pks_conv_12, 33))) : null), entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source));
+		const ret: bigint = bindings.BlindedPath_new_for_message(bindings.encodeUint32Array(node_pks != null ? node_pks.map(node_pks_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(node_pks_conv_12, 33))) : null), CommonBase.get_ptr_of(entropy_source));
 		const ret_hu_conv: Result_BlindedPathNoneZ = Result_BlindedPathNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
 		return ret_hu_conv;

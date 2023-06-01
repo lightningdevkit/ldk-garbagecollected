@@ -454,7 +454,7 @@ export class ScorerAccountingForInFlightHtlcs extends CommonBase {
 	 * Initialize a new `ScorerAccountingForInFlightHtlcs`.
 	 */
 	public static constructor_new(scorer: Score, inflight_htlcs: InFlightHtlcs): ScorerAccountingForInFlightHtlcs {
-		const ret: bigint = bindings.ScorerAccountingForInFlightHtlcs_new(scorer == null ? 0n : CommonBase.get_ptr_of(scorer), inflight_htlcs == null ? 0n : CommonBase.get_ptr_of(inflight_htlcs));
+		const ret: bigint = bindings.ScorerAccountingForInFlightHtlcs_new(CommonBase.get_ptr_of(scorer), inflight_htlcs == null ? 0n : CommonBase.get_ptr_of(inflight_htlcs));
 		const ret_hu_conv: ScorerAccountingForInFlightHtlcs = new ScorerAccountingForInFlightHtlcs(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, scorer);

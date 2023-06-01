@@ -506,7 +506,7 @@ export class CustomOnionMessageHandler extends CommonBase {
 	 * Called with the custom message that was received.
 	 */
 	public handle_custom_message(msg: CustomOnionMessageContents): void {
-		bindings.CustomOnionMessageHandler_handle_custom_message(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		bindings.CustomOnionMessageHandler_handle_custom_message(this.ptr, CommonBase.get_ptr_of(msg));
 		CommonBase.add_ref_from(this, msg);
 	}
 

@@ -453,7 +453,7 @@ export class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o_network: Network, o_logger: Logger): Result_NetworkGraphDecodeErrorZ {
-		const ret: bigint = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_network, o_logger == null ? 0n : CommonBase.get_ptr_of(o_logger)));
+		const ret: bigint = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_network, CommonBase.get_ptr_of(o_logger)));
 		const ret_hu_conv: Result_NetworkGraphDecodeErrorZ = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o_logger);
 		return ret_hu_conv;

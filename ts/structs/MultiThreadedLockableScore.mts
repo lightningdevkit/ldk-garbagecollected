@@ -480,7 +480,7 @@ export class MultiThreadedLockableScore extends CommonBase {
 	 * Creates a new [`MultiThreadedLockableScore`] given an underlying [`Score`].
 	 */
 	public static constructor_new(score: Score): MultiThreadedLockableScore {
-		const ret: bigint = bindings.MultiThreadedLockableScore_new(score == null ? 0n : CommonBase.get_ptr_of(score));
+		const ret: bigint = bindings.MultiThreadedLockableScore_new(CommonBase.get_ptr_of(score));
 		const ret_hu_conv: MultiThreadedLockableScore = new MultiThreadedLockableScore(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, score);

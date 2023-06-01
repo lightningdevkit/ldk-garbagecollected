@@ -550,7 +550,7 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	 * Signs the holder commitment transaction because we are about to broadcast it.
 	 */
 	public sign_holder_commitment(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: bigint, entropy_source: EntropySource): Uint8Array {
-		const ret: number = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis, entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source));
+		const ret: number = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis, CommonBase.get_ptr_of(entropy_source));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		CommonBase.add_ref_from(this, entropy_source);
 		return ret_conv;

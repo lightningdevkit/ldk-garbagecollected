@@ -12910,6 +12910,24 @@ export function COption_ScalarZ_free(_res: bigint): void {
 	const nativeResponseValue = wasm.TS_COption_ScalarZ_free(_res);
 	// debug statements here
 }
+	// uint64_t COption_ScalarZ_clone_ptr(LDKCOption_ScalarZ *NONNULL_PTR arg);
+/* @internal */
+export function COption_ScalarZ_clone_ptr(arg: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_COption_ScalarZ_clone_ptr(arg);
+	return nativeResponseValue;
+}
+	// struct LDKCOption_ScalarZ COption_ScalarZ_clone(const struct LDKCOption_ScalarZ *NONNULL_PTR orig);
+/* @internal */
+export function COption_ScalarZ_clone(orig: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_COption_ScalarZ_clone(orig);
+	return nativeResponseValue;
+}
 	// struct LDKCResult_SharedSecretNoneZ CResult_SharedSecretNoneZ_ok(struct LDKThirtyTwoBytes o);
 /* @internal */
 export function CResult_SharedSecretNoneZ_ok(o: number): bigint {

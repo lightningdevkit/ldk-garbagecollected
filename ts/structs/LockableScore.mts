@@ -478,7 +478,7 @@ export class LockableScore extends CommonBase {
 		let structImplementation = {
 			lock (): bigint {
 				const ret: Score = arg.lock();
-				const result: bigint = ret == null ? 0n : CommonBase.get_ptr_of(ret);
+				const result: bigint = CommonBase.get_ptr_of(ret);
 				CommonBase.add_ref_from(impl_holder.held, ret);
 				return result;
 			},

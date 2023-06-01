@@ -472,6 +472,22 @@ export class Option_ScalarZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public clone_ptr(): bigint {
+		const ret: bigint = bindings.COption_ScalarZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Creates a new COption_ScalarZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public clone(): Option_ScalarZ {
+		const ret: bigint = bindings.COption_ScalarZ_clone(this.ptr);
+		const ret_hu_conv: Option_ScalarZ = Option_ScalarZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
 }
 /** A Option_ScalarZ of type Some */
 export class Option_ScalarZ_Some extends Option_ScalarZ {

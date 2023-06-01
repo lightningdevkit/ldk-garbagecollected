@@ -453,7 +453,7 @@ export class Result_WriteableEcdsaChannelSignerDecodeErrorZ extends CommonBase {
 	 * Creates a new CResult_WriteableEcdsaChannelSignerDecodeErrorZ in the success state.
 	 */
 	public static constructor_ok(o: WriteableEcdsaChannelSigner): Result_WriteableEcdsaChannelSignerDecodeErrorZ {
-		const ret: bigint = bindings.CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(o == null ? 0n : CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_WriteableEcdsaChannelSignerDecodeErrorZ = Result_WriteableEcdsaChannelSignerDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, o);
 		return ret_hu_conv;
