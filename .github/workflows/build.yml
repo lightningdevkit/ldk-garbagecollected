@@ -492,8 +492,10 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
-      - name: Install other Rust platforms
-        run: rustup target install aarch64-apple-darwin
+      - name: Install Rust components
+        run: |
+          rustup target install aarch64-apple-darwin
+          rustup component add rust-src
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
