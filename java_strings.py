@@ -5,6 +5,7 @@ import sys
 class Target(Enum):
     JAVA = 1,
     ANDROID = 2
+    MACOS = 3
 
 class Consts:
     def __init__(self, DEBUG: bool, target: Target, **kwargs):
@@ -193,7 +194,7 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
         else:
             self.c_file_pfx = self.c_file_pfx + "#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)\n"
 
-        if not DEBUG or sys.platform == "darwin":
+        if not DEBUG or self.target == Target.MACOS:
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((uint64_t)(p) > 4096) { free(p); }
 #define CHECK_ACCESS(p)
@@ -218,7 +219,7 @@ void __attribute__((constructor)) debug_log_version() {
 }
 """
 
-            if sys.platform != "darwin":
+            if self.target != Target.MACOS:
                 self.c_file_pfx += """
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap

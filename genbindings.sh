@@ -87,7 +87,7 @@ if [ "$2" = "c_sharp" ]; then
 	echo "Creating C# bindings..."
 	mkdir -p c_sharp/src/org/ldk/{enums,structs,impl}
 	rm -f c_sharp/src/org/ldk/{enums,structs,impl}/*.cs
-	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4
+	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4 $TARGET_STRING
 	rm -f c_sharp/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > c_sharp/bindings.c
@@ -136,7 +136,7 @@ elif [ "$2" = "python" ]; then
 	echo "Creating Python bindings..."
 	mkdir -p python/src/{enums,structs,impl}
 	rm -f python/src/{enums,structs,impl}/*.py
-	./genbindings.py "./lightning.h" python/src/impl python/src python/ $DEBUG_ARG python $4
+	./genbindings.py "./lightning.h" python/src/impl python/src python/ $DEBUG_ARG python $4 $TARGET_STRING
 	rm -f python/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > python/bindings.c
@@ -176,9 +176,9 @@ elif [ "$2" = "wasm" ]; then
 	mkdir -p ts/{enums,structs}
 	rm -f ts/{enums,structs,}/*.{mjs,mts,mts.part}
 	if [ "$4" = "false" ]; then
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node wasm
 	else
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser wasm
 	fi
 	rm -f ts/bindings.c
 	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
@@ -244,9 +244,9 @@ else
 	rm -f src/main/java/org/ldk/{enums,structs}/*.java
 	rm -f src/main/jni/*.h
 	if [ "$4" = "true" ]; then
-		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG android $4
+		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG android $4 $TARGET_STRING
 	else
-		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4
+		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4 $TARGET_STRING
 	fi
 	rm -f src/main/jni/bindings.c
 	if [ "$3" = "true" ]; then
