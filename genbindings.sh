@@ -130,7 +130,7 @@ if [ "$2" = "c_sharp" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "python" ]; then
 	echo "Creating Python bindings..."
@@ -169,7 +169,7 @@ elif [ "$2" = "python" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningpython_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=python/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "wasm" ]; then
 	echo "Creating TS bindings..."
@@ -273,6 +273,10 @@ else
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
+		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined -flto -Wl,-O3 -Wl,--lto-O3"
+		[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -Wl,--lto-O3"
+		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=libcode.version -fuse-ld=lld"
@@ -316,9 +320,9 @@ else
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 		fi
-		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
-		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -Wl,--lto-O3 -Wl,-O3 -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
-		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 			if [ "$GLIBC_SYMBS" != "" ]; then
