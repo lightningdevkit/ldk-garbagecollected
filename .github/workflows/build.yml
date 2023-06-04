@@ -200,6 +200,7 @@ jobs:
           cd ldk-c-bindings
           ./genbindings.sh ../rust-lightning true
       - name: Checkout latest MacOS binaries
+        shell: bash
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
@@ -213,8 +214,24 @@ jobs:
           rm -r ldk-java-bins-*
           cd ../..
           mkdir -p src/main/resources/
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
-          rm src/main/resources/liblightningjni_MacOSX-*-leaktracking.nativelib
+      - name: Copy latest MacOS leaktracking libs
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64-leaktracking.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64-leaktracking.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
+      - name: Build Leaktracking Java Release Bindings
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" leaks false
+      - name: Build deterministic release jar
+        run: |
+          ./build-release-jar.sh
+          mv ldk-java.jar ldk-java-leaktracking.jar
+      - name: Copy latest MacOS libs
+        shell: bash
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"{aarch64,x86_64}.nativelib src/main/resources/
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -227,11 +244,10 @@ jobs:
           mkdir ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
-          # ldk-java-leaktracking is only for debug purposes and we don't bother with determinism
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"ldk-java-leaktracking.jar ldk-java-bins/new/
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
           cp ldk-java-sources.jar ldk-java-bins/new/
           cp ldk-java.jar ldk-java-bins/new/
+          cp ldk-java-leaktracking.jar ldk-java-bins/new/
           cp ldk-java-classes.jar ldk-java-bins/new/
           cp ldk-java-javadoc.jar ldk-java-bins/new/
           cd ldk-java-bins
@@ -241,6 +257,7 @@ jobs:
             diffoscope new/ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar" || echo
             diffoscope new/ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" || echo
             diffoscope new/ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" || echo
+            diffoscope new/ldk-java-leaktracking.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-leaktracking.jar" || echo
             exit 1
           fi
       - name: Run Java Tests against built release jar
@@ -319,6 +336,20 @@ jobs:
           mkdir jdk-aarch64
           cd jdk-aarch64
           tar xvvf ../openjdk-18.0.1.1_macos-aarch64_bin.tar.gz
+      - name: Build MacOS aarch64 Java leaktracking Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-aarch64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=aarch64-apple-darwin LDK_TARGET_CPU=apple-a14 ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" leaks false
+          mv src/main/resources/liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64-leaktracking.nativelib
+      - name: Build MacOS x86_64 Java leaktracking Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-x86_64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=x86_64-apple-darwin LDK_TARGET_CPU=sandybridge ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" leaks false
+          mv src/main/resources/liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64-leaktracking.nativelib
       - name: Build MacOS aarch64 Java Release Bindings
         run: |
           MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
@@ -348,7 +379,7 @@ jobs:
         shell: bash
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          for F in liblightningjni_MacOSX-{x86_64,aarch64}.nativelib; do
+          for F in liblightningjni_MacOSX-{x86_64,aarch64}{,-leaktracking}.nativelib; do
             if ! diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/$F" "src/main/resources/$F"; then
               apt-get -y install diffoscope
               # Sadly these binaries are still non-deterministic, but only due
