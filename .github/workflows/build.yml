@@ -500,17 +500,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Fetch upstream LLVM/clang snapshot
-        run: |
-          git config --global safe.directory '*'
-          wget -O clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz | awk '{ print $1 }')" != "d16b6d536364c5bec6583d12dd7e6cf841b9f508c4430d9ee886726bd9983f1c" ]; then
-            echo "Bad hash"
-            exit 1
-          fi
-      - name: Unpack upstream LLVM+clang and use it by default
-        run: |
-          tar xvvf clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz
       - name: Install cbindgen
         run: cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
@@ -525,13 +514,9 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.115
-      - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
+      - name: Rebuild C bindings and check the sample app builds + links
         run: |
-          export PATH=`pwd`/clang+llvm-15.0.7-x86_64-apple-darwin21.0/bin:$PATH
           cd ldk-c-bindings
-          export CC=clang
-          export CC_x86_64_apple_darwin=clang
-          export CC_aarch64_apple_darwin=clang
           CC=clang ./genbindings.sh ../rust-lightning true
       - name: Fetch OpenJDK 18
         run: |
@@ -569,7 +554,6 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-15.0.7-x86_64-apple-darwin21.0/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
 
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
@@ -580,7 +564,6 @@ jobs:
             cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
 
           fi
-
       - name: Fetch Maven 3.8.4
         run: |
           # We don't bother using the upstream mirrors as they remove prior
