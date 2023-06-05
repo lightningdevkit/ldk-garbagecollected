@@ -522,7 +522,7 @@ export class OnionMessenger extends CommonBase {
 	 * their respective handlers.
 	 */
 	public static constructor_new(entropy_source: EntropySource, node_signer: NodeSigner, logger: Logger, custom_handler: CustomOnionMessageHandler): OnionMessenger {
-		const ret: bigint = bindings.OnionMessenger_new(entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source), node_signer == null ? 0n : CommonBase.get_ptr_of(node_signer), logger == null ? 0n : CommonBase.get_ptr_of(logger), custom_handler == null ? 0n : CommonBase.get_ptr_of(custom_handler));
+		const ret: bigint = bindings.OnionMessenger_new(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(custom_handler));
 		const ret_hu_conv: OnionMessenger = new OnionMessenger(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, entropy_source);

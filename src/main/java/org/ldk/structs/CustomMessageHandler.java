@@ -95,7 +95,7 @@ public class CustomMessageHandler extends CommonBase {
 	 * to send.
 	 */
 	public Result_NoneLightningErrorZ handle_custom_message(org.ldk.structs.Type msg, byte[] sender_node_id) {
-		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
+		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(sender_node_id);

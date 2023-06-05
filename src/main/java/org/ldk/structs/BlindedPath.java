@@ -75,7 +75,7 @@ public class BlindedPath extends CommonBase {
 	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
 	 */
 	public static Result_BlindedPathNoneZ new_for_message(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
-		long ret = bindings.BlindedPath_new_for_message(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source == null ? 0 : entropy_source.ptr);
+		long ret = bindings.BlindedPath_new_for_message(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source.ptr);
 		Reference.reachabilityFence(node_pks);
 		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -491,7 +491,7 @@ export class ChannelMonitor extends CommonBase {
 	 * panics if the given update is not the next update by update_id.
 	 */
 	public update_monitor(updates: ChannelMonitorUpdate, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): Result_NoneNoneZ {
-		const ret: bigint = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0n : CommonBase.get_ptr_of(updates), broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0n : CommonBase.get_ptr_of(updates), CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, updates);
 		CommonBase.add_ref_from(this, broadcaster);
@@ -543,7 +543,7 @@ export class ChannelMonitor extends CommonBase {
 	 * have been registered.
 	 */
 	public load_outputs_to_watch(filter: Filter): void {
-		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0n : CommonBase.get_ptr_of(filter));
+		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, CommonBase.get_ptr_of(filter));
 		CommonBase.add_ref_from(this, filter);
 	}
 
@@ -621,7 +621,7 @@ export class ChannelMonitor extends CommonBase {
 	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
 	 */
 	public get_latest_holder_commitment_txn(logger: Logger): Uint8Array[] {
-		const ret: number = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: number = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, CommonBase.get_ptr_of(logger));
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
 		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
 		for (var m = 0; m < ret_conv_12_len; m++) {
@@ -648,7 +648,7 @@ export class ChannelMonitor extends CommonBase {
 	 * [`get_outputs_to_watch`]: #method.get_outputs_to_watch
 	 */
 	public block_connected(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
-		const ret: number = bindings.ChannelMonitor_block_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height, broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: number = bindings.ChannelMonitor_block_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height, CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
 		const ret_conv_39_arr: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] = new Array(ret_conv_39_len).fill(null);
 		for (var n = 0; n < ret_conv_39_len; n++) {
@@ -669,7 +669,7 @@ export class ChannelMonitor extends CommonBase {
 	 * appropriately.
 	 */
 	public block_disconnected(header: Uint8Array, height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): void {
-		bindings.ChannelMonitor_block_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		bindings.ChannelMonitor_block_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);
@@ -685,7 +685,7 @@ export class ChannelMonitor extends CommonBase {
 	 * [`block_connected`]: Self::block_connected
 	 */
 	public transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
-		const ret: number = bindings.ChannelMonitor_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height, broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: number = bindings.ChannelMonitor_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint64Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0n) : null), height, CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
 		const ret_conv_39_arr: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] = new Array(ret_conv_39_len).fill(null);
 		for (var n = 0; n < ret_conv_39_len; n++) {
@@ -710,7 +710,7 @@ export class ChannelMonitor extends CommonBase {
 	 * [`block_disconnected`]: Self::block_disconnected
 	 */
 	public transaction_unconfirmed(txid: Uint8Array, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): void {
-		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)), broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)), CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);
@@ -726,7 +726,7 @@ export class ChannelMonitor extends CommonBase {
 	 * [`block_connected`]: Self::block_connected
 	 */
 	public best_block_updated(header: Uint8Array, height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
-		const ret: number = bindings.ChannelMonitor_best_block_updated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: number = bindings.ChannelMonitor_best_block_updated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
 		const ret_conv_39_arr: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] = new Array(ret_conv_39_len).fill(null);
 		for (var n = 0; n < ret_conv_39_len; n++) {
@@ -778,7 +778,7 @@ export class ChannelMonitor extends CommonBase {
 	 * connections, like on mobile.
 	 */
 	public rebroadcast_pending_claims(broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): void {
-		bindings.ChannelMonitor_rebroadcast_pending_claims(this.ptr, broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0n : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		bindings.ChannelMonitor_rebroadcast_pending_claims(this.ptr, CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(fee_estimator), CommonBase.get_ptr_of(logger));
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);

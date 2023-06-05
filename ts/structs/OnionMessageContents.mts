@@ -470,7 +470,7 @@ export class OnionMessageContents extends CommonBase {
 	 * Utility method to constructs a new Custom-variant OnionMessageContents
 	 */
 	public static constructor_custom(a: CustomOnionMessageContents): OnionMessageContents {
-		const ret: bigint = bindings.OnionMessageContents_custom(a == null ? 0n : CommonBase.get_ptr_of(a));
+		const ret: bigint = bindings.OnionMessageContents_custom(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: OnionMessageContents = OnionMessageContents.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, a);

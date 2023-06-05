@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import os, sys, re, subprocess
 
-if len(sys.argv) < 7:
-    print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
+if len(sys.argv) < 8:
+    print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang target-tuple")
     sys.exit(1)
 
 if sys.argv[5] == "false":
@@ -20,6 +20,8 @@ if sys.argv[6] == "java" or sys.argv[6] == "android":
     target = java_strings.Target.JAVA
     if sys.argv[6] == "android":
         target = java_strings.Target.ANDROID
+    if "apple" in sys.argv[8]:
+        target = java_strings.Target.MACOS
 elif sys.argv[6] == "typescript":
     import typescript_strings
     from typescript_strings import Consts
@@ -37,7 +39,6 @@ elif sys.argv[6] == "python":
 else:
     print("Only java, typescript, python, or c_sharp can be set for lang")
     sys.exit(1)
-
 
 consts = Consts(DEBUG, target=target, outdir=sys.argv[4])
 

@@ -745,7 +745,7 @@ export class InMemorySigner extends CommonBase {
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg: EntropySource): Result_InMemorySignerDecodeErrorZ {
-		const ret: bigint = bindings.InMemorySigner_read(bindings.encodeUint8Array(ser), arg == null ? 0n : CommonBase.get_ptr_of(arg));
+		const ret: bigint = bindings.InMemorySigner_read(bindings.encodeUint8Array(ser), CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_InMemorySignerDecodeErrorZ = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;

@@ -455,7 +455,7 @@ export class Option_TypeZ extends CommonBase {
 	 * Constructs a new COption_TypeZ containing a crate::lightning::ln::wire::Type
 	 */
 	public static constructor_some(o: Type): Option_TypeZ {
-		const ret: bigint = bindings.COption_TypeZ_some(o == null ? 0n : CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_TypeZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_TypeZ = Option_TypeZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, o);

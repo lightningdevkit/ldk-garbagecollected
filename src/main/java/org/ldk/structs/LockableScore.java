@@ -56,7 +56,7 @@ public class LockableScore extends CommonBase {
 			@Override public long lock() {
 				Score ret = arg.lock();
 				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.ptr;
+				long result = ret.ptr;
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
 				return result;
 			}

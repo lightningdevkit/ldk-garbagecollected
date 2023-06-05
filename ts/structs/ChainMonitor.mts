@@ -470,7 +470,7 @@ export class ChainMonitor extends CommonBase {
 	 * transactions relevant to the watched channels.
 	 */
 	public static constructor_new(chain_source: Option_FilterZ, broadcaster: BroadcasterInterface, logger: Logger, feeest: FeeEstimator, persister: Persist): ChainMonitor {
-		const ret: bigint = bindings.ChainMonitor_new(CommonBase.get_ptr_of(chain_source), broadcaster == null ? 0n : CommonBase.get_ptr_of(broadcaster), logger == null ? 0n : CommonBase.get_ptr_of(logger), feeest == null ? 0n : CommonBase.get_ptr_of(feeest), persister == null ? 0n : CommonBase.get_ptr_of(persister));
+		const ret: bigint = bindings.ChainMonitor_new(CommonBase.get_ptr_of(chain_source), CommonBase.get_ptr_of(broadcaster), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(feeest), CommonBase.get_ptr_of(persister));
 		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, chain_source);

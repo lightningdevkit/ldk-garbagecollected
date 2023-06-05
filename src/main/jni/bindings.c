@@ -76,7 +76,7 @@ JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclas
 	arr_of_B_clz = (*env)->FindClass(env, "[B");
 	CHECK(arr_of_B_clz != NULL);
 	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
-	String_clz = (*env)->FindClass(env, "Ljava/lang/String;");
+	String_clz = (*env)->FindClass(env, "java/lang/String");
 	CHECK(String_clz != NULL);
 	String_clz = (*env)->NewGlobalRef(env, String_clz);
 }
@@ -8153,7 +8153,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_NodeSigner_1ecdh(JNIEnv *en
 	void* tweak_ptr = untag_ptr(tweak);
 	CHECK_ACCESS(tweak_ptr);
 	LDKCOption_ScalarZ tweak_conv = *(LDKCOption_ScalarZ*)(tweak_ptr);
-	// WARNING: we may need a move here but no clone is available for LDKCOption_ScalarZ
+	tweak_conv = COption_ScalarZ_clone((LDKCOption_ScalarZ*)untag_ptr(tweak));
 	LDKCResult_SharedSecretNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SharedSecretNoneZ), "LDKCResult_SharedSecretNoneZ");
 	*ret_conv = (this_arg_conv->ecdh)(this_arg_conv->this_arg, recipient_conv, other_key_ref, tweak_conv);
 	return tag_ptr(ret_conv, true);
@@ -20927,6 +20927,26 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1free(JNIEnv 
 	LDKCOption_ScalarZ _res_conv = *(LDKCOption_ScalarZ*)(_res_ptr);
 	FREE(untag_ptr(_res));
 	COption_ScalarZ_free(_res_conv);
+}
+
+static inline uint64_t COption_ScalarZ_clone_ptr(LDKCOption_ScalarZ *NONNULL_PTR arg) {
+	LDKCOption_ScalarZ *ret_copy = MALLOC(sizeof(LDKCOption_ScalarZ), "LDKCOption_ScalarZ");
+	*ret_copy = COption_ScalarZ_clone(arg);
+	int64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1clone_1ptr(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCOption_ScalarZ* arg_conv = (LDKCOption_ScalarZ*)untag_ptr(arg);
+	int64_t ret_conv = COption_ScalarZ_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_COption_1ScalarZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
+	LDKCOption_ScalarZ* orig_conv = (LDKCOption_ScalarZ*)untag_ptr(orig);
+	LDKCOption_ScalarZ *ret_copy = MALLOC(sizeof(LDKCOption_ScalarZ), "LDKCOption_ScalarZ");
+	*ret_copy = COption_ScalarZ_clone(orig_conv);
+	int64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1SharedSecretNoneZ_1ok(JNIEnv *env, jclass clz, int8_tArray o) {

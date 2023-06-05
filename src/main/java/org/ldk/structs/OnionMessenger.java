@@ -97,7 +97,7 @@ public class OnionMessenger extends CommonBase {
 	 * their respective handlers.
 	 */
 	public static OnionMessenger of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
-		long ret = bindings.OnionMessenger_new(entropy_source == null ? 0 : entropy_source.ptr, node_signer == null ? 0 : node_signer.ptr, logger == null ? 0 : logger.ptr, custom_handler == null ? 0 : custom_handler.ptr);
+		long ret = bindings.OnionMessenger_new(entropy_source.ptr, node_signer.ptr, logger.ptr, custom_handler.ptr);
 		Reference.reachabilityFence(entropy_source);
 		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(logger);

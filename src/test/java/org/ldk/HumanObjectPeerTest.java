@@ -189,6 +189,7 @@ class HumanObjectPeerTestInstance {
         NioPeerHandler nio_peer_handler;
         short nio_port;
         final byte seed;
+        final byte[] key_seed = new byte[32];
         final Logger logger;
         final FeeEstimator fee_estimator;
         final BroadcasterInterface tx_broadcaster;
@@ -213,6 +214,7 @@ class HumanObjectPeerTestInstance {
         final LinkedList<byte[]> received_custom_messages = new LinkedList<>();
         final LinkedList<byte[]> custom_messages_to_send = new LinkedList<>();
         ChannelManagerConstructor constructor = null;
+        long network_graph_persists = 0;
         GcCheck obj = new GcCheck();
 
         private ChannelMonitor test_mon_roundtrip(OutPoint expected_id, byte[] data) {
@@ -297,7 +299,6 @@ class HumanObjectPeerTestInstance {
                 chain_watch = chain_monitor.as_Watch();
             }
 
-            byte[] key_seed = new byte[32];
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
@@ -397,7 +398,7 @@ class HumanObjectPeerTestInstance {
                         }
                     }
                     @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                    @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
+                    @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; network_graph_persists += 1; }
                     @Override public void persist_scorer(byte[] scorer_bytes) { assert scorer_bytes.length > 1; }
                 }, !use_ignore_handler);
                 this.chan_manager = constructor.channel_manager;
@@ -493,7 +494,7 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                        @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
+                        @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; network_graph_persists += 1; }
                         @Override public void persist_scorer(byte[] scorer_bytes) { assert scorer_bytes.length > 1; }
                     }, !use_ignore_handler);
                     this.chan_manager = constructor.channel_manager;
@@ -899,6 +900,22 @@ class HumanObjectPeerTestInstance {
         String description_string = raw_invoice_description.into_inner();
         assert description_string.equals("Invoice Description");
 
+        // Do a trivial test of constructing a phantom invoice
+        Result_InvoiceSignOrCreationErrorZ phantom_invoice = UtilMethods.create_phantom_invoice(
+                Option_u64Z.some(42000),
+                new byte[32], // TODO: This needs to be an option/null, not interpreting all-0s as None
+                "Phantom Invoice", 7200,
+                new PhantomRouteHints[]{ peer2.chan_manager.get_phantom_route_hints() },
+                peer2.entropy_source,
+                PhantomKeysManager.of(peer2.key_seed, 42, 42, new byte[32]).as_NodeSigner(),
+                peer2.logger, Currency.LDKCurrency_Bitcoin, Option_u16Z.none(),
+                System.currentTimeMillis() / 1000);
+        assert phantom_invoice.is_ok();
+        RouteHint[] hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK)phantom_invoice).res.route_hints();
+        assert hints.length == 1;
+        RouteHintHop[] val = hints[0].get_a();
+        assert hints[0].get_a().length == 1; // Our one channel is public so we should just have a single-hop hint
+
         if (!use_invoice_payer) {
             byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
             byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
@@ -940,9 +957,18 @@ class HumanObjectPeerTestInstance {
         }
 
         if (reload_peers) {
+            assert peer1.network_graph_persists == 0;
+            assert peer2.network_graph_persists == 0;
             if (use_chan_manager_constructor) {
                 peer1.constructor.interrupt();
                 peer2.constructor.interrupt();
+                if (!use_ignore_handler) {
+                    assert peer1.network_graph_persists >= 1;
+                    assert peer2.network_graph_persists >= 1;
+                } else {
+                    assert peer1.network_graph_persists == 0;
+                    assert peer2.network_graph_persists == 0;
+                }
             } else if (use_nio_peer_handler) {
                 peer1.nio_peer_handler.interrupt();
                 peer2.nio_peer_handler.interrupt();
@@ -1136,8 +1162,17 @@ class HumanObjectPeerTestInstance {
         state.peer2.get_monitor_events(0);
 
         if (use_chan_manager_constructor) {
+            assert state.peer1.network_graph_persists == 0;
+            assert state.peer2.network_graph_persists == 0;
             state.peer1.constructor.interrupt();
             state.peer2.constructor.interrupt();
+            if (!use_ignore_handler) {
+                assert state.peer1.network_graph_persists >= 1;
+                assert state.peer2.network_graph_persists >= 1;
+            } else {
+                assert state.peer1.network_graph_persists == 0;
+                assert state.peer2.network_graph_persists == 0;
+            }
         }
 
         t.interrupt();

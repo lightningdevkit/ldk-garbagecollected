@@ -514,7 +514,7 @@ export class ChannelManager extends CommonBase {
 	 * [`params.best_block.block_hash`]: chain::BestBlock::block_hash
 	 */
 	public static constructor_new(fee_est: FeeEstimator, chain_monitor: Watch, tx_broadcaster: BroadcasterInterface, router: Router, logger: Logger, entropy_source: EntropySource, node_signer: NodeSigner, signer_provider: SignerProvider, config: UserConfig, params: ChainParameters): ChannelManager {
-		const ret: bigint = bindings.ChannelManager_new(fee_est == null ? 0n : CommonBase.get_ptr_of(fee_est), chain_monitor == null ? 0n : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0n : CommonBase.get_ptr_of(tx_broadcaster), router == null ? 0n : CommonBase.get_ptr_of(router), logger == null ? 0n : CommonBase.get_ptr_of(logger), entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source), node_signer == null ? 0n : CommonBase.get_ptr_of(node_signer), signer_provider == null ? 0n : CommonBase.get_ptr_of(signer_provider), config == null ? 0n : CommonBase.get_ptr_of(config), params == null ? 0n : CommonBase.get_ptr_of(params));
+		const ret: bigint = bindings.ChannelManager_new(CommonBase.get_ptr_of(fee_est), CommonBase.get_ptr_of(chain_monitor), CommonBase.get_ptr_of(tx_broadcaster), CommonBase.get_ptr_of(router), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(signer_provider), config == null ? 0n : CommonBase.get_ptr_of(config), params == null ? 0n : CommonBase.get_ptr_of(params));
 		const ret_hu_conv: ChannelManager = new ChannelManager(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, fee_est);

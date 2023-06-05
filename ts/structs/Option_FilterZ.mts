@@ -455,7 +455,7 @@ export class Option_FilterZ extends CommonBase {
 	 * Constructs a new COption_FilterZ containing a crate::lightning::chain::Filter
 	 */
 	public static constructor_some(o: Filter): Option_FilterZ {
-		const ret: bigint = bindings.COption_FilterZ_some(o == null ? 0n : CommonBase.get_ptr_of(o));
+		const ret: bigint = bindings.COption_FilterZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_FilterZ = Option_FilterZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, o);

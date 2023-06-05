@@ -57,7 +57,7 @@ public class FilesystemPersister extends CommonBase {
 	 * Read `ChannelMonitor`s from disk.
 	 */
 	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider) {
-		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, entropy_source == null ? 0 : entropy_source.ptr, signer_provider == null ? 0 : signer_provider.ptr);
+		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, entropy_source.ptr, signer_provider.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(entropy_source);
 		Reference.reachabilityFence(signer_provider);

@@ -513,7 +513,7 @@ export class CustomMessageHandler extends CommonBase {
 	 * to send.
 	 */
 	public handle_custom_message(msg: Type, sender_node_id: Uint8Array): Result_NoneLightningErrorZ {
-		const ret: bigint = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg), bindings.encodeUint8Array(bindings.check_arr_len(sender_node_id, 33)));
+		const ret: bigint = bindings.CustomMessageHandler_handle_custom_message(this.ptr, CommonBase.get_ptr_of(msg), bindings.encodeUint8Array(bindings.check_arr_len(sender_node_id, 33)));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;

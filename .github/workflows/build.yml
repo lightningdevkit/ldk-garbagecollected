@@ -200,6 +200,7 @@ jobs:
           cd ldk-c-bindings
           ./genbindings.sh ../rust-lightning true
       - name: Checkout latest MacOS binaries
+        shell: bash
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
@@ -213,8 +214,24 @@ jobs:
           rm -r ldk-java-bins-*
           cd ../..
           mkdir -p src/main/resources/
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
-          rm src/main/resources/liblightningjni_MacOSX-*-leaktracking.nativelib
+      - name: Copy latest MacOS leaktracking libs
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64-leaktracking.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64-leaktracking.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
+      - name: Build Leaktracking Java Release Bindings
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" leaks false
+      - name: Build deterministic release jar
+        run: |
+          ./build-release-jar.sh
+          mv ldk-java.jar ldk-java-leaktracking.jar
+      - name: Copy latest MacOS libs
+        shell: bash
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"{aarch64,x86_64}.nativelib src/main/resources/
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -227,20 +244,21 @@ jobs:
           mkdir ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
-          # ldk-java-leaktracking is only for debug purposes and we don't bother with determinism
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"ldk-java-leaktracking.jar ldk-java-bins/new/
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
           cp ldk-java-sources.jar ldk-java-bins/new/
           cp ldk-java.jar ldk-java-bins/new/
+          cp ldk-java-leaktracking.jar ldk-java-bins/new/
           cp ldk-java-classes.jar ldk-java-bins/new/
           cp ldk-java-javadoc.jar ldk-java-bins/new/
           cd ldk-java-bins
+          rm "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjs.wasm" # TODO: Test this
           if ! diff -r "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/" new/; then
             apt-get -y install diffoscope
             diffoscope new/ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar" || echo
             diffoscope new/ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar" || echo
             diffoscope new/ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" || echo
             diffoscope new/ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" || echo
+            diffoscope new/ldk-java-leaktracking.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-leaktracking.jar" || echo
             exit 1
           fi
       - name: Run Java Tests against built release jar
@@ -249,6 +267,128 @@ jobs:
           cd javatester
           mvn package
           java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+  macos_determinism:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
+    # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
+    container: debian:bookworm
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install native Rust toolchain, Valgrind, and build utilitis
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo valgrind openjdk-17-jdk lld git g++ clang llvm curl rust-src
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install cbindgen
+        run: |
+          git config --global safe.directory '*'
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
+          cd rust-lightning
+          git checkout origin/2023-04-0.0.115-java-bindings
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.115
+      - name: Fetch MacOS SDK
+        run: |
+          curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
+          tar xvvf Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
+      - name: Rebuild C bindings, and check the sample app builds + links
+        run: |
+          # rust-src doesn't distribute the rustlib Cargo.lock, but an empty
+          # file seems to suffice to make `-Zbuild-std` happy.
+          touch /usr/lib/rustlib/src/rust/Cargo.lock
+          export MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          cd ldk-c-bindings
+          ./genbindings.sh ../rust-lightning true
+      - name: Fetch MacOS OpenJDK 18 for x86_64
+        run: |
+          curl -o openjdk-18.0.1.1_macos-x64_bin.tar.gz https://download.java.net/java/GA/jdk18.0.1.1/65ae32619e2f40f3a9af3af1851d6e19/2/GPL/openjdk-18.0.1.1_macos-x64_bin.tar.gz
+          if [ "$(shasum -a 256 openjdk-18.0.1.1_macos-x64_bin.tar.gz | awk '{ print $1 }')" != "f02d17ec5a387555f8489abc352d973b6c10364409b597046025938e2266d72a" ]; then
+            echo "Bad hash"
+            exit 1
+          fi
+          mkdir jdk-x86_64
+          cd jdk-x86_64
+          tar xvvf ../openjdk-18.0.1.1_macos-x64_bin.tar.gz
+      - name: Fetch MacOS OpenJDK 18 for aarch64
+        run: |
+          curl -o openjdk-18.0.1.1_macos-aarch64_bin.tar.gz https://download.java.net/java/GA/jdk18.0.1.1/65ae32619e2f40f3a9af3af1851d6e19/2/GPL/openjdk-18.0.1.1_macos-aarch64_bin.tar.gz
+          if [ "$(shasum -a 256 openjdk-18.0.1.1_macos-aarch64_bin.tar.gz | awk '{ print $1 }')" != "29773ad68063bdad7fbaeb762cd873d3f243e86de380d3ac5335cdb929371fb5" ]; then
+            echo "Bad hash"
+            exit 1
+          fi
+          mkdir jdk-aarch64
+          cd jdk-aarch64
+          tar xvvf ../openjdk-18.0.1.1_macos-aarch64_bin.tar.gz
+      - name: Build MacOS aarch64 Java leaktracking Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-aarch64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=aarch64-apple-darwin LDK_TARGET_CPU=apple-a14 ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" leaks false
+          mv src/main/resources/liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64-leaktracking.nativelib
+      - name: Build MacOS x86_64 Java leaktracking Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-x86_64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=x86_64-apple-darwin LDK_TARGET_CPU=sandybridge ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" leaks false
+          mv src/main/resources/liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64-leaktracking.nativelib
+      - name: Build MacOS aarch64 Java Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-aarch64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=aarch64-apple-darwin LDK_TARGET_CPU=apple-a14 ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" false false
+      - name: Build MacOS x86_64 Java Release Bindings
+        run: |
+          MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          JAVA_HOME=jdk-x86_64/jdk-18.0.1.1.jdk/Contents/Home
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=x86_64-apple-darwin LDK_TARGET_CPU=sandybridge ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$MACOS_SDK" false false
+      - name: Checkout latest binaries
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
+          SNAPSHOT_LINK="$(curl "https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE};hb=refs/heads/main" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          curl -o bins-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+          mkdir -p ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          cd ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          tar xvvf ../../bins-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          rm -r ldk-java-bins-*
+          cd ../..
+      - name: Check latest MacOS libraries are in the bins repo
+        shell: bash
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          for F in liblightningjni_MacOSX-{x86_64,aarch64}{,-leaktracking}.nativelib; do
+            if ! diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/$F" "src/main/resources/$F"; then
+              apt-get -y install diffoscope
+              # Sadly these binaries are still non-deterministic, but only due
+              # to a few-byte tag, thus we use diffoscope to ensure there
+              # aren't any "real" differences and move on.
+              diffoscope "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/$F" "src/main/resources/$F" || echo
+            fi
+          done
 
   android:
     runs-on: ubuntu-latest
@@ -347,28 +487,20 @@ jobs:
     strategy:
       matrix:
         include:
-          - platform: macos-10.15
           - platform: macos-11
+          - platform: macos-12
+          - platform: macos-13
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
-      - name: Install other Rust platforms
-        run: rustup target install aarch64-apple-darwin
+      - name: Install Rust components
+        run: |
+          rustup target install aarch64-apple-darwin
+          rustup component add rust-src
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Fetch upstream LLVM/clang snapshot
-        run: |
-          git config --global safe.directory '*'
-          wget -O clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz | awk '{ print $1 }')" != "d16b6d536364c5bec6583d12dd7e6cf841b9f508c4430d9ee886726bd9983f1c" ]; then
-            echo "Bad hash"
-            exit 1
-          fi
-      - name: Unpack upstream LLVM+clang and use it by default
-        run: |
-          tar xvvf clang+llvm-15.0.7-x86_64-apple-darwin21.0.tar.xz
       - name: Install cbindgen
         run: cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
@@ -383,13 +515,9 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.115
-      - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
+      - name: Rebuild C bindings and check the sample app builds + links
         run: |
-          export PATH=`pwd`/clang+llvm-15.0.7-x86_64-apple-darwin21.0/bin:$PATH
           cd ldk-c-bindings
-          export CC=clang
-          export CC_x86_64_apple_darwin=clang
-          export CC_aarch64_apple_darwin=clang
           CC=clang ./genbindings.sh ../rust-lightning true
       - name: Fetch OpenJDK 18
         run: |
@@ -427,7 +555,6 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-15.0.7-x86_64-apple-darwin21.0/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
 
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
@@ -438,7 +565,6 @@ jobs:
             cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
 
           fi
-
       - name: Fetch Maven 3.8.4
         run: |
           # We don't bother using the upstream mirrors as they remove prior
@@ -462,38 +588,14 @@ jobs:
           cd javatester
           mvn -q -B package
           java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
-      - name: Check latest release libs are in git
-        run: |
-          if [ "${{ matrix.platform }}" = "macos-11" ]; then
-            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-            # Sadly, OSX binaries are not currently deterministic, more debugging is needed.
-            diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib || echo
-            diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib || echo
-          fi
-      - name: Upload CI x86_64 build for analysis
-        if: matrix.platform == 'macos-11'
-        uses: actions/upload-artifact@v3.0.0
-        with:
-          name: liblightningjni_MacOSX-x86_64.nativelib.ci-build
-          path: src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
-      - name: Upload CI aarch64 build for analysis
-        if: matrix.platform == 'macos-11'
-        uses: actions/upload-artifact@v3.0.0
-        with:
-          name: liblightningjni_MacOSX-aarch64.nativelib.ci-build
-          path: src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
       - name: Run Java Tests against release bins
         run: |
-          if [ "${{ matrix.platform }}" != "macos-11" ]; then
-            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-            export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
-            export PATH=$JAVA_HOME/bin:$PATH
-            cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib src/main/resources/
-            mvn clean
-            mvn -q -B -DskipTests=true package
-            JAR_VERSION=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}
-            mvn install:install-file -Dfile=target/ldk-java-${JAR_VERSION}.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
-            cd javatester
-            mvn -q -B package
-            java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
-          fi
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          export JAVA_HOME=`pwd`/jdk-18.0.1.1.jdk/Contents/Home
+          export PATH=$JAVA_HOME/bin:$PATH
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" ./
+          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          cd javatester
+          mvn clean
+          mvn -q -B package
+          java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar

@@ -485,7 +485,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * through a network graph.
 	 */
 	public static constructor_new(params: ProbabilisticScoringParameters, network_graph: NetworkGraph, logger: Logger): ProbabilisticScorer {
-		const ret: bigint = bindings.ProbabilisticScorer_new(params == null ? 0n : CommonBase.get_ptr_of(params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.ProbabilisticScorer_new(params == null ? 0n : CommonBase.get_ptr_of(params), network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: ProbabilisticScorer = new ProbabilisticScorer(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, params);
@@ -611,7 +611,7 @@ export class ProbabilisticScorer extends CommonBase {
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg_a: ProbabilisticScoringParameters, arg_b: NetworkGraph, arg_c: Logger): Result_ProbabilisticScorerDecodeErrorZ {
-		const ret: bigint = bindings.ProbabilisticScorer_read(bindings.encodeUint8Array(ser), arg_a == null ? 0n : CommonBase.get_ptr_of(arg_a), arg_b == null ? 0n : CommonBase.get_ptr_of(arg_b), arg_c == null ? 0n : CommonBase.get_ptr_of(arg_c));
+		const ret: bigint = bindings.ProbabilisticScorer_read(bindings.encodeUint8Array(ser), arg_a == null ? 0n : CommonBase.get_ptr_of(arg_a), arg_b == null ? 0n : CommonBase.get_ptr_of(arg_b), CommonBase.get_ptr_of(arg_c));
 		const ret_hu_conv: Result_ProbabilisticScorerDecodeErrorZ = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg_a);
 		CommonBase.add_ref_from(ret_hu_conv, arg_b);

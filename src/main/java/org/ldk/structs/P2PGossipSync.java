@@ -31,7 +31,7 @@ public class P2PGossipSync extends CommonBase {
 	 * correct, and the announcement is signed with channel owners' keys.
 	 */
 	public static P2PGossipSync of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Option_UtxoLookupZ utxo_lookup, org.ldk.structs.Logger logger) {
-		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, utxo_lookup.ptr, logger == null ? 0 : logger.ptr);
+		long ret = bindings.P2PGossipSync_new(network_graph == null ? 0 : network_graph.ptr, utxo_lookup.ptr, logger.ptr);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(utxo_lookup);
 		Reference.reachabilityFence(logger);

@@ -449,7 +449,7 @@ export class DefaultRouter extends CommonBase {
 	 * Creates a new router.
 	 */
 	public static constructor_new(network_graph: NetworkGraph, logger: Logger, random_seed_bytes: Uint8Array, scorer: LockableScore): DefaultRouter {
-		const ret: bigint = bindings.DefaultRouter_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), logger == null ? 0n : CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)), scorer == null ? 0n : CommonBase.get_ptr_of(scorer));
+		const ret: bigint = bindings.DefaultRouter_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(bindings.check_arr_len(random_seed_bytes, 32)), CommonBase.get_ptr_of(scorer));
 		const ret_hu_conv: DefaultRouter = new DefaultRouter(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);

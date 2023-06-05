@@ -518,7 +518,7 @@ export class SignerProvider extends CommonBase {
 			derive_channel_signer (channel_value_satoshis: bigint, channel_keys_id: number): bigint {
 				const channel_keys_id_conv: Uint8Array = bindings.decodeUint8Array(channel_keys_id);
 				const ret: WriteableEcdsaChannelSigner = arg.derive_channel_signer(channel_value_satoshis, channel_keys_id_conv);
-				const result: bigint = ret == null ? 0n : ret.clone_ptr();
+				const result: bigint = ret.clone_ptr();
 				CommonBase.add_ref_from(impl_holder.held, ret);
 				return result;
 			},

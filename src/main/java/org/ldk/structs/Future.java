@@ -45,7 +45,7 @@ public class Future extends CommonBase {
 	 * completed, the callback will be called immediately.
 	 */
 	public void register_callback_fn(org.ldk.structs.FutureCallback callback) {
-		bindings.Future_register_callback_fn(this.ptr, callback == null ? 0 : callback.ptr);
+		bindings.Future_register_callback_fn(this.ptr, callback.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(callback);
 		if (this != null) { this.ptrs_to.add(callback); };

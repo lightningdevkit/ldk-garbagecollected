@@ -44,7 +44,7 @@ public class NetworkGraph extends CommonBase {
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
 	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, org.ldk.structs.Logger arg) {
-		long ret = bindings.NetworkGraph_read(ser, arg == null ? 0 : arg.ptr);
+		long ret = bindings.NetworkGraph_read(ser, arg.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -57,7 +57,7 @@ public class NetworkGraph extends CommonBase {
 	 * Creates a new, empty, network graph.
 	 */
 	public static NetworkGraph of(org.ldk.enums.Network network, org.ldk.structs.Logger logger) {
-		long ret = bindings.NetworkGraph_new(network, logger == null ? 0 : logger.ptr);
+		long ret = bindings.NetworkGraph_new(network, logger.ptr);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }

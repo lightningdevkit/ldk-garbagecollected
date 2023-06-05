@@ -5918,7 +5918,7 @@ uint64_t  __attribute__((export_name("TS_NodeSigner_ecdh"))) TS_NodeSigner_ecdh(
 	void* tweak_ptr = untag_ptr(tweak);
 	CHECK_ACCESS(tweak_ptr);
 	LDKCOption_ScalarZ tweak_conv = *(LDKCOption_ScalarZ*)(tweak_ptr);
-	// WARNING: we may need a move here but no clone is available for LDKCOption_ScalarZ
+	tweak_conv = COption_ScalarZ_clone((LDKCOption_ScalarZ*)untag_ptr(tweak));
 	LDKCResult_SharedSecretNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SharedSecretNoneZ), "LDKCResult_SharedSecretNoneZ");
 	*ret_conv = (this_arg_conv->ecdh)(this_arg_conv->this_arg, recipient_conv, other_key_ref, tweak_conv);
 	return tag_ptr(ret_conv, true);
@@ -16617,6 +16617,26 @@ void  __attribute__((export_name("TS_COption_ScalarZ_free"))) TS_COption_ScalarZ
 	LDKCOption_ScalarZ _res_conv = *(LDKCOption_ScalarZ*)(_res_ptr);
 	FREE(untag_ptr(_res));
 	COption_ScalarZ_free(_res_conv);
+}
+
+static inline uint64_t COption_ScalarZ_clone_ptr(LDKCOption_ScalarZ *NONNULL_PTR arg) {
+	LDKCOption_ScalarZ *ret_copy = MALLOC(sizeof(LDKCOption_ScalarZ), "LDKCOption_ScalarZ");
+	*ret_copy = COption_ScalarZ_clone(arg);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
+}
+int64_t  __attribute__((export_name("TS_COption_ScalarZ_clone_ptr"))) TS_COption_ScalarZ_clone_ptr(uint64_t arg) {
+	LDKCOption_ScalarZ* arg_conv = (LDKCOption_ScalarZ*)untag_ptr(arg);
+	int64_t ret_conv = COption_ScalarZ_clone_ptr(arg_conv);
+	return ret_conv;
+}
+
+uint64_t  __attribute__((export_name("TS_COption_ScalarZ_clone"))) TS_COption_ScalarZ_clone(uint64_t orig) {
+	LDKCOption_ScalarZ* orig_conv = (LDKCOption_ScalarZ*)untag_ptr(orig);
+	LDKCOption_ScalarZ *ret_copy = MALLOC(sizeof(LDKCOption_ScalarZ), "LDKCOption_ScalarZ");
+	*ret_copy = COption_ScalarZ_clone(orig_conv);
+	uint64_t ret_ref = tag_ptr(ret_copy, true);
+	return ret_ref;
 }
 
 uint64_t  __attribute__((export_name("TS_CResult_SharedSecretNoneZ_ok"))) TS_CResult_SharedSecretNoneZ_ok(int8_tArray o) {

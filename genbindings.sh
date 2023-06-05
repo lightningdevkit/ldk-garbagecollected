@@ -20,12 +20,46 @@ function is_gnu_sed(){
   sed --version >/dev/null 2>&1
 }
 
-if [ "$CC" != "" ]; then
-	COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
-else
+if [ "$CC" = "" ]; then
 	CC=clang
-	COMMON_COMPILE="clang -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 fi
+
+TARGET_STRING="$LDK_TARGET"
+if [ "$TARGET_STRING" = "" ]; then
+	# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
+	TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
+fi
+
+IS_MAC=false
+[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
+IS_APPLE_CLANG=false
+[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
+
+case "$TARGET_STRING" in
+	"x86_64-pc-linux"*)
+		LDK_TARGET_SUFFIX="_Linux-amd64"
+		LDK_JAR_TARGET=true
+		;;
+	"x86_64-apple-darwin"*)
+		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+		LDK_JAR_TARGET=true
+		IS_MAC=true
+		;;
+	"aarch64-apple-darwin"*)
+		LDK_TARGET_CPU="apple-a14"
+		LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+		LDK_JAR_TARGET=true
+		IS_MAC=true
+		;;
+	*)
+		LDK_TARGET_SUFFIX="_${TARGET_STRING}"
+esac
+if [ "$LDK_TARGET_CPU" = "" ]; then
+	LDK_TARGET_CPU="sandybridge"
+fi
+
+COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
+[ "$IS_MAC" = "true" -a "$2" != "wasm" ] && COMMON_COMPILE="$COMMON_COMPILE --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
 
 DEBUG_ARG="$3"
 if [ "$3" = "leaks" ]; then
@@ -50,36 +84,10 @@ fi
 
 
 if [ "$2" = "c_sharp" ]; then
-	TARGET_STRING="$LDK_TARGET"
-	if [ "$TARGET_STRING" = "" ]; then
-		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
-		TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
-	fi
-	case "$TARGET_STRING" in
-		"x86_64-pc-linux"*)
-			LDK_TARGET_SUFFIX="_Linux-amd64"
-			LDK_JAR_TARGET=true
-			;;
-		"x86_64-apple-darwin"*)
-			LDK_TARGET_SUFFIX="_MacOSX-x86_64"
-			LDK_JAR_TARGET=true
-			;;
-		"aarch64-apple-darwin"*)
-			LDK_TARGET_CPU="apple-a14"
-			LDK_TARGET_SUFFIX="_MacOSX-aarch64"
-			LDK_JAR_TARGET=true
-			;;
-		*)
-			LDK_TARGET_SUFFIX="_${TARGET_STRING}"
-	esac
-	if [ "$LDK_TARGET_CPU" = "" ]; then
-		LDK_TARGET_CPU="sandybridge"
-	fi
-
 	echo "Creating C# bindings..."
 	mkdir -p c_sharp/src/org/ldk/{enums,structs,impl}
 	rm -f c_sharp/src/org/ldk/{enums,structs,impl}/*.cs
-	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4
+	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4 $TARGET_STRING
 	rm -f c_sharp/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > c_sharp/bindings.c
@@ -108,7 +116,7 @@ if [ "$2" = "c_sharp" ]; then
 	mv ./-out:csharpldk.dll csharpldk.dll # Mono is braindead, apparently
 
 	echo "Building C# bindings..."
-	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
 	LINK="-ldl -shared"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
@@ -122,39 +130,13 @@ if [ "$2" = "c_sharp" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "python" ]; then
-	TARGET_STRING="$LDK_TARGET"
-	if [ "$TARGET_STRING" = "" ]; then
-		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
-		TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
-	fi
-	case "$TARGET_STRING" in
-		"x86_64-pc-linux"*)
-			LDK_TARGET_SUFFIX="_Linux-amd64"
-			LDK_JAR_TARGET=true
-			;;
-		"x86_64-apple-darwin"*)
-			LDK_TARGET_SUFFIX="_MacOSX-x86_64"
-			LDK_JAR_TARGET=true
-			;;
-		"aarch64-apple-darwin"*)
-			LDK_TARGET_CPU="apple-a14"
-			LDK_TARGET_SUFFIX="_MacOSX-aarch64"
-			LDK_JAR_TARGET=true
-			;;
-		*)
-			LDK_TARGET_SUFFIX="_${TARGET_STRING}"
-	esac
-	if [ "$LDK_TARGET_CPU" = "" ]; then
-		LDK_TARGET_CPU="sandybridge"
-	fi
-
 	echo "Creating Python bindings..."
 	mkdir -p python/src/{enums,structs,impl}
 	rm -f python/src/{enums,structs,impl}/*.py
-	./genbindings.py "./lightning.h" python/src/impl python/src python/ $DEBUG_ARG python $4
+	./genbindings.py "./lightning.h" python/src/impl python/src python/ $DEBUG_ARG python $4 $TARGET_STRING
 	rm -f python/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > python/bindings.c
@@ -173,7 +155,7 @@ elif [ "$2" = "python" ]; then
 	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	echo "Building Python bindings..."
-	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
 	LINK="-ldl -shared"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
@@ -187,16 +169,16 @@ elif [ "$2" = "python" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningpython_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=python/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "wasm" ]; then
 	echo "Creating TS bindings..."
 	mkdir -p ts/{enums,structs}
 	rm -f ts/{enums,structs,}/*.{mjs,mts,mts.part}
 	if [ "$4" = "false" ]; then
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node wasm
 	else
-		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
+		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser wasm
 	fi
 	rm -f ts/bindings.c
 	sed -i 's/^  "version": .*/  "version": "'${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}'",/g' ts/package.json
@@ -250,32 +232,6 @@ elif [ "$2" = "wasm" ]; then
 		fi
 	fi
 else
-	TARGET_STRING="$LDK_TARGET"
-	if [ "$TARGET_STRING" = "" ]; then
-		# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
-		TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
-	fi
-	case "$TARGET_STRING" in
-		"x86_64-pc-linux"*)
-			LDK_TARGET_SUFFIX="_Linux-amd64"
-			LDK_JAR_TARGET=true
-			;;
-		"x86_64-apple-darwin"*)
-			LDK_TARGET_SUFFIX="_MacOSX-x86_64"
-			LDK_JAR_TARGET=true
-			;;
-		"aarch64-apple-darwin"*)
-			LDK_TARGET_CPU="apple-a14"
-			LDK_TARGET_SUFFIX="_MacOSX-aarch64"
-			LDK_JAR_TARGET=true
-			;;
-		*)
-			LDK_TARGET_SUFFIX="_${TARGET_STRING}"
-	esac
-	if [ "$LDK_TARGET_CPU" = "" ]; then
-		LDK_TARGET_CPU="sandybridge"
-	fi
-
 	if is_gnu_sed; then
 		sed -i "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
 	else
@@ -288,9 +244,9 @@ else
 	rm -f src/main/java/org/ldk/{enums,structs}/*.java
 	rm -f src/main/jni/*.h
 	if [ "$4" = "true" ]; then
-		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG android $4
+		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG android $4 $TARGET_STRING
 	else
-		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4
+		./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4 $TARGET_STRING
 	fi
 	rm -f src/main/jni/bindings.c
 	if [ "$3" = "true" ]; then
@@ -306,13 +262,8 @@ else
 	javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/*.java
 	rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
-	IS_MAC=false
-	[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
-	IS_APPLE_CLANG=false
-	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
-
 	echo "Building Java bindings..."
-	COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -fPIC"
+	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
 	LINK="-ldl -shared"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
@@ -322,6 +273,10 @@ else
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
+		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined -flto -Wl,-O3 -Wl,--lto-O3"
+		[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -Wl,--lto-O3"
+		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=libcode.version -fuse-ld=lld"
@@ -365,9 +320,9 @@ else
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 		fi
-		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
-		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -Wl,--lto-O3 -Wl,-O3 -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
-		llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 			if [ "$GLIBC_SYMBS" != "" ]; then

@@ -496,7 +496,7 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
 	public get_htlc_sigs(htlc_base_key: Uint8Array, channel_parameters: DirectedChannelTransactionParameters, entropy_source: EntropySource): Result_CVec_SignatureZNoneZ {
-		const ret: bigint = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters), entropy_source == null ? 0n : CommonBase.get_ptr_of(entropy_source));
+		const ret: bigint = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), channel_parameters == null ? 0n : CommonBase.get_ptr_of(channel_parameters), CommonBase.get_ptr_of(entropy_source));
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, channel_parameters);
 		CommonBase.add_ref_from(this, entropy_source);

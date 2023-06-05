@@ -456,7 +456,7 @@ export class P2PGossipSync extends CommonBase {
 	 * correct, and the announcement is signed with channel owners' keys.
 	 */
 	public static constructor_new(network_graph: NetworkGraph, utxo_lookup: Option_UtxoLookupZ, logger: Logger): P2PGossipSync {
-		const ret: bigint = bindings.P2PGossipSync_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(utxo_lookup), logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.P2PGossipSync_new(network_graph == null ? 0n : CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(utxo_lookup), CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: P2PGossipSync = new P2PGossipSync(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);

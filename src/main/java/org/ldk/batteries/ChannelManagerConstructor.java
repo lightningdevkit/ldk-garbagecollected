@@ -279,8 +279,13 @@ public class ChannelManagerConstructor {
 
         final IgnoringMessageHandler ignoring_handler = IgnoringMessageHandler.of();
         P2PGossipSync graph_msg_handler = P2PGossipSync.of(net_graph, Option_UtxoLookupZ.none(), logger);
+        RoutingMessageHandler routing_msg_handler;
+        if (use_p2p_graph_sync)
+            routing_msg_handler = graph_msg_handler.as_RoutingMessageHandler();
+        else
+            routing_msg_handler = ignoring_handler.as_RoutingMessageHandler();
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                ignoring_handler.as_RoutingMessageHandler(), ignoring_handler.as_OnionMessageHandler(),
+                routing_msg_handler, ignoring_handler.as_OnionMessageHandler(),
                 (int)(System.currentTimeMillis() / 1000), this.entropy_source.get_secure_random_bytes(),
                 logger, ignoring_handler.as_CustomMessageHandler(), this.node_signer);
 
@@ -292,9 +297,9 @@ public class ChannelManagerConstructor {
 
         GossipSync gossip_sync;
         if (use_p2p_graph_sync)
-            gossip_sync = GossipSync.none();
-        else
             gossip_sync = GossipSync.p2_p(graph_msg_handler);
+        else
+            gossip_sync = GossipSync.none();
 
         Option_WriteableScoreZ writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
 

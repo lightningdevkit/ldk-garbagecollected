@@ -467,7 +467,7 @@ export class NetworkGraph extends CommonBase {
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
 	public static constructor_read(ser: Uint8Array, arg: Logger): Result_NetworkGraphDecodeErrorZ {
-		const ret: bigint = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser), arg == null ? 0n : CommonBase.get_ptr_of(arg));
+		const ret: bigint = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser), CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_NetworkGraphDecodeErrorZ = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;
@@ -477,7 +477,7 @@ export class NetworkGraph extends CommonBase {
 	 * Creates a new, empty, network graph.
 	 */
 	public static constructor_new(network: Network, logger: Logger): NetworkGraph {
-		const ret: bigint = bindings.NetworkGraph_new(network, logger == null ? 0n : CommonBase.get_ptr_of(logger));
+		const ret: bigint = bindings.NetworkGraph_new(network, CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, logger);

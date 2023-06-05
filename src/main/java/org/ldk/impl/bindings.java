@@ -3512,6 +3512,10 @@ public class bindings {
 	public static native long COption_ScalarZ_none();
 	// void COption_ScalarZ_free(struct LDKCOption_ScalarZ _res);
 	public static native void COption_ScalarZ_free(long _res);
+	// uint64_t COption_ScalarZ_clone_ptr(LDKCOption_ScalarZ *NONNULL_PTR arg);
+	public static native long COption_ScalarZ_clone_ptr(long arg);
+	// struct LDKCOption_ScalarZ COption_ScalarZ_clone(const struct LDKCOption_ScalarZ *NONNULL_PTR orig);
+	public static native long COption_ScalarZ_clone(long orig);
 	// struct LDKCResult_SharedSecretNoneZ CResult_SharedSecretNoneZ_ok(struct LDKThirtyTwoBytes o);
 	public static native long CResult_SharedSecretNoneZ_ok(byte[] o);
 	// struct LDKCResult_SharedSecretNoneZ CResult_SharedSecretNoneZ_err(void);

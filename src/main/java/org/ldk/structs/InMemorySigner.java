@@ -373,7 +373,7 @@ public class InMemorySigner extends CommonBase {
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
 	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, org.ldk.structs.EntropySource arg) {
-		long ret = bindings.InMemorySigner_read(ser, arg == null ? 0 : arg.ptr);
+		long ret = bindings.InMemorySigner_read(ser, arg.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }

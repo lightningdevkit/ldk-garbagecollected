@@ -526,7 +526,7 @@ export class EventsProvider extends CommonBase {
 	 * See the trait-level documentation for requirements.
 	 */
 	public process_pending_events(handler: EventHandler): void {
-		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0n : CommonBase.get_ptr_of(handler));
+		bindings.EventsProvider_process_pending_events(this.ptr, CommonBase.get_ptr_of(handler));
 		CommonBase.add_ref_from(this, handler);
 	}
 

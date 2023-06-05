@@ -527,7 +527,7 @@ export class Persister extends CommonBase {
 	 * Persist the given [`WriteableScore`] to disk, returning an error if persistence failed.
 	 */
 	public persist_scorer(scorer: WriteableScore): Result_NoneErrorZ {
-		const ret: bigint = bindings.Persister_persist_scorer(this.ptr, scorer == null ? 0n : CommonBase.get_ptr_of(scorer));
+		const ret: bigint = bindings.Persister_persist_scorer(this.ptr, CommonBase.get_ptr_of(scorer));
 		const ret_hu_conv: Result_NoneErrorZ = Result_NoneErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, scorer);
 		return ret_hu_conv;

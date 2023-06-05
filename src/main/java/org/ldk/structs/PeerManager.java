@@ -50,7 +50,7 @@ public class PeerManager extends CommonBase {
 	 * minute should suffice.
 	 */
 	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.CustomMessageHandler custom_message_handler, org.ldk.structs.NodeSigner node_signer) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr, node_signer == null ? 0 : node_signer.ptr);
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger.ptr, custom_message_handler.ptr, node_signer.ptr);
 		Reference.reachabilityFence(message_handler_chan_handler_arg);
 		Reference.reachabilityFence(message_handler_route_handler_arg);
 		Reference.reachabilityFence(message_handler_onion_message_handler_arg);
@@ -115,7 +115,7 @@ public class PeerManager extends CommonBase {
 	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
 	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
-		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
+		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(descriptor);
@@ -145,7 +145,7 @@ public class PeerManager extends CommonBase {
 	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
 	public Result_NonePeerHandleErrorZ new_inbound_connection(org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
-		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
+		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptor);
 		Reference.reachabilityFence(remote_network_address);
@@ -171,7 +171,7 @@ public class PeerManager extends CommonBase {
 	 * [`write_buffer_space_avail`]: PeerManager::write_buffer_space_avail
 	 */
 	public Result_NonePeerHandleErrorZ write_buffer_space_avail(org.ldk.structs.SocketDescriptor descriptor) {
-		long ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0 : descriptor.ptr);
+		long ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -199,7 +199,7 @@ public class PeerManager extends CommonBase {
 	 * [`process_events`]: PeerManager::process_events
 	 */
 	public Result_boolPeerHandleErrorZ read_event(org.ldk.structs.SocketDescriptor peer_descriptor, byte[] data) {
-		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : peer_descriptor.ptr, data);
+		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor.ptr, data);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(peer_descriptor);
 		Reference.reachabilityFence(data);
@@ -236,7 +236,7 @@ public class PeerManager extends CommonBase {
 	 * Indicates that the given socket descriptor's connection is now closed.
 	 */
 	public void socket_disconnected(org.ldk.structs.SocketDescriptor descriptor) {
-		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : descriptor.ptr);
+		bindings.PeerManager_socket_disconnected(this.ptr, descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptor);
 	}

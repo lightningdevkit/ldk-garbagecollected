@@ -63,7 +63,7 @@ public class OnionMessageContents extends CommonBase {
 	 * Utility method to constructs a new Custom-variant OnionMessageContents
 	 */
 	public static OnionMessageContents custom(org.ldk.structs.CustomOnionMessageContents a) {
-		long ret = bindings.OnionMessageContents_custom(a == null ? 0 : a.ptr);
+		long ret = bindings.OnionMessageContents_custom(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
