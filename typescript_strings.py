@@ -21,6 +21,7 @@ class Consts:
             uint8_t = ['number', 'number', 'Uint8Array'],
             uint16_t = ['number', 'number', 'Uint16Array'],
             uint32_t = ['number', 'number', 'Uint32Array'],
+            int64_t = ['bigint', 'bigint', 'BigInt64Array'],
             uint64_t = ['bigint', 'bigint', 'BigUint64Array'],
         )
         self.java_type_map = dict(
