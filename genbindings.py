@@ -231,7 +231,10 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
     elif fn_arg.startswith("LDKWitness ") or fn_arg == "LDKWitness":
-        fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+        if len(fn_arg) > 12 and fn_arg[11] == "*":
+            fn_arg = "uint8_t (" + fn_arg[11:] + ")[datalen]"
+        else:
+            fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
         rust_obj = "LDKWitness"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
@@ -575,6 +578,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
 
         if method_name.endswith("_clone") and expected_struct not in unitary_enums:
+            # LDKWitness is mapped as an array, so no need to implement clone
+            if expected_struct == "LDKWitness":
+                return
             meth_line = "uint64_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
             write_c("static inline " + meth_line + " {\n")
             write_c("\t" + return_type_info.ret_conv[0].replace("\n", "\n\t"))
@@ -641,8 +647,8 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             expected_struct in complex_enums or expected_struct in complex_enums or
             expected_struct in result_types or expected_struct in tuple_types) and not is_free
         impl_on_utils = not impl_on_struct and (not is_free and not method_name.endswith("_clone") and
-            not method_name.startswith("TxOut") and not method_name.startswith("BigEndianScalar") and
-            not method_name.startswith("_") and
+            not method_name.startswith("TxOut") and not method_name.startswith("TxIn") and
+            not method_name.startswith("BigEndianScalar") and not method_name.startswith("_") and
             method_name != "check_platform" and method_name != "Result_read" and
             not expected_struct in unitary_enums and
             ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
@@ -1096,6 +1102,36 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         write_c("\treturn thing->value;")
                         write_c("}")
                         map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_value) \((.*)\)").match(fn_line), None, None, None)
+                elif struct_name == "LDKTxIn":
+                    with open(f"{sys.argv[3]}/structs/TxIn{consts.file_ext}", "w") as out_java_struct:
+                        out_java_struct.write(consts.hu_struct_file_prefix)
+                        out_java_struct.write(consts.txin_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
+                        fn_line = "struct LDKWitness TxIn_get_witness (struct LDKTxIn* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn Witness_clone(&thing->witness);")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_witness) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "struct LDKCVec_u8Z TxIn_get_script_sig (struct LDKTxIn* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn CVec_u8Z_clone(&thing->script_sig);")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_script_sig) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "LDKThirtyTwoBytes TxIn_get_previous_txid (struct LDKTxIn* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn thing->previous_txid;")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_previous_txid) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "uint32_t TxIn_get_previous_vout (struct LDKTxIn* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn thing->previous_vout;")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_previous_vout) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "uint32_t TxIn_get_sequence (struct LDKTxIn* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn thing->sequence;")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_sequence) \((.*)\)").match(fn_line), None, None, None)
                 elif struct_name == "LDKBigEndianScalar":
                     with open(f"{sys.argv[3]}/structs/BigEndianScalar{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
