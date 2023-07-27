@@ -11,6 +11,8 @@ import javax.annotation.Nullable;
 /**
  * An [`open_channel`] message to be sent to or received from a peer.
  * 
+ * Used in V1 channel establishment
+ * 
  * [`open_channel`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-open_channel-message
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
@@ -351,6 +353,28 @@ public class OpenChannel extends CommonBase {
 	}
 
 	/**
+	 * A request to pre-set the to-sender output's `scriptPubkey` for when we collaboratively close
+	 */
+	public Option_ScriptZ get_shutdown_scriptpubkey() {
+		long ret = bindings.OpenChannel_get_shutdown_scriptpubkey(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_ScriptZ ret_hu_conv = org.ldk.structs.Option_ScriptZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A request to pre-set the to-sender output's `scriptPubkey` for when we collaboratively close
+	 */
+	public void set_shutdown_scriptpubkey(org.ldk.structs.Option_ScriptZ val) {
+		bindings.OpenChannel_set_shutdown_scriptpubkey(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * The channel type that this channel will represent
 	 * 
 	 * If this is `None`, we derive the channel type from the intersection of our
@@ -381,6 +405,39 @@ public class OpenChannel extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
+	 * Constructs a new OpenChannel given each field
+	 */
+	public static OpenChannel of(byte[] chain_hash_arg, byte[] temporary_channel_id_arg, long funding_satoshis_arg, long push_msat_arg, long dust_limit_satoshis_arg, long max_htlc_value_in_flight_msat_arg, long channel_reserve_satoshis_arg, long htlc_minimum_msat_arg, int feerate_per_kw_arg, short to_self_delay_arg, short max_accepted_htlcs_arg, byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg, byte[] first_per_commitment_point_arg, byte channel_flags_arg, org.ldk.structs.Option_ScriptZ shutdown_scriptpubkey_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg) {
+		long ret = bindings.OpenChannel_new(InternalUtils.check_arr_len(chain_hash_arg, 32), InternalUtils.check_arr_len(temporary_channel_id_arg, 32), funding_satoshis_arg, push_msat_arg, dust_limit_satoshis_arg, max_htlc_value_in_flight_msat_arg, channel_reserve_satoshis_arg, htlc_minimum_msat_arg, feerate_per_kw_arg, to_self_delay_arg, max_accepted_htlcs_arg, InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33), InternalUtils.check_arr_len(first_per_commitment_point_arg, 33), channel_flags_arg, shutdown_scriptpubkey_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(temporary_channel_id_arg);
+		Reference.reachabilityFence(funding_satoshis_arg);
+		Reference.reachabilityFence(push_msat_arg);
+		Reference.reachabilityFence(dust_limit_satoshis_arg);
+		Reference.reachabilityFence(max_htlc_value_in_flight_msat_arg);
+		Reference.reachabilityFence(channel_reserve_satoshis_arg);
+		Reference.reachabilityFence(htlc_minimum_msat_arg);
+		Reference.reachabilityFence(feerate_per_kw_arg);
+		Reference.reachabilityFence(to_self_delay_arg);
+		Reference.reachabilityFence(max_accepted_htlcs_arg);
+		Reference.reachabilityFence(funding_pubkey_arg);
+		Reference.reachabilityFence(revocation_basepoint_arg);
+		Reference.reachabilityFence(payment_point_arg);
+		Reference.reachabilityFence(delayed_payment_basepoint_arg);
+		Reference.reachabilityFence(htlc_basepoint_arg);
+		Reference.reachabilityFence(first_per_commitment_point_arg);
+		Reference.reachabilityFence(channel_flags_arg);
+		Reference.reachabilityFence(shutdown_scriptpubkey_arg);
+		Reference.reachabilityFence(channel_type_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OpenChannel ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OpenChannel(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(shutdown_scriptpubkey_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_type_arg); };
+		return ret_hu_conv;
 	}
 
 	long clone_ptr() {

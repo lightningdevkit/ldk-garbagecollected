@@ -26,14 +26,47 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendAcceptChannel.class) {
 			return new SendAcceptChannel(ptr, (bindings.LDKMessageSendEvent.SendAcceptChannel)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendAcceptChannelV2.class) {
+			return new SendAcceptChannelV2(ptr, (bindings.LDKMessageSendEvent.SendAcceptChannelV2)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendOpenChannel.class) {
 			return new SendOpenChannel(ptr, (bindings.LDKMessageSendEvent.SendOpenChannel)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendOpenChannelV2.class) {
+			return new SendOpenChannelV2(ptr, (bindings.LDKMessageSendEvent.SendOpenChannelV2)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendFundingCreated.class) {
 			return new SendFundingCreated(ptr, (bindings.LDKMessageSendEvent.SendFundingCreated)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendFundingSigned.class) {
 			return new SendFundingSigned(ptr, (bindings.LDKMessageSendEvent.SendFundingSigned)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxAddInput.class) {
+			return new SendTxAddInput(ptr, (bindings.LDKMessageSendEvent.SendTxAddInput)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxAddOutput.class) {
+			return new SendTxAddOutput(ptr, (bindings.LDKMessageSendEvent.SendTxAddOutput)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxRemoveInput.class) {
+			return new SendTxRemoveInput(ptr, (bindings.LDKMessageSendEvent.SendTxRemoveInput)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxRemoveOutput.class) {
+			return new SendTxRemoveOutput(ptr, (bindings.LDKMessageSendEvent.SendTxRemoveOutput)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxComplete.class) {
+			return new SendTxComplete(ptr, (bindings.LDKMessageSendEvent.SendTxComplete)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxSignatures.class) {
+			return new SendTxSignatures(ptr, (bindings.LDKMessageSendEvent.SendTxSignatures)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxInitRbf.class) {
+			return new SendTxInitRbf(ptr, (bindings.LDKMessageSendEvent.SendTxInitRbf)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxAckRbf.class) {
+			return new SendTxAckRbf(ptr, (bindings.LDKMessageSendEvent.SendTxAckRbf)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxAbort.class) {
+			return new SendTxAbort(ptr, (bindings.LDKMessageSendEvent.SendTxAbort)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelReady.class) {
 			return new SendChannelReady(ptr, (bindings.LDKMessageSendEvent.SendChannelReady)raw_val);
@@ -112,6 +145,28 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	/**
+	 * Used to indicate that we've accepted a V2 channel open and should send the accept_channel2
+	 * message provided to the given peer.
+	 */
+	public final static class SendAcceptChannelV2 extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.AcceptChannelV2 msg;
+		private SendAcceptChannelV2(long ptr, bindings.LDKMessageSendEvent.SendAcceptChannelV2 obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.AcceptChannelV2 msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannelV2(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
 	 * Used to indicate that we've initiated a channel open and should send the open_channel
 	 * message provided to the given peer.
 	 */
@@ -129,6 +184,28 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			org.ldk.structs.OpenChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannel(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that we've initiated a V2 channel open and should send the open_channel2
+	 * message provided to the given peer.
+	 */
+	public final static class SendOpenChannelV2 extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.OpenChannelV2 msg;
+		private SendOpenChannelV2(long ptr, bindings.LDKMessageSendEvent.SendOpenChannelV2 obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.OpenChannelV2 msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannelV2(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -171,6 +248,195 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			org.ldk.structs.FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingSigned(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_add_input message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxAddInput extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxAddInput msg;
+		private SendTxAddInput(long ptr, bindings.LDKMessageSendEvent.SendTxAddInput obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxAddInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddInput(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_add_output message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxAddOutput extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxAddOutput msg;
+		private SendTxAddOutput(long ptr, bindings.LDKMessageSendEvent.SendTxAddOutput obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxAddOutput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddOutput(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_remove_input message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxRemoveInput extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxRemoveInput msg;
+		private SendTxRemoveInput(long ptr, bindings.LDKMessageSendEvent.SendTxRemoveInput obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxRemoveInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxRemoveInput(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_remove_output message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxRemoveOutput extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxRemoveOutput msg;
+		private SendTxRemoveOutput(long ptr, bindings.LDKMessageSendEvent.SendTxRemoveOutput obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxRemoveOutput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxRemoveOutput(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_complete message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxComplete extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxComplete msg;
+		private SendTxComplete(long ptr, bindings.LDKMessageSendEvent.SendTxComplete obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxComplete msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxComplete(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_signatures message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxSignatures extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxSignatures msg;
+		private SendTxSignatures(long ptr, bindings.LDKMessageSendEvent.SendTxSignatures obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxSignatures(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_init_rbf message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxInitRbf extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxInitRbf msg;
+		private SendTxInitRbf(long ptr, bindings.LDKMessageSendEvent.SendTxInitRbf obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxInitRbf msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxInitRbf(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_ack_rbf message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxAckRbf extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxAckRbf msg;
+		private SendTxAckRbf(long ptr, bindings.LDKMessageSendEvent.SendTxAckRbf obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxAckRbf msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAckRbf(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a tx_abort message should be sent to the peer with the given node_id.
+	 */
+	public final static class SendTxAbort extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.TxAddInput msg;
+		private SendTxAbort(long ptr, bindings.LDKMessageSendEvent.SendTxAbort obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.TxAddInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddInput(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -584,10 +850,38 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new SendAcceptChannelV2-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_accept_channel_v2(byte[] node_id, org.ldk.structs.AcceptChannelV2 msg) {
+		long ret = bindings.MessageSendEvent_send_accept_channel_v2(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_open_channel(byte[] node_id, org.ldk.structs.OpenChannel msg) {
 		long ret = bindings.MessageSendEvent_send_open_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendOpenChannelV2-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_open_channel_v2(byte[] node_id, org.ldk.structs.OpenChannelV2 msg) {
+		long ret = bindings.MessageSendEvent_send_open_channel_v2(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -616,6 +910,132 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_funding_signed(byte[] node_id, org.ldk.structs.FundingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_funding_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAddInput-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_add_input(byte[] node_id, org.ldk.structs.TxAddInput msg) {
+		long ret = bindings.MessageSendEvent_send_tx_add_input(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAddOutput-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_add_output(byte[] node_id, org.ldk.structs.TxAddOutput msg) {
+		long ret = bindings.MessageSendEvent_send_tx_add_output(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxRemoveInput-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_remove_input(byte[] node_id, org.ldk.structs.TxRemoveInput msg) {
+		long ret = bindings.MessageSendEvent_send_tx_remove_input(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxRemoveOutput-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_remove_output(byte[] node_id, org.ldk.structs.TxRemoveOutput msg) {
+		long ret = bindings.MessageSendEvent_send_tx_remove_output(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxComplete-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_complete(byte[] node_id, org.ldk.structs.TxComplete msg) {
+		long ret = bindings.MessageSendEvent_send_tx_complete(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxSignatures-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_signatures(byte[] node_id, org.ldk.structs.TxSignatures msg) {
+		long ret = bindings.MessageSendEvent_send_tx_signatures(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxInitRbf-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_init_rbf(byte[] node_id, org.ldk.structs.TxInitRbf msg) {
+		long ret = bindings.MessageSendEvent_send_tx_init_rbf(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAckRbf-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_ack_rbf(byte[] node_id, org.ldk.structs.TxAckRbf msg) {
+		long ret = bindings.MessageSendEvent_send_tx_ack_rbf(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAbort-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_tx_abort(byte[] node_id, org.ldk.structs.TxAddInput msg) {
+		long ret = bindings.MessageSendEvent_send_tx_abort(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

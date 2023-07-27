@@ -84,8 +84,6 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 
 	/**
 	 * The output which is referenced by the given outpoint.
-	 * 
-	 * Returns a copy of the field.
 	 */
 	public TxOut get_output() {
 		long ret = bindings.DelayedPaymentOutputDescriptor_get_output(this.ptr);

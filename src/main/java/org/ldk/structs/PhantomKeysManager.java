@@ -101,16 +101,18 @@ public class PhantomKeysManager extends CommonBase {
 	/**
 	 * See [`KeysManager::spend_spendable_outputs`] for documentation on this method.
 	 */
-	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight) {
-		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).mapToLong(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray() : null, outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_7 -> outputs_conv_7.ptr).toArray() : null, change_destination_script, feerate_sat_per_1000_weight);
+	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_PackedLockTimeZ locktime) {
+		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).mapToLong(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray() : null, outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_7 -> outputs_conv_7.ptr).toArray() : null, change_destination_script, feerate_sat_per_1000_weight, locktime.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptors);
 		Reference.reachabilityFence(outputs);
 		Reference.reachabilityFence(change_destination_script);
 		Reference.reachabilityFence(feerate_sat_per_1000_weight);
+		Reference.reachabilityFence(locktime);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		for (SpendableOutputDescriptor descriptors_conv_27: descriptors) { if (this != null) { this.ptrs_to.add(descriptors_conv_27); }; };
+		if (this != null) { this.ptrs_to.add(locktime); };
 		return ret_hu_conv;
 	}
 

@@ -47,9 +47,9 @@ public class CustomOnionMessageHandler extends CommonBase {
 	}
 	public static interface CustomOnionMessageHandlerInterface {
 		/**
-		 * Called with the custom message that was received.
+		 * Called with the custom message that was received, returning a response to send, if any.
 		 */
-		void handle_custom_message(CustomOnionMessageContents msg);
+		Option_CustomOnionMessageContentsZ handle_custom_message(CustomOnionMessageContents msg);
 		/**
 		 * Read a custom message of type `message_type` from `buffer`, returning `Ok(None)` if the
 		 * message type is unknown.
@@ -60,11 +60,14 @@ public class CustomOnionMessageHandler extends CommonBase {
 	public static CustomOnionMessageHandler new_impl(CustomOnionMessageHandlerInterface arg) {
 		final LDKCustomOnionMessageHandlerHolder impl_holder = new LDKCustomOnionMessageHandlerHolder();
 		impl_holder.held = new CustomOnionMessageHandler(new bindings.LDKCustomOnionMessageHandler() {
-			@Override public void handle_custom_message(long msg) {
+			@Override public long handle_custom_message(long msg) {
 				CustomOnionMessageContents ret_hu_conv = new CustomOnionMessageContents(null, msg);
 				if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-				arg.handle_custom_message(ret_hu_conv);
+				Option_CustomOnionMessageContentsZ ret = arg.handle_custom_message(ret_hu_conv);
 				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
+				return result;
 			}
 			@Override public long read_custom_message(long message_type, byte[] buffer) {
 				Result_COption_CustomOnionMessageContentsZDecodeErrorZ ret = arg.read_custom_message(message_type, buffer);
@@ -76,13 +79,17 @@ public class CustomOnionMessageHandler extends CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Called with the custom message that was received.
+	 * Called with the custom message that was received, returning a response to send, if any.
 	 */
-	public void handle_custom_message(org.ldk.structs.CustomOnionMessageContents msg) {
-		bindings.CustomOnionMessageHandler_handle_custom_message(this.ptr, msg.ptr);
+	public Option_CustomOnionMessageContentsZ handle_custom_message(org.ldk.structs.CustomOnionMessageContents msg) {
+		long ret = bindings.CustomOnionMessageHandler_handle_custom_message(this.ptr, msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CustomOnionMessageContentsZ ret_hu_conv = org.ldk.structs.Option_CustomOnionMessageContentsZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		if (this != null) { this.ptrs_to.add(msg); };
+		return ret_hu_conv;
 	}
 
 	/**

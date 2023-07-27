@@ -32,6 +32,15 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
+	 * Gets the genesis hash for this network graph.
+	 */
+	public byte[] get_genesis_hash() {
+		byte[] ret = bindings.NetworkGraph_get_genesis_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Serialize the NetworkGraph object into a byte array which can be read by NetworkGraph_read
 	 */
 	public byte[] write() {
@@ -139,8 +148,8 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Store or update channel info from a channel announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
-	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
 	 * If a [`UtxoLookup`] object is provided via `utxo_lookup`, it will be called to verify
@@ -155,6 +164,25 @@ public class NetworkGraph extends CommonBase {
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
 		if (this != null) { this.ptrs_to.add(utxo_lookup); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Store or update channel info from a channel announcement.
+	 * 
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
+	 * routing messages from a source using a protocol other than the lightning P2P protocol.
+	 * 
+	 * This will skip verification of if the channel is actually on-chain.
+	 */
+	public Result_NoneLightningErrorZ update_channel_from_announcement_no_lookup(org.ldk.structs.ChannelAnnouncement msg) {
+		long ret = bindings.NetworkGraph_update_channel_from_announcement_no_lookup(this.ptr, msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 

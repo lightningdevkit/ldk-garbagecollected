@@ -55,10 +55,10 @@ public class Balance extends CommonBase {
 		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
 		 * required to do so.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		private ClaimableOnChannelClose(long ptr, bindings.LDKBalance.ClaimableOnChannelClose obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 		}
 	}
 	/**
@@ -70,7 +70,7 @@ public class Balance extends CommonBase {
 		 * The amount available to claim, in satoshis, possibly excluding the on-chain fees which
 		 * were spent in broadcasting the transaction.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		/**
 		 * The height at which an [`Event::SpendableOutputs`] event will be generated for this
 		 * amount.
@@ -78,7 +78,7 @@ public class Balance extends CommonBase {
 		public final int confirmation_height;
 		private ClaimableAwaitingConfirmations(long ptr, bindings.LDKBalance.ClaimableAwaitingConfirmations obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 			this.confirmation_height = obj.confirmation_height;
 		}
 	}
@@ -96,16 +96,26 @@ public class Balance extends CommonBase {
 		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
 		 * required to do so.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		/**
 		 * The height at which the counterparty may be able to claim the balance if we have not
 		 * done so.
 		*/
 		public final int timeout_height;
+		/**
+		 * The payment hash that locks this HTLC.
+		*/
+		public final byte[] payment_hash;
+		/**
+		 * The preimage that can be used to claim this HTLC.
+		*/
+		public final byte[] payment_preimage;
 		private ContentiousClaimable(long ptr, bindings.LDKBalance.ContentiousClaimable obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 			this.timeout_height = obj.timeout_height;
+			this.payment_hash = obj.payment_hash;
+			this.payment_preimage = obj.payment_preimage;
 		}
 	}
 	/**
@@ -118,16 +128,21 @@ public class Balance extends CommonBase {
 		 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
 		 * which will be required to do so.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		/**
 		 * The height at which we will be able to claim the balance if our counterparty has not
 		 * done so.
 		*/
 		public final int claimable_height;
+		/**
+		 * The payment hash whose preimage our counterparty needs to claim this HTLC.
+		*/
+		public final byte[] payment_hash;
 		private MaybeTimeoutClaimableHTLC(long ptr, bindings.LDKBalance.MaybeTimeoutClaimableHTLC obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 			this.claimable_height = obj.claimable_height;
+			this.payment_hash = obj.payment_hash;
 		}
 	}
 	/**
@@ -140,16 +155,21 @@ public class Balance extends CommonBase {
 		 * The amount potentially available to claim, in satoshis, excluding the on-chain fees
 		 * which will be required to do so.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		/**
 		 * The height at which our counterparty will be able to claim the balance if we have not
 		 * yet received the preimage and claimed it ourselves.
 		*/
 		public final int expiry_height;
+		/**
+		 * The payment hash whose preimage we need to claim this HTLC.
+		*/
+		public final byte[] payment_hash;
 		private MaybePreimageClaimableHTLC(long ptr, bindings.LDKBalance.MaybePreimageClaimableHTLC obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 			this.expiry_height = obj.expiry_height;
+			this.payment_hash = obj.payment_hash;
 		}
 	}
 	/**
@@ -166,10 +186,10 @@ public class Balance extends CommonBase {
 		 * Note that for outputs from HTLC balances this may be excluding some on-chain fees that
 		 * were already spent.
 		*/
-		public final long claimable_amount_satoshis;
+		public final long amount_satoshis;
 		private CounterpartyRevokedOutputClaimable(long ptr, bindings.LDKBalance.CounterpartyRevokedOutputClaimable obj) {
 			super(null, ptr);
-			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+			this.amount_satoshis = obj.amount_satoshis;
 		}
 	}
 	long clone_ptr() {
@@ -193,9 +213,9 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new ClaimableOnChannelClose-variant Balance
 	 */
-	public static Balance claimable_on_channel_close(long claimable_amount_satoshis) {
-		long ret = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance claimable_on_channel_close(long amount_satoshis) {
+		long ret = bindings.Balance_claimable_on_channel_close(amount_satoshis);
+		Reference.reachabilityFence(amount_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -205,9 +225,9 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new ClaimableAwaitingConfirmations-variant Balance
 	 */
-	public static Balance claimable_awaiting_confirmations(long claimable_amount_satoshis, int confirmation_height) {
-		long ret = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance claimable_awaiting_confirmations(long amount_satoshis, int confirmation_height) {
+		long ret = bindings.Balance_claimable_awaiting_confirmations(amount_satoshis, confirmation_height);
+		Reference.reachabilityFence(amount_satoshis);
 		Reference.reachabilityFence(confirmation_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
@@ -218,10 +238,12 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new ContentiousClaimable-variant Balance
 	 */
-	public static Balance contentious_claimable(long claimable_amount_satoshis, int timeout_height) {
-		long ret = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance contentious_claimable(long amount_satoshis, int timeout_height, byte[] payment_hash, byte[] payment_preimage) {
+		long ret = bindings.Balance_contentious_claimable(amount_satoshis, timeout_height, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_preimage, 32));
+		Reference.reachabilityFence(amount_satoshis);
 		Reference.reachabilityFence(timeout_height);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(payment_preimage);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -231,10 +253,11 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new MaybeTimeoutClaimableHTLC-variant Balance
 	 */
-	public static Balance maybe_timeout_claimable_htlc(long claimable_amount_satoshis, int claimable_height) {
-		long ret = bindings.Balance_maybe_timeout_claimable_htlc(claimable_amount_satoshis, claimable_height);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance maybe_timeout_claimable_htlc(long amount_satoshis, int claimable_height, byte[] payment_hash) {
+		long ret = bindings.Balance_maybe_timeout_claimable_htlc(amount_satoshis, claimable_height, InternalUtils.check_arr_len(payment_hash, 32));
+		Reference.reachabilityFence(amount_satoshis);
 		Reference.reachabilityFence(claimable_height);
+		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -244,10 +267,11 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new MaybePreimageClaimableHTLC-variant Balance
 	 */
-	public static Balance maybe_preimage_claimable_htlc(long claimable_amount_satoshis, int expiry_height) {
-		long ret = bindings.Balance_maybe_preimage_claimable_htlc(claimable_amount_satoshis, expiry_height);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance maybe_preimage_claimable_htlc(long amount_satoshis, int expiry_height, byte[] payment_hash) {
+		long ret = bindings.Balance_maybe_preimage_claimable_htlc(amount_satoshis, expiry_height, InternalUtils.check_arr_len(payment_hash, 32));
+		Reference.reachabilityFence(amount_satoshis);
 		Reference.reachabilityFence(expiry_height);
+		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -257,9 +281,9 @@ public class Balance extends CommonBase {
 	/**
 	 * Utility method to constructs a new CounterpartyRevokedOutputClaimable-variant Balance
 	 */
-	public static Balance counterparty_revoked_output_claimable(long claimable_amount_satoshis) {
-		long ret = bindings.Balance_counterparty_revoked_output_claimable(claimable_amount_satoshis);
-		Reference.reachabilityFence(claimable_amount_satoshis);
+	public static Balance counterparty_revoked_output_claimable(long amount_satoshis) {
+		long ret = bindings.Balance_counterparty_revoked_output_claimable(amount_satoshis);
+		Reference.reachabilityFence(amount_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -281,4 +305,18 @@ public class Balance extends CommonBase {
 		if (!(o instanceof Balance)) return false;
 		return this.eq((Balance)o);
 	}
+	/**
+	 * The amount claimable, in satoshis. This excludes balances that we are unsure if we are able
+	 * to claim, this is because we are waiting for a preimage or for a timeout to expire. For more
+	 * information on these balances see [`Balance::MaybeTimeoutClaimableHTLC`] and
+	 * [`Balance::MaybePreimageClaimableHTLC`].
+	 * 
+	 * On-chain fees required to claim the balance are not included in this amount.
+	 */
+	public long claimable_amount_satoshis() {
+		long ret = bindings.Balance_claimable_amount_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 }

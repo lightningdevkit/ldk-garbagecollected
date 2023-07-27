@@ -40,11 +40,11 @@ import javax.annotation.Nullable;
  * behavior.
  * 
  * [1]: https://arxiv.org/abs/2107.05322
- * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_multiplier_msat
- * [`liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_amount_multiplier_msat
- * [`liquidity_offset_half_life`]: ProbabilisticScoringParameters::liquidity_offset_half_life
- * [`historical_liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_multiplier_msat
- * [`historical_liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_amount_multiplier_msat
+ * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringFeeParameters::liquidity_penalty_multiplier_msat
+ * [`liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringFeeParameters::liquidity_penalty_amount_multiplier_msat
+ * [`liquidity_offset_half_life`]: ProbabilisticScoringDecayParameters::liquidity_offset_half_life
+ * [`historical_liquidity_penalty_multiplier_msat`]: ProbabilisticScoringFeeParameters::historical_liquidity_penalty_multiplier_msat
+ * [`historical_liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringFeeParameters::historical_liquidity_penalty_amount_multiplier_msat
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ProbabilisticScorer extends CommonBase {
@@ -59,15 +59,15 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Creates a new scorer using the given scoring parameters for sending payments from a node
 	 * through a network graph.
 	 */
-	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringParameters params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
-		long ret = bindings.ProbabilisticScorer_new(params == null ? 0 : params.ptr, network_graph == null ? 0 : network_graph.ptr, logger.ptr);
-		Reference.reachabilityFence(params);
+	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringDecayParameters decay_params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
+		long ret = bindings.ProbabilisticScorer_new(decay_params == null ? 0 : decay_params.ptr, network_graph == null ? 0 : network_graph.ptr, logger.ptr);
+		Reference.reachabilityFence(decay_params);
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ProbabilisticScorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScorer(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(decay_params); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		return ret_hu_conv;
@@ -136,56 +136,6 @@ public class ProbabilisticScorer extends CommonBase {
 	}
 
 	/**
-	 * Marks the node with the given `node_id` as banned, i.e.,
-	 * it will be avoided during path finding.
-	 */
-	public void add_banned(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
-	}
-
-	/**
-	 * Removes the node with the given `node_id` from the list of nodes to avoid.
-	 */
-	public void remove_banned(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
-	}
-
-	/**
-	 * Sets a manual penalty for the given node.
-	 */
-	public void set_manual_penalty(org.ldk.structs.NodeId node_id, long penalty) {
-		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr, penalty);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(node_id);
-		Reference.reachabilityFence(penalty);
-		if (this != null) { this.ptrs_to.add(node_id); };
-	}
-
-	/**
-	 * Removes the node with the given `node_id` from the list of manual penalties.
-	 */
-	public void remove_manual_penalty(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
-	}
-
-	/**
-	 * Clears the list of manual penalties that are applied during path finding.
-	 */
-	public void clear_manual_penalties() {
-		bindings.ProbabilisticScorer_clear_manual_penalties(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
 	 * Constructs a new Score which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
 	 */
@@ -210,7 +160,7 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
+	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringDecayParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
 		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c.ptr);
 		Reference.reachabilityFence(ser);
 		Reference.reachabilityFence(arg_a);

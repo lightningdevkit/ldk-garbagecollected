@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * The reason the channel was closed. See individual variants more details.
+ * The reason the channel was closed. See individual variants for more details.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ClosureReason extends CommonBase {
@@ -44,6 +44,9 @@ public class ClosureReason extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKClosureReason.OutdatedChannelManager.class) {
 			return new OutdatedChannelManager(ptr, (bindings.LDKClosureReason.OutdatedChannelManager)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel.class) {
+			return new CounterpartyCoopClosedUnfundedChannel(ptr, (bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -152,6 +155,15 @@ public class ClosureReason extends CommonBase {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * The counterparty requested a cooperative close of a channel that had not been funded yet.
+	 * The channel has been immediately closed.
+	 */
+	public final static class CounterpartyCoopClosedUnfundedChannel extends ClosureReason {
+		private CounterpartyCoopClosedUnfundedChannel(long ptr, bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel obj) {
+			super(null, ptr);
+		}
+	}
 	long clone_ptr() {
 		long ret = bindings.ClosureReason_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -255,6 +267,17 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason outdated_channel_manager() {
 		long ret = bindings.ClosureReason_outdated_channel_manager();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CounterpartyCoopClosedUnfundedChannel-variant ClosureReason
+	 */
+	public static ClosureReason counterparty_coop_closed_unfunded_channel() {
+		long ret = bindings.ClosureReason_counterparty_coop_closed_unfunded_channel();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

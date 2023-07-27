@@ -46,9 +46,17 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_open_channel(byte[] their_node_id, OpenChannel msg);
 		/**
+		 * Handle an incoming `open_channel2` message from the given peer.
+		 */
+		void handle_open_channel_v2(byte[] their_node_id, OpenChannelV2 msg);
+		/**
 		 * Handle an incoming `accept_channel` message from the given peer.
 		 */
 		void handle_accept_channel(byte[] their_node_id, AcceptChannel msg);
+		/**
+		 * Handle an incoming `accept_channel2` message from the given peer.
+		 */
+		void handle_accept_channel_v2(byte[] their_node_id, AcceptChannelV2 msg);
 		/**
 		 * Handle an incoming `funding_created` message from the given peer.
 		 */
@@ -69,6 +77,42 @@ public class ChannelMessageHandler extends CommonBase {
 		 * Handle an incoming `closing_signed` message from the given peer.
 		 */
 		void handle_closing_signed(byte[] their_node_id, ClosingSigned msg);
+		/**
+		 * Handle an incoming `tx_add_input message` from the given peer.
+		 */
+		void handle_tx_add_input(byte[] their_node_id, TxAddInput msg);
+		/**
+		 * Handle an incoming `tx_add_output` message from the given peer.
+		 */
+		void handle_tx_add_output(byte[] their_node_id, TxAddOutput msg);
+		/**
+		 * Handle an incoming `tx_remove_input` message from the given peer.
+		 */
+		void handle_tx_remove_input(byte[] their_node_id, TxRemoveInput msg);
+		/**
+		 * Handle an incoming `tx_remove_output` message from the given peer.
+		 */
+		void handle_tx_remove_output(byte[] their_node_id, TxRemoveOutput msg);
+		/**
+		 * Handle an incoming `tx_complete message` from the given peer.
+		 */
+		void handle_tx_complete(byte[] their_node_id, TxComplete msg);
+		/**
+		 * Handle an incoming `tx_signatures` message from the given peer.
+		 */
+		void handle_tx_signatures(byte[] their_node_id, TxSignatures msg);
+		/**
+		 * Handle an incoming `tx_init_rbf` message from the given peer.
+		 */
+		void handle_tx_init_rbf(byte[] their_node_id, TxInitRbf msg);
+		/**
+		 * Handle an incoming `tx_ack_rbf` message from the given peer.
+		 */
+		void handle_tx_ack_rbf(byte[] their_node_id, TxAckRbf msg);
+		/**
+		 * Handle an incoming `tx_abort message` from the given peer.
+		 */
+		void handle_tx_abort(byte[] their_node_id, TxAbort msg);
 		/**
 		 * Handle an incoming `update_add_htlc` message from the given peer.
 		 */
@@ -139,6 +183,13 @@ public class ChannelMessageHandler extends CommonBase {
 		 * Note that this method is called before [`Self::peer_connected`].
 		 */
 		InitFeatures provided_init_features(byte[] their_node_id);
+		/**
+		 * Gets the genesis hashes for this `ChannelMessageHandler` indicating which chains it supports.
+		 * 
+		 * If it's `None`, then no particular network chain hash compatibility will be enforced when
+		 * connecting to peers.
+		 */
+		Option_CVec_ChainHashZZ get_genesis_hashes();
 	}
 	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
 	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
@@ -149,9 +200,19 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.handle_open_channel(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
+			@Override public void handle_open_channel_v2(byte[] their_node_id, long msg) {
+				org.ldk.structs.OpenChannelV2 msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OpenChannelV2(null, msg); }
+				arg.handle_open_channel_v2(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
 			@Override public void handle_accept_channel(byte[] their_node_id, long msg) {
 				org.ldk.structs.AcceptChannel msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannel(null, msg); }
 				arg.handle_accept_channel(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_accept_channel_v2(byte[] their_node_id, long msg) {
+				org.ldk.structs.AcceptChannelV2 msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AcceptChannelV2(null, msg); }
+				arg.handle_accept_channel_v2(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_funding_created(byte[] their_node_id, long msg) {
@@ -177,6 +238,51 @@ public class ChannelMessageHandler extends CommonBase {
 			@Override public void handle_closing_signed(byte[] their_node_id, long msg) {
 				org.ldk.structs.ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ClosingSigned(null, msg); }
 				arg.handle_closing_signed(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_add_input(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxAddInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddInput(null, msg); }
+				arg.handle_tx_add_input(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_add_output(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxAddOutput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddOutput(null, msg); }
+				arg.handle_tx_add_output(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_remove_input(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxRemoveInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxRemoveInput(null, msg); }
+				arg.handle_tx_remove_input(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_remove_output(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxRemoveOutput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxRemoveOutput(null, msg); }
+				arg.handle_tx_remove_output(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_complete(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxComplete msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxComplete(null, msg); }
+				arg.handle_tx_complete(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_signatures(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxSignatures(null, msg); }
+				arg.handle_tx_signatures(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_init_rbf(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxInitRbf msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxInitRbf(null, msg); }
+				arg.handle_tx_init_rbf(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_ack_rbf(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxAckRbf msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAckRbf(null, msg); }
+				arg.handle_tx_ack_rbf(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_tx_abort(byte[] their_node_id, long msg) {
+				org.ldk.structs.TxAbort msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAbort(null, msg); }
+				arg.handle_tx_abort(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_update_add_htlc(byte[] their_node_id, long msg) {
@@ -257,6 +363,13 @@ public class ChannelMessageHandler extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
+			@Override public long get_genesis_hashes() {
+				Option_CVec_ChainHashZZ ret = arg.get_genesis_hashes();
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
+				return result;
+			}
 		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
 		return impl_holder.held;
 	}
@@ -282,10 +395,32 @@ public class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
+	 * Handle an incoming `open_channel2` message from the given peer.
+	 */
+	public void handle_open_channel_v2(byte[] their_node_id, org.ldk.structs.OpenChannelV2 msg) {
+		bindings.ChannelMessageHandler_handle_open_channel_v2(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
 	 * Handle an incoming `accept_channel` message from the given peer.
 	 */
 	public void handle_accept_channel(byte[] their_node_id, org.ldk.structs.AcceptChannel msg) {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `accept_channel2` message from the given peer.
+	 */
+	public void handle_accept_channel_v2(byte[] their_node_id, org.ldk.structs.AcceptChannelV2 msg) {
+		bindings.ChannelMessageHandler_handle_accept_channel_v2(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
@@ -341,6 +476,105 @@ public class ChannelMessageHandler extends CommonBase {
 	 */
 	public void handle_closing_signed(byte[] their_node_id, org.ldk.structs.ClosingSigned msg) {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_add_input message` from the given peer.
+	 */
+	public void handle_tx_add_input(byte[] their_node_id, org.ldk.structs.TxAddInput msg) {
+		bindings.ChannelMessageHandler_handle_tx_add_input(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_add_output` message from the given peer.
+	 */
+	public void handle_tx_add_output(byte[] their_node_id, org.ldk.structs.TxAddOutput msg) {
+		bindings.ChannelMessageHandler_handle_tx_add_output(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_remove_input` message from the given peer.
+	 */
+	public void handle_tx_remove_input(byte[] their_node_id, org.ldk.structs.TxRemoveInput msg) {
+		bindings.ChannelMessageHandler_handle_tx_remove_input(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_remove_output` message from the given peer.
+	 */
+	public void handle_tx_remove_output(byte[] their_node_id, org.ldk.structs.TxRemoveOutput msg) {
+		bindings.ChannelMessageHandler_handle_tx_remove_output(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_complete message` from the given peer.
+	 */
+	public void handle_tx_complete(byte[] their_node_id, org.ldk.structs.TxComplete msg) {
+		bindings.ChannelMessageHandler_handle_tx_complete(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_signatures` message from the given peer.
+	 */
+	public void handle_tx_signatures(byte[] their_node_id, org.ldk.structs.TxSignatures msg) {
+		bindings.ChannelMessageHandler_handle_tx_signatures(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_init_rbf` message from the given peer.
+	 */
+	public void handle_tx_init_rbf(byte[] their_node_id, org.ldk.structs.TxInitRbf msg) {
+		bindings.ChannelMessageHandler_handle_tx_init_rbf(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_ack_rbf` message from the given peer.
+	 */
+	public void handle_tx_ack_rbf(byte[] their_node_id, org.ldk.structs.TxAckRbf msg) {
+		bindings.ChannelMessageHandler_handle_tx_ack_rbf(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `tx_abort message` from the given peer.
+	 */
+	public void handle_tx_abort(byte[] their_node_id, org.ldk.structs.TxAbort msg) {
+		bindings.ChannelMessageHandler_handle_tx_abort(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
@@ -523,6 +757,21 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(their_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the genesis hashes for this `ChannelMessageHandler` indicating which chains it supports.
+	 * 
+	 * If it's `None`, then no particular network chain hash compatibility will be enforced when
+	 * connecting to peers.
+	 */
+	public Option_CVec_ChainHashZZ get_genesis_hashes() {
+		long ret = bindings.ChannelMessageHandler_get_genesis_hashes(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_ChainHashZZ ret_hu_conv = org.ldk.structs.Option_CVec_ChainHashZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

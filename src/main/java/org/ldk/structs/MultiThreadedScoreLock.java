@@ -21,6 +21,15 @@ public class MultiThreadedScoreLock extends CommonBase {
 	}
 
 	/**
+	 * Serialize the MultiThreadedScoreLock object into a byte array which can be read by MultiThreadedScoreLock_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.MultiThreadedScoreLock_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Constructs a new Score which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
 	 */
@@ -31,15 +40,6 @@ public class MultiThreadedScoreLock extends CommonBase {
 		Score ret_hu_conv = new Score(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the MultiThreadedScoreLock object into a byte array which can be read by MultiThreadedScoreLock_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.MultiThreadedScoreLock_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
 	}
 
 }

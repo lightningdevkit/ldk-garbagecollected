@@ -62,6 +62,21 @@ public class InFlightHtlcs extends CommonBase {
 	}
 
 	/**
+	 * Adds a known HTLC given the public key of the HTLC source, target, and short channel
+	 * id.
+	 */
+	public void add_inflight_htlc(org.ldk.structs.NodeId source, org.ldk.structs.NodeId target, long channel_scid, long used_msat) {
+		bindings.InFlightHtlcs_add_inflight_htlc(this.ptr, source == null ? 0 : source.ptr, target == null ? 0 : target.ptr, channel_scid, used_msat);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(source);
+		Reference.reachabilityFence(target);
+		Reference.reachabilityFence(channel_scid);
+		Reference.reachabilityFence(used_msat);
+		if (this != null) { this.ptrs_to.add(source); };
+		if (this != null) { this.ptrs_to.add(target); };
+	}
+
+	/**
 	 * Returns liquidity in msat given the public key of the HTLC source, target, and short channel
 	 * id.
 	 */

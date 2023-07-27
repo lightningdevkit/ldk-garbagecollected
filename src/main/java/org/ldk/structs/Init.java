@@ -45,6 +45,34 @@ public class Init extends CommonBase {
 	}
 
 	/**
+	 * Indicates chains the sender is interested in.
+	 * 
+	 * If there are no common chains, the connection will be closed.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public Option_CVec_ChainHashZZ get_networks() {
+		long ret = bindings.Init_get_networks(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_ChainHashZZ ret_hu_conv = org.ldk.structs.Option_CVec_ChainHashZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Indicates chains the sender is interested in.
+	 * 
+	 * If there are no common chains, the connection will be closed.
+	 */
+	public void set_networks(org.ldk.structs.Option_CVec_ChainHashZZ val) {
+		bindings.Init_set_networks(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * The receipient's network address.
 	 * 
 	 * This adds the option to report a remote IP address back to a connecting peer using the init
@@ -79,14 +107,16 @@ public class Init extends CommonBase {
 	/**
 	 * Constructs a new Init given each field
 	 */
-	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_NetAddressZ remote_network_address_arg) {
-		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, remote_network_address_arg.ptr);
+	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_CVec_ChainHashZZ networks_arg, org.ldk.structs.Option_NetAddressZ remote_network_address_arg) {
+		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, networks_arg.ptr, remote_network_address_arg.ptr);
 		Reference.reachabilityFence(features_arg);
+		Reference.reachabilityFence(networks_arg);
 		Reference.reachabilityFence(remote_network_address_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(networks_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(remote_network_address_arg); };
 		return ret_hu_conv;
 	}

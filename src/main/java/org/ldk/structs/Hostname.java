@@ -70,4 +70,24 @@ public class Hostname extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Serialize the Hostname object into a byte array which can be read by Hostname_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Hostname_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a Hostname from a byte array, created by Hostname_write
+	 */
+	public static Result_HostnameDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Hostname_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_HostnameDecodeErrorZ ret_hu_conv = Result_HostnameDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

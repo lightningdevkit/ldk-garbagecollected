@@ -63,13 +63,14 @@ public class RecentPaymentDetails extends CommonBase {
 		/**
 		 * Hash of the payment that was claimed. `None` for serializations of [`ChannelManager`]
 		 * made before LDK version 0.0.104.
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		@Nullable public final byte[] payment_hash;
+		public final org.ldk.structs.Option_PaymentHashZ payment_hash;
 		private Fulfilled(long ptr, bindings.LDKRecentPaymentDetails.Fulfilled obj) {
 			super(null, ptr);
-			this.payment_hash = obj.payment_hash;
+			long payment_hash = obj.payment_hash;
+			org.ldk.structs.Option_PaymentHashZ payment_hash_hu_conv = org.ldk.structs.Option_PaymentHashZ.constr_from_ptr(payment_hash);
+			if (payment_hash_hu_conv != null) { payment_hash_hu_conv.ptrs_to.add(this); };
+			this.payment_hash = payment_hash_hu_conv;
 		}
 	}
 	/**
@@ -121,12 +122,13 @@ public class RecentPaymentDetails extends CommonBase {
 	/**
 	 * Utility method to constructs a new Fulfilled-variant RecentPaymentDetails
 	 */
-	public static RecentPaymentDetails fulfilled(byte[] payment_hash) {
-		long ret = bindings.RecentPaymentDetails_fulfilled(InternalUtils.check_arr_len(payment_hash, 32));
+	public static RecentPaymentDetails fulfilled(org.ldk.structs.Option_PaymentHashZ payment_hash) {
+		long ret = bindings.RecentPaymentDetails_fulfilled(payment_hash.ptr);
 		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RecentPaymentDetails ret_hu_conv = org.ldk.structs.RecentPaymentDetails.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_hash); };
 		return ret_hu_conv;
 	}
 

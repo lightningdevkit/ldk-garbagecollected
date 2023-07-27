@@ -49,15 +49,15 @@ public class PeerManager extends CommonBase {
 	 * timestamp, however if it is not available a persistent counter that increases once per
 	 * minute should suffice.
 	 */
-	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.CustomMessageHandler custom_message_handler, org.ldk.structs.NodeSigner node_signer) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger.ptr, custom_message_handler.ptr, node_signer.ptr);
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, CustomMessageHandler message_handler_custom_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.NodeSigner node_signer) {
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr, message_handler_custom_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger.ptr, node_signer.ptr);
 		Reference.reachabilityFence(message_handler_chan_handler_arg);
 		Reference.reachabilityFence(message_handler_route_handler_arg);
 		Reference.reachabilityFence(message_handler_onion_message_handler_arg);
+		Reference.reachabilityFence(message_handler_custom_message_handler_arg);
 		Reference.reachabilityFence(current_time);
 		Reference.reachabilityFence(ephemeral_random_data);
 		Reference.reachabilityFence(logger);
-		Reference.reachabilityFence(custom_message_handler);
 		Reference.reachabilityFence(node_signer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerManager(null, ret); }
@@ -65,8 +65,8 @@ public class PeerManager extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_onion_message_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message_handler_custom_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		return ret_hu_conv;
 	}

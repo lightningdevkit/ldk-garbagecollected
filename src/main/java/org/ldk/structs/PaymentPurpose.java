@@ -42,10 +42,8 @@ public class PaymentPurpose extends CommonBase {
 		 * 
 		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
 		 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		@Nullable public final byte[] payment_preimage;
+		public final org.ldk.structs.Option_PaymentPreimageZ payment_preimage;
 		/**
 		 * The \"payment secret\". This authenticates the sender to the recipient, preventing a
 		 * number of deanonymization attacks during the routing process.
@@ -61,7 +59,10 @@ public class PaymentPurpose extends CommonBase {
 		public final byte[] payment_secret;
 		private InvoicePayment(long ptr, bindings.LDKPaymentPurpose.InvoicePayment obj) {
 			super(null, ptr);
-			this.payment_preimage = obj.payment_preimage;
+			long payment_preimage = obj.payment_preimage;
+			org.ldk.structs.Option_PaymentPreimageZ payment_preimage_hu_conv = org.ldk.structs.Option_PaymentPreimageZ.constr_from_ptr(payment_preimage);
+			if (payment_preimage_hu_conv != null) { payment_preimage_hu_conv.ptrs_to.add(this); };
+			this.payment_preimage = payment_preimage_hu_conv;
 			this.payment_secret = obj.payment_secret;
 		}
 	}
@@ -97,13 +98,14 @@ public class PaymentPurpose extends CommonBase {
 	/**
 	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
 	 */
-	public static PaymentPurpose invoice_payment(byte[] payment_preimage, byte[] payment_secret) {
-		long ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32));
+	public static PaymentPurpose invoice_payment(org.ldk.structs.Option_PaymentPreimageZ payment_preimage, byte[] payment_secret) {
+		long ret = bindings.PaymentPurpose_invoice_payment(payment_preimage.ptr, InternalUtils.check_arr_len(payment_secret, 32));
 		Reference.reachabilityFence(payment_preimage);
 		Reference.reachabilityFence(payment_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentPurpose ret_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_preimage); };
 		return ret_hu_conv;
 	}
 

@@ -1,7 +1,7 @@
 package org.ldk.enums;
 
 /**
- * Errors that may occur when constructing a new [`RawInvoice`] or [`Invoice`]
+ * Errors that may occur when constructing a new [`RawBolt11Invoice`] or [`Bolt11Invoice`]
  */
 public enum CreationError {
 	/**

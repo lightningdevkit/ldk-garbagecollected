@@ -40,6 +40,38 @@ public class RapidGossipSync extends CommonBase {
 	}
 
 	/**
+	 * Sync gossip data from a file.
+	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
+	 * 
+	 * `network_graph`: The network graph to apply the updates to
+	 * 
+	 * `sync_path`: Path to the file where the gossip update data is located
+	 */
+	public Result_u32GraphSyncErrorZ sync_network_graph_with_file_path(java.lang.String sync_path) {
+		long ret = bindings.RapidGossipSync_sync_network_graph_with_file_path(this.ptr, sync_path);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(sync_path);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_u32GraphSyncErrorZ ret_hu_conv = Result_u32GraphSyncErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Update network graph from binary data.
+	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
+	 * 
+	 * `update_data`: `&[u8]` binary stream that comprises the update data
+	 */
+	public Result_u32GraphSyncErrorZ update_network_graph(byte[] update_data) {
+		long ret = bindings.RapidGossipSync_update_network_graph(this.ptr, update_data);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(update_data);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_u32GraphSyncErrorZ ret_hu_conv = Result_u32GraphSyncErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Update network graph from binary data.
 	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
 	 * 

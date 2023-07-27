@@ -128,7 +128,7 @@ public class APIError extends CommonBase {
 	 * Using a SegWit v0 script should resolve this issue. If you cannot, you won't be able to open
 	 * a channel or cooperatively close one with this peer (and will have to force-close instead).
 	 * 
-	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::sign::SignerProvider::get_shutdown_scriptpubkey
 	 * [`InitFeatures`]: crate::ln::features::InitFeatures
 	 */
 	public final static class IncompatibleShutdownScript extends APIError {

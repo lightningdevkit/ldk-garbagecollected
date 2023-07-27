@@ -32,25 +32,24 @@ public class WatchedOutput extends CommonBase {
 
 	/**
 	 * First block where the transaction output may have been spent.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	@Nullable
-	public byte[] get_block_hash() {
-		byte[] ret = bindings.WatchedOutput_get_block_hash(this.ptr);
+	public Option_BlockHashZ get_block_hash() {
+		long ret = bindings.WatchedOutput_get_block_hash(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_BlockHashZ ret_hu_conv = org.ldk.structs.Option_BlockHashZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * First block where the transaction output may have been spent.
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_block_hash(@Nullable byte[] val) {
-		bindings.WatchedOutput_set_block_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_block_hash(org.ldk.structs.Option_BlockHashZ val) {
+		bindings.WatchedOutput_set_block_hash(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -96,14 +95,15 @@ public class WatchedOutput extends CommonBase {
 	/**
 	 * Constructs a new WatchedOutput given each field
 	 */
-	public static WatchedOutput of(byte[] block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
-		long ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
+	public static WatchedOutput of(org.ldk.structs.Option_BlockHashZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
+		long ret = bindings.WatchedOutput_new(block_hash_arg.ptr, outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
 		Reference.reachabilityFence(block_hash_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(script_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.WatchedOutput(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(block_hash_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outpoint_arg); };
 		return ret_hu_conv;
 	}

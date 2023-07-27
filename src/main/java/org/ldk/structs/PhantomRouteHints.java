@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * Route hints used in constructing invoices for [phantom node payents].
  * 
- * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+ * [phantom node payments]: crate::sign::PhantomKeysManager
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PhantomRouteHints extends CommonBase {

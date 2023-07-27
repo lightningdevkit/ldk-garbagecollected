@@ -9,13 +9,13 @@ import javax.annotation.Nullable;
 
 
 /**
- * A `Refund` is a request to send an [`Invoice`] without a preceding [`Offer`].
+ * A `Refund` is a request to send an [`Bolt12Invoice`] without a preceding [`Offer`].
  * 
  * Typically, after an invoice is paid, the recipient may publish a refund allowing the sender to
  * recoup their funds. A refund may be used more generally as an \"offer for money\", such as with a
  * bitcoin ATM.
  * 
- * [`Invoice`]: crate::offers::invoice::Invoice
+ * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
  * [`Offer`]: crate::offers::offer::Offer
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
@@ -205,6 +205,17 @@ public class Refund extends CommonBase {
 		byte[] ret = bindings.Refund_write(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Read a Refund object from a string
+	 */
+	public static Result_RefundBolt12ParseErrorZ from_str(java.lang.String s) {
+		long ret = bindings.Refund_from_str(s);
+		Reference.reachabilityFence(s);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RefundBolt12ParseErrorZ ret_hu_conv = Result_RefundBolt12ParseErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

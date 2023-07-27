@@ -44,8 +44,8 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	/**
 	 * Creates a new C2Tuple_BlockHashChannelManagerZ from the contained elements.
 	 */
-	public static TwoTuple_BlockHashChannelManagerZ of(byte[] a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Router b_router, Logger b_logger, EntropySource b_entropy_source, NodeSigner b_node_signer, SignerProvider b_signer_provider, UserConfig b_config, ChainParameters b_params) {
-		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est.ptr, b_chain_monitor.ptr, b_tx_broadcaster.ptr, b_router.ptr, b_logger.ptr, b_entropy_source.ptr, b_node_signer.ptr, b_signer_provider.ptr, b_config == null ? 0 : b_config.ptr, b_params == null ? 0 : b_params.ptr));
+	public static TwoTuple_BlockHashChannelManagerZ of(byte[] a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Router b_router, Logger b_logger, EntropySource b_entropy_source, NodeSigner b_node_signer, SignerProvider b_signer_provider, UserConfig b_config, ChainParameters b_params, int b_current_timestamp) {
+		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est.ptr, b_chain_monitor.ptr, b_tx_broadcaster.ptr, b_router.ptr, b_logger.ptr, b_entropy_source.ptr, b_node_signer.ptr, b_signer_provider.ptr, b_config == null ? 0 : b_config.ptr, b_params == null ? 0 : b_params.ptr, b_current_timestamp));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b_fee_est);
 		Reference.reachabilityFence(b_chain_monitor);
@@ -57,6 +57,7 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		Reference.reachabilityFence(b_signer_provider);
 		Reference.reachabilityFence(b_config);
 		Reference.reachabilityFence(b_params);
+		Reference.reachabilityFence(b_current_timestamp);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_BlockHashChannelManagerZ ret_hu_conv = new TwoTuple_BlockHashChannelManagerZ(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

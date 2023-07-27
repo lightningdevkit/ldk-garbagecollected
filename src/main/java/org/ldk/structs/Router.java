@@ -38,14 +38,22 @@ public class Router extends CommonBase {
 	}
 	public static interface RouterInterface {
 		/**
-		 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values.
+		 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+		 * 
+		 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+		 * and [`RouteParameters::final_value_msat`], respectively.
 		 * 
 		 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
 		Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs);
 		/**
-		 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values. Includes
-		 * `PaymentHash` and `PaymentId` to be able to correlate the request with a specific payment.
+		 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+		 * 
+		 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+		 * and [`RouteParameters::final_value_msat`], respectively.
+		 * 
+		 * Includes a [`PaymentHash`] and a [`PaymentId`] to be able to correlate the request with a specific
+		 * payment.
 		 * 
 		 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
@@ -68,6 +76,7 @@ public class Router extends CommonBase {
 					}
 				}
 				org.ldk.structs.InFlightHtlcs inflight_htlcs_hu_conv = null; if (inflight_htlcs < 0 || inflight_htlcs > 4096) { inflight_htlcs_hu_conv = new org.ldk.structs.InFlightHtlcs(null, inflight_htlcs); }
+				if (inflight_htlcs_hu_conv != null) { inflight_htlcs_hu_conv.ptrs_to.add(this); };
 				Result_RouteLightningErrorZ ret = arg.find_route(payer, route_params_hu_conv, first_hops_conv_16_arr, inflight_htlcs_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -86,6 +95,7 @@ public class Router extends CommonBase {
 					}
 				}
 				org.ldk.structs.InFlightHtlcs inflight_htlcs_hu_conv = null; if (inflight_htlcs < 0 || inflight_htlcs > 4096) { inflight_htlcs_hu_conv = new org.ldk.structs.InFlightHtlcs(null, inflight_htlcs); }
+				if (inflight_htlcs_hu_conv != null) { inflight_htlcs_hu_conv.ptrs_to.add(this); };
 				Result_RouteLightningErrorZ ret = arg.find_route_with_id(payer, route_params_hu_conv, first_hops_conv_16_arr, inflight_htlcs_hu_conv, _payment_hash, _payment_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
@@ -95,7 +105,10 @@ public class Router extends CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values.
+	 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+	 * 
+	 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+	 * and [`RouteParameters::final_value_msat`], respectively.
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -115,8 +128,13 @@ public class Router extends CommonBase {
 	}
 
 	/**
-	 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values. Includes
-	 * `PaymentHash` and `PaymentId` to be able to correlate the request with a specific payment.
+	 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+	 * 
+	 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+	 * and [`RouteParameters::final_value_msat`], respectively.
+	 * 
+	 * Includes a [`PaymentHash`] and a [`PaymentId`] to be able to correlate the request with a specific
+	 * payment.
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
