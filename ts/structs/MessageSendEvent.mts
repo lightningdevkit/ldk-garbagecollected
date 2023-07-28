@@ -1,7 +1,11 @@
 import { TxOut } from '../structs/TxOut.mjs';
+import { TxIn } from '../structs/TxIn.mjs';
 import { BigEndianScalar } from '../structs/BigEndianScalar.mjs';
+import { Bolt11SemanticError } from '../enums/Bolt11SemanticError.mjs';
+import { Bolt12SemanticError } from '../enums/Bolt12SemanticError.mjs';
 import { COption_NoneZ } from '../enums/COption_NoneZ.mjs';
 import { ChannelMonitorUpdateStatus } from '../enums/ChannelMonitorUpdateStatus.mjs';
+import { ChannelShutdownState } from '../enums/ChannelShutdownState.mjs';
 import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
@@ -14,20 +18,29 @@ import { PaymentFailureReason } from '../enums/PaymentFailureReason.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
 import { RetryableSendFailure } from '../enums/RetryableSendFailure.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
-import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
 import { UtxoLookupError } from '../enums/UtxoLookupError.mjs';
 import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Option_DurationZ } from '../structs/Option_DurationZ.mjs';
 import { BlindedPath } from '../structs/BlindedPath.mjs';
 import { Option_u64Z } from '../structs/Option_u64Z.mjs';
+import { Refund } from '../structs/Refund.mjs';
+import { Bolt12ParseError } from '../structs/Bolt12ParseError.mjs';
+import { Result_RefundBolt12ParseErrorZ } from '../structs/Result_RefundBolt12ParseErrorZ.mjs';
 import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { APIError } from '../structs/APIError.mjs';
 import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
+import { Option_PaymentSecretZ } from '../structs/Option_PaymentSecretZ.mjs';
 import { Option_CVec_u8ZZ } from '../structs/Option_CVec_u8ZZ.mjs';
 import { RecipientOnionFields } from '../structs/RecipientOnionFields.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
 import { Result_RecipientOnionFieldsDecodeErrorZ } from '../structs/Result_RecipientOnionFieldsDecodeErrorZ.mjs';
+import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
+import { InvoiceError } from '../structs/InvoiceError.mjs';
+import { OffersMessage } from '../structs/OffersMessage.mjs';
+import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
+import { Result_OffersMessageDecodeErrorZ } from '../structs/Result_OffersMessageDecodeErrorZ.mjs';
 import { Option_HTLCClaimZ } from '../structs/Option_HTLCClaimZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
@@ -39,6 +52,7 @@ import { Result_ChannelPublicKeysDecodeErrorZ } from '../structs/Result_ChannelP
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
 import { Result_HTLCOutputInCommitmentDecodeErrorZ } from '../structs/Result_HTLCOutputInCommitmentDecodeErrorZ.mjs';
+import { Option_PaymentPreimageZ } from '../structs/Option_PaymentPreimageZ.mjs';
 import { CounterpartyChannelTransactionParameters } from '../structs/CounterpartyChannelTransactionParameters.mjs';
 import { Result_CounterpartyChannelTransactionParametersDecodeErrorZ } from '../structs/Result_CounterpartyChannelTransactionParametersDecodeErrorZ.mjs';
 import { ChannelTransactionParameters } from '../structs/ChannelTransactionParameters.mjs';
@@ -59,6 +73,37 @@ import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
 import { BlindedPayInfo } from '../structs/BlindedPayInfo.mjs';
 import { Result_BlindedPayInfoDecodeErrorZ } from '../structs/Result_BlindedPayInfoDecodeErrorZ.mjs';
+import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
+import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
+import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
+import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
+import { OutPoint } from '../structs/OutPoint.mjs';
+import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
+import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
+import { Option_PackedLockTimeZ } from '../structs/Option_PackedLockTimeZ.mjs';
+import { TwoTuple_PartiallySignedTransactionusizeZ } from '../structs/TwoTuple_PartiallySignedTransactionusizeZ.mjs';
+import { Result_C2Tuple_PartiallySignedTransactionusizeZNoneZ } from '../structs/Result_C2Tuple_PartiallySignedTransactionusizeZNoneZ.mjs';
+import { TwoTuple_SignatureCVec_SignatureZZ } from '../structs/TwoTuple_SignatureCVec_SignatureZZ.mjs';
+import { Result_C2Tuple_SignatureCVec_SignatureZZNoneZ } from '../structs/Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.mjs';
+import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
+import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
+import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
+import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
+import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
+import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
+import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
+import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
+import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
+import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
+import { WriteableEcdsaChannelSigner, WriteableEcdsaChannelSignerInterface } from '../structs/WriteableEcdsaChannelSigner.mjs';
+import { Result_WriteableEcdsaChannelSignerDecodeErrorZ } from '../structs/Result_WriteableEcdsaChannelSignerDecodeErrorZ.mjs';
+import { Result_ScriptNoneZ } from '../structs/Result_ScriptNoneZ.mjs';
+import { Result_ShutdownScriptNoneZ } from '../structs/Result_ShutdownScriptNoneZ.mjs';
+import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
+import { InMemorySigner } from '../structs/InMemorySigner.mjs';
+import { Result_InMemorySignerDecodeErrorZ } from '../structs/Result_InMemorySignerDecodeErrorZ.mjs';
+import { Result_PartiallySignedTransactionNoneZ } from '../structs/Result_PartiallySignedTransactionNoneZ.mjs';
+import { Result_TransactionNoneZ } from '../structs/Result_TransactionNoneZ.mjs';
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { Route } from '../structs/Route.mjs';
 import { LightningError } from '../structs/LightningError.mjs';
@@ -82,19 +127,19 @@ import { RouteHintHop } from '../structs/RouteHintHop.mjs';
 import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeErrorZ.mjs';
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
 import { TwoTuple_usizeTransactionZ } from '../structs/TwoTuple_usizeTransactionZ.mjs';
-import { TwoTuple_TxidBlockHashZ } from '../structs/TwoTuple_TxidBlockHashZ.mjs';
+import { Option_BlockHashZ } from '../structs/Option_BlockHashZ.mjs';
+import { TwoTuple_TxidCOption_BlockHashZZ } from '../structs/TwoTuple_TxidCOption_BlockHashZZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
-import { OutPoint } from '../structs/OutPoint.mjs';
 import { MonitorEvent } from '../structs/MonitorEvent.mjs';
 import { ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ } from '../structs/ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { NodeId } from '../structs/NodeId.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
 import { Option_C2Tuple_u64u64ZZ } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
 import { TwoTuple_Z } from '../structs/TwoTuple_Z.mjs';
 import { TwoTuple__u168_u168Z } from '../structs/TwoTuple__u168_u168Z.mjs';
 import { Option_C2Tuple_EightU16sEightU16sZZ } from '../structs/Option_C2Tuple_EightU16sEightU16sZZ.mjs';
-import { NodeId } from '../structs/NodeId.mjs';
 import { Record } from '../structs/Record.mjs';
 import { Logger, LoggerInterface } from '../structs/Logger.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
@@ -106,8 +151,10 @@ import { ChannelFeatures } from '../structs/ChannelFeatures.mjs';
 import { Result_ChannelFeaturesDecodeErrorZ } from '../structs/Result_ChannelFeaturesDecodeErrorZ.mjs';
 import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
-import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
-import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
+import { Bolt11InvoiceFeatures } from '../structs/Bolt11InvoiceFeatures.mjs';
+import { Result_Bolt11InvoiceFeaturesDecodeErrorZ } from '../structs/Result_Bolt11InvoiceFeaturesDecodeErrorZ.mjs';
+import { Bolt12InvoiceFeatures } from '../structs/Bolt12InvoiceFeatures.mjs';
+import { Result_Bolt12InvoiceFeaturesDecodeErrorZ } from '../structs/Result_Bolt12InvoiceFeaturesDecodeErrorZ.mjs';
 import { BlindedHopFeatures } from '../structs/BlindedHopFeatures.mjs';
 import { Result_BlindedHopFeaturesDecodeErrorZ } from '../structs/Result_BlindedHopFeaturesDecodeErrorZ.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
@@ -129,17 +176,28 @@ import { Option_HTLCDestinationZ } from '../structs/Option_HTLCDestinationZ.mjs'
 import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
 import { Result_PaymentFailureReasonDecodeErrorZ } from '../structs/Result_PaymentFailureReasonDecodeErrorZ.mjs';
 import { Option_u128Z } from '../structs/Option_u128Z.mjs';
+import { Option_PaymentIdZ } from '../structs/Option_PaymentIdZ.mjs';
 import { Option_PaymentFailureReasonZ } from '../structs/Option_PaymentFailureReasonZ.mjs';
-import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputDescriptor.mjs';
-import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
-import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
+import { Option_PaymentHashZ } from '../structs/Option_PaymentHashZ.mjs';
+import { AnchorDescriptor } from '../structs/AnchorDescriptor.mjs';
+import { BumpTransactionEvent } from '../structs/BumpTransactionEvent.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
 import { AcceptChannel } from '../structs/AcceptChannel.mjs';
+import { AcceptChannelV2 } from '../structs/AcceptChannelV2.mjs';
 import { OpenChannel } from '../structs/OpenChannel.mjs';
+import { OpenChannelV2 } from '../structs/OpenChannelV2.mjs';
 import { FundingCreated } from '../structs/FundingCreated.mjs';
 import { FundingSigned } from '../structs/FundingSigned.mjs';
+import { TxAddInput } from '../structs/TxAddInput.mjs';
+import { TxAddOutput } from '../structs/TxAddOutput.mjs';
+import { TxRemoveInput } from '../structs/TxRemoveInput.mjs';
+import { TxRemoveOutput } from '../structs/TxRemoveOutput.mjs';
+import { TxComplete } from '../structs/TxComplete.mjs';
+import { TxSignatures } from '../structs/TxSignatures.mjs';
+import { TxInitRbf } from '../structs/TxInitRbf.mjs';
+import { TxAckRbf } from '../structs/TxAckRbf.mjs';
 import { ChannelReady } from '../structs/ChannelReady.mjs';
 import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
@@ -156,6 +214,8 @@ import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
+import { Offer } from '../structs/Offer.mjs';
+import { Result_OfferBolt12ParseErrorZ } from '../structs/Result_OfferBolt12ParseErrorZ.mjs';
 import { Result_PublicKeyErrorZ } from '../structs/Result_PublicKeyErrorZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_COption_NetworkUpdateZDecodeErrorZ } from '../structs/Result_COption_NetworkUpdateZDecodeErrorZ.mjs';
@@ -164,10 +224,10 @@ import { UtxoFuture } from '../structs/UtxoFuture.mjs';
 import { UtxoResult } from '../structs/UtxoResult.mjs';
 import { UtxoLookup, UtxoLookupInterface } from '../structs/UtxoLookup.mjs';
 import { Option_UtxoLookupZ } from '../structs/Option_UtxoLookupZ.mjs';
+import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
 import { Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ } from '../structs/Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ.mjs';
-import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
 import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
 import { ChannelInfo } from '../structs/ChannelInfo.mjs';
@@ -184,27 +244,14 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_NetAddressZZ } from '../structs/Option_CVec_NetAddressZZ.mjs';
-import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
-import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
-import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_SpendableOutputDescriptorDecodeErrorZ.mjs';
-import { TwoTuple_SignatureCVec_SignatureZZ } from '../structs/TwoTuple_SignatureCVec_SignatureZZ.mjs';
-import { Result_C2Tuple_SignatureCVec_SignatureZZNoneZ } from '../structs/Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.mjs';
-import { Result_SignatureNoneZ } from '../structs/Result_SignatureNoneZ.mjs';
-import { Result_PublicKeyNoneZ } from '../structs/Result_PublicKeyNoneZ.mjs';
-import { Option_ScalarZ } from '../structs/Option_ScalarZ.mjs';
-import { Result_SharedSecretNoneZ } from '../structs/Result_SharedSecretNoneZ.mjs';
-import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
-import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
-import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
-import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
-import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
-import { WriteableEcdsaChannelSigner, WriteableEcdsaChannelSignerInterface } from '../structs/WriteableEcdsaChannelSigner.mjs';
-import { Result_WriteableEcdsaChannelSignerDecodeErrorZ } from '../structs/Result_WriteableEcdsaChannelSignerDecodeErrorZ.mjs';
-import { Result_CVec_CVec_u8ZZNoneZ } from '../structs/Result_CVec_CVec_u8ZZNoneZ.mjs';
-import { InMemorySigner } from '../structs/InMemorySigner.mjs';
-import { Result_InMemorySignerDecodeErrorZ } from '../structs/Result_InMemorySignerDecodeErrorZ.mjs';
-import { Result_TransactionNoneZ } from '../structs/Result_TransactionNoneZ.mjs';
+import { Utxo } from '../structs/Utxo.mjs';
+import { Option_TxOutZ } from '../structs/Option_TxOutZ.mjs';
+import { Input } from '../structs/Input.mjs';
+import { CoinSelection } from '../structs/CoinSelection.mjs';
+import { Result_CoinSelectionNoneZ } from '../structs/Result_CoinSelectionNoneZ.mjs';
+import { Result_CVec_UtxoZNoneZ } from '../structs/Result_CVec_UtxoZNoneZ.mjs';
 import { Option_u16Z } from '../structs/Option_u16Z.mjs';
+import { Option_ChannelShutdownStateZ } from '../structs/Option_ChannelShutdownStateZ.mjs';
 import { Result__u832APIErrorZ } from '../structs/Result__u832APIErrorZ.mjs';
 import { RecentPaymentDetails } from '../structs/RecentPaymentDetails.mjs';
 import { PaymentSendFailure } from '../structs/PaymentSendFailure.mjs';
@@ -216,10 +263,9 @@ import { TwoTuple_PaymentHashPaymentIdZ } from '../structs/TwoTuple_PaymentHashP
 import { Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ } from '../structs/Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.mjs';
 import { TwoTuple_PaymentHashPaymentSecretZ } from '../structs/TwoTuple_PaymentHashPaymentSecretZ.mjs';
 import { Result_C2Tuple_PaymentHashPaymentSecretZNoneZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.mjs';
-import { Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ } from '../structs/Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.mjs';
 import { Result_PaymentSecretNoneZ } from '../structs/Result_PaymentSecretNoneZ.mjs';
-import { Result_PaymentSecretAPIErrorZ } from '../structs/Result_PaymentSecretAPIErrorZ.mjs';
 import { Result_PaymentPreimageAPIErrorZ } from '../structs/Result_PaymentPreimageAPIErrorZ.mjs';
+import { Option_CVec_ChainHashZZ } from '../structs/Option_CVec_ChainHashZZ.mjs';
 import { CounterpartyForwardingInfo } from '../structs/CounterpartyForwardingInfo.mjs';
 import { Result_CounterpartyForwardingInfoDecodeErrorZ } from '../structs/Result_CounterpartyForwardingInfoDecodeErrorZ.mjs';
 import { ChannelCounterparty } from '../structs/ChannelCounterparty.mjs';
@@ -227,6 +273,7 @@ import { Result_ChannelCounterpartyDecodeErrorZ } from '../structs/Result_Channe
 import { Result_ChannelDetailsDecodeErrorZ } from '../structs/Result_ChannelDetailsDecodeErrorZ.mjs';
 import { PhantomRouteHints } from '../structs/PhantomRouteHints.mjs';
 import { Result_PhantomRouteHintsDecodeErrorZ } from '../structs/Result_PhantomRouteHintsDecodeErrorZ.mjs';
+import { Result_ChannelShutdownStateDecodeErrorZ } from '../structs/Result_ChannelShutdownStateDecodeErrorZ.mjs';
 import { ChannelMonitor } from '../structs/ChannelMonitor.mjs';
 import { ChannelMonitorUpdate } from '../structs/ChannelMonitorUpdate.mjs';
 import { Watch, WatchInterface } from '../structs/Watch.mjs';
@@ -242,10 +289,19 @@ import { Router, RouterInterface } from '../structs/Router.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_BlockHashChannelManagerZ } from '../structs/TwoTuple_BlockHashChannelManagerZ.mjs';
 import { Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.mjs';
+import { MaxDustHTLCExposure } from '../structs/MaxDustHTLCExposure.mjs';
+import { Result_MaxDustHTLCExposureDecodeErrorZ } from '../structs/Result_MaxDustHTLCExposureDecodeErrorZ.mjs';
 import { ChannelConfig } from '../structs/ChannelConfig.mjs';
 import { Result_ChannelConfigDecodeErrorZ } from '../structs/Result_ChannelConfigDecodeErrorZ.mjs';
+import { Option_MaxDustHTLCExposureZ } from '../structs/Option_MaxDustHTLCExposureZ.mjs';
 import { Option_APIErrorZ } from '../structs/Option_APIErrorZ.mjs';
 import { Result_COption_APIErrorZDecodeErrorZ } from '../structs/Result_COption_APIErrorZDecodeErrorZ.mjs';
+import { BigSize } from '../structs/BigSize.mjs';
+import { Result_BigSizeDecodeErrorZ } from '../structs/Result_BigSizeDecodeErrorZ.mjs';
+import { Result_HostnameDecodeErrorZ } from '../structs/Result_HostnameDecodeErrorZ.mjs';
+import { TransactionU16LenLimited } from '../structs/TransactionU16LenLimited.mjs';
+import { Result_TransactionU16LenLimitedNoneZ } from '../structs/Result_TransactionU16LenLimitedNoneZ.mjs';
+import { Result_TransactionU16LenLimitedDecodeErrorZ } from '../structs/Result_TransactionU16LenLimitedDecodeErrorZ.mjs';
 import { Result_UntrustedStringDecodeErrorZ } from '../structs/Result_UntrustedStringDecodeErrorZ.mjs';
 import { Result_OutPointDecodeErrorZ } from '../structs/Result_OutPointDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
@@ -277,6 +333,8 @@ import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
 import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
+import { OnionMessagePath } from '../structs/OnionMessagePath.mjs';
+import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePathNoneZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
@@ -285,12 +343,26 @@ import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecod
 import { GraphSyncError } from '../structs/GraphSyncError.mjs';
 import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
 import { Result_NoneErrorZ } from '../structs/Result_NoneErrorZ.mjs';
+import { Option_ScriptZ } from '../structs/Option_ScriptZ.mjs';
+import { Option_i64Z } from '../structs/Option_i64Z.mjs';
+import { Option_TxidZ } from '../structs/Option_TxidZ.mjs';
 import { Result_NetAddressDecodeErrorZ } from '../structs/Result_NetAddressDecodeErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
 import { UpdateFailHTLC } from '../structs/UpdateFailHTLC.mjs';
 import { UpdateFailMalformedHTLC } from '../structs/UpdateFailMalformedHTLC.mjs';
 import { Result_AcceptChannelDecodeErrorZ } from '../structs/Result_AcceptChannelDecodeErrorZ.mjs';
+import { Result_AcceptChannelV2DecodeErrorZ } from '../structs/Result_AcceptChannelV2DecodeErrorZ.mjs';
+import { Result_TxAddInputDecodeErrorZ } from '../structs/Result_TxAddInputDecodeErrorZ.mjs';
+import { Result_TxAddOutputDecodeErrorZ } from '../structs/Result_TxAddOutputDecodeErrorZ.mjs';
+import { Result_TxRemoveInputDecodeErrorZ } from '../structs/Result_TxRemoveInputDecodeErrorZ.mjs';
+import { Result_TxRemoveOutputDecodeErrorZ } from '../structs/Result_TxRemoveOutputDecodeErrorZ.mjs';
+import { Result_TxCompleteDecodeErrorZ } from '../structs/Result_TxCompleteDecodeErrorZ.mjs';
+import { Result_TxSignaturesDecodeErrorZ } from '../structs/Result_TxSignaturesDecodeErrorZ.mjs';
+import { Result_TxInitRbfDecodeErrorZ } from '../structs/Result_TxInitRbfDecodeErrorZ.mjs';
+import { Result_TxAckRbfDecodeErrorZ } from '../structs/Result_TxAckRbfDecodeErrorZ.mjs';
+import { TxAbort } from '../structs/TxAbort.mjs';
+import { Result_TxAbortDecodeErrorZ } from '../structs/Result_TxAbortDecodeErrorZ.mjs';
 import { Result_AnnouncementSignaturesDecodeErrorZ } from '../structs/Result_AnnouncementSignaturesDecodeErrorZ.mjs';
 import { Result_ChannelReestablishDecodeErrorZ } from '../structs/Result_ChannelReestablishDecodeErrorZ.mjs';
 import { Result_ClosingSignedDecodeErrorZ } from '../structs/Result_ClosingSignedDecodeErrorZ.mjs';
@@ -304,6 +376,7 @@ import { Result_ChannelReadyDecodeErrorZ } from '../structs/Result_ChannelReadyD
 import { Init } from '../structs/Init.mjs';
 import { Result_InitDecodeErrorZ } from '../structs/Result_InitDecodeErrorZ.mjs';
 import { Result_OpenChannelDecodeErrorZ } from '../structs/Result_OpenChannelDecodeErrorZ.mjs';
+import { Result_OpenChannelV2DecodeErrorZ } from '../structs/Result_OpenChannelV2DecodeErrorZ.mjs';
 import { Result_RevokeAndACKDecodeErrorZ } from '../structs/Result_RevokeAndACKDecodeErrorZ.mjs';
 import { Result_ShutdownDecodeErrorZ } from '../structs/Result_ShutdownDecodeErrorZ.mjs';
 import { Result_UpdateFailHTLCDecodeErrorZ } from '../structs/Result_UpdateFailHTLCDecodeErrorZ.mjs';
@@ -332,6 +405,9 @@ import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_Re
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
+import { Option_KeyPairZ } from '../structs/Option_KeyPairZ.mjs';
+import { Result_COption_KeyPairZNoneZ } from '../structs/Result_COption_KeyPairZNoneZ.mjs';
+import { Result_InvoiceErrorDecodeErrorZ } from '../structs/Result_InvoiceErrorDecodeErrorZ.mjs';
 import { WatchedOutput } from '../structs/WatchedOutput.mjs';
 import { Filter, FilterInterface } from '../structs/Filter.mjs';
 import { Option_FilterZ } from '../structs/Option_FilterZ.mjs';
@@ -339,30 +415,30 @@ import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
 import { MonitorUpdateId } from '../structs/MonitorUpdateId.mjs';
 import { TwoTuple_OutPointCVec_MonitorUpdateIdZZ } from '../structs/TwoTuple_OutPointCVec_MonitorUpdateIdZZ.mjs';
-import { Invoice } from '../structs/Invoice.mjs';
+import { Bolt11Invoice } from '../structs/Bolt11Invoice.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
-import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
-import { ParseError } from '../structs/ParseError.mjs';
-import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
+import { Result_Bolt11InvoiceSignOrCreationErrorZ } from '../structs/Result_Bolt11InvoiceSignOrCreationErrorZ.mjs';
+import { Bolt11ParseError } from '../structs/Bolt11ParseError.mjs';
+import { Result_SiPrefixBolt11ParseErrorZ } from '../structs/Result_SiPrefixBolt11ParseErrorZ.mjs';
 import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
-import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
-import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
-import { RawInvoice } from '../structs/RawInvoice.mjs';
-import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
-import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
+import { Result_Bolt11InvoiceParseOrSemanticErrorZ } from '../structs/Result_Bolt11InvoiceParseOrSemanticErrorZ.mjs';
+import { SignedRawBolt11Invoice } from '../structs/SignedRawBolt11Invoice.mjs';
+import { Result_SignedRawBolt11InvoiceBolt11ParseErrorZ } from '../structs/Result_SignedRawBolt11InvoiceBolt11ParseErrorZ.mjs';
+import { RawBolt11Invoice } from '../structs/RawBolt11Invoice.mjs';
+import { Bolt11InvoiceSignature } from '../structs/Bolt11InvoiceSignature.mjs';
+import { ThreeTuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ } from '../structs/ThreeTuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ.mjs';
 import { PayeePubKey } from '../structs/PayeePubKey.mjs';
 import { Result_PayeePubKeyErrorZ } from '../structs/Result_PayeePubKeyErrorZ.mjs';
 import { PrivateRoute } from '../structs/PrivateRoute.mjs';
 import { PositiveTimestamp } from '../structs/PositiveTimestamp.mjs';
 import { Result_PositiveTimestampCreationErrorZ } from '../structs/Result_PositiveTimestampCreationErrorZ.mjs';
-import { Result_NoneSemanticErrorZ } from '../structs/Result_NoneSemanticErrorZ.mjs';
-import { Result_InvoiceSemanticErrorZ } from '../structs/Result_InvoiceSemanticErrorZ.mjs';
+import { Result_NoneBolt11SemanticErrorZ } from '../structs/Result_NoneBolt11SemanticErrorZ.mjs';
+import { Result_Bolt11InvoiceBolt11SemanticErrorZ } from '../structs/Result_Bolt11InvoiceBolt11SemanticErrorZ.mjs';
 import { Description } from '../structs/Description.mjs';
 import { Result_DescriptionCreationErrorZ } from '../structs/Result_DescriptionCreationErrorZ.mjs';
 import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRouteCreationErrorZ.mjs';
-import { BigSize } from '../structs/BigSize.mjs';
 import { ChannelUsage } from '../structs/ChannelUsage.mjs';
+import { ProbabilisticScoringFeeParameters } from '../structs/ProbabilisticScoringFeeParameters.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
@@ -372,6 +448,7 @@ import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallba
 import { Future } from '../structs/Future.mjs';
 import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
 import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
+import { ChannelConfigUpdate } from '../structs/ChannelConfigUpdate.mjs';
 import { UserConfig } from '../structs/UserConfig.mjs';
 import { BestBlock } from '../structs/BestBlock.mjs';
 import { Listen, ListenInterface } from '../structs/Listen.mjs';
@@ -380,21 +457,19 @@ import { Persist, PersistInterface } from '../structs/Persist.mjs';
 import { ChainMonitor } from '../structs/ChainMonitor.mjs';
 import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
 import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
-import { KeysManager } from '../structs/KeysManager.mjs';
-import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { Retry } from '../structs/Retry.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
-import { DataLossProtect } from '../structs/DataLossProtect.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
 import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
@@ -403,27 +478,33 @@ import { PeerManager } from '../structs/PeerManager.mjs';
 import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
 import { OfferFeatures } from '../structs/OfferFeatures.mjs';
 import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
-import { Bolt12InvoiceFeatures } from '../structs/Bolt12InvoiceFeatures.mjs';
-import { UnsignedInvoice } from '../structs/UnsignedInvoice.mjs';
+import { UnsignedBolt12Invoice } from '../structs/UnsignedBolt12Invoice.mjs';
+import { ErroneousField } from '../structs/ErroneousField.mjs';
 import { UnsignedInvoiceRequest } from '../structs/UnsignedInvoiceRequest.mjs';
-import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
-import { Offer } from '../structs/Offer.mjs';
 import { Amount } from '../structs/Amount.mjs';
 import { Quantity } from '../structs/Quantity.mjs';
-import { Refund } from '../structs/Refund.mjs';
 import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
 import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
 import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
 import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
-import { Hints } from '../structs/Hints.mjs';
+import { Payee } from '../structs/Payee.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLock } from '../structs/MultiThreadedScoreLock.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
-import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
+import { KeysManager } from '../structs/KeysManager.mjs';
+import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { Destination } from '../structs/Destination.mjs';
+import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
+import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
 import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
+import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
+import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
+import { WalletSource, WalletSourceInterface } from '../structs/WalletSource.mjs';
+import { Wallet } from '../structs/Wallet.mjs';
+import { BumpTransactionEventHandler } from '../structs/BumpTransactionEventHandler.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { GossipSync } from '../structs/GossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
@@ -447,26 +528,37 @@ export class MessageSendEvent extends CommonBase {
 		const raw_ty: number = bindings.LDKMessageSendEvent_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new MessageSendEvent_SendAcceptChannel(ptr);
-			case 1: return new MessageSendEvent_SendOpenChannel(ptr);
-			case 2: return new MessageSendEvent_SendFundingCreated(ptr);
-			case 3: return new MessageSendEvent_SendFundingSigned(ptr);
-			case 4: return new MessageSendEvent_SendChannelReady(ptr);
-			case 5: return new MessageSendEvent_SendAnnouncementSignatures(ptr);
-			case 6: return new MessageSendEvent_UpdateHTLCs(ptr);
-			case 7: return new MessageSendEvent_SendRevokeAndACK(ptr);
-			case 8: return new MessageSendEvent_SendClosingSigned(ptr);
-			case 9: return new MessageSendEvent_SendShutdown(ptr);
-			case 10: return new MessageSendEvent_SendChannelReestablish(ptr);
-			case 11: return new MessageSendEvent_SendChannelAnnouncement(ptr);
-			case 12: return new MessageSendEvent_BroadcastChannelAnnouncement(ptr);
-			case 13: return new MessageSendEvent_BroadcastChannelUpdate(ptr);
-			case 14: return new MessageSendEvent_BroadcastNodeAnnouncement(ptr);
-			case 15: return new MessageSendEvent_SendChannelUpdate(ptr);
-			case 16: return new MessageSendEvent_HandleError(ptr);
-			case 17: return new MessageSendEvent_SendChannelRangeQuery(ptr);
-			case 18: return new MessageSendEvent_SendShortIdsQuery(ptr);
-			case 19: return new MessageSendEvent_SendReplyChannelRange(ptr);
-			case 20: return new MessageSendEvent_SendGossipTimestampFilter(ptr);
+			case 1: return new MessageSendEvent_SendAcceptChannelV2(ptr);
+			case 2: return new MessageSendEvent_SendOpenChannel(ptr);
+			case 3: return new MessageSendEvent_SendOpenChannelV2(ptr);
+			case 4: return new MessageSendEvent_SendFundingCreated(ptr);
+			case 5: return new MessageSendEvent_SendFundingSigned(ptr);
+			case 6: return new MessageSendEvent_SendTxAddInput(ptr);
+			case 7: return new MessageSendEvent_SendTxAddOutput(ptr);
+			case 8: return new MessageSendEvent_SendTxRemoveInput(ptr);
+			case 9: return new MessageSendEvent_SendTxRemoveOutput(ptr);
+			case 10: return new MessageSendEvent_SendTxComplete(ptr);
+			case 11: return new MessageSendEvent_SendTxSignatures(ptr);
+			case 12: return new MessageSendEvent_SendTxInitRbf(ptr);
+			case 13: return new MessageSendEvent_SendTxAckRbf(ptr);
+			case 14: return new MessageSendEvent_SendTxAbort(ptr);
+			case 15: return new MessageSendEvent_SendChannelReady(ptr);
+			case 16: return new MessageSendEvent_SendAnnouncementSignatures(ptr);
+			case 17: return new MessageSendEvent_UpdateHTLCs(ptr);
+			case 18: return new MessageSendEvent_SendRevokeAndACK(ptr);
+			case 19: return new MessageSendEvent_SendClosingSigned(ptr);
+			case 20: return new MessageSendEvent_SendShutdown(ptr);
+			case 21: return new MessageSendEvent_SendChannelReestablish(ptr);
+			case 22: return new MessageSendEvent_SendChannelAnnouncement(ptr);
+			case 23: return new MessageSendEvent_BroadcastChannelAnnouncement(ptr);
+			case 24: return new MessageSendEvent_BroadcastChannelUpdate(ptr);
+			case 25: return new MessageSendEvent_BroadcastNodeAnnouncement(ptr);
+			case 26: return new MessageSendEvent_SendChannelUpdate(ptr);
+			case 27: return new MessageSendEvent_HandleError(ptr);
+			case 28: return new MessageSendEvent_SendChannelRangeQuery(ptr);
+			case 29: return new MessageSendEvent_SendShortIdsQuery(ptr);
+			case 30: return new MessageSendEvent_SendReplyChannelRange(ptr);
+			case 31: return new MessageSendEvent_SendGossipTimestampFilter(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -499,10 +591,32 @@ export class MessageSendEvent extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new SendAcceptChannelV2-variant MessageSendEvent
+	 */
+	public static constructor_send_accept_channel_v2(node_id: Uint8Array, msg: AcceptChannelV2): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_accept_channel_v2(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
 	 */
 	public static constructor_send_open_channel(node_id: Uint8Array, msg: OpenChannel): MessageSendEvent {
 		const ret: bigint = bindings.MessageSendEvent_send_open_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendOpenChannelV2-variant MessageSendEvent
+	 */
+	public static constructor_send_open_channel_v2(node_id: Uint8Array, msg: OpenChannelV2): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_open_channel_v2(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, msg);
@@ -525,6 +639,105 @@ export class MessageSendEvent extends CommonBase {
 	 */
 	public static constructor_send_funding_signed(node_id: Uint8Array, msg: FundingSigned): MessageSendEvent {
 		const ret: bigint = bindings.MessageSendEvent_send_funding_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAddInput-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_add_input(node_id: Uint8Array, msg: TxAddInput): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_add_input(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAddOutput-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_add_output(node_id: Uint8Array, msg: TxAddOutput): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_add_output(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxRemoveInput-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_remove_input(node_id: Uint8Array, msg: TxRemoveInput): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_remove_input(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxRemoveOutput-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_remove_output(node_id: Uint8Array, msg: TxRemoveOutput): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_remove_output(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxComplete-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_complete(node_id: Uint8Array, msg: TxComplete): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_complete(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxSignatures-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_signatures(node_id: Uint8Array, msg: TxSignatures): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_signatures(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxInitRbf-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_init_rbf(node_id: Uint8Array, msg: TxInitRbf): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_init_rbf(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAckRbf-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_ack_rbf(node_id: Uint8Array, msg: TxAckRbf): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_ack_rbf(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendTxAbort-variant MessageSendEvent
+	 */
+	public static constructor_send_tx_abort(node_id: Uint8Array, msg: TxAddInput): MessageSendEvent {
+		const ret: bigint = bindings.MessageSendEvent_send_tx_abort(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, msg);
@@ -743,6 +956,28 @@ export class MessageSendEvent_SendAcceptChannel extends MessageSendEvent {
 		this.msg = msg_hu_conv;
 	}
 }
+/** A MessageSendEvent of type SendAcceptChannelV2 */
+export class MessageSendEvent_SendAcceptChannelV2 extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: AcceptChannelV2;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendAcceptChannelV2_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendAcceptChannelV2_get_msg(ptr);
+		const msg_hu_conv: AcceptChannelV2 = new AcceptChannelV2(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
 /** A MessageSendEvent of type SendOpenChannel */
 export class MessageSendEvent_SendOpenChannel extends MessageSendEvent {
 	/**
@@ -761,6 +996,28 @@ export class MessageSendEvent_SendOpenChannel extends MessageSendEvent {
 		this.node_id = node_id_conv;
 		const msg: bigint = bindings.LDKMessageSendEvent_SendOpenChannel_get_msg(ptr);
 		const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendOpenChannelV2 */
+export class MessageSendEvent_SendOpenChannelV2 extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: OpenChannelV2;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendOpenChannelV2_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendOpenChannelV2_get_msg(ptr);
+		const msg_hu_conv: OpenChannelV2 = new OpenChannelV2(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
 	}
@@ -805,6 +1062,204 @@ export class MessageSendEvent_SendFundingSigned extends MessageSendEvent {
 		this.node_id = node_id_conv;
 		const msg: bigint = bindings.LDKMessageSendEvent_SendFundingSigned_get_msg(ptr);
 		const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxAddInput */
+export class MessageSendEvent_SendTxAddInput extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxAddInput;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxAddInput_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxAddInput_get_msg(ptr);
+		const msg_hu_conv: TxAddInput = new TxAddInput(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxAddOutput */
+export class MessageSendEvent_SendTxAddOutput extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxAddOutput;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxAddOutput_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxAddOutput_get_msg(ptr);
+		const msg_hu_conv: TxAddOutput = new TxAddOutput(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxRemoveInput */
+export class MessageSendEvent_SendTxRemoveInput extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxRemoveInput;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxRemoveInput_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxRemoveInput_get_msg(ptr);
+		const msg_hu_conv: TxRemoveInput = new TxRemoveInput(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxRemoveOutput */
+export class MessageSendEvent_SendTxRemoveOutput extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxRemoveOutput;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxRemoveOutput_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxRemoveOutput_get_msg(ptr);
+		const msg_hu_conv: TxRemoveOutput = new TxRemoveOutput(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxComplete */
+export class MessageSendEvent_SendTxComplete extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxComplete;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxComplete_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxComplete_get_msg(ptr);
+		const msg_hu_conv: TxComplete = new TxComplete(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxSignatures */
+export class MessageSendEvent_SendTxSignatures extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxSignatures;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxSignatures_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxSignatures_get_msg(ptr);
+		const msg_hu_conv: TxSignatures = new TxSignatures(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxInitRbf */
+export class MessageSendEvent_SendTxInitRbf extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxInitRbf;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxInitRbf_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxInitRbf_get_msg(ptr);
+		const msg_hu_conv: TxInitRbf = new TxInitRbf(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxAckRbf */
+export class MessageSendEvent_SendTxAckRbf extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxAckRbf;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxAckRbf_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxAckRbf_get_msg(ptr);
+		const msg_hu_conv: TxAckRbf = new TxAckRbf(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendTxAbort */
+export class MessageSendEvent_SendTxAbort extends MessageSendEvent {
+	/**
+	 * The node_id of the node which should receive this message
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The message which should be sent.
+	 */
+	public msg: TxAddInput;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendTxAbort_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: bigint = bindings.LDKMessageSendEvent_SendTxAbort_get_msg(ptr);
+		const msg_hu_conv: TxAddInput = new TxAddInput(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
 	}

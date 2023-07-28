@@ -1,0 +1,1 @@
+export { Bolt12SemanticError } from "../bindings.mjs";
