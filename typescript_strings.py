@@ -127,7 +127,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
-const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu",
+const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu", "bbbbbu",
 	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu", "ububuu"];
 
 /* @internal */
