@@ -74,7 +74,11 @@ function get_chanman(): Node {
 	var tx_broadcaster: ldk.BroadcasterInterface;
 	const tx_broadcasted: Promise<Uint8Array> = new Promise((resolve, _reject) => {
 		tx_broadcaster = ldk.BroadcasterInterface.new_impl({
-			broadcast_transaction(tx: Uint8Array): void { console.log("Tx Broadcast: " + tx); resolve(tx); }
+			broadcast_transactions(txn: Uint8Array[]): void {
+				for (const tx of txn) {
+					console.log("Tx Broadcast: " + tx); resolve(tx);
+				}
+			}
 		} as ldk.BroadcasterInterfaceInterface);
 	});
 	const logger = ldk.Logger.new_impl({
@@ -101,14 +105,15 @@ function get_chanman(): Node {
 	const keys_manager = ldk.KeysManager.constructor_new(seed, BigInt(42), 42);
 
 	const net_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet, logger);
-	const scorer = ldk.ProbabilisticScorer.constructor_new(ldk.ProbabilisticScoringParameters.constructor_default(), net_graph, logger);
+	const scorer = ldk.ProbabilisticScorer.constructor_new(ldk.ProbabilisticScoringDecayParameters.constructor_default(), net_graph, logger);
 	const lockable_score = ldk.MultiThreadedLockableScore.constructor_new(scorer.as_Score());
-	const router = ldk.DefaultRouter.constructor_new(net_graph, logger, keys_manager.as_EntropySource().get_secure_random_bytes(), lockable_score.as_LockableScore());
+	const router = ldk.DefaultRouter.constructor_new(net_graph, logger, keys_manager.as_EntropySource().get_secure_random_bytes(), lockable_score.as_LockableScore(), ldk.ProbabilisticScoringFeeParameters.constructor_default());
 
 	const config = ldk.UserConfig.constructor_default();
 	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_network(ldk.Network.LDKNetwork_Testnet));
-	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, router.as_Router(), logger,
-		keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(), config, params);
+	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, router.as_Router(),
+		logger, keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(), keys_manager.as_SignerProvider(),
+		config, params, 42);
 	return new Node(chan_man, tx_broadcasted, logger, keys_manager);
 }
 
@@ -174,8 +179,8 @@ tests.push(async () => {
 
 	const features = a.chan_man.as_ChannelMessageHandler().provided_init_features(b.chan_man.get_our_node_id());
 
-	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_NetAddressZ.constructor_none()), false);
-	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_NetAddressZ.constructor_none()), true);
+	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ChainHashZZ.constructor_none(), ldk.Option_NetAddressZ.constructor_none()), false);
+	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ChainHashZZ.constructor_none(), ldk.Option_NetAddressZ.constructor_none()), true);
 
 	const chan_create_err = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (chan_create_err.is_ok()) return false;
@@ -222,10 +227,12 @@ tests.push(async () => {
 	const b = get_chanman();
 
 	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
-	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(),
-		0xdeadbeef, a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, ignorer.as_CustomMessageHandler(), a.keys_manager.as_NodeSigner());
-	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), ignorer.as_OnionMessageHandler(),
-		0xdeadbeef, b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, ignorer.as_CustomMessageHandler(), b.keys_manager.as_NodeSigner());
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
+		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(),
+		0xdeadbeef, a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, a.keys_manager.as_NodeSigner());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
+		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(),
+		0xdeadbeef, b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, b.keys_manager.as_NodeSigner());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
@@ -321,7 +328,9 @@ tests.push(async () => {
 		},
 	} as ldk.CustomOnionMessageHandlerInterface);
 
-	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_manager.as_EntropySource(), a.keys_manager.as_NodeSigner(), a.logger, om_handler_a);
+	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_manager.as_EntropySource(),
+		a.keys_manager.as_NodeSigner(), a.logger, ldk.DefaultMessageRouter.constructor_new().as_MessageRouter(),
+		ignorer.as_OffersMessageHandler(), om_handler_a);
 	const om_provider_a = {
 		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
 			return underlying_om_a.as_OnionMessageProvider().next_onion_message_for_peer(peer_node_id);
@@ -361,12 +370,16 @@ tests.push(async () => {
 			b_handled_msg = true;
 		},
 	} as ldk.CustomOnionMessageHandlerInterface);
-	const om_b = ldk.OnionMessenger.constructor_new(b.keys_manager.as_EntropySource(), b.keys_manager.as_NodeSigner(), b.logger, om_handler_b);
+	const om_b = ldk.OnionMessenger.constructor_new(b.keys_manager.as_EntropySource(), b.keys_manager.as_NodeSigner(),
+		b.logger, ldk.DefaultMessageRouter.constructor_new().as_MessageRouter(), ignorer.as_OffersMessageHandler(),
+		om_handler_b);
 
-	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_a,
-		0xdeadbeef, a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, ignorer.as_CustomMessageHandler(), a.keys_manager.as_NodeSigner());
-	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(), om_b.as_OnionMessageHandler(),
-		0xdeadbeef, b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, ignorer.as_CustomMessageHandler(), b.keys_manager.as_NodeSigner());
+	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
+		om_a, ignorer.as_CustomMessageHandler(), 0xdeadbeef,
+		a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, a.keys_manager.as_NodeSigner());
+	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
+		om_b.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(), 0xdeadbeef,
+		b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, b.keys_manager.as_NodeSigner());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
@@ -418,7 +431,8 @@ tests.push(async () => {
 	assert(pm_a.get_peer_node_ids().length == 1);
 	assert(pm_b.get_peer_node_ids().length == 1);
 
-	underlying_om_a.send_onion_message([], ldk.Destination.constructor_node(b.node_id),
+	underlying_om_a.send_onion_message(
+		ldk.OnionMessagePath.constructor_new([], ldk.Destination.constructor_node(b.node_id)),
 		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4242n; },
 			write(): Uint8Array {
@@ -430,7 +444,8 @@ tests.push(async () => {
 	pm_a.process_events();
 	assert(b_handled_msg);
 
-	om_b.send_onion_message([], ldk.Destination.constructor_node(a.node_id),
+	om_b.send_onion_message(
+		ldk.OnionMessagePath.constructor_new([], ldk.Destination.constructor_node(a.node_id)),
 		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4343n; },
 			write(): Uint8Array {
