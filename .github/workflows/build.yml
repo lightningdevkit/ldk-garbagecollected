@@ -139,6 +139,11 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.116
+      - name: Pin proc-macro and quote to meet MSRV
+        run: |
+          cd ldk-c-bindings/c-bindings-gen
+          cargo update -p quote --precise "1.0.30" --verbose
+          cargo update -p proc-macro2 --precise "1.0.65" --verbose
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -195,6 +200,11 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.116
+      - name: Pin proc-macro and quote to meet MSRV
+        run: |
+          cd ldk-c-bindings/c-bindings-gen
+          cargo update -p quote --precise "1.0.30" --verbose
+          cargo update -p proc-macro2 --precise "1.0.65" --verbose
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
