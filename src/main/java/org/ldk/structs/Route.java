@@ -53,11 +53,9 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * The `payment_params` parameter passed to [`find_route`].
-	 * This is used by `ChannelManager` to track information which may be required for retries,
-	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * The `payment_params` parameter passed via [`RouteParameters`] to [`find_route`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
+	 * This is used by `ChannelManager` to track information which may be required for retries.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -72,11 +70,9 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * The `payment_params` parameter passed to [`find_route`].
-	 * This is used by `ChannelManager` to track information which may be required for retries,
-	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * The `payment_params` parameter passed via [`RouteParameters`] to [`find_route`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::events::Event::PaymentPathFailed
+	 * This is used by `ChannelManager` to track information which may be required for retries.
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -153,7 +149,7 @@ public class Route extends CommonBase {
 	 * Returns the total amount of fees paid on this [`Route`].
 	 * 
 	 * This doesn't include any extra payment made to the recipient, which can happen in excess of
-	 * the amount passed to [`find_route`]'s `params.final_value_msat`.
+	 * the amount passed to [`find_route`]'s `route_params.final_value_msat`.
 	 */
 	public long get_total_fees() {
 		long ret = bindings.Route_get_total_fees(this.ptr);

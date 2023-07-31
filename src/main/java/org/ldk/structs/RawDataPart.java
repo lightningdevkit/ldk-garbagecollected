@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Data of the [`RawInvoice`] that is encoded in the data part
+ * Data of the [`RawBolt11Invoice`] that is encoded in the data part
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RawDataPart extends CommonBase {

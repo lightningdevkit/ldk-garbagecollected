@@ -67,6 +67,17 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns true if this `Features` object contains required features unknown by `other`.
+	 */
+	public boolean requires_unknown_bits_from(org.ldk.structs.Bolt12InvoiceFeatures other) {
+		boolean ret = bindings.Bolt12InvoiceFeatures_requires_unknown_bits_from(this.ptr, other == null ? 0 : other.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(other);
+		if (this != null) { this.ptrs_to.add(other); };
+		return ret;
+	}
+
+	/**
 	 * Returns true if this `Features` object contains unknown feature flags which are set as
 	 * \"required\".
 	 */
@@ -74,6 +85,62 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 		boolean ret = bindings.Bolt12InvoiceFeatures_requires_unknown_bits(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Sets a required custom feature bit. Errors if `bit` is outside the custom range as defined
+	 * by [bLIP 2] or if it is a known `T` feature.
+	 * 
+	 * Note: Required bits are even. If an odd bit is given, then the corresponding even bit will
+	 * be set instead (i.e., `bit - 1`).
+	 * 
+	 * [bLIP 2]: https://github.com/lightning/blips/blob/master/blip-0002.md#feature-bits
+	 */
+	public Result_NoneNoneZ set_required_custom_bit(long bit) {
+		long ret = bindings.Bolt12InvoiceFeatures_set_required_custom_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets an optional custom feature bit. Errors if `bit` is outside the custom range as defined
+	 * by [bLIP 2] or if it is a known `T` feature.
+	 * 
+	 * Note: Optional bits are odd. If an even bit is given, then the corresponding odd bit will be
+	 * set instead (i.e., `bit + 1`).
+	 * 
+	 * [bLIP 2]: https://github.com/lightning/blips/blob/master/blip-0002.md#feature-bits
+	 */
+	public Result_NoneNoneZ set_optional_custom_bit(long bit) {
+		long ret = bindings.Bolt12InvoiceFeatures_set_optional_custom_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the Bolt12InvoiceFeatures object into a byte array which can be read by Bolt12InvoiceFeatures_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Bolt12InvoiceFeatures_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a Bolt12InvoiceFeatures from a byte array, created by Bolt12InvoiceFeatures_write
+	 */
+	public static Result_Bolt12InvoiceFeaturesDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Bolt12InvoiceFeatures_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_Bolt12InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_Bolt12InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**

@@ -22,12 +22,28 @@ public class OnionMessageContents extends CommonBase {
 	}
 	static OnionMessageContents constr_from_ptr(long ptr) {
 		bindings.LDKOnionMessageContents raw_val = bindings.LDKOnionMessageContents_ref_from_ptr(ptr);
+		if (raw_val.getClass() == bindings.LDKOnionMessageContents.Offers.class) {
+			return new Offers(ptr, (bindings.LDKOnionMessageContents.Offers)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKOnionMessageContents.Custom.class) {
 			return new Custom(ptr, (bindings.LDKOnionMessageContents.Custom)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * A message related to BOLT 12 Offers.
+	 */
+	public final static class Offers extends OnionMessageContents {
+		public final org.ldk.structs.OffersMessage offers;
+		private Offers(long ptr, bindings.LDKOnionMessageContents.Offers obj) {
+			super(null, ptr);
+			long offers = obj.offers;
+			org.ldk.structs.OffersMessage offers_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(offers);
+			if (offers_hu_conv != null) { offers_hu_conv.ptrs_to.add(this); };
+			this.offers = offers_hu_conv;
+		}
+	}
 	/**
 	 * A custom onion message specified by the user.
 	 */
@@ -56,6 +72,19 @@ public class OnionMessageContents extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Offers-variant OnionMessageContents
+	 */
+	public static OnionMessageContents offers(org.ldk.structs.OffersMessage a) {
+		long ret = bindings.OnionMessageContents_offers(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

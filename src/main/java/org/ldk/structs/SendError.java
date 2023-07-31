@@ -105,7 +105,7 @@ public class SendError extends CommonBase {
 	/**
 	 * Failed to retrieve our node id from the provided [`NodeSigner`].
 	 * 
-	 * [`NodeSigner`]: crate::chain::keysinterface::NodeSigner
+	 * [`NodeSigner`]: crate::sign::NodeSigner
 	 */
 	public final static class GetNodeIdFailed extends SendError {
 		private GetNodeIdFailed(long ptr, bindings.LDKSendError.GetNodeIdFailed obj) {

@@ -67,6 +67,17 @@ public class InvoiceRequestFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns true if this `Features` object contains required features unknown by `other`.
+	 */
+	public boolean requires_unknown_bits_from(org.ldk.structs.InvoiceRequestFeatures other) {
+		boolean ret = bindings.InvoiceRequestFeatures_requires_unknown_bits_from(this.ptr, other == null ? 0 : other.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(other);
+		if (this != null) { this.ptrs_to.add(other); };
+		return ret;
+	}
+
+	/**
 	 * Returns true if this `Features` object contains unknown feature flags which are set as
 	 * \"required\".
 	 */
@@ -74,6 +85,42 @@ public class InvoiceRequestFeatures extends CommonBase {
 		boolean ret = bindings.InvoiceRequestFeatures_requires_unknown_bits(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Sets a required custom feature bit. Errors if `bit` is outside the custom range as defined
+	 * by [bLIP 2] or if it is a known `T` feature.
+	 * 
+	 * Note: Required bits are even. If an odd bit is given, then the corresponding even bit will
+	 * be set instead (i.e., `bit - 1`).
+	 * 
+	 * [bLIP 2]: https://github.com/lightning/blips/blob/master/blip-0002.md#feature-bits
+	 */
+	public Result_NoneNoneZ set_required_custom_bit(long bit) {
+		long ret = bindings.InvoiceRequestFeatures_set_required_custom_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets an optional custom feature bit. Errors if `bit` is outside the custom range as defined
+	 * by [bLIP 2] or if it is a known `T` feature.
+	 * 
+	 * Note: Optional bits are odd. If an even bit is given, then the corresponding odd bit will be
+	 * set instead (i.e., `bit + 1`).
+	 * 
+	 * [bLIP 2]: https://github.com/lightning/blips/blob/master/blip-0002.md#feature-bits
+	 */
+	public Result_NoneNoneZ set_optional_custom_bit(long bit) {
+		long ret = bindings.InvoiceRequestFeatures_set_optional_custom_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

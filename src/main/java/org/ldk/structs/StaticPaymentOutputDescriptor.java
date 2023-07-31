@@ -46,8 +46,6 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 
 	/**
 	 * The output which is referenced by the given outpoint.
-	 * 
-	 * Returns a copy of the field.
 	 */
 	public TxOut get_output() {
 		long ret = bindings.StaticPaymentOutputDescriptor_get_output(this.ptr);

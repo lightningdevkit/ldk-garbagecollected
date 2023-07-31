@@ -24,6 +24,9 @@ public class ErrorAction extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKErrorAction.DisconnectPeer.class) {
 			return new DisconnectPeer(ptr, (bindings.LDKErrorAction.DisconnectPeer)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKErrorAction.DisconnectPeerWithWarning.class) {
+			return new DisconnectPeerWithWarning(ptr, (bindings.LDKErrorAction.DisconnectPeerWithWarning)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKErrorAction.IgnoreError.class) {
 			return new IgnoreError(ptr, (bindings.LDKErrorAction.IgnoreError)raw_val);
 		}
@@ -56,6 +59,22 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * The peer did something incorrect. Tell them without closing any channels and disconnect them.
+	 */
+	public final static class DisconnectPeerWithWarning extends ErrorAction {
+		/**
+		 * A warning message which we should make an effort to send before we disconnect.
+		*/
+		public final org.ldk.structs.WarningMessage msg;
+		private DisconnectPeerWithWarning(long ptr, bindings.LDKErrorAction.DisconnectPeerWithWarning obj) {
+			super(null, ptr);
+			long msg = obj.msg;
+			org.ldk.structs.WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.WarningMessage(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -151,6 +170,19 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction disconnect_peer(org.ldk.structs.ErrorMessage msg) {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DisconnectPeerWithWarning-variant ErrorAction
+	 */
+	public static ErrorAction disconnect_peer_with_warning(org.ldk.structs.WarningMessage msg) {
+		long ret = bindings.ErrorAction_disconnect_peer_with_warning(msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);

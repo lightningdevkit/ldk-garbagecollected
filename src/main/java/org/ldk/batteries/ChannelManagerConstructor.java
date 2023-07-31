@@ -136,8 +136,9 @@ public class ChannelManagerConstructor {
                                      EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
                                      FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable Filter filter, byte[] net_graph_serialized,
-                                     ProbabilisticScoringParameters scoring_params, byte[] probabilistic_scorer_bytes,
-                                     @Nullable RouterWrapper router_wrapper,
+                                     ProbabilisticScoringDecayParameters scoring_decay_params,
+                                     ProbabilisticScoringFeeParameters scoring_fee_params,
+                                     byte[] probabilistic_scorer_bytes, @Nullable RouterWrapper router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         this.entropy_source = entropy_source;
         this.node_signer = node_signer;
@@ -147,16 +148,17 @@ public class ChannelManagerConstructor {
             throw new InvalidSerializedDataException("Serialized Network Graph was corrupt");
         }
         this.net_graph = ((Result_NetworkGraphDecodeErrorZ.Result_NetworkGraphDecodeErrorZ_OK)graph_res).res;
-        assert(scoring_params != null);
+        assert(scoring_decay_params != null);
         assert(probabilistic_scorer_bytes != null);
-        Result_ProbabilisticScorerDecodeErrorZ scorer_res = ProbabilisticScorer.read(probabilistic_scorer_bytes, scoring_params, net_graph, logger);
+        Result_ProbabilisticScorerDecodeErrorZ scorer_res = ProbabilisticScorer.read(probabilistic_scorer_bytes, scoring_decay_params, net_graph, logger);
         if (!scorer_res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ProbabilisticScorer was corrupt");
         }
         this.prob_scorer = ((Result_ProbabilisticScorerDecodeErrorZ.Result_ProbabilisticScorerDecodeErrorZ_OK)scorer_res).res;
         this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
 
-        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore());
+        assert(scoring_fee_params != null);
+        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore(), scoring_fee_params);
         Router router;
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
@@ -211,17 +213,19 @@ public class ChannelManagerConstructor {
     public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
                                      EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
                                      FeeEstimator fee_estimator, ChainMonitor chain_monitor,
-                                     NetworkGraph net_graph, ProbabilisticScoringParameters scoring_params,
+                                     NetworkGraph net_graph, ProbabilisticScoringDecayParameters scoring_decay_params,
+                                     ProbabilisticScoringFeeParameters scoring_fee_params,
                                      @Nullable RouterWrapper router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
         this.entropy_source = entropy_source;
         this.node_signer = node_signer;
         this.net_graph = net_graph;
-        assert(scoring_params != null);
-        this.prob_scorer = ProbabilisticScorer.of(scoring_params, net_graph, logger);
+        assert(scoring_decay_params != null);
+        this.prob_scorer = ProbabilisticScorer.of(scoring_decay_params, net_graph, logger);
         this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
 
-        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore());
+        assert(scoring_fee_params != null);
+        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore(), scoring_fee_params);
         Router router;
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
@@ -241,7 +245,7 @@ public class ChannelManagerConstructor {
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
         ChainParameters params = ChainParameters.of(network, block);
         channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, router, logger,
-            entropy_source, node_signer, signer_provider, config, params);
+            entropy_source, node_signer, signer_provider, config, params, (int) (System.currentTimeMillis() / 1000));
         this.logger = logger;
     }
 
@@ -286,8 +290,8 @@ public class ChannelManagerConstructor {
             routing_msg_handler = ignoring_handler.as_RoutingMessageHandler();
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                 routing_msg_handler, ignoring_handler.as_OnionMessageHandler(),
-                (int)(System.currentTimeMillis() / 1000), this.entropy_source.get_secure_random_bytes(),
-                logger, ignoring_handler.as_CustomMessageHandler(), this.node_signer);
+                ignoring_handler.as_CustomMessageHandler(), (int)(System.currentTimeMillis() / 1000),
+                this.entropy_source.get_secure_random_bytes(), logger, this.node_signer);
 
         try {
             this.nio_peer_handler = new NioPeerHandler(peer_manager);

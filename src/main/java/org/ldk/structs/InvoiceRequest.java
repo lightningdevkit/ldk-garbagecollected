@@ -9,12 +9,12 @@ import javax.annotation.Nullable;
 
 
 /**
- * An `InvoiceRequest` is a request for an [`Invoice`] formulated from an [`Offer`].
+ * An `InvoiceRequest` is a request for a [`Bolt12Invoice`] formulated from an [`Offer`].
  * 
  * An offer may provide choices such as quantity, amount, chain, features, etc. An invoice request
  * specifies these such that its recipient can send an invoice for payment.
  * 
- * [`Invoice`]: crate::offers::invoice::Invoice
+ * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
  * [`Offer`]: crate::offers::offer::Offer
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
@@ -126,6 +126,23 @@ public class InvoiceRequest extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PrintableString ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PrintableString(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Verifies that the request was for an offer created using the given key. Returns the derived
+	 * keys need to sign an [`Bolt12Invoice`] for the request if they could be extracted from the
+	 * metadata.
+	 * 
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 */
+	public Result_COption_KeyPairZNoneZ verify(org.ldk.structs.ExpandedKey key) {
+		long ret = bindings.InvoiceRequest_verify(this.ptr, key == null ? 0 : key.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(key);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_KeyPairZNoneZ ret_hu_conv = Result_COption_KeyPairZNoneZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(key); };
 		return ret_hu_conv;
 	}
 

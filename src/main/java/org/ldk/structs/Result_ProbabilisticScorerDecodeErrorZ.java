@@ -45,14 +45,14 @@ public class Result_ProbabilisticScorerDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ProbabilisticScorerDecodeErrorZ in the success state.
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ ok(ProbabilisticScoringParameters o_params, NetworkGraph o_network_graph, Logger o_logger) {
-		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_params == null ? 0 : o_params.ptr, o_network_graph == null ? 0 : o_network_graph.ptr, o_logger.ptr));
-		Reference.reachabilityFence(o_params);
+	public static Result_ProbabilisticScorerDecodeErrorZ ok(ProbabilisticScoringDecayParameters o_decay_params, NetworkGraph o_network_graph, Logger o_logger) {
+		long ret = bindings.CResult_ProbabilisticScorerDecodeErrorZ_ok(bindings.ProbabilisticScorer_new(o_decay_params == null ? 0 : o_decay_params.ptr, o_network_graph == null ? 0 : o_network_graph.ptr, o_logger.ptr));
+		Reference.reachabilityFence(o_decay_params);
 		Reference.reachabilityFence(o_network_graph);
 		Reference.reachabilityFence(o_logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ProbabilisticScorerDecodeErrorZ ret_hu_conv = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o_params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o_decay_params); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o_network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(o_logger); };
 		return ret_hu_conv;

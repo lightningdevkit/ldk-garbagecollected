@@ -31,7 +31,7 @@ public class PaymentError extends CommonBase {
 	}
 
 	/**
-	 * An error resulting from the provided [`Invoice`] or payment hash.
+	 * An error resulting from the provided [`Bolt11Invoice`] or payment hash.
 	 */
 	public final static class Invoice extends PaymentError {
 		public final java.lang.String invoice;
@@ -92,4 +92,19 @@ public class PaymentError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two PaymentErrors contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public boolean eq(org.ldk.structs.PaymentError b) {
+		boolean ret = bindings.PaymentError_eq(this.ptr, b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
+		return ret;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof PaymentError)) return false;
+		return this.eq((PaymentError)o);
+	}
 }

@@ -61,10 +61,13 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	/**
 	 * Should anchors be used.
 	 */
-	public boolean opt_anchors() {
-		boolean ret = bindings.TrustedCommitmentTransaction_opt_anchors(this.ptr);
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.TrustedCommitmentTransaction_channel_type_features(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

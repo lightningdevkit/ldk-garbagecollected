@@ -76,6 +76,84 @@ public class ChannelReestablish extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
+	public byte[] get_your_last_per_commitment_secret() {
+		byte[] ret = bindings.ChannelReestablish_get_your_last_per_commitment_secret(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
+	public void set_your_last_per_commitment_secret(byte[] val) {
+		bindings.ChannelReestablish_set_your_last_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
+	public byte[] get_my_current_per_commitment_point() {
+		byte[] ret = bindings.ChannelReestablish_get_my_current_per_commitment_point(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
+	public void set_my_current_per_commitment_point(byte[] val) {
+		bindings.ChannelReestablish_set_my_current_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The next funding transaction ID
+	 */
+	public Option_TxidZ get_next_funding_txid() {
+		long ret = bindings.ChannelReestablish_get_next_funding_txid(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_TxidZ ret_hu_conv = org.ldk.structs.Option_TxidZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The next funding transaction ID
+	 */
+	public void set_next_funding_txid(org.ldk.structs.Option_TxidZ val) {
+		bindings.ChannelReestablish_set_next_funding_txid(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
+	 * Constructs a new ChannelReestablish given each field
+	 */
+	public static ChannelReestablish of(byte[] channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.Option_TxidZ next_funding_txid_arg) {
+		long ret = bindings.ChannelReestablish_new(InternalUtils.check_arr_len(channel_id_arg, 32), next_local_commitment_number_arg, next_remote_commitment_number_arg, InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32), InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33), next_funding_txid_arg.ptr);
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(next_local_commitment_number_arg);
+		Reference.reachabilityFence(next_remote_commitment_number_arg);
+		Reference.reachabilityFence(your_last_per_commitment_secret_arg);
+		Reference.reachabilityFence(my_current_per_commitment_point_arg);
+		Reference.reachabilityFence(next_funding_txid_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelReestablish ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReestablish(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(next_funding_txid_arg); };
+		return ret_hu_conv;
+	}
+
 	long clone_ptr() {
 		long ret = bindings.ChannelReestablish_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

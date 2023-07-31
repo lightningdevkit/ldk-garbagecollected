@@ -32,7 +32,7 @@ const chan_handler = ldk.ErroringMessageHandler.constructor_new().as_ChannelMess
 const cust_handler = ldk.IgnoringMessageHandler.constructor_new().as_CustomMessageHandler();
 const onion_handler = ldk.IgnoringMessageHandler.constructor_new().as_OnionMessageHandler();
 
-const a_pm = ldk.PeerManager.constructor_new(chan_handler, routing_handler, onion_handler, 0xdeadbeef, rng_seed, logger_a, cust_handler, keys_manager_a.as_NodeSigner());
+const a_pm = ldk.PeerManager.constructor_new(chan_handler, routing_handler, onion_handler, cust_handler, 0xdeadbeef, rng_seed, logger_a, keys_manager_a.as_NodeSigner());
 const a_net_handler = new node_net.NodeLDKNet(a_pm);
 var port = 10000;
 for (; port < 11000; port++) {
@@ -43,7 +43,7 @@ for (; port < 11000; port++) {
 	} catch(_) {}
 }
 
-const b_pm = ldk.PeerManager.constructor_new(chan_handler, routing_handler, onion_handler, 0xdeadbeef, rng_seed, logger_b, cust_handler, keys_manager_b.as_NodeSigner());
+const b_pm = ldk.PeerManager.constructor_new(chan_handler, routing_handler, onion_handler, cust_handler, 0xdeadbeef, rng_seed, logger_b, keys_manager_b.as_NodeSigner());
 const b_net_handler = new node_net.NodeLDKNet(b_pm);
 await b_net_handler.connect_peer("127.0.0.1", port, node_a_pk);
 

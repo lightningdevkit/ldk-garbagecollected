@@ -57,6 +57,22 @@ public class CustomMessageHandler extends CommonBase {
 		 * connection to the node exists, then the message is simply not sent.
 		 */
 		TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg();
+		/**
+		 * Gets the node feature flags which this handler itself supports. All available handlers are
+		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+		 * which are broadcasted in our [`NodeAnnouncement`] message.
+		 * 
+		 * [`NodeAnnouncement`]: crate::ln::msgs::NodeAnnouncement
+		 */
+		NodeFeatures provided_node_features();
+		/**
+		 * Gets the init feature flags which should be sent to the given peer. All available handlers
+		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+		 * which are sent in our [`Init`] message.
+		 * 
+		 * [`Init`]: crate::ln::msgs::Init
+		 */
+		InitFeatures provided_init_features(byte[] their_node_id);
 	}
 	private static class LDKCustomMessageHandlerHolder { CustomMessageHandler held; }
 	public static CustomMessageHandler new_impl(CustomMessageHandlerInterface arg, CustomMessageReader.CustomMessageReaderInterface CustomMessageReader_impl) {
@@ -74,6 +90,18 @@ public class CustomMessageHandler extends CommonBase {
 				TwoTuple_PublicKeyTypeZ[] ret = arg.get_and_clear_pending_msg();
 				Reference.reachabilityFence(arg);
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_25 -> ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()).toArray() : null;
+				return result;
+			}
+			@Override public long provided_node_features() {
+				NodeFeatures ret = arg.provided_node_features();
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long provided_init_features(byte[] their_node_id) {
+				InitFeatures ret = arg.provided_init_features(their_node_id);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		}, CustomMessageReader.new_impl(CustomMessageReader_impl).bindings_instance);
@@ -122,6 +150,39 @@ public class CustomMessageHandler extends CommonBase {
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
 		return ret_conv_25_arr;
+	}
+
+	/**
+	 * Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 * 
+	 * [`NodeAnnouncement`]: crate::ln::msgs::NodeAnnouncement
+	 */
+	public NodeFeatures provided_node_features() {
+		long ret = bindings.CustomMessageHandler_provided_node_features(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * [`Init`]: crate::ln::msgs::Init
+	 */
+	public InitFeatures provided_init_features(byte[] their_node_id) {
+		long ret = bindings.CustomMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 }

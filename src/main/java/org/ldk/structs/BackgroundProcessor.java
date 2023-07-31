@@ -33,6 +33,8 @@ import javax.annotation.Nullable;
  * 
  * [`ChannelMonitor`]: lightning::chain::channelmonitor::ChannelMonitor
  * [`Event`]: lightning::events::Event
+ * [`PeerManager::timer_tick_occurred`]: lightning::ln::peer_handler::PeerManager::timer_tick_occurred
+ * [`PeerManager::process_events`]: lightning::ln::peer_handler::PeerManager::process_events
  * BackgroundProcessor will immediately stop on drop. It should be stored until shutdown.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays

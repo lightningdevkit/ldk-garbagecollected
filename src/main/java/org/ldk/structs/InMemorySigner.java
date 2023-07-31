@@ -252,14 +252,18 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Returns whether anchors should be used.
+	 * Returns the channel type features of the channel parameters. Should be helpful for
+	 * determining a channel's category, i. e. legacy/anchors/taproot/etc.
 	 * 
 	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
-	public boolean opt_anchors() {
-		boolean ret = bindings.InMemorySigner_opt_anchors(this.ptr);
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.InMemorySigner_channel_type_features(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

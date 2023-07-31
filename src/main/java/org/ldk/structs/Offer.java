@@ -12,8 +12,8 @@ import javax.annotation.Nullable;
  * An `Offer` is a potentially long-lived proposal for payment of a good or service.
  * 
  * An offer is a precursor to an [`InvoiceRequest`]. A merchant publishes an offer from which a
- * customer may request an [`Invoice`] for a specific quantity and using an amount sufficient to
- * cover that quantity (i.e., at least `quantity * amount`). See [`Offer::amount`].
+ * customer may request an [`Bolt12Invoice`] for a specific quantity and using an amount sufficient
+ * to cover that quantity (i.e., at least `quantity * amount`). See [`Offer::amount`].
  * 
  * Offers may be denominated in currency other than bitcoin but are ultimately paid using the
  * latter.
@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
  * Through the use of [`BlindedPath`]s, offers provide recipient privacy.
  * 
  * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
- * [`Invoice`]: crate::offers::invoice::Invoice
+ * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Offer extends CommonBase {
@@ -230,6 +230,17 @@ public class Offer extends CommonBase {
 		byte[] ret = bindings.Offer_write(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Read a Offer object from a string
+	 */
+	public static Result_OfferBolt12ParseErrorZ from_str(java.lang.String s) {
+		long ret = bindings.Offer_from_str(s);
+		Reference.reachabilityFence(s);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_OfferBolt12ParseErrorZ ret_hu_conv = Result_OfferBolt12ParseErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

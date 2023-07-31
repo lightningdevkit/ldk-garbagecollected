@@ -124,6 +124,16 @@ public class EcdsaChannelSigner extends CommonBase {
 		 */
 		Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
 		/**
+		 * Computes the signature for a commitment transaction's HTLC output used as an input within
+		 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
+		 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
+		 * sign HTLC transactions from channels supporting anchor outputs after all additional
+		 * inputs/outputs have been added to the transaction.
+		 * 
+		 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+		 */
+		Result_SignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor);
+		/**
 		 * Create a signature for a claiming transaction for a HTLC output on a counterparty's commitment
 		 * transaction, either offered or received.
 		 * 
@@ -201,6 +211,13 @@ public class EcdsaChannelSigner extends CommonBase {
 			@Override public long sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				org.ldk.structs.HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new org.ldk.structs.HTLCOutputInCommitment(null, htlc); }
 				Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long sign_holder_htlc_transaction(byte[] htlc_tx, long input, long htlc_descriptor) {
+				org.ldk.structs.HTLCDescriptor htlc_descriptor_hu_conv = null; if (htlc_descriptor < 0 || htlc_descriptor > 4096) { htlc_descriptor_hu_conv = new org.ldk.structs.HTLCDescriptor(null, htlc_descriptor); }
+				Result_SignatureNoneZ ret = arg.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -373,6 +390,27 @@ public class EcdsaChannelSigner extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(htlc); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Computes the signature for a commitment transaction's HTLC output used as an input within
+	 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
+	 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
+	 * sign HTLC transactions from channels supporting anchor outputs after all additional
+	 * inputs/outputs have been added to the transaction.
+	 * 
+	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+	 */
+	public Result_SignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, org.ldk.structs.HTLCDescriptor htlc_descriptor) {
+		long ret = bindings.EcdsaChannelSigner_sign_holder_htlc_transaction(this.ptr, htlc_tx, input, htlc_descriptor == null ? 0 : htlc_descriptor.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(htlc_tx);
+		Reference.reachabilityFence(input);
+		Reference.reachabilityFence(htlc_descriptor);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(htlc_descriptor); };
 		return ret_hu_conv;
 	}
 

@@ -77,8 +77,10 @@ public class MessageHandler extends CommonBase {
 	}
 
 	/**
-	 * A message handler which handles onion messages. For now, this can only be an
-	 * [`IgnoringMessageHandler`].
+	 * A message handler which handles onion messages. This should generally be an
+	 * [`OnionMessenger`], but can also be an [`IgnoringMessageHandler`].
+	 * 
+	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
 	 */
 	public OnionMessageHandler get_onion_message_handler() {
 		long ret = bindings.MessageHandler_get_onion_message_handler(this.ptr);
@@ -90,8 +92,10 @@ public class MessageHandler extends CommonBase {
 	}
 
 	/**
-	 * A message handler which handles onion messages. For now, this can only be an
-	 * [`IgnoringMessageHandler`].
+	 * A message handler which handles onion messages. This should generally be an
+	 * [`OnionMessenger`], but can also be an [`IgnoringMessageHandler`].
+	 * 
+	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
 	 */
 	public void set_onion_message_handler(org.ldk.structs.OnionMessageHandler val) {
 		bindings.MessageHandler_set_onion_message_handler(this.ptr, val.ptr);
@@ -101,19 +105,45 @@ public class MessageHandler extends CommonBase {
 	}
 
 	/**
+	 * A message handler which handles custom messages. The only LDK-provided implementation is
+	 * [`IgnoringMessageHandler`].
+	 */
+	public CustomMessageHandler get_custom_message_handler() {
+		long ret = bindings.MessageHandler_get_custom_message_handler(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CustomMessageHandler ret_hu_conv = new CustomMessageHandler(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A message handler which handles custom messages. The only LDK-provided implementation is
+	 * [`IgnoringMessageHandler`].
+	 */
+	public void set_custom_message_handler(org.ldk.structs.CustomMessageHandler val) {
+		bindings.MessageHandler_set_custom_message_handler(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * Constructs a new MessageHandler given each field
 	 */
-	public static MessageHandler of(org.ldk.structs.ChannelMessageHandler chan_handler_arg, org.ldk.structs.RoutingMessageHandler route_handler_arg, org.ldk.structs.OnionMessageHandler onion_message_handler_arg) {
-		long ret = bindings.MessageHandler_new(chan_handler_arg.ptr, route_handler_arg.ptr, onion_message_handler_arg.ptr);
+	public static MessageHandler of(org.ldk.structs.ChannelMessageHandler chan_handler_arg, org.ldk.structs.RoutingMessageHandler route_handler_arg, org.ldk.structs.OnionMessageHandler onion_message_handler_arg, org.ldk.structs.CustomMessageHandler custom_message_handler_arg) {
+		long ret = bindings.MessageHandler_new(chan_handler_arg.ptr, route_handler_arg.ptr, onion_message_handler_arg.ptr, custom_message_handler_arg.ptr);
 		Reference.reachabilityFence(chan_handler_arg);
 		Reference.reachabilityFence(route_handler_arg);
 		Reference.reachabilityFence(onion_message_handler_arg);
+		Reference.reachabilityFence(custom_message_handler_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MessageHandler(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(chan_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(onion_message_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler_arg); };
 		return ret_hu_conv;
 	}
 

@@ -307,7 +307,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	 * 
 	 * Default value: true.
 	 * 
-	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::sign::SignerProvider::get_shutdown_scriptpubkey
 	 */
 	public boolean get_commit_upfront_shutdown_pubkey() {
 		boolean ret = bindings.ChannelHandshakeConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
@@ -328,7 +328,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	 * 
 	 * Default value: true.
 	 * 
-	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::SignerProvider::get_shutdown_scriptpubkey
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]: crate::sign::SignerProvider::get_shutdown_scriptpubkey
 	 */
 	public void set_commit_upfront_shutdown_pubkey(boolean val) {
 		bindings.ChannelHandshakeConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
@@ -397,6 +397,78 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
+	 * If set, we attempt to negotiate the `anchors_zero_fee_htlc_tx`option for all future
+	 * channels. This feature requires having a reserve of onchain funds readily available to bump
+	 * transactions in the event of a channel force close to avoid the possibility of losing funds.
+	 * 
+	 * Note that if you wish accept inbound channels with anchor outputs, you must enable
+	 * [`UserConfig::manually_accept_inbound_channels`] and manually accept them with
+	 * [`ChannelManager::accept_inbound_channel`]. This is done to give you the chance to check
+	 * whether your reserve of onchain funds is enough to cover the fees for all existing and new
+	 * channels featuring anchor outputs in the event of a force close.
+	 * 
+	 * If this option is set, channels may be created that will not be readable by LDK versions
+	 * prior to 0.0.116, causing [`ChannelManager`]'s read method to return a
+	 * [`DecodeError::InvalidValue`].
+	 * 
+	 * Note that setting this to true does *not* prevent us from opening channels with
+	 * counterparties that do not support the `anchors_zero_fee_htlc_tx` option; we will simply
+	 * fall back to a `static_remote_key` channel.
+	 * 
+	 * LDK will not support the legacy `option_anchors` commitment version due to a discovered
+	 * vulnerability after its deployment. For more context, see the [`SIGHASH_SINGLE + update_fee
+	 * Considered Harmful`] mailing list post.
+	 * 
+	 * Default value: false. This value is likely to change to true in the future.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`DecodeError::InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 * [`SIGHASH_SINGLE + update_fee Considered Harmful`]: https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-September/002796.html
+	 */
+	public boolean get_negotiate_anchors_zero_fee_htlc_tx() {
+		boolean ret = bindings.ChannelHandshakeConfig_get_negotiate_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * If set, we attempt to negotiate the `anchors_zero_fee_htlc_tx`option for all future
+	 * channels. This feature requires having a reserve of onchain funds readily available to bump
+	 * transactions in the event of a channel force close to avoid the possibility of losing funds.
+	 * 
+	 * Note that if you wish accept inbound channels with anchor outputs, you must enable
+	 * [`UserConfig::manually_accept_inbound_channels`] and manually accept them with
+	 * [`ChannelManager::accept_inbound_channel`]. This is done to give you the chance to check
+	 * whether your reserve of onchain funds is enough to cover the fees for all existing and new
+	 * channels featuring anchor outputs in the event of a force close.
+	 * 
+	 * If this option is set, channels may be created that will not be readable by LDK versions
+	 * prior to 0.0.116, causing [`ChannelManager`]'s read method to return a
+	 * [`DecodeError::InvalidValue`].
+	 * 
+	 * Note that setting this to true does *not* prevent us from opening channels with
+	 * counterparties that do not support the `anchors_zero_fee_htlc_tx` option; we will simply
+	 * fall back to a `static_remote_key` channel.
+	 * 
+	 * LDK will not support the legacy `option_anchors` commitment version due to a discovered
+	 * vulnerability after its deployment. For more context, see the [`SIGHASH_SINGLE + update_fee
+	 * Considered Harmful`] mailing list post.
+	 * 
+	 * Default value: false. This value is likely to change to true in the future.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`DecodeError::InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 * [`SIGHASH_SINGLE + update_fee Considered Harmful`]: https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-September/002796.html
+	 */
+	public void set_negotiate_anchors_zero_fee_htlc_tx(boolean val) {
+		bindings.ChannelHandshakeConfig_set_negotiate_anchors_zero_fee_htlc_tx(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * The maximum number of HTLCs in-flight from our counterparty towards us at the same time.
 	 * 
 	 * Increasing the value can help improve liquidity and stability in
@@ -437,8 +509,8 @@ public class ChannelHandshakeConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, int their_channel_reserve_proportional_millionths_arg, short our_max_accepted_htlcs_arg) {
-		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, their_channel_reserve_proportional_millionths_arg, our_max_accepted_htlcs_arg);
+	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, byte max_inbound_htlc_value_in_flight_percent_of_channel_arg, boolean negotiate_scid_privacy_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, int their_channel_reserve_proportional_millionths_arg, boolean negotiate_anchors_zero_fee_htlc_tx_arg, short our_max_accepted_htlcs_arg) {
+		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, max_inbound_htlc_value_in_flight_percent_of_channel_arg, negotiate_scid_privacy_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, their_channel_reserve_proportional_millionths_arg, negotiate_anchors_zero_fee_htlc_tx_arg, our_max_accepted_htlcs_arg);
 		Reference.reachabilityFence(minimum_depth_arg);
 		Reference.reachabilityFence(our_to_self_delay_arg);
 		Reference.reachabilityFence(our_htlc_minimum_msat_arg);
@@ -447,6 +519,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 		Reference.reachabilityFence(announced_channel_arg);
 		Reference.reachabilityFence(commit_upfront_shutdown_pubkey_arg);
 		Reference.reachabilityFence(their_channel_reserve_proportional_millionths_arg);
+		Reference.reachabilityFence(negotiate_anchors_zero_fee_htlc_tx_arg);
 		Reference.reachabilityFence(our_max_accepted_htlcs_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelHandshakeConfig(null, ret); }

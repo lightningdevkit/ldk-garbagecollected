@@ -32,17 +32,17 @@ public class RecipientOnionFields extends CommonBase {
 	 * If you do not have one, the [`Route`] you pay over must not contain multiple paths as
 	 * multi-path payments require a recipient-provided secret.
 	 * 
-	 * Note that for spontaneous payments most lightning nodes do not currently support MPP
-	 * receives, thus you should generally never be providing a secret here for spontaneous
-	 * payments.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Some implementations may reject spontaneous payments with payment secrets, so you may only
+	 * want to provide a secret for a spontaneous payment if MPP is needed and you know your
+	 * recipient will not reject it.
 	 */
-	@Nullable
-	public byte[] get_payment_secret() {
-		byte[] ret = bindings.RecipientOnionFields_get_payment_secret(this.ptr);
+	public Option_PaymentSecretZ get_payment_secret() {
+		long ret = bindings.RecipientOnionFields_get_payment_secret(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_PaymentSecretZ ret_hu_conv = org.ldk.structs.Option_PaymentSecretZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -54,16 +54,15 @@ public class RecipientOnionFields extends CommonBase {
 	 * If you do not have one, the [`Route`] you pay over must not contain multiple paths as
 	 * multi-path payments require a recipient-provided secret.
 	 * 
-	 * Note that for spontaneous payments most lightning nodes do not currently support MPP
-	 * receives, thus you should generally never be providing a secret here for spontaneous
-	 * payments.
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Some implementations may reject spontaneous payments with payment secrets, so you may only
+	 * want to provide a secret for a spontaneous payment if MPP is needed and you know your
+	 * recipient will not reject it.
 	 */
-	public void set_payment_secret(@Nullable byte[] val) {
-		bindings.RecipientOnionFields_set_payment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_payment_secret(org.ldk.structs.Option_PaymentSecretZ val) {
+		bindings.RecipientOnionFields_set_payment_secret(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -115,13 +114,14 @@ public class RecipientOnionFields extends CommonBase {
 	/**
 	 * Constructs a new RecipientOnionFields given each field
 	 */
-	public static RecipientOnionFields of(byte[] payment_secret_arg, org.ldk.structs.Option_CVec_u8ZZ payment_metadata_arg) {
-		long ret = bindings.RecipientOnionFields_new(InternalUtils.check_arr_len(payment_secret_arg, 32), payment_metadata_arg.ptr);
+	public static RecipientOnionFields of(org.ldk.structs.Option_PaymentSecretZ payment_secret_arg, org.ldk.structs.Option_CVec_u8ZZ payment_metadata_arg) {
+		long ret = bindings.RecipientOnionFields_new(payment_secret_arg.ptr, payment_metadata_arg.ptr);
 		Reference.reachabilityFence(payment_secret_arg);
 		Reference.reachabilityFence(payment_metadata_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RecipientOnionFields ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RecipientOnionFields(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_secret_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_metadata_arg); };
 		return ret_hu_conv;
 	}
@@ -197,10 +197,13 @@ public class RecipientOnionFields extends CommonBase {
 
 	/**
 	 * Creates a new [`RecipientOnionFields`] with no fields. This generally does not create
-	 * payable HTLCs except for spontaneous payments, i.e. this should generally only be used for
-	 * calls to [`ChannelManager::send_spontaneous_payment`].
+	 * payable HTLCs except for single-path spontaneous payments, i.e. this should generally
+	 * only be used for calls to [`ChannelManager::send_spontaneous_payment`]. If you are sending
+	 * a spontaneous MPP this will not work as all MPP require payment secrets; you may
+	 * instead want to use [`RecipientOnionFields::secret_only`].
 	 * 
 	 * [`ChannelManager::send_spontaneous_payment`]: super::channelmanager::ChannelManager::send_spontaneous_payment
+	 * [`RecipientOnionFields::secret_only`]: RecipientOnionFields::secret_only
 	 */
 	public static RecipientOnionFields spontaneous_empty() {
 		long ret = bindings.RecipientOnionFields_spontaneous_empty();

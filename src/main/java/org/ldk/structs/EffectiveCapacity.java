@@ -27,14 +27,17 @@ public class EffectiveCapacity extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.ExactLiquidity.class) {
 			return new ExactLiquidity(ptr, (bindings.LDKEffectiveCapacity.ExactLiquidity)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.MaximumHTLC.class) {
-			return new MaximumHTLC(ptr, (bindings.LDKEffectiveCapacity.MaximumHTLC)raw_val);
+		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.AdvertisedMaxHTLC.class) {
+			return new AdvertisedMaxHTLC(ptr, (bindings.LDKEffectiveCapacity.AdvertisedMaxHTLC)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.Total.class) {
 			return new Total(ptr, (bindings.LDKEffectiveCapacity.Total)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.Infinite.class) {
 			return new Infinite(ptr, (bindings.LDKEffectiveCapacity.Infinite)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.HintMaxHTLC.class) {
+			return new HintMaxHTLC(ptr, (bindings.LDKEffectiveCapacity.HintMaxHTLC)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKEffectiveCapacity.Unknown.class) {
 			return new Unknown(ptr, (bindings.LDKEffectiveCapacity.Unknown)raw_val);
@@ -60,12 +63,12 @@ public class EffectiveCapacity extends CommonBase {
 	/**
 	 * The maximum HTLC amount in one direction as advertised on the gossip network.
 	 */
-	public final static class MaximumHTLC extends EffectiveCapacity {
+	public final static class AdvertisedMaxHTLC extends EffectiveCapacity {
 		/**
 		 * The maximum HTLC amount denominated in millisatoshi.
 		*/
 		public final long amount_msat;
-		private MaximumHTLC(long ptr, bindings.LDKEffectiveCapacity.MaximumHTLC obj) {
+		private AdvertisedMaxHTLC(long ptr, bindings.LDKEffectiveCapacity.AdvertisedMaxHTLC obj) {
 			super(null, ptr);
 			this.amount_msat = obj.amount_msat;
 		}
@@ -95,6 +98,19 @@ public class EffectiveCapacity extends CommonBase {
 	public final static class Infinite extends EffectiveCapacity {
 		private Infinite(long ptr, bindings.LDKEffectiveCapacity.Infinite obj) {
 			super(null, ptr);
+		}
+	}
+	/**
+	 * The maximum HTLC amount as provided by an invoice route hint.
+	 */
+	public final static class HintMaxHTLC extends EffectiveCapacity {
+		/**
+		 * The maximum HTLC amount denominated in millisatoshi.
+		*/
+		public final long amount_msat;
+		private HintMaxHTLC(long ptr, bindings.LDKEffectiveCapacity.HintMaxHTLC obj) {
+			super(null, ptr);
+			this.amount_msat = obj.amount_msat;
 		}
 	}
 	/**
@@ -137,10 +153,10 @@ public class EffectiveCapacity extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new MaximumHTLC-variant EffectiveCapacity
+	 * Utility method to constructs a new AdvertisedMaxHTLC-variant EffectiveCapacity
 	 */
-	public static EffectiveCapacity maximum_htlc(long amount_msat) {
-		long ret = bindings.EffectiveCapacity_maximum_htlc(amount_msat);
+	public static EffectiveCapacity advertised_max_htlc(long amount_msat) {
+		long ret = bindings.EffectiveCapacity_advertised_max_htlc(amount_msat);
 		Reference.reachabilityFence(amount_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
@@ -166,6 +182,18 @@ public class EffectiveCapacity extends CommonBase {
 	 */
 	public static EffectiveCapacity infinite() {
 		long ret = bindings.EffectiveCapacity_infinite();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new HintMaxHTLC-variant EffectiveCapacity
+	 */
+	public static EffectiveCapacity hint_max_htlc(long amount_msat) {
+		long ret = bindings.EffectiveCapacity_hint_max_htlc(amount_msat);
+		Reference.reachabilityFence(amount_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

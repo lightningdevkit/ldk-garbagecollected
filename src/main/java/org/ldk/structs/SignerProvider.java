@@ -74,17 +74,23 @@ public class SignerProvider extends CommonBase {
 		/**
 		 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
 		 * 
-		 * This method should return a different value each time it is called, to avoid linking
-		 * on-chain funds across channels as controlled to the same user.
-		 */
-		byte[] get_destination_script();
-		/**
-		 * Get a script pubkey which we will send funds to when closing a channel.
+		 * If this function returns an error, this will result in a channel failing to open.
 		 * 
 		 * This method should return a different value each time it is called, to avoid linking
 		 * on-chain funds across channels as controlled to the same user.
 		 */
-		ShutdownScript get_shutdown_scriptpubkey();
+		Result_ScriptNoneZ get_destination_script();
+		/**
+		 * Get a script pubkey which we will send funds to when closing a channel.
+		 * 
+		 * If this function returns an error, this will result in a channel failing to open or close.
+		 * In the event of a failure when the counterparty is initiating a close, this can result in a
+		 * channel force close.
+		 * 
+		 * This method should return a different value each time it is called, to avoid linking
+		 * on-chain funds across channels as controlled to the same user.
+		 */
+		Result_ShutdownScriptNoneZ get_shutdown_scriptpubkey();
 	}
 	private static class LDKSignerProviderHolder { SignerProvider held; }
 	public static SignerProvider new_impl(SignerProviderInterface arg) {
@@ -110,13 +116,14 @@ public class SignerProvider extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public byte[] get_destination_script() {
-				byte[] ret = arg.get_destination_script();
+			@Override public long get_destination_script() {
+				Result_ScriptNoneZ ret = arg.get_destination_script();
 				Reference.reachabilityFence(arg);
-				return ret;
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public long get_shutdown_scriptpubkey() {
-				ShutdownScript ret = arg.get_shutdown_scriptpubkey();
+				Result_ShutdownScriptNoneZ ret = arg.get_shutdown_scriptpubkey();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -187,27 +194,34 @@ public class SignerProvider extends CommonBase {
 	/**
 	 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
 	 * 
+	 * If this function returns an error, this will result in a channel failing to open.
+	 * 
 	 * This method should return a different value each time it is called, to avoid linking
 	 * on-chain funds across channels as controlled to the same user.
 	 */
-	public byte[] get_destination_script() {
-		byte[] ret = bindings.SignerProvider_get_destination_script(this.ptr);
+	public Result_ScriptNoneZ get_destination_script() {
+		long ret = bindings.SignerProvider_get_destination_script(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ScriptNoneZ ret_hu_conv = Result_ScriptNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Get a script pubkey which we will send funds to when closing a channel.
 	 * 
+	 * If this function returns an error, this will result in a channel failing to open or close.
+	 * In the event of a failure when the counterparty is initiating a close, this can result in a
+	 * channel force close.
+	 * 
 	 * This method should return a different value each time it is called, to avoid linking
 	 * on-chain funds across channels as controlled to the same user.
 	 */
-	public ShutdownScript get_shutdown_scriptpubkey() {
+	public Result_ShutdownScriptNoneZ get_shutdown_scriptpubkey() {
 		long ret = bindings.SignerProvider_get_shutdown_scriptpubkey(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ShutdownScript(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		Result_ShutdownScriptNoneZ ret_hu_conv = Result_ShutdownScriptNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -36,11 +36,11 @@ public class ParseOrSemanticError extends CommonBase {
 	 * The invoice couldn't be decoded
 	 */
 	public final static class ParseError extends ParseOrSemanticError {
-		public final org.ldk.structs.ParseError parse_error;
+		public final org.ldk.structs.Bolt11ParseError parse_error;
 		private ParseError(long ptr, bindings.LDKParseOrSemanticError.ParseError obj) {
 			super(null, ptr);
 			long parse_error = obj.parse_error;
-			org.ldk.structs.ParseError parse_error_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(parse_error);
+			org.ldk.structs.Bolt11ParseError parse_error_hu_conv = org.ldk.structs.Bolt11ParseError.constr_from_ptr(parse_error);
 			if (parse_error_hu_conv != null) { parse_error_hu_conv.ptrs_to.add(this); };
 			this.parse_error = parse_error_hu_conv;
 		}
@@ -49,7 +49,7 @@ public class ParseOrSemanticError extends CommonBase {
 	 * The invoice could be decoded but violates the BOLT11 standard
 	 */
 	public final static class SemanticError extends ParseOrSemanticError {
-		public final org.ldk.enums.SemanticError semantic_error;
+		public final org.ldk.enums.Bolt11SemanticError semantic_error;
 		private SemanticError(long ptr, bindings.LDKParseOrSemanticError.SemanticError obj) {
 			super(null, ptr);
 			this.semantic_error = obj.semantic_error;
@@ -76,7 +76,7 @@ public class ParseOrSemanticError extends CommonBase {
 	/**
 	 * Utility method to constructs a new ParseError-variant ParseOrSemanticError
 	 */
-	public static ParseOrSemanticError parse_error(org.ldk.structs.ParseError a) {
+	public static ParseOrSemanticError parse_error(org.ldk.structs.Bolt11ParseError a) {
 		long ret = bindings.ParseOrSemanticError_parse_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -89,7 +89,7 @@ public class ParseOrSemanticError extends CommonBase {
 	/**
 	 * Utility method to constructs a new SemanticError-variant ParseOrSemanticError
 	 */
-	public static ParseOrSemanticError semantic_error(org.ldk.enums.SemanticError a) {
+	public static ParseOrSemanticError semantic_error(org.ldk.enums.Bolt11SemanticError a) {
 		long ret = bindings.ParseOrSemanticError_semantic_error(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }

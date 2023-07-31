@@ -112,6 +112,34 @@ public class UpdateAddHTLC extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * The extra fee skimmed by the sender of this message. See
+	 * [`ChannelConfig::accept_underpaying_htlcs`].
+	 * 
+	 * [`ChannelConfig::accept_underpaying_htlcs`]: crate::util::config::ChannelConfig::accept_underpaying_htlcs
+	 */
+	public Option_u64Z get_skimmed_fee_msat() {
+		long ret = bindings.UpdateAddHTLC_get_skimmed_fee_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The extra fee skimmed by the sender of this message. See
+	 * [`ChannelConfig::accept_underpaying_htlcs`].
+	 * 
+	 * [`ChannelConfig::accept_underpaying_htlcs`]: crate::util::config::ChannelConfig::accept_underpaying_htlcs
+	 */
+	public void set_skimmed_fee_msat(org.ldk.structs.Option_u64Z val) {
+		bindings.UpdateAddHTLC_set_skimmed_fee_msat(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
 	long clone_ptr() {
 		long ret = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

@@ -10,9 +10,9 @@ import javax.annotation.Nullable;
 
 /**
  * The blinded portion of a [`Path`], if we're routing to a recipient who provided blinded paths in
- * their BOLT12 [`Invoice`].
+ * their [`Bolt12Invoice`].
  * 
- * [`Invoice`]: crate::offers::invoice::Invoice
+ * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class BlindedTail extends CommonBase {

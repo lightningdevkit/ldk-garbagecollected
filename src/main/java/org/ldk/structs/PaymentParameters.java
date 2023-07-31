@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * The recipient of a payment.
+ * Information used to route a payment.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PaymentParameters extends CommonBase {
@@ -21,77 +21,22 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
-	 * The node id of the payee.
+	 * Information about the payee, such as their features and route hints for their channels.
 	 */
-	public byte[] get_payee_pubkey() {
-		byte[] ret = bindings.PaymentParameters_get_payee_pubkey(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * The node id of the payee.
-	 */
-	public void set_payee_pubkey(byte[] val) {
-		bindings.PaymentParameters_set_payee_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
-	 * Features supported by the payee.
-	 * 
-	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
-	 * does not contain any features.
-	 * 
-	 * [`for_keysend`]: Self::for_keysend
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public InvoiceFeatures get_features() {
-		long ret = bindings.PaymentParameters_get_features(this.ptr);
+	public Payee get_payee() {
+		long ret = bindings.PaymentParameters_get_payee(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
+		org.ldk.structs.Payee ret_hu_conv = org.ldk.structs.Payee.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Features supported by the payee.
-	 * 
-	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
-	 * does not contain any features.
-	 * 
-	 * [`for_keysend`]: Self::for_keysend
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Information about the payee, such as their features and route hints for their channels.
 	 */
-	public void set_features(@Nullable org.ldk.structs.InvoiceFeatures val) {
-		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0 : val.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-		if (this != null) { this.ptrs_to.add(val); };
-	}
-
-	/**
-	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
-	 */
-	public Hints get_route_hints() {
-		long ret = bindings.PaymentParameters_get_route_hints(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Hints ret_hu_conv = org.ldk.structs.Hints.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
-	 */
-	public void set_route_hints(org.ldk.structs.Hints val) {
-		bindings.PaymentParameters_set_route_hints(this.ptr, val.ptr);
+	public void set_payee(org.ldk.structs.Payee val) {
+		bindings.PaymentParameters_set_payee(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
@@ -226,42 +171,20 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
-	 * The minimum CLTV delta at the end of the route. This value must not be zero.
-	 */
-	public int get_final_cltv_expiry_delta() {
-		int ret = bindings.PaymentParameters_get_final_cltv_expiry_delta(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * The minimum CLTV delta at the end of the route. This value must not be zero.
-	 */
-	public void set_final_cltv_expiry_delta(int val) {
-		bindings.PaymentParameters_set_final_cltv_expiry_delta(this.ptr, val);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, org.ldk.structs.Hints route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, int final_cltv_expiry_delta_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg, final_cltv_expiry_delta_arg);
-		Reference.reachabilityFence(payee_pubkey_arg);
-		Reference.reachabilityFence(features_arg);
-		Reference.reachabilityFence(route_hints_arg);
+	public static PaymentParameters of(org.ldk.structs.Payee payee_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
+		long ret = bindings.PaymentParameters_new(payee_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
+		Reference.reachabilityFence(payee_arg);
 		Reference.reachabilityFence(expiry_time_arg);
 		Reference.reachabilityFence(max_total_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(max_path_count_arg);
 		Reference.reachabilityFence(max_channel_saturation_power_of_half_arg);
 		Reference.reachabilityFence(previously_failed_channels_arg);
-		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_hints_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payee_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(expiry_time_arg); };
 		return ret_hu_conv;
 	}
@@ -355,14 +278,37 @@ public class PaymentParameters extends CommonBase {
 	 * 
 	 * The `final_cltv_expiry_delta` should match the expected final CLTV delta the recipient has
 	 * provided.
+	 * 
+	 * Note that MPP keysend is not widely supported yet. The `allow_mpp` lets you choose
+	 * whether your router will be allowed to find a multi-part route for this payment. If you
+	 * set `allow_mpp` to true, you should ensure a payment secret is set on send, likely via
+	 * [`RecipientOnionFields::secret_only`].
+	 * 
+	 * [`RecipientOnionFields::secret_only`]: crate::ln::channelmanager::RecipientOnionFields::secret_only
 	 */
-	public static PaymentParameters for_keysend(byte[] payee_pubkey, int final_cltv_expiry_delta) {
-		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta);
+	public static PaymentParameters for_keysend(byte[] payee_pubkey, int final_cltv_expiry_delta, boolean allow_mpp) {
+		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta, allow_mpp);
 		Reference.reachabilityFence(payee_pubkey);
 		Reference.reachabilityFence(final_cltv_expiry_delta);
+		Reference.reachabilityFence(allow_mpp);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates parameters for paying to a blinded payee from the provided invoice. Sets
+	 * [`Payee::Blinded::route_hints`], [`Payee::Blinded::features`], and
+	 * [`PaymentParameters::expiry_time`].
+	 */
+	public static PaymentParameters from_bolt12_invoice(org.ldk.structs.Bolt12Invoice invoice) {
+		long ret = bindings.PaymentParameters_from_bolt12_invoice(invoice == null ? 0 : invoice.ptr);
+		Reference.reachabilityFence(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
 		return ret_hu_conv;
 	}
 
