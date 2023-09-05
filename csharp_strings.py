@@ -15,6 +15,7 @@ class Consts:
             uint16_t = ['short'],
             uint32_t = ['int'],
             uint64_t = ['long'],
+            int64_t = ['long'],
         )
         self.java_type_map = dict(
             String = "string"
@@ -79,6 +80,33 @@ public class CommonBase {
 }
 """
 
+        self.txin_defn = """public class TxIn : CommonBase {
+	/** The witness in this input, in serialized form */
+	public readonly byte[] witness;
+	/** The script_sig in this input */
+	public readonly byte[] script_sig;
+	/** The transaction output's sequence number */
+	public readonly int sequence;
+	/** The txid this input is spending */
+	public readonly byte[] previous_txid;
+	/** The output index within the spent transaction of the output this input is spending */
+	public readonly int previous_vout;
+
+	internal TxIn(object _dummy, long ptr) : base(ptr) {
+		this.witness = bindings.TxIn_get_witness(ptr);
+		this.script_sig = bindings.TxIn_get_script_sig(ptr);
+		this.sequence = bindings.TxIn_get_sequence(ptr);
+		this.previous_txid = bindings.TxIn_get_previous_txid(ptr);
+		this.previous_vout = bindings.TxIn_get_previous_vout(ptr);
+	}
+	public TxIn(byte[] witness, byte[] script_sig, int sequence, byte[] previous_txid, int previous_vout)
+	: this(null, bindings.TxIn_new(witness, script_sig, sequence, previous_txid, previous_vout)) {}
+
+	~TxIn() {
+		if (ptr != 0) { bindings.TxIn_free(ptr); }
+	}
+}"""
+
         self.txout_defn = """public class TxOut : CommonBase {
 	/** The script_pubkey in this output */
 	public readonly byte[] script_pubkey;
@@ -89,10 +117,7 @@ public class CommonBase {
 		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-    public TxOut(long value, byte[] script_pubkey) : base(bindings.TxOut_new(script_pubkey, value)) {
-		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
-		this.value = bindings.TxOut_get_value(ptr);
-	}
+    public TxOut(long value, byte[] script_pubkey) : this(null, bindings.TxOut_new(script_pubkey, value)) {}
 
 	~TxOut() {
 		if (ptr != 0) { bindings.TxOut_free(ptr); }
@@ -414,6 +439,8 @@ namespace org { namespace ldk { namespace structs {
             return "(*env)->New" + ty_info.java_ty.strip("[]").title() + "Array(env, " + arr_len + ")"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
+            return ("(*env)->SetByteArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", ", ")")
+        elif ty_info.c_ty == "int16_tArray":
             return ("(*env)->SetByteArrayRegion(env, " + arr_name + ", 0, " + arr_len + ", ", ")")
         else:
             assert False
