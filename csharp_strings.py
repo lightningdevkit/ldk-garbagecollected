@@ -703,17 +703,21 @@ namespace org { namespace ldk { namespace structs {
                 java_trait_constr = java_trait_constr + ", " + var.arg_name
             else:
                 java_trait_constr += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
+                suptrait_constr = ""
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        suptrait_constr += ", " + suparg.arg_name
+                    else:
+                        suptrait_constr += ", " + suparg[1] + "_impl"
+                java_trait_constr += suptrait_constr + ").bindings_instance"
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
                         java_trait_constr += ", " + suparg.arg_name
                     else:
-                        java_trait_constr += ", " + suparg[1]
-                java_trait_constr += ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        java_trait_constr += ", " + suparg.arg_name
-                    else:
-                        java_trait_constr += ", " + suparg[1]
+                        java_trait_constr += ", " + suparg[1] + ".new_impl("
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        java_trait_constr += suptrait_constr.split(", ", 1)[1]
+                        java_trait_constr += ").bindings_instance"
         out_java_trait += "\t}\n" + java_trait_wrapper + "\n"
         out_java_trait += java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
