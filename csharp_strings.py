@@ -32,11 +32,42 @@ class Consts:
         self.bindings_header = """
 using org.ldk.enums;
 using org.ldk.impl;
+using System;
 using System.Runtime.InteropServices;
 
 namespace org { namespace ldk { namespace impl {
 
 internal class bindings {
+	internal class ArrayCoder : ICustomMarshaler {
+		int size = 0;
+		GCHandle pinnedArray;
+		public static ICustomMarshaler GetInstance(string pstrCookie) {
+			return new ArrayCoder();
+		}
+
+		public Object MarshalNativeToManaged(IntPtr pNativeData) { throw new NotImplementedException(); }
+		public IntPtr MarshalManagedToNative(Object obj) {
+			if (obj.GetType() == typeof(byte[])) {
+				byte[] inp = (byte[])obj;
+				IntPtr data = Marshal.AllocHGlobal(inp.Length + 8);
+				Marshal.WriteInt64(data, inp.Length);
+				Marshal.Copy(inp, 0, data + 8, inp.Length);
+				this.size = inp.Length + 8;
+				return data;
+			} else {
+				throw new NotImplementedException();
+			}
+		}
+		public void CleanUpNativeData(IntPtr pNativeData) {
+			Marshal.FreeHGlobal(pNativeData);
+		}
+		public void CleanUpManagedData(Object ManagedObj) { }
+		public int GetNativeDataSize() {
+			// Blindly guess based on the last allocation, no idea how else to implement this.
+			return this.size;
+		}
+	}
+
 	/*static {
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
@@ -1129,6 +1160,8 @@ namespace org { namespace ldk { namespace structs {
                 out_c += (", ")
             if arg_conv_info.c_ty != "void":
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
+                if "[]" in arg_conv_info.java_ty:
+                    out_java += "[MarshalAs(UnmanagedType.CustomMarshaler, MarshalType=\"org.ldk.impl.ArrayCoder\")] "
                 out_java += (arg_conv_info.java_ty + " _" + arg_conv_info.arg_name) # Add a _ to avoid using reserved words
 
         out_java_struct = ""
