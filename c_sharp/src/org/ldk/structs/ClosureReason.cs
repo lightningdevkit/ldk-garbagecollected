@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * The reason the channel was closed. See individual variants more details.
+ * The reason the channel was closed. See individual variants for more details.
  */
 public class ClosureReason : CommonBase {
 	protected ClosureReason(object _dummy, long ptr) : base(ptr) { }
@@ -25,6 +25,7 @@ public class ClosureReason : CommonBase {
 			case 5: return new ClosureReason_ProcessingError(ptr);
 			case 6: return new ClosureReason_DisconnectedPeer(ptr);
 			case 7: return new ClosureReason_OutdatedChannelManager(ptr);
+			case 8: return new ClosureReason_CounterpartyCoopClosedUnfundedChannel(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -35,13 +36,18 @@ public class ClosureReason : CommonBase {
 		/**
 		 * The error which the peer sent us.
 		 * 
-		 * The string should be sanitized before it is used (e.g emitted to logs
-		 * or printed to stdout). Otherwise, a well crafted error message may exploit
+		 * Be careful about printing the peer_msg, a well-crafted message could exploit
 		 * a security vulnerability in the terminal emulator or the logging subsystem.
+		 * To be safe, use `Display` on `UntrustedString`
+		 * 
+		 * [`UntrustedString`]: crate::util::string::UntrustedString
 		 */
-		public string peer_msg;
+		public UntrustedString peer_msg;
 		internal ClosureReason_CounterpartyForceClosed(long ptr) : base(null, ptr) {
-			this.peer_msg = bindings.LDKClosureReason_CounterpartyForceClosed_get_peer_msg(ptr);
+			long peer_msg = bindings.LDKClosureReason_CounterpartyForceClosed_get_peer_msg(ptr);
+			org.ldk.structs.UntrustedString peer_msg_hu_conv = null; if (peer_msg < 0 || peer_msg > 4096) { peer_msg_hu_conv = new org.ldk.structs.UntrustedString(null, peer_msg); }
+			if (peer_msg_hu_conv != null) { peer_msg_hu_conv.ptrs_to.AddLast(this); };
+			this.peer_msg = peer_msg_hu_conv;
 		}
 	}
 	/** A ClosureReason of type HolderForceClosed */
@@ -84,6 +90,11 @@ public class ClosureReason : CommonBase {
 		internal ClosureReason_OutdatedChannelManager(long ptr) : base(null, ptr) {
 		}
 	}
+	/** A ClosureReason of type CounterpartyCoopClosedUnfundedChannel */
+	public class ClosureReason_CounterpartyCoopClosedUnfundedChannel : ClosureReason {
+		internal ClosureReason_CounterpartyCoopClosedUnfundedChannel(long ptr) : base(null, ptr) {
+		}
+	}
 	internal long clone_ptr() {
 		long ret = bindings.ClosureReason_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -105,12 +116,13 @@ public class ClosureReason : CommonBase {
 	/**
 	 * Utility method to constructs a new CounterpartyForceClosed-variant ClosureReason
 	 */
-	public static ClosureReason counterparty_force_closed(string peer_msg) {
-		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg);
+	public static ClosureReason counterparty_force_closed(org.ldk.structs.UntrustedString peer_msg) {
+		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg == null ? 0 : peer_msg.ptr);
 		GC.KeepAlive(peer_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(peer_msg); };
 		return ret_hu_conv;
 	}
 
@@ -186,6 +198,17 @@ public class ClosureReason : CommonBase {
 	 */
 	public static ClosureReason outdated_channel_manager() {
 		long ret = bindings.ClosureReason_outdated_channel_manager();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CounterpartyCoopClosedUnfundedChannel-variant ClosureReason
+	 */
+	public static ClosureReason counterparty_coop_closed_unfunded_channel() {
+		long ret = bindings.ClosureReason_counterparty_coop_closed_unfunded_channel();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

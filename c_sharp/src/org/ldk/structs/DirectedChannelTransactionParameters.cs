@@ -80,10 +80,13 @@ public class DirectedChannelTransactionParameters : CommonBase {
 	/**
 	 * Whether to use anchors for this channel
 	 */
-	public bool opt_anchors() {
-		bool ret = bindings.DirectedChannelTransactionParameters_opt_anchors(this.ptr);
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.DirectedChannelTransactionParameters_channel_type_features(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 }

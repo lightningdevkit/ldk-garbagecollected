@@ -16,7 +16,7 @@ public class RoutingFees : CommonBase {
 	}
 
 	/**
-	 * Flat routing fee in satoshis
+	 * Flat routing fee in millisatoshis.
 	 */
 	public int get_base_msat() {
 		int ret = bindings.RoutingFees_get_base_msat(this.ptr);
@@ -25,7 +25,7 @@ public class RoutingFees : CommonBase {
 	}
 
 	/**
-	 * Flat routing fee in satoshis
+	 * Flat routing fee in millisatoshis.
 	 */
 	public void set_base_msat(int val) {
 		bindings.RoutingFees_set_base_msat(this.ptr, val);
@@ -102,7 +102,7 @@ public class RoutingFees : CommonBase {
 	}
 
 	/**
-	 * Checks if two RoutingFeess contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RoutingFees.
 	 */
 	public long hash() {
 		long ret = bindings.RoutingFees_hash(this.ptr);

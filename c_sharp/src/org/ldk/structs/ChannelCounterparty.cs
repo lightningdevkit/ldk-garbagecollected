@@ -141,6 +141,7 @@ public class ChannelCounterparty : CommonBase {
 		bindings.ChannelCounterparty_set_outbound_htlc_minimum_msat(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -162,6 +163,7 @@ public class ChannelCounterparty : CommonBase {
 		bindings.ChannelCounterparty_set_outbound_htlc_maximum_msat(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -180,6 +182,8 @@ public class ChannelCounterparty : CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(features_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(forwarding_info_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(outbound_htlc_minimum_msat_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(outbound_htlc_maximum_msat_arg); };
 		return ret_hu_conv;
 	}
 

@@ -14,8 +14,8 @@ namespace org { namespace ldk { namespace structs {
  * Monitoring whether the [`ChannelManager`] needs to be re-persisted to disk, and if so,
  * writing it to disk/backups by invoking the callback given to it at startup.
  * [`ChannelManager`] persistence should be done in the background.
- * Calling [`ChannelManager::timer_tick_occurred`] and [`PeerManager::timer_tick_occurred`]
- * at the appropriate intervals.
+ * Calling [`ChannelManager::timer_tick_occurred`], [`ChainMonitor::rebroadcast_pending_claims`]
+ * and [`PeerManager::timer_tick_occurred`] at the appropriate intervals.
  * Calling [`NetworkGraph::remove_stale_channels_and_tracking`] (if a [`GossipSync`] with a
  * [`NetworkGraph`] is provided to [`BackgroundProcessor::start`]).
  * 
@@ -30,7 +30,9 @@ namespace org { namespace ldk { namespace structs {
  * unilateral chain closure fees are at risk.
  * 
  * [`ChannelMonitor`]: lightning::chain::channelmonitor::ChannelMonitor
- * [`Event`]: lightning::util::events::Event
+ * [`Event`]: lightning::events::Event
+ * [`PeerManager::timer_tick_occurred`]: lightning::ln::peer_handler::PeerManager::timer_tick_occurred
+ * [`PeerManager::process_events`]: lightning::ln::peer_handler::PeerManager::process_events
  * BackgroundProcessor will immediately stop on drop. It should be stored until shutdown.
  */
 public class BackgroundProcessor : CommonBase {
@@ -86,7 +88,7 @@ public class BackgroundProcessor : CommonBase {
 	 * [`NetworkGraph::write`]: lightning::routing::gossip::NetworkGraph#impl-Writeable
 	 */
 	public static BackgroundProcessor start(org.ldk.structs.Persister persister, org.ldk.structs.EventHandler event_handler, org.ldk.structs.ChainMonitor chain_monitor, org.ldk.structs.ChannelManager channel_manager, org.ldk.structs.GossipSync gossip_sync, org.ldk.structs.PeerManager peer_manager, org.ldk.structs.Logger logger, org.ldk.structs.Option_WriteableScoreZ scorer) {
-		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, channel_manager == null ? 0 : channel_manager.ptr, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr, logger == null ? 0 : logger.ptr, scorer.ptr);
+		long ret = bindings.BackgroundProcessor_start(persister.ptr, event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, channel_manager == null ? 0 : channel_manager.ptr, gossip_sync.ptr, peer_manager == null ? 0 : peer_manager.ptr, logger.ptr, scorer.ptr);
 		GC.KeepAlive(persister);
 		GC.KeepAlive(event_handler);
 		GC.KeepAlive(chain_monitor);
@@ -102,6 +104,7 @@ public class BackgroundProcessor : CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(event_handler); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(gossip_sync); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(peer_manager); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(scorer); };

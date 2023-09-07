@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A closing_signed message to be sent or received from a peer
+ * A [`closing_signed`] message to be sent to or received from a peer.
+ * 
+ * [`closing_signed`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#closing-negotiation-closing_signed
  */
 public class ClosingSigned : CommonBase {
 	internal ClosingSigned(object _dummy, long ptr) : base(ptr) { }

@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An update_add_htlc message to be sent or received from a peer
+ * An [`update_add_htlc`] message to be sent to or received from a peer.
+ * 
+ * [`update_add_htlc`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#adding-an-htlc-update_add_htlc
  */
 public class UpdateAddHTLC : CommonBase {
 	internal UpdateAddHTLC(object _dummy, long ptr) : base(ptr) { }
@@ -103,6 +105,34 @@ public class UpdateAddHTLC : CommonBase {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+	}
+
+	/**
+	 * The extra fee skimmed by the sender of this message. See
+	 * [`ChannelConfig::accept_underpaying_htlcs`].
+	 * 
+	 * [`ChannelConfig::accept_underpaying_htlcs`]: crate::util::config::ChannelConfig::accept_underpaying_htlcs
+	 */
+	public Option_u64Z get_skimmed_fee_msat() {
+		long ret = bindings.UpdateAddHTLC_get_skimmed_fee_msat(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The extra fee skimmed by the sender of this message. See
+	 * [`ChannelConfig::accept_underpaying_htlcs`].
+	 * 
+	 * [`ChannelConfig::accept_underpaying_htlcs`]: crate::util::config::ChannelConfig::accept_underpaying_htlcs
+	 */
+	public void set_skimmed_fee_msat(org.ldk.structs.Option_u64Z val) {
+		bindings.UpdateAddHTLC_set_skimmed_fee_msat(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	internal long clone_ptr() {

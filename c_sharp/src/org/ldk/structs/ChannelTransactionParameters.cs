@@ -134,65 +134,47 @@ public class ChannelTransactionParameters : CommonBase {
 	}
 
 	/**
-	 * Are anchors (zero fee HTLC transaction variant) used for this channel. Boolean is
-	 * serialization backwards-compatible.
+	 * This channel's type, as negotiated during channel open. For old objects where this field
+	 * wasn't serialized, it will default to static_remote_key at deserialization.
 	 */
-	public COption_NoneZ get_opt_anchors() {
-		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_anchors(this.ptr);
+	public ChannelTypeFeatures get_channel_type_features() {
+		long ret = bindings.ChannelTransactionParameters_get_channel_type_features(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * Are anchors (zero fee HTLC transaction variant) used for this channel. Boolean is
-	 * serialization backwards-compatible.
+	 * This channel's type, as negotiated during channel open. For old objects where this field
+	 * wasn't serialized, it will default to static_remote_key at deserialization.
 	 */
-	public void set_opt_anchors(COption_NoneZ val) {
-		bindings.ChannelTransactionParameters_set_opt_anchors(this.ptr, val);
+	public void set_channel_type_features(org.ldk.structs.ChannelTypeFeatures val) {
+		bindings.ChannelTransactionParameters_set_channel_type_features(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
-	}
-
-	/**
-	 * Are non-zero-fee anchors are enabled (used in conjuction with opt_anchors)
-	 * It is intended merely for backwards compatibility with signers that need it.
-	 * There is no support for this feature in LDK channel negotiation.
-	 */
-	public COption_NoneZ get_opt_non_zero_fee_anchors() {
-		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_non_zero_fee_anchors(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
-	 * Are non-zero-fee anchors are enabled (used in conjuction with opt_anchors)
-	 * It is intended merely for backwards compatibility with signers that need it.
-	 * There is no support for this feature in LDK channel negotiation.
-	 */
-	public void set_opt_non_zero_fee_anchors(COption_NoneZ val) {
-		bindings.ChannelTransactionParameters_set_opt_non_zero_fee_anchors(this.ptr, val);
-		GC.KeepAlive(this);
-		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
-	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, bool is_outbound_from_holder_arg, org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, org.ldk.structs.OutPoint funding_outpoint_arg, COption_NoneZ opt_anchors_arg, COption_NoneZ opt_non_zero_fee_anchors_arg) {
-		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, opt_anchors_arg, opt_non_zero_fee_anchors_arg);
+	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, bool is_outbound_from_holder_arg, org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, org.ldk.structs.OutPoint funding_outpoint_arg, org.ldk.structs.ChannelTypeFeatures channel_type_features_arg) {
+		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, channel_type_features_arg == null ? 0 : channel_type_features_arg.ptr);
 		GC.KeepAlive(holder_pubkeys_arg);
 		GC.KeepAlive(holder_selected_contest_delay_arg);
 		GC.KeepAlive(is_outbound_from_holder_arg);
 		GC.KeepAlive(counterparty_parameters_arg);
 		GC.KeepAlive(funding_outpoint_arg);
-		GC.KeepAlive(opt_anchors_arg);
-		GC.KeepAlive(opt_non_zero_fee_anchors_arg);
+		GC.KeepAlive(channel_type_features_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(holder_pubkeys_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(counterparty_parameters_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(funding_outpoint_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_type_features_arg); };
 		return ret_hu_conv;
 	}
 
@@ -214,6 +196,23 @@ public class ChannelTransactionParameters : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two ChannelTransactionParameterss contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public bool eq(org.ldk.structs.ChannelTransactionParameters b) {
+		bool ret = bindings.ChannelTransactionParameters_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		if (this != null) { this.ptrs_to.AddLast(b); };
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is ChannelTransactionParameters)) return false;
+		return this.eq((ChannelTransactionParameters)o);
+	}
 	/**
 	 * Whether the late bound parameters are populated.
 	 */

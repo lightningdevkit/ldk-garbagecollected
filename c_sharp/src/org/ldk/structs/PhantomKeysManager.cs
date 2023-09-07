@@ -30,14 +30,40 @@ public class PhantomKeysManager : CommonBase {
 	}
 
 	/**
-	 * Constructs a new KeysInterface which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned KeysInterface must be freed before this_arg is
+	 * Constructs a new EntropySource which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EntropySource must be freed before this_arg is
 	 */
-	public KeysInterface as_KeysInterface() {
-		long ret = bindings.PhantomKeysManager_as_KeysInterface(this.ptr);
+	public EntropySource as_EntropySource() {
+		long ret = bindings.PhantomKeysManager_as_EntropySource(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new NodeSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned NodeSigner must be freed before this_arg is
+	 */
+	public NodeSigner as_NodeSigner() {
+		long ret = bindings.PhantomKeysManager_as_NodeSigner(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeSigner ret_hu_conv = new NodeSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new SignerProvider which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned SignerProvider must be freed before this_arg is
+	 */
+	public SignerProvider as_SignerProvider() {
+		long ret = bindings.PhantomKeysManager_as_SignerProvider(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		SignerProvider ret_hu_conv = new SignerProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -70,15 +96,18 @@ public class PhantomKeysManager : CommonBase {
 	/**
 	 * See [`KeysManager::spend_spendable_outputs`] for documentation on this method.
 	 */
-	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight) {
-		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? InternalUtils.mapArray(descriptors, descriptors_conv_27 => descriptors_conv_27.ptr) : null, outputs != null ? InternalUtils.mapArray(outputs, outputs_conv_7 => outputs_conv_7.ptr) : null, change_destination_script, feerate_sat_per_1000_weight);
+	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_PackedLockTimeZ locktime) {
+		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? InternalUtils.mapArray(descriptors, descriptors_conv_27 => descriptors_conv_27.ptr) : null, outputs != null ? InternalUtils.mapArray(outputs, outputs_conv_7 => outputs_conv_7.ptr) : null, change_destination_script, feerate_sat_per_1000_weight, locktime.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(descriptors);
 		GC.KeepAlive(outputs);
 		GC.KeepAlive(change_destination_script);
 		GC.KeepAlive(feerate_sat_per_1000_weight);
+		GC.KeepAlive(locktime);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		foreach (SpendableOutputDescriptor descriptors_conv_27 in descriptors) { if (this != null) { this.ptrs_to.AddLast(descriptors_conv_27); }; };
+		if (this != null) { this.ptrs_to.AddLast(locktime); };
 		return ret_hu_conv;
 	}
 
@@ -94,6 +123,25 @@ public class PhantomKeysManager : CommonBase {
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the \"node_id\" secret key used to sign gossip announcements, decode onion data, etc.
+	 */
+	public byte[] get_node_secret_key() {
+		byte[] ret = bindings.PhantomKeysManager_get_node_secret_key(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Gets the \"node_id\" secret key of the phantom node used to sign invoices, decode the
+	 * last-hop onion data, etc.
+	 */
+	public byte[] get_phantom_node_secret_key() {
+		byte[] ret = bindings.PhantomKeysManager_get_phantom_node_secret_key(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 }

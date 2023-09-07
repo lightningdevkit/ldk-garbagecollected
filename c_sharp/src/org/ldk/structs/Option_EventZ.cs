@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * An enum which can either contain a crate::lightning::util::events::Event or not
+ * An enum which can either contain a crate::lightning::events::Event or not
  */
 public class Option_EventZ : CommonBase {
 	protected Option_EventZ(object _dummy, long ptr) : base(ptr) { }
@@ -40,7 +40,7 @@ public class Option_EventZ : CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_EventZ containing a crate::lightning::util::events::Event
+	 * Constructs a new COption_EventZ containing a crate::lightning::events::Event
 	 */
 	public static Option_EventZ some(org.ldk.structs.Event o) {
 		long ret = bindings.COption_EventZ_some(o.ptr);
@@ -48,6 +48,7 @@ public class Option_EventZ : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_EventZ ret_hu_conv = org.ldk.structs.Option_EventZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o); };
 		return ret_hu_conv;
 	}
 

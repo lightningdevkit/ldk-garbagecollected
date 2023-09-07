@@ -57,6 +57,7 @@ public class EventHandler : CommonBase {
 		bindings.EventHandler_handle_event(this.ptr, _event.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(_event);
+		if (this != null) { this.ptrs_to.AddLast(_event); };
 	}
 
 }

@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An init message to be sent or received from a peer
+ * An [`init`] message to be sent to or received from a peer.
+ * 
+ * [`init`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-init-message
  */
 public class Init : CommonBase {
 	internal Init(object _dummy, long ptr) : base(ptr) { }
@@ -16,7 +18,7 @@ public class Init : CommonBase {
 	}
 
 	/**
-	 * The relevant features which the sender supports
+	 * The relevant features which the sender supports.
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.Init_get_features(this.ptr);
@@ -28,7 +30,7 @@ public class Init : CommonBase {
 	}
 
 	/**
-	 * The relevant features which the sender supports
+	 * The relevant features which the sender supports.
 	 */
 	public void set_features(org.ldk.structs.InitFeatures val) {
 		bindings.Init_set_features(this.ptr, val == null ? 0 : val.ptr);
@@ -38,10 +40,40 @@ public class Init : CommonBase {
 	}
 
 	/**
-	 * The receipient's network address. This adds the option to report a remote IP address
-	 * back to a connecting peer using the init message. A node can decide to use that information
-	 * to discover a potential update to its public IPv4 address (NAT) and use
-	 * that for a node_announcement update message containing the new address.
+	 * Indicates chains the sender is interested in.
+	 * 
+	 * If there are no common chains, the connection will be closed.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public Option_CVec_ChainHashZZ get_networks() {
+		long ret = bindings.Init_get_networks(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_ChainHashZZ ret_hu_conv = org.ldk.structs.Option_CVec_ChainHashZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Indicates chains the sender is interested in.
+	 * 
+	 * If there are no common chains, the connection will be closed.
+	 */
+	public void set_networks(org.ldk.structs.Option_CVec_ChainHashZZ val) {
+		bindings.Init_set_networks(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
+	}
+
+	/**
+	 * The receipient's network address.
+	 * 
+	 * This adds the option to report a remote IP address back to a connecting peer using the init
+	 * message. A node can decide to use that information to discover a potential update to its
+	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
+	 * the new address.
 	 */
 	public Option_NetAddressZ get_remote_network_address() {
 		long ret = bindings.Init_get_remote_network_address(this.ptr);
@@ -53,28 +85,34 @@ public class Init : CommonBase {
 	}
 
 	/**
-	 * The receipient's network address. This adds the option to report a remote IP address
-	 * back to a connecting peer using the init message. A node can decide to use that information
-	 * to discover a potential update to its public IPv4 address (NAT) and use
-	 * that for a node_announcement update message containing the new address.
+	 * The receipient's network address.
+	 * 
+	 * This adds the option to report a remote IP address back to a connecting peer using the init
+	 * message. A node can decide to use that information to discover a potential update to its
+	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
+	 * the new address.
 	 */
 	public void set_remote_network_address(org.ldk.structs.Option_NetAddressZ val) {
 		bindings.Init_set_remote_network_address(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Constructs a new Init given each field
 	 */
-	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_NetAddressZ remote_network_address_arg) {
-		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, remote_network_address_arg.ptr);
+	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_CVec_ChainHashZZ networks_arg, org.ldk.structs.Option_NetAddressZ remote_network_address_arg) {
+		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, networks_arg.ptr, remote_network_address_arg.ptr);
 		GC.KeepAlive(features_arg);
+		GC.KeepAlive(networks_arg);
 		GC.KeepAlive(remote_network_address_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Init(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(features_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(networks_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(remote_network_address_arg); };
 		return ret_hu_conv;
 	}
 

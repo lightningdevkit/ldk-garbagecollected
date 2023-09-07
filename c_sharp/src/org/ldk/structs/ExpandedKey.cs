@@ -8,9 +8,9 @@ namespace org { namespace ldk { namespace structs {
 
 /**
  * A set of keys that were HKDF-expanded from an initial call to
- * [`KeysInterface::get_inbound_payment_key_material`].
+ * [`NodeSigner::get_inbound_payment_key_material`].
  * 
- * [`KeysInterface::get_inbound_payment_key_material`]: crate::chain::keysinterface::KeysInterface::get_inbound_payment_key_material
+ * [`NodeSigner::get_inbound_payment_key_material`]: crate::sign::NodeSigner::get_inbound_payment_key_material
  */
 public class ExpandedKey : CommonBase {
 	internal ExpandedKey(object _dummy, long ptr) : base(ptr) { }

@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A channel_reestablish message to be sent or received from a peer
+ * A [`channel_reestablish`] message to be sent to or received from a peer.
+ * 
+ * [`channel_reestablish`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#message-retransmission
  */
 public class ChannelReestablish : CommonBase {
 	internal ChannelReestablish(object _dummy, long ptr) : base(ptr) { }
@@ -67,6 +69,84 @@ public class ChannelReestablish : CommonBase {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+	}
+
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
+	public byte[] get_your_last_per_commitment_secret() {
+		byte[] ret = bindings.ChannelReestablish_get_your_last_per_commitment_secret(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
+	public void set_your_last_per_commitment_secret(byte[] val) {
+		bindings.ChannelReestablish_set_your_last_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
+	public byte[] get_my_current_per_commitment_point() {
+		byte[] ret = bindings.ChannelReestablish_get_my_current_per_commitment_point(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
+	public void set_my_current_per_commitment_point(byte[] val) {
+		bindings.ChannelReestablish_set_my_current_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * The next funding transaction ID
+	 */
+	public Option_TxidZ get_next_funding_txid() {
+		long ret = bindings.ChannelReestablish_get_next_funding_txid(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_TxidZ ret_hu_conv = org.ldk.structs.Option_TxidZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The next funding transaction ID
+	 */
+	public void set_next_funding_txid(org.ldk.structs.Option_TxidZ val) {
+		bindings.ChannelReestablish_set_next_funding_txid(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
+	}
+
+	/**
+	 * Constructs a new ChannelReestablish given each field
+	 */
+	public static ChannelReestablish of(byte[] channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.Option_TxidZ next_funding_txid_arg) {
+		long ret = bindings.ChannelReestablish_new(InternalUtils.check_arr_len(channel_id_arg, 32), next_local_commitment_number_arg, next_remote_commitment_number_arg, InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32), InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33), next_funding_txid_arg.ptr);
+		GC.KeepAlive(channel_id_arg);
+		GC.KeepAlive(next_local_commitment_number_arg);
+		GC.KeepAlive(next_remote_commitment_number_arg);
+		GC.KeepAlive(your_last_per_commitment_secret_arg);
+		GC.KeepAlive(my_current_per_commitment_point_arg);
+		GC.KeepAlive(next_funding_txid_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelReestablish ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReestablish(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(next_funding_txid_arg); };
+		return ret_hu_conv;
 	}
 
 	internal long clone_ptr() {

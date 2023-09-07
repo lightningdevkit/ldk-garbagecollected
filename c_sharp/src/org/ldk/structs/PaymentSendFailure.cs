@@ -6,9 +6,11 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * If a payment fails to send, it can be in one of several states. This enum is returned as the
- * Err() type describing which state the payment is in, see the description of individual enum
- * states for more.
+ * If a payment fails to send with [`ChannelManager::send_payment_with_route`], it can be in one
+ * of several states. This enum is returned as the Err() type describing which state the payment
+ * is in, see the description of individual enum states for more.
+ * 
+ * [`ChannelManager::send_payment_with_route`]: crate::ln::channelmanager::ChannelManager::send_payment_with_route
  */
 public class PaymentSendFailure : CommonBase {
 	protected PaymentSendFailure(object _dummy, long ptr) : base(ptr) { }
@@ -78,13 +80,12 @@ public class PaymentSendFailure : CommonBase {
 	/** A PaymentSendFailure of type PartialFailure */
 	public class PaymentSendFailure_PartialFailure : PaymentSendFailure {
 		/**
-		 * The errors themselves, in the same order as the route hops.
+		 * The errors themselves, in the same order as the paths from the route.
 		 */
 		public Result_NoneAPIErrorZ[] results;
 		/**
 		 * If some paths failed without irrevocably committing to the new HTLC(s), this will
-		 * contain a [`RouteParameters`] object which can be used to calculate a new route that
-		 * will pay all remaining unpaid balance.
+		 * contain a [`RouteParameters`] object for the failing paths.
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
@@ -137,6 +138,7 @@ public class PaymentSendFailure : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
 		return ret_hu_conv;
 	}
 
@@ -161,6 +163,7 @@ public class PaymentSendFailure : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		foreach (APIError a_conv_10 in a) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a_conv_10); }; };
 		return ret_hu_conv;
 	}
 

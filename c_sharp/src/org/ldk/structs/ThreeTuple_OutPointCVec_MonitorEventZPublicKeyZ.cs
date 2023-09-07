@@ -84,6 +84,7 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ : CommonBase {
 		ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ ret_hu_conv = new ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
+		foreach (MonitorEvent b_conv_14 in b) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(b_conv_14); }; };
 		return ret_hu_conv;
 	}
 

@@ -58,6 +58,7 @@ public class Result_NodeIdDecodeErrorZ : CommonBase {
 		GC.KeepAlive(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeIdDecodeErrorZ ret_hu_conv = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(e); };
 		return ret_hu_conv;
 	}
 

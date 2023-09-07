@@ -80,6 +80,19 @@ public class IgnoringMessageHandler : CommonBase {
 	}
 
 	/**
+	 * Constructs a new OffersMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned OffersMessageHandler must be freed before this_arg is
+	 */
+	public OffersMessageHandler as_OffersMessageHandler() {
+		long ret = bindings.IgnoringMessageHandler_as_OffersMessageHandler(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		OffersMessageHandler ret_hu_conv = new OffersMessageHandler(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new CustomOnionMessageHandler which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned CustomOnionMessageHandler must be freed before this_arg is
 	 */

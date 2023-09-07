@@ -27,24 +27,24 @@ public class WatchedOutput : CommonBase {
 
 	/**
 	 * First block where the transaction output may have been spent.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public byte[] get_block_hash() {
-		byte[] ret = bindings.WatchedOutput_get_block_hash(this.ptr);
+	public Option_BlockHashZ get_block_hash() {
+		long ret = bindings.WatchedOutput_get_block_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_BlockHashZ ret_hu_conv = org.ldk.structs.Option_BlockHashZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * First block where the transaction output may have been spent.
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_block_hash(byte[] val) {
-		bindings.WatchedOutput_set_block_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_block_hash(org.ldk.structs.Option_BlockHashZ val) {
+		bindings.WatchedOutput_set_block_hash(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -90,14 +90,15 @@ public class WatchedOutput : CommonBase {
 	/**
 	 * Constructs a new WatchedOutput given each field
 	 */
-	public static WatchedOutput of(byte[] block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
-		long ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
+	public static WatchedOutput of(org.ldk.structs.Option_BlockHashZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
+		long ret = bindings.WatchedOutput_new(block_hash_arg.ptr, outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
 		GC.KeepAlive(block_hash_arg);
 		GC.KeepAlive(outpoint_arg);
 		GC.KeepAlive(script_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.WatchedOutput(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(block_hash_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(outpoint_arg); };
 		return ret_hu_conv;
 	}
@@ -138,7 +139,7 @@ public class WatchedOutput : CommonBase {
 		return this.eq((WatchedOutput)o);
 	}
 	/**
-	 * Checks if two WatchedOutputs contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the WatchedOutput.
 	 */
 	public long hash() {
 		long ret = bindings.WatchedOutput_hash(this.ptr);

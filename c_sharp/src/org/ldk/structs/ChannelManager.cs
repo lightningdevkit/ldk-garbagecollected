@@ -10,39 +10,55 @@ namespace org { namespace ldk { namespace structs {
  * Manager which keeps track of a number of channels and sends messages to the appropriate
  * channel, also tracking HTLC preimages and forwarding onion packets appropriately.
  * 
- * Implements ChannelMessageHandler, handling the multi-channel parts and passing things through
+ * Implements [`ChannelMessageHandler`], handling the multi-channel parts and passing things through
  * to individual Channels.
  * 
- * Implements Writeable to write out all channel state to disk. Implies peer_disconnected() for
+ * Implements [`Writeable`] to write out all channel state to disk. Implies [`peer_disconnected`] for
  * all peers during write/read (though does not modify this instance, only the instance being
- * serialized). This will result in any channels which have not yet exchanged funding_created (ie
- * called funding_transaction_generated for outbound channels).
+ * serialized). This will result in any channels which have not yet exchanged [`funding_created`] (i.e.,
+ * called [`funding_transaction_generated`] for outbound channels) being closed.
  * 
- * Note that you can be a bit lazier about writing out ChannelManager than you can be with
- * ChannelMonitors. With ChannelMonitors you MUST write each monitor update out to disk before
- * returning from chain::Watch::watch_/update_channel, with ChannelManagers, writing updates
- * happens out-of-band (and will prevent any other ChannelManager operations from occurring during
+ * Note that you can be a bit lazier about writing out `ChannelManager` than you can be with
+ * [`ChannelMonitor`]. With [`ChannelMonitor`] you MUST write each monitor update out to disk before
+ * returning from [`chain::Watch::watch_channel`]/[`update_channel`], with ChannelManagers, writing updates
+ * happens out-of-band (and will prevent any other `ChannelManager` operations from occurring during
  * the serialization process). If the deserialized version is out-of-date compared to the
- * ChannelMonitors passed by reference to read(), those channels will be force-closed based on the
- * ChannelMonitor state and no funds will be lost (mod on-chain transaction fees).
+ * [`ChannelMonitor`] passed by reference to [`read`], those channels will be force-closed based on the
+ * `ChannelMonitor` state and no funds will be lost (mod on-chain transaction fees).
  * 
- * Note that the deserializer is only implemented for (BlockHash, ChannelManager), which
- * tells you the last block hash which was block_connect()ed. You MUST rescan any blocks along
- * the \"reorg path\" (ie call block_disconnected() until you get to a common block and then call
- * block_connected() to step towards your best block) upon deserialization before using the
- * object!
+ * Note that the deserializer is only implemented for `(`[`BlockHash`]`, `[`ChannelManager`]`)`, which
+ * tells you the last block hash which was connected. You should get the best block tip before using the manager.
+ * See [`chain::Listen`] and [`chain::Confirm`] for more details.
  * 
- * Note that ChannelManager is responsible for tracking liveness of its channels and generating
- * ChannelUpdate messages informing peers that the channel is temporarily disabled. To avoid
+ * Note that `ChannelManager` is responsible for tracking liveness of its channels and generating
+ * [`ChannelUpdate`] messages informing peers that the channel is temporarily disabled. To avoid
  * spam due to quick disconnection/reconnection, updates are not sent until the channel has been
  * offline for a full minute. In order to track this, you must call
- * timer_tick_occurred roughly once per minute, though it doesn't have to be perfect.
+ * [`timer_tick_occurred`] roughly once per minute, though it doesn't have to be perfect.
  * 
- * Rather than using a plain ChannelManager, it is preferable to use either a SimpleArcChannelManager
- * a SimpleRefChannelManager, for conciseness. See their documentation for more details, but
- * essentially you should default to using a SimpleRefChannelManager, and use a
- * SimpleArcChannelManager when you require a ChannelManager with a static lifetime, such as when
+ * To avoid trivial DoS issues, `ChannelManager` limits the number of inbound connections and
+ * inbound channels without confirmed funding transactions. This may result in nodes which we do
+ * not have a channel with being unable to connect to us or open new channels with us if we have
+ * many peers with unfunded channels.
+ * 
+ * Because it is an indication of trust, inbound channels which we've accepted as 0conf are
+ * exempted from the count of unfunded channels. Similarly, outbound channels and connections are
+ * never limited. Please ensure you limit the count of such channels yourself.
+ * 
+ * Rather than using a plain `ChannelManager`, it is preferable to use either a [`SimpleArcChannelManager`]
+ * a [`SimpleRefChannelManager`], for conciseness. See their documentation for more details, but
+ * essentially you should default to using a [`SimpleRefChannelManager`], and use a
+ * [`SimpleArcChannelManager`] when you require a `ChannelManager` with a static lifetime, such as when
  * you're using lightning-net-tokio.
+ * 
+ * [`peer_disconnected`]: msgs::ChannelMessageHandler::peer_disconnected
+ * [`funding_created`]: msgs::FundingCreated
+ * [`funding_transaction_generated`]: Self::funding_transaction_generated
+ * [`BlockHash`]: bitcoin::hash_types::BlockHash
+ * [`update_channel`]: chain::Watch::update_channel
+ * [`ChannelUpdate`]: msgs::ChannelUpdate
+ * [`timer_tick_occurred`]: Self::timer_tick_occurred
+ * [`read`]: ReadableArgs::read
  */
 public class ChannelManager : CommonBase {
 	internal ChannelManager(object _dummy, long ptr) : base(ptr) { }
@@ -51,34 +67,48 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
-	 * Constructs a new ChannelManager to hold several channels and route between them.
+	 * Constructs a new `ChannelManager` to hold several channels and route between them.
+	 * 
+	 * The current time or latest block header time can be provided as the `current_timestamp`.
 	 * 
 	 * This is the main \"logic hub\" for all channel-related actions, and implements
-	 * ChannelMessageHandler.
+	 * [`ChannelMessageHandler`].
 	 * 
 	 * Non-proportional fees are fixed according to our risk using the provided fee estimator.
 	 * 
-	 * Users need to notify the new ChannelManager when a new block is connected or
-	 * disconnected using its `block_connected` and `block_disconnected` methods, starting
-	 * from after `params.latest_hash`.
+	 * Users need to notify the new `ChannelManager` when a new block is connected or
+	 * disconnected using its [`block_connected`] and [`block_disconnected`] methods, starting
+	 * from after [`params.best_block.block_hash`]. See [`chain::Listen`] and [`chain::Confirm`] for
+	 * more details.
+	 * 
+	 * [`block_connected`]: chain::Listen::block_connected
+	 * [`block_disconnected`]: chain::Listen::block_disconnected
+	 * [`params.best_block.block_hash`]: chain::BestBlock::block_hash
 	 */
-	public static ChannelManager of(org.ldk.structs.FeeEstimator fee_est, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.UserConfig config, org.ldk.structs.ChainParameters _params) {
-		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr, _params == null ? 0 : _params.ptr);
+	public static ChannelManager of(org.ldk.structs.FeeEstimator fee_est, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.UserConfig config, org.ldk.structs.ChainParameters _params, int current_timestamp) {
+		long ret = bindings.ChannelManager_new(fee_est.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, logger.ptr, entropy_source.ptr, node_signer.ptr, signer_provider.ptr, config == null ? 0 : config.ptr, _params == null ? 0 : _params.ptr, current_timestamp);
 		GC.KeepAlive(fee_est);
 		GC.KeepAlive(chain_monitor);
 		GC.KeepAlive(tx_broadcaster);
+		GC.KeepAlive(router);
 		GC.KeepAlive(logger);
-		GC.KeepAlive(keys_manager);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(signer_provider);
 		GC.KeepAlive(config);
 		GC.KeepAlive(_params);
+		GC.KeepAlive(current_timestamp);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fee_est); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(router); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(signer_provider); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(config); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(_params); };
 		return ret_hu_conv;
@@ -107,6 +137,10 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * Raises [`APIError::APIMisuseError`] when `channel_value_satoshis` > 2**24 or `push_msat` is
 	 * greater than `channel_value_satoshis * 1k` or `channel_value_satoshis < 1000`.
+	 * 
+	 * Raises [`APIError::ChannelUnavailable`] if the channel cannot be opened due to failing to
+	 * generate a shutdown scriptpubkey or destination script set by
+	 * [`SignerProvider::get_shutdown_scriptpubkey`] or [`SignerProvider::get_destination_script`].
 	 * 
 	 * Note that we do not check if you are currently connected to the given peer. If no
 	 * connection is available, the outbound `open_channel` message may fail to send, resulting in
@@ -140,7 +174,7 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
-	 * Gets the list of open channels, in random order. See ChannelDetail field documentation for
+	 * Gets the list of open channels, in random order. See [`ChannelDetails`] field documentation for
 	 * more information.
 	 */
 	public ChannelDetails[] list_channels() {
@@ -158,14 +192,12 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
-	 * Gets the list of usable channels, in random order. Useful as an argument to [`find_route`]
-	 * to ensure non-announced channels are used.
+	 * Gets the list of usable channels, in random order. Useful as an argument to
+	 * [`Router::find_route`] to ensure non-announced channels are used.
 	 * 
 	 * These are guaranteed to have their [`ChannelDetails::is_usable`] value set to true, see the
 	 * documentation for [`ChannelDetails::is_usable`] for more info on exactly what the criteria
 	 * are.
-	 * 
-	 * [`find_route`]: crate::routing::router::find_route
 	 */
 	public ChannelDetails[] list_usable_channels() {
 		long[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
@@ -182,6 +214,48 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
+	 * Gets the list of channels we have with a given counterparty, in random order.
+	 */
+	public ChannelDetails[] list_channels_with_counterparty(byte[] counterparty_node_id) {
+		long[] ret = bindings.ChannelManager_list_channels_with_counterparty(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33));
+		GC.KeepAlive(this);
+		GC.KeepAlive(counterparty_node_id);
+		int ret_conv_16_len = ret.Length;
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
+		for (int q = 0; q < ret_conv_16_len; q++) {
+			long ret_conv_16 = ret[q];
+			org.ldk.structs.ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, ret_conv_16); }
+			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
+		}
+		return ret_conv_16_arr;
+	}
+
+	/**
+	 * Returns in an undefined order recent payments that -- if not fulfilled -- have yet to find a
+	 * successful path, or have unresolved HTLCs.
+	 * 
+	 * This can be useful for payments that may have been prepared, but ultimately not sent, as a
+	 * result of a crash. If such a payment exists, is not listed here, and an
+	 * [`Event::PaymentSent`] has not been received, you may consider resending the payment.
+	 * 
+	 * [`Event::PaymentSent`]: events::Event::PaymentSent
+	 */
+	public RecentPaymentDetails[] list_recent_payments() {
+		long[] ret = bindings.ChannelManager_list_recent_payments(this.ptr);
+		GC.KeepAlive(this);
+		int ret_conv_22_len = ret.Length;
+		RecentPaymentDetails[] ret_conv_22_arr = new RecentPaymentDetails[ret_conv_22_len];
+		for (int w = 0; w < ret_conv_22_len; w++) {
+			long ret_conv_22 = ret[w];
+			org.ldk.structs.RecentPaymentDetails ret_conv_22_hu_conv = org.ldk.structs.RecentPaymentDetails.constr_from_ptr(ret_conv_22);
+			if (ret_conv_22_hu_conv != null) { ret_conv_22_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_22_arr[w] = ret_conv_22_hu_conv;
+		}
+		return ret_conv_22_arr;
+	}
+
+	/**
 	 * Begins the process of closing a channel. After this call (plus some timeout), no new HTLCs
 	 * will be accepted on the given channel, and after additional timeout/the closing of all
 	 * pending HTLCs, the channel will be closed on chain.
@@ -194,11 +268,17 @@ public class ChannelManager : CommonBase {
 	 * would appear on a force-closure transaction, whichever is lower. We will allow our
 	 * counterparty to pay as much fee as they'd like, however.
 	 * 
-	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * May generate a [`SendShutdown`] message event on success, which should be relayed.
+	 * 
+	 * Raises [`APIError::ChannelUnavailable`] if the channel cannot be closed due to failing to
+	 * generate a shutdown scriptpubkey or destination script set by
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]. A force-closure may be needed to close the
+	 * channel.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
 	 */
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id, byte[] counterparty_node_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33));
@@ -225,20 +305,36 @@ public class ChannelManager : CommonBase {
 	 * transaction feerate below `target_feerate_sat_per_1000_weight` (or the feerate which
 	 * will appear on a force-closure transaction, whichever is lower).
 	 * 
-	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * The `shutdown_script` provided  will be used as the `scriptPubKey` for the closing transaction.
+	 * Will fail if a shutdown script has already been set for this channel by
+	 * ['ChannelHandshakeConfig::commit_upfront_shutdown_pubkey`]. The given shutdown script must
+	 * also be compatible with our and the counterparty's features.
+	 * 
+	 * May generate a [`SendShutdown`] message event on success, which should be relayed.
+	 * 
+	 * Raises [`APIError::ChannelUnavailable`] if the channel cannot be closed due to failing to
+	 * generate a shutdown scriptpubkey or destination script set by
+	 * [`SignerProvider::get_shutdown_scriptpubkey`]. A force-closure may be needed to close the
+	 * channel.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
+	 * 
+	 * Note that shutdown_script (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, byte[] counterparty_node_id, int target_feerate_sats_per_1000_weight) {
-		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), target_feerate_sats_per_1000_weight);
+	public Result_NoneAPIErrorZ close_channel_with_feerate_and_script(byte[] channel_id, byte[] counterparty_node_id, org.ldk.structs.Option_u32Z target_feerate_sats_per_1000_weight, org.ldk.structs.ShutdownScript shutdown_script) {
+		long ret = bindings.ChannelManager_close_channel_with_feerate_and_script(this.ptr, InternalUtils.check_arr_len(channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), target_feerate_sats_per_1000_weight.ptr, shutdown_script == null ? 0 : shutdown_script.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(channel_id);
 		GC.KeepAlive(counterparty_node_id);
 		GC.KeepAlive(target_feerate_sats_per_1000_weight);
+		GC.KeepAlive(shutdown_script);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(target_feerate_sats_per_1000_weight); };
+		if (this != null) { this.ptrs_to.AddLast(shutdown_script); };
 		return ret_hu_conv;
 	}
 
@@ -297,14 +393,19 @@ public class ChannelManager : CommonBase {
 	/**
 	 * Sends a payment along a given route.
 	 * 
-	 * Value parameters are provided via the last hop in route, see documentation for RouteHop
+	 * Value parameters are provided via the last hop in route, see documentation for [`RouteHop`]
 	 * fields for more info.
+	 * 
+	 * May generate [`UpdateHTLCs`] message(s) event on success, which should be relayed (e.g. via
+	 * [`PeerManager::process_events`]).
+	 * 
+	 * # Avoiding Duplicate Payments
 	 * 
 	 * If a pending payment is currently in-flight with the same [`PaymentId`] provided, this
 	 * method will error with an [`APIError::InvalidRoute`]. Note, however, that once a payment
 	 * is no longer pending (either via [`ChannelManager::abandon_payment`], or handling of an
-	 * [`Event::PaymentSent`]) LDK will not stop you from sending a second payment with the same
-	 * [`PaymentId`].
+	 * [`Event::PaymentSent`] or [`Event::PaymentFailed`]) LDK will not stop you from sending a
+	 * second payment with the same [`PaymentId`].
 	 * 
 	 * Thus, in order to ensure duplicate payments are not sent, you should implement your own
 	 * tracking of payments, including state to indicate once a payment has completed. Because you
@@ -312,12 +413,16 @@ public class ChannelManager : CommonBase {
 	 * consider using the [`PaymentHash`] as the key for tracking payments. In that case, the
 	 * [`PaymentId`] should be a copy of the [`PaymentHash`] bytes.
 	 * 
-	 * May generate SendHTLCs message(s) event on success, which should be relayed (e.g. via
-	 * [`PeerManager::process_events`]).
+	 * Additionally, in the scenario where we begin the process of sending a payment, but crash
+	 * before `send_payment` returns (or prior to [`ChannelMonitorUpdate`] persistence if you're
+	 * using [`ChannelMonitorUpdateStatus::InProgress`]), the payment may be lost on restart. See
+	 * [`ChannelManager::list_recent_payments`] for more information.
 	 * 
-	 * Each path may have a different return value, and PaymentSendValue may return a Vec with
+	 * # Possible Error States on [`PaymentSendFailure`]
+	 * 
+	 * Each path may have a different return value, and [`PaymentSendFailure`] may return a `Vec` with
 	 * each entry matching the corresponding-index entry in the route paths, see
-	 * PaymentSendFailure for more info.
+	 * [`PaymentSendFailure`] for more info.
 	 * 
 	 * In general, a path may raise:
 	 * [`APIError::InvalidRoute`] when an invalid route or forwarding parameter (cltv_delta, fee,
@@ -328,80 +433,66 @@ public class ChannelManager : CommonBase {
 	 * [`APIError::MonitorUpdateInProgress`] if a new monitor update failure prevented sending the
 	 * relevant updates.
 	 * 
-	 * Note that depending on the type of the PaymentSendFailure the HTLC may have been
+	 * Note that depending on the type of the [`PaymentSendFailure`] the HTLC may have been
 	 * irrevocably committed to on our end. In such a case, do NOT retry the payment with a
 	 * different route unless you intend to pay twice!
 	 * 
-	 * payment_secret is unrelated to payment_hash (or PaymentPreimage) and exists to authenticate
-	 * the sender to the recipient and prevent payment-probing (deanonymization) attacks. For
-	 * newer nodes, it will be provided to you in the invoice. If you do not have one, the Route
-	 * must not contain multiple paths as multi-path payments require a recipient-provided
-	 * payment_secret.
-	 * 
-	 * If a payment_secret *is* provided, we assume that the invoice had the payment_secret feature
-	 * bit set (either as required or as available). If multiple paths are present in the Route,
-	 * we assume the invoice had the basic_mpp feature set.
-	 * 
+	 * [`RouteHop`]: crate::routing::router::RouteHop
 	 * [`Event::PaymentSent`]: events::Event::PaymentSent
+	 * [`Event::PaymentFailed`]: events::Event::PaymentFailed
+	 * [`UpdateHTLCs`]: events::MessageSendEvent::UpdateHTLCs
 	 * [`PeerManager::process_events`]: crate::ln::peer_handler::PeerManager::process_events
-	 * 
-	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * [`ChannelMonitorUpdateStatus::InProgress`]: crate::chain::ChannelMonitorUpdateStatus::InProgress
 	 */
-	public Result_NonePaymentSendFailureZ send_payment(org.ldk.structs.Route route, byte[] payment_hash, byte[] payment_secret, byte[] payment_id) {
-		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32), InternalUtils.check_arr_len(payment_id, 32));
+	public Result_NonePaymentSendFailureZ send_payment_with_route(org.ldk.structs.Route route, byte[] payment_hash, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
+		long ret = bindings.ChannelManager_send_payment_with_route(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_hash, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		GC.KeepAlive(this);
 		GC.KeepAlive(route);
 		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(payment_secret);
+		GC.KeepAlive(recipient_onion);
 		GC.KeepAlive(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(route); };
+		if (this != null) { this.ptrs_to.AddLast(recipient_onion); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Retries a payment along the given [`Route`].
-	 * 
-	 * Errors returned are a superset of those returned from [`send_payment`], so see
-	 * [`send_payment`] documentation for more details on errors. This method will also error if the
-	 * retry amount puts the payment more than 10% over the payment's total amount, if the payment
-	 * for the given `payment_id` cannot be found (likely due to timeout or success), or if
-	 * further retries have been disabled with [`abandon_payment`].
-	 * 
-	 * [`send_payment`]: [`ChannelManager::send_payment`]
-	 * [`abandon_payment`]: [`ChannelManager::abandon_payment`]
+	 * Similar to [`ChannelManager::send_payment_with_route`], but will automatically find a route based on
+	 * `route_params` and retry failed payment paths based on `retry_strategy`.
 	 */
-	public Result_NonePaymentSendFailureZ retry_payment(org.ldk.structs.Route route, byte[] payment_id) {
-		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_id, 32));
+	public Result_NoneRetryableSendFailureZ send_payment(byte[] payment_hash, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
+		long ret = bindings.ChannelManager_send_payment(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(route);
+		GC.KeepAlive(payment_hash);
+		GC.KeepAlive(recipient_onion);
 		GC.KeepAlive(payment_id);
+		GC.KeepAlive(route_params);
+		GC.KeepAlive(retry_strategy);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(route); };
+		Result_NoneRetryableSendFailureZ ret_hu_conv = Result_NoneRetryableSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(recipient_onion); };
+		if (this != null) { this.ptrs_to.AddLast(route_params); };
+		if (this != null) { this.ptrs_to.AddLast(retry_strategy); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Signals that no further retries for the given payment will occur.
+	 * Signals that no further retries for the given payment should occur. Useful if you have a
+	 * pending outbound payment with retries remaining, but wish to stop retrying the payment before
+	 * retries are exhausted.
 	 * 
-	 * After this method returns, no future calls to [`retry_payment`] for the given `payment_id`
-	 * are allowed. If no [`Event::PaymentFailed`] event had been generated before, one will be
-	 * generated as soon as there are no remaining pending HTLCs for this payment.
+	 * If no [`Event::PaymentFailed`] event had been generated before, one will be generated as soon
+	 * as there are no remaining pending HTLCs for this payment.
 	 * 
 	 * Note that calling this method does *not* prevent a payment from succeeding. You must still
 	 * wait until you receive either a [`Event::PaymentFailed`] or [`Event::PaymentSent`] event to
 	 * determine the ultimate status of a payment.
 	 * 
 	 * If an [`Event::PaymentFailed`] event is generated and we restart without this
-	 * [`ChannelManager`] having been persisted, the payment may still be in the pending state
-	 * upon restart. This allows further calls to [`retry_payment`] (and requiring a second call
-	 * to [`abandon_payment`] to mark the payment as failed again). Otherwise, future calls to
-	 * [`retry_payment`] will fail with [`PaymentSendFailure::ParameterError`].
+	 * [`ChannelManager`] having been persisted, another [`Event::PaymentFailed`] may be generated.
 	 * 
-	 * [`abandon_payment`]: Self::abandon_payment
-	 * [`retry_payment`]: Self::retry_payment
 	 * [`Event::PaymentFailed`]: events::Event::PaymentFailed
 	 * [`Event::PaymentSent`]: events::Event::PaymentSent
 	 */
@@ -424,21 +515,46 @@ public class ChannelManager : CommonBase {
 	 * Similar to regular payments, you MUST NOT reuse a `payment_preimage` value. See
 	 * [`send_payment`] for more information about the risks of duplicate preimage usage.
 	 * 
-	 * Note that `route` must have exactly one path.
-	 * 
 	 * [`send_payment`]: Self::send_payment
-	 * 
-	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, byte[] payment_preimage, byte[] payment_id) {
-		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_id, 32));
+	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, org.ldk.structs.Option_PaymentPreimageZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
+		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, payment_preimage.ptr, recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		GC.KeepAlive(this);
 		GC.KeepAlive(route);
 		GC.KeepAlive(payment_preimage);
+		GC.KeepAlive(recipient_onion);
 		GC.KeepAlive(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(route); };
+		if (this != null) { this.ptrs_to.AddLast(payment_preimage); };
+		if (this != null) { this.ptrs_to.AddLast(recipient_onion); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Similar to [`ChannelManager::send_spontaneous_payment`], but will automatically find a route
+	 * based on `route_params` and retry failed payment paths based on `retry_strategy`.
+	 * 
+	 * See [`PaymentParameters::for_keysend`] for help in constructing `route_params` for spontaneous
+	 * payments.
+	 * 
+	 * [`PaymentParameters::for_keysend`]: crate::routing::router::PaymentParameters::for_keysend
+	 */
+	public Result_PaymentHashRetryableSendFailureZ send_spontaneous_payment_with_retry(org.ldk.structs.Option_PaymentPreimageZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
+		long ret = bindings.ChannelManager_send_spontaneous_payment_with_retry(this.ptr, payment_preimage.ptr, recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(payment_preimage);
+		GC.KeepAlive(recipient_onion);
+		GC.KeepAlive(payment_id);
+		GC.KeepAlive(route_params);
+		GC.KeepAlive(retry_strategy);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PaymentHashRetryableSendFailureZ ret_hu_conv = Result_PaymentHashRetryableSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(payment_preimage); };
+		if (this != null) { this.ptrs_to.AddLast(recipient_onion); };
+		if (this != null) { this.ptrs_to.AddLast(route_params); };
+		if (this != null) { this.ptrs_to.AddLast(retry_strategy); };
 		return ret_hu_conv;
 	}
 
@@ -447,13 +563,13 @@ public class ChannelManager : CommonBase {
 	 * [`PaymentHash`] of probes based on a static secret and a random [`PaymentId`], which allows
 	 * us to easily discern them from real payments.
 	 */
-	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(RouteHop[] hops) {
-		long ret = bindings.ChannelManager_send_probe(this.ptr, hops != null ? InternalUtils.mapArray(hops, hops_conv_10 => hops_conv_10 == null ? 0 : hops_conv_10.ptr) : null);
+	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(org.ldk.structs.Path path) {
+		long ret = bindings.ChannelManager_send_probe(this.ptr, path == null ? 0 : path.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(hops);
+		GC.KeepAlive(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
-		foreach (RouteHop hops_conv_10 in hops) { if (this != null) { this.ptrs_to.AddLast(hops_conv_10); }; };
+		if (this != null) { this.ptrs_to.AddLast(path); };
 		return ret_hu_conv;
 	}
 
@@ -486,8 +602,8 @@ public class ChannelManager : CommonBase {
 	 * implemented by Bitcoin Core wallet. See <https://bitcoinops.org/en/topics/fee-sniping/>
 	 * for more details.
 	 * 
-	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
-	 * [`Event::ChannelClosed`]: crate::util::events::Event::ChannelClosed
+	 * [`Event::FundingGenerationReady`]: crate::events::Event::FundingGenerationReady
+	 * [`Event::ChannelClosed`]: crate::events::Event::ChannelClosed
 	 */
 	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] counterparty_node_id, byte[] funding_transaction) {
 		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_transaction);
@@ -497,6 +613,42 @@ public class ChannelManager : CommonBase {
 		GC.KeepAlive(funding_transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Atomically applies partial updates to the [`ChannelConfig`] of the given channels.
+	 * 
+	 * Once the updates are applied, each eligible channel (advertised with a known short channel
+	 * ID and a change in [`forwarding_fee_proportional_millionths`], [`forwarding_fee_base_msat`],
+	 * or [`cltv_expiry_delta`]) has a [`BroadcastChannelUpdate`] event message generated
+	 * containing the new [`ChannelUpdate`] message which should be broadcast to the network.
+	 * 
+	 * Returns [`ChannelUnavailable`] when a channel is not found or an incorrect
+	 * `counterparty_node_id` is provided.
+	 * 
+	 * Returns [`APIMisuseError`] when a [`cltv_expiry_delta`] update is to be applied with a value
+	 * below [`MIN_CLTV_EXPIRY_DELTA`].
+	 * 
+	 * If an error is returned, none of the updates should be considered applied.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 * [`forwarding_fee_base_msat`]: ChannelConfig::forwarding_fee_base_msat
+	 * [`cltv_expiry_delta`]: ChannelConfig::cltv_expiry_delta
+	 * [`BroadcastChannelUpdate`]: events::MessageSendEvent::BroadcastChannelUpdate
+	 * [`ChannelUpdate`]: msgs::ChannelUpdate
+	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
+	 * [`APIMisuseError`]: APIError::APIMisuseError
+	 */
+	public Result_NoneAPIErrorZ update_partial_channel_config(byte[] counterparty_node_id, byte[][] channel_ids, org.ldk.structs.ChannelConfigUpdate config_update) {
+		long ret = bindings.ChannelManager_update_partial_channel_config(this.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_ids != null ? InternalUtils.mapArray(channel_ids, channel_ids_conv_8 => InternalUtils.check_arr_len(channel_ids_conv_8, 32)) : null, config_update == null ? 0 : config_update.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(counterparty_node_id);
+		GC.KeepAlive(channel_ids);
+		GC.KeepAlive(config_update);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(config_update); };
 		return ret_hu_conv;
 	}
 
@@ -550,20 +702,23 @@ public class ChannelManager : CommonBase {
 	 * [`ChannelManager::fail_intercepted_htlc`] MUST be called in response to the event.
 	 * 
 	 * Note that LDK does not enforce fee requirements in `amt_to_forward_msat`, and will not stop
-	 * you from forwarding more than you received.
+	 * you from forwarding more than you received. See
+	 * [`HTLCIntercepted::expected_outbound_amount_msat`] for more on forwarding a different amount
+	 * than expected.
 	 * 
 	 * Errors if the event was not handled in time, in which case the HTLC was automatically failed
 	 * backwards.
 	 * 
 	 * [`UserConfig::accept_intercept_htlcs`]: crate::util::config::UserConfig::accept_intercept_htlcs
 	 * [`HTLCIntercepted`]: events::Event::HTLCIntercepted
+	 * [`HTLCIntercepted::expected_outbound_amount_msat`]: events::Event::HTLCIntercepted::expected_outbound_amount_msat
 	 */
-	public Result_NoneAPIErrorZ forward_intercepted_htlc(byte[] intercept_id, byte[] next_hop_channel_id, byte[] _next_node_id, long amt_to_forward_msat) {
-		long ret = bindings.ChannelManager_forward_intercepted_htlc(this.ptr, InternalUtils.check_arr_len(intercept_id, 32), InternalUtils.check_arr_len(next_hop_channel_id, 32), InternalUtils.check_arr_len(_next_node_id, 33), amt_to_forward_msat);
+	public Result_NoneAPIErrorZ forward_intercepted_htlc(byte[] intercept_id, byte[] next_hop_channel_id, byte[] next_node_id, long amt_to_forward_msat) {
+		long ret = bindings.ChannelManager_forward_intercepted_htlc(this.ptr, InternalUtils.check_arr_len(intercept_id, 32), InternalUtils.check_arr_len(next_hop_channel_id, 32), InternalUtils.check_arr_len(next_node_id, 33), amt_to_forward_msat);
 		GC.KeepAlive(this);
 		GC.KeepAlive(intercept_id);
 		GC.KeepAlive(next_hop_channel_id);
-		GC.KeepAlive(_next_node_id);
+		GC.KeepAlive(next_node_id);
 		GC.KeepAlive(amt_to_forward_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -604,14 +759,19 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * This currently includes:
 	 * Increasing or decreasing the on-chain feerate estimates for our outbound channels,
-	 * Broadcasting `ChannelUpdate` messages if we've been disconnected from our peer for more
+	 * Broadcasting [`ChannelUpdate`] messages if we've been disconnected from our peer for more
 	 * than a minute, informing the network that they should no longer attempt to route over
 	 * the channel.
-	 * Expiring a channel's previous `ChannelConfig` if necessary to only allow forwarding HTLCs
-	 * with the current `ChannelConfig`.
+	 * Expiring a channel's previous [`ChannelConfig`] if necessary to only allow forwarding HTLCs
+	 * with the current [`ChannelConfig`].
+	 * Removing peers which have disconnected but and no longer have any channels.
+	 * Force-closing and removing channels which have not completed establishment in a timely manner.
 	 * 
-	 * Note that this may cause reentrancy through `chain::Watch::update_channel` calls or feerate
+	 * Note that this may cause reentrancy through [`chain::Watch::update_channel`] calls or feerate
 	 * estimate fetches.
+	 * 
+	 * [`ChannelUpdate`]: msgs::ChannelUpdate
+	 * [`ChannelConfig`]: crate::util::config::ChannelConfig
 	 */
 	public void timer_tick_occurred() {
 		bindings.ChannelManager_timer_tick_occurred(this.ptr);
@@ -640,20 +800,35 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
+	 * This is a variant of [`ChannelManager::fail_htlc_backwards`] that allows you to specify the
+	 * reason for the failure.
+	 * 
+	 * See [`FailureCode`] for valid failure codes.
+	 */
+	public void fail_htlc_backwards_with_reason(byte[] payment_hash, FailureCode failure_code) {
+		bindings.ChannelManager_fail_htlc_backwards_with_reason(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), failure_code);
+		GC.KeepAlive(this);
+		GC.KeepAlive(payment_hash);
+		GC.KeepAlive(failure_code);
+	}
+
+	/**
 	 * Provides a payment preimage in response to [`Event::PaymentClaimable`], generating any
 	 * [`MessageSendEvent`]s needed to claim the payment.
 	 * 
-	 * Note that calling this method does *not* guarantee that the payment has been claimed. You
-	 * must* wait for an [`Event::PaymentClaimed`] event which upon a successful claim will be
-	 * provided to your [`EventHandler`] when [`process_pending_events`] is next called.
+	 * This method is guaranteed to ensure the payment has been claimed but only if the current
+	 * height is strictly below [`Event::PaymentClaimable::claim_deadline`]. To avoid race
+	 * conditions, you should wait for an [`Event::PaymentClaimed`] before considering the payment
+	 * successful. It will generally be available in the next [`process_pending_events`] call.
 	 * 
 	 * Note that if you did not set an `amount_msat` when calling [`create_inbound_payment`] or
 	 * [`create_inbound_payment_for_hash`] you must check that the amount in the `PaymentClaimable`
 	 * event matches your expectation. If you fail to do so and call this method, you may provide
 	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
-	 * [`Event::PaymentClaimable`]: crate::util::events::Event::PaymentClaimable
-	 * [`Event::PaymentClaimed`]: crate::util::events::Event::PaymentClaimed
+	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 * [`Event::PaymentClaimable::claim_deadline`]: crate::events::Event::PaymentClaimable::claim_deadline
+	 * [`Event::PaymentClaimed`]: crate::events::Event::PaymentClaimed
 	 * [`process_pending_events`]: EventsProvider::process_pending_events
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
@@ -741,7 +916,8 @@ public class ChannelManager : CommonBase {
 	 * [`PaymentHash`] and [`PaymentPreimage`] for you.
 	 * 
 	 * The [`PaymentPreimage`] will ultimately be returned to you in the [`PaymentClaimable`], which
-	 * will have the [`PaymentClaimable::payment_preimage`] field filled in. That should then be
+	 * will have the [`PaymentClaimable::purpose`] be [`PaymentPurpose::InvoicePayment`] with
+	 * its [`PaymentPurpose::InvoicePayment::payment_preimage`] field filled in. That should then be
 	 * passed directly to [`claim_funds`].
 	 * 
 	 * See [`create_inbound_payment_for_hash`] for detailed documentation on behavior and requirements.
@@ -756,39 +932,26 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * Errors if `min_value_msat` is greater than total bitcoin supply.
 	 * 
+	 * If `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
 	 * [`claim_funds`]: Self::claim_funds
 	 * [`PaymentClaimable`]: events::Event::PaymentClaimable
-	 * [`PaymentClaimable::payment_preimage`]: events::Event::PaymentClaimable::payment_preimage
+	 * [`PaymentClaimable::purpose`]: events::Event::PaymentClaimable::purpose
+	 * [`PaymentPurpose::InvoicePayment`]: events::PaymentPurpose::InvoicePayment
+	 * [`PaymentPurpose::InvoicePayment::payment_preimage`]: events::PaymentPurpose::InvoicePayment::payment_preimage
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 */
-	public Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create_inbound_payment(org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs) {
-		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs);
+	public Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create_inbound_payment(org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(min_value_msat);
 		GC.KeepAlive(invoice_expiry_delta_secs);
+		GC.KeepAlive(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Legacy version of [`create_inbound_payment`]. Use this method if you wish to share
-	 * serialized state with LDK node(s) running 0.0.103 and earlier.
-	 * 
-	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
-	 * 
-	 * # Note
-	 * This method is deprecated and will be removed soon.
-	 * 
-	 * [`create_inbound_payment`]: Self::create_inbound_payment
-	 */
-	public Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ create_inbound_payment_legacy(org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs) {
-		long ret = bindings.ChannelManager_create_inbound_payment_legacy(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs);
-		GC.KeepAlive(this);
-		GC.KeepAlive(min_value_msat);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(min_value_msat); };
+		if (this != null) { this.ptrs_to.AddLast(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
 	}
 
@@ -821,8 +984,8 @@ public class ChannelManager : CommonBase {
 	 * If you need exact expiry semantics, you should enforce them upon receipt of
 	 * [`PaymentClaimable`].
 	 * 
-	 * Note that invoices generated for inbound payments should have their `min_final_cltv_expiry`
-	 * set to at least [`MIN_FINAL_CLTV_EXPIRY`].
+	 * Note that invoices generated for inbound payments should have their `min_final_cltv_expiry_delta`
+	 * set to at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
 	 * 
 	 * Note that a malicious eavesdropper can intuit whether an inbound payment was created by
 	 * `create_inbound_payment` or `create_inbound_payment_for_hash` based on runtime.
@@ -834,39 +997,23 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * Errors if `min_value_msat` is greater than total bitcoin supply.
 	 * 
+	 * If `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`PaymentClaimable`]: events::Event::PaymentClaimable
 	 */
-	public Result_PaymentSecretNoneZ create_inbound_payment_for_hash(byte[] payment_hash, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs) {
-		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs);
+	public Result_PaymentSecretNoneZ create_inbound_payment_for_hash(byte[] payment_hash, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry) {
+		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(payment_hash);
 		GC.KeepAlive(min_value_msat);
 		GC.KeepAlive(invoice_expiry_delta_secs);
+		GC.KeepAlive(min_final_cltv_expiry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretNoneZ ret_hu_conv = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Legacy version of [`create_inbound_payment_for_hash`]. Use this method if you wish to share
-	 * serialized state with LDK node(s) running 0.0.103 and earlier.
-	 * 
-	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
-	 * 
-	 * # Note
-	 * This method is deprecated and will be removed soon.
-	 * 
-	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
-	 */
-	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash_legacy(byte[] payment_hash, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs) {
-		long ret = bindings.ChannelManager_create_inbound_payment_for_hash_legacy(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs);
-		GC.KeepAlive(this);
-		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(min_value_msat);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(min_value_msat); };
+		if (this != null) { this.ptrs_to.AddLast(min_final_cltv_expiry); };
 		return ret_hu_conv;
 	}
 
@@ -890,7 +1037,7 @@ public class ChannelManager : CommonBase {
 	 * Gets a fake short channel id for use in receiving [phantom node payments]. These fake scids
 	 * are used when constructing the phantom invoice's route hints.
 	 * 
-	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
 	 */
 	public long get_phantom_scid() {
 		long ret = bindings.ChannelManager_get_phantom_scid(this.ptr);
@@ -901,7 +1048,7 @@ public class ChannelManager : CommonBase {
 	/**
 	 * Gets route hints for use in receiving [phantom node payments].
 	 * 
-	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
 	 */
 	public PhantomRouteHints get_phantom_route_hints() {
 		long ret = bindings.ChannelManager_get_phantom_route_hints(this.ptr);
@@ -992,41 +1139,10 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
-	 * Blocks until ChannelManager needs to be persisted or a timeout is reached. It returns a bool
-	 * indicating whether persistence is necessary. Only one listener on
-	 * [`await_persistable_update`], [`await_persistable_update_timeout`], or a future returned by
-	 * [`get_persistable_update_future`] is guaranteed to be woken up.
+	 * Gets a [`Future`] that completes when this [`ChannelManager`] needs to be persisted.
 	 * 
-	 * Note that this method is not available with the `no-std` feature.
-	 * 
-	 * [`await_persistable_update`]: Self::await_persistable_update
-	 * [`await_persistable_update_timeout`]: Self::await_persistable_update_timeout
-	 * [`get_persistable_update_future`]: Self::get_persistable_update_future
-	 */
-	public bool await_persistable_update_timeout(long max_wait) {
-		bool ret = bindings.ChannelManager_await_persistable_update_timeout(this.ptr, max_wait);
-		GC.KeepAlive(this);
-		GC.KeepAlive(max_wait);
-		return ret;
-	}
-
-	/**
-	 * Blocks until ChannelManager needs to be persisted. Only one listener on
-	 * [`await_persistable_update`], `await_persistable_update_timeout`, or a future returned by
-	 * [`get_persistable_update_future`] is guaranteed to be woken up.
-	 * 
-	 * [`await_persistable_update`]: Self::await_persistable_update
-	 * [`get_persistable_update_future`]: Self::get_persistable_update_future
-	 */
-	public void await_persistable_update() {
-		bindings.ChannelManager_await_persistable_update(this.ptr);
-		GC.KeepAlive(this);
-	}
-
-	/**
-	 * Gets a [`Future`] that completes when a persistable update is available. Note that
-	 * callbacks registered on the [`Future`] MUST NOT call back into this [`ChannelManager`] and
-	 * should instead register actions to be taken later.
+	 * Note that callbacks registered on the [`Future`] MUST NOT call back into this
+	 * [`ChannelManager`] and should instead register actions to be taken later.
 	 */
 	public Future get_persistable_update_future() {
 		long ret = bindings.ChannelManager_get_persistable_update_future(this.ptr);
@@ -1051,6 +1167,58 @@ public class ChannelManager : CommonBase {
 	}
 
 	/**
+	 * Fetches the set of [`NodeFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public NodeFeatures node_features() {
+		long ret = bindings.ChannelManager_node_features(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`ChannelFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public ChannelFeatures channel_features() {
+		long ret = bindings.ChannelManager_channel_features(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`ChannelTypeFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.ChannelManager_channel_type_features(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`InitFeatures`] flags which are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public InitFeatures init_features() {
+		long ret = bindings.ChannelManager_init_features(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new ChannelMessageHandler which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned ChannelMessageHandler must be freed before this_arg is
 	 */
@@ -1070,19 +1238,6 @@ public class ChannelManager : CommonBase {
 		byte[] ret = bindings.ChannelManager_write(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
-	}
-
-	/**
-	 * Constructs a new Payer which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Payer must be freed before this_arg is
-	 */
-	public Payer as_Payer() {
-		long ret = bindings.ChannelManager_as_Payer(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Payer ret_hu_conv = new Payer(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
 	}
 
 }

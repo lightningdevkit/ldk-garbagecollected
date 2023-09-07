@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * An address which can be used to connect to a remote peer
+ * An address which can be used to connect to a remote peer.
  */
 public class NetAddress : CommonBase {
 	protected NetAddress(object _dummy, long ptr) : base(ptr) { }

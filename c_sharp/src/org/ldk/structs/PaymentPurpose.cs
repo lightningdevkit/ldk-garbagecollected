@@ -34,10 +34,8 @@ public class PaymentPurpose : CommonBase {
 		 * 
 		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
 		 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
-		public byte[] payment_preimage;
+		public Option_PaymentPreimageZ payment_preimage;
 		/**
 		 * The \"payment secret\". This authenticates the sender to the recipient, preventing a
 		 * number of deanonymization attacks during the routing process.
@@ -52,7 +50,10 @@ public class PaymentPurpose : CommonBase {
 		 */
 		public byte[] payment_secret;
 		internal PaymentPurpose_InvoicePayment(long ptr) : base(null, ptr) {
-			this.payment_preimage = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_preimage(ptr);
+			long payment_preimage = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_preimage(ptr);
+			org.ldk.structs.Option_PaymentPreimageZ payment_preimage_hu_conv = org.ldk.structs.Option_PaymentPreimageZ.constr_from_ptr(payment_preimage);
+			if (payment_preimage_hu_conv != null) { payment_preimage_hu_conv.ptrs_to.AddLast(this); };
+			this.payment_preimage = payment_preimage_hu_conv;
 			this.payment_secret = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_secret(ptr);
 		}
 	}
@@ -84,13 +85,14 @@ public class PaymentPurpose : CommonBase {
 	/**
 	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
 	 */
-	public static PaymentPurpose invoice_payment(byte[] payment_preimage, byte[] payment_secret) {
-		long ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32));
+	public static PaymentPurpose invoice_payment(org.ldk.structs.Option_PaymentPreimageZ payment_preimage, byte[] payment_secret) {
+		long ret = bindings.PaymentPurpose_invoice_payment(payment_preimage.ptr, InternalUtils.check_arr_len(payment_secret, 32));
 		GC.KeepAlive(payment_preimage);
 		GC.KeepAlive(payment_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentPurpose ret_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(payment_preimage); };
 		return ret_hu_conv;
 	}
 
@@ -106,6 +108,21 @@ public class PaymentPurpose : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two PaymentPurposes contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public bool eq(org.ldk.structs.PaymentPurpose b) {
+		bool ret = bindings.PaymentPurpose_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is PaymentPurpose)) return false;
+		return this.eq((PaymentPurpose)o);
+	}
 	/**
 	 * Serialize the PaymentPurpose object into a byte array which can be read by PaymentPurpose_read
 	 */

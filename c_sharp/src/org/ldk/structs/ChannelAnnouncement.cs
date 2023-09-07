@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A channel_announcement message to be sent or received from a peer
+ * A [`channel_announcement`] message to be sent to or received from a peer.
+ * 
+ * [`channel_announcement`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-channel_announcement-message
  */
 public class ChannelAnnouncement : CommonBase {
 	internal ChannelAnnouncement(object _dummy, long ptr) : base(ptr) { }

@@ -56,7 +56,7 @@ public class PositiveTimestamp : CommonBase {
 	}
 
 	/**
-	 * Checks if two PositiveTimestamps contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the PositiveTimestamp.
 	 */
 	public long hash() {
 		long ret = bindings.PositiveTimestamp_hash(this.ptr);

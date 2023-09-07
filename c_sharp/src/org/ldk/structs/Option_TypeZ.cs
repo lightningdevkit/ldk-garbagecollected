@@ -43,7 +43,7 @@ public class Option_TypeZ : CommonBase {
 	 * Constructs a new COption_TypeZ containing a crate::lightning::ln::wire::Type
 	 */
 	public static Option_TypeZ some(org.ldk.structs.Type o) {
-		long ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
+		long ret = bindings.COption_TypeZ_some(o.ptr);
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_TypeZ ret_hu_conv = org.ldk.structs.Option_TypeZ.constr_from_ptr(ret);

@@ -34,7 +34,7 @@ public class Sha256 : CommonBase {
 	}
 
 	/**
-	 * Checks if two Sha256s contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Sha256.
 	 */
 	public long hash() {
 		long ret = bindings.Sha256_hash(this.ptr);
@@ -62,5 +62,18 @@ public class Sha256 : CommonBase {
 		if (!(o is Sha256)) return false;
 		return this.eq((Sha256)o);
 	}
+	/**
+	 * Constructs a new [`Sha256`] from the given bytes, which are assumed to be the output of a
+	 * single sha256 hash.
+	 */
+	public static Sha256 from_bytes(byte[] bytes) {
+		long ret = bindings.Sha256_from_bytes(InternalUtils.check_arr_len(bytes, 32));
+		GC.KeepAlive(bytes);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Sha256 ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Sha256(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

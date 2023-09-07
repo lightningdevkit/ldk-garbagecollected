@@ -18,12 +18,21 @@ public class NetworkGraph : CommonBase {
 	/**
 	 * Handles any network updates originating from [`Event`]s.
 	 * 
-	 * [`Event`]: crate::util::events::Event
+	 * [`Event`]: crate::events::Event
 	 */
 	public void handle_network_update(org.ldk.structs.NetworkUpdate network_update) {
 		bindings.NetworkGraph_handle_network_update(this.ptr, network_update == null ? 0 : network_update.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(network_update);
+	}
+
+	/**
+	 * Gets the genesis hash for this network graph.
+	 */
+	public byte[] get_genesis_hash() {
+		byte[] ret = bindings.NetworkGraph_get_genesis_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 	/**
@@ -39,7 +48,7 @@ public class NetworkGraph : CommonBase {
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
 	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, org.ldk.structs.Logger arg) {
-		long ret = bindings.NetworkGraph_read(ser, arg == null ? 0 : arg.ptr);
+		long ret = bindings.NetworkGraph_read(ser, arg.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -51,9 +60,9 @@ public class NetworkGraph : CommonBase {
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static NetworkGraph of(byte[] genesis_hash, org.ldk.structs.Logger logger) {
-		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32), logger == null ? 0 : logger.ptr);
-		GC.KeepAlive(genesis_hash);
+	public static NetworkGraph of(Network network, org.ldk.structs.Logger logger) {
+		long ret = bindings.NetworkGraph_new(network, logger.ptr);
+		GC.KeepAlive(network);
 		GC.KeepAlive(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NetworkGraph(null, ret); }
@@ -134,22 +143,41 @@ public class NetworkGraph : CommonBase {
 	/**
 	 * Store or update channel info from a channel announcement.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
-	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
-	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
+	 * If a [`UtxoLookup`] object is provided via `utxo_lookup`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_announcement(org.ldk.structs.ChannelAnnouncement msg, org.ldk.structs.Option_UtxoLookupZ utxo_lookup) {
+		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr, utxo_lookup.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(msg);
-		GC.KeepAlive(chain_access);
+		GC.KeepAlive(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(msg); };
-		if (this != null) { this.ptrs_to.AddLast(chain_access); };
+		if (this != null) { this.ptrs_to.AddLast(utxo_lookup); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Store or update channel info from a channel announcement.
+	 * 
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
+	 * routing messages from a source using a protocol other than the lightning P2P protocol.
+	 * 
+	 * This will skip verification of if the channel is actually on-chain.
+	 */
+	public Result_NoneLightningErrorZ update_channel_from_announcement_no_lookup(org.ldk.structs.ChannelAnnouncement msg) {
+		long ret = bindings.NetworkGraph_update_channel_from_announcement_no_lookup(this.ptr, msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -158,18 +186,18 @@ public class NetworkGraph : CommonBase {
 	 * signatures. Because we aren't given the associated signatures here we cannot relay the
 	 * channel announcement to any of our peers.
 	 * 
-	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
+	 * If a [`UtxoLookup`] object is provided via `utxo_lookup`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg, org.ldk.structs.Option_AccessZ chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(org.ldk.structs.UnsignedChannelAnnouncement msg, org.ldk.structs.Option_UtxoLookupZ utxo_lookup) {
+		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr, utxo_lookup.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(msg);
-		GC.KeepAlive(chain_access);
+		GC.KeepAlive(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(msg); };
-		if (this != null) { this.ptrs_to.AddLast(chain_access); };
+		if (this != null) { this.ptrs_to.AddLast(utxo_lookup); };
 		return ret_hu_conv;
 	}
 
@@ -196,16 +224,14 @@ public class NetworkGraph : CommonBase {
 	}
 
 	/**
-	 * Marks a channel in the graph as failed if a corresponding HTLC fail was sent.
-	 * If permanent, removes a channel from the local storage.
-	 * May cause the removal of nodes too, if this was their last channel.
-	 * If not permanent, makes channels unavailable for routing.
+	 * Marks a channel in the graph as failed permanently.
+	 * 
+	 * The channel and any node for which this was their last channel are removed from the graph.
 	 */
-	public void channel_failed(long short_channel_id, bool is_permanent) {
-		bindings.NetworkGraph_channel_failed(this.ptr, short_channel_id, is_permanent);
+	public void channel_failed_permanent(long short_channel_id) {
+		bindings.NetworkGraph_channel_failed_permanent(this.ptr, short_channel_id);
 		GC.KeepAlive(this);
 		GC.KeepAlive(short_channel_id);
-		GC.KeepAlive(is_permanent);
 	}
 
 	/**

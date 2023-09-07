@@ -40,7 +40,7 @@ public class LockableScore : CommonBase {
 		public long do_lock() {
 			Score ret = arg.do_lock();
 				GC.KeepAlive(arg);
-			long result = ret == null ? 0 : ret.ptr;
+			long result = ret.ptr;
 			if (impl_holder.held != null) { impl_holder.held.ptrs_to.AddLast(ret); };
 			return result;
 		}

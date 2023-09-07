@@ -8,6 +8,7 @@ namespace org { namespace ldk { namespace structs {
 
 /**
  * The minimum and maximum fees which the sender is willing to place on the closing transaction.
+ * 
  * This is provided in [`ClosingSigned`] by both sides to indicate the fee range they are willing
  * to use.
  */

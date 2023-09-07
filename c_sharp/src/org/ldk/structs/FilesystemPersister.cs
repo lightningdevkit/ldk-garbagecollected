@@ -51,13 +51,15 @@ public class FilesystemPersister : CommonBase {
 	/**
 	 * Read `ChannelMonitor`s from disk.
 	 */
-	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.KeysInterface keys_manager) {
-		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, keys_manager == null ? 0 : keys_manager.ptr);
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider) {
+		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, entropy_source.ptr, signer_provider.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(keys_manager);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(signer_provider);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(keys_manager); };
+		if (this != null) { this.ptrs_to.AddLast(entropy_source); };
+		if (this != null) { this.ptrs_to.AddLast(signer_provider); };
 		return ret_hu_conv;
 	}
 

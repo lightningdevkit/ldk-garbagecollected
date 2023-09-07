@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A shutdown message to be sent or received from a peer
+ * A [`shutdown`] message to be sent to or received from a peer.
+ * 
+ * [`shutdown`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#closing-initiation-shutdown
  */
 public class Shutdown : CommonBase {
 	internal Shutdown(object _dummy, long ptr) : base(ptr) { }
@@ -35,7 +37,8 @@ public class Shutdown : CommonBase {
 
 	/**
 	 * The destination of this peer's funds on closing.
-	 * Must be in one of these forms: p2pkh, p2sh, p2wpkh, p2wsh.
+	 * 
+	 * Must be in one of these forms: P2PKH, P2SH, P2WPKH, P2WSH, P2TR.
 	 */
 	public byte[] get_scriptpubkey() {
 		byte[] ret = bindings.Shutdown_get_scriptpubkey(this.ptr);
@@ -45,7 +48,8 @@ public class Shutdown : CommonBase {
 
 	/**
 	 * The destination of this peer's funds on closing.
-	 * Must be in one of these forms: p2pkh, p2sh, p2wpkh, p2wsh.
+	 * 
+	 * Must be in one of these forms: P2PKH, P2SH, P2WPKH, P2WSH, P2TR.
 	 */
 	public void set_scriptpubkey(byte[] val) {
 		bindings.Shutdown_set_scriptpubkey(this.ptr, val);

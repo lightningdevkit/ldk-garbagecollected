@@ -88,6 +88,23 @@ public class CounterpartyChannelTransactionParameters : CommonBase {
 	}
 
 	/**
+	 * Checks if two CounterpartyChannelTransactionParameterss contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public bool eq(org.ldk.structs.CounterpartyChannelTransactionParameters b) {
+		bool ret = bindings.CounterpartyChannelTransactionParameters_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		if (this != null) { this.ptrs_to.AddLast(b); };
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is CounterpartyChannelTransactionParameters)) return false;
+		return this.eq((CounterpartyChannelTransactionParameters)o);
+	}
+	/**
 	 * Serialize the CounterpartyChannelTransactionParameters object into a byte array which can be read by CounterpartyChannelTransactionParameters_read
 	 */
 	public byte[] write() {

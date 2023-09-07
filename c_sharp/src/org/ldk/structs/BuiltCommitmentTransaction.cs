@@ -122,15 +122,28 @@ public class BuiltCommitmentTransaction : CommonBase {
 	}
 
 	/**
-	 * Sign a transaction, either because we are counter-signing the counterparty's transaction or
-	 * because we are about to broadcast a holder transaction.
+	 * Signs the counterparty's commitment transaction.
 	 */
-	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
+	public byte[] sign_counterparty_commitment(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign_counterparty_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		GC.KeepAlive(this);
 		GC.KeepAlive(funding_key);
 		GC.KeepAlive(funding_redeemscript);
 		GC.KeepAlive(channel_value_satoshis);
+		return ret;
+	}
+
+	/**
+	 * Signs the holder commitment transaction because we are about to broadcast it.
+	 */
+	public byte[] sign_holder_commitment(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis, org.ldk.structs.EntropySource entropy_source) {
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign_holder_commitment(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis, entropy_source.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(funding_key);
+		GC.KeepAlive(funding_redeemscript);
+		GC.KeepAlive(channel_value_satoshis);
+		GC.KeepAlive(entropy_source);
+		if (this != null) { this.ptrs_to.AddLast(entropy_source); };
 		return ret;
 	}
 

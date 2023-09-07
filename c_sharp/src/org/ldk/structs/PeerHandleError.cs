@@ -18,41 +18,10 @@ public class PeerHandleError : CommonBase {
 	}
 
 	/**
-	 * Used to indicate that we probably can't make any future connections to this peer (e.g.
-	 * because we required features that our peer was missing, or vice versa).
-	 * 
-	 * While LDK's [`ChannelManager`] will not do it automatically, you likely wish to force-close
-	 * any channels with this peer or check for new versions of LDK.
-	 * 
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	public bool get_no_connection_possible() {
-		bool ret = bindings.PeerHandleError_get_no_connection_possible(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
-	 * Used to indicate that we probably can't make any future connections to this peer (e.g.
-	 * because we required features that our peer was missing, or vice versa).
-	 * 
-	 * While LDK's [`ChannelManager`] will not do it automatically, you likely wish to force-close
-	 * any channels with this peer or check for new versions of LDK.
-	 * 
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	public void set_no_connection_possible(bool val) {
-		bindings.PeerHandleError_set_no_connection_possible(this.ptr, val);
-		GC.KeepAlive(this);
-		GC.KeepAlive(val);
-	}
-
-	/**
 	 * Constructs a new PeerHandleError given each field
 	 */
-	public static PeerHandleError of(bool no_connection_possible_arg) {
-		long ret = bindings.PeerHandleError_new(no_connection_possible_arg);
-		GC.KeepAlive(no_connection_possible_arg);
+	public static PeerHandleError of() {
+		long ret = bindings.PeerHandleError_new();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PeerHandleError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerHandleError(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

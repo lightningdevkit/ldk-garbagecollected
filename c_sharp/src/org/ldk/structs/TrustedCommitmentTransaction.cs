@@ -56,10 +56,13 @@ public class TrustedCommitmentTransaction : CommonBase {
 	/**
 	 * Should anchors be used.
 	 */
-	public bool opt_anchors() {
-		bool ret = bindings.TrustedCommitmentTransaction_opt_anchors(this.ptr);
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.TrustedCommitmentTransaction_channel_type_features(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -70,14 +73,16 @@ public class TrustedCommitmentTransaction : CommonBase {
 	 * 
 	 * This function is only valid in the holder commitment context, it always uses EcdsaSighashType::All.
 	 */
-	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
-		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr);
+	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr, entropy_source.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(htlc_base_key);
 		GC.KeepAlive(channel_parameters);
+		GC.KeepAlive(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(channel_parameters); };
+		if (this != null) { this.ptrs_to.AddLast(entropy_source); };
 		return ret_hu_conv;
 	}
 

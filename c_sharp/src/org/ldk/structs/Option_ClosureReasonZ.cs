@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * An enum which can either contain a crate::lightning::util::events::ClosureReason or not
+ * An enum which can either contain a crate::lightning::events::ClosureReason or not
  */
 public class Option_ClosureReasonZ : CommonBase {
 	protected Option_ClosureReasonZ(object _dummy, long ptr) : base(ptr) { }
@@ -40,7 +40,7 @@ public class Option_ClosureReasonZ : CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::util::events::ClosureReason
+	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::events::ClosureReason
 	 */
 	public static Option_ClosureReasonZ some(org.ldk.structs.ClosureReason o) {
 		long ret = bindings.COption_ClosureReasonZ_some(o.ptr);
@@ -48,6 +48,7 @@ public class Option_ClosureReasonZ : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_ClosureReasonZ ret_hu_conv = org.ldk.structs.Option_ClosureReasonZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o); };
 		return ret_hu_conv;
 	}
 

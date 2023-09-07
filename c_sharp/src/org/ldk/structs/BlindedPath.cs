@@ -7,8 +7,8 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * Onion messages can be sent and received to blinded paths, which serve to hide the identity of
- * the recipient.
+ * Onion messages and payments can be sent and received to blinded paths, which serve to hide the
+ * identity of the recipient.
  */
 public class BlindedPath : CommonBase {
 	internal BlindedPath(object _dummy, long ptr) : base(ptr) { }
@@ -35,18 +35,47 @@ public class BlindedPath : CommonBase {
 	}
 
 	/**
-	 * Create a blinded path to be forwarded along `node_pks`. The last node pubkey in `node_pks`
-	 * will be the destination node.
+	 * Generates a non-cryptographic 64-bit hash of the BlindedPath.
+	 */
+	public long hash() {
+		long ret = bindings.BlindedPath_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
+	 * Checks if two BlindedPaths contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public bool eq(org.ldk.structs.BlindedPath b) {
+		bool ret = bindings.BlindedPath_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		if (this != null) { this.ptrs_to.AddLast(b); };
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is BlindedPath)) return false;
+		return this.eq((BlindedPath)o);
+	}
+	/**
+	 * Create a blinded path for an onion message, to be forwarded along `node_pks`. The last node
+	 * pubkey in `node_pks` will be the destination node.
 	 * 
 	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
 	 */
-	public static Result_BlindedPathNoneZ of(byte[][] node_pks, org.ldk.structs.KeysInterface keys_manager) {
-		long ret = bindings.BlindedPath_new(node_pks != null ? InternalUtils.mapArray(node_pks, node_pks_conv_8 => InternalUtils.check_arr_len(node_pks_conv_8, 33)) : null, keys_manager == null ? 0 : keys_manager.ptr);
+	public static Result_BlindedPathNoneZ new_for_message(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedPath_new_for_message(node_pks != null ? InternalUtils.mapArray(node_pks, node_pks_conv_8 => InternalUtils.check_arr_len(node_pks_conv_8, 33)) : null, entropy_source.ptr);
 		GC.KeepAlive(node_pks);
-		GC.KeepAlive(keys_manager);
+		GC.KeepAlive(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BlindedPathNoneZ ret_hu_conv = Result_BlindedPathNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
 		return ret_hu_conv;
 	}
 

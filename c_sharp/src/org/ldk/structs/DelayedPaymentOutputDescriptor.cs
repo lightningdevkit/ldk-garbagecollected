@@ -79,8 +79,6 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 
 	/**
 	 * The output which is referenced by the given outpoint.
-	 * 
-	 * Returns a copy of the field.
 	 */
 	public TxOut get_output() {
 		long ret = bindings.DelayedPaymentOutputDescriptor_get_output(this.ptr);
@@ -120,7 +118,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * Arbitrary identification information returned by a call to [`ChannelSigner::channel_keys_id`].
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public byte[] get_channel_keys_id() {
@@ -130,7 +128,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	}
 
 	/**
-	 * Arbitrary identification information returned by a call to [`BaseSign::channel_keys_id`].
+	 * Arbitrary identification information returned by a call to [`ChannelSigner::channel_keys_id`].
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {

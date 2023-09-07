@@ -27,11 +27,11 @@ public class Fallback : CommonBase {
 
 	/** A Fallback of type SegWitProgram */
 	public class Fallback_SegWitProgram : Fallback {
-		public UInt5 version;
+		public WitnessVersion version;
 		public byte[] program;
 		internal Fallback_SegWitProgram(long ptr) : base(null, ptr) {
 			byte version = bindings.LDKFallback_SegWitProgram_get_version(ptr);
-			UInt5 version_conv = new UInt5(version);
+			WitnessVersion version_conv = new WitnessVersion(version);
 			this.version = version_conv;
 			this.program = bindings.LDKFallback_SegWitProgram_get_program(ptr);
 		}
@@ -71,7 +71,7 @@ public class Fallback : CommonBase {
 	/**
 	 * Utility method to constructs a new SegWitProgram-variant Fallback
 	 */
-	public static Fallback seg_wit_program(org.ldk.util.UInt5 version, byte[] program) {
+	public static Fallback seg_wit_program(org.ldk.util.WitnessVersion version, byte[] program) {
 		long ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
 		GC.KeepAlive(version);
 		GC.KeepAlive(program);
@@ -106,7 +106,7 @@ public class Fallback : CommonBase {
 	}
 
 	/**
-	 * Checks if two Fallbacks contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Fallback.
 	 */
 	public long hash() {
 		long ret = bindings.Fallback_hash(this.ptr);

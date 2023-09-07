@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A channel_ready message to be sent or received from a peer
+ * A [`channel_ready`] message to be sent to or received from a peer.
+ * 
+ * [`channel_ready`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-channel_ready-message
  */
 public class ChannelReady : CommonBase {
 	internal ChannelReady(object _dummy, long ptr) : base(ptr) { }
@@ -52,8 +54,10 @@ public class ChannelReady : CommonBase {
 	}
 
 	/**
-	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
-	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 * If set, provides a `short_channel_id` alias for this channel.
+	 * 
+	 * The sender will accept payments to be forwarded over this SCID and forward them to this
+	 * messages' recipient.
 	 */
 	public Option_u64Z get_short_channel_id_alias() {
 		long ret = bindings.ChannelReady_get_short_channel_id_alias(this.ptr);
@@ -65,13 +69,16 @@ public class ChannelReady : CommonBase {
 	}
 
 	/**
-	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
-	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 * If set, provides a `short_channel_id` alias for this channel.
+	 * 
+	 * The sender will accept payments to be forwarded over this SCID and forward them to this
+	 * messages' recipient.
 	 */
 	public void set_short_channel_id_alias(org.ldk.structs.Option_u64Z val) {
 		bindings.ChannelReady_set_short_channel_id_alias(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -85,6 +92,7 @@ public class ChannelReady : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelReady ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReady(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(short_channel_id_alias_arg); };
 		return ret_hu_conv;
 	}
 

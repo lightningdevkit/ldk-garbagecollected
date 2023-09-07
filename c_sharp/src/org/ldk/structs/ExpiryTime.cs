@@ -35,7 +35,7 @@ public class ExpiryTime : CommonBase {
 	}
 
 	/**
-	 * Checks if two ExpiryTimes contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the ExpiryTime.
 	 */
 	public long hash() {
 		long ret = bindings.ExpiryTime_hash(this.ptr);
@@ -76,7 +76,7 @@ public class ExpiryTime : CommonBase {
 	}
 
 	/**
-	 * Construct an `ExpiryTime` from a `Duration`, dropping the sub-second part.
+	 * Construct an `ExpiryTime` from a [`Duration`], dropping the sub-second part.
 	 */
 	public static ExpiryTime from_duration(long duration) {
 		long ret = bindings.ExpiryTime_from_duration(duration);
@@ -97,7 +97,7 @@ public class ExpiryTime : CommonBase {
 	}
 
 	/**
-	 * Returns a reference to the underlying `Duration` (=expiry time)
+	 * Returns a reference to the underlying [`Duration`] (=expiry time)
 	 */
 	public long as_duration() {
 		long ret = bindings.ExpiryTime_as_duration(this.ptr);

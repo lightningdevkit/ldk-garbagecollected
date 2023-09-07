@@ -43,7 +43,7 @@ public class Option_WriteableScoreZ : CommonBase {
 	 * Constructs a new COption_WriteableScoreZ containing a crate::lightning::routing::scoring::WriteableScore
 	 */
 	public static Option_WriteableScoreZ some(org.ldk.structs.WriteableScore o) {
-		long ret = bindings.COption_WriteableScoreZ_some(o == null ? 0 : o.ptr);
+		long ret = bindings.COption_WriteableScoreZ_some(o.ptr);
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_WriteableScoreZ ret_hu_conv = org.ldk.structs.Option_WriteableScoreZ.constr_from_ptr(ret);

@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * The recipient of a payment.
+ * Information used to route a payment.
  */
 public class PaymentParameters : CommonBase {
 	internal PaymentParameters(object _dummy, long ptr) : base(ptr) { }
@@ -16,84 +16,25 @@ public class PaymentParameters : CommonBase {
 	}
 
 	/**
-	 * The node id of the payee.
+	 * Information about the payee, such as their features and route hints for their channels.
 	 */
-	public byte[] get_payee_pubkey() {
-		byte[] ret = bindings.PaymentParameters_get_payee_pubkey(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
-	 * The node id of the payee.
-	 */
-	public void set_payee_pubkey(byte[] val) {
-		bindings.PaymentParameters_set_payee_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
-		GC.KeepAlive(this);
-		GC.KeepAlive(val);
-	}
-
-	/**
-	 * Features supported by the payee.
-	 * 
-	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
-	 * does not contain any features.
-	 * 
-	 * [`for_keysend`]: Self::for_keysend
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public InvoiceFeatures get_features() {
-		long ret = bindings.PaymentParameters_get_features(this.ptr);
+	public Payee get_payee() {
+		long ret = bindings.PaymentParameters_get_payee(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceFeatures(null, ret); }
+		org.ldk.structs.Payee ret_hu_conv = org.ldk.structs.Payee.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Features supported by the payee.
-	 * 
-	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
-	 * does not contain any features.
-	 * 
-	 * [`for_keysend`]: Self::for_keysend
-	 * 
-	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Information about the payee, such as their features and route hints for their channels.
 	 */
-	public void set_features(org.ldk.structs.InvoiceFeatures val) {
-		bindings.PaymentParameters_set_features(this.ptr, val == null ? 0 : val.ptr);
+	public void set_payee(org.ldk.structs.Payee val) {
+		bindings.PaymentParameters_set_payee(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
-	}
-
-	/**
-	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
-	 */
-	public RouteHint[] get_route_hints() {
-		long[] ret = bindings.PaymentParameters_get_route_hints(this.ptr);
-		GC.KeepAlive(this);
-		int ret_conv_11_len = ret.Length;
-		RouteHint[] ret_conv_11_arr = new RouteHint[ret_conv_11_len];
-		for (int l = 0; l < ret_conv_11_len; l++) {
-			long ret_conv_11 = ret[l];
-			org.ldk.structs.RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, ret_conv_11); }
-			if (ret_conv_11_hu_conv != null) { ret_conv_11_hu_conv.ptrs_to.AddLast(this); };
-			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
-		}
-		return ret_conv_11_arr;
-	}
-
-	/**
-	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
-	 */
-	public void set_route_hints(RouteHint[] val) {
-		bindings.PaymentParameters_set_route_hints(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_11 => val_conv_11 == null ? 0 : val_conv_11.ptr) : null);
-		GC.KeepAlive(this);
-		GC.KeepAlive(val);
-		foreach (RouteHint val_conv_11 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_11); }; };
 	}
 
 	/**
@@ -115,6 +56,7 @@ public class PaymentParameters : CommonBase {
 		bindings.PaymentParameters_set_expiry_time(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -226,11 +168,9 @@ public class PaymentParameters : CommonBase {
 	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(byte[] payee_pubkey_arg, org.ldk.structs.InvoiceFeatures features_arg, RouteHint[] route_hints_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
-		long ret = bindings.PaymentParameters_new(InternalUtils.check_arr_len(payee_pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr, route_hints_arg != null ? InternalUtils.mapArray(route_hints_arg, route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr) : null, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
-		GC.KeepAlive(payee_pubkey_arg);
-		GC.KeepAlive(features_arg);
-		GC.KeepAlive(route_hints_arg);
+	public static PaymentParameters of(org.ldk.structs.Payee payee_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
+		long ret = bindings.PaymentParameters_new(payee_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
+		GC.KeepAlive(payee_arg);
 		GC.KeepAlive(expiry_time_arg);
 		GC.KeepAlive(max_total_cltv_expiry_delta_arg);
 		GC.KeepAlive(max_path_count_arg);
@@ -239,8 +179,8 @@ public class PaymentParameters : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(features_arg); };
-		foreach (RouteHint route_hints_arg_conv_11 in route_hints_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(route_hints_arg_conv_11); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(payee_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(expiry_time_arg); };
 		return ret_hu_conv;
 	}
 
@@ -263,7 +203,7 @@ public class PaymentParameters : CommonBase {
 	}
 
 	/**
-	 * Checks if two PaymentParameterss contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the PaymentParameters.
 	 */
 	public long hash() {
 		long ret = bindings.PaymentParameters_hash(this.ptr);
@@ -303,9 +243,10 @@ public class PaymentParameters : CommonBase {
 	/**
 	 * Read a PaymentParameters from a byte array, created by PaymentParameters_write
 	 */
-	public static Result_PaymentParametersDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.PaymentParameters_read(ser);
+	public static Result_PaymentParametersDecodeErrorZ read(byte[] ser, int arg) {
+		long ret = bindings.PaymentParameters_read(ser, arg);
 		GC.KeepAlive(ser);
+		GC.KeepAlive(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentParametersDecodeErrorZ ret_hu_conv = Result_PaymentParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -313,10 +254,14 @@ public class PaymentParameters : CommonBase {
 
 	/**
 	 * Creates a payee with the node id of the given `pubkey`.
+	 * 
+	 * The `final_cltv_expiry_delta` should match the expected final CLTV delta the recipient has
+	 * provided.
 	 */
-	public static PaymentParameters from_node_id(byte[] payee_pubkey) {
-		long ret = bindings.PaymentParameters_from_node_id(InternalUtils.check_arr_len(payee_pubkey, 33));
+	public static PaymentParameters from_node_id(byte[] payee_pubkey, int final_cltv_expiry_delta) {
+		long ret = bindings.PaymentParameters_from_node_id(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta);
 		GC.KeepAlive(payee_pubkey);
+		GC.KeepAlive(final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -325,13 +270,40 @@ public class PaymentParameters : CommonBase {
 
 	/**
 	 * Creates a payee with the node id of the given `pubkey` to use for keysend payments.
+	 * 
+	 * The `final_cltv_expiry_delta` should match the expected final CLTV delta the recipient has
+	 * provided.
+	 * 
+	 * Note that MPP keysend is not widely supported yet. The `allow_mpp` lets you choose
+	 * whether your router will be allowed to find a multi-part route for this payment. If you
+	 * set `allow_mpp` to true, you should ensure a payment secret is set on send, likely via
+	 * [`RecipientOnionFields::secret_only`].
+	 * 
+	 * [`RecipientOnionFields::secret_only`]: crate::ln::channelmanager::RecipientOnionFields::secret_only
 	 */
-	public static PaymentParameters for_keysend(byte[] payee_pubkey) {
-		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33));
+	public static PaymentParameters for_keysend(byte[] payee_pubkey, int final_cltv_expiry_delta, bool allow_mpp) {
+		long ret = bindings.PaymentParameters_for_keysend(InternalUtils.check_arr_len(payee_pubkey, 33), final_cltv_expiry_delta, allow_mpp);
 		GC.KeepAlive(payee_pubkey);
+		GC.KeepAlive(final_cltv_expiry_delta);
+		GC.KeepAlive(allow_mpp);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates parameters for paying to a blinded payee from the provided invoice. Sets
+	 * [`Payee::Blinded::route_hints`], [`Payee::Blinded::features`], and
+	 * [`PaymentParameters::expiry_time`].
+	 */
+	public static PaymentParameters from_bolt12_invoice(org.ldk.structs.Bolt12Invoice invoice) {
+		long ret = bindings.PaymentParameters_from_bolt12_invoice(invoice == null ? 0 : invoice.ptr);
+		GC.KeepAlive(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
 		return ret_hu_conv;
 	}
 

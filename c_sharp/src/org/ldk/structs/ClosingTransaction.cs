@@ -38,7 +38,7 @@ public class ClosingTransaction : CommonBase {
 	}
 
 	/**
-	 * Checks if two ClosingTransactions contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the ClosingTransaction.
 	 */
 	public long hash() {
 		long ret = bindings.ClosingTransaction_hash(this.ptr);

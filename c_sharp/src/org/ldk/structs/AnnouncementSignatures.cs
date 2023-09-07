@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An announcement_signatures message to be sent or received from a peer
+ * An [`announcement_signatures`] message to be sent to or received from a peer.
+ * 
+ * [`announcement_signatures`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-announcement_signatures-message
  */
 public class AnnouncementSignatures : CommonBase {
 	internal AnnouncementSignatures(object _dummy, long ptr) : base(ptr) { }

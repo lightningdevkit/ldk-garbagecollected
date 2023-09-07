@@ -17,52 +17,40 @@ public class Route : CommonBase {
 	}
 
 	/**
-	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
-	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
-	 * least length one. While the maximum length of any given path is variable, keeping the length
-	 * of any path less or equal to 19 should currently ensure it is viable.
+	 * The list of [`Path`]s taken for a single (potentially-)multi-part payment. If no
+	 * [`BlindedTail`]s are present, then the pubkey of the last [`RouteHop`] in each path must be
+	 * the same.
 	 */
-	public RouteHop[][] get_paths() {
-		long[][] ret = bindings.Route_get_paths(this.ptr);
+	public Path[] get_paths() {
+		long[] ret = bindings.Route_get_paths(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_12_len = ret.Length;
-		RouteHop[][] ret_conv_12_arr = new RouteHop[ret_conv_12_len][];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long[] ret_conv_12 = ret[m];
-			int ret_conv_12_conv_10_len = ret_conv_12.Length;
-			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12_conv_10_len];
-			for (int k = 0; k < ret_conv_12_conv_10_len; k++) {
-				long ret_conv_12_conv_10 = ret_conv_12[k];
-				org.ldk.structs.RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, ret_conv_12_conv_10); }
-				if (ret_conv_12_conv_10_hu_conv != null) { ret_conv_12_conv_10_hu_conv.ptrs_to.AddLast(this); };
-				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
-			}
-			ret_conv_12_arr[m] = ret_conv_12_conv_10_arr;
+		int ret_conv_6_len = ret.Length;
+		Path[] ret_conv_6_arr = new Path[ret_conv_6_len];
+		for (int g = 0; g < ret_conv_6_len; g++) {
+			long ret_conv_6 = ret[g];
+			org.ldk.structs.Path ret_conv_6_hu_conv = null; if (ret_conv_6 < 0 || ret_conv_6 > 4096) { ret_conv_6_hu_conv = new org.ldk.structs.Path(null, ret_conv_6); }
+			if (ret_conv_6_hu_conv != null) { ret_conv_6_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_6_arr[g] = ret_conv_6_hu_conv;
 		}
-		return ret_conv_12_arr;
+		return ret_conv_6_arr;
 	}
 
 	/**
-	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
-	 * last RouteHop in each path must be the same. Each entry represents a list of hops, NOT
-	 * INCLUDING our own, where the last hop is the destination. Thus, this must always be at
-	 * least length one. While the maximum length of any given path is variable, keeping the length
-	 * of any path less or equal to 19 should currently ensure it is viable.
+	 * The list of [`Path`]s taken for a single (potentially-)multi-part payment. If no
+	 * [`BlindedTail`]s are present, then the pubkey of the last [`RouteHop`] in each path must be
+	 * the same.
 	 */
-	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_12 => val_conv_12 != null ? InternalUtils.mapArray(val_conv_12, val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr) : null) : null);
+	public void set_paths(Path[] val) {
+		bindings.Route_set_paths(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_6 => val_conv_6 == null ? 0 : val_conv_6.ptr) : null);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
-		foreach (RouteHop[] val_conv_12 in val) { foreach (RouteHop val_conv_12_conv_10 in val_conv_12) { if (this != null) { this.ptrs_to.AddLast(val_conv_12_conv_10); }; }; };
+		foreach (Path val_conv_6 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_6); }; };
 	}
 
 	/**
-	 * The `payment_params` parameter passed to [`find_route`].
-	 * This is used by `ChannelManager` to track information which may be required for retries,
-	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * The `payment_params` parameter passed via [`RouteParameters`] to [`find_route`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * This is used by `ChannelManager` to track information which may be required for retries.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -76,11 +64,9 @@ public class Route : CommonBase {
 	}
 
 	/**
-	 * The `payment_params` parameter passed to [`find_route`].
-	 * This is used by `ChannelManager` to track information which may be required for retries,
-	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * The `payment_params` parameter passed via [`RouteParameters`] to [`find_route`].
 	 * 
-	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * This is used by `ChannelManager` to track information which may be required for retries.
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -94,14 +80,14 @@ public class Route : CommonBase {
 	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route of(RouteHop[][] paths_arg, org.ldk.structs.PaymentParameters payment_params_arg) {
-		long ret = bindings.Route_new(paths_arg != null ? InternalUtils.mapArray(paths_arg, paths_arg_conv_12 => paths_arg_conv_12 != null ? InternalUtils.mapArray(paths_arg_conv_12, paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr) : null) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
+	public static Route of(Path[] paths_arg, org.ldk.structs.PaymentParameters payment_params_arg) {
+		long ret = bindings.Route_new(paths_arg != null ? InternalUtils.mapArray(paths_arg, paths_arg_conv_6 => paths_arg_conv_6 == null ? 0 : paths_arg_conv_6.ptr) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr);
 		GC.KeepAlive(paths_arg);
 		GC.KeepAlive(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Route(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		foreach (RouteHop[] paths_arg_conv_12 in paths_arg) { foreach (RouteHop paths_arg_conv_12_conv_10 in paths_arg_conv_12) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(paths_arg_conv_12_conv_10); }; }; };
+		foreach (Path paths_arg_conv_6 in paths_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(paths_arg_conv_6); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(payment_params_arg); };
 		return ret_hu_conv;
 	}
@@ -125,7 +111,7 @@ public class Route : CommonBase {
 	}
 
 	/**
-	 * Checks if two Routes contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Route.
 	 */
 	public long hash() {
 		long ret = bindings.Route_hash(this.ptr);
@@ -157,7 +143,7 @@ public class Route : CommonBase {
 	 * Returns the total amount of fees paid on this [`Route`].
 	 * 
 	 * This doesn't include any extra payment made to the recipient, which can happen in excess of
-	 * the amount passed to [`find_route`]'s `params.final_value_msat`.
+	 * the amount passed to [`find_route`]'s `route_params.final_value_msat`.
 	 */
 	public long get_total_fees() {
 		long ret = bindings.Route_get_total_fees(this.ptr);
@@ -166,7 +152,8 @@ public class Route : CommonBase {
 	}
 
 	/**
-	 * Returns the total amount paid on this [`Route`], excluding the fees.
+	 * Returns the total amount paid on this [`Route`], excluding the fees. Might be more than
+	 * requested if we had to reach htlc_minimum_msat.
 	 */
 	public long get_total_amount() {
 		long ret = bindings.Route_get_total_amount(this.ptr);

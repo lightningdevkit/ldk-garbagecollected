@@ -102,34 +102,6 @@ public class NodeAnnouncementInfo : CommonBase {
 	}
 
 	/**
-	 * Internet-level addresses via which one can connect to the node
-	 * 
-	 * Returns a copy of the field.
-	 */
-	public NetAddress[] get_addresses() {
-		long[] ret = bindings.NodeAnnouncementInfo_get_addresses(this.ptr);
-		GC.KeepAlive(this);
-		int ret_conv_12_len = ret.Length;
-		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
-			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
-			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.AddLast(this); };
-			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
-		}
-		return ret_conv_12_arr;
-	}
-
-	/**
-	 * Internet-level addresses via which one can connect to the node
-	 */
-	public void set_addresses(NetAddress[] val) {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_12 => val_conv_12.ptr) : null);
-		GC.KeepAlive(this);
-		GC.KeepAlive(val);
-	}
-
-	/**
 	 * An initial announcement of the node
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
@@ -164,13 +136,12 @@ public class NodeAnnouncementInfo : CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, NetAddress[] addresses_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
-		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, addresses_arg != null ? InternalUtils.mapArray(addresses_arg, addresses_arg_conv_12 => addresses_arg_conv_12.ptr) : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
+	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
 		GC.KeepAlive(features_arg);
 		GC.KeepAlive(last_update_arg);
 		GC.KeepAlive(rgb_arg);
 		GC.KeepAlive(alias_arg);
-		GC.KeepAlive(addresses_arg);
 		GC.KeepAlive(announcement_message_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncementInfo(null, ret); }
@@ -216,6 +187,23 @@ public class NodeAnnouncementInfo : CommonBase {
 		if (!(o is NodeAnnouncementInfo)) return false;
 		return this.eq((NodeAnnouncementInfo)o);
 	}
+	/**
+	 * Internet-level addresses via which one can connect to the node
+	 */
+	public NetAddress[] addresses() {
+		long[] ret = bindings.NodeAnnouncementInfo_addresses(this.ptr);
+		GC.KeepAlive(this);
+		int ret_conv_12_len = ret.Length;
+		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
+		for (int m = 0; m < ret_conv_12_len; m++) {
+			long ret_conv_12 = ret[m];
+			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
+			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		}
+		return ret_conv_12_arr;
+	}
+
 	/**
 	 * Serialize the NodeAnnouncementInfo object into a byte array which can be read by NodeAnnouncementInfo_read
 	 */

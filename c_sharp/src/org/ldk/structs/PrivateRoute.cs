@@ -37,7 +37,7 @@ public class PrivateRoute : CommonBase {
 	}
 
 	/**
-	 * Checks if two PrivateRoutes contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the PrivateRoute.
 	 */
 	public long hash() {
 		long ret = bindings.PrivateRoute_hash(this.ptr);
