@@ -2,7 +2,7 @@ using System;
 using org.ldk.util;
 
 internal class InternalUtils {
-	public static byte[] check_arr_len(byte[] arr, int length) {
+	public static T[] check_arr_len<T>(T[] arr, int length) {
 		if (arr != null && arr.Length != length) {
 			throw new ArgumentException("Array must be of fixed size " + length + " but was of length " + arr.Length);
 		}
