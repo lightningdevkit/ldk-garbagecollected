@@ -454,21 +454,6 @@ namespace org { namespace ldk { namespace structs {
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " CS_LDK_" + fn_name + "("
 
-    def construct_jenv(self):
-        res =  "JNIEnv *env;\n"
-        res += "jint get_jenv_res = (*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6);\n"
-        res += "if (get_jenv_res == JNI_EDETACHED) {\n"
-        res += "\tDO_ASSERT((*j_calls->vm)->AttachCurrentThread(j_calls->vm, (void**)&env, NULL) == JNI_OK);\n"
-        res += "} else {\n"
-        res += "\tDO_ASSERT(get_jenv_res == JNI_OK);\n"
-        res += "}\n"
-        return res
-    def deconstruct_jenv(self):
-        res = "if (get_jenv_res == JNI_EDETACHED) {\n"
-        res += "\tDO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);\n"
-        res += "}\n"
-        return res
-
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
@@ -815,9 +800,7 @@ namespace org { namespace ldk { namespace structs {
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c += "\t\t" + self.construct_jenv().replace("\n", "\n\t\t").strip() + "\n"
                 out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
-                out_c += "\t\t" + self.deconstruct_jenv().replace("\n", "\n\t\t").strip() + "\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -835,7 +818,6 @@ namespace org { namespace ldk { namespace structs {
 
                 out_c = out_c + ") {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
-                out_c += "\t" + self.construct_jenv().replace("\n", "\n\t").strip() + "\n"
 
                 for arg_info in fn_line.args_ty:
                     if arg_info.ret_conv is not None:
@@ -870,10 +852,8 @@ namespace org { namespace ldk { namespace structs {
 
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c += "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n"
-                    out_c += "\t" + self.deconstruct_jenv().replace("\n", "\n\t").strip() + "\n"
                     out_c += "\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
                 else:
-                    out_c += "\t" + self.deconstruct_jenv().replace("\n", "\n\t").strip() + "\n"
                     if not fn_line.ret_ty_info.passed_as_ptr and fn_line.ret_ty_info.c_ty != "void":
                         out_c += "\treturn ret;\n"
 

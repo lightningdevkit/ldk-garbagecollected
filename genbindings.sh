@@ -113,8 +113,6 @@ if [ "$2" = "c_sharp" ]; then
 		mono-csc -o $MONO_COMPILE
 	fi
 
-	mv ./-out:csharpldk.dll csharpldk.dll # Mono is braindead, apparently
-
 	echo "Building C# bindings..."
 	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
 	LINK="-ldl -shared"
