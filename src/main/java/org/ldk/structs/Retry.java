@@ -38,7 +38,7 @@ public class Retry extends CommonBase {
 	 * were retried along a route from a single call to [`Router::find_route_with_id`].
 	 */
 	public final static class Attempts extends Retry {
-		public final long attempts;
+		public final int attempts;
 		private Attempts(long ptr, bindings.LDKRetry.Attempts obj) {
 			super(null, ptr);
 			this.attempts = obj.attempts;
@@ -78,7 +78,7 @@ public class Retry extends CommonBase {
 	/**
 	 * Utility method to constructs a new Attempts-variant Retry
 	 */
-	public static Retry attempts(long a) {
+	public static Retry attempts(int a) {
 		long ret = bindings.Retry_attempts(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -126,4 +126,24 @@ public class Retry extends CommonBase {
 	@Override public int hashCode() {
 		return (int)this.hash();
 	}
+	/**
+	 * Serialize the Retry object into a byte array which can be read by Retry_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Retry_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a Retry from a byte array, created by Retry_write
+	 */
+	public static Result_RetryDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Retry_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RetryDecodeErrorZ ret_hu_conv = Result_RetryDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

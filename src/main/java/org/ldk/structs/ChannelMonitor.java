@@ -92,11 +92,11 @@ public class ChannelMonitor extends CommonBase {
 	/**
 	 * Gets the funding transaction outpoint of the channel this ChannelMonitor is monitoring for.
 	 */
-	public TwoTuple_OutPointScriptZ get_funding_txo() {
+	public TwoTuple_OutPointCVec_u8ZZ get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
+		TwoTuple_OutPointCVec_u8ZZ ret_hu_conv = new TwoTuple_OutPointCVec_u8ZZ(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -105,18 +105,18 @@ public class ChannelMonitor extends CommonBase {
 	 * Gets a list of txids, with their output scripts (in the order they appear in the
 	 * transaction), which we must learn about spends of via block_connected().
 	 */
-	public TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] get_outputs_to_watch() {
+	public TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ[] get_outputs_to_watch() {
 		long[] ret = bindings.ChannelMonitor_get_outputs_to_watch(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_40_len = ret.length;
-		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] ret_conv_40_arr = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[ret_conv_40_len];
-		for (int o = 0; o < ret_conv_40_len; o++) {
-			long ret_conv_40 = ret[o];
-			TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_conv_40_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret_conv_40);
-			if (ret_conv_40_hu_conv != null) { ret_conv_40_hu_conv.ptrs_to.add(this); };
-			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
+		int ret_conv_52_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ[] ret_conv_52_arr = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ[ret_conv_52_len];
+		for (int a = 0; a < ret_conv_52_len; a++) {
+			long ret_conv_52 = ret[a];
+			TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ ret_conv_52_hu_conv = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ(null, ret_conv_52);
+			if (ret_conv_52_hu_conv != null) { ret_conv_52_hu_conv.ptrs_to.add(this); };
+			ret_conv_52_arr[a] = ret_conv_52_hu_conv;
 		}
-		return ret_conv_40_arr;
+		return ret_conv_52_arr;
 	}
 
 	/**
@@ -172,6 +172,101 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	/**
+	 * Gets the counterparty's initial commitment transaction. The returned commitment
+	 * transaction is unsigned. This is intended to be called during the initial persistence of
+	 * the monitor (inside an implementation of [`Persist::persist_new_channel`]), to allow for
+	 * watchtowers in the persistence pipeline to have enough data to form justice transactions.
+	 * 
+	 * This is similar to [`Self::counterparty_commitment_txs_from_update`], except
+	 * that for the initial commitment transaction, we don't have a corresponding update.
+	 * 
+	 * This will only return `Some` for channel monitors that have been created after upgrading
+	 * to LDK 0.0.117+.
+	 * 
+	 * [`Persist::persist_new_channel`]: crate::chain::chainmonitor::Persist::persist_new_channel
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public CommitmentTransaction initial_counterparty_commitment_tx() {
+		long ret = bindings.ChannelMonitor_initial_counterparty_commitment_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.CommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentTransaction(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets all of the counterparty commitment transactions provided by the given update. This
+	 * may be empty if the update doesn't include any new counterparty commitments. Returned
+	 * commitment transactions are unsigned.
+	 * 
+	 * This is provided so that watchtower clients in the persistence pipeline are able to build
+	 * justice transactions for each counterparty commitment upon each update. It's intended to be
+	 * used within an implementation of [`Persist::update_persisted_channel`], which is provided
+	 * with a monitor and an update. Once revoked, signing a justice transaction can be done using
+	 * [`Self::sign_to_local_justice_tx`].
+	 * 
+	 * It is expected that a watchtower client may use this method to retrieve the latest counterparty
+	 * commitment transaction(s), and then hold the necessary data until a later update in which
+	 * the monitor has been updated with the corresponding revocation data, at which point the
+	 * monitor can sign the justice transaction.
+	 * 
+	 * This will only return a non-empty list for monitor updates that have been created after
+	 * upgrading to LDK 0.0.117+. Note that no restriction lies on the monitors themselves, which
+	 * may have been created prior to upgrading.
+	 * 
+	 * [`Persist::update_persisted_channel`]: crate::chain::chainmonitor::Persist::update_persisted_channel
+	 */
+	public CommitmentTransaction[] counterparty_commitment_txs_from_update(org.ldk.structs.ChannelMonitorUpdate update) {
+		long[] ret = bindings.ChannelMonitor_counterparty_commitment_txs_from_update(this.ptr, update == null ? 0 : update.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(update);
+		int ret_conv_23_len = ret.length;
+		CommitmentTransaction[] ret_conv_23_arr = new CommitmentTransaction[ret_conv_23_len];
+		for (int x = 0; x < ret_conv_23_len; x++) {
+			long ret_conv_23 = ret[x];
+			org.ldk.structs.CommitmentTransaction ret_conv_23_hu_conv = null; if (ret_conv_23 < 0 || ret_conv_23 > 4096) { ret_conv_23_hu_conv = new org.ldk.structs.CommitmentTransaction(null, ret_conv_23); }
+			if (ret_conv_23_hu_conv != null) { ret_conv_23_hu_conv.ptrs_to.add(this); };
+			ret_conv_23_arr[x] = ret_conv_23_hu_conv;
+		}
+		if (this != null) { this.ptrs_to.add(update); };
+		return ret_conv_23_arr;
+	}
+
+	/**
+	 * Wrapper around [`EcdsaChannelSigner::sign_justice_revoked_output`] to make
+	 * signing the justice transaction easier for implementors of
+	 * [`chain::chainmonitor::Persist`]. On success this method returns the provided transaction
+	 * signing the input at `input_idx`. This method will only produce a valid signature for
+	 * a transaction spending the `to_local` output of a commitment transaction, i.e. this cannot
+	 * be used for revoked HTLC outputs.
+	 * 
+	 * `Value` is the value of the output being spent by the input at `input_idx`, committed
+	 * in the BIP 143 signature.
+	 * 
+	 * This method will only succeed if this monitor has received the revocation secret for the
+	 * provided `commitment_number`. If a commitment number is provided that does not correspond
+	 * to the commitment transaction being revoked, this will return a signed transaction, but
+	 * the signature will not be valid.
+	 * 
+	 * [`EcdsaChannelSigner::sign_justice_revoked_output`]: crate::sign::EcdsaChannelSigner::sign_justice_revoked_output
+	 * [`Persist`]: crate::chain::chainmonitor::Persist
+	 */
+	public Result_TransactionNoneZ sign_to_local_justice_tx(byte[] justice_tx, long input_idx, long value, long commitment_number) {
+		long ret = bindings.ChannelMonitor_sign_to_local_justice_tx(this.ptr, justice_tx, input_idx, value, commitment_number);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(justice_tx);
+		Reference.reachabilityFence(input_idx);
+		Reference.reachabilityFence(value);
+		Reference.reachabilityFence(commitment_number);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets the `node_id` of the counterparty for this channel.
 	 * 
 	 * Will be `None` for channels constructed on LDK versions prior to 0.0.110 and always `Some`
@@ -187,21 +282,20 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	/**
-	 * Used by ChannelManager deserialization to broadcast the latest holder state if its copy of
-	 * the Channel was out-of-date.
+	 * Used by [`ChannelManager`] deserialization to broadcast the latest holder state if its copy
+	 * of the channel state was out-of-date.
 	 * 
 	 * You may also use this to broadcast the latest local commitment transaction, either because
-	 * a monitor update failed with [`ChannelMonitorUpdateStatus::PermanentFailure`] or because we've
-	 * fallen behind (i.e. we've received proof that our counterparty side knows a revocation
-	 * secret we gave them that they shouldn't know).
+	 * a monitor update failed or because we've fallen behind (i.e. we've received proof that our
+	 * counterparty side knows a revocation secret we gave them that they shouldn't know).
 	 * 
 	 * Broadcasting these transactions in the second case is UNSAFE, as they allow counterparty
 	 * side to punish you. Nevertheless you may want to broadcast them if counterparty doesn't
 	 * close channel with their commitment transaction after a substantial amount of time. Best
 	 * may be to contact the other node operator out-of-band to coordinate other options available
-	 * to you. In any-case, the choice is up to you.
+	 * to you.
 	 * 
-	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public byte[][] get_latest_holder_commitment_txn(org.ldk.structs.Logger logger) {
 		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger.ptr);
@@ -224,7 +318,7 @@ public class ChannelMonitor extends CommonBase {
 	 * 
 	 * [`get_outputs_to_watch`]: #method.get_outputs_to_watch
 	 */
-	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
+	public TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
 		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
@@ -233,18 +327,18 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		int ret_conv_39_len = ret.length;
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
-		for (int n = 0; n < ret_conv_39_len; n++) {
-			long ret_conv_39 = ret[n];
-			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
-			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
+		int ret_conv_49_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_49);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
 		if (this != null) { this.ptrs_to.add(logger); };
-		return ret_conv_39_arr;
+		return ret_conv_49_arr;
 	}
 
 	/**
@@ -273,7 +367,7 @@ public class ChannelMonitor extends CommonBase {
 	 * 
 	 * [`block_connected`]: Self::block_connected
 	 */
-	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
+	public TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
 		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
@@ -282,18 +376,18 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		int ret_conv_39_len = ret.length;
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
-		for (int n = 0; n < ret_conv_39_len; n++) {
-			long ret_conv_39 = ret[n];
-			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
-			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
+		int ret_conv_49_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_49);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
 		if (this != null) { this.ptrs_to.add(logger); };
-		return ret_conv_39_arr;
+		return ret_conv_49_arr;
 	}
 
 	/**
@@ -325,7 +419,7 @@ public class ChannelMonitor extends CommonBase {
 	 * 
 	 * [`block_connected`]: Self::block_connected
 	 */
-	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] best_block_updated(byte[] header, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
+	public TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] best_block_updated(byte[] header, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
 		long[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
@@ -333,35 +427,35 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		int ret_conv_39_len = ret.length;
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
-		for (int n = 0; n < ret_conv_39_len; n++) {
-			long ret_conv_39 = ret[n];
-			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
-			if (ret_conv_39_hu_conv != null) { ret_conv_39_hu_conv.ptrs_to.add(this); };
-			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
+		int ret_conv_49_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_49);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
 		if (this != null) { this.ptrs_to.add(logger); };
-		return ret_conv_39_arr;
+		return ret_conv_49_arr;
 	}
 
 	/**
 	 * Returns the set of txids that should be monitored for re-organization out of the chain.
 	 */
-	public TwoTuple_TxidCOption_BlockHashZZ[] get_relevant_txids() {
+	public TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids() {
 		long[] ret = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_34_len = ret.length;
-		TwoTuple_TxidCOption_BlockHashZZ[] ret_conv_34_arr = new TwoTuple_TxidCOption_BlockHashZZ[ret_conv_34_len];
-		for (int i = 0; i < ret_conv_34_len; i++) {
-			long ret_conv_34 = ret[i];
-			TwoTuple_TxidCOption_BlockHashZZ ret_conv_34_hu_conv = new TwoTuple_TxidCOption_BlockHashZZ(null, ret_conv_34);
-			if (ret_conv_34_hu_conv != null) { ret_conv_34_hu_conv.ptrs_to.add(this); };
-			ret_conv_34_arr[i] = ret_conv_34_hu_conv;
+		int ret_conv_49_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ(null, ret_conv_49);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
-		return ret_conv_34_arr;
+		return ret_conv_49_arr;
 	}
 
 	/**
@@ -396,6 +490,42 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	/**
+	 * Returns the descriptors for relevant outputs (i.e., those that we can spend) within the
+	 * transaction if they exist and the transaction has at least [`ANTI_REORG_DELAY`]
+	 * confirmations. For [`SpendableOutputDescriptor::DelayedPaymentOutput`] descriptors to be
+	 * returned, the transaction must have at least `max(ANTI_REORG_DELAY, to_self_delay)`
+	 * confirmations.
+	 * 
+	 * Descriptors returned by this method are primarily exposed via [`Event::SpendableOutputs`]
+	 * once they are no longer under reorg risk. This method serves as a way to retrieve these
+	 * descriptors at a later time, either for historical purposes, or to replay any
+	 * missed/unhandled descriptors. For the purpose of gathering historical records, if the
+	 * channel close has fully resolved (i.e., [`ChannelMonitor::get_claimable_balances`] returns
+	 * an empty set), you can retrieve all spendable outputs by providing all descendant spending
+	 * transactions starting from the channel's funding transaction and going down three levels.
+	 * 
+	 * `tx` is a transaction we'll scan the outputs of. Any transaction can be provided. If any
+	 * outputs which can be spent by us are found, at least one descriptor is returned.
+	 * 
+	 * `confirmation_height` must be the height of the block in which `tx` was included in.
+	 */
+	public SpendableOutputDescriptor[] get_spendable_outputs(byte[] tx, int confirmation_height) {
+		long[] ret = bindings.ChannelMonitor_get_spendable_outputs(this.ptr, tx, confirmation_height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(tx);
+		Reference.reachabilityFence(confirmation_height);
+		int ret_conv_27_len = ret.length;
+		SpendableOutputDescriptor[] ret_conv_27_arr = new SpendableOutputDescriptor[ret_conv_27_len];
+		for (int b = 0; b < ret_conv_27_len; b++) {
+			long ret_conv_27 = ret[b];
+			org.ldk.structs.SpendableOutputDescriptor ret_conv_27_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret_conv_27);
+			if (ret_conv_27_hu_conv != null) { ret_conv_27_hu_conv.ptrs_to.add(this); };
+			ret_conv_27_arr[b] = ret_conv_27_hu_conv;
+		}
+		return ret_conv_27_arr;
+	}
+
+	/**
 	 * Gets the balances in this channel which are either claimable by us if we were to
 	 * force-close the channel now or which are claimable on-chain (possibly awaiting
 	 * confirmation).
@@ -406,8 +536,7 @@ public class ChannelMonitor extends CommonBase {
 	 * confirmations on the claim transaction.
 	 * 
 	 * Note that for `ChannelMonitors` which track a channel which went on-chain with versions of
-	 * LDK prior to 0.0.111, balances may not be fully captured if our counterparty broadcasted
-	 * a revoked state.
+	 * LDK prior to 0.0.111, not all or excess balances may be included.
 	 * 
 	 * See [`Balance`] for additional details on the types of claimable balances which
 	 * may be returned here and their meanings.

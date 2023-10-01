@@ -312,4 +312,16 @@ public class PaymentParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates parameters for paying to a blinded payee from the provided blinded route hints.
+	 */
+	public static PaymentParameters blinded(TwoTuple_BlindedPayInfoBlindedPathZ[] blinded_route_hints) {
+		long ret = bindings.PaymentParameters_blinded(blinded_route_hints != null ? Arrays.stream(blinded_route_hints).mapToLong(blinded_route_hints_conv_37 -> blinded_route_hints_conv_37 != null ? blinded_route_hints_conv_37.ptr : 0).toArray() : null);
+		Reference.reachabilityFence(blinded_route_hints);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }

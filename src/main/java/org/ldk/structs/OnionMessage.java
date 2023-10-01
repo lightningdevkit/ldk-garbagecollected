@@ -38,6 +38,42 @@ public class OnionMessage extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * The full onion packet including hop data, pubkey, and hmac
+	 */
+	public Packet get_onion_routing_packet() {
+		long ret = bindings.OnionMessage_get_onion_routing_packet(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Packet ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Packet(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The full onion packet including hop data, pubkey, and hmac
+	 */
+	public void set_onion_routing_packet(org.ldk.structs.Packet val) {
+		bindings.OnionMessage_set_onion_routing_packet(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
+	 * Constructs a new OnionMessage given each field
+	 */
+	public static OnionMessage of(byte[] blinding_point_arg, org.ldk.structs.Packet onion_routing_packet_arg) {
+		long ret = bindings.OnionMessage_new(InternalUtils.check_arr_len(blinding_point_arg, 33), onion_routing_packet_arg == null ? 0 : onion_routing_packet_arg.ptr);
+		Reference.reachabilityFence(blinding_point_arg);
+		Reference.reachabilityFence(onion_routing_packet_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OnionMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessage(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(onion_routing_packet_arg); };
+		return ret_hu_conv;
+	}
+
 	long clone_ptr() {
 		long ret = bindings.OnionMessage_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

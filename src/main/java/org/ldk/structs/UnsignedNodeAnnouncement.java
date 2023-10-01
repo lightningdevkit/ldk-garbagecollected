@@ -135,28 +135,28 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * 
 	 * Returns a copy of the field.
 	 */
-	public NetAddress[] get_addresses() {
+	public SocketAddress[] get_addresses() {
 		long[] ret = bindings.UnsignedNodeAnnouncement_get_addresses(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_12_len = ret.length;
-		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
-			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
-			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.add(this); };
-			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		int ret_conv_15_len = ret.length;
+		SocketAddress[] ret_conv_15_arr = new SocketAddress[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = ret[p];
+			org.ldk.structs.SocketAddress ret_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(ret_conv_15);
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.add(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
-		return ret_conv_12_arr;
+		return ret_conv_15_arr;
 	}
 
 	/**
 	 * List of addresses on which this node is reachable
 	 */
-	public void set_addresses(NetAddress[] val) {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
+	public void set_addresses(SocketAddress[] val) {
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
-		for (NetAddress val_conv_12: val) { if (this != null) { this.ptrs_to.add(val_conv_12); }; };
+		for (SocketAddress val_conv_15: val) { if (this != null) { this.ptrs_to.add(val_conv_15); }; };
 	}
 
 	long clone_ptr() {

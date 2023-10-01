@@ -62,11 +62,11 @@ public class NodeId extends CommonBase {
 	/**
 	 * Get the public key from this NodeId
 	 */
-	public Result_PublicKeyErrorZ as_pubkey() {
+	public Result_PublicKeySecp256k1ErrorZ as_pubkey() {
 		long ret = bindings.NodeId_as_pubkey(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		Result_PublicKeySecp256k1ErrorZ ret_hu_conv = Result_PublicKeySecp256k1ErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

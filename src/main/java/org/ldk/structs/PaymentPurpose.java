@@ -43,7 +43,7 @@ public class PaymentPurpose extends CommonBase {
 		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
 		 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
 		*/
-		public final org.ldk.structs.Option_PaymentPreimageZ payment_preimage;
+		public final org.ldk.structs.Option_ThirtyTwoBytesZ payment_preimage;
 		/**
 		 * The \"payment secret\". This authenticates the sender to the recipient, preventing a
 		 * number of deanonymization attacks during the routing process.
@@ -60,7 +60,7 @@ public class PaymentPurpose extends CommonBase {
 		private InvoicePayment(long ptr, bindings.LDKPaymentPurpose.InvoicePayment obj) {
 			super(null, ptr);
 			long payment_preimage = obj.payment_preimage;
-			org.ldk.structs.Option_PaymentPreimageZ payment_preimage_hu_conv = org.ldk.structs.Option_PaymentPreimageZ.constr_from_ptr(payment_preimage);
+			org.ldk.structs.Option_ThirtyTwoBytesZ payment_preimage_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(payment_preimage);
 			if (payment_preimage_hu_conv != null) { payment_preimage_hu_conv.ptrs_to.add(this); };
 			this.payment_preimage = payment_preimage_hu_conv;
 			this.payment_secret = obj.payment_secret;
@@ -98,7 +98,7 @@ public class PaymentPurpose extends CommonBase {
 	/**
 	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
 	 */
-	public static PaymentPurpose invoice_payment(org.ldk.structs.Option_PaymentPreimageZ payment_preimage, byte[] payment_secret) {
+	public static PaymentPurpose invoice_payment(org.ldk.structs.Option_ThirtyTwoBytesZ payment_preimage, byte[] payment_secret) {
 		long ret = bindings.PaymentPurpose_invoice_payment(payment_preimage.ptr, InternalUtils.check_arr_len(payment_secret, 32));
 		Reference.reachabilityFence(payment_preimage);
 		Reference.reachabilityFence(payment_secret);

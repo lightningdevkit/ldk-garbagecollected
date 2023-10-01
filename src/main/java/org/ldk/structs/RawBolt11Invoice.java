@@ -180,11 +180,11 @@ public class RawBolt11Invoice extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public Option_PaymentSecretZ payment_secret() {
+	public Option_ThirtyTwoBytesZ payment_secret() {
 		long ret = bindings.RawBolt11Invoice_payment_secret(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_PaymentSecretZ ret_hu_conv = org.ldk.structs.Option_PaymentSecretZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

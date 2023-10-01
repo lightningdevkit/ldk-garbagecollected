@@ -88,6 +88,42 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Sets a required feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Required bits are even. If an odd bit is given, then the corresponding even bit will
+	 * be set instead (i.e., `bit - 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_required_feature_bit(long bit) {
+		long ret = bindings.NodeFeatures_set_required_feature_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets an optional feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Optional bits are odd. If an even bit is given, then the corresponding odd bit will be
+	 * set instead (i.e., `bit + 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_optional_feature_bit(long bit) {
+		long ret = bindings.NodeFeatures_set_optional_feature_bit(this.ptr, bit);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Sets a required custom feature bit. Errors if `bit` is outside the custom range as defined
 	 * by [bLIP 2] or if it is a known `T` feature.
 	 * 
@@ -513,6 +549,40 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public boolean requires_shutdown_anysegwit() {
 		boolean ret = bindings.NodeFeatures_requires_shutdown_anysegwit(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_taproot_optional() {
+		bindings.NodeFeatures_set_taproot_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_taproot_required() {
+		bindings.NodeFeatures_set_taproot_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_taproot() {
+		boolean ret = bindings.NodeFeatures_supports_taproot(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_taproot() {
+		boolean ret = bindings.NodeFeatures_requires_taproot(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

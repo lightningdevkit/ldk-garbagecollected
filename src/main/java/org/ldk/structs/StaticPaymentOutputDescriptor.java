@@ -103,18 +103,55 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new StaticPaymentOutputDescriptor given each field
+	 * The necessary channel parameters that need to be provided to the re-derived signer through
+	 * [`ChannelSigner::provide_channel_parameters`].
+	 * 
+	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.117 or later.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static StaticPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, org.ldk.structs.TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
-		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+	@Nullable
+	public ChannelTransactionParameters get_channel_transaction_parameters() {
+		long ret = bindings.StaticPaymentOutputDescriptor_get_channel_transaction_parameters(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The necessary channel parameters that need to be provided to the re-derived signer through
+	 * [`ChannelSigner::provide_channel_parameters`].
+	 * 
+	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.117 or later.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_channel_transaction_parameters(@Nullable org.ldk.structs.ChannelTransactionParameters val) {
+		bindings.StaticPaymentOutputDescriptor_set_channel_transaction_parameters(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
+	 * Constructs a new StaticPaymentOutputDescriptor given each field
+	 * 
+	 * Note that channel_transaction_parameters_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static StaticPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, org.ldk.structs.TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg, @Nullable org.ldk.structs.ChannelTransactionParameters channel_transaction_parameters_arg) {
+		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg, channel_transaction_parameters_arg == null ? 0 : channel_transaction_parameters_arg.ptr);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(output_arg);
 		Reference.reachabilityFence(channel_keys_id_arg);
 		Reference.reachabilityFence(channel_value_satoshis_arg);
+		Reference.reachabilityFence(channel_transaction_parameters_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.StaticPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.StaticPaymentOutputDescriptor(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outpoint_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_transaction_parameters_arg); };
 		return ret_hu_conv;
 	}
 
@@ -137,6 +174,18 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the StaticPaymentOutputDescriptor.
+	 */
+	public long hash() {
+		long ret = bindings.StaticPaymentOutputDescriptor_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two StaticPaymentOutputDescriptors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
@@ -153,6 +202,32 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 		if (!(o instanceof StaticPaymentOutputDescriptor)) return false;
 		return this.eq((StaticPaymentOutputDescriptor)o);
 	}
+	/**
+	 * Returns the `witness_script` of the spendable output.
+	 * 
+	 * Note that this will only return `Some` for [`StaticPaymentOutputDescriptor`]s that
+	 * originated from an anchor outputs channel, as they take the form of a P2WSH script.
+	 */
+	public Option_CVec_u8ZZ witness_script() {
+		long ret = bindings.StaticPaymentOutputDescriptor_witness_script(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The maximum length a well-formed witness spending one of these should have.
+	 * Note: If you have the grind_signatures feature enabled, this will be at least 1 byte
+	 * shorter.
+	 */
+	public long max_witness_length() {
+		long ret = bindings.StaticPaymentOutputDescriptor_max_witness_length(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 	/**
 	 * Serialize the StaticPaymentOutputDescriptor object into a byte array which can be read by StaticPaymentOutputDescriptor_read
 	 */

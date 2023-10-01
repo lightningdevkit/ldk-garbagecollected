@@ -189,7 +189,7 @@ public class ChannelMessageHandler extends CommonBase {
 		 * If it's `None`, then no particular network chain hash compatibility will be enforced when
 		 * connecting to peers.
 		 */
-		Option_CVec_ChainHashZZ get_genesis_hashes();
+		Option_CVec_ThirtyTwoBytesZZ get_genesis_hashes();
 	}
 	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
 	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
@@ -364,7 +364,7 @@ public class ChannelMessageHandler extends CommonBase {
 				return result;
 			}
 			@Override public long get_genesis_hashes() {
-				Option_CVec_ChainHashZZ ret = arg.get_genesis_hashes();
+				Option_CVec_ThirtyTwoBytesZZ ret = arg.get_genesis_hashes();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
@@ -767,11 +767,11 @@ public class ChannelMessageHandler extends CommonBase {
 	 * If it's `None`, then no particular network chain hash compatibility will be enforced when
 	 * connecting to peers.
 	 */
-	public Option_CVec_ChainHashZZ get_genesis_hashes() {
+	public Option_CVec_ThirtyTwoBytesZZ get_genesis_hashes() {
 		long ret = bindings.ChannelMessageHandler_get_genesis_hashes(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_CVec_ChainHashZZ ret_hu_conv = org.ldk.structs.Option_CVec_ChainHashZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ ret_hu_conv = org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

@@ -63,11 +63,11 @@ public class Refund extends CommonBase {
 	 * 
 	 * If `None`, the refund does not expire.
 	 */
-	public Option_DurationZ absolute_expiry() {
+	public Option_u64Z absolute_expiry() {
 		long ret = bindings.Refund_absolute_expiry(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -121,8 +121,8 @@ public class Refund extends CommonBase {
 	 * 
 	 * [`payer_id`]: Self::payer_id
 	 */
-	public byte[] metadata() {
-		byte[] ret = bindings.Refund_metadata(this.ptr);
+	public byte[] payer_metadata() {
+		byte[] ret = bindings.Refund_payer_metadata(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * [`Score`] implementation that uses a fixed penalty.
+ * [`ScoreLookUp`] implementation that uses a fixed penalty.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class FixedPenaltyScorer extends CommonBase {
@@ -51,14 +51,27 @@ public class FixedPenaltyScorer extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new Score which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
+	 * Constructs a new ScoreLookUp which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ScoreLookUp must be freed before this_arg is
 	 */
-	public Score as_Score() {
-		long ret = bindings.FixedPenaltyScorer_as_Score(this.ptr);
+	public ScoreLookUp as_ScoreLookUp() {
+		long ret = bindings.FixedPenaltyScorer_as_ScoreLookUp(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Score ret_hu_conv = new Score(null, ret);
+		ScoreLookUp ret_hu_conv = new ScoreLookUp(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new ScoreUpdate which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ScoreUpdate must be freed before this_arg is
+	 */
+	public ScoreUpdate as_ScoreUpdate() {
+		long ret = bindings.FixedPenaltyScorer_as_ScoreUpdate(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ScoreUpdate ret_hu_conv = new ScoreUpdate(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

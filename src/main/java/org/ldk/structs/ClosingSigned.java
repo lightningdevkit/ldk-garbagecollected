@@ -107,8 +107,10 @@ public class ClosingSigned extends CommonBase {
 
 	/**
 	 * Constructs a new ClosingSigned given each field
+	 * 
+	 * Note that fee_range_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg, org.ldk.structs.ClosingSignedFeeRange fee_range_arg) {
+	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg, @Nullable org.ldk.structs.ClosingSignedFeeRange fee_range_arg) {
 		long ret = bindings.ClosingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), fee_satoshis_arg, InternalUtils.check_arr_len(signature_arg, 64), fee_range_arg == null ? 0 : fee_range_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(fee_satoshis_arg);

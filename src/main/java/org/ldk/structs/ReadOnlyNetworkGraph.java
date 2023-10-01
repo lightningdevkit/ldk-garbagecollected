@@ -82,12 +82,12 @@ public class ReadOnlyNetworkGraph extends CommonBase implements AutoCloseable {
 	 * Returns None if the requested node is completely unknown,
 	 * or if node announcement for the node was never received.
 	 */
-	public Option_CVec_NetAddressZZ get_addresses(byte[] pubkey) {
+	public Option_CVec_SocketAddressZZ get_addresses(byte[] pubkey) {
 		long ret = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, InternalUtils.check_arr_len(pubkey, 33));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_SocketAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_SocketAddressZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

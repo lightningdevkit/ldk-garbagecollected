@@ -21,12 +21,14 @@ import javax.annotation.Nullable;
  * called [`funding_transaction_generated`] for outbound channels) being closed.
  * 
  * Note that you can be a bit lazier about writing out `ChannelManager` than you can be with
- * [`ChannelMonitor`]. With [`ChannelMonitor`] you MUST write each monitor update out to disk before
- * returning from [`chain::Watch::watch_channel`]/[`update_channel`], with ChannelManagers, writing updates
- * happens out-of-band (and will prevent any other `ChannelManager` operations from occurring during
- * the serialization process). If the deserialized version is out-of-date compared to the
- * [`ChannelMonitor`] passed by reference to [`read`], those channels will be force-closed based on the
- * `ChannelMonitor` state and no funds will be lost (mod on-chain transaction fees).
+ * [`ChannelMonitor`]. With [`ChannelMonitor`] you MUST durably write each
+ * [`ChannelMonitorUpdate`] before returning from
+ * [`chain::Watch::watch_channel`]/[`update_channel`] or before completing async writes. With
+ * `ChannelManager`s, writing updates happens out-of-band (and will prevent any other
+ * `ChannelManager` operations from occurring during the serialization process). If the
+ * deserialized version is out-of-date compared to the [`ChannelMonitor`] passed by reference to
+ * [`read`], those channels will be force-closed based on the `ChannelMonitor` state and no funds
+ * will be lost (modulo on-chain transaction fees).
  * 
  * Note that the deserializer is only implemented for `(`[`BlockHash`]`, `[`ChannelManager`]`)`, which
  * tells you the last block hash which was connected. You should get the best block tip before using the manager.
@@ -164,7 +166,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result__u832APIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, org.ldk.util.UInt128 user_channel_id, @Nullable org.ldk.structs.UserConfig override_config) {
+	public Result_ThirtyTwoBytesAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, org.ldk.util.UInt128 user_channel_id, @Nullable org.ldk.structs.UserConfig override_config) {
 		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id.getLEBytes(), override_config == null ? 0 : override_config.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_network_key);
@@ -173,7 +175,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(user_channel_id);
 		Reference.reachabilityFence(override_config);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesAPIErrorZ ret_hu_conv = Result_ThirtyTwoBytesAPIErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(override_config); };
 		return ret_hu_conv;
 	}
@@ -432,9 +434,8 @@ public class ChannelManager extends CommonBase {
 	 * In general, a path may raise:
 	 * [`APIError::InvalidRoute`] when an invalid route or forwarding parameter (cltv_delta, fee,
 	 * node public key) is specified.
-	 * [`APIError::ChannelUnavailable`] if the next-hop channel is not available for updates
-	 * (including due to previous monitor update failure or new permanent monitor update
-	 * failure).
+	 * [`APIError::ChannelUnavailable`] if the next-hop channel is not available as it has been
+	 * closed, doesn't exist, or the peer is currently disconnected.
 	 * [`APIError::MonitorUpdateInProgress`] if a new monitor update failure prevented sending the
 	 * relevant updates.
 	 * 
@@ -484,9 +485,11 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Signals that no further retries for the given payment should occur. Useful if you have a
+	 * Signals that no further attempts for the given payment should occur. Useful if you have a
 	 * pending outbound payment with retries remaining, but wish to stop retrying the payment before
 	 * retries are exhausted.
+	 * 
+	 * # Event Generation
 	 * 
 	 * If no [`Event::PaymentFailed`] event had been generated before, one will be generated as soon
 	 * as there are no remaining pending HTLCs for this payment.
@@ -495,11 +498,10 @@ public class ChannelManager extends CommonBase {
 	 * wait until you receive either a [`Event::PaymentFailed`] or [`Event::PaymentSent`] event to
 	 * determine the ultimate status of a payment.
 	 * 
-	 * If an [`Event::PaymentFailed`] event is generated and we restart without this
-	 * [`ChannelManager`] having been persisted, another [`Event::PaymentFailed`] may be generated.
+	 * # Restart Behavior
 	 * 
-	 * [`Event::PaymentFailed`]: events::Event::PaymentFailed
-	 * [`Event::PaymentSent`]: events::Event::PaymentSent
+	 * If an [`Event::PaymentFailed`] is generated and we restart without first persisting the
+	 * [`ChannelManager`], another [`Event::PaymentFailed`] may be generated.
 	 */
 	public void abandon_payment(byte[] payment_id) {
 		bindings.ChannelManager_abandon_payment(this.ptr, InternalUtils.check_arr_len(payment_id, 32));
@@ -522,7 +524,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`send_payment`]: Self::send_payment
 	 */
-	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, org.ldk.structs.Option_PaymentPreimageZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
+	public Result_ThirtyTwoBytesPaymentSendFailureZ send_spontaneous_payment(org.ldk.structs.Route route, org.ldk.structs.Option_ThirtyTwoBytesZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id) {
 		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr, payment_preimage.ptr, recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(route);
@@ -530,7 +532,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(recipient_onion);
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesPaymentSendFailureZ ret_hu_conv = Result_ThirtyTwoBytesPaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(route); };
 		if (this != null) { this.ptrs_to.add(payment_preimage); };
 		if (this != null) { this.ptrs_to.add(recipient_onion); };
@@ -546,7 +548,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`PaymentParameters::for_keysend`]: crate::routing::router::PaymentParameters::for_keysend
 	 */
-	public Result_PaymentHashRetryableSendFailureZ send_spontaneous_payment_with_retry(org.ldk.structs.Option_PaymentPreimageZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
+	public Result_ThirtyTwoBytesRetryableSendFailureZ send_spontaneous_payment_with_retry(org.ldk.structs.Option_ThirtyTwoBytesZ payment_preimage, org.ldk.structs.RecipientOnionFields recipient_onion, byte[] payment_id, org.ldk.structs.RouteParameters route_params, org.ldk.structs.Retry retry_strategy) {
 		long ret = bindings.ChannelManager_send_spontaneous_payment_with_retry(this.ptr, payment_preimage.ptr, recipient_onion == null ? 0 : recipient_onion.ptr, InternalUtils.check_arr_len(payment_id, 32), route_params == null ? 0 : route_params.ptr, retry_strategy.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_preimage);
@@ -555,7 +557,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(route_params);
 		Reference.reachabilityFence(retry_strategy);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PaymentHashRetryableSendFailureZ ret_hu_conv = Result_PaymentHashRetryableSendFailureZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesRetryableSendFailureZ ret_hu_conv = Result_ThirtyTwoBytesRetryableSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(payment_preimage); };
 		if (this != null) { this.ptrs_to.add(recipient_onion); };
 		if (this != null) { this.ptrs_to.add(route_params); };
@@ -568,13 +570,60 @@ public class ChannelManager extends CommonBase {
 	 * [`PaymentHash`] of probes based on a static secret and a random [`PaymentId`], which allows
 	 * us to easily discern them from real payments.
 	 */
-	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_probe(org.ldk.structs.Path path) {
+	public Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ send_probe(org.ldk.structs.Path path) {
 		long ret = bindings.ChannelManager_send_probe(this.ptr, path == null ? 0 : path.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
+		Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(path); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sends payment probes over all paths of a route that would be used to pay the given
+	 * amount to the given `node_id`.
+	 * 
+	 * See [`ChannelManager::send_preflight_probes`] for more information.
+	 */
+	public Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ send_spontaneous_preflight_probes(byte[] node_id, long amount_msat, int final_cltv_expiry_delta, org.ldk.structs.Option_u64Z liquidity_limit_multiplier) {
+		long ret = bindings.ChannelManager_send_spontaneous_preflight_probes(this.ptr, InternalUtils.check_arr_len(node_id, 33), amount_msat, final_cltv_expiry_delta, liquidity_limit_multiplier.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(amount_msat);
+		Reference.reachabilityFence(final_cltv_expiry_delta);
+		Reference.reachabilityFence(liquidity_limit_multiplier);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ ret_hu_conv = Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(liquidity_limit_multiplier); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sends payment probes over all paths of a route that would be used to pay a route found
+	 * according to the given [`RouteParameters`].
+	 * 
+	 * This may be used to send \"pre-flight\" probes, i.e., to train our scorer before conducting
+	 * the actual payment. Note this is only useful if there likely is sufficient time for the
+	 * probe to settle before sending out the actual payment, e.g., when waiting for user
+	 * confirmation in a wallet UI.
+	 * 
+	 * Otherwise, there is a chance the probe could take up some liquidity needed to complete the
+	 * actual payment. Users should therefore be cautious and might avoid sending probes if
+	 * liquidity is scarce and/or they don't expect the probe to return before they send the
+	 * payment. To mitigate this issue, channels with available liquidity less than the required
+	 * amount times the given `liquidity_limit_multiplier` won't be used to send pre-flight
+	 * probes. If `None` is given as `liquidity_limit_multiplier`, it defaults to `3`.
+	 */
+	public Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ send_preflight_probes(org.ldk.structs.RouteParameters route_params, org.ldk.structs.Option_u64Z liquidity_limit_multiplier) {
+		long ret = bindings.ChannelManager_send_preflight_probes(this.ptr, route_params == null ? 0 : route_params.ptr, liquidity_limit_multiplier.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(route_params);
+		Reference.reachabilityFence(liquidity_limit_multiplier);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ ret_hu_conv = Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(route_params); };
+		if (this != null) { this.ptrs_to.add(liquidity_limit_multiplier); };
 		return ret_hu_conv;
 	}
 
@@ -615,6 +664,28 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(funding_transaction);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Call this upon creation of a batch funding transaction for the given channels.
+	 * 
+	 * Return values are identical to [`Self::funding_transaction_generated`], respective to
+	 * each individual channel and transaction output.
+	 * 
+	 * Do NOT broadcast the funding transaction yourself. This batch funding transcaction
+	 * will only be broadcast when we have safely received and persisted the counterparty's
+	 * signature for each channel.
+	 * 
+	 * If there is an error, all channels in the batch are to be considered closed.
+	 */
+	public Result_NoneAPIErrorZ batch_funding_transaction_generated(TwoTuple_ThirtyTwoBytesPublicKeyZ[] temporary_channels, byte[] funding_transaction) {
+		long ret = bindings.ChannelManager_batch_funding_transaction_generated(this.ptr, temporary_channels != null ? Arrays.stream(temporary_channels).mapToLong(temporary_channels_conv_35 -> temporary_channels_conv_35 != null ? temporary_channels_conv_35.ptr : 0).toArray() : null, funding_transaction);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(temporary_channels);
 		Reference.reachabilityFence(funding_transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -810,11 +881,12 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * See [`FailureCode`] for valid failure codes.
 	 */
-	public void fail_htlc_backwards_with_reason(byte[] payment_hash, org.ldk.enums.FailureCode failure_code) {
-		bindings.ChannelManager_fail_htlc_backwards_with_reason(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), failure_code);
+	public void fail_htlc_backwards_with_reason(byte[] payment_hash, org.ldk.structs.FailureCode failure_code) {
+		bindings.ChannelManager_fail_htlc_backwards_with_reason(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), failure_code.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(failure_code);
+		if (this != null) { this.ptrs_to.add(failure_code); };
 	}
 
 	/**
@@ -831,15 +903,37 @@ public class ChannelManager extends CommonBase {
 	 * event matches your expectation. If you fail to do so and call this method, you may provide
 	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
+	 * This function will fail the payment if it has custom TLVs with even type numbers, as we
+	 * will assume they are unknown. If you intend to accept even custom TLVs, you should use
+	 * [`claim_funds_with_known_custom_tlvs`].
+	 * 
 	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
 	 * [`Event::PaymentClaimable::claim_deadline`]: crate::events::Event::PaymentClaimable::claim_deadline
 	 * [`Event::PaymentClaimed`]: crate::events::Event::PaymentClaimed
 	 * [`process_pending_events`]: EventsProvider::process_pending_events
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
+	 * [`claim_funds_with_known_custom_tlvs`]: Self::claim_funds_with_known_custom_tlvs
 	 */
 	public void claim_funds(byte[] payment_preimage) {
 		bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(payment_preimage);
+	}
+
+	/**
+	 * This is a variant of [`claim_funds`] that allows accepting a payment with custom TLVs with
+	 * even type numbers.
+	 * 
+	 * # Note
+	 * 
+	 * You MUST check you've understood all even TLVs before using this to
+	 * claim, otherwise you may unintentionally agree to some protocol you do not understand.
+	 * 
+	 * [`claim_funds`]: Self::claim_funds
+	 */
+	public void claim_funds_with_known_custom_tlvs(byte[] payment_preimage) {
+		bindings.ChannelManager_claim_funds_with_known_custom_tlvs(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_preimage);
 	}
@@ -947,14 +1041,14 @@ public class ChannelManager extends CommonBase {
 	 * [`PaymentPurpose::InvoicePayment::payment_preimage`]: events::PaymentPurpose::InvoicePayment::payment_preimage
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 */
-	public Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create_inbound_payment(org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+	public Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ create_inbound_payment(org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
 		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(min_value_msat);
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(min_final_cltv_expiry_delta);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
+		Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(min_value_msat); };
 		if (this != null) { this.ptrs_to.add(min_final_cltv_expiry_delta); };
 		return ret_hu_conv;
@@ -1008,7 +1102,7 @@ public class ChannelManager extends CommonBase {
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`PaymentClaimable`]: events::Event::PaymentClaimable
 	 */
-	public Result_PaymentSecretNoneZ create_inbound_payment_for_hash(byte[] payment_hash, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry) {
+	public Result_ThirtyTwoBytesNoneZ create_inbound_payment_for_hash(byte[] payment_hash, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry) {
 		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_hash);
@@ -1016,7 +1110,7 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(invoice_expiry_delta_secs);
 		Reference.reachabilityFence(min_final_cltv_expiry);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PaymentSecretNoneZ ret_hu_conv = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(min_value_msat); };
 		if (this != null) { this.ptrs_to.add(min_final_cltv_expiry); };
 		return ret_hu_conv;
@@ -1028,13 +1122,13 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 */
-	public Result_PaymentPreimageAPIErrorZ get_payment_preimage(byte[] payment_hash, byte[] payment_secret) {
+	public Result_ThirtyTwoBytesAPIErrorZ get_payment_preimage(byte[] payment_hash, byte[] payment_secret) {
 		long ret = bindings.ChannelManager_get_payment_preimage(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(payment_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PaymentPreimageAPIErrorZ ret_hu_conv = Result_PaymentPreimageAPIErrorZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesAPIErrorZ ret_hu_conv = Result_ThirtyTwoBytesAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -1144,18 +1238,31 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets a [`Future`] that completes when this [`ChannelManager`] needs to be persisted.
+	 * Gets a [`Future`] that completes when this [`ChannelManager`] may need to be persisted or
+	 * may have events that need processing.
+	 * 
+	 * In order to check if this [`ChannelManager`] needs persisting, call
+	 * [`Self::get_and_clear_needs_persistence`].
 	 * 
 	 * Note that callbacks registered on the [`Future`] MUST NOT call back into this
 	 * [`ChannelManager`] and should instead register actions to be taken later.
 	 */
-	public Future get_persistable_update_future() {
-		long ret = bindings.ChannelManager_get_persistable_update_future(this.ptr);
+	public Future get_event_or_persistence_needed_future() {
+		long ret = bindings.ChannelManager_get_event_or_persistence_needed_future(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Future ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Future(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns true if this [`ChannelManager`] needs to be persisted.
+	 */
+	public boolean get_and_clear_needs_persistence() {
+		boolean ret = bindings.ChannelManager_get_and_clear_needs_persistence(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**

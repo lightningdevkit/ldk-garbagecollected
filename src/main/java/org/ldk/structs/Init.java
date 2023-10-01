@@ -51,11 +51,11 @@ public class Init extends CommonBase {
 	 * 
 	 * Returns a copy of the field.
 	 */
-	public Option_CVec_ChainHashZZ get_networks() {
+	public Option_CVec_ThirtyTwoBytesZZ get_networks() {
 		long ret = bindings.Init_get_networks(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_CVec_ChainHashZZ ret_hu_conv = org.ldk.structs.Option_CVec_ChainHashZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ ret_hu_conv = org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -65,7 +65,7 @@ public class Init extends CommonBase {
 	 * 
 	 * If there are no common chains, the connection will be closed.
 	 */
-	public void set_networks(org.ldk.structs.Option_CVec_ChainHashZZ val) {
+	public void set_networks(org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ val) {
 		bindings.Init_set_networks(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -80,11 +80,11 @@ public class Init extends CommonBase {
 	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
 	 * the new address.
 	 */
-	public Option_NetAddressZ get_remote_network_address() {
+	public Option_SocketAddressZ get_remote_network_address() {
 		long ret = bindings.Init_get_remote_network_address(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_NetAddressZ ret_hu_conv = org.ldk.structs.Option_NetAddressZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_SocketAddressZ ret_hu_conv = org.ldk.structs.Option_SocketAddressZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -97,7 +97,7 @@ public class Init extends CommonBase {
 	 * public IPv4 address (NAT) and use that for a [`NodeAnnouncement`] update message containing
 	 * the new address.
 	 */
-	public void set_remote_network_address(org.ldk.structs.Option_NetAddressZ val) {
+	public void set_remote_network_address(org.ldk.structs.Option_SocketAddressZ val) {
 		bindings.Init_set_remote_network_address(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -107,7 +107,7 @@ public class Init extends CommonBase {
 	/**
 	 * Constructs a new Init given each field
 	 */
-	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_CVec_ChainHashZZ networks_arg, org.ldk.structs.Option_NetAddressZ remote_network_address_arg) {
+	public static Init of(org.ldk.structs.InitFeatures features_arg, org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ networks_arg, org.ldk.structs.Option_SocketAddressZ remote_network_address_arg) {
 		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr, networks_arg.ptr, remote_network_address_arg.ptr);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(networks_arg);

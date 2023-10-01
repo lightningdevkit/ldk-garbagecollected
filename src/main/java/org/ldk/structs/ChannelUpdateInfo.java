@@ -169,8 +169,10 @@ public class ChannelUpdateInfo extends CommonBase {
 
 	/**
 	 * Constructs a new ChannelUpdateInfo given each field
+	 * 
+	 * Note that last_update_message_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, org.ldk.structs.RoutingFees fees_arg, org.ldk.structs.ChannelUpdate last_update_message_arg) {
+	public static ChannelUpdateInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, org.ldk.structs.RoutingFees fees_arg, @Nullable org.ldk.structs.ChannelUpdate last_update_message_arg) {
 		long ret = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0 : fees_arg.ptr, last_update_message_arg == null ? 0 : last_update_message_arg.ptr);
 		Reference.reachabilityFence(last_update_arg);
 		Reference.reachabilityFence(enabled_arg);

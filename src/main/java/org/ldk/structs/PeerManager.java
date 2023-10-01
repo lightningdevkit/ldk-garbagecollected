@@ -83,18 +83,18 @@ public class PeerManager extends CommonBase {
 	 * The returned `Option`s will only be `Some` if an address had been previously given via
 	 * [`Self::new_outbound_connection`] or [`Self::new_inbound_connection`].
 	 */
-	public TwoTuple_PublicKeyCOption_NetAddressZZ[] get_peer_node_ids() {
+	public TwoTuple_PublicKeyCOption_SocketAddressZZ[] get_peer_node_ids() {
 		long[] ret = bindings.PeerManager_get_peer_node_ids(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_40_len = ret.length;
-		TwoTuple_PublicKeyCOption_NetAddressZZ[] ret_conv_40_arr = new TwoTuple_PublicKeyCOption_NetAddressZZ[ret_conv_40_len];
-		for (int o = 0; o < ret_conv_40_len; o++) {
-			long ret_conv_40 = ret[o];
-			TwoTuple_PublicKeyCOption_NetAddressZZ ret_conv_40_hu_conv = new TwoTuple_PublicKeyCOption_NetAddressZZ(null, ret_conv_40);
-			if (ret_conv_40_hu_conv != null) { ret_conv_40_hu_conv.ptrs_to.add(this); };
-			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
+		int ret_conv_43_len = ret.length;
+		TwoTuple_PublicKeyCOption_SocketAddressZZ[] ret_conv_43_arr = new TwoTuple_PublicKeyCOption_SocketAddressZZ[ret_conv_43_len];
+		for (int r = 0; r < ret_conv_43_len; r++) {
+			long ret_conv_43 = ret[r];
+			TwoTuple_PublicKeyCOption_SocketAddressZZ ret_conv_43_hu_conv = new TwoTuple_PublicKeyCOption_SocketAddressZZ(null, ret_conv_43);
+			if (ret_conv_43_hu_conv != null) { ret_conv_43_hu_conv.ptrs_to.add(this); };
+			ret_conv_43_arr[r] = ret_conv_43_hu_conv;
 		}
-		return ret_conv_40_arr;
+		return ret_conv_43_arr;
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
-	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
+	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_SocketAddressZ remote_network_address) {
 		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
@@ -144,7 +144,7 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
-	public Result_NonePeerHandleErrorZ new_inbound_connection(org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
+	public Result_NonePeerHandleErrorZ new_inbound_connection(org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_SocketAddressZ remote_network_address) {
 		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptor);
@@ -300,13 +300,13 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */
-	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
-		bindings.PeerManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
+	public void broadcast_node_announcement(byte[] rgb, byte[] alias, SocketAddress[] addresses) {
+		bindings.PeerManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_15 -> addresses_conv_15.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(rgb);
 		Reference.reachabilityFence(alias);
 		Reference.reachabilityFence(addresses);
-		for (NetAddress addresses_conv_12: addresses) { if (this != null) { this.ptrs_to.add(addresses_conv_12); }; };
+		for (SocketAddress addresses_conv_15: addresses) { if (this != null) { this.ptrs_to.add(addresses_conv_15); }; };
 	}
 
 }

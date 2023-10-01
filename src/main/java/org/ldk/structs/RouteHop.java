@@ -162,16 +162,49 @@ public class RouteHop extends CommonBase {
 	}
 
 	/**
+	 * Indicates whether this hop is possibly announced in the public network graph.
+	 * 
+	 * Will be `true` if there is a possibility that the channel is publicly known, i.e., if we
+	 * either know for sure it's announced in the public graph, or if any public channels exist
+	 * for which the given `short_channel_id` could be an alias for. Will be `false` if we believe
+	 * the channel to be unannounced.
+	 * 
+	 * Will be `true` for objects serialized with LDK version 0.0.116 and before.
+	 */
+	public boolean get_maybe_announced_channel() {
+		boolean ret = bindings.RouteHop_get_maybe_announced_channel(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Indicates whether this hop is possibly announced in the public network graph.
+	 * 
+	 * Will be `true` if there is a possibility that the channel is publicly known, i.e., if we
+	 * either know for sure it's announced in the public graph, or if any public channels exist
+	 * for which the given `short_channel_id` could be an alias for. Will be `false` if we believe
+	 * the channel to be unannounced.
+	 * 
+	 * Will be `true` for objects serialized with LDK version 0.0.116 and before.
+	 */
+	public void set_maybe_announced_channel(boolean val) {
+		bindings.RouteHop_set_maybe_announced_channel(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new RouteHop given each field
 	 */
-	public static RouteHop of(byte[] pubkey_arg, org.ldk.structs.NodeFeatures node_features_arg, long short_channel_id_arg, org.ldk.structs.ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
-		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr, fee_msat_arg, cltv_expiry_delta_arg);
+	public static RouteHop of(byte[] pubkey_arg, org.ldk.structs.NodeFeatures node_features_arg, long short_channel_id_arg, org.ldk.structs.ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg, boolean maybe_announced_channel_arg) {
+		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr, fee_msat_arg, cltv_expiry_delta_arg, maybe_announced_channel_arg);
 		Reference.reachabilityFence(pubkey_arg);
 		Reference.reachabilityFence(node_features_arg);
 		Reference.reachabilityFence(short_channel_id_arg);
 		Reference.reachabilityFence(channel_features_arg);
 		Reference.reachabilityFence(fee_msat_arg);
 		Reference.reachabilityFence(cltv_expiry_delta_arg);
+		Reference.reachabilityFence(maybe_announced_channel_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHop(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

@@ -122,15 +122,23 @@ public class SpendableOutputDescriptor extends CommonBase {
 		}
 	}
 	/**
-	 * An output to a P2WPKH, spendable exclusively by our payment key (i.e., the private key
-	 * which corresponds to the `payment_point` in [`ChannelSigner::pubkeys`]). The witness
-	 * in the spending input is, thus, simply:
+	 * An output spendable exclusively by our payment key (i.e., the private key that corresponds
+	 * to the `payment_point` in [`ChannelSigner::pubkeys`]). The output type depends on the
+	 * channel type negotiated.
+	 * 
+	 * On an anchor outputs channel, the witness in the spending input is:
+	 * ```bitcoin
+	 * <BIP 143 signature> <witness script>
+	 * ```
+	 * 
+	 * Otherwise, it is:
 	 * ```bitcoin
 	 * <BIP 143 signature> <payment key>
 	 * ```
 	 * 
 	 * These are generally the result of our counterparty having broadcast the current state,
-	 * allowing us to claim the non-HTLC-encumbered outputs immediately.
+	 * allowing us to claim the non-HTLC-encumbered outputs immediately, or after one confirmation
+	 * in the case of anchor outputs channels.
 	 */
 	public final static class StaticPaymentOutput extends SpendableOutputDescriptor {
 		public final org.ldk.structs.StaticPaymentOutputDescriptor static_payment_output;
@@ -200,6 +208,18 @@ public class SpendableOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Generates a non-cryptographic 64-bit hash of the SpendableOutputDescriptor.
+	 */
+	public long hash() {
+		long ret = bindings.SpendableOutputDescriptor_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two SpendableOutputDescriptors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.

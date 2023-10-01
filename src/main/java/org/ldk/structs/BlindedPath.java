@@ -21,6 +21,98 @@ public class BlindedPath extends CommonBase {
 		if (ptr != 0) { bindings.BlindedPath_free(ptr); }
 	}
 
+	/**
+	 * To send to a blinded path, the sender first finds a route to the unblinded
+	 * `introduction_node_id`, which can unblind its [`encrypted_payload`] to find out the onion
+	 * message or payment's next hop and forward it along.
+	 * 
+	 * [`encrypted_payload`]: BlindedHop::encrypted_payload
+	 */
+	public byte[] get_introduction_node_id() {
+		byte[] ret = bindings.BlindedPath_get_introduction_node_id(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * To send to a blinded path, the sender first finds a route to the unblinded
+	 * `introduction_node_id`, which can unblind its [`encrypted_payload`] to find out the onion
+	 * message or payment's next hop and forward it along.
+	 * 
+	 * [`encrypted_payload`]: BlindedHop::encrypted_payload
+	 */
+	public void set_introduction_node_id(byte[] val) {
+		bindings.BlindedPath_set_introduction_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Used by the introduction node to decrypt its [`encrypted_payload`] to forward the onion
+	 * message or payment.
+	 * 
+	 * [`encrypted_payload`]: BlindedHop::encrypted_payload
+	 */
+	public byte[] get_blinding_point() {
+		byte[] ret = bindings.BlindedPath_get_blinding_point(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Used by the introduction node to decrypt its [`encrypted_payload`] to forward the onion
+	 * message or payment.
+	 * 
+	 * [`encrypted_payload`]: BlindedHop::encrypted_payload
+	 */
+	public void set_blinding_point(byte[] val) {
+		bindings.BlindedPath_set_blinding_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The hops composing the blinded path.
+	 */
+	public BlindedHop[] get_blinded_hops() {
+		long[] ret = bindings.BlindedPath_get_blinded_hops(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_12_len = ret.length;
+		BlindedHop[] ret_conv_12_arr = new BlindedHop[ret_conv_12_len];
+		for (int m = 0; m < ret_conv_12_len; m++) {
+			long ret_conv_12 = ret[m];
+			org.ldk.structs.BlindedHop ret_conv_12_hu_conv = null; if (ret_conv_12 < 0 || ret_conv_12 > 4096) { ret_conv_12_hu_conv = new org.ldk.structs.BlindedHop(null, ret_conv_12); }
+			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.add(this); };
+			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		}
+		return ret_conv_12_arr;
+	}
+
+	/**
+	 * The hops composing the blinded path.
+	 */
+	public void set_blinded_hops(BlindedHop[] val) {
+		bindings.BlindedPath_set_blinded_hops(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12 == null ? 0 : val_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		for (BlindedHop val_conv_12: val) { if (this != null) { this.ptrs_to.add(val_conv_12); }; };
+	}
+
+	/**
+	 * Constructs a new BlindedPath given each field
+	 */
+	public static BlindedPath of(byte[] introduction_node_id_arg, byte[] blinding_point_arg, BlindedHop[] blinded_hops_arg) {
+		long ret = bindings.BlindedPath_new(InternalUtils.check_arr_len(introduction_node_id_arg, 33), InternalUtils.check_arr_len(blinding_point_arg, 33), blinded_hops_arg != null ? Arrays.stream(blinded_hops_arg).mapToLong(blinded_hops_arg_conv_12 -> blinded_hops_arg_conv_12 == null ? 0 : blinded_hops_arg_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(introduction_node_id_arg);
+		Reference.reachabilityFence(blinding_point_arg);
+		Reference.reachabilityFence(blinded_hops_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedPath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedPath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (BlindedHop blinded_hops_arg_conv_12: blinded_hops_arg) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(blinded_hops_arg_conv_12); }; };
+		return ret_hu_conv;
+	}
+
 	long clone_ptr() {
 		long ret = bindings.BlindedPath_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

@@ -68,7 +68,7 @@ public class NodeSigner extends CommonBase {
 		 * 
 		 * Errors if the [`Recipient`] variant is not supported by the implementation.
 		 */
-		Result_SharedSecretNoneZ ecdh(Recipient recipient, byte[] other_key, Option_ScalarZ tweak);
+		Result_ThirtyTwoBytesNoneZ ecdh(Recipient recipient, byte[] other_key, Option_BigEndianScalarZ tweak);
 		/**
 		 * Sign an invoice.
 		 * 
@@ -84,6 +84,34 @@ public class NodeSigner extends CommonBase {
 		 */
 		Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient recipient);
 		/**
+		 * Signs the [`TaggedHash`] of a BOLT 12 invoice request.
+		 * 
+		 * May be called by a function passed to [`UnsignedInvoiceRequest::sign`] where
+		 * `invoice_request` is the callee.
+		 * 
+		 * Implementors may check that the `invoice_request` is expected rather than blindly signing
+		 * the tagged hash. An `Ok` result should sign `invoice_request.tagged_hash().as_digest()` with
+		 * the node's signing key or an ephemeral key to preserve privacy, whichever is associated with
+		 * [`UnsignedInvoiceRequest::payer_id`].
+		 * 
+		 * [`TaggedHash`]: crate::offers::merkle::TaggedHash
+		 */
+		Result_SchnorrSignatureNoneZ sign_bolt12_invoice_request(UnsignedInvoiceRequest invoice_request);
+		/**
+		 * Signs the [`TaggedHash`] of a BOLT 12 invoice.
+		 * 
+		 * May be called by a function passed to [`UnsignedBolt12Invoice::sign`] where `invoice` is the
+		 * callee.
+		 * 
+		 * Implementors may check that the `invoice` is expected rather than blindly signing the tagged
+		 * hash. An `Ok` result should sign `invoice.tagged_hash().as_digest()` with the node's signing
+		 * key or an ephemeral key to preserve privacy, whichever is associated with
+		 * [`UnsignedBolt12Invoice::signing_pubkey`].
+		 * 
+		 * [`TaggedHash`]: crate::offers::merkle::TaggedHash
+		 */
+		Result_SchnorrSignatureNoneZ sign_bolt12_invoice(UnsignedBolt12Invoice invoice);
+		/**
 		 * Sign a gossip message.
 		 * 
 		 * Note that if this fails, LDK may panic and the message will not be broadcast to the network
@@ -91,7 +119,7 @@ public class NodeSigner extends CommonBase {
 		 * message to be broadcast, as otherwise it may prevent one from receiving funds over the
 		 * corresponding channel.
 		 */
-		Result_SignatureNoneZ sign_gossip_message(UnsignedGossipMessage msg);
+		Result_ECDSASignatureNoneZ sign_gossip_message(UnsignedGossipMessage msg);
 	}
 	private static class LDKNodeSignerHolder { NodeSigner held; }
 	public static NodeSigner new_impl(NodeSignerInterface arg) {
@@ -110,9 +138,9 @@ public class NodeSigner extends CommonBase {
 				return result;
 			}
 			@Override public long ecdh(Recipient recipient, byte[] other_key, long tweak) {
-				org.ldk.structs.Option_ScalarZ tweak_hu_conv = org.ldk.structs.Option_ScalarZ.constr_from_ptr(tweak);
+				org.ldk.structs.Option_BigEndianScalarZ tweak_hu_conv = org.ldk.structs.Option_BigEndianScalarZ.constr_from_ptr(tweak);
 				if (tweak_hu_conv != null) { tweak_hu_conv.ptrs_to.add(this); };
-				Result_SharedSecretNoneZ ret = arg.ecdh(recipient, other_key, tweak_hu_conv);
+				Result_ThirtyTwoBytesNoneZ ret = arg.ecdh(recipient, other_key, tweak_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -130,10 +158,24 @@ public class NodeSigner extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
+			@Override public long sign_bolt12_invoice_request(long invoice_request) {
+				org.ldk.structs.UnsignedInvoiceRequest invoice_request_hu_conv = null; if (invoice_request < 0 || invoice_request > 4096) { invoice_request_hu_conv = new org.ldk.structs.UnsignedInvoiceRequest(null, invoice_request); }
+				Result_SchnorrSignatureNoneZ ret = arg.sign_bolt12_invoice_request(invoice_request_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long sign_bolt12_invoice(long invoice) {
+				org.ldk.structs.UnsignedBolt12Invoice invoice_hu_conv = null; if (invoice < 0 || invoice > 4096) { invoice_hu_conv = new org.ldk.structs.UnsignedBolt12Invoice(null, invoice); }
+				Result_SchnorrSignatureNoneZ ret = arg.sign_bolt12_invoice(invoice_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
 			@Override public long sign_gossip_message(long msg) {
 				org.ldk.structs.UnsignedGossipMessage msg_hu_conv = org.ldk.structs.UnsignedGossipMessage.constr_from_ptr(msg);
 				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
-				Result_SignatureNoneZ ret = arg.sign_gossip_message(msg_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_gossip_message(msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -185,14 +227,14 @@ public class NodeSigner extends CommonBase {
 	 * 
 	 * Errors if the [`Recipient`] variant is not supported by the implementation.
 	 */
-	public Result_SharedSecretNoneZ ecdh(org.ldk.enums.Recipient recipient, byte[] other_key, org.ldk.structs.Option_ScalarZ tweak) {
+	public Result_ThirtyTwoBytesNoneZ ecdh(org.ldk.enums.Recipient recipient, byte[] other_key, org.ldk.structs.Option_BigEndianScalarZ tweak) {
 		long ret = bindings.NodeSigner_ecdh(this.ptr, recipient, InternalUtils.check_arr_len(other_key, 33), tweak.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(recipient);
 		Reference.reachabilityFence(other_key);
 		Reference.reachabilityFence(tweak);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SharedSecretNoneZ ret_hu_conv = Result_SharedSecretNoneZ.constr_from_ptr(ret);
+		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(tweak); };
 		return ret_hu_conv;
 	}
@@ -222,6 +264,52 @@ public class NodeSigner extends CommonBase {
 	}
 
 	/**
+	 * Signs the [`TaggedHash`] of a BOLT 12 invoice request.
+	 * 
+	 * May be called by a function passed to [`UnsignedInvoiceRequest::sign`] where
+	 * `invoice_request` is the callee.
+	 * 
+	 * Implementors may check that the `invoice_request` is expected rather than blindly signing
+	 * the tagged hash. An `Ok` result should sign `invoice_request.tagged_hash().as_digest()` with
+	 * the node's signing key or an ephemeral key to preserve privacy, whichever is associated with
+	 * [`UnsignedInvoiceRequest::payer_id`].
+	 * 
+	 * [`TaggedHash`]: crate::offers::merkle::TaggedHash
+	 */
+	public Result_SchnorrSignatureNoneZ sign_bolt12_invoice_request(org.ldk.structs.UnsignedInvoiceRequest invoice_request) {
+		long ret = bindings.NodeSigner_sign_bolt12_invoice_request(this.ptr, invoice_request == null ? 0 : invoice_request.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice_request);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SchnorrSignatureNoneZ ret_hu_conv = Result_SchnorrSignatureNoneZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(invoice_request); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Signs the [`TaggedHash`] of a BOLT 12 invoice.
+	 * 
+	 * May be called by a function passed to [`UnsignedBolt12Invoice::sign`] where `invoice` is the
+	 * callee.
+	 * 
+	 * Implementors may check that the `invoice` is expected rather than blindly signing the tagged
+	 * hash. An `Ok` result should sign `invoice.tagged_hash().as_digest()` with the node's signing
+	 * key or an ephemeral key to preserve privacy, whichever is associated with
+	 * [`UnsignedBolt12Invoice::signing_pubkey`].
+	 * 
+	 * [`TaggedHash`]: crate::offers::merkle::TaggedHash
+	 */
+	public Result_SchnorrSignatureNoneZ sign_bolt12_invoice(org.ldk.structs.UnsignedBolt12Invoice invoice) {
+		long ret = bindings.NodeSigner_sign_bolt12_invoice(this.ptr, invoice == null ? 0 : invoice.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SchnorrSignatureNoneZ ret_hu_conv = Result_SchnorrSignatureNoneZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(invoice); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Sign a gossip message.
 	 * 
 	 * Note that if this fails, LDK may panic and the message will not be broadcast to the network
@@ -229,12 +317,12 @@ public class NodeSigner extends CommonBase {
 	 * message to be broadcast, as otherwise it may prevent one from receiving funds over the
 	 * corresponding channel.
 	 */
-	public Result_SignatureNoneZ sign_gossip_message(org.ldk.structs.UnsignedGossipMessage msg) {
+	public Result_ECDSASignatureNoneZ sign_gossip_message(org.ldk.structs.UnsignedGossipMessage msg) {
 		long ret = bindings.NodeSigner_sign_gossip_message(this.ptr, msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}

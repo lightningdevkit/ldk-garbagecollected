@@ -117,11 +117,11 @@ public class ChannelReestablish extends CommonBase {
 	/**
 	 * The next funding transaction ID
 	 */
-	public Option_TxidZ get_next_funding_txid() {
+	public Option_ThirtyTwoBytesZ get_next_funding_txid() {
 		long ret = bindings.ChannelReestablish_get_next_funding_txid(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_TxidZ ret_hu_conv = org.ldk.structs.Option_TxidZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -129,7 +129,7 @@ public class ChannelReestablish extends CommonBase {
 	/**
 	 * The next funding transaction ID
 	 */
-	public void set_next_funding_txid(org.ldk.structs.Option_TxidZ val) {
+	public void set_next_funding_txid(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
 		bindings.ChannelReestablish_set_next_funding_txid(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -139,7 +139,7 @@ public class ChannelReestablish extends CommonBase {
 	/**
 	 * Constructs a new ChannelReestablish given each field
 	 */
-	public static ChannelReestablish of(byte[] channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.Option_TxidZ next_funding_txid_arg) {
+	public static ChannelReestablish of(byte[] channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.Option_ThirtyTwoBytesZ next_funding_txid_arg) {
 		long ret = bindings.ChannelReestablish_new(InternalUtils.check_arr_len(channel_id_arg, 32), next_local_commitment_number_arg, next_remote_commitment_number_arg, InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32), InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33), next_funding_txid_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(next_local_commitment_number_arg);

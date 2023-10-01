@@ -36,11 +36,11 @@ public class RecipientOnionFields extends CommonBase {
 	 * want to provide a secret for a spontaneous payment if MPP is needed and you know your
 	 * recipient will not reject it.
 	 */
-	public Option_PaymentSecretZ get_payment_secret() {
+	public Option_ThirtyTwoBytesZ get_payment_secret() {
 		long ret = bindings.RecipientOnionFields_get_payment_secret(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_PaymentSecretZ ret_hu_conv = org.ldk.structs.Option_PaymentSecretZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -58,7 +58,7 @@ public class RecipientOnionFields extends CommonBase {
 	 * want to provide a secret for a spontaneous payment if MPP is needed and you know your
 	 * recipient will not reject it.
 	 */
-	public void set_payment_secret(org.ldk.structs.Option_PaymentSecretZ val) {
+	public void set_payment_secret(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
 		bindings.RecipientOnionFields_set_payment_secret(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -109,21 +109,6 @@ public class RecipientOnionFields extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 		if (this != null) { this.ptrs_to.add(val); };
-	}
-
-	/**
-	 * Constructs a new RecipientOnionFields given each field
-	 */
-	public static RecipientOnionFields of(org.ldk.structs.Option_PaymentSecretZ payment_secret_arg, org.ldk.structs.Option_CVec_u8ZZ payment_metadata_arg) {
-		long ret = bindings.RecipientOnionFields_new(payment_secret_arg.ptr, payment_metadata_arg.ptr);
-		Reference.reachabilityFence(payment_secret_arg);
-		Reference.reachabilityFence(payment_metadata_arg);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.RecipientOnionFields ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RecipientOnionFields(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_secret_arg); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(payment_metadata_arg); };
-		return ret_hu_conv;
 	}
 
 	long clone_ptr() {
@@ -211,6 +196,53 @@ public class RecipientOnionFields extends CommonBase {
 		org.ldk.structs.RecipientOnionFields ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RecipientOnionFields(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new [`RecipientOnionFields`] from an existing one, adding custom TLVs. Each
+	 * TLV is provided as a `(u64, Vec<u8>)` for the type number and serialized value
+	 * respectively. TLV type numbers must be unique and within the range
+	 * reserved for custom types, i.e. >= 2^16, otherwise this method will return `Err(())`.
+	 * 
+	 * This method will also error for types in the experimental range which have been
+	 * standardized within the protocol, which only includes 5482373484 (keysend) for now.
+	 * 
+	 * See [`Self::custom_tlvs`] for more info.
+	 */
+	public Result_RecipientOnionFieldsNoneZ with_custom_tlvs(TwoTuple_u64CVec_u8ZZ[] custom_tlvs) {
+		long ret = bindings.RecipientOnionFields_with_custom_tlvs(this.ptr, custom_tlvs != null ? Arrays.stream(custom_tlvs).mapToLong(custom_tlvs_conv_23 -> custom_tlvs_conv_23 != null ? custom_tlvs_conv_23.ptr : 0).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(custom_tlvs);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RecipientOnionFieldsNoneZ ret_hu_conv = Result_RecipientOnionFieldsNoneZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the custom TLVs that will be sent or have been received.
+	 * 
+	 * Custom TLVs allow sending extra application-specific data with a payment. They provide
+	 * additional flexibility on top of payment metadata, as while other implementations may
+	 * require `payment_metadata` to reflect metadata provided in an invoice, custom TLVs
+	 * do not have this restriction.
+	 * 
+	 * Note that if this field is non-empty, it will contain strictly increasing TLVs, each
+	 * represented by a `(u64, Vec<u8>)` for its type number and serialized value respectively.
+	 * This is validated when setting this field using [`Self::with_custom_tlvs`].
+	 */
+	public TwoTuple_u64CVec_u8ZZ[] custom_tlvs() {
+		long[] ret = bindings.RecipientOnionFields_custom_tlvs(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_23_len = ret.length;
+		TwoTuple_u64CVec_u8ZZ[] ret_conv_23_arr = new TwoTuple_u64CVec_u8ZZ[ret_conv_23_len];
+		for (int x = 0; x < ret_conv_23_len; x++) {
+			long ret_conv_23 = ret[x];
+			TwoTuple_u64CVec_u8ZZ ret_conv_23_hu_conv = new TwoTuple_u64CVec_u8ZZ(null, ret_conv_23);
+			if (ret_conv_23_hu_conv != null) { ret_conv_23_hu_conv.ptrs_to.add(this); };
+			ret_conv_23_arr[x] = ret_conv_23_hu_conv;
+		}
+		return ret_conv_23_arr;
 	}
 
 }

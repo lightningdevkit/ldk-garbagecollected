@@ -134,4 +134,24 @@ public class ChannelDerivationParameters extends CommonBase {
 		if (!(o instanceof ChannelDerivationParameters)) return false;
 		return this.eq((ChannelDerivationParameters)o);
 	}
+	/**
+	 * Serialize the ChannelDerivationParameters object into a byte array which can be read by ChannelDerivationParameters_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.ChannelDerivationParameters_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a ChannelDerivationParameters from a byte array, created by ChannelDerivationParameters_write
+	 */
+	public static Result_ChannelDerivationParametersDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.ChannelDerivationParameters_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelDerivationParametersDecodeErrorZ ret_hu_conv = Result_ChannelDerivationParametersDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

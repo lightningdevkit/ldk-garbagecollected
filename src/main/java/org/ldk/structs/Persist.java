@@ -11,23 +11,58 @@ import javax.annotation.Nullable;
  * `Persist` defines behavior for persisting channel monitors: this could mean
  * writing once to disk, and/or uploading to one or more backup services.
  * 
- * Each method can return three possible values:
- * If persistence (including any relevant `fsync()` calls) happens immediately, the
- * implementation should return [`ChannelMonitorUpdateStatus::Completed`], indicating normal
- * channel operation should continue.
- * If persistence happens asynchronously, implementations should first ensure the
- * [`ChannelMonitor`] or [`ChannelMonitorUpdate`] are written durably to disk, and then return
- * [`ChannelMonitorUpdateStatus::InProgress`] while the update continues in the background.
- * Once the update completes, [`ChainMonitor::channel_monitor_updated`] should be called with
- * the corresponding [`MonitorUpdateId`].
+ * Persistence can happen in one of two ways - synchronously completing before the trait method
+ * calls return or asynchronously in the background.
+ * 
+ * # For those implementing synchronous persistence
+ * 
+ * If persistence completes fully (including any relevant `fsync()` calls), the implementation
+ * should return [`ChannelMonitorUpdateStatus::Completed`], indicating normal channel operation
+ * should continue.
+ * 
+ * If persistence fails for some reason, implementations should consider returning
+ * [`ChannelMonitorUpdateStatus::InProgress`] and retry all pending persistence operations in
+ * the background with [`ChainMonitor::list_pending_monitor_updates`] and
+ * [`ChainMonitor::get_monitor`].
+ * 
+ * Once a full [`ChannelMonitor`] has been persisted, all pending updates for that channel can
+ * be marked as complete via [`ChainMonitor::channel_monitor_updated`].
+ * 
+ * If at some point no further progress can be made towards persisting the pending updates, the
+ * node should simply shut down.
+ * 
+ * If the persistence has failed and cannot be retried further (e.g. because of an outage),
+ * [`ChannelMonitorUpdateStatus::UnrecoverableError`] can be used, though this will result in
+ * an immediate panic and future operations in LDK generally failing.
+ * 
+ * # For those implementing asynchronous persistence
+ * 
+ * All calls should generally spawn a background task and immediately return
+ * [`ChannelMonitorUpdateStatus::InProgress`]. Once the update completes,
+ * [`ChainMonitor::channel_monitor_updated`] should be called with the corresponding
+ * [`MonitorUpdateId`].
  * 
  * Note that unlike the direct [`chain::Watch`] interface,
  * [`ChainMonitor::channel_monitor_updated`] must be called once for *each* update which occurs.
  * 
- * If persistence fails for some reason, implementations should return
- * [`ChannelMonitorUpdateStatus::PermanentFailure`], in which case the channel will likely be
- * closed without broadcasting the latest state. See
- * [`ChannelMonitorUpdateStatus::PermanentFailure`] for more details.
+ * If at some point no further progress can be made towards persisting a pending update, the node
+ * should simply shut down. Until then, the background task should either loop indefinitely, or
+ * persistence should be regularly retried with [`ChainMonitor::list_pending_monitor_updates`]
+ * and [`ChainMonitor::get_monitor`] (note that if a full monitor is persisted all pending
+ * monitor updates may be marked completed).
+ * 
+ * # Using remote watchtowers
+ * 
+ * Watchtowers may be updated as a part of an implementation of this trait, utilizing the async
+ * update process described above while the watchtower is being updated. The following methods are
+ * provided for bulding transactions for a watchtower:
+ * [`ChannelMonitor::initial_counterparty_commitment_tx`],
+ * [`ChannelMonitor::counterparty_commitment_txs_from_update`],
+ * [`ChannelMonitor::sign_to_local_justice_tx`], [`TrustedCommitmentTransaction::revokeable_output_index`],
+ * [`TrustedCommitmentTransaction::build_to_local_justice_tx`].
+ * 
+ * [`TrustedCommitmentTransaction::revokeable_output_index`]: crate::ln::chan_utils::TrustedCommitmentTransaction::revokeable_output_index
+ * [`TrustedCommitmentTransaction::build_to_local_justice_tx`]: crate::ln::chan_utils::TrustedCommitmentTransaction::build_to_local_justice_tx
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Persist extends CommonBase {
@@ -82,8 +117,8 @@ public class Persist extends CommonBase {
 		 * updated monitor itself to disk/backups. See the [`Persist`] trait documentation for more
 		 * details.
 		 * 
-		 * During blockchain synchronization operations, this may be called with no
-		 * [`ChannelMonitorUpdate`], in which case the full [`ChannelMonitor`] needs to be persisted.
+		 * During blockchain synchronization operations, and in some rare cases, this may be called with
+		 * no [`ChannelMonitorUpdate`], in which case the full [`ChannelMonitor`] needs to be persisted.
 		 * Note that after the full [`ChannelMonitor`] is persisted any previous
 		 * [`ChannelMonitorUpdate`]s which were persisted should be discarded - they can no longer be
 		 * applied to the persisted [`ChannelMonitor`] as they were already applied.
@@ -179,8 +214,8 @@ public class Persist extends CommonBase {
 	 * updated monitor itself to disk/backups. See the [`Persist`] trait documentation for more
 	 * details.
 	 * 
-	 * During blockchain synchronization operations, this may be called with no
-	 * [`ChannelMonitorUpdate`], in which case the full [`ChannelMonitor`] needs to be persisted.
+	 * During blockchain synchronization operations, and in some rare cases, this may be called with
+	 * no [`ChannelMonitorUpdate`], in which case the full [`ChannelMonitor`] needs to be persisted.
 	 * Note that after the full [`ChannelMonitor`] is persisted any previous
 	 * [`ChannelMonitorUpdate`]s which were persisted should be discarded - they can no longer be
 	 * applied to the persisted [`ChannelMonitor`] as they were already applied.

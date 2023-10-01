@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * Proposed use of a channel passed as a parameter to [`Score::channel_penalty_msat`].
+ * Proposed use of a channel passed as a parameter to [`ScoreLookUp::channel_penalty_msat`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelUsage extends CommonBase {

@@ -12,21 +12,12 @@ import javax.annotation.Nullable;
  * blocks are connected and disconnected.
  * 
  * Each channel is associated with a [`ChannelMonitor`]. Implementations of this trait are
- * responsible for maintaining a set of monitors such that they can be updated accordingly as
- * channel state changes and HTLCs are resolved. See method documentation for specific
- * requirements.
+ * responsible for maintaining a set of monitors such that they can be updated as channel state
+ * changes. On each update, *all copies* of a [`ChannelMonitor`] must be updated and the update
+ * persisted to disk to ensure that the latest [`ChannelMonitor`] state can be reloaded if the
+ * application crashes.
  * 
- * Implementations **must** ensure that updates are successfully applied and persisted upon method
- * completion. If an update fails with a [`PermanentFailure`], then it must immediately shut down
- * without taking any further action such as persisting the current state.
- * 
- * If an implementation maintains multiple instances of a channel's monitor (e.g., by storing
- * backup copies), then it must ensure that updates are applied across all instances. Otherwise, it
- * could result in a revoked transaction being broadcast, allowing the counterparty to claim all
- * funds in the channel. See [`ChannelMonitorUpdateStatus`] for more details about how to handle
- * multiple instances.
- * 
- * [`PermanentFailure`]: ChannelMonitorUpdateStatus::PermanentFailure
+ * See method documentation and [`ChannelMonitorUpdateStatus`] for specific requirements.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Watch extends CommonBase {
@@ -62,21 +53,33 @@ public class Watch extends CommonBase {
 		 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 		 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 		 * 
-		 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
-		 * the given `funding_txo` has previously been registered via `watch_channel`.
+		 * A return of `Err(())` indicates that the channel should immediately be force-closed without
+		 * broadcasting the funding transaction.
+		 * 
+		 * If the given `funding_txo` has previously been registered via `watch_channel`, `Err(())`
+		 * must be returned.
 		 * 
 		 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 		 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 		 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 		 */
-		ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor);
+		Result_ChannelMonitorUpdateStatusNoneZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor);
 		/**
 		 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 		 * 
-		 * Implementations must call [`update_monitor`] with the given update. See
-		 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
+		 * Implementations must call [`ChannelMonitor::update_monitor`] with the given update. This
+		 * may fail (returning an `Err(())`), in which case this should return
+		 * [`ChannelMonitorUpdateStatus::InProgress`] (and the update should never complete). This
+		 * generally implies the channel has been closed (either by the funding outpoint being spent
+		 * on-chain or the [`ChannelMonitor`] having decided to do so and broadcasted a transaction),
+		 * and the [`ChannelManager`] state will be updated once it sees the funding spend on-chain.
 		 * 
-		 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
+		 * In general, persistence failures should be retried after returning
+		 * [`ChannelMonitorUpdateStatus::InProgress`] and eventually complete. If a failure truly
+		 * cannot be retried, the node should shut down immediately after returning
+		 * [`ChannelMonitorUpdateStatus::UnrecoverableError`], see its documentation for more info.
+		 * 
+		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 		 */
 		ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
 		/**
@@ -96,14 +99,15 @@ public class Watch extends CommonBase {
 	public static Watch new_impl(WatchInterface arg) {
 		final LDKWatchHolder impl_holder = new LDKWatchHolder();
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
-			@Override public ChannelMonitorUpdateStatus watch_channel(long funding_txo, long monitor) {
+			@Override public long watch_channel(long funding_txo, long monitor) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
 				if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
 				if (monitor_hu_conv != null) { monitor_hu_conv.ptrs_to.add(this); };
-				ChannelMonitorUpdateStatus ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
+				Result_ChannelMonitorUpdateStatusNoneZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
-				return ret;
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public ChannelMonitorUpdateStatus update_channel(long funding_txo, long update) {
 				org.ldk.structs.OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, funding_txo); }
@@ -129,30 +133,44 @@ public class Watch extends CommonBase {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
-	 * Note: this interface MUST error with [`ChannelMonitorUpdateStatus::PermanentFailure`] if
-	 * the given `funding_txo` has previously been registered via `watch_channel`.
+	 * A return of `Err(())` indicates that the channel should immediately be force-closed without
+	 * broadcasting the funding transaction.
+	 * 
+	 * If the given `funding_txo` has previously been registered via `watch_channel`, `Err(())`
+	 * must be returned.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
-	public ChannelMonitorUpdateStatus watch_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitor monitor) {
-		ChannelMonitorUpdateStatus ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, monitor == null ? 0 : monitor.ptr);
+	public Result_ChannelMonitorUpdateStatusNoneZ watch_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitor monitor) {
+		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, monitor == null ? 0 : monitor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelMonitorUpdateStatusNoneZ ret_hu_conv = Result_ChannelMonitorUpdateStatusNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(funding_txo); };
 		if (this != null) { this.ptrs_to.add(monitor); };
-		return ret;
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
 	 * 
-	 * Implementations must call [`update_monitor`] with the given update. See
-	 * [`ChannelMonitorUpdateStatus`] for invariants around returning an error.
+	 * Implementations must call [`ChannelMonitor::update_monitor`] with the given update. This
+	 * may fail (returning an `Err(())`), in which case this should return
+	 * [`ChannelMonitorUpdateStatus::InProgress`] (and the update should never complete). This
+	 * generally implies the channel has been closed (either by the funding outpoint being spent
+	 * on-chain or the [`ChannelMonitor`] having decided to do so and broadcasted a transaction),
+	 * and the [`ChannelManager`] state will be updated once it sees the funding spend on-chain.
 	 * 
-	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
+	 * In general, persistence failures should be retried after returning
+	 * [`ChannelMonitorUpdateStatus::InProgress`] and eventually complete. If a failure truly
+	 * cannot be retried, the node should shut down immediately after returning
+	 * [`ChannelMonitorUpdateStatus::UnrecoverableError`], see its documentation for more info.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public ChannelMonitorUpdateStatus update_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitorUpdate update) {
 		ChannelMonitorUpdateStatus ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr, update == null ? 0 : update.ptr);

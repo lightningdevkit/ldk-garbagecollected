@@ -59,7 +59,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * Note that all the relevant preimages will be provided, but there may also be additional
 		 * irrelevant or duplicate preimages.
 		 */
-		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages);
+		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages);
 		/**
 		 * Validate the counterparty's revocation.
 		 * 
@@ -84,7 +84,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * 
 		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 		 */
-		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
+		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
 		/**
 		 * Create a signature for the given input in a transaction spending an HTLC transaction output
 		 * or a commitment transaction `to_local` output when our counterparty broadcasts an old state.
@@ -101,7 +101,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 		 * so).
 		 */
-		Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
+		Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
 		/**
 		 * Create a signature for the given input in a transaction spending a commitment transaction
 		 * HTLC output when our counterparty broadcasts an old state.
@@ -122,7 +122,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 		 * (which is committed to in the BIP 143 signatures).
 		 */
-		Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
+		Result_ECDSASignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
 		/**
 		 * Computes the signature for a commitment transaction's HTLC output used as an input within
 		 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
@@ -132,7 +132,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * 
 		 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
 		 */
-		Result_SignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor);
+		Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor);
 		/**
 		 * Create a signature for a claiming transaction for a HTLC output on a counterparty's commitment
 		 * transaction, either offered or received.
@@ -152,19 +152,19 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * channel state keys, which are then included in the witness script and committed to in the
 		 * BIP 143 signature.
 		 */
-		Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc);
+		Result_ECDSASignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc);
 		/**
 		 * Create a signature for a (proposed) closing transaction.
 		 * 
 		 * Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have
 		 * chosen to forgo their output as dust.
 		 */
-		Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx);
+		Result_ECDSASignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx);
 		/**
 		 * Computes the signature for a commitment transaction's anchor output used as an
 		 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
 		 */
-		Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input);
+		Result_ECDSASignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input);
 		/**
 		 * Signs a channel announcement message with our funding key proving it comes from one of the
 		 * channel participants.
@@ -176,7 +176,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * our counterparty may (though likely will not) close the channel on us for violating the
 		 * protocol.
 		 */
-		Result_SignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg);
+		Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg);
 	}
 	private static class LDKEcdsaChannelSignerHolder { EcdsaChannelSigner held; }
 	public static EcdsaChannelSigner new_impl(EcdsaChannelSignerInterface arg, ChannelSigner.ChannelSignerInterface ChannelSigner_impl, ChannelPublicKeys pubkeys) {
@@ -184,7 +184,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		impl_holder.held = new EcdsaChannelSigner(new bindings.LDKEcdsaChannelSigner() {
 			@Override public long sign_counterparty_commitment(long commitment_tx, byte[][] preimages) {
 				org.ldk.structs.CommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new org.ldk.structs.CommitmentTransaction(null, commitment_tx); }
-				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv, preimages);
+				Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv, preimages);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -197,54 +197,54 @@ public class EcdsaChannelSigner extends CommonBase {
 			}
 			@Override public long sign_holder_commitment_and_htlcs(long commitment_tx) {
 				org.ldk.structs.HolderCommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, commitment_tx); }
-				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
+				Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
-				Result_SignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+				Result_ECDSASignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				org.ldk.structs.HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new org.ldk.structs.HTLCOutputInCommitment(null, htlc); }
-				Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_holder_htlc_transaction(byte[] htlc_tx, long input, long htlc_descriptor) {
 				org.ldk.structs.HTLCDescriptor htlc_descriptor_hu_conv = null; if (htlc_descriptor < 0 || htlc_descriptor > 4096) { htlc_descriptor_hu_conv = new org.ldk.structs.HTLCDescriptor(null, htlc_descriptor); }
-				Result_SignatureNoneZ ret = arg.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc) {
 				org.ldk.structs.HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new org.ldk.structs.HTLCOutputInCommitment(null, htlc); }
-				Result_SignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_closing_transaction(long closing_tx) {
 				org.ldk.structs.ClosingTransaction closing_tx_hu_conv = null; if (closing_tx < 0 || closing_tx > 4096) { closing_tx_hu_conv = new org.ldk.structs.ClosingTransaction(null, closing_tx); }
-				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_holder_anchor_input(byte[] anchor_tx, long input) {
-				Result_SignatureNoneZ ret = arg.sign_holder_anchor_input(anchor_tx, input);
+				Result_ECDSASignatureNoneZ ret = arg.sign_holder_anchor_input(anchor_tx, input);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_channel_announcement_with_funding_key(long msg) {
 				org.ldk.structs.UnsignedChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UnsignedChannelAnnouncement(null, msg); }
-				Result_SignatureNoneZ ret = arg.sign_channel_announcement_with_funding_key(msg_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_channel_announcement_with_funding_key(msg_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -277,13 +277,13 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(org.ldk.structs.CommitmentTransaction commitment_tx, byte[][] preimages) {
+	public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(org.ldk.structs.CommitmentTransaction commitment_tx, byte[][] preimages) {
 		long ret = bindings.EcdsaChannelSigner_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
 		Reference.reachabilityFence(preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
+		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret_hu_conv = Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(commitment_tx); };
 		return ret_hu_conv;
 	}
@@ -321,12 +321,12 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * 
 	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(org.ldk.structs.HolderCommitmentTransaction commitment_tx) {
+	public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(org.ldk.structs.HolderCommitmentTransaction commitment_tx) {
 		long ret = bindings.EcdsaChannelSigner_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
+		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret_hu_conv = Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(commitment_tx); };
 		return ret_hu_conv;
 	}
@@ -347,7 +347,7 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * not allow the spending of any funds by itself (you need our holder `revocation_secret` to do
 	 * so).
 	 */
-	public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+	public Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
 		long ret = bindings.EcdsaChannelSigner_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(justice_tx);
@@ -355,7 +355,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		Reference.reachabilityFence(amount);
 		Reference.reachabilityFence(per_commitment_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -379,7 +379,7 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * `htlc` holds HTLC elements (hash, timelock), thus changing the format of the witness script
 	 * (which is committed to in the BIP 143 signatures).
 	 */
-	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, org.ldk.structs.HTLCOutputInCommitment htlc) {
+	public Result_ECDSASignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, org.ldk.structs.HTLCOutputInCommitment htlc) {
 		long ret = bindings.EcdsaChannelSigner_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(justice_tx);
@@ -388,7 +388,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		Reference.reachabilityFence(per_commitment_key);
 		Reference.reachabilityFence(htlc);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(htlc); };
 		return ret_hu_conv;
 	}
@@ -402,14 +402,14 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * 
 	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
 	 */
-	public Result_SignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, org.ldk.structs.HTLCDescriptor htlc_descriptor) {
+	public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, org.ldk.structs.HTLCDescriptor htlc_descriptor) {
 		long ret = bindings.EcdsaChannelSigner_sign_holder_htlc_transaction(this.ptr, htlc_tx, input, htlc_descriptor == null ? 0 : htlc_descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_tx);
 		Reference.reachabilityFence(input);
 		Reference.reachabilityFence(htlc_descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(htlc_descriptor); };
 		return ret_hu_conv;
 	}
@@ -433,7 +433,7 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * channel state keys, which are then included in the witness script and committed to in the
 	 * BIP 143 signature.
 	 */
-	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, org.ldk.structs.HTLCOutputInCommitment htlc) {
+	public Result_ECDSASignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, org.ldk.structs.HTLCOutputInCommitment htlc) {
 		long ret = bindings.EcdsaChannelSigner_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : htlc.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(htlc_tx);
@@ -442,7 +442,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		Reference.reachabilityFence(per_commitment_point);
 		Reference.reachabilityFence(htlc);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(htlc); };
 		return ret_hu_conv;
 	}
@@ -453,12 +453,12 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have
 	 * chosen to forgo their output as dust.
 	 */
-	public Result_SignatureNoneZ sign_closing_transaction(org.ldk.structs.ClosingTransaction closing_tx) {
+	public Result_ECDSASignatureNoneZ sign_closing_transaction(org.ldk.structs.ClosingTransaction closing_tx) {
 		long ret = bindings.EcdsaChannelSigner_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(closing_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(closing_tx); };
 		return ret_hu_conv;
 	}
@@ -467,13 +467,13 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * Computes the signature for a commitment transaction's anchor output used as an
 	 * input within `anchor_tx`, which spends the commitment transaction, at index `input`.
 	 */
-	public Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
+	public Result_ECDSASignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
 		long ret = bindings.EcdsaChannelSigner_sign_holder_anchor_input(this.ptr, anchor_tx, input);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(anchor_tx);
 		Reference.reachabilityFence(input);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -488,12 +488,12 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * our counterparty may (though likely will not) close the channel on us for violating the
 	 * protocol.
 	 */
-	public Result_SignatureNoneZ sign_channel_announcement_with_funding_key(org.ldk.structs.UnsignedChannelAnnouncement msg) {
+	public Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(org.ldk.structs.UnsignedChannelAnnouncement msg) {
 		long ret = bindings.EcdsaChannelSigner_sign_channel_announcement_with_funding_key(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}

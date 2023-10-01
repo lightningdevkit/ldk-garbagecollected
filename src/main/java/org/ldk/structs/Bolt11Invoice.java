@@ -226,11 +226,11 @@ public class Bolt11Invoice extends CommonBase {
 	 * Returns the Duration since the Unix epoch at which the invoice expires.
 	 * Returning None if overflow occurred.
 	 */
-	public Option_DurationZ expires_at() {
+	public Option_u64Z expires_at() {
 		long ret = bindings.Bolt11Invoice_expires_at(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
