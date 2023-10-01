@@ -54,13 +54,19 @@ class HumanObjectPeerTestInstance {
             return NodeSigner.new_impl(new NodeSigner.NodeSignerInterface() {
                 @Override public byte[] get_inbound_payment_key_material() { return underlying_ns.get_inbound_payment_key_material(); }
                 @Override public Result_PublicKeyNoneZ get_node_id(Recipient recipient) { return underlying_ns.get_node_id(recipient); }
-                @Override public Result_SharedSecretNoneZ ecdh(Recipient recipient, byte[] other_key, Option_ScalarZ tweak) {
+                @Override public Result_ThirtyTwoBytesNoneZ ecdh(Recipient recipient, byte[] other_key, Option_BigEndianScalarZ tweak) {
                     return underlying_ns.ecdh(recipient, other_key, tweak);
                 }
                 @Override public Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient recipient) {
                     return underlying_ns.sign_invoice(hrp_bytes, invoice_data, recipient);
                 }
-                @Override public Result_SignatureNoneZ sign_gossip_message(UnsignedGossipMessage msg) {
+                @Override public Result_SchnorrSignatureNoneZ sign_bolt12_invoice_request(UnsignedInvoiceRequest invoice_request) {
+                    return underlying_ns.sign_bolt12_invoice_request(invoice_request);
+                }
+                @Override public Result_SchnorrSignatureNoneZ sign_bolt12_invoice(UnsignedBolt12Invoice invoice) {
+                    return underlying_ns.sign_bolt12_invoice(invoice);
+                }
+                @Override public Result_ECDSASignatureNoneZ sign_gossip_message(UnsignedGossipMessage msg) {
                     return underlying_ns.sign_gossip_message(msg);
                 }
             });
@@ -69,7 +75,7 @@ class HumanObjectPeerTestInstance {
             SignerProvider underlying_sp = underlying_km.as_SignerProvider();
             must_free_objs.add(new WeakReference<>(underlying_sp));
             return SignerProvider.new_impl(new SignerProvider.SignerProviderInterface() {
-                @Override public Result_ScriptNoneZ get_destination_script() { return underlying_sp.get_destination_script(); }
+                @Override public Result_CVec_u8ZNoneZ get_destination_script() { return underlying_sp.get_destination_script(); }
                 @Override public Result_ShutdownScriptNoneZ get_shutdown_scriptpubkey() { return underlying_sp.get_shutdown_scriptpubkey(); }
                 @Override public byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, UInt128 user_channel_id) {
                     return underlying_sp.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id);
@@ -91,34 +97,34 @@ class HumanObjectPeerTestInstance {
                         }
                     };
                     EcdsaChannelSigner.EcdsaChannelSignerInterface ecsi = new EcdsaChannelSigner.EcdsaChannelSignerInterface() {
-                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
+                        @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
                             return underlying_ecs.sign_counterparty_commitment(commitment_tx, preimages);
                         }
                         @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
                             return underlying_ecs.validate_counterparty_revocation(idx, secret);
                         }
-                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
+                        @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
                             return underlying_ecs.sign_holder_commitment_and_htlcs(commitment_tx);
                         }
-                        @Override public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+                        @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
                             return underlying_ecs.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
                         }
-                        @Override public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+                        @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
                             return underlying_ecs.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc);
                         }
-                        @Override public Result_SignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor) {
+                        @Override public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor) {
                             return underlying_ecs.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor);
                         }
-                        @Override public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
+                        @Override public Result_ECDSASignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
                             return underlying_ecs.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
                         }
-                        @Override public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
+                        @Override public Result_ECDSASignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
                             return underlying_ecs.sign_closing_transaction(closing_tx);
                         }
-                        @Override public Result_SignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
+                        @Override public Result_ECDSASignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
                             return underlying_ecs.sign_holder_anchor_input(anchor_tx, input);
                         }
-                        @Override public Result_SignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg) {
+                        @Override public Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg) {
                             return underlying_ecs.sign_channel_announcement_with_funding_key(msg);
                         }
                     };
@@ -145,11 +151,11 @@ class HumanObjectPeerTestInstance {
 
         Watch get_manual_watch() {
             Watch.WatchInterface watch_impl = new Watch.WatchInterface() {
-                public ChannelMonitorUpdateStatus watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
+                public Result_ChannelMonitorUpdateStatusNoneZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
+                    return Result_ChannelMonitorUpdateStatusNoneZ.ok(ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed);
                 }
 
                 public ChannelMonitorUpdateStatus update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
@@ -224,20 +230,20 @@ class HumanObjectPeerTestInstance {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, this.entropy_source, this.signer_provider);
-            assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+            Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_ThirtyTwoBytesChannelMonitorZ_read(data, this.entropy_source, this.signer_provider);
+            assert roundtrip_monitor instanceof Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK;
             must_free_objs.add(new WeakReference<>(roundtrip_monitor));
-            TwoTuple_OutPointScriptZ funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
+            TwoTuple_OutPointCVec_u8ZZ funding_txo = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
             must_free_objs.add(new WeakReference<>(funding_txo));
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
             assert Arrays.equals(funding_txo.get_a().get_txid(), expected_id.get_txid());
             assert funding_txo.get_a().get_index() == expected_id.get_index();
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_two = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, this.entropy_source, this.signer_provider);
-            assert roundtrip_two instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
-            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b()));
-            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res));
+            Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ roundtrip_two = UtilMethods.C2Tuple_ThirtyTwoBytesChannelMonitorZ_read(data, this.entropy_source, this.signer_provider);
+            assert roundtrip_two instanceof Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK;
+            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b()));
+            must_free_objs.add(new WeakReference<>(((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res));
             must_free_objs.add(new WeakReference<>(roundtrip_two));
-            return ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b();
+            return ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b();
         }
 
         private Peer(Object _dummy, byte seed) {
@@ -442,13 +448,8 @@ class HumanObjectPeerTestInstance {
                                 break;
                             }
                         }
-                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
-                            @Override public void payment_path_failed(Path path, long scid) {}
+                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, ScoreLookUp.new_impl(new ScoreLookUp.ScoreLookUpInterface() {
                             @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage, ProbabilisticScoringFeeParameters params) { return 0; }
-                            @Override public void payment_path_successful(Path path) {}
-                            @Override public void probe_failed(Path path, long short_channel_id) { assert false; }
-                            @Override public void probe_successful(Path path) { assert false; }
-                            @Override public byte[] write() { assert false; return null; }
                         }), ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
                     }
                 });
@@ -552,13 +553,8 @@ class HumanObjectPeerTestInstance {
                                 break;
                             }
                         }
-                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, Score.new_impl(new Score.ScoreInterface() {
-                            @Override public void payment_path_failed(Path path, long scid) {}
+                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, ScoreLookUp.new_impl(new ScoreLookUp.ScoreLookUpInterface() {
                             @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage, ProbabilisticScoringFeeParameters params) { return 0; }
-                            @Override public void payment_path_successful(Path path) {}
-                            @Override public void probe_failed(Path path, long short_channel_id) { assert false; }
-                            @Override public void probe_successful(Path path) { assert false; }
-                            @Override public byte[] write() { assert false; return null; }
                         }), ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
                     }
                 });
@@ -569,16 +565,16 @@ class HumanObjectPeerTestInstance {
                     monitors[0] = orig.monitors.values().stream().iterator().next();
                 } else {
                     byte[] serialized = orig.monitors.values().stream().iterator().next().write();
-                    Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res =
-                            UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(serialized, this.entropy_source, this.signer_provider);
-                    assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
-                    monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
+                    Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ res =
+                            UtilMethods.C2Tuple_ThirtyTwoBytesChannelMonitorZ_read(serialized, this.entropy_source, this.signer_provider);
+                    assert res instanceof Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK;
+                    monitors[0] = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
                 }
                 byte[] serialized = orig.chan_manager.write();
-                Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                        UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(serialized, this.entropy_source, this.node_signer, this.signer_provider, this.fee_estimator, this.chain_watch, this.tx_broadcaster, router, this.logger, get_config(), monitors);
-                assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
-                this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
+                Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ read_res =
+                        UtilMethods.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(serialized, this.entropy_source, this.node_signer, this.signer_provider, this.fee_estimator, this.chain_watch, this.tx_broadcaster, router, this.logger, get_config(), monitors);
+                assert read_res instanceof Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ_OK;
+                this.chan_manager = ((Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().get_a(), monitors[0]);
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
                         IgnoringMessageHandler.of().as_OnionMessageHandler(), this.custom_message_handler,
@@ -607,7 +603,7 @@ class HumanObjectPeerTestInstance {
             this.filter = null;
         }
 
-        TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] connect_block(Block b, int height, long expected_monitor_update_len) {
+        TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] connect_block(Block b, int height, long expected_monitor_update_len) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             TwoTuple_usizeTransactionZ[] txn;
             if (b.hasTransactions()) {
@@ -626,7 +622,7 @@ class HumanObjectPeerTestInstance {
                 synchronized (monitors) {
                     assert monitors.size() == 1;
                     for (ChannelMonitor mon : monitors.values()) {
-                        TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
+                        TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
                         assert ret.length == expected_monitor_update_len;
                         return ret;
                     }
@@ -813,10 +809,10 @@ class HumanObjectPeerTestInstance {
                 @Override public long hash() { return 1; }
             });
 
-            Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val, Option_NetAddressZ.none());
+            Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val, Option_SocketAddressZ.none());
             assert conn_res instanceof Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK;
 
-            Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2, Option_NetAddressZ.none());
+            Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2, Option_SocketAddressZ.none());
             assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
             do_read_event(peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
 
@@ -832,8 +828,8 @@ class HumanObjectPeerTestInstance {
 
         UInt128 user_id = new UInt128(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-        Result__u832APIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, user_id, null);
-        assert cc_res instanceof Result__u832APIErrorZ.Result__u832APIErrorZ_OK;
+        Result_ThirtyTwoBytesAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, user_id, null);
+        assert cc_res instanceof Result_ThirtyTwoBytesAPIErrorZ.Result_ThirtyTwoBytesAPIErrorZ_OK;
 
         // Previously, this was a SEGFAULT instead of get_funding_txo() returning null.
         ChannelDetails pre_funding_chan = peer1.chan_manager.list_channels()[0];
@@ -849,8 +845,10 @@ class HumanObjectPeerTestInstance {
 
         BitcoinNetworkParams bitcoinj_net = BitcoinNetworkParams.of(BitcoinNetwork.MAINNET);
 
+        Transaction funding_input = new Transaction(bitcoinj_net);
+        funding_input.addOutput(Coin.SATOSHI.multiply(100000), new Script(funding_spk));
         Transaction funding = new Transaction(bitcoinj_net);
-        funding.addInput(new TransactionInput(bitcoinj_net, funding, new byte[0]));
+        funding.addInput(funding_input.getOutput(0));
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[]{0x1});
         funding.addOutput(Coin.SATOSHI.multiply(100000), new Script(funding_spk));
@@ -925,7 +923,7 @@ class HumanObjectPeerTestInstance {
         // Do a trivial test of constructing a phantom invoice
         Result_Bolt11InvoiceSignOrCreationErrorZ phantom_invoice = UtilMethods.create_phantom_invoice(
                 Option_u64Z.some(42000),
-                Option_PaymentHashZ.none(),
+                Option_ThirtyTwoBytesZ.none(),
                 "Phantom Invoice", 7200,
                 new PhantomRouteHints[]{ peer2.chan_manager.get_phantom_route_hints() },
                 peer2.entropy_source,
@@ -948,11 +946,11 @@ class HumanObjectPeerTestInstance {
 
             Payee payee = Payee.clear(peer2.node_id, route_hints, invoice_features, 42);
             PaymentParameters pay_params = PaymentParameters.of(payee, Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0]);
-            RouteParameters route_params = RouteParameters.of(pay_params, 10000000);
+            RouteParameters route_params = RouteParameters.from_payment_params_and_value(pay_params, 10000000);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.net_graph,
                     peer1_chans, peer1.logger,
-                    ProbabilisticScorer.of(ProbabilisticScoringDecayParameters.with_default(), peer1.net_graph, peer1.logger).as_Score(),
+                    ProbabilisticScorer.of(ProbabilisticScoringDecayParameters.with_default(), peer1.net_graph, peer1.logger).as_ScoreLookUp(),
                     ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
             assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
             Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
@@ -970,15 +968,15 @@ class HumanObjectPeerTestInstance {
             hop_pubkey[1] = 42;
             NodeFeatures node_features = NodeFeatures.empty();
             ChannelFeatures channel_features = ChannelFeatures.empty();
-            hops[0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0);
+            hops[0] = RouteHop.of(hop_pubkey, node_features, 42, channel_features, 100, 0, false);
             Path[] paths = new Path[1];
             paths[0] = Path.of(hops, null);
-            Route r2 = Route.of(paths, pay_params);
+            Route r2 = Route.of(paths, RouteParameters.from_payment_params_and_value(pay_params, 100));
             payment_res = peer1.chan_manager.send_payment_with_route(r2, payment_hash, RecipientOnionFields.secret_only(payment_secret), payment_id);
             assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
         } else {
-            Result_PaymentIdPaymentErrorZ send_res = UtilMethods.pay_invoice(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res, Retry.attempts(0), peer1.chan_manager);
-            assert send_res instanceof Result_PaymentIdPaymentErrorZ.Result_PaymentIdPaymentErrorZ_OK;
+            Result_ThirtyTwoBytesPaymentErrorZ send_res = UtilMethods.pay_invoice(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res, Retry.attempts(0), peer1.chan_manager);
+            assert send_res instanceof Result_ThirtyTwoBytesPaymentErrorZ.Result_ThirtyTwoBytesPaymentErrorZ_OK;
         }
 
         if (reload_peers) {
@@ -1039,24 +1037,24 @@ class HumanObjectPeerTestInstance {
         events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentClaimable;
         assert ((Event.PaymentClaimable)events[0]).purpose instanceof PaymentPurpose.InvoicePayment;
-        assert ((PaymentPurpose.InvoicePayment) ((Event.PaymentClaimable)events[0]).purpose).payment_preimage instanceof Option_PaymentPreimageZ.Some;
-        byte[] payment_preimage = ((Option_PaymentPreimageZ.Some) ((PaymentPurpose.InvoicePayment)((Event.PaymentClaimable)events[0]).purpose).payment_preimage).some;
+        assert ((PaymentPurpose.InvoicePayment) ((Event.PaymentClaimable)events[0]).purpose).payment_preimage instanceof Option_ThirtyTwoBytesZ.Some;
+        byte[] payment_preimage = ((Option_ThirtyTwoBytesZ.Some) ((PaymentPurpose.InvoicePayment)((Event.PaymentClaimable)events[0]).purpose).payment_preimage).some;
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
 
         events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentClaimed;
         assert ((Event.PaymentClaimed)events[0]).purpose instanceof PaymentPurpose.InvoicePayment;
-        assert ((PaymentPurpose.InvoicePayment) ((Event.PaymentClaimed)events[0]).purpose).payment_preimage instanceof  Option_PaymentPreimageZ.Some;
-        payment_preimage = ((Option_PaymentPreimageZ.Some)((PaymentPurpose.InvoicePayment)((Event.PaymentClaimed)events[0]).purpose).payment_preimage).some;
+        assert ((PaymentPurpose.InvoicePayment) ((Event.PaymentClaimed)events[0]).purpose).payment_preimage instanceof  Option_ThirtyTwoBytesZ.Some;
+        payment_preimage = ((Option_ThirtyTwoBytesZ.Some)((PaymentPurpose.InvoicePayment)((Event.PaymentClaimed)events[0]).purpose).payment_preimage).some;
         assert !Arrays.equals(payment_preimage, new byte[32]);
 
         events = state.peer1.get_manager_events(2, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
         assert events[1] instanceof Event.PaymentPathSuccessful;
-        assert ((Event.PaymentPathSuccessful) events[1]).payment_hash instanceof Option_PaymentHashZ.Some;
-        assert Arrays.equals(((Option_PaymentHashZ.Some) ((Event.PaymentPathSuccessful) events[1]).payment_hash).some, ((Event.PaymentSent) events[0]).payment_hash);
+        assert ((Event.PaymentPathSuccessful) events[1]).payment_hash instanceof Option_ThirtyTwoBytesZ.Some;
+        assert Arrays.equals(((Option_ThirtyTwoBytesZ.Some) ((Event.PaymentPathSuccessful) events[1]).payment_hash).some, ((Event.PaymentSent) events[0]).payment_hash);
 
         if (use_nio_peer_handler) {
             // We receive PaymentSent immediately upon receipt of the payment preimage, but we expect to not have an
@@ -1124,7 +1122,7 @@ class HumanObjectPeerTestInstance {
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
-            TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] watch_outputs = state.peer2.connect_block(b, 10, 1);
+            TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ[] watch_outputs = state.peer2.connect_block(b, 10, 1);
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
                 assert Arrays.equals(watch_outputs[0].get_a(), tx.getTxId().getReversedBytes());
@@ -1147,7 +1145,7 @@ class HumanObjectPeerTestInstance {
             assert broadcastable_event[0] instanceof Event.SpendableOutputs;
             if (state.peer2.explicit_keys_manager != null) {
                 TxOut[] additional_outputs = new TxOut[]{new TxOut(420, new byte[]{0x42})};
-                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, additional_outputs, new byte[]{0x00}, 253, Option_PackedLockTimeZ.none());
+                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, additional_outputs, new byte[]{0x00}, 253, Option_u32Z.none());
                 assert tx_res instanceof Result_TransactionNoneZ.Result_TransactionNoneZ_OK;
                 Transaction built_tx = new Transaction(bitcoinj_net, ((Result_TransactionNoneZ.Result_TransactionNoneZ_OK) tx_res).res);
                 assert built_tx.getOutputs().size() == 2;

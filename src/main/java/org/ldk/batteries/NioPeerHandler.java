@@ -120,17 +120,17 @@ public class NioPeerHandler {
     long socket_id;
     volatile boolean shutdown = false;
 
-    private static Option_NetAddressZ get_netaddr_from_sockaddr(SocketAddress sockaddr) {
+    private static Option_SocketAddressZ get_netaddr_from_sockaddr(java.net.SocketAddress sockaddr) {
         if (sockaddr instanceof InetSocketAddress) {
             InetAddress addr = ((InetSocketAddress) sockaddr).getAddress();
             short port = (short) ((InetSocketAddress) sockaddr).getPort();
             if (addr instanceof Inet4Address) {
-                return Option_NetAddressZ.some(NetAddress.ipv4(addr.getAddress(), port));
+                return Option_SocketAddressZ.some(org.ldk.structs.SocketAddress.tcp_ip_v4(addr.getAddress(), port));
             } else if (addr instanceof Inet6Address) {
-                return Option_NetAddressZ.some(NetAddress.ipv6(addr.getAddress(), port));
+                return Option_SocketAddressZ.some(org.ldk.structs.SocketAddress.tcp_ip_v6(addr.getAddress(), port));
             }
         }
-        return Option_NetAddressZ.none();
+        return Option_SocketAddressZ.none();
     }
 
     /**
@@ -188,7 +188,7 @@ public class NioPeerHandler {
                                 try {
                                     Peer peer = setup_socket(chan);
                                     peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer);
-                                    Option_NetAddressZ netaddr = get_netaddr_from_sockaddr(chan.getRemoteAddress());
+                                    Option_SocketAddressZ netaddr = get_netaddr_from_sockaddr(chan.getRemoteAddress());
                                     Result_NonePeerHandleErrorZ res = this.peer_manager.new_inbound_connection(peer.descriptor, netaddr);
                                     if (res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_Err) {
 										peer.descriptor.disconnect_socket();
@@ -277,7 +277,7 @@ public class NioPeerHandler {
      * @param timeout_ms The amount of time, in milliseconds, up to which we will wait for connection to complete.
      * @throws IOException If connecting to the remote endpoint fails or internal java.nio errors occur.
      */
-    public void connect(byte[] their_node_id, SocketAddress remote, int timeout_ms) throws IOException {
+    public void connect(byte[] their_node_id, java.net.SocketAddress remote, int timeout_ms) throws IOException {
         SocketChannel chan = SocketChannel.open();
         boolean connected;
         try {
@@ -333,7 +333,7 @@ public class NioPeerHandler {
      * @param socket_address The address to bind the listening socket to.
      * @throws IOException if binding the listening socket fail.
      */
-    public void bind_listener(SocketAddress socket_address) throws IOException {
+    public void bind_listener(java.net.SocketAddress socket_address) throws IOException {
         ServerSocketChannel listen_channel = ServerSocketChannel.open();
         listen_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
         listen_channel.bind(socket_address);

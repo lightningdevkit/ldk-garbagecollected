@@ -45,7 +45,7 @@ public class ChannelManagerConstructor {
      * After doing so (and syncing the blockchain on the channel manager as well), you should call chain_sync_completed()
      * and then continue to normal application operation.
      */
-    public final TwoTuple_BlockHashChannelMonitorZ[] channel_monitors;
+    public final TwoTuple_ThirtyTwoBytesChannelMonitorZ[] channel_monitors;
     /**
      * A PeerManager which is constructed to pass messages and handle connections to peers.
      *
@@ -86,9 +86,9 @@ public class ChannelManagerConstructor {
      * it so normal scoring operation can continue.
      */
     public class ScorerWrapper implements AutoCloseable {
-        private final Score lock;
+        private final ScoreUpdate lock;
         public final ProbabilisticScorer prob_scorer;
-        private ScorerWrapper(Score lock, ProbabilisticScorer prob_scorer) {
+        private ScorerWrapper(ScoreUpdate lock, ProbabilisticScorer prob_scorer) {
             this.lock = lock; this.prob_scorer = prob_scorer;
         }
         @Override public void close() throws Exception {
@@ -100,7 +100,7 @@ public class ChannelManagerConstructor {
      * you're done with it.
      */
     public ScorerWrapper get_locked_scorer() {
-        return new ScorerWrapper(this.scorer.as_LockableScore().lock(), this.prob_scorer);
+        return new ScorerWrapper(this.scorer.as_LockableScore().write_lock(), this.prob_scorer);
     }
 
     /**
@@ -174,28 +174,28 @@ public class ChannelManagerConstructor {
         }
 
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
-        this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
+        this.channel_monitors = new TwoTuple_ThirtyTwoBytesChannelMonitorZ[monitors.length];
         HashSet<OutPoint> monitor_funding_set = new HashSet();
         for (int i = 0; i < monitors.length; i++) {
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], entropy_source, signer_provider);
-            if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
+            Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_ThirtyTwoBytesChannelMonitorZ_read(channel_monitors_serialized[i], entropy_source, signer_provider);
+            if (res instanceof Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_Err) {
                 throw new InvalidSerializedDataException("Serialized ChannelMonitor was corrupt");
             }
-            byte[] block_hash = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.get_a();
-            monitors[i] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
-            this.channel_monitors[i] = TwoTuple_BlockHashChannelMonitorZ.of(block_hash, monitors[i]);
+            byte[] block_hash = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK)res).res.get_a();
+            monitors[i] = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
+            this.channel_monitors[i] = TwoTuple_ThirtyTwoBytesChannelMonitorZ.of(block_hash, monitors[i]);
             if (!monitor_funding_set.add(monitors[i].get_funding_txo().get_a()))
                 throw new InvalidSerializedDataException("Set of ChannelMonitors contained duplicates (ie the same funding_txo was set on multiple monitors)");
         }
-        Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, entropy_source,
+        Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ res =
+                UtilMethods.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(channel_manager_serialized, entropy_source,
                         node_signer, signer_provider, fee_estimator, chain_monitor.as_Watch(),
                         tx_broadcaster, router, logger, config, monitors);
         if (!res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
         }
-        this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_b();
-        this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_a();
+        this.channel_manager = ((Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ_OK)res).res.get_b();
+        this.channel_manager_latest_block_hash = ((Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ_OK)res).res.get_a();
         this.chain_monitor = chain_monitor;
         this.logger = logger;
         if (filter != null) {
@@ -239,7 +239,7 @@ public class ChannelManagerConstructor {
         } else {
             router = default_router.as_Router();
         }
-        channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[0];
+        channel_monitors = new TwoTuple_ThirtyTwoBytesChannelMonitorZ[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
@@ -276,7 +276,7 @@ public class ChannelManagerConstructor {
      */
     public void chain_sync_completed(EventHandler event_handler, boolean use_p2p_graph_sync) {
         if (background_processor != null) { return; }
-        for (TwoTuple_BlockHashChannelMonitorZ monitor: channel_monitors) {
+        for (TwoTuple_ThirtyTwoBytesChannelMonitorZ monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
@@ -309,21 +309,21 @@ public class ChannelManagerConstructor {
 
         background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
             @Override
-            public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
+            public Result_NoneIOErrorZ persist_manager(ChannelManager channel_manager) {
                 event_handler.persist_manager(channel_manager.write());
-                return Result_NoneErrorZ.ok();
+                return Result_NoneIOErrorZ.ok();
             }
 
             @Override
-            public Result_NoneErrorZ persist_graph(NetworkGraph network_graph) {
+            public Result_NoneIOErrorZ persist_graph(NetworkGraph network_graph) {
                 event_handler.persist_network_graph(network_graph.write());
-                return Result_NoneErrorZ.ok();
+                return Result_NoneIOErrorZ.ok();
             }
 
             @Override
-            public Result_NoneErrorZ persist_scorer(WriteableScore scorer) {
+            public Result_NoneIOErrorZ persist_scorer(WriteableScore scorer) {
                 event_handler.persist_scorer(scorer.write());
-                return Result_NoneErrorZ.ok();
+                return Result_NoneIOErrorZ.ok();
             }
         }), ldk_handler, this.chain_monitor, this.channel_manager, gossip_sync, peer_manager, this.logger, writeable_score);
     }
