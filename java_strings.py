@@ -18,6 +18,7 @@ class Consts:
             uint32_t = ['int'],
             uint64_t = ['long'],
             int64_t = ['long'],
+            double = ['double'],
         )
         self.java_type_map = dict(
             String = "String"

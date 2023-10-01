@@ -23,6 +23,7 @@ class Consts:
             uint32_t = ['number', 'number', 'Uint32Array'],
             int64_t = ['bigint', 'bigint', 'BigInt64Array'],
             uint64_t = ['bigint', 'bigint', 'BigUint64Array'],
+            double = ['number', 'number', 'Float64Array'],
         )
         self.java_type_map = dict(
             String = "number"
