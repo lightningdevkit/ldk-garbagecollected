@@ -24,6 +24,7 @@ import java.util.function.IntConsumer;
 class HumanObjectPeerTestInstance {
     private final boolean nice_close;
     private final boolean use_km_wrapper;
+    private final boolean use_full_km_wrapper;
     private final boolean use_manual_watch;
     private final boolean reload_peers;
     private final boolean break_cross_peer_refs;
@@ -34,9 +35,10 @@ class HumanObjectPeerTestInstance {
     private final boolean use_invoice_payer;
     TxOut gossip_txout = null;
 
-    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) {
+    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_full_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) {
         this.nice_close = nice_close;
         this.use_km_wrapper = use_km_wrapper;
+        this.use_full_km_wrapper = use_full_km_wrapper;
         this.use_manual_watch = use_manual_watch;
         this.reload_peers = reload_peers;
         this.break_cross_peer_refs = break_cross_peer_refs;
@@ -82,64 +84,70 @@ class HumanObjectPeerTestInstance {
                 }
                 @Override
                 public WriteableEcdsaChannelSigner derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
-                    WriteableEcdsaChannelSigner underlying_wecs = underlying_sp.derive_channel_signer(channel_value_satoshis, channel_keys_id);
-                    EcdsaChannelSigner underlying_ecs = underlying_wecs.get_ecdsa_channel_signer();
-                    ChannelSigner underlying_cs = underlying_ecs.get_channel_signer();
-                    ChannelSigner.ChannelSignerInterface csi = new ChannelSigner.ChannelSignerInterface() {
-                        @Override public byte[] get_per_commitment_point(long idx) { return underlying_cs.get_per_commitment_point(idx); }
-                        @Override public byte[] release_commitment_secret(long idx) { return underlying_cs.release_commitment_secret(idx); }
-                        @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
-                            return underlying_cs.validate_holder_commitment(holder_tx, preimages);
-                        }
-                        @Override public byte[] channel_keys_id() { return underlying_cs.channel_keys_id(); }
-                        @Override public void provide_channel_parameters(ChannelTransactionParameters channel_parameters) {
-                            underlying_cs.provide_channel_parameters(channel_parameters);
-                        }
-                    };
-                    EcdsaChannelSigner.EcdsaChannelSignerInterface ecsi = new EcdsaChannelSigner.EcdsaChannelSignerInterface() {
-                        @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
-                            return underlying_ecs.sign_counterparty_commitment(commitment_tx, preimages);
-                        }
-                        @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
-                            return underlying_ecs.validate_counterparty_revocation(idx, secret);
-                        }
-                        @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
-                            return underlying_ecs.sign_holder_commitment_and_htlcs(commitment_tx);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
-                            return underlying_ecs.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
-                            return underlying_ecs.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor) {
-                            return underlying_ecs.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
-                            return underlying_ecs.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
-                            return underlying_ecs.sign_closing_transaction(closing_tx);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
-                            return underlying_ecs.sign_holder_anchor_input(anchor_tx, input);
-                        }
-                        @Override public Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg) {
-                            return underlying_ecs.sign_channel_announcement_with_funding_key(msg);
-                        }
-                    };
-                    WriteableEcdsaChannelSigner.WriteableEcdsaChannelSignerInterface wecsi = new WriteableEcdsaChannelSigner.WriteableEcdsaChannelSignerInterface() {
-                        @Override public byte[] write() { return underlying_wecs.write(); }
-                    };
-                    WriteableEcdsaChannelSigner resp = WriteableEcdsaChannelSigner.new_impl(wecsi, ecsi, csi, underlying_cs.get_pubkeys());
-                    must_free_objs.add(new WeakReference<>(wecsi));
-                    must_free_objs.add(new WeakReference<>(ecsi));
-                    must_free_objs.add(new WeakReference<>(csi));
-                    must_free_objs.add(new WeakReference<>(resp));
-                    must_free_objs.add(new WeakReference<>(underlying_wecs));
-                    must_free_objs.add(new WeakReference<>(underlying_ecs));
-                    must_free_objs.add(new WeakReference<>(underlying_cs));
-                    return resp;
+                    if (!use_full_km_wrapper) {
+                        WriteableEcdsaChannelSigner underlying_signer = underlying_sp.derive_channel_signer(channel_value_satoshis, channel_keys_id);
+                        must_free_objs.add(new WeakReference<>(underlying_signer));
+                        return underlying_signer;
+                    } else {
+                        WriteableEcdsaChannelSigner underlying_wecs = underlying_sp.derive_channel_signer(channel_value_satoshis, channel_keys_id);
+                        EcdsaChannelSigner underlying_ecs = underlying_wecs.get_ecdsa_channel_signer();
+                        ChannelSigner underlying_cs = underlying_ecs.get_channel_signer();
+                        ChannelSigner.ChannelSignerInterface csi = new ChannelSigner.ChannelSignerInterface() {
+                            @Override public byte[] get_per_commitment_point(long idx) { return underlying_cs.get_per_commitment_point(idx); }
+                            @Override public byte[] release_commitment_secret(long idx) { return underlying_cs.release_commitment_secret(idx); }
+                            @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
+                                return underlying_cs.validate_holder_commitment(holder_tx, preimages);
+                            }
+                            @Override public byte[] channel_keys_id() { return underlying_cs.channel_keys_id(); }
+                            @Override public void provide_channel_parameters(ChannelTransactionParameters channel_parameters) {
+                                underlying_cs.provide_channel_parameters(channel_parameters);
+                            }
+                        };
+                        EcdsaChannelSigner.EcdsaChannelSignerInterface ecsi = new EcdsaChannelSigner.EcdsaChannelSignerInterface() {
+                            @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
+                                return underlying_ecs.sign_counterparty_commitment(commitment_tx, preimages);
+                            }
+                            @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+                                return underlying_ecs.validate_counterparty_revocation(idx, secret);
+                            }
+                            @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
+                                return underlying_ecs.sign_holder_commitment_and_htlcs(commitment_tx);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+                                return underlying_ecs.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+                                return underlying_ecs.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor) {
+                                return underlying_ecs.sign_holder_htlc_transaction(htlc_tx, input, htlc_descriptor);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
+                                return underlying_ecs.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
+                                return underlying_ecs.sign_closing_transaction(closing_tx);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_holder_anchor_input(byte[] anchor_tx, long input) {
+                                return underlying_ecs.sign_holder_anchor_input(anchor_tx, input);
+                            }
+                            @Override public Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg) {
+                                return underlying_ecs.sign_channel_announcement_with_funding_key(msg);
+                            }
+                        };
+                        WriteableEcdsaChannelSigner.WriteableEcdsaChannelSignerInterface wecsi = new WriteableEcdsaChannelSigner.WriteableEcdsaChannelSignerInterface() {
+                            @Override public byte[] write() { return underlying_wecs.write(); }
+                        };
+                        WriteableEcdsaChannelSigner resp = WriteableEcdsaChannelSigner.new_impl(wecsi, ecsi, csi, underlying_cs.get_pubkeys());
+                        must_free_objs.add(new WeakReference<>(wecsi));
+                        must_free_objs.add(new WeakReference<>(ecsi));
+                        must_free_objs.add(new WeakReference<>(csi));
+                        must_free_objs.add(new WeakReference<>(resp));
+                        must_free_objs.add(new WeakReference<>(underlying_wecs));
+                        must_free_objs.add(new WeakReference<>(underlying_ecs));
+                        must_free_objs.add(new WeakReference<>(underlying_cs));
+                        return resp;
+                    }
                 }
 
                 @Override
@@ -1234,14 +1242,14 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    static HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
+    static HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_full_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_full_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    static void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
-        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
+    static void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_full_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws Exception {
+        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_full_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
@@ -1249,7 +1257,7 @@ public class HumanObjectPeerTest {
         for (WeakReference<Object> o : instance.must_free_objs)
             assert o.get() == null;
     }
-    public static final int TEST_ITERATIONS = (1 << 9);
+    public static final int TEST_ITERATIONS = (1 << 10);
     public static void do_test_message_handler(IntConsumer statusFunction) throws Exception {
         Thread gc_thread = new Thread(() -> {
             while (true) {
@@ -1262,13 +1270,14 @@ public class HumanObjectPeerTest {
         for (int i = 0; i < TEST_ITERATIONS; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
-            boolean use_manual_watch =             (i & (1 << 2)) != 0;
-            boolean reload_peers =                 (i & (1 << 3)) != 0;
-            boolean break_cross_refs =             (i & (1 << 4)) != 0;
-            boolean use_ignoring_routing_handler = (i & (1 << 5)) != 0;
-            boolean use_chan_manager_constructor = (i & (1 << 6)) != 0;
-            boolean use_invoice_payer =            (i & (1 << 7)) != 0;
-            boolean nio_peer_handler =             (i & (1 << 8)) != 0;
+            boolean use_full_km_wrapper =          (i & (1 << 2)) != 0;
+            boolean use_manual_watch =             (i & (1 << 3)) != 0;
+            boolean reload_peers =                 (i & (1 << 4)) != 0;
+            boolean break_cross_refs =             (i & (1 << 5)) != 0;
+            boolean use_ignoring_routing_handler = (i & (1 << 6)) != 0;
+            boolean use_chan_manager_constructor = (i & (1 << 7)) != 0;
+            boolean use_invoice_payer =            (i & (1 << 8)) != 0;
+            boolean nio_peer_handler =             (i & (1 << 9)) != 0;
             if (break_cross_refs && !reload_peers) {
                 // There are no cross refs to break without reloading peers.
                 continue;
@@ -1284,7 +1293,7 @@ public class HumanObjectPeerTest {
             }
             if (use_chan_manager_constructor && use_ignoring_routing_handler && use_invoice_payer) {
                 // As documented on ChannelManagerConstructor, if we provide a `null` NetworkGraph (because we want to
-                // use an IgnoringMessageHandler), no InvoicePayer will be constructored for us, thus we cannot use an
+                // use an IgnoringMessageHandler), no InvoicePayer will be constructed for us, thus we cannot use an
                 // InvoicePayer to send payments in this case.
                 continue;
             }
@@ -1293,8 +1302,12 @@ public class HumanObjectPeerTest {
                 // any sense.
                 continue;
             }
+            if (use_full_km_wrapper && !use_km_wrapper) {
+                // Gotta use some KM wrapper if we're gonna use a full one.
+                continue;
+            }
             statusFunction.accept(i);
-            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
+            do_test(nice_close, use_km_wrapper, use_full_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         }
         gc_thread.interrupt();
         gc_thread.join();
