@@ -15,6 +15,7 @@ import org.ldk.structs.*;
 import org.ldk.util.UInt128;
 import org.ldk.util.UInt5;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
@@ -913,20 +914,37 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_Bolt11InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.node_signer, peer2.logger, Currency.LDKCurrency_Bitcoin, Option_u64Z.some(10000000), "Invoice Description", 7200, Option_u16Z.none());
+        // Generate a random invoice description to exercise the string conversion logic a good bit
+        String invoice_description;
+        char[] string_bytes = new char[16];
+        try {
+            new FileReader("/dev/urandom").read(string_bytes);
+        } catch (Exception e) { assert false; }
+        invoice_description = new String(string_bytes);
+
+        Result_Bolt11InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.node_signer, peer2.logger, Currency.LDKCurrency_Bitcoin, Option_u64Z.some(10000000), invoice_description, 7200, Option_u16Z.none());
         assert invoice instanceof Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
 
-        Result_Bolt11InvoiceParseOrSemanticErrorZ parsed_invoice = Bolt11Invoice.from_str(((Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        String fuck = ((Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str();
+        Result_Bolt11InvoiceParseOrSemanticErrorZ parsed_invoice = Bolt11Invoice.from_str(fuck);
+if (parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_Err) {
+    System.err.println(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_Err) parsed_invoice).err.to_str());
+}
         assert parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK;
-        //assert ((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.fallback_addresses().length == 0;
+        assert ((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.fallback_addresses().length == 0;
         assert Arrays.equals(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.payment_hash(), ((Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
         SignedRawBolt11Invoice signed_raw = ((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.into_signed_raw();
         RawBolt11Invoice raw_invoice = signed_raw.raw_invoice();
         byte[] desc_hash = raw_invoice.signable_hash();
         Description raw_invoice_description = raw_invoice.description();
         String description_string = raw_invoice_description.into_inner();
-        assert description_string.equals("Invoice Description");
+        boolean has_null = false;
+        for (byte db : invoice_description.getBytes())
+            if (db == 0)
+                has_null = true;
+        if (!has_null) // Null codepoints are dropped, so may fail
+            assert description_string.equals(invoice_description);
 
         // Do a trivial test of constructing a phantom invoice
         Result_Bolt11InvoiceSignOrCreationErrorZ phantom_invoice = UtilMethods.create_phantom_invoice(
