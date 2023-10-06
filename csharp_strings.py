@@ -494,7 +494,7 @@ namespace org { namespace ldk { namespace structs {
         else:
             return "FREE(" + arr_name + ")"
 
-    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty, is_nullable):
         if elem_ty.java_hu_ty == "UInt5":
             return arr_name + " != null ? InternalUtils.convUInt5Array(" + arr_name + ") : null"
         elif elem_ty.java_hu_ty == "WitnessVersion":

@@ -799,11 +799,14 @@ import * as bindings from '../bindings.mjs'
         else:
             return "FREE(" + arr_name + ")"
 
-    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty, is_nullable):
         if elem_ty.rust_obj == "LDKU5":
             return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
         assert elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array") or elem_ty.rust_obj == "LDKStr"
-        return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
+        if is_nullable:
+            return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
+        else:
+            return arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ")"
 
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"

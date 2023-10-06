@@ -707,7 +707,7 @@ import javax.annotation.Nullable;
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
-    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty, is_nullable):
         if elem_ty.java_ty == "long" and elem_ty.java_hu_ty != "long":
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
         elif elem_ty.java_ty == "long":

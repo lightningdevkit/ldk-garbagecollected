@@ -224,11 +224,11 @@ class TypeMappingGenerator:
                         else:
                             hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
                     if from_hu_conv is not None:
-                        arr_conv = self.consts.primitive_arr_from_hu(ty_info, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty))
+                        arr_conv = self.consts.primitive_arr_from_hu(ty_info, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty, is_nullable))
                         assert arr_conv[1] == ""
                         from_hu_conv = (arr_conv[0], hu_conv_b)
                     else:
-                        from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty), hu_conv_b)
+                        from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty, is_nullable), hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
