@@ -962,7 +962,6 @@ export enum {struct_name} {{
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 impl_constructor_arguments += f", {var.arg_name}: {var.java_hu_ty}"
-                super_instantiator += first_to_lower(var.arg_name) + ", "
                 if var.from_hu_conv is not None:
                     bindings_instantiator += ", " + var.from_hu_conv[0]
                     if var.from_hu_conv[1] != "":
@@ -971,7 +970,6 @@ export enum {struct_name} {{
                     bindings_instantiator += ", " + first_to_lower(var.arg_name)
             else:
                 bindings_instantiator += ", " + first_to_lower(var[1]) + ".instance_idx!"
-                super_instantiator += first_to_lower(var[1]) + "_impl, "
                 pointer_to_adder += "\t\timpl_holder.held.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
                 impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}Interface"
 
@@ -981,7 +979,14 @@ export enum {struct_name} {{
             if isinstance(var, ConvInfo):
                 trait_constructor_arguments += ", " + var.arg_name
             else:
-                super_constructor_statements += "\t\tconst " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + super_instantiator + ");\n"
+                super_constructor_statements += "\t\tconst " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + first_to_lower(var[1]) + "_impl"
+                super_instantiator = ""
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        super_instantiator += ", " + suparg.arg_name
+                    else:
+                        super_instantiator += ", " + first_to_lower(suparg[1]) + "_impl"
+                super_constructor_statements += super_instantiator + ");\n"
                 trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".instance_idx!"
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
