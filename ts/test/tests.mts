@@ -179,12 +179,12 @@ tests.push(async () => {
 
 	const features = a.chan_man.as_ChannelMessageHandler().provided_init_features(b.chan_man.get_our_node_id());
 
-	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ChainHashZZ.constructor_none(), ldk.Option_NetAddressZ.constructor_none()), false);
-	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ChainHashZZ.constructor_none(), ldk.Option_NetAddressZ.constructor_none()), true);
+	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), false);
+	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), true);
 
 	const chan_create_err = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (chan_create_err.is_ok()) return false;
-	if (!(chan_create_err instanceof ldk.Result__u832APIErrorZ_Err)) return false;
+	if (!(chan_create_err instanceof ldk.Result_ThirtyTwoBytesAPIErrorZ_Err)) return false;
 	if (!(chan_create_err.err instanceof ldk.APIError_APIMisuseError)) return false;
 	if (chan_create_err.err.err != "Channel value must be at least 1000 satoshis. It was 0") return false;
 
@@ -268,16 +268,16 @@ tests.push(async () => {
 		}
 	} as ldk.SocketDescriptorInterface);
 
-	const update_fut = a.chan_man.get_persistable_update_future();
+	const update_fut = a.chan_man.get_event_or_persistence_needed_future();
 	var update_done = false;
 	update_fut.register_callback_fn(ldk.FutureCallback.new_impl({
 		call(): void { update_done = true; }
 	}));
 	if (update_done) return false;
 
-	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
-	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
+	const v4_netaddr = ldk.SocketAddress.constructor_tcp_ip_v4(Uint8Array.from([42,0,42,1]), 9735);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_SocketAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_SocketAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
 	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
@@ -415,9 +415,9 @@ tests.push(async () => {
 		}
 	} as ldk.SocketDescriptorInterface);
 
-	const v4_netaddr = ldk.NetAddress.constructor_ipv4(Uint8Array.from([42,0,42,1]), 9735);
-	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_NetAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
-	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_NetAddressZ.constructor_none());
+	const v4_netaddr = ldk.SocketAddress.constructor_tcp_ip_v4(Uint8Array.from([42,0,42,1]), 9735);
+	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_SocketAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
+	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_SocketAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
 	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
 
