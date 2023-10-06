@@ -857,12 +857,10 @@ import * as bindings from '../bindings.mjs'
             return ("bindings.encodeUint8Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
             return ("bindings.encodeUint16Array(" + inner + ")", "")
-        elif mapped_ty.c_ty == "uint32_t":
+        elif mapped_ty.c_ty == "uint32_t" or mapped_ty.rust_obj == "LDKStr":
             return ("bindings.encodeUint32Array(" + inner + ")", "")
         elif mapped_ty.c_ty == "int64_t" or mapped_ty.c_ty == "uint64_t":
             return ("bindings.encodeUint64Array(" + inner + ")", "")
-        elif mapped_ty.rust_obj == "LDKStr":
-            return ("XXX-unused", "")
         else:
             print(mapped_ty.c_ty)
             assert False
