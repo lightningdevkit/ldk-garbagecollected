@@ -45,6 +45,8 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -139,6 +141,8 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
@@ -200,6 +204,8 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
@@ -452,6 +458,8 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -525,6 +533,8 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings and check the sample app builds + links
         run: |
           cd ldk-c-bindings
