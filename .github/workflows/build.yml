@@ -459,6 +459,7 @@ jobs:
           cd ldk-c-bindings
           git checkout 0.0.117
           cd lightning-c-bindings
+          . $HOME/.cargo/env
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Checkout Android AAR binaries and artifacts
         run: |
