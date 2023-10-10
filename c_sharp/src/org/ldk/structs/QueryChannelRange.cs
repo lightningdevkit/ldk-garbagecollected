@@ -7,10 +7,12 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A query_channel_range message is used to query a peer for channel
+ * A [`query_channel_range`] message is used to query a peer for channel
  * UTXOs in a range of blocks. The recipient of a query makes a best
- * effort to reply to the query using one or more reply_channel_range
+ * effort to reply to the query using one or more [`ReplyChannelRange`]
  * messages.
+ * 
+ * [`query_channel_range`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-query_channel_range-and-reply_channel_range-messages
  */
 public class QueryChannelRange : CommonBase {
 	internal QueryChannelRange(object _dummy, long ptr) : base(ptr) { }
@@ -122,7 +124,9 @@ public class QueryChannelRange : CommonBase {
 		return this.eq((QueryChannelRange)o);
 	}
 	/**
-	 * \n\t * Calculates the overflow safe ending block height for the query.\n\t * Overflow returns `0xffffffff`, otherwise returns `first_blocknum + number_of_blocks`\n\t
+	 * Calculates the overflow safe ending block height for the query.
+	 * 
+	 * Overflow returns `0xffffffff`, otherwise returns `first_blocknum + number_of_blocks`.
 	 */
 	public int end_blocknum() {
 		int ret = bindings.QueryChannelRange_end_blocknum(this.ptr);

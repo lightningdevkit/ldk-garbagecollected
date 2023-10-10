@@ -97,11 +97,11 @@ export class NodeLDKNet {
 		return descriptor;
 	}
 
-	private static v4_addr_from_ip(ip: string, port: number): ldk.NetAddress {
+	private static v4_addr_from_ip(ip: string, port: number): ldk.SocketAddress {
 		const sockaddr = ip.split(".").map(parseFloat);
-		return ldk.NetAddress.constructor_ipv4(new Uint8Array(sockaddr), port);
+		return ldk.SocketAddress.constructor_tcp_ip_v4(new Uint8Array(sockaddr), port);
 	}
-	private static v6_addr_from_ip(ip: string, port: number): ldk.NetAddress {
+	private static v6_addr_from_ip(ip: string, port: number): ldk.SocketAddress {
 		const sockaddr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		const halves = ip.split("::"); // either one or two elements
 		const first_half = halves[0].split(":");
@@ -118,20 +118,20 @@ export class NodeLDKNet {
 				sockaddr[15 - idx*2] = v & 0xff;
 			}
 		}
-		return ldk.NetAddress.constructor_ipv6(new Uint8Array(sockaddr), port);
+		return ldk.SocketAddress.constructor_tcp_ip_v6(new Uint8Array(sockaddr), port);
 	}
 
-	private static get_addr_from_socket(socket: net.Socket): ldk.Option_NetAddressZ {
+	private static get_addr_from_socket(socket: net.Socket): ldk.Option_SocketAddressZ {
 		const addr = socket.remoteAddress;
 		if (addr === undefined)
-			return ldk.Option_NetAddressZ.constructor_none();
+			return ldk.Option_SocketAddressZ.constructor_none();
 		if (net.isIPv4(addr)) {
-			return ldk.Option_NetAddressZ.constructor_some(NodeLDKNet.v4_addr_from_ip(addr, socket.remotePort));
+			return ldk.Option_SocketAddressZ.constructor_some(NodeLDKNet.v4_addr_from_ip(addr, socket.remotePort));
 		}
 		if (net.isIPv6(addr)) {
-			return ldk.Option_NetAddressZ.constructor_some(NodeLDKNet.v6_addr_from_ip(addr, socket.remotePort));
+			return ldk.Option_SocketAddressZ.constructor_some(NodeLDKNet.v6_addr_from_ip(addr, socket.remotePort));
 		}
-		return ldk.Option_NetAddressZ.constructor_none();
+		return ldk.Option_SocketAddressZ.constructor_none();
 	}
 
 	/**

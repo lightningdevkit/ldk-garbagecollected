@@ -38,30 +38,11 @@ public class TwoTuple_Z extends CommonBase {
 		return ret;
 	}
 
-	long clone_ptr() {
-		long ret = bindings.C2Tuple_Z_clone_ptr(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Creates a new tuple which has the same data as `orig`
-	 * but with all dynamically-allocated buffers duplicated in new buffers.
-	 */
-	public TwoTuple_Z clone() {
-		long ret = bindings.C2Tuple_Z_clone(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		TwoTuple_Z ret_hu_conv = new TwoTuple_Z(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
 	/**
 	 * Creates a new C2Tuple_Z from the contained elements.
 	 */
 	public static TwoTuple_Z of(short[] a, short[] b) {
-		long ret = bindings.C2Tuple_Z_new(InternalUtils.check_arr_16_len(a, 8), InternalUtils.check_arr_16_len(b, 8));
+		long ret = bindings.C2Tuple_Z_new(InternalUtils.check_arr_16_len(a, 32), InternalUtils.check_arr_16_len(b, 32));
 		Reference.reachabilityFence(a);
 		Reference.reachabilityFence(b);
 		if (ret >= 0 && ret <= 4096) { return null; }

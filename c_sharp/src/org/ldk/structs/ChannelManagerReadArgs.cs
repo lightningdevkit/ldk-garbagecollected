@@ -47,15 +47,59 @@ public class ChannelManagerReadArgs : CommonBase {
 	}
 
 	/**
+	 * A cryptographically secure source of entropy.
+	 */
+	public EntropySource get_entropy_source() {
+		long ret = bindings.ChannelManagerReadArgs_get_entropy_source(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A cryptographically secure source of entropy.
+	 */
+	public void set_entropy_source(org.ldk.structs.EntropySource val) {
+		bindings.ChannelManagerReadArgs_set_entropy_source(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
+	}
+
+	/**
+	 * A signer that is able to perform node-scoped cryptographic operations.
+	 */
+	public NodeSigner get_node_signer() {
+		long ret = bindings.ChannelManagerReadArgs_get_node_signer(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeSigner ret_hu_conv = new NodeSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A signer that is able to perform node-scoped cryptographic operations.
+	 */
+	public void set_node_signer(org.ldk.structs.NodeSigner val) {
+		bindings.ChannelManagerReadArgs_set_node_signer(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
+	}
+
+	/**
 	 * The keys provider which will give us relevant keys. Some keys will be loaded during
 	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
 	 * signing data.
 	 */
-	public KeysInterface get_keys_manager() {
-		long ret = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
+	public SignerProvider get_signer_provider() {
+		long ret = bindings.ChannelManagerReadArgs_get_signer_provider(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
+		SignerProvider ret_hu_conv = new SignerProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -65,8 +109,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
 	 * signing data.
 	 */
-	public void set_keys_manager(org.ldk.structs.KeysInterface val) {
-		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0 : val.ptr);
+	public void set_signer_provider(org.ldk.structs.SignerProvider val) {
+		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
@@ -92,7 +136,7 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * No calls to the FeeEstimator will be made during deserialization.
 	 */
 	public void set_fee_estimator(org.ldk.structs.FeeEstimator val) {
-		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
@@ -122,7 +166,7 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * chain::Watch after deserializing this ChannelManager.
 	 */
 	public void set_chain_monitor(org.ldk.structs.Watch val) {
-		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
@@ -148,7 +192,35 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * force-closed during deserialization.
 	 */
 	public void set_tx_broadcaster(org.ldk.structs.BroadcasterInterface val) {
-		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
+	}
+
+	/**
+	 * The router which will be used in the ChannelManager in the future for finding routes
+	 * on-the-fly for trampoline payments. Absent in private nodes that don't support forwarding.
+	 * 
+	 * No calls to the router will be made during deserialization.
+	 */
+	public Router get_router() {
+		long ret = bindings.ChannelManagerReadArgs_get_router(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Router ret_hu_conv = new Router(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The router which will be used in the ChannelManager in the future for finding routes
+	 * on-the-fly for trampoline payments. Absent in private nodes that don't support forwarding.
+	 * 
+	 * No calls to the router will be made during deserialization.
+	 */
+	public void set_router(org.ldk.structs.Router val) {
+		bindings.ChannelManagerReadArgs_set_router(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
@@ -172,7 +244,7 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * deserialization.
 	 */
 	public void set_logger(org.ldk.structs.Logger val) {
-		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0 : val.ptr);
+		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		if (this != null) { this.ptrs_to.AddLast(val); };
@@ -207,22 +279,28 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * HashMap for you. This is primarily useful for C bindings where it is not practical to
 	 * populate a HashMap directly from C.
 	 */
-	public static ChannelManagerReadArgs of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? InternalUtils.mapArray(channel_monitors, channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr) : null);
-		GC.KeepAlive(keys_manager);
+	public static ChannelManagerReadArgs of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
+		long ret = bindings.ChannelManagerReadArgs_new(entropy_source.ptr, node_signer.ptr, signer_provider.ptr, fee_estimator.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, logger.ptr, default_config == null ? 0 : default_config.ptr, channel_monitors != null ? InternalUtils.mapArray(channel_monitors, channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr) : null);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(signer_provider);
 		GC.KeepAlive(fee_estimator);
 		GC.KeepAlive(chain_monitor);
 		GC.KeepAlive(tx_broadcaster);
+		GC.KeepAlive(router);
 		GC.KeepAlive(logger);
 		GC.KeepAlive(default_config);
 		GC.KeepAlive(channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManagerReadArgs(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(signer_provider); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fee_estimator); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(router); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(default_config); };
 		foreach (ChannelMonitor channel_monitors_conv_16 in channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_monitors_conv_16); }; };

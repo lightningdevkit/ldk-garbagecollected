@@ -18,6 +18,7 @@ class Consts:
             uint32_t = ['int'],
             uint64_t = ['long'],
             int64_t = ['long'],
+            double = ['double'],
         )
         self.java_type_map = dict(
             String = "String"
@@ -462,25 +463,133 @@ typedef jlongArray int64_tArray;
 typedef jbyteArray int8_tArray;
 typedef jshortArray int16_tArray;
 
-static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
-	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
-	char* conv_buf = MALLOC(len + 1, "str conv buf");
-	memcpy(conv_buf, chars, len);
-	conv_buf[len] = 0;
-	jstring ret = (*env)->NewStringUTF(env, conv_buf);
-	FREE(conv_buf);
+static inline jstring str_ref_to_java(JNIEnv *env, const unsigned char* chars, size_t len) {
+	// Java uses "Modified UTF-8" rather than UTF-8. This requires special
+	// handling for codepoints above 0xFFFF, which get converted from four
+	// bytes to six. We don't know upfront how many codepoints in the string
+	// are above 0xFFFF, so we just allocate an extra 33% up front and waste a
+	// bit of space.
+	unsigned char* java_chars = MALLOC(len * 3 / 2 + 1, "str conv buf");
+	unsigned char* next_java_char = java_chars;
+	const unsigned char* next_in_char = chars;
+	const unsigned char* end = chars + len;
+	#define COPY_CHAR_TO_JAVA do { *next_java_char = *next_in_char; next_java_char++; next_in_char++; } while (0)
+
+	while (next_in_char < end) {
+		if (!*next_in_char) break;
+		if (!(*next_in_char & 0b10000000)) {
+			COPY_CHAR_TO_JAVA;
+		} else if ((*next_in_char & 0b11100000) == 0b11000000) {
+			if (next_in_char + 2 > end) { CHECK(false); break; } // bad string
+			COPY_CHAR_TO_JAVA;
+			COPY_CHAR_TO_JAVA;
+		} else if ((*next_in_char & 0b11110000) == 0b11100000) {
+			if (next_in_char + 3 > end) { CHECK(false); break; } // bad string
+			COPY_CHAR_TO_JAVA;
+			COPY_CHAR_TO_JAVA;
+			COPY_CHAR_TO_JAVA;
+		} else if ((*next_in_char & 0b11111000) == 0b11110000) {
+			if (next_in_char + 4 > end) { CHECK(false); break; } // bad string
+			uint32_t codepoint = 0;
+			codepoint |= (((uint32_t)*(next_in_char    )) & 0b00000111) << 18;
+			codepoint |= (((uint32_t)*(next_in_char + 1)) & 0b00111111) << 12;
+			codepoint |= (((uint32_t)*(next_in_char + 2)) & 0b00111111) << 6;
+			codepoint |= (((uint32_t)*(next_in_char + 3)) & 0b00111111) << 0;
+			codepoint -= 0x10000;
+			*next_java_char = 0b11101101;
+			next_java_char++;
+			*next_java_char = 0b10100000 | ((codepoint >> 16) & 0b00001111);
+			next_java_char++;
+			*next_java_char = 0b10000000 | ((codepoint >> 10) & 0b00111111);
+			next_java_char++;
+			*next_java_char = 0b11101101;
+			next_java_char++;
+			*next_java_char = 0b10110000 | ((codepoint >>  6) & 0b00001111);
+			next_java_char++;
+			*next_java_char = 0b10000000 | ((codepoint >>  0) & 0b00111111);
+			next_java_char++;
+			next_in_char += 4;
+		} else {
+			// Bad string
+			CHECK(false);
+			break;
+		}
+	}
+	*next_java_char = 0;
+	jstring ret = (*env)->NewStringUTF(env, java_chars);
+	FREE(java_chars);
 	return ret;
 }
 static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 	uint64_t str_len = (*env)->GetStringUTFLength(env, str);
-	char* newchars = MALLOC(str_len + 1, "String chars");
-	const char* jchars = (*env)->GetStringUTFChars(env, str, NULL);
-	memcpy(newchars, jchars, str_len);
-	newchars[str_len] = 0;
+	// Java uses "Modified UTF-8" rather than UTF-8. This requires special
+	// handling for codepoints above 0xFFFF, which we implement below.
+	unsigned char* newchars = MALLOC(str_len, "String chars");
+	unsigned char* next_newchar = newchars;
+	uint64_t utf8_len = 0;
+
+	const unsigned char* jchars = (*env)->GetStringUTFChars(env, str, NULL);
+	const unsigned char* next_char = jchars;
+	const unsigned char* end = jchars + str_len;
+
+	#define COPY_CHAR_FROM_JAVA do { *next_newchar = *next_char; next_newchar++; next_char++; utf8_len++; } while (0)
+
+	while (next_char < end) {
+		if (!(*next_char & 0b10000000)) {
+			CHECK(*next_char != 0); // Bad Modified UTF-8 string, but we'll just cut here
+			COPY_CHAR_FROM_JAVA;
+		} else if ((*next_char & 0b11100000) == 0b11000000) {
+			if (next_char + 2 > end) { CHECK(false); break; } // bad string
+			uint16_t codepoint = 0;
+			codepoint |= (((uint16_t)(*next_char & 0x1f)) << 6);
+			codepoint |= *(next_char + 1) & 0x3f;
+			if (codepoint == 0) {
+				// We should really never get null codepoints, but java allows them.
+				// Just skip it.
+				next_char += 2;
+			} else {
+				COPY_CHAR_FROM_JAVA;
+				COPY_CHAR_FROM_JAVA;
+			}
+		} else if ((*next_char & 0b11110000) == 0b11100000) {
+			if (next_char + 3 > end) { CHECK(false); break; } // bad string
+			if (*next_char == 0b11101101 && (*(next_char + 1) & 0b11110000) == 0b10100000) {
+				// Surrogate code unit shoul indicate we have a codepoint above
+				// 0xFFFF, which is where Modified UTF-8 and UTF-8 diverge.
+				if (next_char + 6 > end) { CHECK(false); break; } // bad string
+				CHECK(*(next_char + 3) == 0b11101101);
+				CHECK((*(next_char + 4) & 0b11110000) == 0b10110000);
+				// Calculate the codepoint per https://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/types.html#wp16542
+				uint32_t codepoint = 0x10000;
+				codepoint += ((((uint32_t)*(next_char + 1)) & 0x0f) << 16);
+				codepoint += ((((uint32_t)*(next_char + 2)) & 0x3f) << 10);
+				codepoint += ((((uint32_t)*(next_char + 4)) & 0x0f) <<  6);
+				codepoint +=  (((uint32_t)*(next_char + 5)) & 0x3f);
+				*next_newchar = 0b11110000 | ((codepoint >> 18) &    0b111);
+				next_newchar++;
+				*next_newchar = 0b10000000 | ((codepoint >> 12) & 0b111111);
+				next_newchar++;
+				*next_newchar = 0b10000000 | ((codepoint >>  6) & 0b111111);
+				next_newchar++;
+				*next_newchar = 0b10000000 | ( codepoint        & 0b111111);
+				next_newchar++;
+				next_char += 6;
+				utf8_len += 4;
+			} else {
+				COPY_CHAR_FROM_JAVA;
+				COPY_CHAR_FROM_JAVA;
+				COPY_CHAR_FROM_JAVA;
+			}
+		} else {
+			// Bad string
+			CHECK(false);
+			break;
+		}
+	}
 	(*env)->ReleaseStringUTFChars(env, str, jchars);
 	LDKStr res = {
 		.chars = newchars,
-		.len = str_len,
+		.len = utf8_len,
 		.chars_is_owned = true
 	};
 	return res;
@@ -598,7 +707,7 @@ import javax.annotation.Nullable;
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
-    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty, is_nullable):
         if elem_ty.java_ty == "long" and elem_ty.java_hu_ty != "long":
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
         elif elem_ty.java_ty == "long":

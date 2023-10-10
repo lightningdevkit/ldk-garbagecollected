@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A revoke_and_ack message to be sent or received from a peer
+ * A [`revoke_and_ack`] message to be sent to or received from a peer.
+ * 
+ * [`revoke_and_ack`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#completing-the-transition-to-the-updated-state-revoke_and_ack
  */
 public class RevokeAndACK : CommonBase {
 	internal RevokeAndACK(object _dummy, long ptr) : base(ptr) { }

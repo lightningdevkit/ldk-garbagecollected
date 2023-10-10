@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * The unsigned part of a node_announcement
+ * The unsigned part of a [`node_announcement`] message.
+ * 
+ * [`node_announcement`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#the-node_announcement-message
  */
 public class UnsignedNodeAnnouncement : CommonBase {
 	internal UnsignedNodeAnnouncement(object _dummy, long ptr) : base(ptr) { }
@@ -56,23 +58,27 @@ public class UnsignedNodeAnnouncement : CommonBase {
 	}
 
 	/**
-	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * The `node_id` this announcement originated from (don't rebroadcast the `node_announcement` back
 	 * to this node).
 	 */
-	public byte[] get_node_id() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
+	public NodeId get_node_id() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * The `node_id` this announcement originated from (don't rebroadcast the `node_announcement` back
 	 * to this node).
 	 */
-	public void set_node_id(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_node_id(org.ldk.structs.NodeId val) {
+		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -94,23 +100,29 @@ public class UnsignedNodeAnnouncement : CommonBase {
 	}
 
 	/**
-	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
-	 * of uniqueness.
+	 * An alias, for UI purposes.
+	 * 
+	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
-	public byte[] get_alias() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
+	public NodeAlias get_alias() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeAlias ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAlias(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
-	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
-	 * of uniqueness.
+	 * An alias, for UI purposes.
+	 * 
+	 * This should be sanitized before use. There is no guarantee of uniqueness.
 	 */
-	public void set_alias(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
+	public void set_alias(org.ldk.structs.NodeAlias val) {
+		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -139,6 +151,7 @@ public class UnsignedNodeAnnouncement : CommonBase {
 		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_12 => val_conv_12.ptr) : null);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		foreach (NetAddress val_conv_12 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_12); }; };
 	}
 
 	internal long clone_ptr() {

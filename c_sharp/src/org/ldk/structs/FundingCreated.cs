@@ -7,7 +7,11 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A funding_created message to be sent or received from a peer
+ * A [`funding_created`] message to be sent to or received from a peer.
+ * 
+ * Used in V1 channel establishment
+ * 
+ * [`funding_created`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#the-funding_created-message
  */
 public class FundingCreated : CommonBase {
 	internal FundingCreated(object _dummy, long ptr) : base(ptr) { }

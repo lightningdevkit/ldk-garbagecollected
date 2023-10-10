@@ -37,7 +37,7 @@ public class Description : CommonBase {
 	}
 
 	/**
-	 * Checks if two Descriptions contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Description.
 	 */
 	public long hash() {
 		long ret = bindings.Description_hash(this.ptr);
@@ -67,7 +67,7 @@ public class Description : CommonBase {
 	}
 	/**
 	 * Creates a new `Description` if `description` is at most 1023 __bytes__ long,
-	 * returns `CreationError::DescriptionTooLong` otherwise
+	 * returns [`CreationError::DescriptionTooLong`] otherwise
 	 * 
 	 * Please note that single characters may use more than one byte due to UTF8 encoding.
 	 */
@@ -80,7 +80,7 @@ public class Description : CommonBase {
 	}
 
 	/**
-	 * Returns the underlying description `String`
+	 * Returns the underlying description [`String`]
 	 */
 	public string into_inner() {
 		string ret = bindings.Description_into_inner(this.ptr);

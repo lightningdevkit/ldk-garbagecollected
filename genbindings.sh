@@ -68,11 +68,14 @@ fi
 
 cp "$1/lightning-c-bindings/include/lightning.h" ./
 if is_gnu_sed; then
-	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+	sed -i "s/TransactionOutputs/C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
 else
-  # OSX sed is for some reason not compatible with GNU sed
-	sed -i '' "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+	# OSX sed is for some reason not compatible with GNU sed
+	sed -i '' "s/TransactionOutputs/C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
 fi
+echo "#define LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > header.c
+echo "#define CVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> header.c
+
 
 if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
 	export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
@@ -96,8 +99,8 @@ if [ "$2" = "c_sharp" ]; then
 		# __unmangle_inner_ptr, but the C code expects to be able to call it.
 		echo "#define __unmangle_inner_ptr(a) (a)" > c_sharp/bindings.c
 	fi
-	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> c_sharp/bindings.c
-	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> c_sharp/bindings.c
+	cat header.c >> c_sharp/bindings.c
+	cat header.c >> c_sharp/bindings.c
 	cat c_sharp/bindings.c.body >> c_sharp/bindings.c
 
 	IS_MAC=false
@@ -112,8 +115,6 @@ if [ "$2" = "c_sharp" ]; then
 	else
 		mono-csc -o $MONO_COMPILE
 	fi
-
-	mv ./-out:csharpldk.dll csharpldk.dll # Mono is braindead, apparently
 
 	echo "Building C# bindings..."
 	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
@@ -145,8 +146,8 @@ elif [ "$2" = "python" ]; then
 		# __unmangle_inner_ptr, but the C code expects to be able to call it.
 		echo "#define __unmangle_inner_ptr(a) (a)" > python/bindings.c
 	fi
-	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> python/bindings.c
-	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> python/bindings.c
+	echo "#define LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> python/bindings.c
+	echo "#define CVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> python/bindings.c
 	cat python/bindings.c.body >> python/bindings.c
 
 	IS_MAC=false
@@ -191,8 +192,7 @@ elif [ "$2" = "wasm" ]; then
 		# __unmangle_inner_ptr, but the C code expects to be able to call it.
 		echo "#define __unmangle_inner_ptr(a) (a)" > ts/bindings.c
 	fi
-	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> ts/bindings.c
-	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
+	cat header.c >> ts/bindings.c
 	cat ts/bindings.c.body >> ts/bindings.c
 
 	echo "Building TS bindings..."
@@ -256,8 +256,8 @@ else
 		# __unmangle_inner_ptr, but the C code expects to be able to call it.
 		echo "#define __unmangle_inner_ptr(a) (a)" > src/main/jni/bindings.c
 	fi
-	echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> src/main/jni/bindings.c
-	echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> src/main/jni/bindings.c
+	cat header.c >> src/main/jni/bindings.c
+	cat header.c >> src/main/jni/bindings.c
 	cat src/main/jni/bindings.c.body >> src/main/jni/bindings.c
 	javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/*.java
 	rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class

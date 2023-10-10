@@ -103,7 +103,7 @@ public class OutPoint : CommonBase {
 		return this.eq((OutPoint)o);
 	}
 	/**
-	 * Checks if two OutPoints contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the OutPoint.
 	 */
 	public long hash() {
 		long ret = bindings.OutPoint_hash(this.ptr);

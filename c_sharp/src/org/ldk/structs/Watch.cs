@@ -93,7 +93,6 @@ public class Watch : CommonBase {
 			org.ldk.structs.OutPoint _funding_txo_hu_conv = null; if (_funding_txo < 0 || _funding_txo > 4096) { _funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, _funding_txo); }
 			if (_funding_txo_hu_conv != null) { _funding_txo_hu_conv.ptrs_to.AddLast(this); };
 			org.ldk.structs.ChannelMonitorUpdate _update_hu_conv = null; if (_update < 0 || _update > 4096) { _update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, _update); }
-			if (_update_hu_conv != null) { _update_hu_conv.ptrs_to.AddLast(this); };
 			ChannelMonitorUpdateStatus ret = arg.update_channel(_funding_txo_hu_conv, _update_hu_conv);
 				GC.KeepAlive(arg);
 			return ret;

@@ -80,8 +80,10 @@ public class InvoiceError extends CommonBase {
 
 	/**
 	 * Constructs a new InvoiceError given each field
+	 * 
+	 * Note that erroneous_field_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static InvoiceError of(org.ldk.structs.ErroneousField erroneous_field_arg, org.ldk.structs.UntrustedString message_arg) {
+	public static InvoiceError of(@Nullable org.ldk.structs.ErroneousField erroneous_field_arg, org.ldk.structs.UntrustedString message_arg) {
 		long ret = bindings.InvoiceError_new(erroneous_field_arg == null ? 0 : erroneous_field_arg.ptr, message_arg == null ? 0 : message_arg.ptr);
 		Reference.reachabilityFence(erroneous_field_arg);
 		Reference.reachabilityFence(message_arg);

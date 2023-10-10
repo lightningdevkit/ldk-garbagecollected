@@ -153,6 +153,7 @@ public class ChannelInfo : CommonBase {
 		bindings.ChannelInfo_set_capacity_sats(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**

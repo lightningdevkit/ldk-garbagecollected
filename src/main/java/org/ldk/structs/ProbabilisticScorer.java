@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * [`Score`] implementation using channel success probability distributions.
+ * [`ScoreLookUp`] implementation using channel success probability distributions.
  * 
  * Channels are tracked with upper and lower liquidity bounds - when an HTLC fails at a channel,
  * we learn that the upper-bound on the available liquidity is lower than the amount of the HTLC.
@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
  * These bounds are then used to determine a success probability using the formula from
  * Optimally Reliable & Cheap Payment Flows on the Lightning Network* by Rene Pickhardt
  * and Stefan Richter [[1]] (i.e. `(upper_bound - payment_amount) / (upper_bound - lower_bound)`).
- * 
+ * 6762, 1070
  * This probability is combined with the [`liquidity_penalty_multiplier_msat`] and
  * [`liquidity_penalty_amount_multiplier_msat`] parameters to calculate a concrete penalty in
  * milli-satoshis. The penalties, when added across all hops, have the property of being linear in
@@ -104,34 +104,89 @@ public class ProbabilisticScorer extends CommonBase {
 	 * Query the historical estimated minimum and maximum liquidity available for sending a
 	 * payment over the channel with `scid` towards the given `target` node.
 	 * 
-	 * Returns two sets of 8 buckets. The first set describes the octiles for lower-bound
-	 * liquidity estimates, the second set describes the octiles for upper-bound liquidity
-	 * estimates. Each bucket describes the relative frequency at which we've seen a liquidity
-	 * bound in the octile relative to the channel's total capacity, on an arbitrary scale.
-	 * Because the values are slowly decayed, more recent data points are weighted more heavily
-	 * than older datapoints.
+	 * Returns two sets of 32 buckets. The first set describes the lower-bound liquidity history,
+	 * the second set describes the upper-bound liquidity history. Each bucket describes the
+	 * relative frequency at which we've seen a liquidity bound in the bucket's range relative to
+	 * the channel's total capacity, on an arbitrary scale. Because the values are slowly decayed,
+	 * more recent data points are weighted more heavily than older datapoints.
 	 * 
-	 * When scoring, the estimated probability that an upper-/lower-bound lies in a given octile
-	 * relative to the channel's total capacity is calculated by dividing that bucket's value with
-	 * the total of all buckets for the given bound.
+	 * Note that the range of each bucket varies by its location to provide more granular results
+	 * at the edges of a channel's capacity, where it is more likely to sit.
 	 * 
-	 * For example, a value of `[0, 0, 0, 0, 0, 0, 32]` indicates that we believe the probability
-	 * of a bound being in the top octile to be 100%, and have never (recently) seen it in any
-	 * other octiles. A value of `[31, 0, 0, 0, 0, 0, 0, 32]` indicates we've seen the bound being
-	 * both in the top and bottom octile, and roughly with similar (recent) frequency.
+	 * When scoring, the estimated probability that an upper-/lower-bound lies in a given bucket
+	 * is calculated by dividing that bucket's value with the total value of all buckets.
+	 * 
+	 * For example, using a lower bucket count for illustrative purposes, a value of
+	 * `[0, 0, 0, ..., 0, 32]` indicates that we believe the probability of a bound being very
+	 * close to the channel's capacity to be 100%, and have never (recently) seen it in any other
+	 * bucket. A value of `[31, 0, 0, ..., 0, 0, 32]` indicates we've seen the bound being both
+	 * in the top and bottom bucket, and roughly with similar (recent) frequency.
 	 * 
 	 * Because the datapoints are decayed slowly over time, values will eventually return to
-	 * `Some(([0; 8], [0; 8]))`.
+	 * `Some(([1; 32], [1; 32]))` and then to `None` once no datapoints remain.
+	 * 
+	 * In order to fetch a single success probability from the buckets provided here, as used in
+	 * the scoring model, see [`Self::historical_estimated_payment_success_probability`].
 	 */
-	public Option_C2Tuple_EightU16sEightU16sZZ historical_estimated_channel_liquidity_probabilities(long scid, org.ldk.structs.NodeId target) {
+	public Option_C2Tuple_ThirtyTwoU16sThirtyTwoU16sZZ historical_estimated_channel_liquidity_probabilities(long scid, org.ldk.structs.NodeId target) {
 		long ret = bindings.ProbabilisticScorer_historical_estimated_channel_liquidity_probabilities(this.ptr, scid, target == null ? 0 : target.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(scid);
 		Reference.reachabilityFence(target);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_C2Tuple_ThirtyTwoU16sThirtyTwoU16sZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_ThirtyTwoU16sThirtyTwoU16sZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		if (this != null) { this.ptrs_to.add(target); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Query the probability of payment success sending the given `amount_msat` over the channel
+	 * with `scid` towards the given `target` node, based on the historical estimated liquidity
+	 * bounds.
+	 * 
+	 * These are the same bounds as returned by
+	 * [`Self::historical_estimated_channel_liquidity_probabilities`] (but not those returned by
+	 * [`Self::estimated_channel_liquidity_range`]).
+	 */
+	public Option_f64Z historical_estimated_payment_success_probability(long scid, org.ldk.structs.NodeId target, long amount_msat, org.ldk.structs.ProbabilisticScoringFeeParameters params) {
+		long ret = bindings.ProbabilisticScorer_historical_estimated_payment_success_probability(this.ptr, scid, target == null ? 0 : target.ptr, amount_msat, params == null ? 0 : params.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(scid);
+		Reference.reachabilityFence(target);
+		Reference.reachabilityFence(amount_msat);
+		Reference.reachabilityFence(params);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_f64Z ret_hu_conv = org.ldk.structs.Option_f64Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		if (this != null) { this.ptrs_to.add(target); };
+		if (this != null) { this.ptrs_to.add(params); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new ScoreLookUp which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ScoreLookUp must be freed before this_arg is
+	 */
+	public ScoreLookUp as_ScoreLookUp() {
+		long ret = bindings.ProbabilisticScorer_as_ScoreLookUp(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ScoreLookUp ret_hu_conv = new ScoreLookUp(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new ScoreUpdate which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ScoreUpdate must be freed before this_arg is
+	 */
+	public ScoreUpdate as_ScoreUpdate() {
+		long ret = bindings.ProbabilisticScorer_as_ScoreUpdate(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ScoreUpdate ret_hu_conv = new ScoreUpdate(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

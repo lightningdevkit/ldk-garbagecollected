@@ -18,18 +18,20 @@ public class DefaultRouter : CommonBase {
 	/**
 	 * Creates a new router.
 	 */
-	public static DefaultRouter of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes, org.ldk.structs.LockableScore scorer) {
-		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32), scorer == null ? 0 : scorer.ptr);
+	public static DefaultRouter of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes, org.ldk.structs.LockableScore scorer, org.ldk.structs.ProbabilisticScoringFeeParameters score_params) {
+		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32), scorer.ptr, score_params == null ? 0 : score_params.ptr);
 		GC.KeepAlive(network_graph);
 		GC.KeepAlive(logger);
 		GC.KeepAlive(random_seed_bytes);
 		GC.KeepAlive(scorer);
+		GC.KeepAlive(score_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.DefaultRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DefaultRouter(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(scorer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(score_params); };
 		return ret_hu_conv;
 	}
 

@@ -94,6 +94,9 @@ public class Confirm : CommonBase {
 		 * Returns transactions that must be monitored for reorganization out of the chain along
 		 * with the hash of the block as part of which it had been previously confirmed.
 		 * 
+		 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
+		 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
+		 * 
 		 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 		 * confirmations to be safe from a chain reorganization. Will not include any transactions
 		 * passed to [`transaction_unconfirmed`], unless later reconfirmed.
@@ -110,7 +113,7 @@ public class Confirm : CommonBase {
 		 * [`transactions_confirmed`]: Self::transactions_confirmed
 		 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 		 */
-		TwoTuple_TxidBlockHashZ[] get_relevant_txids();
+		TwoTuple_TxidCOption_BlockHashZZ[] get_relevant_txids();
 	}
 	private class LDKConfirmHolder { internal Confirm held; }
 	private class LDKConfirmImpl : bindings.LDKConfirm {
@@ -138,9 +141,9 @@ public class Confirm : CommonBase {
 				GC.KeepAlive(arg);
 		}
 		public long[] get_relevant_txids() {
-			TwoTuple_TxidBlockHashZ[] ret = arg.get_relevant_txids();
+			TwoTuple_TxidCOption_BlockHashZZ[] ret = arg.get_relevant_txids();
 				GC.KeepAlive(arg);
-			long[] result = ret != null ? InternalUtils.mapArray(ret, ret_conv_25 => ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()) : null;
+			long[] result = ret != null ? InternalUtils.mapArray(ret, ret_conv_34 => ret_conv_34 == null ? 0 : ret_conv_34.clone_ptr()) : null;
 			return result;
 		}
 	}
@@ -206,6 +209,9 @@ public class Confirm : CommonBase {
 	 * Returns transactions that must be monitored for reorganization out of the chain along
 	 * with the hash of the block as part of which it had been previously confirmed.
 	 * 
+	 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
+	 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
+	 * 
 	 * Will include any transactions passed to [`transactions_confirmed`] that have insufficient
 	 * confirmations to be safe from a chain reorganization. Will not include any transactions
 	 * passed to [`transaction_unconfirmed`], unless later reconfirmed.
@@ -222,18 +228,18 @@ public class Confirm : CommonBase {
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 	 */
-	public TwoTuple_TxidBlockHashZ[] get_relevant_txids() {
+	public TwoTuple_TxidCOption_BlockHashZZ[] get_relevant_txids() {
 		long[] ret = bindings.Confirm_get_relevant_txids(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_25_len = ret.Length;
-		TwoTuple_TxidBlockHashZ[] ret_conv_25_arr = new TwoTuple_TxidBlockHashZ[ret_conv_25_len];
-		for (int z = 0; z < ret_conv_25_len; z++) {
-			long ret_conv_25 = ret[z];
-			TwoTuple_TxidBlockHashZ ret_conv_25_hu_conv = new TwoTuple_TxidBlockHashZ(null, ret_conv_25);
-			if (ret_conv_25_hu_conv != null) { ret_conv_25_hu_conv.ptrs_to.AddLast(this); };
-			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
+		int ret_conv_34_len = ret.Length;
+		TwoTuple_TxidCOption_BlockHashZZ[] ret_conv_34_arr = new TwoTuple_TxidCOption_BlockHashZZ[ret_conv_34_len];
+		for (int i = 0; i < ret_conv_34_len; i++) {
+			long ret_conv_34 = ret[i];
+			TwoTuple_TxidCOption_BlockHashZZ ret_conv_34_hu_conv = new TwoTuple_TxidCOption_BlockHashZZ(null, ret_conv_34);
+			if (ret_conv_34_hu_conv != null) { ret_conv_34_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_34_arr[i] = ret_conv_34_hu_conv;
 		}
-		return ret_conv_25_arr;
+		return ret_conv_34_arr;
 	}
 
 }

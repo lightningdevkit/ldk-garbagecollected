@@ -141,8 +141,10 @@ public class NodeAnnouncementInfo extends CommonBase {
 
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
+	 * 
+	 * Note that announcement_message_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, org.ldk.structs.NodeAnnouncement announcement_message_arg) {
+	public static NodeAnnouncementInfo of(org.ldk.structs.NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, org.ldk.structs.NodeAlias alias_arg, @Nullable org.ldk.structs.NodeAnnouncement announcement_message_arg) {
 		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), alias_arg == null ? 0 : alias_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr);
 		Reference.reachabilityFence(features_arg);
 		Reference.reachabilityFence(last_update_arg);
@@ -196,18 +198,18 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Internet-level addresses via which one can connect to the node
 	 */
-	public NetAddress[] addresses() {
+	public SocketAddress[] addresses() {
 		long[] ret = bindings.NodeAnnouncementInfo_addresses(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_12_len = ret.length;
-		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
-			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
-			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.add(this); };
-			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		int ret_conv_15_len = ret.length;
+		SocketAddress[] ret_conv_15_arr = new SocketAddress[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = ret[p];
+			org.ldk.structs.SocketAddress ret_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(ret_conv_15);
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.add(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
-		return ret_conv_12_arr;
+		return ret_conv_15_arr;
 	}
 
 	/**

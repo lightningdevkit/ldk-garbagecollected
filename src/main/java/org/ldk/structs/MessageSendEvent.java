@@ -431,12 +431,12 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final org.ldk.structs.TxAddInput msg;
+		public final org.ldk.structs.TxAbort msg;
 		private SendTxAbort(long ptr, bindings.LDKMessageSendEvent.SendTxAbort obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
-			org.ldk.structs.TxAddInput msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAddInput(null, msg); }
+			org.ldk.structs.TxAbort msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.TxAbort(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -1034,7 +1034,7 @@ public class MessageSendEvent extends CommonBase {
 	/**
 	 * Utility method to constructs a new SendTxAbort-variant MessageSendEvent
 	 */
-	public static MessageSendEvent send_tx_abort(byte[] node_id, org.ldk.structs.TxAddInput msg) {
+	public static MessageSendEvent send_tx_abort(byte[] node_id, org.ldk.structs.TxAbort msg) {
 		long ret = bindings.MessageSendEvent_send_tx_abort(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);

@@ -46,7 +46,7 @@ public class WalletSource extends CommonBase {
 		 * Returns a script to use for change above dust resulting from a successful coin selection
 		 * attempt.
 		 */
-		Result_ScriptNoneZ get_change_script();
+		Result_CVec_u8ZNoneZ get_change_script();
 		/**
 		 * Signs and provides the full [`TxIn::script_sig`] and [`TxIn::witness`] for all inputs within
 		 * the transaction known to the wallet (i.e., any provided via
@@ -65,7 +65,7 @@ public class WalletSource extends CommonBase {
 				return result;
 			}
 			@Override public long get_change_script() {
-				Result_ScriptNoneZ ret = arg.get_change_script();
+				Result_CVec_u8ZNoneZ ret = arg.get_change_script();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -94,11 +94,11 @@ public class WalletSource extends CommonBase {
 	 * Returns a script to use for change above dust resulting from a successful coin selection
 	 * attempt.
 	 */
-	public Result_ScriptNoneZ get_change_script() {
+	public Result_CVec_u8ZNoneZ get_change_script() {
 		long ret = bindings.WalletSource_get_change_script(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ScriptNoneZ ret_hu_conv = Result_ScriptNoneZ.constr_from_ptr(ret);
+		Result_CVec_u8ZNoneZ ret_hu_conv = Result_CVec_u8ZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

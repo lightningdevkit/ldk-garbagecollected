@@ -77,8 +77,10 @@ public class Path extends CommonBase {
 
 	/**
 	 * Constructs a new Path given each field
+	 * 
+	 * Note that blinded_tail_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Path of(RouteHop[] hops_arg, org.ldk.structs.BlindedTail blinded_tail_arg) {
+	public static Path of(RouteHop[] hops_arg, @Nullable org.ldk.structs.BlindedTail blinded_tail_arg) {
 		long ret = bindings.Path_new(hops_arg != null ? Arrays.stream(hops_arg).mapToLong(hops_arg_conv_10 -> hops_arg_conv_10 == null ? 0 : hops_arg_conv_10.ptr).toArray() : null, blinded_tail_arg == null ? 0 : blinded_tail_arg.ptr);
 		Reference.reachabilityFence(hops_arg);
 		Reference.reachabilityFence(blinded_tail_arg);

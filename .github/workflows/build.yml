@@ -38,13 +38,15 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -132,13 +134,15 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
@@ -193,13 +197,15 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
@@ -308,13 +314,13 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
       - name: Fetch MacOS SDK
         run: |
           curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
@@ -445,13 +451,15 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -518,13 +526,15 @@ jobs:
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
           # Note this is a different endpoint, as we need one non-upstream commit!
-          git clone https://git.bitcoin.ninja/rust-lightning
+          git clone https://github.com/rghtningdevkit/ust-lightning
           cd rust-lightning
-          git checkout origin/2023-07-0.0.116-java-bindings
+          git checkout origin/0.0.117-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.116
+          git checkout 0.0.117
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings and check the sample app builds + links
         run: |
           cd ldk-c-bindings

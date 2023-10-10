@@ -54,6 +54,7 @@ public class Option_CVec_NetAddressZZ : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		foreach (NetAddress o_conv_12 in o) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o_conv_12); }; };
 		return ret_hu_conv;
 	}
 

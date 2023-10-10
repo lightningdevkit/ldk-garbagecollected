@@ -1,0 +1,1 @@
+export { SocketAddressParseError } from "../bindings.mjs";

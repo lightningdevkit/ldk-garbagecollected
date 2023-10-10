@@ -174,8 +174,12 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Returns the counterparty's pubkeys.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
 		Reference.reachabilityFence(this);
@@ -190,12 +194,16 @@ public class InMemorySigner extends CommonBase {
 	 * transactions, i.e., the amount of time that we have to wait to recover our funds if we
 	 * broadcast a transaction.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
 	 */
-	public short counterparty_selected_contest_delay() {
-		short ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
+	public Option_u16Z counterparty_selected_contest_delay() {
+		long ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u16Z ret_hu_conv = org.ldk.structs.Option_u16Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -203,30 +211,42 @@ public class InMemorySigner extends CommonBase {
 	 * by our counterparty, i.e., the amount of time that they have to wait to recover their funds
 	 * if they broadcast a transaction.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
 	 */
-	public short holder_selected_contest_delay() {
-		short ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
+	public Option_u16Z holder_selected_contest_delay() {
+		long ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u16Z ret_hu_conv = org.ldk.structs.Option_u16Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Returns whether the holder is the initiator.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
 	 */
-	public boolean is_outbound() {
-		boolean ret = bindings.InMemorySigner_is_outbound(this.ptr);
+	public Option_boolZ is_outbound() {
+		long ret = bindings.InMemorySigner_is_outbound(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_boolZ ret_hu_conv = org.ldk.structs.Option_boolZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Funding outpoint
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
 		Reference.reachabilityFence(this);
@@ -240,8 +260,12 @@ public class InMemorySigner extends CommonBase {
 	 * Returns a [`ChannelTransactionParameters`] for this channel, to be used when verifying or
 	 * building transactions.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
 		Reference.reachabilityFence(this);
@@ -255,8 +279,12 @@ public class InMemorySigner extends CommonBase {
 	 * Returns the channel type features of the channel parameters. Should be helpful for
 	 * determining a channel's category, i. e. legacy/anchors/taproot/etc.
 	 * 
-	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
+	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
+	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public ChannelTypeFeatures channel_type_features() {
 		long ret = bindings.InMemorySigner_channel_type_features(this.ptr);
 		Reference.reachabilityFence(this);

@@ -21,34 +21,26 @@ public class Router : CommonBase {
 
 	public interface RouterInterface {
 		/**
-		 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values.
+		 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+		 * 
+		 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+		 * and [`RouteParameters::final_value_msat`], respectively.
 		 * 
 		 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
 		Result_RouteLightningErrorZ find_route(byte[] _payer, RouteParameters _route_params, ChannelDetails[] _first_hops, InFlightHtlcs _inflight_htlcs);
 		/**
-		 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values. Includes
-		 * `PaymentHash` and `PaymentId` to be able to correlate the request with a specific payment.
+		 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+		 * 
+		 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+		 * and [`RouteParameters::final_value_msat`], respectively.
+		 * 
+		 * Includes a [`PaymentHash`] and a [`PaymentId`] to be able to correlate the request with a specific
+		 * payment.
 		 * 
 		 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
 		Result_RouteLightningErrorZ find_route_with_id(byte[] _payer, RouteParameters _route_params, ChannelDetails[] _first_hops, InFlightHtlcs _inflight_htlcs, byte[] __payment_hash, byte[] __payment_id);
-		/**
-		 * Lets the router know that payment through a specific path has failed.
-		 */
-		void notify_payment_path_failed(RouteHop[] _path, long _short_channel_id);
-		/**
-		 * Lets the router know that payment through a specific path was successful.
-		 */
-		void notify_payment_path_successful(RouteHop[] _path);
-		/**
-		 * Lets the router know that a payment probe was successful.
-		 */
-		void notify_payment_probe_successful(RouteHop[] _path);
-		/**
-		 * Lets the router know that a payment probe failed.
-		 */
-		void notify_payment_probe_failed(RouteHop[] _path, long _short_channel_id);
 	}
 	private class LDKRouterHolder { internal Router held; }
 	private class LDKRouterImpl : bindings.LDKRouter {
@@ -93,54 +85,6 @@ public class Router : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public void notify_payment_path_failed(long[] _path, long _short_channel_id) {
-			int _path_conv_10_len = _path.Length;
-			RouteHop[] _path_conv_10_arr = new RouteHop[_path_conv_10_len];
-			for (int k = 0; k < _path_conv_10_len; k++) {
-				long _path_conv_10 = _path[k];
-				org.ldk.structs.RouteHop _path_conv_10_hu_conv = null; if (_path_conv_10 < 0 || _path_conv_10 > 4096) { _path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, _path_conv_10); }
-				if (_path_conv_10_hu_conv != null) { _path_conv_10_hu_conv.ptrs_to.AddLast(this); };
-				_path_conv_10_arr[k] = _path_conv_10_hu_conv;
-			}
-			arg.notify_payment_path_failed(_path_conv_10_arr, _short_channel_id);
-				GC.KeepAlive(arg);
-		}
-		public void notify_payment_path_successful(long[] _path) {
-			int _path_conv_10_len = _path.Length;
-			RouteHop[] _path_conv_10_arr = new RouteHop[_path_conv_10_len];
-			for (int k = 0; k < _path_conv_10_len; k++) {
-				long _path_conv_10 = _path[k];
-				org.ldk.structs.RouteHop _path_conv_10_hu_conv = null; if (_path_conv_10 < 0 || _path_conv_10 > 4096) { _path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, _path_conv_10); }
-				if (_path_conv_10_hu_conv != null) { _path_conv_10_hu_conv.ptrs_to.AddLast(this); };
-				_path_conv_10_arr[k] = _path_conv_10_hu_conv;
-			}
-			arg.notify_payment_path_successful(_path_conv_10_arr);
-				GC.KeepAlive(arg);
-		}
-		public void notify_payment_probe_successful(long[] _path) {
-			int _path_conv_10_len = _path.Length;
-			RouteHop[] _path_conv_10_arr = new RouteHop[_path_conv_10_len];
-			for (int k = 0; k < _path_conv_10_len; k++) {
-				long _path_conv_10 = _path[k];
-				org.ldk.structs.RouteHop _path_conv_10_hu_conv = null; if (_path_conv_10 < 0 || _path_conv_10 > 4096) { _path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, _path_conv_10); }
-				if (_path_conv_10_hu_conv != null) { _path_conv_10_hu_conv.ptrs_to.AddLast(this); };
-				_path_conv_10_arr[k] = _path_conv_10_hu_conv;
-			}
-			arg.notify_payment_probe_successful(_path_conv_10_arr);
-				GC.KeepAlive(arg);
-		}
-		public void notify_payment_probe_failed(long[] _path, long _short_channel_id) {
-			int _path_conv_10_len = _path.Length;
-			RouteHop[] _path_conv_10_arr = new RouteHop[_path_conv_10_len];
-			for (int k = 0; k < _path_conv_10_len; k++) {
-				long _path_conv_10 = _path[k];
-				org.ldk.structs.RouteHop _path_conv_10_hu_conv = null; if (_path_conv_10 < 0 || _path_conv_10 > 4096) { _path_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, _path_conv_10); }
-				if (_path_conv_10_hu_conv != null) { _path_conv_10_hu_conv.ptrs_to.AddLast(this); };
-				_path_conv_10_arr[k] = _path_conv_10_hu_conv;
-			}
-			arg.notify_payment_probe_failed(_path_conv_10_arr, _short_channel_id);
-				GC.KeepAlive(arg);
-		}
 	}
 	public static Router new_impl(RouterInterface arg) {
 		LDKRouterHolder impl_holder = new LDKRouterHolder();
@@ -148,7 +92,10 @@ public class Router : CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values.
+	 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+	 * 
+	 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+	 * and [`RouteParameters::final_value_msat`], respectively.
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -168,8 +115,13 @@ public class Router : CommonBase {
 	}
 
 	/**
-	 * Finds a [`Route`] between `payer` and `payee` for a payment with the given values. Includes
-	 * `PaymentHash` and `PaymentId` to be able to correlate the request with a specific payment.
+	 * Finds a [`Route`] for a payment between the given `payer` and a payee.
+	 * 
+	 * The `payee` and the payment's value are given in [`RouteParameters::payment_params`]
+	 * and [`RouteParameters::final_value_msat`], respectively.
+	 * 
+	 * Includes a [`PaymentHash`] and a [`PaymentId`] to be able to correlate the request with a specific
+	 * payment.
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -188,48 +140,6 @@ public class Router : CommonBase {
 		if (first_hops != null) { foreach (ChannelDetails first_hops_conv_16 in first_hops) { if (this != null) { this.ptrs_to.AddLast(first_hops_conv_16); }; } };
 		if (this != null) { this.ptrs_to.AddLast(inflight_htlcs); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Lets the router know that payment through a specific path has failed.
-	 */
-	public void notify_payment_path_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Router_notify_payment_path_failed(this.ptr, path != null ? InternalUtils.mapArray(path, path_conv_10 => path_conv_10 == null ? 0 : path_conv_10.ptr) : null, short_channel_id);
-		GC.KeepAlive(this);
-		GC.KeepAlive(path);
-		GC.KeepAlive(short_channel_id);
-		foreach (RouteHop path_conv_10 in path) { if (this != null) { this.ptrs_to.AddLast(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that payment through a specific path was successful.
-	 */
-	public void notify_payment_path_successful(RouteHop[] path) {
-		bindings.Router_notify_payment_path_successful(this.ptr, path != null ? InternalUtils.mapArray(path, path_conv_10 => path_conv_10 == null ? 0 : path_conv_10.ptr) : null);
-		GC.KeepAlive(this);
-		GC.KeepAlive(path);
-		foreach (RouteHop path_conv_10 in path) { if (this != null) { this.ptrs_to.AddLast(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that a payment probe was successful.
-	 */
-	public void notify_payment_probe_successful(RouteHop[] path) {
-		bindings.Router_notify_payment_probe_successful(this.ptr, path != null ? InternalUtils.mapArray(path, path_conv_10 => path_conv_10 == null ? 0 : path_conv_10.ptr) : null);
-		GC.KeepAlive(this);
-		GC.KeepAlive(path);
-		foreach (RouteHop path_conv_10 in path) { if (this != null) { this.ptrs_to.AddLast(path_conv_10); }; };
-	}
-
-	/**
-	 * Lets the router know that a payment probe failed.
-	 */
-	public void notify_payment_probe_failed(RouteHop[] path, long short_channel_id) {
-		bindings.Router_notify_payment_probe_failed(this.ptr, path != null ? InternalUtils.mapArray(path, path_conv_10 => path_conv_10 == null ? 0 : path_conv_10.ptr) : null, short_channel_id);
-		GC.KeepAlive(this);
-		GC.KeepAlive(path);
-		GC.KeepAlive(short_channel_id);
-		foreach (RouteHop path_conv_10 in path) { if (this != null) { this.ptrs_to.AddLast(path_conv_10); }; };
 	}
 
 }

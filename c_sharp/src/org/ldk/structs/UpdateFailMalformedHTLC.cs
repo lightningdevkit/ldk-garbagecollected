@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An update_fail_malformed_htlc message to be sent or received from a peer
+ * An [`update_fail_malformed_htlc`] message to be sent to or received from a peer.
+ * 
+ * [`update_fail_malformed_htlc`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#removing-an-htlc-update_fulfill_htlc-update_fail_htlc-and-update_fail_malformed_htlc
  */
 public class UpdateFailMalformedHTLC : CommonBase {
 	internal UpdateFailMalformedHTLC(object _dummy, long ptr) : base(ptr) { }

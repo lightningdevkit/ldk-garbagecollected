@@ -1,9 +1,9 @@
 namespace org { namespace ldk { namespace enums {/**
- * Errors that may occur when constructing a new `RawInvoice` or `Invoice`
+ * Errors that may occur when constructing a new [`RawBolt11Invoice`] or [`Bolt11Invoice`]
  */
 public enum CreationError {
 	/**
-	 * The supplied description string was longer than 639 __bytes__ (see [`Description::new(...)`](./struct.Description.html#method.new))
+	 * The supplied description string was longer than 639 __bytes__ (see [`Description::new`])
 	 */
 	LDKCreationError_DescriptionTooLong,
 	/**
@@ -25,4 +25,10 @@ public enum CreationError {
 	 * [phantom invoices]: crate::utils::create_phantom_invoice
 	 */
 	LDKCreationError_MissingRouteHints,
+	/**
+	 * The provided `min_final_cltv_expiry_delta` was less than [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
+	 * 
+	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]: lightning::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 */
+	LDKCreationError_MinFinalCltvExpiryDeltaTooShort,
 }} } }

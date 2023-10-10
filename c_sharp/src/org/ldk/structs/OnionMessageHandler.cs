@@ -22,7 +22,7 @@ public class OnionMessageHandler : CommonBase {
 
 	public interface OnionMessageHandlerInterface {
 		/**
-		 * Handle an incoming onion_message message from the given peer.
+		 * Handle an incoming `onion_message` message from the given peer.
 		 */
 		void handle_onion_message(byte[] _peer_node_id, OnionMessage _msg);
 		/**
@@ -33,15 +33,12 @@ public class OnionMessageHandler : CommonBase {
 		 * with us. Implementors should be somewhat conservative about doing so, however, as other
 		 * message handlers may still wish to communicate with this peer.
 		 */
-		Result_NoneNoneZ peer_connected(byte[] _their_node_id, Init _init);
+		Result_NoneNoneZ peer_connected(byte[] _their_node_id, Init _init, bool _inbound);
 		/**
 		 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 		 * drop and refuse to forward onion messages to this peer.
-		 * 
-		 * Note that in some rare cases this may be called without a corresponding
-		 * [`Self::peer_connected`].
 		 */
-		void peer_disconnected(byte[] _their_node_id, bool _no_connection_possible);
+		void peer_disconnected(byte[] _their_node_id);
 		/**
 		 * Gets the node feature flags which this handler itself supports. All available handlers are
 		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
@@ -67,15 +64,15 @@ public class OnionMessageHandler : CommonBase {
 			arg.handle_onion_message(_peer_node_id, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
-		public long peer_connected(byte[] _their_node_id, long _init) {
+		public long peer_connected(byte[] _their_node_id, long _init, bool _inbound) {
 			org.ldk.structs.Init _init_hu_conv = null; if (_init < 0 || _init > 4096) { _init_hu_conv = new org.ldk.structs.Init(null, _init); }
-			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id, _init_hu_conv);
+			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id, _init_hu_conv, _inbound);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public void peer_disconnected(byte[] _their_node_id, bool _no_connection_possible) {
-			arg.peer_disconnected(_their_node_id, _no_connection_possible);
+		public void peer_disconnected(byte[] _their_node_id) {
+			arg.peer_disconnected(_their_node_id);
 				GC.KeepAlive(arg);
 		}
 		public long provided_node_features() {
@@ -107,7 +104,7 @@ public class OnionMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Handle an incoming onion_message message from the given peer.
+	 * Handle an incoming `onion_message` message from the given peer.
 	 */
 	public void handle_onion_message(byte[] peer_node_id, org.ldk.structs.OnionMessage msg) {
 		bindings.OnionMessageHandler_handle_onion_message(this.ptr, InternalUtils.check_arr_len(peer_node_id, 33), msg == null ? 0 : msg.ptr);
@@ -125,11 +122,12 @@ public class OnionMessageHandler : CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init) {
-		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, bool inbound) {
+		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr, inbound);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(init);
+		GC.KeepAlive(inbound);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(init); };
@@ -139,15 +137,11 @@ public class OnionMessageHandler : CommonBase {
 	/**
 	 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
 	 * drop and refuse to forward onion messages to this peer.
-	 * 
-	 * Note that in some rare cases this may be called without a corresponding
-	 * [`Self::peer_connected`].
 	 */
-	public void peer_disconnected(byte[] their_node_id, bool no_connection_possible) {
-		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), no_connection_possible);
+	public void peer_disconnected(byte[] their_node_id) {
+		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
-		GC.KeepAlive(no_connection_possible);
 	}
 
 	/**

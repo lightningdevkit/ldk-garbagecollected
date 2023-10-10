@@ -41,13 +41,12 @@ public class Result_NetworkGraphDecodeErrorZ : CommonBase {
 	/**
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
 	 */
-	public static Result_NetworkGraphDecodeErrorZ ok(byte[] o_genesis_hash, Logger o_logger) {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(InternalUtils.check_arr_len(o_genesis_hash, 32), o_logger == null ? 0 : o_logger.ptr));
-		GC.KeepAlive(o_genesis_hash);
+	public static Result_NetworkGraphDecodeErrorZ ok(Network o_network, Logger o_logger) {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_network, o_logger.ptr));
+		GC.KeepAlive(o_network);
 		GC.KeepAlive(o_logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
-		;
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o_logger); };
 		return ret_hu_conv;
 	}
@@ -60,6 +59,7 @@ public class Result_NetworkGraphDecodeErrorZ : CommonBase {
 		GC.KeepAlive(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(e); };
 		return ret_hu_conv;
 	}
 

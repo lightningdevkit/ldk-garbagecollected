@@ -166,8 +166,11 @@ public class ChannelTransactionParameters extends CommonBase {
 
 	/**
 	 * Constructs a new ChannelTransactionParameters given each field
+	 * 
+	 * Note that counterparty_parameters_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that funding_outpoint_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, org.ldk.structs.OutPoint funding_outpoint_arg, org.ldk.structs.ChannelTypeFeatures channel_type_features_arg) {
+	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, @Nullable org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, @Nullable org.ldk.structs.OutPoint funding_outpoint_arg, org.ldk.structs.ChannelTypeFeatures channel_type_features_arg) {
 		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, channel_type_features_arg == null ? 0 : channel_type_features_arg.ptr);
 		Reference.reachabilityFence(holder_pubkeys_arg);
 		Reference.reachabilityFence(holder_selected_contest_delay_arg);
@@ -203,6 +206,18 @@ public class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Generates a non-cryptographic 64-bit hash of the ChannelTransactionParameters.
+	 */
+	public long hash() {
+		long ret = bindings.ChannelTransactionParameters_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two ChannelTransactionParameterss contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.

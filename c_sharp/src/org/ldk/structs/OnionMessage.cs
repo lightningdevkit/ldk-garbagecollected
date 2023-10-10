@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An onion message to be sent or received from a peer
+ * An onion message to be sent to or received from a peer.
  */
 public class OnionMessage : CommonBase {
 	internal OnionMessage(object _dummy, long ptr) : base(ptr) { }

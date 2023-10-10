@@ -62,16 +62,6 @@ public class Offer extends CommonBase {
 	}
 
 	/**
-	 * Returns whether the given chain is supported by the offer.
-	 */
-	public boolean supports_chain(byte[] chain) {
-		boolean ret = bindings.Offer_supports_chain(this.ptr, InternalUtils.check_arr_len(chain, 32));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(chain);
-		return ret;
-	}
-
-	/**
 	 * Opaque bytes set by the originator. Useful for authentication and validating fields since it
 	 * is reflected in `invoice_request` messages along with all the other fields from the `offer`.
 	 */
@@ -115,8 +105,8 @@ public class Offer extends CommonBase {
 	/**
 	 * Features pertaining to the offer.
 	 */
-	public OfferFeatures features() {
-		long ret = bindings.Offer_features(this.ptr);
+	public OfferFeatures offer_features() {
+		long ret = bindings.Offer_offer_features(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OfferFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OfferFeatures(null, ret); }
@@ -129,22 +119,13 @@ public class Offer extends CommonBase {
 	 * 
 	 * If `None`, the offer does not expire.
 	 */
-	public Option_DurationZ absolute_expiry() {
+	public Option_u64Z absolute_expiry() {
 		long ret = bindings.Offer_absolute_expiry(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Whether the offer has expired.
-	 */
-	public boolean is_expired() {
-		boolean ret = bindings.Offer_is_expired(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
 	}
 
 	/**
@@ -194,6 +175,34 @@ public class Offer extends CommonBase {
 	}
 
 	/**
+	 * The public key used by the recipient to sign invoices.
+	 */
+	public byte[] signing_pubkey() {
+		byte[] ret = bindings.Offer_signing_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns whether the given chain is supported by the offer.
+	 */
+	public boolean supports_chain(byte[] chain) {
+		boolean ret = bindings.Offer_supports_chain(this.ptr, InternalUtils.check_arr_len(chain, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(chain);
+		return ret;
+	}
+
+	/**
+	 * Whether the offer has expired.
+	 */
+	public boolean is_expired() {
+		boolean ret = bindings.Offer_is_expired(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Returns whether the given quantity is valid for the offer.
 	 */
 	public boolean is_valid_quantity(long quantity) {
@@ -210,15 +219,6 @@ public class Offer extends CommonBase {
 	 */
 	public boolean expects_quantity() {
 		boolean ret = bindings.Offer_expects_quantity(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * The public key used by the recipient to sign invoices.
-	 */
-	public byte[] signing_pubkey() {
-		byte[] ret = bindings.Offer_signing_pubkey(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

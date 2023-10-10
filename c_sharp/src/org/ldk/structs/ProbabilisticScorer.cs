@@ -38,11 +38,11 @@ namespace org { namespace ldk { namespace structs {
  * behavior.
  * 
  * [1]: https://arxiv.org/abs/2107.05322
- * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_multiplier_msat
- * [`liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::liquidity_penalty_amount_multiplier_msat
- * [`liquidity_offset_half_life`]: ProbabilisticScoringParameters::liquidity_offset_half_life
- * [`historical_liquidity_penalty_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_multiplier_msat
- * [`historical_liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringParameters::historical_liquidity_penalty_amount_multiplier_msat
+ * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringFeeParameters::liquidity_penalty_multiplier_msat
+ * [`liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringFeeParameters::liquidity_penalty_amount_multiplier_msat
+ * [`liquidity_offset_half_life`]: ProbabilisticScoringDecayParameters::liquidity_offset_half_life
+ * [`historical_liquidity_penalty_multiplier_msat`]: ProbabilisticScoringFeeParameters::historical_liquidity_penalty_multiplier_msat
+ * [`historical_liquidity_penalty_amount_multiplier_msat`]: ProbabilisticScoringFeeParameters::historical_liquidity_penalty_amount_multiplier_msat
  */
 public class ProbabilisticScorer : CommonBase {
 	internal ProbabilisticScorer(object _dummy, long ptr) : base(ptr) { }
@@ -54,15 +54,15 @@ public class ProbabilisticScorer : CommonBase {
 	 * Creates a new scorer using the given scoring parameters for sending payments from a node
 	 * through a network graph.
 	 */
-	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringParameters _params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
-		long ret = bindings.ProbabilisticScorer_new(_params == null ? 0 : _params.ptr, network_graph == null ? 0 : network_graph.ptr, logger == null ? 0 : logger.ptr);
-		GC.KeepAlive(_params);
+	public static ProbabilisticScorer of(org.ldk.structs.ProbabilisticScoringDecayParameters decay_params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger) {
+		long ret = bindings.ProbabilisticScorer_new(decay_params == null ? 0 : decay_params.ptr, network_graph == null ? 0 : network_graph.ptr, logger.ptr);
+		GC.KeepAlive(decay_params);
 		GC.KeepAlive(network_graph);
 		GC.KeepAlive(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ProbabilisticScorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ProbabilisticScorer(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(_params); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(decay_params); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		return ret_hu_conv;
@@ -96,53 +96,38 @@ public class ProbabilisticScorer : CommonBase {
 	}
 
 	/**
-	 * Marks the node with the given `node_id` as banned, i.e.,
-	 * it will be avoided during path finding.
+	 * Query the historical estimated minimum and maximum liquidity available for sending a
+	 * payment over the channel with `scid` towards the given `target` node.
+	 * 
+	 * Returns two sets of 8 buckets. The first set describes the octiles for lower-bound
+	 * liquidity estimates, the second set describes the octiles for upper-bound liquidity
+	 * estimates. Each bucket describes the relative frequency at which we've seen a liquidity
+	 * bound in the octile relative to the channel's total capacity, on an arbitrary scale.
+	 * Because the values are slowly decayed, more recent data points are weighted more heavily
+	 * than older datapoints.
+	 * 
+	 * When scoring, the estimated probability that an upper-/lower-bound lies in a given octile
+	 * relative to the channel's total capacity is calculated by dividing that bucket's value with
+	 * the total of all buckets for the given bound.
+	 * 
+	 * For example, a value of `[0, 0, 0, 0, 0, 0, 32]` indicates that we believe the probability
+	 * of a bound being in the top octile to be 100%, and have never (recently) seen it in any
+	 * other octiles. A value of `[31, 0, 0, 0, 0, 0, 0, 32]` indicates we've seen the bound being
+	 * both in the top and bottom octile, and roughly with similar (recent) frequency.
+	 * 
+	 * Because the datapoints are decayed slowly over time, values will eventually return to
+	 * `Some(([0; 8], [0; 8]))`.
 	 */
-	public void add_banned(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_add_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
+	public Option_C2Tuple_EightU16sEightU16sZZ historical_estimated_channel_liquidity_probabilities(long scid, org.ldk.structs.NodeId target) {
+		long ret = bindings.ProbabilisticScorer_historical_estimated_channel_liquidity_probabilities(this.ptr, scid, target == null ? 0 : target.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(node_id);
-		if (this != null) { this.ptrs_to.AddLast(node_id); };
-	}
-
-	/**
-	 * Removes the node with the given `node_id` from the list of nodes to avoid.
-	 */
-	public void remove_banned(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_banned(this.ptr, node_id == null ? 0 : node_id.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(node_id);
-		if (this != null) { this.ptrs_to.AddLast(node_id); };
-	}
-
-	/**
-	 * Sets a manual penalty for the given node.
-	 */
-	public void set_manual_penalty(org.ldk.structs.NodeId node_id, long penalty) {
-		bindings.ProbabilisticScorer_set_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr, penalty);
-		GC.KeepAlive(this);
-		GC.KeepAlive(node_id);
-		GC.KeepAlive(penalty);
-		if (this != null) { this.ptrs_to.AddLast(node_id); };
-	}
-
-	/**
-	 * Removes the node with the given `node_id` from the list of manual penalties.
-	 */
-	public void remove_manual_penalty(org.ldk.structs.NodeId node_id) {
-		bindings.ProbabilisticScorer_remove_manual_penalty(this.ptr, node_id == null ? 0 : node_id.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(node_id);
-		if (this != null) { this.ptrs_to.AddLast(node_id); };
-	}
-
-	/**
-	 * Clears the list of manual penalties that are applied during path finding.
-	 */
-	public void clear_manual_penalties() {
-		bindings.ProbabilisticScorer_clear_manual_penalties(this.ptr);
-		GC.KeepAlive(this);
+		GC.KeepAlive(scid);
+		GC.KeepAlive(target);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_EightU16sEightU16sZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		if (this != null) { this.ptrs_to.AddLast(target); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -170,8 +155,8 @@ public class ProbabilisticScorer : CommonBase {
 	/**
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
-		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c == null ? 0 : arg_c.ptr);
+	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, org.ldk.structs.ProbabilisticScoringDecayParameters arg_a, org.ldk.structs.NetworkGraph arg_b, org.ldk.structs.Logger arg_c) {
+		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr, arg_b == null ? 0 : arg_b.ptr, arg_c.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg_a);
 		GC.KeepAlive(arg_b);

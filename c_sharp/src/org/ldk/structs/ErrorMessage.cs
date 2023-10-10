@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An error message to be sent or received from a peer
+ * An [`error`] message to be sent to or received from a peer.
+ * 
+ * [`error`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-error-and-warning-messages
  */
 public class ErrorMessage : CommonBase {
 	internal ErrorMessage(object _dummy, long ptr) : base(ptr) { }
@@ -41,8 +43,9 @@ public class ErrorMessage : CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
-	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * 
+	 * The string should be sanitized before it is used (e.g., emitted to logs or printed to
+	 * `stdout`). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public string get_data() {
@@ -53,8 +56,9 @@ public class ErrorMessage : CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
-	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * 
+	 * The string should be sanitized before it is used (e.g., emitted to logs or printed to
+	 * `stdout`). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public void set_data(string val) {

@@ -28,17 +28,17 @@ public class ParseOrSemanticError : CommonBase {
 
 	/** A ParseOrSemanticError of type ParseError */
 	public class ParseOrSemanticError_ParseError : ParseOrSemanticError {
-		public ParseError parse_error;
+		public Bolt11ParseError parse_error;
 		internal ParseOrSemanticError_ParseError(long ptr) : base(null, ptr) {
 			long parse_error = bindings.LDKParseOrSemanticError_ParseError_get_parse_error(ptr);
-			org.ldk.structs.ParseError parse_error_hu_conv = org.ldk.structs.ParseError.constr_from_ptr(parse_error);
+			org.ldk.structs.Bolt11ParseError parse_error_hu_conv = org.ldk.structs.Bolt11ParseError.constr_from_ptr(parse_error);
 			if (parse_error_hu_conv != null) { parse_error_hu_conv.ptrs_to.AddLast(this); };
 			this.parse_error = parse_error_hu_conv;
 		}
 	}
 	/** A ParseOrSemanticError of type SemanticError */
 	public class ParseOrSemanticError_SemanticError : ParseOrSemanticError {
-		public SemanticError semantic_error;
+		public Bolt11SemanticError semantic_error;
 		internal ParseOrSemanticError_SemanticError(long ptr) : base(null, ptr) {
 			this.semantic_error = bindings.LDKParseOrSemanticError_SemanticError_get_semantic_error(ptr);
 		}
@@ -64,19 +64,20 @@ public class ParseOrSemanticError : CommonBase {
 	/**
 	 * Utility method to constructs a new ParseError-variant ParseOrSemanticError
 	 */
-	public static ParseOrSemanticError parse_error(org.ldk.structs.ParseError a) {
+	public static ParseOrSemanticError parse_error(org.ldk.structs.Bolt11ParseError a) {
 		long ret = bindings.ParseOrSemanticError_parse_error(a.ptr);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParseOrSemanticError ret_hu_conv = org.ldk.structs.ParseOrSemanticError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Utility method to constructs a new SemanticError-variant ParseOrSemanticError
 	 */
-	public static ParseOrSemanticError semantic_error(SemanticError a) {
+	public static ParseOrSemanticError semantic_error(Bolt11SemanticError a) {
 		long ret = bindings.ParseOrSemanticError_semantic_error(a);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }

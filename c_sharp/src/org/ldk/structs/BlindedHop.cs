@@ -35,6 +35,35 @@ public class BlindedHop : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the BlindedHop.
+	 */
+	public long hash() {
+		long ret = bindings.BlindedHop_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
+	 * Checks if two BlindedHops contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public bool eq(org.ldk.structs.BlindedHop b) {
+		bool ret = bindings.BlindedHop_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		if (this != null) { this.ptrs_to.AddLast(b); };
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is BlindedHop)) return false;
+		return this.eq((BlindedHop)o);
+	}
+	/**
 	 * Serialize the BlindedHop object into a byte array which can be read by BlindedHop_read
 	 */
 	public byte[] write() {

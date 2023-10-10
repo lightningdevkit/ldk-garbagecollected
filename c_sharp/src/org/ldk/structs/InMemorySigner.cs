@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A simple implementation of [`Sign`] that just keeps the private keys in memory.
+ * A simple implementation of [`WriteableEcdsaChannelSigner`] that just keeps the private keys in memory.
  * 
  * This implementation performs no policy checks and is insufficient by itself as
  * a secure external signer.
@@ -149,9 +149,8 @@ public class InMemorySigner : CommonBase {
 	/**
 	 * Creates a new [`InMemorySigner`].
 	 */
-	public static InMemorySigner of(byte[] node_secret, byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(node_secret, 32), InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
-		GC.KeepAlive(node_secret);
+	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id, byte[] rand_bytes_unique_start) {
+		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32), InternalUtils.check_arr_len(rand_bytes_unique_start, 32));
 		GC.KeepAlive(funding_key);
 		GC.KeepAlive(revocation_base_key);
 		GC.KeepAlive(payment_key);
@@ -160,6 +159,7 @@ public class InMemorySigner : CommonBase {
 		GC.KeepAlive(commitment_seed);
 		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(channel_keys_id);
+		GC.KeepAlive(rand_bytes_unique_start);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -169,7 +169,7 @@ public class InMemorySigner : CommonBase {
 	/**
 	 * Returns the counterparty's pubkeys.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
@@ -185,7 +185,7 @@ public class InMemorySigner : CommonBase {
 	 * transactions, i.e., the amount of time that we have to wait to recover our funds if we
 	 * broadcast a transaction.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public short counterparty_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
@@ -198,7 +198,7 @@ public class InMemorySigner : CommonBase {
 	 * by our counterparty, i.e., the amount of time that they have to wait to recover their funds
 	 * if they broadcast a transaction.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public short holder_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
@@ -209,7 +209,7 @@ public class InMemorySigner : CommonBase {
 	/**
 	 * Returns whether the holder is the initiator.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public bool is_outbound() {
 		bool ret = bindings.InMemorySigner_is_outbound(this.ptr);
@@ -220,7 +220,7 @@ public class InMemorySigner : CommonBase {
 	/**
 	 * Funding outpoint
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
@@ -235,7 +235,7 @@ public class InMemorySigner : CommonBase {
 	 * Returns a [`ChannelTransactionParameters`] for this channel, to be used when verifying or
 	 * building transactions.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
@@ -247,14 +247,18 @@ public class InMemorySigner : CommonBase {
 	}
 
 	/**
-	 * Returns whether anchors should be used.
+	 * Returns the channel type features of the channel parameters. Should be helpful for
+	 * determining a channel's category, i. e. legacy/anchors/taproot/etc.
 	 * 
-	 * Will panic if [`BaseSign::provide_channel_parameters`] has not been called before.
+	 * Will panic if [`ChannelSigner::provide_channel_parameters`] has not been called before.
 	 */
-	public bool opt_anchors() {
-		bool ret = bindings.InMemorySigner_opt_anchors(this.ptr);
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.InMemorySigner_channel_type_features(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -304,27 +308,53 @@ public class InMemorySigner : CommonBase {
 	}
 
 	/**
-	 * Constructs a new BaseSign which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned BaseSign must be freed before this_arg is
+	 * Constructs a new EntropySource which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EntropySource must be freed before this_arg is
 	 */
-	public BaseSign as_BaseSign() {
-		long ret = bindings.InMemorySigner_as_BaseSign(this.ptr);
+	public EntropySource as_EntropySource() {
+		long ret = bindings.InMemorySigner_as_EntropySource(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		BaseSign ret_hu_conv = new BaseSign(null, ret);
+		EntropySource ret_hu_conv = new EntropySource(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Constructs a new Sign which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Sign must be freed before this_arg is
+	 * Constructs a new ChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ChannelSigner must be freed before this_arg is
 	 */
-	public Sign as_Sign() {
-		long ret = bindings.InMemorySigner_as_Sign(this.ptr);
+	public ChannelSigner as_ChannelSigner() {
+		long ret = bindings.InMemorySigner_as_ChannelSigner(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Sign ret_hu_conv = new Sign(null, ret);
+		ChannelSigner ret_hu_conv = new ChannelSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new EcdsaChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EcdsaChannelSigner must be freed before this_arg is
+	 */
+	public EcdsaChannelSigner as_EcdsaChannelSigner() {
+		long ret = bindings.InMemorySigner_as_EcdsaChannelSigner(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new WriteableEcdsaChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned WriteableEcdsaChannelSigner must be freed before this_arg is
+	 */
+	public WriteableEcdsaChannelSigner as_WriteableEcdsaChannelSigner() {
+		long ret = bindings.InMemorySigner_as_WriteableEcdsaChannelSigner(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		WriteableEcdsaChannelSigner ret_hu_conv = new WriteableEcdsaChannelSigner(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -341,12 +371,13 @@ public class InMemorySigner : CommonBase {
 	/**
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
-	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, byte[] arg) {
-		long ret = bindings.InMemorySigner_read(ser, InternalUtils.check_arr_len(arg, 32));
+	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, org.ldk.structs.EntropySource arg) {
+		long ret = bindings.InMemorySigner_read(ser, arg.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg); };
 		return ret_hu_conv;
 	}
 

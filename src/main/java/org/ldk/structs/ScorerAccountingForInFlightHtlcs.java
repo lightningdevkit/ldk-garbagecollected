@@ -9,12 +9,12 @@ import javax.annotation.Nullable;
 
 
 /**
- * [`Score`] implementation that factors in in-flight HTLC liquidity.
+ * [`ScoreLookUp`] implementation that factors in in-flight HTLC liquidity.
  * 
- * Useful for custom [`Router`] implementations to wrap their [`Score`] on-the-fly when calling
+ * Useful for custom [`Router`] implementations to wrap their [`ScoreLookUp`] on-the-fly when calling
  * [`find_route`].
  * 
- * [`Score`]: crate::routing::scoring::Score
+ * [`ScoreLookUp`]: crate::routing::scoring::ScoreLookUp
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ScorerAccountingForInFlightHtlcs extends CommonBase {
@@ -28,7 +28,7 @@ public class ScorerAccountingForInFlightHtlcs extends CommonBase {
 	/**
 	 * Initialize a new `ScorerAccountingForInFlightHtlcs`.
 	 */
-	public static ScorerAccountingForInFlightHtlcs of(org.ldk.structs.Score scorer, org.ldk.structs.InFlightHtlcs inflight_htlcs) {
+	public static ScorerAccountingForInFlightHtlcs of(org.ldk.structs.ScoreLookUp scorer, org.ldk.structs.InFlightHtlcs inflight_htlcs) {
 		long ret = bindings.ScorerAccountingForInFlightHtlcs_new(scorer.ptr, inflight_htlcs == null ? 0 : inflight_htlcs.ptr);
 		Reference.reachabilityFence(scorer);
 		Reference.reachabilityFence(inflight_htlcs);
@@ -41,23 +41,14 @@ public class ScorerAccountingForInFlightHtlcs extends CommonBase {
 	}
 
 	/**
-	 * Serialize the ScorerAccountingForInFlightHtlcs object into a byte array which can be read by ScorerAccountingForInFlightHtlcs_read
+	 * Constructs a new ScoreLookUp which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned ScoreLookUp must be freed before this_arg is
 	 */
-	public byte[] write() {
-		byte[] ret = bindings.ScorerAccountingForInFlightHtlcs_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Constructs a new Score which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Score must be freed before this_arg is
-	 */
-	public Score as_Score() {
-		long ret = bindings.ScorerAccountingForInFlightHtlcs_as_Score(this.ptr);
+	public ScoreLookUp as_ScoreLookUp() {
+		long ret = bindings.ScorerAccountingForInFlightHtlcs_as_ScoreLookUp(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Score ret_hu_conv = new Score(null, ret);
+		ScoreLookUp ret_hu_conv = new ScoreLookUp(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

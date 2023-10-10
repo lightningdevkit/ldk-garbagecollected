@@ -19,10 +19,10 @@ namespace org { namespace ldk { namespace structs {
  * [`PeerManager`] functions related to the same connection must occur only in serial, making new
  * calls only after previous ones have returned.
  * 
- * Rather than using a plain PeerManager, it is preferable to use either a SimpleArcPeerManager
- * a SimpleRefPeerManager, for conciseness. See their documentation for more details, but
- * essentially you should default to using a SimpleRefPeerManager, and use a
- * SimpleArcPeerManager when you require a PeerManager with a static lifetime, such as when
+ * Rather than using a plain [`PeerManager`], it is preferable to use either a [`SimpleArcPeerManager`]
+ * a [`SimpleRefPeerManager`], for conciseness. See their documentation for more details, but
+ * essentially you should default to using a [`SimpleRefPeerManager`], and use a
+ * [`SimpleArcPeerManager`] when you require a `PeerManager` with a static lifetime, such as when
  * you're using lightning-net-tokio.
  * 
  * [`read_event`]: PeerManager::read_event
@@ -34,8 +34,9 @@ public class PeerManager : CommonBase {
 	}
 
 	/**
-	 * Constructs a new PeerManager with the given message handlers and node_id secret key
-	 * ephemeral_random_data is used to derive per-connection ephemeral keys and must be
+	 * Constructs a new `PeerManager` with the given message handlers.
+	 * 
+	 * `ephemeral_random_data` is used to derive per-connection ephemeral keys and must be
 	 * cryptographically secure random bytes.
 	 * 
 	 * `current_time` is used as an always-increasing counter that survives across restarts and is
@@ -43,42 +44,56 @@ public class PeerManager : CommonBase {
 	 * timestamp, however if it is not available a persistent counter that increases once per
 	 * minute should suffice.
 	 */
-	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, byte[] our_node_secret, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.CustomMessageHandler custom_message_handler) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg == null ? 0 : message_handler_onion_message_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, CustomMessageHandler message_handler_custom_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.NodeSigner node_signer) {
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr, message_handler_custom_message_handler_arg.ptr), current_time, InternalUtils.check_arr_len(ephemeral_random_data, 32), logger.ptr, node_signer.ptr);
 		GC.KeepAlive(message_handler_chan_handler_arg);
 		GC.KeepAlive(message_handler_route_handler_arg);
 		GC.KeepAlive(message_handler_onion_message_handler_arg);
-		GC.KeepAlive(our_node_secret);
+		GC.KeepAlive(message_handler_custom_message_handler_arg);
 		GC.KeepAlive(current_time);
 		GC.KeepAlive(ephemeral_random_data);
 		GC.KeepAlive(logger);
-		GC.KeepAlive(custom_message_handler);
+		GC.KeepAlive(node_signer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PeerManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_chan_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_route_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_onion_message_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_custom_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(custom_message_handler); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Get the list of node ids for peers which have completed the initial handshake.
+	 * Get a list of tuples mapping from node id to network addresses for peers which have
+	 * completed the initial handshake.
 	 * 
-	 * For outbound connections, this will be the same as the their_node_id parameter passed in to
-	 * new_outbound_connection, however entries will only appear once the initial handshake has
-	 * completed and we are sure the remote peer has the private key for the given node_id.
+	 * For outbound connections, the [`PublicKey`] will be the same as the `their_node_id` parameter
+	 * passed in to [`Self::new_outbound_connection`], however entries will only appear once the initial
+	 * handshake has completed and we are sure the remote peer has the private key for the given
+	 * [`PublicKey`].
+	 * 
+	 * The returned `Option`s will only be `Some` if an address had been previously given via
+	 * [`Self::new_outbound_connection`] or [`Self::new_inbound_connection`].
 	 */
-	public byte[][] get_peer_node_ids() {
-		byte[][] ret = bindings.PeerManager_get_peer_node_ids(this.ptr);
+	public TwoTuple_PublicKeyCOption_NetAddressZZ[] get_peer_node_ids() {
+		long[] ret = bindings.PeerManager_get_peer_node_ids(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		int ret_conv_40_len = ret.Length;
+		TwoTuple_PublicKeyCOption_NetAddressZZ[] ret_conv_40_arr = new TwoTuple_PublicKeyCOption_NetAddressZZ[ret_conv_40_len];
+		for (int o = 0; o < ret_conv_40_len; o++) {
+			long ret_conv_40 = ret[o];
+			TwoTuple_PublicKeyCOption_NetAddressZZ ret_conv_40_hu_conv = new TwoTuple_PublicKeyCOption_NetAddressZZ(null, ret_conv_40);
+			if (ret_conv_40_hu_conv != null) { ret_conv_40_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
+		}
+		return ret_conv_40_arr;
 	}
 
 	/**
-	 * Indicates a new outbound connection has been established to a node with the given node_id
+	 * Indicates a new outbound connection has been established to a node with the given `node_id`
 	 * and an optional remote network address.
 	 * 
 	 * The remote network address adds the option to report a remote IP address back to a connecting
@@ -90,12 +105,12 @@ public class PeerManager : CommonBase {
 	 * Returns a small number of bytes to send to the remote node (currently always 50).
 	 * 
 	 * Panics if descriptor is duplicative with some other descriptor which has not yet been
-	 * [`socket_disconnected()`].
+	 * [`socket_disconnected`].
 	 * 
-	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
+	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
 	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
-		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
+		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor.ptr, remote_network_address.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(descriptor);
@@ -103,6 +118,7 @@ public class PeerManager : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(descriptor); };
+		if (this != null) { this.ptrs_to.AddLast(remote_network_address); };
 		return ret_hu_conv;
 	}
 
@@ -119,18 +135,19 @@ public class PeerManager : CommonBase {
 	 * the connection immediately.
 	 * 
 	 * Panics if descriptor is duplicative with some other descriptor which has not yet been
-	 * [`socket_disconnected()`].
+	 * [`socket_disconnected`].
 	 * 
-	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
+	 * [`socket_disconnected`]: PeerManager::socket_disconnected
 	 */
 	public Result_NonePeerHandleErrorZ new_inbound_connection(org.ldk.structs.SocketDescriptor descriptor, org.ldk.structs.Option_NetAddressZ remote_network_address) {
-		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
+		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor.ptr, remote_network_address.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(descriptor);
 		GC.KeepAlive(remote_network_address);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(descriptor); };
+		if (this != null) { this.ptrs_to.AddLast(remote_network_address); };
 		return ret_hu_conv;
 	}
 
@@ -142,14 +159,14 @@ public class PeerManager : CommonBase {
 	 * May call [`send_data`] on the descriptor passed in (or an equal descriptor) before
 	 * returning. Thus, be very careful with reentrancy issues! The invariants around calling
 	 * [`write_buffer_space_avail`] in case a write did not fully complete must still hold - be
-	 * ready to call `[write_buffer_space_avail`] again if a write call generated here isn't
+	 * ready to call [`write_buffer_space_avail`] again if a write call generated here isn't
 	 * sufficient!
 	 * 
 	 * [`send_data`]: SocketDescriptor::send_data
 	 * [`write_buffer_space_avail`]: PeerManager::write_buffer_space_avail
 	 */
 	public Result_NonePeerHandleErrorZ write_buffer_space_avail(org.ldk.structs.SocketDescriptor descriptor) {
-		long ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0 : descriptor.ptr);
+		long ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -170,11 +187,14 @@ public class PeerManager : CommonBase {
 	 * [`send_data`] call on this descriptor has `resume_read` set (preventing DoS issues in the
 	 * send buffer).
 	 * 
+	 * In order to avoid processing too many messages at once per peer, `data` should be on the
+	 * order of 4KiB.
+	 * 
 	 * [`send_data`]: SocketDescriptor::send_data
 	 * [`process_events`]: PeerManager::process_events
 	 */
 	public Result_boolPeerHandleErrorZ read_event(org.ldk.structs.SocketDescriptor peer_descriptor, byte[] data) {
-		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : peer_descriptor.ptr, data);
+		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor.ptr, data);
 		GC.KeepAlive(this);
 		GC.KeepAlive(peer_descriptor);
 		GC.KeepAlive(data);
@@ -211,7 +231,7 @@ public class PeerManager : CommonBase {
 	 * Indicates that the given socket descriptor's connection is now closed.
 	 */
 	public void socket_disconnected(org.ldk.structs.SocketDescriptor descriptor) {
-		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : descriptor.ptr);
+		bindings.PeerManager_socket_disconnected(this.ptr, descriptor.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(descriptor);
 	}
@@ -219,19 +239,15 @@ public class PeerManager : CommonBase {
 	/**
 	 * Disconnect a peer given its node id.
 	 * 
-	 * Set `no_connection_possible` to true to prevent any further connection with this peer,
-	 * force-closing any channels we have with it.
-	 * 
 	 * If a peer is connected, this will call [`disconnect_socket`] on the descriptor for the
 	 * peer. Thus, be very careful about reentrancy issues.
 	 * 
 	 * [`disconnect_socket`]: SocketDescriptor::disconnect_socket
 	 */
-	public void disconnect_by_node_id(byte[] node_id, bool no_connection_possible) {
-		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33), no_connection_possible);
+	public void disconnect_by_node_id(byte[] node_id) {
+		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33));
 		GC.KeepAlive(this);
 		GC.KeepAlive(node_id);
-		GC.KeepAlive(no_connection_possible);
 	}
 
 	/**
@@ -285,6 +301,7 @@ public class PeerManager : CommonBase {
 		GC.KeepAlive(rgb);
 		GC.KeepAlive(alias);
 		GC.KeepAlive(addresses);
+		foreach (NetAddress addresses_conv_12 in addresses) { if (this != null) { this.ptrs_to.AddLast(addresses_conv_12); }; };
 	}
 
 }

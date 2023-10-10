@@ -41,22 +41,13 @@ Status
 
 ## Java
 
-While the underlying library and C bindings are relatively mature, the Java bindings should be
-considered beta quality and some issues may still appear. Specifically, because the Java bindings
-map between two very different memory models - Rust's strict ownership model and Java's reference
-cloning and garbage collection - a lot of work occurs in the background to keep the Java GC
-informed of Rust ownership semantics.
-
-The debug-mode build includes memory leak tracking and will print all loose objects when the
-program exists, though without calls to `System.gc(); System.runFinalization();` immediately before
-exit there will likely be many false positives. While it will require some complicated usage, there
-are likely some use-after-free or unkonwn-free bugs remaining. The debug-mode build links LLVM
-address sanitizer and will print diagnostic information in case of such issues.
+The Java bindings are relatively mature, and should be considered safe for production use. Still,
+as they have relatively few users, unexpected issues remain possible, and bug reports are welcome.
 
 ## TypeScript
 
-The TypeScript bindings are functionally complete, but should be considered early alpha quality.
-Some functions may error spuriously due to oversights or missing implementations.
+The TypeScript bindings are functionally complete, but should be considered beta quality. As there
+are relatively few users, unexpected issues remain likely, and bug reports are welcome.
 
 The TypeScript bindings require modern web standards, including support for `FinalizationRegistry`
 and `WeakRef` (Chrome 84, Firefox 79, Safari 14.1/iOS 14.5 and Node 14.6) and WASM BigInt support

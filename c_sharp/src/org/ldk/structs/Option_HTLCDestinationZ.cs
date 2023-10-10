@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * An enum which can either contain a crate::lightning::util::events::HTLCDestination or not
+ * An enum which can either contain a crate::lightning::events::HTLCDestination or not
  */
 public class Option_HTLCDestinationZ : CommonBase {
 	protected Option_HTLCDestinationZ(object _dummy, long ptr) : base(ptr) { }
@@ -40,7 +40,7 @@ public class Option_HTLCDestinationZ : CommonBase {
 		}
 	}
 	/**
-	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::util::events::HTLCDestination
+	 * Constructs a new COption_HTLCDestinationZ containing a crate::lightning::events::HTLCDestination
 	 */
 	public static Option_HTLCDestinationZ some(org.ldk.structs.HTLCDestination o) {
 		long ret = bindings.COption_HTLCDestinationZ_some(o.ptr);
@@ -48,6 +48,7 @@ public class Option_HTLCDestinationZ : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_HTLCDestinationZ ret_hu_conv = org.ldk.structs.Option_HTLCDestinationZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o); };
 		return ret_hu_conv;
 	}
 

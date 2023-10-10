@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A pong message to be sent or received from a peer
+ * A [`pong`] message to be sent to or received from a peer.
+ * 
+ * [`pong`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-ping-and-pong-messages
  */
 public class Pong : CommonBase {
 	internal Pong(object _dummy, long ptr) : base(ptr) { }
@@ -17,6 +19,7 @@ public class Pong : CommonBase {
 
 	/**
 	 * The pong packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public short get_byteslen() {
@@ -27,6 +30,7 @@ public class Pong : CommonBase {
 
 	/**
 	 * The pong packet size.
+	 * 
 	 * This field is not sent on the wire. byteslen zeros are sent.
 	 */
 	public void set_byteslen(short val) {

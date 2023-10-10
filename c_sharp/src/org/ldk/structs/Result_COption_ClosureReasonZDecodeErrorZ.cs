@@ -46,6 +46,7 @@ public class Result_COption_ClosureReasonZDecodeErrorZ : CommonBase {
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(o); };
 		return ret_hu_conv;
 	}
 
@@ -57,6 +58,7 @@ public class Result_COption_ClosureReasonZDecodeErrorZ : CommonBase {
 		GC.KeepAlive(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(e); };
 		return ret_hu_conv;
 	}
 

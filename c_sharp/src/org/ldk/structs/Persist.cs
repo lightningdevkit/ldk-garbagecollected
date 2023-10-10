@@ -115,6 +115,7 @@ public class Persist : CommonBase {
 			org.ldk.structs.OutPoint _channel_id_hu_conv = null; if (_channel_id < 0 || _channel_id > 4096) { _channel_id_hu_conv = new org.ldk.structs.OutPoint(null, _channel_id); }
 			if (_channel_id_hu_conv != null) { _channel_id_hu_conv.ptrs_to.AddLast(this); };
 			org.ldk.structs.ChannelMonitorUpdate _update_hu_conv = null; if (_update < 0 || _update > 4096) { _update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, _update); }
+			if (_update_hu_conv != null) { _update_hu_conv.ptrs_to.AddLast(this); };
 			org.ldk.structs.ChannelMonitor _data_hu_conv = null; if (_data < 0 || _data > 4096) { _data_hu_conv = new org.ldk.structs.ChannelMonitor(null, _data); }
 			org.ldk.structs.MonitorUpdateId _update_id_hu_conv = null; if (_update_id < 0 || _update_id > 4096) { _update_id_hu_conv = new org.ldk.structs.MonitorUpdateId(null, _update_id); }
 			if (_update_id_hu_conv != null) { _update_id_hu_conv.ptrs_to.AddLast(this); };

@@ -84,19 +84,19 @@ function arr_eq(a: number[]|Uint8Array, b: number[]|Uint8Array): boolean {
 }
 
 const v4_parse = node_net.NodeLDKNet["v4_addr_from_ip"];
-console.assert((v4_parse("127.0.0.1", 4242) as ldk.NetAddress_IPv4).port == 4242);
-console.assert(arr_eq((v4_parse("127.0.0.1", 4242) as ldk.NetAddress_IPv4).addr, [127,0,0,1]));
-console.assert(arr_eq((v4_parse("0.0.0.0", 4242) as ldk.NetAddress_IPv4).addr, [0,0,0,0]));
+console.assert((v4_parse("127.0.0.1", 4242) as ldk.SocketAddress_TcpIpV4).port == 4242);
+console.assert(arr_eq((v4_parse("127.0.0.1", 4242) as ldk.SocketAddress_TcpIpV4).addr, [127,0,0,1]));
+console.assert(arr_eq((v4_parse("0.0.0.0", 4242) as ldk.SocketAddress_TcpIpV4).addr, [0,0,0,0]));
 
 const v6_parse = node_net.NodeLDKNet["v6_addr_from_ip"];
-console.assert((v6_parse("::", 4242) as ldk.NetAddress_IPv4).port == 4242);
-console.assert(arr_eq((v6_parse("::", 4242) as ldk.NetAddress_IPv6).addr,
+console.assert((v6_parse("::", 4242) as ldk.SocketAddress_TcpIpV4).port == 4242);
+console.assert(arr_eq((v6_parse("::", 4242) as ldk.SocketAddress_TcpIpV6).addr,
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]));
-console.assert(arr_eq((v6_parse("fe80::", 4242) as ldk.NetAddress_IPv6).addr,
+console.assert(arr_eq((v6_parse("fe80::", 4242) as ldk.SocketAddress_TcpIpV6).addr,
 	[0xfe,0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0]));
-console.assert(arr_eq((v6_parse("fe80::42", 4242) as ldk.NetAddress_IPv6).addr,
+console.assert(arr_eq((v6_parse("fe80::42", 4242) as ldk.SocketAddress_TcpIpV6).addr,
 	[0xfe,0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0x42]));
-console.assert(arr_eq((v6_parse("fe80:A:b::", 4242) as ldk.NetAddress_IPv6).addr,
+console.assert(arr_eq((v6_parse("fe80:A:b::", 4242) as ldk.SocketAddress_TcpIpV6).addr,
 	[0xfe,0x80,0,0xa,0,0xb,0,0,0,0,0,0,0,0,0,0]));
-console.assert(arr_eq((v6_parse("2001:1:bad::beef:cafe", 4242) as ldk.NetAddress_IPv6).addr,
+console.assert(arr_eq((v6_parse("2001:1:bad::beef:cafe", 4242) as ldk.SocketAddress_TcpIpV6).addr,
 	[0x20, 0x01, 0, 1, 0xb, 0xad, 0, 0, 0, 0, 0, 0, 0xbe, 0xef, 0xca, 0xfe]));

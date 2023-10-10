@@ -127,11 +127,11 @@ public class BackgroundProcessor extends CommonBase {
 	 * 
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 */
-	public Result_NoneErrorZ join() {
+	public Result_NoneIOErrorZ join() {
 		long ret = bindings.BackgroundProcessor_join(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		Result_NoneIOErrorZ ret_hu_conv = Result_NoneIOErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(this); };
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.
@@ -155,11 +155,11 @@ public class BackgroundProcessor extends CommonBase {
 	 * 
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 */
-	public Result_NoneErrorZ stop() {
+	public Result_NoneIOErrorZ stop() {
 		long ret = bindings.BackgroundProcessor_stop(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		Result_NoneIOErrorZ ret_hu_conv = Result_NoneIOErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(this); };
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
 		// an object to pass exclusive ownership to the function being called.

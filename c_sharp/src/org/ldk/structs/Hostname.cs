@@ -11,7 +11,9 @@ namespace org { namespace ldk { namespace structs {
  * Only the character set and length will be validated.
  * The character set consists of ASCII alphanumeric characters, hyphens, and periods.
  * Its length is guaranteed to be representable by a single byte.
- * This serialization is used by BOLT 7 hostnames.
+ * This serialization is used by [`BOLT 7`] hostnames.
+ * 
+ * [`BOLT 7`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md
  */
 public class Hostname : CommonBase {
 	internal Hostname(object _dummy, long ptr) : base(ptr) { }
@@ -61,6 +63,26 @@ public class Hostname : CommonBase {
 		byte ret = bindings.Hostname_len(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
+	}
+
+	/**
+	 * Serialize the Hostname object into a byte array which can be read by Hostname_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Hostname_write(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Read a Hostname from a byte array, created by Hostname_write
+	 */
+	public static Result_HostnameDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Hostname_read(ser);
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_HostnameDecodeErrorZ ret_hu_conv = Result_HostnameDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

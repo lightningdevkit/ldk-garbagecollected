@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An update_fee message to be sent or received from a peer
+ * An [`update_fee`] message to be sent to or received from a peer
+ * 
+ * [`update_fee`]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#updating-fees-update_fee
  */
 public class UpdateFee : CommonBase {
 	internal UpdateFee(object _dummy, long ptr) : base(ptr) { }

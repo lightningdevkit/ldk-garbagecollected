@@ -54,8 +54,8 @@ public class BestBlock : CommonBase {
 	 * Constructs a `BestBlock` that represents the genesis block at height 0 of the given
 	 * network.
 	 */
-	public static BestBlock from_genesis(Network network) {
-		long ret = bindings.BestBlock_from_genesis(network);
+	public static BestBlock from_network(Network network) {
+		long ret = bindings.BestBlock_from_network(network);
 		GC.KeepAlive(network);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BestBlock(null, ret); }

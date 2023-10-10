@@ -110,6 +110,7 @@ public class RouteHintHop : CommonBase {
 		bindings.RouteHintHop_set_htlc_minimum_msat(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -131,6 +132,7 @@ public class RouteHintHop : CommonBase {
 		bindings.RouteHintHop_set_htlc_maximum_msat(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
@@ -148,6 +150,8 @@ public class RouteHintHop : CommonBase {
 		org.ldk.structs.RouteHintHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHintHop(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fees_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(htlc_minimum_msat_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(htlc_maximum_msat_arg); };
 		return ret_hu_conv;
 	}
 
@@ -170,7 +174,7 @@ public class RouteHintHop : CommonBase {
 	}
 
 	/**
-	 * Checks if two RouteHintHops contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RouteHintHop.
 	 */
 	public long hash() {
 		long ret = bindings.RouteHintHop_hash(this.ptr);

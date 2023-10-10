@@ -48,6 +48,9 @@ public class ClosureReason extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel.class) {
 			return new CounterpartyCoopClosedUnfundedChannel(ptr, (bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKClosureReason.FundingBatchClosure.class) {
+			return new FundingBatchClosure(ptr, (bindings.LDKClosureReason.FundingBatchClosure)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -161,6 +164,15 @@ public class ClosureReason extends CommonBase {
 	 */
 	public final static class CounterpartyCoopClosedUnfundedChannel extends ClosureReason {
 		private CounterpartyCoopClosedUnfundedChannel(long ptr, bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel obj) {
+			super(null, ptr);
+		}
+	}
+	/**
+	 * Another channel in the same funding batch closed before the funding transaction
+	 * was ready to be broadcast.
+	 */
+	public final static class FundingBatchClosure extends ClosureReason {
+		private FundingBatchClosure(long ptr, bindings.LDKClosureReason.FundingBatchClosure obj) {
 			super(null, ptr);
 		}
 	}
@@ -278,6 +290,17 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason counterparty_coop_closed_unfunded_channel() {
 		long ret = bindings.ClosureReason_counterparty_coop_closed_unfunded_channel();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new FundingBatchClosure-variant ClosureReason
+	 */
+	public static ClosureReason funding_batch_closure() {
+		long ret = bindings.ClosureReason_funding_batch_closure();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

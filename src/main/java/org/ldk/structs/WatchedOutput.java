@@ -33,11 +33,11 @@ public class WatchedOutput extends CommonBase {
 	/**
 	 * First block where the transaction output may have been spent.
 	 */
-	public Option_BlockHashZ get_block_hash() {
+	public Option_ThirtyTwoBytesZ get_block_hash() {
 		long ret = bindings.WatchedOutput_get_block_hash(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_BlockHashZ ret_hu_conv = org.ldk.structs.Option_BlockHashZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -45,7 +45,7 @@ public class WatchedOutput extends CommonBase {
 	/**
 	 * First block where the transaction output may have been spent.
 	 */
-	public void set_block_hash(org.ldk.structs.Option_BlockHashZ val) {
+	public void set_block_hash(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
 		bindings.WatchedOutput_set_block_hash(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -95,7 +95,7 @@ public class WatchedOutput extends CommonBase {
 	/**
 	 * Constructs a new WatchedOutput given each field
 	 */
-	public static WatchedOutput of(org.ldk.structs.Option_BlockHashZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
+	public static WatchedOutput of(org.ldk.structs.Option_ThirtyTwoBytesZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
 		long ret = bindings.WatchedOutput_new(block_hash_arg.ptr, outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
 		Reference.reachabilityFence(block_hash_arg);
 		Reference.reachabilityFence(outpoint_arg);

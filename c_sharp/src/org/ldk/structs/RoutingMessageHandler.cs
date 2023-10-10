@@ -10,8 +10,8 @@ namespace org { namespace ldk { namespace structs {
  * 
  * # Implementor DoS Warnings
  * 
- * For `gossip_queries` messages there are potential DoS vectors when handling
- * inbound queries. Implementors using an on-disk network graph should be aware of
+ * For messages enabled with the `gossip_queries` feature there are potential DoS vectors when
+ * handling inbound queries. Implementors using an on-disk network graph should be aware of
  * repeated disk I/O for queries accessing different parts of the network graph.
  */
 public class RoutingMessageHandler : CommonBase {
@@ -28,36 +28,36 @@ public class RoutingMessageHandler : CommonBase {
 
 	public interface RoutingMessageHandlerInterface {
 		/**
-		 * Handle an incoming node_announcement message, returning true if it should be forwarded on,
-		 * false or returning an Err otherwise.
+		 * Handle an incoming `node_announcement` message, returning `true` if it should be forwarded on,
+		 * `false` or returning an `Err` otherwise.
 		 */
 		Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement _msg);
 		/**
-		 * Handle a channel_announcement message, returning true if it should be forwarded on, false
-		 * or returning an Err otherwise.
+		 * Handle a `channel_announcement` message, returning `true` if it should be forwarded on, `false`
+		 * or returning an `Err` otherwise.
 		 */
 		Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement _msg);
 		/**
-		 * Handle an incoming channel_update message, returning true if it should be forwarded on,
-		 * false or returning an Err otherwise.
+		 * Handle an incoming `channel_update` message, returning true if it should be forwarded on,
+		 * `false` or returning an `Err` otherwise.
 		 */
 		Result_boolLightningErrorZ handle_channel_update(ChannelUpdate _msg);
 		/**
 		 * Gets channel announcements and updates required to dump our routing table to a remote node,
-		 * starting at the short_channel_id indicated by starting_point and including announcements
+		 * starting at the `short_channel_id` indicated by `starting_point` and including announcements
 		 * for a single channel.
 		 */
 		Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcement(long _starting_point);
 		/**
 		 * Gets a node announcement required to dump our routing table to a remote node, starting at
 		 * the node *after* the provided pubkey and including up to one announcement immediately
-		 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
-		 * If None is provided for starting_point, we start at the first node.
+		 * higher (as defined by `<PublicKey as Ord>::cmp`) than `starting_point`.
+		 * If `None` is provided for `starting_point`, we start at the first node.
 		 * 
 		 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
-		NodeAnnouncement get_next_node_announcement(byte[] _starting_point);
+		NodeAnnouncement get_next_node_announcement(NodeId _starting_point);
 		/**
 		 * Called when a connection is established with a peer. This can be used to
 		 * perform routing table synchronization using a strategy defined by the
@@ -67,7 +67,7 @@ public class RoutingMessageHandler : CommonBase {
 		 * with us. Implementors should be somewhat conservative about doing so, however, as other
 		 * message handlers may still wish to communicate with this peer.
 		 */
-		Result_NoneNoneZ peer_connected(byte[] _their_node_id, Init _init);
+		Result_NoneNoneZ peer_connected(byte[] _their_node_id, Init _init, bool _inbound);
 		/**
 		 * Handles the reply of a query we initiated to learn about channels
 		 * for a given range of blocks. We can expect to receive one or more
@@ -82,15 +82,22 @@ public class RoutingMessageHandler : CommonBase {
 		 */
 		Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] _their_node_id, ReplyShortChannelIdsEnd _msg);
 		/**
-		 * Handles when a peer asks us to send a list of short_channel_ids
+		 * Handles when a peer asks us to send a list of `short_channel_id`s
 		 * for the requested range of blocks.
 		 */
 		Result_NoneLightningErrorZ handle_query_channel_range(byte[] _their_node_id, QueryChannelRange _msg);
 		/**
 		 * Handles when a peer asks us to send routing gossip messages for a
-		 * list of short_channel_ids.
+		 * list of `short_channel_id`s.
 		 */
 		Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] _their_node_id, QueryShortChannelIds _msg);
+		/**
+		 * Indicates that there are a large number of [`ChannelAnnouncement`] (or other) messages
+		 * pending some async action. While there is no guarantee of the rate of future messages, the
+		 * caller should seek to reduce the rate of new gossip messages handled, especially
+		 * [`ChannelAnnouncement`]s.
+		 */
+		bool processing_queue_high();
 		/**
 		 * Gets the node feature flags which this handler itself supports. All available handlers are
 		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
@@ -136,17 +143,20 @@ public class RoutingMessageHandler : CommonBase {
 			Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret = arg.get_next_channel_announcement(_starting_point);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
+			if (impl_holder.held != null) { impl_holder.held.ptrs_to.AddLast(ret); };
 			return result;
 		}
-		public long get_next_node_announcement(byte[] _starting_point) {
-			NodeAnnouncement ret = arg.get_next_node_announcement(_starting_point);
+		public long get_next_node_announcement(long _starting_point) {
+			org.ldk.structs.NodeId _starting_point_hu_conv = null; if (_starting_point < 0 || _starting_point > 4096) { _starting_point_hu_conv = new org.ldk.structs.NodeId(null, _starting_point); }
+			if (_starting_point_hu_conv != null) { _starting_point_hu_conv.ptrs_to.AddLast(this); };
+			NodeAnnouncement ret = arg.get_next_node_announcement(_starting_point_hu_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public long peer_connected(byte[] _their_node_id, long _init) {
+		public long peer_connected(byte[] _their_node_id, long _init, bool _inbound) {
 			org.ldk.structs.Init _init_hu_conv = null; if (_init < 0 || _init > 4096) { _init_hu_conv = new org.ldk.structs.Init(null, _init); }
-			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id, _init_hu_conv);
+			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id, _init_hu_conv, _inbound);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
@@ -183,6 +193,11 @@ public class RoutingMessageHandler : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
+		public bool processing_queue_high() {
+			bool ret = arg.processing_queue_high();
+				GC.KeepAlive(arg);
+			return ret;
+		}
 		public long provided_node_features() {
 			NodeFeatures ret = arg.provided_node_features();
 				GC.KeepAlive(arg);
@@ -212,8 +227,8 @@ public class RoutingMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Handle an incoming node_announcement message, returning true if it should be forwarded on,
-	 * false or returning an Err otherwise.
+	 * Handle an incoming `node_announcement` message, returning `true` if it should be forwarded on,
+	 * `false` or returning an `Err` otherwise.
 	 */
 	public Result_boolLightningErrorZ handle_node_announcement(org.ldk.structs.NodeAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : msg.ptr);
@@ -226,8 +241,8 @@ public class RoutingMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Handle a channel_announcement message, returning true if it should be forwarded on, false
-	 * or returning an Err otherwise.
+	 * Handle a `channel_announcement` message, returning `true` if it should be forwarded on, `false`
+	 * or returning an `Err` otherwise.
 	 */
 	public Result_boolLightningErrorZ handle_channel_announcement(org.ldk.structs.ChannelAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr);
@@ -240,8 +255,8 @@ public class RoutingMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Handle an incoming channel_update message, returning true if it should be forwarded on,
-	 * false or returning an Err otherwise.
+	 * Handle an incoming `channel_update` message, returning true if it should be forwarded on,
+	 * `false` or returning an `Err` otherwise.
 	 */
 	public Result_boolLightningErrorZ handle_channel_update(org.ldk.structs.ChannelUpdate msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : msg.ptr);
@@ -255,7 +270,7 @@ public class RoutingMessageHandler : CommonBase {
 
 	/**
 	 * Gets channel announcements and updates required to dump our routing table to a remote node,
-	 * starting at the short_channel_id indicated by starting_point and including announcements
+	 * starting at the `short_channel_id` indicated by `starting_point` and including announcements
 	 * for a single channel.
 	 */
 	public Option_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcement(long starting_point) {
@@ -271,19 +286,20 @@ public class RoutingMessageHandler : CommonBase {
 	/**
 	 * Gets a node announcement required to dump our routing table to a remote node, starting at
 	 * the node *after* the provided pubkey and including up to one announcement immediately
-	 * higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
-	 * If None is provided for starting_point, we start at the first node.
+	 * higher (as defined by `<PublicKey as Ord>::cmp`) than `starting_point`.
+	 * If `None` is provided for `starting_point`, we start at the first node.
 	 * 
 	 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public NodeAnnouncement get_next_node_announcement(byte[] starting_point) {
-		long ret = bindings.RoutingMessageHandler_get_next_node_announcement(this.ptr, InternalUtils.check_arr_len(starting_point, 33));
+	public NodeAnnouncement get_next_node_announcement(org.ldk.structs.NodeId starting_point) {
+		long ret = bindings.RoutingMessageHandler_get_next_node_announcement(this.ptr, starting_point == null ? 0 : starting_point.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(starting_point);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		if (this != null) { this.ptrs_to.AddLast(starting_point); };
 		return ret_hu_conv;
 	}
 
@@ -296,11 +312,12 @@ public class RoutingMessageHandler : CommonBase {
 	 * with us. Implementors should be somewhat conservative about doing so, however, as other
 	 * message handlers may still wish to communicate with this peer.
 	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init) {
-		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr);
+	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, bool inbound) {
+		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr, inbound);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(init);
+		GC.KeepAlive(inbound);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(init); };
@@ -341,7 +358,7 @@ public class RoutingMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Handles when a peer asks us to send a list of short_channel_ids
+	 * Handles when a peer asks us to send a list of `short_channel_id`s
 	 * for the requested range of blocks.
 	 */
 	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, org.ldk.structs.QueryChannelRange msg) {
@@ -357,7 +374,7 @@ public class RoutingMessageHandler : CommonBase {
 
 	/**
 	 * Handles when a peer asks us to send routing gossip messages for a
-	 * list of short_channel_ids.
+	 * list of `short_channel_id`s.
 	 */
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, org.ldk.structs.QueryShortChannelIds msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
@@ -368,6 +385,18 @@ public class RoutingMessageHandler : CommonBase {
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Indicates that there are a large number of [`ChannelAnnouncement`] (or other) messages
+	 * pending some async action. While there is no guarantee of the rate of future messages, the
+	 * caller should seek to reduce the rate of new gossip messages handled, especially
+	 * [`ChannelAnnouncement`]s.
+	 */
+	public bool processing_queue_high() {
+		bool ret = bindings.RoutingMessageHandler_processing_queue_high(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 	/**

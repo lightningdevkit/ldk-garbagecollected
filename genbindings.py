@@ -133,27 +133,15 @@ def java_c_types(fn_arg, ret_arr_len):
     rust_obj = None
     arr_access = None
     java_hu_ty = None
-    if fn_arg.startswith("LDKPaymentPreimage") or fn_arg.startswith("LDKPaymentSecret") or fn_arg.startswith("LDKPaymentHash") or fn_arg.startswith("LDKChainHash"):
-        if fn_arg.startswith("LDKPaymentPreimage"):
-            fn_arg = "uint8_t (*" + fn_arg[19:] + ")[32]"
-        elif fn_arg.startswith("LDKPaymentSecret"):
-            fn_arg = "uint8_t (*" + fn_arg[17:] + ")[32]"
-        elif fn_arg.startswith("LDKPaymentHash"):
-            fn_arg = "uint8_t (*" + fn_arg[15:] + ")[32]"
-        elif fn_arg.startswith("LDKChainHash"):
-            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[32]"
-        assert var_is_arr_regex.match(fn_arg[8:])
-        rust_obj = "LDKThirtyTwoBytes"
-        arr_access = "data"
-    elif fn_arg.startswith("LDKThirtyTwoBytes"):
+    if fn_arg.startswith("LDKThirtyTwoBytes"):
         fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
-    elif fn_arg.startswith("LDKEightU16s"):
-        fn_arg = "uint16_t (*" + fn_arg[13:] + ")[8]"
+    elif fn_arg.startswith("LDKThirtyTwoU16s"):
+        fn_arg = "uint16_t (*" + fn_arg[17:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[9:])
-        rust_obj = "LDKEightU16s"
+        rust_obj = "LDKThirtyTwoU16s"
         arr_access = "data"
     elif fn_arg.startswith("LDKU128"):
         if fn_arg == "LDKU128":
@@ -165,11 +153,6 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKU128"
         arr_access = "le_bytes"
-    elif fn_arg.startswith("LDKTxid"):
-        fn_arg = "uint8_t (*" + fn_arg[8:] + ")[32]"
-        assert var_is_arr_regex.match(fn_arg[8:])
-        rust_obj = "LDKThirtyTwoBytes"
-        arr_access = "data"
     elif fn_arg.startswith("LDKPublicKey"):
         fn_arg = "uint8_t (*" + fn_arg[13:] + ")[33]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -180,10 +163,15 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKSecretKey"
         arr_access = "bytes"
-    elif fn_arg.startswith("LDKSignature"):
-        fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
+    elif fn_arg.startswith("LDKECDSASignature"):
+        fn_arg = "uint8_t (*" + fn_arg[18:] + ")[64]"
         assert var_is_arr_regex.match(fn_arg[8:])
-        rust_obj = "LDKSignature"
+        rust_obj = "LDKECDSASignature"
+        arr_access = "compact_form"
+    elif fn_arg.startswith("LDKSchnorrSignature"):
+        fn_arg = "uint8_t (*" + fn_arg[20:] + ")[64]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKSchnorrSignature"
         arr_access = "compact_form"
     elif fn_arg.startswith("LDKRecoverableSignature"):
         fn_arg = "uint8_t (*" + fn_arg[24:] + ")[68]"
@@ -230,6 +218,9 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKTransaction"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
+    elif fn_arg.startswith("LDKTransactionOutputs "):
+        fn_arg = "C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ"
+        rust_obj = "C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZ"
     elif fn_arg.startswith("LDKWitness ") or fn_arg == "LDKWitness":
         if len(fn_arg) > 12 and fn_arg[11] == "*":
             fn_arg = "uint8_t (" + fn_arg[11:] + ")[datalen]"
@@ -333,6 +324,14 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_ty = "int64_t"
         fn_ty_arg = "J"
         fn_arg = fn_arg[7:].strip()
+        is_primitive = True
+    elif fn_arg.startswith("double"):
+        mapped_type = consts.c_type_map['double']
+        java_ty = mapped_type[0]
+        c_ty = "double"
+        arr_ty = "double"
+        fn_ty_arg = "D"
+        fn_arg = fn_arg[6:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
         # TODO: uintptr_t is arch-dependent :(

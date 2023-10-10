@@ -9,7 +9,7 @@ namespace org { namespace ldk { namespace structs {
 /**
  * Route hints used in constructing invoices for [phantom node payents].
  * 
- * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+ * [phantom node payments]: crate::sign::PhantomKeysManager
  */
 public class PhantomRouteHints : CommonBase {
 	internal PhantomRouteHints(object _dummy, long ptr) : base(ptr) { }

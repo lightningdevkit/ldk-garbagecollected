@@ -1,7 +1,7 @@
 namespace org { namespace ldk { namespace enums {/**
  * Specifies the recipient of an invoice.
  * 
- * This indicates to [`KeysInterface::sign_invoice`] what node secret key should be used to sign
+ * This indicates to [`NodeSigner::sign_invoice`] what node secret key should be used to sign
  * the invoice.
  */
 public enum Recipient {

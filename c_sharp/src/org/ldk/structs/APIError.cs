@@ -198,5 +198,14 @@ public class APIError : CommonBase {
 		if (!(o is APIError)) return false;
 		return this.eq((APIError)o);
 	}
+	/**
+	 * Serialize the APIError object into a byte array which can be read by APIError_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.APIError_write(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
 }
 } } }

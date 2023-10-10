@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * Used to put an error message in a LightningError
+ * Used to put an error message in a [`LightningError`].
  */
 public class ErrorAction : CommonBase {
 	protected ErrorAction(object _dummy, long ptr) : base(ptr) { }
@@ -18,11 +18,12 @@ public class ErrorAction : CommonBase {
 		long raw_ty = bindings.LDKErrorAction_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ErrorAction_DisconnectPeer(ptr);
-			case 1: return new ErrorAction_IgnoreError(ptr);
-			case 2: return new ErrorAction_IgnoreAndLog(ptr);
-			case 3: return new ErrorAction_IgnoreDuplicateGossip(ptr);
-			case 4: return new ErrorAction_SendErrorMessage(ptr);
-			case 5: return new ErrorAction_SendWarningMessage(ptr);
+			case 1: return new ErrorAction_DisconnectPeerWithWarning(ptr);
+			case 2: return new ErrorAction_IgnoreError(ptr);
+			case 3: return new ErrorAction_IgnoreAndLog(ptr);
+			case 4: return new ErrorAction_IgnoreDuplicateGossip(ptr);
+			case 5: return new ErrorAction_SendErrorMessage(ptr);
+			case 6: return new ErrorAction_SendWarningMessage(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -39,6 +40,19 @@ public class ErrorAction : CommonBase {
 		internal ErrorAction_DisconnectPeer(long ptr) : base(null, ptr) {
 			long msg = bindings.LDKErrorAction_DisconnectPeer_get_msg(ptr);
 			org.ldk.structs.ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ErrorMessage(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/** A ErrorAction of type DisconnectPeerWithWarning */
+	public class ErrorAction_DisconnectPeerWithWarning : ErrorAction {
+		/**
+		 * A warning message which we should make an effort to send before we disconnect.
+		 */
+		public WarningMessage msg;
+		internal ErrorAction_DisconnectPeerWithWarning(long ptr) : base(null, ptr) {
+			long msg = bindings.LDKErrorAction_DisconnectPeerWithWarning_get_msg(ptr);
+			org.ldk.structs.WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.WarningMessage(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -116,6 +130,19 @@ public class ErrorAction : CommonBase {
 	 */
 	public static ErrorAction disconnect_peer(org.ldk.structs.ErrorMessage msg) {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DisconnectPeerWithWarning-variant ErrorAction
+	 */
+	public static ErrorAction disconnect_peer_with_warning(org.ldk.structs.WarningMessage msg) {
+		long ret = bindings.ErrorAction_disconnect_peer_with_warning(msg == null ? 0 : msg.ptr);
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);

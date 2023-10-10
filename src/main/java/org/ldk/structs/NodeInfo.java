@@ -73,8 +73,10 @@ public class NodeInfo extends CommonBase {
 
 	/**
 	 * Constructs a new NodeInfo given each field
+	 * 
+	 * Note that announcement_info_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static NodeInfo of(long[] channels_arg, org.ldk.structs.NodeAnnouncementInfo announcement_info_arg) {
+	public static NodeInfo of(long[] channels_arg, @Nullable org.ldk.structs.NodeAnnouncementInfo announcement_info_arg) {
 		long ret = bindings.NodeInfo_new(channels_arg, announcement_info_arg == null ? 0 : announcement_info_arg.ptr);
 		Reference.reachabilityFence(channels_arg);
 		Reference.reachabilityFence(announcement_info_arg);

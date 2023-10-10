@@ -163,7 +163,7 @@ public class UserConfig : CommonBase {
 	 * 
 	 * Default value: false.
 	 * 
-	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`Event::OpenChannelRequest`]: crate::events::Event::OpenChannelRequest
 	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
 	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
 	 */
@@ -184,7 +184,7 @@ public class UserConfig : CommonBase {
 	 * 
 	 * Default value: false.
 	 * 
-	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`Event::OpenChannelRequest`]: crate::events::Event::OpenChannelRequest
 	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
 	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
 	 */
@@ -204,7 +204,7 @@ public class UserConfig : CommonBase {
 	 * Default value: false.
 	 * 
 	 * [`ChannelManager::get_intercept_scid`]: crate::ln::channelmanager::ChannelManager::get_intercept_scid
-	 * [`Event::HTLCIntercepted`]: crate::util::events::Event::HTLCIntercepted
+	 * [`Event::HTLCIntercepted`]: crate::events::Event::HTLCIntercepted
 	 */
 	public bool get_accept_intercept_htlcs() {
 		bool ret = bindings.UserConfig_get_accept_intercept_htlcs(this.ptr);
@@ -222,7 +222,7 @@ public class UserConfig : CommonBase {
 	 * Default value: false.
 	 * 
 	 * [`ChannelManager::get_intercept_scid`]: crate::ln::channelmanager::ChannelManager::get_intercept_scid
-	 * [`Event::HTLCIntercepted`]: crate::util::events::Event::HTLCIntercepted
+	 * [`Event::HTLCIntercepted`]: crate::events::Event::HTLCIntercepted
 	 */
 	public void set_accept_intercept_htlcs(bool val) {
 		bindings.UserConfig_set_accept_intercept_htlcs(this.ptr, val);
@@ -231,10 +231,46 @@ public class UserConfig : CommonBase {
 	}
 
 	/**
+	 * If this is set to false, when receiving a keysend payment we'll fail it if it has multiple
+	 * parts. If this is set to true, we'll accept the payment.
+	 * 
+	 * Setting this to true will break backwards compatibility upon downgrading to an LDK
+	 * version < 0.0.116 while receiving an MPP keysend. If we have already received an MPP
+	 * keysend, downgrading will cause us to fail to deserialize [`ChannelManager`].
+	 * 
+	 * Default value: false.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 */
+	public bool get_accept_mpp_keysend() {
+		bool ret = bindings.UserConfig_get_accept_mpp_keysend(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * If this is set to false, when receiving a keysend payment we'll fail it if it has multiple
+	 * parts. If this is set to true, we'll accept the payment.
+	 * 
+	 * Setting this to true will break backwards compatibility upon downgrading to an LDK
+	 * version < 0.0.116 while receiving an MPP keysend. If we have already received an MPP
+	 * keysend, downgrading will cause us to fail to deserialize [`ChannelManager`].
+	 * 
+	 * Default value: false.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 */
+	public void set_accept_mpp_keysend(bool val) {
+		bindings.UserConfig_set_accept_mpp_keysend(this.ptr, val);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static UserConfig of(org.ldk.structs.ChannelHandshakeConfig channel_handshake_config_arg, org.ldk.structs.ChannelHandshakeLimits channel_handshake_limits_arg, org.ldk.structs.ChannelConfig channel_config_arg, bool accept_forwards_to_priv_channels_arg, bool accept_inbound_channels_arg, bool manually_accept_inbound_channels_arg, bool accept_intercept_htlcs_arg) {
-		long ret = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0 : channel_handshake_config_arg.ptr, channel_handshake_limits_arg == null ? 0 : channel_handshake_limits_arg.ptr, channel_config_arg == null ? 0 : channel_config_arg.ptr, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg, accept_intercept_htlcs_arg);
+	public static UserConfig of(org.ldk.structs.ChannelHandshakeConfig channel_handshake_config_arg, org.ldk.structs.ChannelHandshakeLimits channel_handshake_limits_arg, org.ldk.structs.ChannelConfig channel_config_arg, bool accept_forwards_to_priv_channels_arg, bool accept_inbound_channels_arg, bool manually_accept_inbound_channels_arg, bool accept_intercept_htlcs_arg, bool accept_mpp_keysend_arg) {
+		long ret = bindings.UserConfig_new(channel_handshake_config_arg == null ? 0 : channel_handshake_config_arg.ptr, channel_handshake_limits_arg == null ? 0 : channel_handshake_limits_arg.ptr, channel_config_arg == null ? 0 : channel_config_arg.ptr, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg, accept_intercept_htlcs_arg, accept_mpp_keysend_arg);
 		GC.KeepAlive(channel_handshake_config_arg);
 		GC.KeepAlive(channel_handshake_limits_arg);
 		GC.KeepAlive(channel_config_arg);
@@ -242,6 +278,7 @@ public class UserConfig : CommonBase {
 		GC.KeepAlive(accept_inbound_channels_arg);
 		GC.KeepAlive(manually_accept_inbound_channels_arg);
 		GC.KeepAlive(accept_intercept_htlcs_arg);
+		GC.KeepAlive(accept_mpp_keysend_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

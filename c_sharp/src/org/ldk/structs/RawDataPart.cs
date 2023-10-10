@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * Data of the `RawInvoice` that is encoded in the data part
+ * Data of the [`RawBolt11Invoice`] that is encoded in the data part
  */
 public class RawDataPart : CommonBase {
 	internal RawDataPart(object _dummy, long ptr) : base(ptr) { }
@@ -73,7 +73,7 @@ public class RawDataPart : CommonBase {
 	}
 
 	/**
-	 * Checks if two RawDataParts contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the RawDataPart.
 	 */
 	public long hash() {
 		long ret = bindings.RawDataPart_hash(this.ptr);

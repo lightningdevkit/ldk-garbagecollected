@@ -79,7 +79,7 @@ public class SignerProvider extends CommonBase {
 		 * This method should return a different value each time it is called, to avoid linking
 		 * on-chain funds across channels as controlled to the same user.
 		 */
-		Result_ScriptNoneZ get_destination_script();
+		Result_CVec_u8ZNoneZ get_destination_script();
 		/**
 		 * Get a script pubkey which we will send funds to when closing a channel.
 		 * 
@@ -117,7 +117,7 @@ public class SignerProvider extends CommonBase {
 				return result;
 			}
 			@Override public long get_destination_script() {
-				Result_ScriptNoneZ ret = arg.get_destination_script();
+				Result_CVec_u8ZNoneZ ret = arg.get_destination_script();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -199,11 +199,11 @@ public class SignerProvider extends CommonBase {
 	 * This method should return a different value each time it is called, to avoid linking
 	 * on-chain funds across channels as controlled to the same user.
 	 */
-	public Result_ScriptNoneZ get_destination_script() {
+	public Result_CVec_u8ZNoneZ get_destination_script() {
 		long ret = bindings.SignerProvider_get_destination_script(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ScriptNoneZ ret_hu_conv = Result_ScriptNoneZ.constr_from_ptr(ret);
+		Result_CVec_u8ZNoneZ ret_hu_conv = Result_CVec_u8ZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

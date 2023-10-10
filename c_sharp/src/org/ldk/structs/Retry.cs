@@ -6,7 +6,7 @@ using System;
 namespace org { namespace ldk { namespace structs {
 
 /**
- * Strategies available to retry payment path failures for an [`Invoice`].
+ * Strategies available to retry payment path failures.
  */
 public class Retry : CommonBase {
 	protected Retry(object _dummy, long ptr) : base(ptr) { }
@@ -96,7 +96,7 @@ public class Retry : CommonBase {
 		return this.eq((Retry)o);
 	}
 	/**
-	 * Checks if two Retrys contain equal inner contents.
+	 * Generates a non-cryptographic 64-bit hash of the Retry.
 	 */
 	public long hash() {
 		long ret = bindings.Retry_hash(this.ptr);

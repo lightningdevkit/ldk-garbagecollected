@@ -8,17 +8,22 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * An interface used to score payment channels for path finding.
+ * A trait which can both lookup and update routing channel penalty scores.
  * 
- * \tScoring is in terms of fees willing to be paid in order to avoid routing through a channel.
+ * This is used in places where both bounds are required and implemented for all types which
+ * implement [`ScoreLookUp`] and [`ScoreUpdate`].
+ * 
+ * Bindings users may need to manually implement this for their custom scoring implementations.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Score extends CommonBase {
 	final bindings.LDKScore bindings_instance;
 	Score(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private Score(bindings.LDKScore arg) {
-		super(bindings.LDKScore_new(arg));
+	private Score(bindings.LDKScore arg, bindings.LDKScoreLookUp ScoreLookUp, bindings.LDKScoreUpdate ScoreUpdate) {
+		super(bindings.LDKScore_new(arg, ScoreLookUp, ScoreUpdate));
 		this.ptrs_to.add(arg);
+		this.ptrs_to.add(ScoreLookUp);
+		this.ptrs_to.add(ScoreUpdate);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
@@ -40,144 +45,40 @@ public class Score extends CommonBase {
 	}
 	public static interface ScoreInterface {
 		/**
-		 * Returns the fee in msats willing to be paid to avoid routing `send_amt_msat` through the
-		 * given channel in the direction from `source` to `target`.
-		 * 
-		 * The channel's capacity (less any other MPP parts that are also being considered for use in
-		 * the same payment) is given by `capacity_msat`. It may be determined from various sources
-		 * such as a chain data, network gossip, or invoice hints. For invoice hints, a capacity near
-		 * [`u64::max_value`] is given to indicate sufficient capacity for the invoice's full amount.
-		 * Thus, implementations should be overflow-safe.
-		 */
-		long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage, ProbabilisticScoringFeeParameters score_params);
-		/**
-		 * Handles updating channel penalties after failing to route through a channel.
-		 */
-		void payment_path_failed(Path path, long short_channel_id);
-		/**
-		 * Handles updating channel penalties after successfully routing along a path.
-		 */
-		void payment_path_successful(Path path);
-		/**
-		 * Handles updating channel penalties after a probe over the given path failed.
-		 */
-		void probe_failed(Path path, long short_channel_id);
-		/**
-		 * Handles updating channel penalties after a probe over the given path succeeded.
-		 */
-		void probe_successful(Path path);
-		/**
 		 * Serialize the object into a byte array
 		 */
 		byte[] write();
 	}
 	private static class LDKScoreHolder { Score held; }
-	public static Score new_impl(ScoreInterface arg) {
+	public static Score new_impl(ScoreInterface arg, ScoreLookUp.ScoreLookUpInterface ScoreLookUp_impl, ScoreUpdate.ScoreUpdateInterface ScoreUpdate_impl) {
 		final LDKScoreHolder impl_holder = new LDKScoreHolder();
 		impl_holder.held = new Score(new bindings.LDKScore() {
-			@Override public long channel_penalty_msat(long short_channel_id, long source, long target, long usage, long score_params) {
-				org.ldk.structs.NodeId source_hu_conv = null; if (source < 0 || source > 4096) { source_hu_conv = new org.ldk.structs.NodeId(null, source); }
-				org.ldk.structs.NodeId target_hu_conv = null; if (target < 0 || target > 4096) { target_hu_conv = new org.ldk.structs.NodeId(null, target); }
-				org.ldk.structs.ChannelUsage usage_hu_conv = null; if (usage < 0 || usage > 4096) { usage_hu_conv = new org.ldk.structs.ChannelUsage(null, usage); }
-				if (usage_hu_conv != null) { usage_hu_conv.ptrs_to.add(this); };
-				org.ldk.structs.ProbabilisticScoringFeeParameters score_params_hu_conv = null; if (score_params < 0 || score_params > 4096) { score_params_hu_conv = new org.ldk.structs.ProbabilisticScoringFeeParameters(null, score_params); }
-				long ret = arg.channel_penalty_msat(short_channel_id, source_hu_conv, target_hu_conv, usage_hu_conv, score_params_hu_conv);
-				Reference.reachabilityFence(arg);
-				return ret;
-			}
-			@Override public void payment_path_failed(long path, long short_channel_id) {
-				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.payment_path_failed(path_hu_conv, short_channel_id);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void payment_path_successful(long path) {
-				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.payment_path_successful(path_hu_conv);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void probe_failed(long path, long short_channel_id) {
-				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.probe_failed(path_hu_conv, short_channel_id);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public void probe_successful(long path) {
-				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.probe_successful(path_hu_conv);
-				Reference.reachabilityFence(arg);
-			}
 			@Override public byte[] write() {
 				byte[] ret = arg.write();
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
-		});
+		}, ScoreLookUp.new_impl(ScoreLookUp_impl).bindings_instance, ScoreUpdate.new_impl(ScoreUpdate_impl).bindings_instance);
 		return impl_holder.held;
 	}
-	/**
-	 * Returns the fee in msats willing to be paid to avoid routing `send_amt_msat` through the
-	 * given channel in the direction from `source` to `target`.
-	 * 
-	 * The channel's capacity (less any other MPP parts that are also being considered for use in
-	 * the same payment) is given by `capacity_msat`. It may be determined from various sources
-	 * such as a chain data, network gossip, or invoice hints. For invoice hints, a capacity near
-	 * [`u64::max_value`] is given to indicate sufficient capacity for the invoice's full amount.
-	 * Thus, implementations should be overflow-safe.
-	 */
-	public long channel_penalty_msat(long short_channel_id, org.ldk.structs.NodeId source, org.ldk.structs.NodeId target, org.ldk.structs.ChannelUsage usage, org.ldk.structs.ProbabilisticScoringFeeParameters score_params) {
-		long ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : source.ptr, target == null ? 0 : target.ptr, usage == null ? 0 : usage.ptr, score_params == null ? 0 : score_params.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(short_channel_id);
-		Reference.reachabilityFence(source);
-		Reference.reachabilityFence(target);
-		Reference.reachabilityFence(usage);
-		Reference.reachabilityFence(score_params);
-		if (this != null) { this.ptrs_to.add(source); };
-		if (this != null) { this.ptrs_to.add(target); };
-		if (this != null) { this.ptrs_to.add(usage); };
-		if (this != null) { this.ptrs_to.add(score_params); };
-		return ret;
-	}
 
 	/**
-	 * Handles updating channel penalties after failing to route through a channel.
+	 * Gets the underlying ScoreLookUp.
 	 */
-	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.Score_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(short_channel_id);
-		if (this != null) { this.ptrs_to.add(path); };
+	public ScoreLookUp get_score_look_up() {
+		ScoreLookUp res = new ScoreLookUp(null, bindings.LDKScore_get_ScoreLookUp(this.ptr));
+		res.ptrs_to.add(this);
+		return res;
 	}
 
-	/**
-	 * Handles updating channel penalties after successfully routing along a path.
-	 */
-	public void payment_path_successful(org.ldk.structs.Path path) {
-		bindings.Score_payment_path_successful(this.ptr, path == null ? 0 : path.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		if (this != null) { this.ptrs_to.add(path); };
-	}
 
 	/**
-	 * Handles updating channel penalties after a probe over the given path failed.
+	 * Gets the underlying ScoreUpdate.
 	 */
-	public void probe_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.Score_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(short_channel_id);
-		if (this != null) { this.ptrs_to.add(path); };
-	}
-
-	/**
-	 * Handles updating channel penalties after a probe over the given path succeeded.
-	 */
-	public void probe_successful(org.ldk.structs.Path path) {
-		bindings.Score_probe_successful(this.ptr, path == null ? 0 : path.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(path);
-		if (this != null) { this.ptrs_to.add(path); };
+	public ScoreUpdate get_score_update() {
+		ScoreUpdate res = new ScoreUpdate(null, bindings.LDKScore_get_ScoreUpdate(this.ptr));
+		res.ptrs_to.add(this);
+		return res;
 	}
 
 	/**

@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A warning message to be sent or received from a peer
+ * A [`warning`] message to be sent to or received from a peer.
+ * 
+ * [`warning`]: https://github.com/lightning/bolts/blob/master/01-messaging.md#the-error-and-warning-messages
  */
 public class WarningMessage : CommonBase {
 	internal WarningMessage(object _dummy, long ptr) : base(ptr) { }
@@ -39,6 +41,7 @@ public class WarningMessage : CommonBase {
 
 	/**
 	 * A possibly human-readable warning description.
+	 * 
 	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
 	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.
@@ -51,6 +54,7 @@ public class WarningMessage : CommonBase {
 
 	/**
 	 * A possibly human-readable warning description.
+	 * 
 	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
 	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
 	 * the terminal emulator or the logging subsystem.

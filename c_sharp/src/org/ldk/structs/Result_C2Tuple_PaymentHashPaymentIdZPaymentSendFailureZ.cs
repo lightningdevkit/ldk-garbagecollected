@@ -57,6 +57,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ : CommonBas
 		GC.KeepAlive(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(e); };
 		return ret_hu_conv;
 	}
 

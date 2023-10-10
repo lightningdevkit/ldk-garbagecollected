@@ -24,14 +24,11 @@ public class MonitorEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.HTLCEvent.class) {
 			return new HTLCEvent(ptr, (bindings.LDKMonitorEvent.HTLCEvent)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKMonitorEvent.CommitmentTxConfirmed.class) {
-			return new CommitmentTxConfirmed(ptr, (bindings.LDKMonitorEvent.CommitmentTxConfirmed)raw_val);
+		if (raw_val.getClass() == bindings.LDKMonitorEvent.HolderForceClosed.class) {
+			return new HolderForceClosed(ptr, (bindings.LDKMonitorEvent.HolderForceClosed)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.Completed.class) {
 			return new Completed(ptr, (bindings.LDKMonitorEvent.Completed)raw_val);
-		}
-		if (raw_val.getClass() == bindings.LDKMonitorEvent.UpdateFailed.class) {
-			return new UpdateFailed(ptr, (bindings.LDKMonitorEvent.UpdateFailed)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -52,14 +49,14 @@ public class MonitorEvent extends CommonBase {
 	/**
 	 * A monitor event that the Channel's commitment transaction was confirmed.
 	 */
-	public final static class CommitmentTxConfirmed extends MonitorEvent {
-		public final org.ldk.structs.OutPoint commitment_tx_confirmed;
-		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
+	public final static class HolderForceClosed extends MonitorEvent {
+		public final org.ldk.structs.OutPoint holder_force_closed;
+		private HolderForceClosed(long ptr, bindings.LDKMonitorEvent.HolderForceClosed obj) {
 			super(null, ptr);
-			long commitment_tx_confirmed = obj.commitment_tx_confirmed;
-			org.ldk.structs.OutPoint commitment_tx_confirmed_hu_conv = null; if (commitment_tx_confirmed < 0 || commitment_tx_confirmed > 4096) { commitment_tx_confirmed_hu_conv = new org.ldk.structs.OutPoint(null, commitment_tx_confirmed); }
-			if (commitment_tx_confirmed_hu_conv != null) { commitment_tx_confirmed_hu_conv.ptrs_to.add(this); };
-			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
+			long holder_force_closed = obj.holder_force_closed;
+			org.ldk.structs.OutPoint holder_force_closed_hu_conv = null; if (holder_force_closed < 0 || holder_force_closed > 4096) { holder_force_closed_hu_conv = new org.ldk.structs.OutPoint(null, holder_force_closed); }
+			if (holder_force_closed_hu_conv != null) { holder_force_closed_hu_conv.ptrs_to.add(this); };
+			this.holder_force_closed = holder_force_closed_hu_conv;
 		}
 	}
 	/**
@@ -88,22 +85,6 @@ public class MonitorEvent extends CommonBase {
 			if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
 			this.funding_txo = funding_txo_hu_conv;
 			this.monitor_update_id = obj.monitor_update_id;
-		}
-	}
-	/**
-	 * Indicates a [`ChannelMonitor`] update has failed. See
-	 * [`ChannelMonitorUpdateStatus::PermanentFailure`] for more information on how this is used.
-	 * 
-	 * [`ChannelMonitorUpdateStatus::PermanentFailure`]: super::ChannelMonitorUpdateStatus::PermanentFailure
-	 */
-	public final static class UpdateFailed extends MonitorEvent {
-		public final org.ldk.structs.OutPoint update_failed;
-		private UpdateFailed(long ptr, bindings.LDKMonitorEvent.UpdateFailed obj) {
-			super(null, ptr);
-			long update_failed = obj.update_failed;
-			org.ldk.structs.OutPoint update_failed_hu_conv = null; if (update_failed < 0 || update_failed > 4096) { update_failed_hu_conv = new org.ldk.structs.OutPoint(null, update_failed); }
-			if (update_failed_hu_conv != null) { update_failed_hu_conv.ptrs_to.add(this); };
-			this.update_failed = update_failed_hu_conv;
 		}
 	}
 	long clone_ptr() {
@@ -138,10 +119,10 @@ public class MonitorEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
+	 * Utility method to constructs a new HolderForceClosed-variant MonitorEvent
 	 */
-	public static MonitorEvent commitment_tx_confirmed(org.ldk.structs.OutPoint a) {
-		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr);
+	public static MonitorEvent holder_force_closed(org.ldk.structs.OutPoint a) {
+		long ret = bindings.MonitorEvent_holder_force_closed(a == null ? 0 : a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
@@ -161,19 +142,6 @@ public class MonitorEvent extends CommonBase {
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(funding_txo); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
-	 */
-	public static MonitorEvent update_failed(org.ldk.structs.OutPoint a) {
-		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr);
-		Reference.reachabilityFence(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

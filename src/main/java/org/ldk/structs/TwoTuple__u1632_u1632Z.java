@@ -1,0 +1,54 @@
+package org.ldk.structs;
+
+import org.ldk.impl.bindings;
+import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
+import java.lang.ref.Reference;
+import javax.annotation.Nullable;
+
+
+/**
+ * A Tuple
+ */
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
+public class TwoTuple__u1632_u1632Z extends CommonBase {
+	TwoTuple__u1632_u1632Z(Object _dummy, long ptr) { super(ptr); }
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.C2Tuple__u1632_u1632Z_free(ptr); }
+	}
+
+	/**
+	 * 
+	 */
+	public short[] get_a() {
+		short[] ret = bindings.C2Tuple__u1632_u1632Z_get_a(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * 
+	 */
+	public short[] get_b() {
+		short[] ret = bindings.C2Tuple__u1632_u1632Z_get_b(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new C2Tuple__u1632_u1632Z from the contained elements.
+	 */
+	public static TwoTuple__u1632_u1632Z of(short[] a, short[] b) {
+		long ret = bindings.C2Tuple__u1632_u1632Z_new(InternalUtils.check_arr_16_len(a, 32), InternalUtils.check_arr_16_len(b, 32));
+		Reference.reachabilityFence(a);
+		Reference.reachabilityFence(b);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		TwoTuple__u1632_u1632Z ret_hu_conv = new TwoTuple__u1632_u1632Z(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+}

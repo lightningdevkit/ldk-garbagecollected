@@ -21,17 +21,29 @@ public class BroadcasterInterface : CommonBase {
 
 	public interface BroadcasterInterfaceInterface {
 		/**
-		 * Sends a transaction out to (hopefully) be mined.
+		 * Sends a list of transactions out to (hopefully) be mined.
+		 * This only needs to handle the actual broadcasting of transactions, LDK will automatically
+		 * rebroadcast transactions that haven't made it into a block.
+		 * 
+		 * In some cases LDK may attempt to broadcast a transaction which double-spends another
+		 * and this isn't a bug and can be safely ignored.
+		 * 
+		 * If more than one transaction is given, these transactions should be considered to be a
+		 * package and broadcast together. Some of the transactions may or may not depend on each other,
+		 * be sure to manage both cases correctly.
+		 * 
+		 * Bitcoin transaction packages are defined in BIP 331 and here:
+		 * https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md
 		 */
-		void broadcast_transaction(byte[] _tx);
+		void broadcast_transactions(byte[][] _txs);
 	}
 	private class LDKBroadcasterInterfaceHolder { internal BroadcasterInterface held; }
 	private class LDKBroadcasterInterfaceImpl : bindings.LDKBroadcasterInterface {
 		internal LDKBroadcasterInterfaceImpl(BroadcasterInterfaceInterface arg, LDKBroadcasterInterfaceHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private BroadcasterInterfaceInterface arg;
 		private LDKBroadcasterInterfaceHolder impl_holder;
-		public void broadcast_transaction(byte[] _tx) {
-			arg.broadcast_transaction(_tx);
+		public void broadcast_transactions(byte[][] _txs) {
+			arg.broadcast_transactions(_txs);
 				GC.KeepAlive(arg);
 		}
 	}
@@ -41,12 +53,24 @@ public class BroadcasterInterface : CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Sends a transaction out to (hopefully) be mined.
+	 * Sends a list of transactions out to (hopefully) be mined.
+	 * This only needs to handle the actual broadcasting of transactions, LDK will automatically
+	 * rebroadcast transactions that haven't made it into a block.
+	 * 
+	 * In some cases LDK may attempt to broadcast a transaction which double-spends another
+	 * and this isn't a bug and can be safely ignored.
+	 * 
+	 * If more than one transaction is given, these transactions should be considered to be a
+	 * package and broadcast together. Some of the transactions may or may not depend on each other,
+	 * be sure to manage both cases correctly.
+	 * 
+	 * Bitcoin transaction packages are defined in BIP 331 and here:
+	 * https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md
 	 */
-	public void broadcast_transaction(byte[] tx) {
-		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx);
+	public void broadcast_transactions(byte[][] txs) {
+		bindings.BroadcasterInterface_broadcast_transactions(this.ptr, txs);
 		GC.KeepAlive(this);
-		GC.KeepAlive(tx);
+		GC.KeepAlive(txs);
 	}
 
 }

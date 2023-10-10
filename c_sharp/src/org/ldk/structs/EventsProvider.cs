@@ -85,7 +85,7 @@ public class EventsProvider : CommonBase {
 	 * See the trait-level documentation for requirements.
 	 */
 	public void process_pending_events(org.ldk.structs.EventHandler handler) {
-		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : handler.ptr);
+		bindings.EventsProvider_process_pending_events(this.ptr, handler.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(handler);
 		if (this != null) { this.ptrs_to.AddLast(handler); };

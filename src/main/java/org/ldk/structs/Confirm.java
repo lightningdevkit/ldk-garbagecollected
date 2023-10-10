@@ -130,7 +130,7 @@ public class Confirm extends CommonBase {
 		 * [`transactions_confirmed`]: Self::transactions_confirmed
 		 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 		 */
-		TwoTuple_TxidCOption_BlockHashZZ[] get_relevant_txids();
+		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids();
 	}
 	private static class LDKConfirmHolder { Confirm held; }
 	public static Confirm new_impl(ConfirmInterface arg) {
@@ -157,9 +157,9 @@ public class Confirm extends CommonBase {
 				Reference.reachabilityFence(arg);
 			}
 			@Override public long[] get_relevant_txids() {
-				TwoTuple_TxidCOption_BlockHashZZ[] ret = arg.get_relevant_txids();
+				TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret = arg.get_relevant_txids();
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_34 -> ret_conv_34 == null ? 0 : ret_conv_34.clone_ptr()).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_49 -> ret_conv_49 == null ? 0 : ret_conv_49.clone_ptr()).toArray() : null;
 				return result;
 			}
 		});
@@ -241,18 +241,18 @@ public class Confirm extends CommonBase {
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 	 */
-	public TwoTuple_TxidCOption_BlockHashZZ[] get_relevant_txids() {
+	public TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids() {
 		long[] ret = bindings.Confirm_get_relevant_txids(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_34_len = ret.length;
-		TwoTuple_TxidCOption_BlockHashZZ[] ret_conv_34_arr = new TwoTuple_TxidCOption_BlockHashZZ[ret_conv_34_len];
-		for (int i = 0; i < ret_conv_34_len; i++) {
-			long ret_conv_34 = ret[i];
-			TwoTuple_TxidCOption_BlockHashZZ ret_conv_34_hu_conv = new TwoTuple_TxidCOption_BlockHashZZ(null, ret_conv_34);
-			if (ret_conv_34_hu_conv != null) { ret_conv_34_hu_conv.ptrs_to.add(this); };
-			ret_conv_34_arr[i] = ret_conv_34_hu_conv;
+		int ret_conv_49_len = ret.length;
+		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[ret_conv_49_len];
+		for (int x = 0; x < ret_conv_49_len; x++) {
+			long ret_conv_49 = ret[x];
+			TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ(null, ret_conv_49);
+			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
+			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
 		}
-		return ret_conv_34_arr;
+		return ret_conv_49_arr;
 	}
 
 }

@@ -11,7 +11,7 @@ namespace org { namespace ldk { namespace structs {
  * 
  * These limits are only applied to our counterparty's limits, not our own.
  * 
- * Use 0/<type>::max_value() as appropriate to skip checking.
+ * Use 0/`<type>::max_value()` as appropriate to skip checking.
  * 
  * Provides sane defaults for most configurations.
  * 

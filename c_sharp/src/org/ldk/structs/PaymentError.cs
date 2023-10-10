@@ -18,8 +18,7 @@ public class PaymentError : CommonBase {
 		long raw_ty = bindings.LDKPaymentError_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PaymentError_Invoice(ptr);
-			case 1: return new PaymentError_Routing(ptr);
-			case 2: return new PaymentError_Sending(ptr);
+			case 1: return new PaymentError_Sending(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -32,24 +31,11 @@ public class PaymentError : CommonBase {
 			this.invoice = bindings.LDKPaymentError_Invoice_get_invoice(ptr);
 		}
 	}
-	/** A PaymentError of type Routing */
-	public class PaymentError_Routing : PaymentError {
-		public LightningError routing;
-		internal PaymentError_Routing(long ptr) : base(null, ptr) {
-			long routing = bindings.LDKPaymentError_Routing_get_routing(ptr);
-			org.ldk.structs.LightningError routing_hu_conv = null; if (routing < 0 || routing > 4096) { routing_hu_conv = new org.ldk.structs.LightningError(null, routing); }
-			if (routing_hu_conv != null) { routing_hu_conv.ptrs_to.AddLast(this); };
-			this.routing = routing_hu_conv;
-		}
-	}
 	/** A PaymentError of type Sending */
 	public class PaymentError_Sending : PaymentError {
-		public PaymentSendFailure sending;
+		public RetryableSendFailure sending;
 		internal PaymentError_Sending(long ptr) : base(null, ptr) {
-			long sending = bindings.LDKPaymentError_Sending_get_sending(ptr);
-			org.ldk.structs.PaymentSendFailure sending_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(sending);
-			if (sending_hu_conv != null) { sending_hu_conv.ptrs_to.AddLast(this); };
-			this.sending = sending_hu_conv;
+			this.sending = bindings.LDKPaymentError_Sending_get_sending(ptr);
 		}
 	}
 	internal long clone_ptr() {
@@ -83,29 +69,31 @@ public class PaymentError : CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new Routing-variant PaymentError
+	 * Utility method to constructs a new Sending-variant PaymentError
 	 */
-	public static PaymentError routing(org.ldk.structs.LightningError a) {
-		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr);
+	public static PaymentError sending(RetryableSendFailure a) {
+		long ret = bindings.PaymentError_sending(a);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Utility method to constructs a new Sending-variant PaymentError
+	 * Checks if two PaymentErrors contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
-	public static PaymentError sending(org.ldk.structs.PaymentSendFailure a) {
-		long ret = bindings.PaymentError_sending(a.ptr);
-		GC.KeepAlive(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		return ret_hu_conv;
+	public bool eq(org.ldk.structs.PaymentError b) {
+		bool ret = bindings.PaymentError_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		return ret;
 	}
 
+	public override bool Equals(object o) {
+		if (!(o is PaymentError)) return false;
+		return this.eq((PaymentError)o);
+	}
 }
 } } }

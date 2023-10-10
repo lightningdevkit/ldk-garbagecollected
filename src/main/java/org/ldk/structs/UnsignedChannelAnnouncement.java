@@ -168,6 +168,56 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		if (this != null) { this.ptrs_to.add(val); };
 	}
 
+	/**
+	 * Excess data which was signed as a part of the message which we do not (yet) understand how
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public byte[] get_excess_data() {
+		byte[] ret = bindings.UnsignedChannelAnnouncement_get_excess_data(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Excess data which was signed as a part of the message which we do not (yet) understand how
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
+	 */
+	public void set_excess_data(byte[] val) {
+		bindings.UnsignedChannelAnnouncement_set_excess_data(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Constructs a new UnsignedChannelAnnouncement given each field
+	 */
+	public static UnsignedChannelAnnouncement of(org.ldk.structs.ChannelFeatures features_arg, byte[] chain_hash_arg, long short_channel_id_arg, org.ldk.structs.NodeId node_id_1_arg, org.ldk.structs.NodeId node_id_2_arg, org.ldk.structs.NodeId bitcoin_key_1_arg, org.ldk.structs.NodeId bitcoin_key_2_arg, byte[] excess_data_arg) {
+		long ret = bindings.UnsignedChannelAnnouncement_new(features_arg == null ? 0 : features_arg.ptr, InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_id_arg, node_id_1_arg == null ? 0 : node_id_1_arg.ptr, node_id_2_arg == null ? 0 : node_id_2_arg.ptr, bitcoin_key_1_arg == null ? 0 : bitcoin_key_1_arg.ptr, bitcoin_key_2_arg == null ? 0 : bitcoin_key_2_arg.ptr, excess_data_arg);
+		Reference.reachabilityFence(features_arg);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(short_channel_id_arg);
+		Reference.reachabilityFence(node_id_1_arg);
+		Reference.reachabilityFence(node_id_2_arg);
+		Reference.reachabilityFence(bitcoin_key_1_arg);
+		Reference.reachabilityFence(bitcoin_key_2_arg);
+		Reference.reachabilityFence(excess_data_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.UnsignedChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UnsignedChannelAnnouncement(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(features_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_id_1_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_id_2_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(bitcoin_key_1_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(bitcoin_key_2_arg); };
+		return ret_hu_conv;
+	}
+
 	long clone_ptr() {
 		long ret = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

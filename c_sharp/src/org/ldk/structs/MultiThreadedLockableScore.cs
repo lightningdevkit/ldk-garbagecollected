@@ -54,7 +54,7 @@ public class MultiThreadedLockableScore : CommonBase {
 	 * Creates a new [`MultiThreadedLockableScore`] given an underlying [`Score`].
 	 */
 	public static MultiThreadedLockableScore of(org.ldk.structs.Score score) {
-		long ret = bindings.MultiThreadedLockableScore_new(score == null ? 0 : score.ptr);
+		long ret = bindings.MultiThreadedLockableScore_new(score.ptr);
 		GC.KeepAlive(score);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MultiThreadedLockableScore ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MultiThreadedLockableScore(null, ret); }

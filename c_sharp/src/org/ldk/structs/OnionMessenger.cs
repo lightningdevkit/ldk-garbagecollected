@@ -17,18 +17,24 @@ namespace org { namespace ldk { namespace structs {
  * # extern crate bitcoin;
  * # use bitcoin::hashes::_export::_core::time::Duration;
  * # use bitcoin::secp256k1::{PublicKey, Secp256k1, SecretKey};
- * # use lightning::chain::keysinterface::{InMemorySigner, KeysManager, KeysInterface};
- * # use lightning::ln::msgs::DecodeError;
+ * # use lightning::blinded_path::BlindedPath;
+ * # use lightning::sign::KeysManager;
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
- * # use lightning::onion_message::blinded_path::BlindedPath;
- * # use lightning::onion_message::messenger::{CustomOnionMessageContents, Destination, OnionMessageContents, OnionMessenger};
+ * # use lightning::onion_message::messenger::{Destination, MessageRouter, OnionMessenger, OnionMessagePath};
+ * # use lightning::onion_message::packet::{CustomOnionMessageContents, OnionMessageContents};
  * # use lightning::util::logger::{Logger, Record};
  * # use lightning::util::ser::{Writeable, Writer};
  * # use lightning::io;
  * # use std::sync::Arc;
- * # struct FakeLogger {};
+ * # struct FakeLogger;
  * # impl Logger for FakeLogger {
  * #     fn log(&self, record: &Record) { unimplemented!() }
+ * # }
+ * # struct FakeMessageRouter {}
+ * # impl MessageRouter for FakeMessageRouter {
+ * #     fn find_path(&self, sender: PublicKey, peers: Vec<PublicKey>, destination: Destination) -> Result<OnionMessagePath, ()> {
+ * #         unimplemented!()
+ * #     }
  * # }
  * # let seed = [42u8; 32];
  * # let time = Duration::from_secs(123456);
@@ -39,10 +45,15 @@ namespace org { namespace ldk { namespace structs {
  * # let hop_node_id1 = PublicKey::from_secret_key(&secp_ctx, &node_secret);
  * # let (hop_node_id2, hop_node_id3, hop_node_id4) = (hop_node_id1, hop_node_id1, hop_node_id1);
  * # let destination_node_id = hop_node_id1;
- * # let your_custom_message_handler = IgnoringMessageHandler {};
+ * # let message_router = Arc::new(FakeMessageRouter {});
+ * # let custom_message_handler = IgnoringMessageHandler {};
+ * # let offers_message_handler = IgnoringMessageHandler {};
  * Create the onion messenger. This must use the same `keys_manager` as is passed to your
  * ChannelManager.
- * let onion_messenger = OnionMessenger::new(&keys_manager, logger, your_custom_message_handler);
+ * let onion_messenger = OnionMessenger::new(
+ * &keys_manager, &keys_manager, logger, message_router, &offers_message_handler,
+ * &custom_message_handler
+ * );
  * 
  * # #[derive(Clone)]
  * # struct YourCustomMessage {}
@@ -59,23 +70,29 @@ namespace org { namespace ldk { namespace structs {
  * \t}
  * }
  * Send a custom onion message to a node id.
- * let intermediate_hops = [hop_node_id1, hop_node_id2];
+ * let path = OnionMessagePath {
+ * \tintermediate_nodes: vec![hop_node_id1, hop_node_id2],
+ * \tdestination: Destination::Node(destination_node_id),
+ * };
  * let reply_path = None;
  * # let your_custom_message = YourCustomMessage {};
  * let message = OnionMessageContents::Custom(your_custom_message);
- * onion_messenger.send_onion_message(&intermediate_hops, Destination::Node(destination_node_id), message, reply_path);
+ * onion_messenger.send_onion_message(path, message, reply_path);
  * 
  * Create a blinded path to yourself, for someone to send an onion message to.
  * # let your_node_id = hop_node_id1;
  * let hops = [hop_node_id3, hop_node_id4, your_node_id];
- * let blinded_path = BlindedPath::new(&hops, &keys_manager, &secp_ctx).unwrap();
+ * let blinded_path = BlindedPath::new_for_message(&hops, &keys_manager, &secp_ctx).unwrap();
  * 
  * Send a custom onion message to a blinded path.
- * # let intermediate_hops = [hop_node_id1, hop_node_id2];
+ * let path = OnionMessagePath {
+ * \tintermediate_nodes: vec![hop_node_id1, hop_node_id2],
+ * \tdestination: Destination::BlindedPath(blinded_path),
+ * };
  * let reply_path = None;
  * # let your_custom_message = YourCustomMessage {};
  * let message = OnionMessageContents::Custom(your_custom_message);
- * onion_messenger.send_onion_message(&intermediate_hops, Destination::BlindedPath(blinded_path), message, reply_path);
+ * onion_messenger.send_onion_message(path, message, reply_path);
  * ```
  * 
  * [offers]: <https://github.com/lightning/bolts/pull/798>
@@ -91,35 +108,43 @@ public class OnionMessenger : CommonBase {
 	 * Constructs a new `OnionMessenger` to send, forward, and delegate received onion messages to
 	 * their respective handlers.
 	 */
-	public static OnionMessenger of(org.ldk.structs.KeysInterface keys_manager, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
-		long ret = bindings.OnionMessenger_new(keys_manager == null ? 0 : keys_manager.ptr, logger == null ? 0 : logger.ptr, custom_handler == null ? 0 : custom_handler.ptr);
-		GC.KeepAlive(keys_manager);
+	public static OnionMessenger of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.MessageRouter message_router, org.ldk.structs.OffersMessageHandler offers_handler, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
+		long ret = bindings.OnionMessenger_new(entropy_source.ptr, node_signer.ptr, logger.ptr, message_router.ptr, offers_handler.ptr, custom_handler.ptr);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(node_signer);
 		GC.KeepAlive(logger);
+		GC.KeepAlive(message_router);
+		GC.KeepAlive(offers_handler);
 		GC.KeepAlive(custom_handler);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OnionMessenger ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessenger(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_router); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(offers_handler); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(custom_handler); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Send an onion message with contents `message` to `destination`, routing it through `intermediate_nodes`.
+	 * Send an onion message with contents `message` to the destination of `path`.
+	 * 
 	 * See [`OnionMessenger`] for example usage.
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneSendErrorZ send_onion_message(byte[][] intermediate_nodes, org.ldk.structs.Destination destination, org.ldk.structs.OnionMessageContents message, org.ldk.structs.BlindedPath reply_path) {
-		long ret = bindings.OnionMessenger_send_onion_message(this.ptr, intermediate_nodes != null ? InternalUtils.mapArray(intermediate_nodes, intermediate_nodes_conv_8 => InternalUtils.check_arr_len(intermediate_nodes_conv_8, 33)) : null, destination.ptr, message.ptr, reply_path == null ? 0 : reply_path.ptr);
+	public Result_NoneSendErrorZ send_onion_message(org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents message, org.ldk.structs.BlindedPath reply_path) {
+		long ret = bindings.OnionMessenger_send_onion_message(this.ptr, path == null ? 0 : path.ptr, message.ptr, reply_path == null ? 0 : reply_path.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(intermediate_nodes);
-		GC.KeepAlive(destination);
+		GC.KeepAlive(path);
 		GC.KeepAlive(message);
 		GC.KeepAlive(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneSendErrorZ ret_hu_conv = Result_NoneSendErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(path); };
+		if (this != null) { this.ptrs_to.AddLast(message); };
 		if (this != null) { this.ptrs_to.AddLast(reply_path); };
 		return ret_hu_conv;
 	}
