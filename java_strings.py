@@ -627,7 +627,7 @@ import javax.annotation.Nullable;
         self.usize_c_ty = "int64_t"
         self.usize_native_ty = "long"
         self.native_zero_ptr = "0"
-        self.result_c_ty = "jclass"
+        self.unitary_enum_c_ty = "jclass"
         self.ptr_arr = "jobjectArray"
         self.is_arr_some_check = ("", " != NULL")
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")

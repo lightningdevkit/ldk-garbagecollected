@@ -679,7 +679,7 @@ import * as bindings from '../bindings.mjs'
         self.usize_c_ty = "uint32_t"
         self.usize_native_ty = "number"
         self.native_zero_ptr = "0n"
-        self.result_c_ty = "uint32_t"
+        self.unitary_enum_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
