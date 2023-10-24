@@ -52,6 +52,10 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { TwoTuple_CVec_u8ZusizeZ } from '../structs/TwoTuple_CVec_u8ZusizeZ.mjs';
 import { Result_C2Tuple_CVec_u8ZusizeZNoneZ } from '../structs/Result_C2Tuple_CVec_u8ZusizeZNoneZ.mjs';
+import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
+import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
+import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
+import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
 import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
@@ -63,7 +67,6 @@ import { Result_SchnorrSignatureNoneZ } from '../structs/Result_SchnorrSignature
 import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
 import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
-import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
@@ -200,9 +203,6 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_SocketAddressZZ } from '../structs/Option_CVec_SocketAddressZZ.mjs';
-import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
-import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
-import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Utxo } from '../structs/Utxo.mjs';
 import { Option_TxOutZ } from '../structs/Option_TxOutZ.mjs';
 import { Input } from '../structs/Input.mjs';
@@ -224,7 +224,16 @@ import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ } from 
 import { ProbeSendFailure } from '../structs/ProbeSendFailure.mjs';
 import { Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ } from '../structs/Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.mjs';
 import { TwoTuple_ThirtyTwoBytesPublicKeyZ } from '../structs/TwoTuple_ThirtyTwoBytesPublicKeyZ.mjs';
+import { Option_StrZ } from '../structs/Option_StrZ.mjs';
+import { Result_NoneBolt12SemanticErrorZ } from '../structs/Result_NoneBolt12SemanticErrorZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.mjs';
+import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
+import { InvoiceError } from '../structs/InvoiceError.mjs';
+import { OffersMessage } from '../structs/OffersMessage.mjs';
+import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
+import { Destination } from '../structs/Destination.mjs';
+import { ThreeTuple_OffersMessageDestinationBlindedPathZ } from '../structs/ThreeTuple_OffersMessageDestinationBlindedPathZ.mjs';
 import { CounterpartyForwardingInfo } from '../structs/CounterpartyForwardingInfo.mjs';
 import { Result_CounterpartyForwardingInfoDecodeErrorZ } from '../structs/Result_CounterpartyForwardingInfoDecodeErrorZ.mjs';
 import { ChannelCounterparty } from '../structs/ChannelCounterparty.mjs';
@@ -271,14 +280,10 @@ import { TwoTuple_ThirtyTwoBytesChannelMonitorZ } from '../structs/TwoTuple_Thir
 import { Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
-import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
-import { InvoiceError } from '../structs/InvoiceError.mjs';
-import { OffersMessage } from '../structs/OffersMessage.mjs';
-import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
-import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
-import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
-import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
+import { OnionMessageContents, OnionMessageContentsInterface } from '../structs/OnionMessageContents.mjs';
+import { Option_OnionMessageContentsZ } from '../structs/Option_OnionMessageContentsZ.mjs';
+import { Result_COption_OnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_OnionMessageContentsZDecodeErrorZ.mjs';
+import { ThreeTuple_OnionMessageContentsDestinationBlindedPathZ } from '../structs/ThreeTuple_OnionMessageContentsDestinationBlindedPathZ.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { Option_SocketAddressZ } from '../structs/Option_SocketAddressZ.mjs';
@@ -450,6 +455,9 @@ import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePath
 import { TwoTuple_PublicKeyOnionMessageZ } from '../structs/TwoTuple_PublicKeyOnionMessageZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ } from '../structs/Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.mjs';
+import { ParsedOnionMessageContents } from '../structs/ParsedOnionMessageContents.mjs';
+import { PeeledOnion } from '../structs/PeeledOnion.mjs';
+import { Result_PeeledOnionNoneZ } from '../structs/Result_PeeledOnionNoneZ.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
 import { Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ } from '../structs/Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ.mjs';
@@ -490,16 +498,15 @@ import { FailureCode } from '../structs/FailureCode.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { Packet } from '../structs/Packet.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
-import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
-import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
@@ -526,11 +533,9 @@ import { MultiThreadedScoreLockWrite } from '../structs/MultiThreadedScoreLockWr
 import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
-import { Destination } from '../structs/Destination.mjs';
 import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
-import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { ForwardNode } from '../structs/ForwardNode.mjs';
 import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
 import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
@@ -560,6 +565,8 @@ export class NetworkGraph extends CommonBase {
 
 	/**
 	 * Handles any network updates originating from [`Event`]s.
+	 * Note that this will skip applying any [`NetworkUpdate::ChannelUpdateMessage`] to avoid
+	 * leaking possibly identifying information of the sender to the public network.
 	 * 
 	 * [`Event`]: crate::events::Event
 	 */
@@ -568,10 +575,10 @@ export class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Gets the genesis hash for this network graph.
+	 * Gets the chain hash for this network graph.
 	 */
-	public get_genesis_hash(): Uint8Array {
-		const ret: number = bindings.NetworkGraph_get_genesis_hash(this.ptr);
+	public get_chain_hash(): Uint8Array {
+		const ret: number = bindings.NetworkGraph_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -768,8 +775,8 @@ export class NetworkGraph extends CommonBase {
 	 * For an already known (from announcement) channel, update info about one of the directions
 	 * of the channel.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
-	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
 	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
@@ -792,6 +799,21 @@ export class NetworkGraph extends CommonBase {
 	 */
 	public update_channel_unsigned(msg: UnsignedChannelUpdate): Result_NoneLightningErrorZ {
 		const ret: bigint = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
+		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * For an already known (from announcement) channel, verify the given [`ChannelUpdate`].
+	 * 
+	 * This checks whether the update currently is applicable by [`Self::update_channel`].
+	 * 
+	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
+	 * materially in the future will be rejected.
+	 */
+	public verify_channel_update(msg: ChannelUpdate): Result_NoneLightningErrorZ {
+		const ret: bigint = bindings.NetworkGraph_verify_channel_update(this.ptr, msg == null ? 0n : CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;

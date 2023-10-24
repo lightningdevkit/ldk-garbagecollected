@@ -52,6 +52,10 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { TwoTuple_CVec_u8ZusizeZ } from '../structs/TwoTuple_CVec_u8ZusizeZ.mjs';
 import { Result_C2Tuple_CVec_u8ZusizeZNoneZ } from '../structs/Result_C2Tuple_CVec_u8ZusizeZNoneZ.mjs';
+import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
+import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
+import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
+import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
 import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
@@ -63,7 +67,6 @@ import { Result_SchnorrSignatureNoneZ } from '../structs/Result_SchnorrSignature
 import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
 import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
-import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
@@ -200,9 +203,6 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_SocketAddressZZ } from '../structs/Option_CVec_SocketAddressZZ.mjs';
-import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
-import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
-import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Utxo } from '../structs/Utxo.mjs';
 import { Option_TxOutZ } from '../structs/Option_TxOutZ.mjs';
 import { Input } from '../structs/Input.mjs';
@@ -224,7 +224,16 @@ import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ } from 
 import { ProbeSendFailure } from '../structs/ProbeSendFailure.mjs';
 import { Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ } from '../structs/Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.mjs';
 import { TwoTuple_ThirtyTwoBytesPublicKeyZ } from '../structs/TwoTuple_ThirtyTwoBytesPublicKeyZ.mjs';
+import { Option_StrZ } from '../structs/Option_StrZ.mjs';
+import { Result_NoneBolt12SemanticErrorZ } from '../structs/Result_NoneBolt12SemanticErrorZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.mjs';
+import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
+import { InvoiceError } from '../structs/InvoiceError.mjs';
+import { OffersMessage } from '../structs/OffersMessage.mjs';
+import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
+import { Destination } from '../structs/Destination.mjs';
+import { ThreeTuple_OffersMessageDestinationBlindedPathZ } from '../structs/ThreeTuple_OffersMessageDestinationBlindedPathZ.mjs';
 import { CounterpartyForwardingInfo } from '../structs/CounterpartyForwardingInfo.mjs';
 import { Result_CounterpartyForwardingInfoDecodeErrorZ } from '../structs/Result_CounterpartyForwardingInfoDecodeErrorZ.mjs';
 import { ChannelCounterparty } from '../structs/ChannelCounterparty.mjs';
@@ -271,14 +280,10 @@ import { TwoTuple_ThirtyTwoBytesChannelMonitorZ } from '../structs/TwoTuple_Thir
 import { Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
-import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
-import { InvoiceError } from '../structs/InvoiceError.mjs';
-import { OffersMessage } from '../structs/OffersMessage.mjs';
-import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
-import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
-import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
-import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
+import { OnionMessageContents, OnionMessageContentsInterface } from '../structs/OnionMessageContents.mjs';
+import { Option_OnionMessageContentsZ } from '../structs/Option_OnionMessageContentsZ.mjs';
+import { Result_COption_OnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_OnionMessageContentsZDecodeErrorZ.mjs';
+import { ThreeTuple_OnionMessageContentsDestinationBlindedPathZ } from '../structs/ThreeTuple_OnionMessageContentsDestinationBlindedPathZ.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { Option_SocketAddressZ } from '../structs/Option_SocketAddressZ.mjs';
@@ -450,6 +455,9 @@ import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePath
 import { TwoTuple_PublicKeyOnionMessageZ } from '../structs/TwoTuple_PublicKeyOnionMessageZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ } from '../structs/Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.mjs';
+import { ParsedOnionMessageContents } from '../structs/ParsedOnionMessageContents.mjs';
+import { PeeledOnion } from '../structs/PeeledOnion.mjs';
+import { Result_PeeledOnionNoneZ } from '../structs/Result_PeeledOnionNoneZ.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
 import { Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ } from '../structs/Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ.mjs';
@@ -490,16 +498,15 @@ import { FailureCode } from '../structs/FailureCode.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { Packet } from '../structs/Packet.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
-import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
-import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
@@ -526,11 +533,9 @@ import { MultiThreadedScoreLockWrite } from '../structs/MultiThreadedScoreLockWr
 import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
-import { Destination } from '../structs/Destination.mjs';
 import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
-import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { ForwardNode } from '../structs/ForwardNode.mjs';
 import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
 import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
@@ -574,23 +579,17 @@ export interface EcdsaChannelSignerInterface {
 	 * forward and it is safe to sign the next counterparty commitment.
 	 */
 	validate_counterparty_revocation(idx: bigint, secret: Uint8Array): Result_NoneNoneZ;
-	/**Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	/**Creates a signature for a holder's commitment transaction.
 	 * 
 	 * This will be called
 	 * - with a non-revoked `commitment_tx`.
 	 * - with the latest `commitment_tx` when we initiate a force-close.
-	 * - with the previous `commitment_tx`, just to get claiming HTLC
-	 * signatures, if we are reacting to a [`ChannelMonitor`]
-	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
-	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
 	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
-	 * 
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ;
+	sign_holder_commitment(commitment_tx: HolderCommitmentTransaction): Result_ECDSASignatureNoneZ;
 	/**Create a signature for the given input in a transaction spending an HTLC transaction output
 	 * or a commitment transaction `to_local` output when our counterparty broadcasts an old state.
 	 * 
@@ -629,11 +628,14 @@ export interface EcdsaChannelSignerInterface {
 	sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_ECDSASignatureNoneZ;
 	/**Computes the signature for a commitment transaction's HTLC output used as an input within
 	 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
-	 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
-	 * sign HTLC transactions from channels supporting anchor outputs after all additional
-	 * inputs/outputs have been added to the transaction.
+	 * must be be computed using [`EcdsaSighashType::All`].
+	 * 
+	 * Note that this may be called for HTLCs in the penultimate commitment transaction if a
+	 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * broadcasts it before receiving the update for the latest commitment transaction.
 	 * 
 	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	sign_holder_htlc_transaction(htlc_tx: Uint8Array, input: number, htlc_descriptor: HTLCDescriptor): Result_ECDSASignatureNoneZ;
 	/**Create a signature for a claiming transaction for a HTLC output on a counterparty's commitment
@@ -728,9 +730,9 @@ export class EcdsaChannelSigner extends CommonBase {
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
-			sign_holder_commitment_and_htlcs (commitment_tx: bigint): bigint {
+			sign_holder_commitment (commitment_tx: bigint): bigint {
 				const commitment_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, commitment_tx);
-				const ret: Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
+				const ret: Result_ECDSASignatureNoneZ = arg.sign_holder_commitment(commitment_tx_hu_conv);
 				const result: bigint = ret == null ? 0n : ret.clone_ptr();
 				return result;
 			},
@@ -828,25 +830,19 @@ export class EcdsaChannelSigner extends CommonBase {
 	}
 
 	/**
-	 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	 * Creates a signature for a holder's commitment transaction.
 	 * 
 	 * This will be called
 	 * - with a non-revoked `commitment_tx`.
 	 * - with the latest `commitment_tx` when we initiate a force-close.
-	 * - with the previous `commitment_tx`, just to get claiming HTLC
-	 * signatures, if we are reacting to a [`ChannelMonitor`]
-	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
-	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
 	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
-	 * 
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	public sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ {
-		const ret: bigint = bindings.EcdsaChannelSigner_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx));
-		const ret_hu_conv: Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ = Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.constr_from_ptr(ret);
+	public sign_holder_commitment(commitment_tx: HolderCommitmentTransaction): Result_ECDSASignatureNoneZ {
+		const ret: bigint = bindings.EcdsaChannelSigner_sign_holder_commitment(this.ptr, commitment_tx == null ? 0n : CommonBase.get_ptr_of(commitment_tx));
+		const ret_hu_conv: Result_ECDSASignatureNoneZ = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, commitment_tx);
 		return ret_hu_conv;
 	}
@@ -903,11 +899,14 @@ export class EcdsaChannelSigner extends CommonBase {
 	/**
 	 * Computes the signature for a commitment transaction's HTLC output used as an input within
 	 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
-	 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
-	 * sign HTLC transactions from channels supporting anchor outputs after all additional
-	 * inputs/outputs have been added to the transaction.
+	 * must be be computed using [`EcdsaSighashType::All`].
+	 * 
+	 * Note that this may be called for HTLCs in the penultimate commitment transaction if a
+	 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * broadcasts it before receiving the update for the latest commitment transaction.
 	 * 
 	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	public sign_holder_htlc_transaction(htlc_tx: Uint8Array, input: number, htlc_descriptor: HTLCDescriptor): Result_ECDSASignatureNoneZ {
 		const ret: bigint = bindings.EcdsaChannelSigner_sign_holder_htlc_transaction(this.ptr, bindings.encodeUint8Array(htlc_tx), input, htlc_descriptor == null ? 0n : CommonBase.get_ptr_of(htlc_descriptor));

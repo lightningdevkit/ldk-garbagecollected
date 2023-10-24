@@ -52,6 +52,10 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { TwoTuple_CVec_u8ZusizeZ } from '../structs/TwoTuple_CVec_u8ZusizeZ.mjs';
 import { Result_C2Tuple_CVec_u8ZusizeZNoneZ } from '../structs/Result_C2Tuple_CVec_u8ZusizeZNoneZ.mjs';
+import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
+import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
+import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
+import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
 import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
@@ -63,7 +67,6 @@ import { Result_SchnorrSignatureNoneZ } from '../structs/Result_SchnorrSignature
 import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
 import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
-import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
@@ -201,9 +204,6 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_SocketAddressZZ } from '../structs/Option_CVec_SocketAddressZZ.mjs';
-import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
-import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
-import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Utxo } from '../structs/Utxo.mjs';
 import { Option_TxOutZ } from '../structs/Option_TxOutZ.mjs';
 import { Input } from '../structs/Input.mjs';
@@ -225,7 +225,16 @@ import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ } from 
 import { ProbeSendFailure } from '../structs/ProbeSendFailure.mjs';
 import { Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ } from '../structs/Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.mjs';
 import { TwoTuple_ThirtyTwoBytesPublicKeyZ } from '../structs/TwoTuple_ThirtyTwoBytesPublicKeyZ.mjs';
+import { Option_StrZ } from '../structs/Option_StrZ.mjs';
+import { Result_NoneBolt12SemanticErrorZ } from '../structs/Result_NoneBolt12SemanticErrorZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.mjs';
+import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
+import { InvoiceError } from '../structs/InvoiceError.mjs';
+import { OffersMessage } from '../structs/OffersMessage.mjs';
+import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
+import { Destination } from '../structs/Destination.mjs';
+import { ThreeTuple_OffersMessageDestinationBlindedPathZ } from '../structs/ThreeTuple_OffersMessageDestinationBlindedPathZ.mjs';
 import { CounterpartyForwardingInfo } from '../structs/CounterpartyForwardingInfo.mjs';
 import { Result_CounterpartyForwardingInfoDecodeErrorZ } from '../structs/Result_CounterpartyForwardingInfoDecodeErrorZ.mjs';
 import { ChannelCounterparty } from '../structs/ChannelCounterparty.mjs';
@@ -272,13 +281,10 @@ import { TwoTuple_ThirtyTwoBytesChannelMonitorZ } from '../structs/TwoTuple_Thir
 import { Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
-import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
-import { InvoiceError } from '../structs/InvoiceError.mjs';
-import { OffersMessage } from '../structs/OffersMessage.mjs';
-import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
-import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
-import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
+import { OnionMessageContents, OnionMessageContentsInterface } from '../structs/OnionMessageContents.mjs';
+import { Option_OnionMessageContentsZ } from '../structs/Option_OnionMessageContentsZ.mjs';
+import { Result_COption_OnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_OnionMessageContentsZDecodeErrorZ.mjs';
+import { ThreeTuple_OnionMessageContentsDestinationBlindedPathZ } from '../structs/ThreeTuple_OnionMessageContentsDestinationBlindedPathZ.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { Option_SocketAddressZ } from '../structs/Option_SocketAddressZ.mjs';
@@ -450,6 +456,8 @@ import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePath
 import { TwoTuple_PublicKeyOnionMessageZ } from '../structs/TwoTuple_PublicKeyOnionMessageZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ } from '../structs/Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.mjs';
+import { ParsedOnionMessageContents } from '../structs/ParsedOnionMessageContents.mjs';
+import { Result_PeeledOnionNoneZ } from '../structs/Result_PeeledOnionNoneZ.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
 import { Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ } from '../structs/Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ.mjs';
@@ -490,16 +498,15 @@ import { FailureCode } from '../structs/FailureCode.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { Packet } from '../structs/Packet.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
-import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
-import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
@@ -526,11 +533,9 @@ import { MultiThreadedScoreLockWrite } from '../structs/MultiThreadedScoreLockWr
 import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
-import { Destination } from '../structs/Destination.mjs';
 import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
-import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { ForwardNode } from '../structs/ForwardNode.mjs';
 import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
 import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
@@ -545,94 +550,105 @@ import { ExpiryTime } from '../structs/ExpiryTime.mjs';
 import { MinFinalCltvExpiryDelta } from '../structs/MinFinalCltvExpiryDelta.mjs';
 import { Fallback } from '../structs/Fallback.mjs';
 
-
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-
-
-/** An implementation of CustomOnionMessageContents */
-export interface CustomOnionMessageContentsInterface {
-	/**Returns the TLV type identifying the message contents. MUST be >= 64.
-	 */
-	tlv_type(): bigint;
-	/**Serialize the object into a byte array
-	 */
-	write(): Uint8Array;
-}
-
-class LDKCustomOnionMessageContentsHolder {
-	held: CustomOnionMessageContents|null = null;
-}
-
 /**
- * The contents of a custom onion message.
+ * A processed incoming onion message, containing either a Forward (another onion message)
+ * or a Receive payload with decrypted contents.
  */
-export class CustomOnionMessageContents extends CommonBase {
+export class PeeledOnion extends CommonBase {
+	protected constructor(_dummy: null, ptr: bigint) { super(ptr, bindings.PeeledOnion_free); }
 	/* @internal */
-	public bindings_instance: bindings.LDKCustomOnionMessageContents|null;
-
-	/* @internal */
-	public instance_idx?: number;
-
-	/* @internal */
-	constructor(_dummy: null, ptr: bigint) {
-		super(ptr, bindings.CustomOnionMessageContents_free);
-		this.bindings_instance = null;
-	}
-
-	/** Creates a new instance of CustomOnionMessageContents from a given implementation */
-	public static new_impl(arg: CustomOnionMessageContentsInterface): CustomOnionMessageContents {
-		const impl_holder: LDKCustomOnionMessageContentsHolder = new LDKCustomOnionMessageContentsHolder();
-		let structImplementation = {
-			tlv_type (): bigint {
-				const ret: bigint = arg.tlv_type();
-				return ret;
-			},
-			write (): number {
-				const ret: Uint8Array = arg.write();
-				const result: number = bindings.encodeUint8Array(ret);
-				return result;
-			},
-		} as bindings.LDKCustomOnionMessageContents;
-		const ptr_idx: [bigint, number] = bindings.LDKCustomOnionMessageContents_new(structImplementation);
-
-		impl_holder.held = new CustomOnionMessageContents(null, ptr_idx[0]);
-		impl_holder.held.instance_idx = ptr_idx[1];
-		impl_holder.held.bindings_instance = structImplementation;
-		return impl_holder.held!;
-	}
-
-	/**
-	 * Returns the TLV type identifying the message contents. MUST be >= 64.
-	 */
-	public tlv_type(): bigint {
-		const ret: bigint = bindings.CustomOnionMessageContents_tlv_type(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * Serialize the object into a byte array
-	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.CustomOnionMessageContents_write(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
+	public static constr_from_ptr(ptr: bigint): PeeledOnion {
+		const raw_ty: number = bindings.LDKPeeledOnion_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new PeeledOnion_Forward(ptr);
+			case 1: return new PeeledOnion_Receive(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
+		}
 	}
 
 	public clone_ptr(): bigint {
-		const ret: bigint = bindings.CustomOnionMessageContents_clone_ptr(this.ptr);
+		const ret: bigint = bindings.PeeledOnion_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a copy of a CustomOnionMessageContents
+	 * Creates a copy of the PeeledOnion
 	 */
-	public clone(): CustomOnionMessageContents {
-		const ret: bigint = bindings.CustomOnionMessageContents_clone(this.ptr);
-		const ret_hu_conv: CustomOnionMessageContents = new CustomOnionMessageContents(null, ret);
+	public clone(): PeeledOnion {
+		const ret: bigint = bindings.PeeledOnion_clone(this.ptr);
+		const ret_hu_conv: PeeledOnion = PeeledOnion.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new Forward-variant PeeledOnion
+	 */
+	public static constructor_forward(a: Uint8Array, b: OnionMessage): PeeledOnion {
+		const ret: bigint = bindings.PeeledOnion_forward(bindings.encodeUint8Array(bindings.check_arr_len(a, 33)), b == null ? 0n : CommonBase.get_ptr_of(b));
+		const ret_hu_conv: PeeledOnion = PeeledOnion.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, b);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Receive-variant PeeledOnion
+	 */
+	public static constructor_receive(a: ParsedOnionMessageContents, b: Uint8Array, c: BlindedPath): PeeledOnion {
+		const ret: bigint = bindings.PeeledOnion_receive(CommonBase.get_ptr_of(a), bindings.encodeUint8Array(bindings.check_arr_len(b, 32)), c == null ? 0n : CommonBase.get_ptr_of(c));
+		const ret_hu_conv: PeeledOnion = PeeledOnion.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		CommonBase.add_ref_from(ret_hu_conv, a);
+		CommonBase.add_ref_from(ret_hu_conv, c);
+		return ret_hu_conv;
+	}
+
+}
+/** A PeeledOnion of type Forward */
+export class PeeledOnion_Forward extends PeeledOnion {
+	public _0: Uint8Array;
+	public _1: OnionMessage;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const _0: number = bindings.LDKPeeledOnion_Forward_get__0(ptr);
+		const _0_conv: Uint8Array = bindings.decodeUint8Array(_0);
+		this._0 = _0_conv;
+		const _1: bigint = bindings.LDKPeeledOnion_Forward_get__1(ptr);
+		const _1_hu_conv: OnionMessage = new OnionMessage(null, _1);
+			CommonBase.add_ref_from(_1_hu_conv, this);
+		this._1 = _1_hu_conv;
+	}
+}
+/** A PeeledOnion of type Receive */
+export class PeeledOnion_Receive extends PeeledOnion {
+	public _0: ParsedOnionMessageContents;
+	/**
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public _1: Uint8Array;
+	/**
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public _2: BlindedPath;
+	/* @internal */
+	public constructor(ptr: bigint) {
+		super(null, ptr);
+		const _0: bigint = bindings.LDKPeeledOnion_Receive_get__0(ptr);
+		const _0_hu_conv: ParsedOnionMessageContents = ParsedOnionMessageContents.constr_from_ptr(_0);
+			CommonBase.add_ref_from(_0_hu_conv, this);
+		this._0 = _0_hu_conv;
+		const _1: number = bindings.LDKPeeledOnion_Receive_get__1(ptr);
+		const _1_conv: Uint8Array = bindings.decodeUint8Array(_1);
+		this._1 = _1_conv;
+		const _2: bigint = bindings.LDKPeeledOnion_Receive_get__2(ptr);
+		const _2_hu_conv: BlindedPath = new BlindedPath(null, _2);
+			CommonBase.add_ref_from(_2_hu_conv, this);
+		this._2 = _2_hu_conv;
+	}
 }

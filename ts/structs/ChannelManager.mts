@@ -52,6 +52,10 @@ import { Result_SpendableOutputDescriptorDecodeErrorZ } from '../structs/Result_
 import { Option_u32Z } from '../structs/Option_u32Z.mjs';
 import { TwoTuple_CVec_u8ZusizeZ } from '../structs/TwoTuple_CVec_u8ZusizeZ.mjs';
 import { Result_C2Tuple_CVec_u8ZusizeZNoneZ } from '../structs/Result_C2Tuple_CVec_u8ZusizeZNoneZ.mjs';
+import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
+import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
+import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
+import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
 import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
@@ -63,7 +67,6 @@ import { Result_SchnorrSignatureNoneZ } from '../structs/Result_SchnorrSignature
 import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
 import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
 import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
-import { HTLCDescriptor } from '../structs/HTLCDescriptor.mjs';
 import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
 import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
 import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
@@ -201,9 +204,6 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_SocketAddressZZ } from '../structs/Option_CVec_SocketAddressZZ.mjs';
-import { ChannelDerivationParameters } from '../structs/ChannelDerivationParameters.mjs';
-import { Result_ChannelDerivationParametersDecodeErrorZ } from '../structs/Result_ChannelDerivationParametersDecodeErrorZ.mjs';
-import { Result_HTLCDescriptorDecodeErrorZ } from '../structs/Result_HTLCDescriptorDecodeErrorZ.mjs';
 import { Utxo } from '../structs/Utxo.mjs';
 import { Option_TxOutZ } from '../structs/Option_TxOutZ.mjs';
 import { Input } from '../structs/Input.mjs';
@@ -225,7 +225,16 @@ import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZPaymentSendFailureZ } from 
 import { ProbeSendFailure } from '../structs/ProbeSendFailure.mjs';
 import { Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ } from '../structs/Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbeSendFailureZ.mjs';
 import { TwoTuple_ThirtyTwoBytesPublicKeyZ } from '../structs/TwoTuple_ThirtyTwoBytesPublicKeyZ.mjs';
+import { Option_StrZ } from '../structs/Option_StrZ.mjs';
+import { Result_NoneBolt12SemanticErrorZ } from '../structs/Result_NoneBolt12SemanticErrorZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.mjs';
+import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
+import { InvoiceError } from '../structs/InvoiceError.mjs';
+import { OffersMessage } from '../structs/OffersMessage.mjs';
+import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
+import { Destination } from '../structs/Destination.mjs';
+import { ThreeTuple_OffersMessageDestinationBlindedPathZ } from '../structs/ThreeTuple_OffersMessageDestinationBlindedPathZ.mjs';
 import { CounterpartyForwardingInfo } from '../structs/CounterpartyForwardingInfo.mjs';
 import { Result_CounterpartyForwardingInfoDecodeErrorZ } from '../structs/Result_CounterpartyForwardingInfoDecodeErrorZ.mjs';
 import { ChannelCounterparty } from '../structs/ChannelCounterparty.mjs';
@@ -271,14 +280,10 @@ import { TwoTuple_ThirtyTwoBytesChannelMonitorZ } from '../structs/TwoTuple_Thir
 import { Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.mjs';
 import { Type, TypeInterface } from '../structs/Type.mjs';
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
-import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
-import { Bolt12Invoice } from '../structs/Bolt12Invoice.mjs';
-import { InvoiceError } from '../structs/InvoiceError.mjs';
-import { OffersMessage } from '../structs/OffersMessage.mjs';
-import { Option_OffersMessageZ } from '../structs/Option_OffersMessageZ.mjs';
-import { CustomOnionMessageContents, CustomOnionMessageContentsInterface } from '../structs/CustomOnionMessageContents.mjs';
-import { Option_CustomOnionMessageContentsZ } from '../structs/Option_CustomOnionMessageContentsZ.mjs';
-import { Result_COption_CustomOnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_CustomOnionMessageContentsZDecodeErrorZ.mjs';
+import { OnionMessageContents, OnionMessageContentsInterface } from '../structs/OnionMessageContents.mjs';
+import { Option_OnionMessageContentsZ } from '../structs/Option_OnionMessageContentsZ.mjs';
+import { Result_COption_OnionMessageContentsZDecodeErrorZ } from '../structs/Result_COption_OnionMessageContentsZDecodeErrorZ.mjs';
+import { ThreeTuple_OnionMessageContentsDestinationBlindedPathZ } from '../structs/ThreeTuple_OnionMessageContentsDestinationBlindedPathZ.mjs';
 import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { Option_SocketAddressZ } from '../structs/Option_SocketAddressZ.mjs';
@@ -450,6 +455,9 @@ import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePath
 import { TwoTuple_PublicKeyOnionMessageZ } from '../structs/TwoTuple_PublicKeyOnionMessageZ.mjs';
 import { SendError } from '../structs/SendError.mjs';
 import { Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ } from '../structs/Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.mjs';
+import { ParsedOnionMessageContents } from '../structs/ParsedOnionMessageContents.mjs';
+import { PeeledOnion } from '../structs/PeeledOnion.mjs';
+import { Result_PeeledOnionNoneZ } from '../structs/Result_PeeledOnionNoneZ.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedPathNoneZ } from '../structs/Result_BlindedPathNoneZ.mjs';
 import { Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ } from '../structs/Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ.mjs';
@@ -490,16 +498,15 @@ import { FailureCode } from '../structs/FailureCode.mjs';
 import { ChainParameters } from '../structs/ChainParameters.mjs';
 import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
 import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
 import { Packet } from '../structs/Packet.mjs';
 import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
-import { OnionMessageProvider, OnionMessageProviderInterface } from '../structs/OnionMessageProvider.mjs';
 import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
 import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
 import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
 import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
-import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
 import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
 import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
 import { MessageHandler } from '../structs/MessageHandler.mjs';
@@ -526,11 +533,9 @@ import { MultiThreadedScoreLockWrite } from '../structs/MultiThreadedScoreLockWr
 import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
-import { Destination } from '../structs/Destination.mjs';
 import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
 import { OnionMessenger } from '../structs/OnionMessenger.mjs';
 import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
-import { OnionMessageContents } from '../structs/OnionMessageContents.mjs';
 import { ForwardNode } from '../structs/ForwardNode.mjs';
 import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
 import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
@@ -783,11 +788,11 @@ export class ChannelManager extends CommonBase {
 	 * will be accepted on the given channel, and after additional timeout/the closing of all
 	 * pending HTLCs, the channel will be closed on chain.
 	 * 
-	 * If we are the channel initiator, we will pay between our [`Background`] and
-	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`Normal`] fee
-	 * estimate.
+	 * If we are the channel initiator, we will pay between our [`ChannelCloseMinimum`] and
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`NonAnchorChannelFee`]
+	 * fee estimate.
 	 * If our counterparty is the channel initiator, we will require a channel closing
-	 * transaction feerate of at least our [`Background`] feerate or the feerate which
+	 * transaction feerate of at least our [`ChannelCloseMinimum`] feerate or the feerate which
 	 * would appear on a force-closure transaction, whichever is lower. We will allow our
 	 * counterparty to pay as much fee as they'd like, however.
 	 * 
@@ -799,8 +804,8 @@ export class ChannelManager extends CommonBase {
 	 * channel.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
-	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
-	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`ChannelCloseMinimum`]: crate::chain::chaininterface::ConfirmationTarget::ChannelCloseMinimum
+	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
 	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
 	 */
 	public close_channel(channel_id: Uint8Array, counterparty_node_id: Uint8Array): Result_NoneAPIErrorZ {
@@ -818,8 +823,8 @@ export class ChannelManager extends CommonBase {
 	 * the channel being closed or not:
 	 * If we are the channel initiator, we will pay at least this feerate on the closing
 	 * transaction. The upper-bound is set by
-	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`Normal`] fee
-	 * estimate (or `target_feerate_sat_per_1000_weight`, if it is greater).
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`NonAnchorChannelFee`]
+	 * fee estimate (or `target_feerate_sat_per_1000_weight`, if it is greater).
 	 * If our counterparty is the channel initiator, we will refuse to accept a channel closure
 	 * transaction feerate below `target_feerate_sat_per_1000_weight` (or the feerate which
 	 * will appear on a force-closure transaction, whichever is lower).
@@ -837,8 +842,7 @@ export class ChannelManager extends CommonBase {
 	 * channel.
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
-	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
-	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
 	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
 	 * 
 	 * Note that shutdown_script (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -981,10 +985,20 @@ export class ChannelManager extends CommonBase {
 	 * wait until you receive either a [`Event::PaymentFailed`] or [`Event::PaymentSent`] event to
 	 * determine the ultimate status of a payment.
 	 * 
+	 * # Requested Invoices
+	 * 
+	 * In the case of paying a [`Bolt12Invoice`] via [`ChannelManager::pay_for_offer`], abandoning
+	 * the payment prior to receiving the invoice will result in an [`Event::InvoiceRequestFailed`]
+	 * and prevent any attempts at paying it once received. The other events may only be generated
+	 * once the invoice has been received.
+	 * 
 	 * # Restart Behavior
 	 * 
 	 * If an [`Event::PaymentFailed`] is generated and we restart without first persisting the
-	 * [`ChannelManager`], another [`Event::PaymentFailed`] may be generated.
+	 * [`ChannelManager`], another [`Event::PaymentFailed`] may be generated; likewise for
+	 * [`Event::InvoiceRequestFailed`].
+	 * 
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
 	 */
 	public abandon_payment(payment_id: Uint8Array): void {
 		bindings.ChannelManager_abandon_payment(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
@@ -1268,6 +1282,10 @@ export class ChannelManager extends CommonBase {
 	 * with the current [`ChannelConfig`].
 	 * Removing peers which have disconnected but and no longer have any channels.
 	 * Force-closing and removing channels which have not completed establishment in a timely manner.
+	 * Forgetting about stale outbound payments, either those that have already been fulfilled
+	 * or those awaiting an invoice that hasn't been delivered in the necessary amount of time.
+	 * The latter is determined using the system clock in `std` and the highest seen block time
+	 * minus two hours in `no-std`.
 	 * 
 	 * Note that this may cause reentrancy through [`chain::Watch::update_channel`] calls or feerate
 	 * estimate fetches.
@@ -1410,6 +1428,94 @@ export class ChannelManager extends CommonBase {
 	public accept_inbound_channel_from_trusted_peer_0conf(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, user_channel_id: bigint): Result_NoneAPIErrorZ {
 		const ret: bigint = bindings.ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), bindings.encodeUint128(user_channel_id));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays for an [`Offer`] using the given parameters by creating an [`InvoiceRequest`] and
+	 * enqueuing it to be sent via an onion message. [`ChannelManager`] will pay the actual
+	 * [`Bolt12Invoice`] once it is received.
+	 * 
+	 * Uses [`InvoiceRequestBuilder`] such that the [`InvoiceRequest`] it builds is recognized by
+	 * the [`ChannelManager`] when handling a [`Bolt12Invoice`] message in response to the request.
+	 * The optional parameters are used in the builder, if `Some`:
+	 * - `quantity` for [`InvoiceRequest::quantity`] which must be set if
+	 * [`Offer::expects_quantity`] is `true`.
+	 * - `amount_msats` if overpaying what is required for the given `quantity` is desired, and
+	 * - `payer_note` for [`InvoiceRequest::payer_note`].
+	 * 
+	 * If `max_total_routing_fee_msat` is not specified, The default from
+	 * [`RouteParameters::from_payment_params_and_value`] is applied.
+	 * 
+	 * # Payment
+	 * 
+	 * The provided `payment_id` is used to ensure that only one invoice is paid for the request
+	 * when received. See [Avoiding Duplicate Payments] for other requirements once the payment has
+	 * been sent.
+	 * 
+	 * To revoke the request, use [`ChannelManager::abandon_payment`] prior to receiving the
+	 * invoice. If abandoned, or an invoice isn't received in a reasonable amount of time, the
+	 * payment will fail with an [`Event::InvoiceRequestFailed`].
+	 * 
+	 * # Privacy
+	 * 
+	 * Uses a one-hop [`BlindedPath`] for the reply path with [`ChannelManager::get_our_node_id`]
+	 * as the introduction node and a derived payer id for payer privacy. As such, currently, the
+	 * node must be announced. Otherwise, there is no way to find a path to the introduction node
+	 * in order to send the [`Bolt12Invoice`].
+	 * 
+	 * # Limitations
+	 * 
+	 * Requires a direct connection to an introduction node in [`Offer::paths`] or to
+	 * [`Offer::signing_pubkey`], if empty. A similar restriction applies to the responding
+	 * [`Bolt12Invoice::payment_paths`].
+	 * 
+	 * # Errors
+	 * 
+	 * Errors if a duplicate `payment_id` is provided given the caveats in the aforementioned link
+	 * or if the provided parameters are invalid for the offer.
+	 * 
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 * [`InvoiceRequest::quantity`]: crate::offers::invoice_request::InvoiceRequest::quantity
+	 * [`InvoiceRequest::payer_note`]: crate::offers::invoice_request::InvoiceRequest::payer_note
+	 * [`InvoiceRequestBuilder`]: crate::offers::invoice_request::InvoiceRequestBuilder
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 * [`Bolt12Invoice::payment_paths`]: crate::offers::invoice::Bolt12Invoice::payment_paths
+	 * [Avoiding Duplicate Payments]: #avoiding-duplicate-payments
+	 */
+	public pay_for_offer(offer: Offer, quantity: Option_u64Z, amount_msats: Option_u64Z, payer_note: Option_StrZ, payment_id: Uint8Array, retry_strategy: Retry, max_total_routing_fee_msat: Option_u64Z): Result_NoneBolt12SemanticErrorZ {
+		const ret: bigint = bindings.ChannelManager_pay_for_offer(this.ptr, offer == null ? 0n : CommonBase.get_ptr_of(offer), CommonBase.get_ptr_of(quantity), CommonBase.get_ptr_of(amount_msats), CommonBase.get_ptr_of(payer_note), bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), CommonBase.get_ptr_of(retry_strategy), CommonBase.get_ptr_of(max_total_routing_fee_msat));
+		const ret_hu_conv: Result_NoneBolt12SemanticErrorZ = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, offer);
+		CommonBase.add_ref_from(this, quantity);
+		CommonBase.add_ref_from(this, amount_msats);
+		CommonBase.add_ref_from(this, payer_note);
+		CommonBase.add_ref_from(this, retry_strategy);
+		CommonBase.add_ref_from(this, max_total_routing_fee_msat);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a [`Bolt12Invoice`] for a [`Refund`] and enqueues it to be sent via an onion
+	 * message.
+	 * 
+	 * The resulting invoice uses a [`PaymentHash`] recognized by the [`ChannelManager`] and a
+	 * [`BlindedPath`] containing the [`PaymentSecret`] needed to reconstruct the corresponding
+	 * [`PaymentPreimage`].
+	 * 
+	 * # Limitations
+	 * 
+	 * Requires a direct connection to an introduction node in [`Refund::paths`] or to
+	 * [`Refund::payer_id`], if empty. This request is best effort; an invoice will be sent to each
+	 * node meeting the aforementioned criteria, but there's no guarantee that they will be
+	 * received and no retries will be made.
+	 * 
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 */
+	public request_refund_payment(refund: Refund): Result_NoneBolt12SemanticErrorZ {
+		const ret: bigint = bindings.ChannelManager_request_refund_payment(this.ptr, refund == null ? 0n : CommonBase.get_ptr_of(refund));
+		const ret_hu_conv: Result_NoneBolt12SemanticErrorZ = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(this, refund);
 		return ret_hu_conv;
 	}
 
@@ -1651,7 +1757,7 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Fetches the set of [`NodeFeatures`] flags which are provided by or required by
+	 * Fetches the set of [`NodeFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
 	public node_features(): NodeFeatures {
@@ -1662,7 +1768,7 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Fetches the set of [`ChannelFeatures`] flags which are provided by or required by
+	 * Fetches the set of [`ChannelFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
 	public channel_features(): ChannelFeatures {
@@ -1673,7 +1779,7 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Fetches the set of [`ChannelTypeFeatures`] flags which are provided by or required by
+	 * Fetches the set of [`ChannelTypeFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
 	public channel_type_features(): ChannelTypeFeatures {
@@ -1684,7 +1790,7 @@ export class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Fetches the set of [`InitFeatures`] flags which are provided by or required by
+	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
 	public init_features(): InitFeatures {
@@ -1701,6 +1807,17 @@ export class ChannelManager extends CommonBase {
 	public as_ChannelMessageHandler(): ChannelMessageHandler {
 		const ret: bigint = bindings.ChannelManager_as_ChannelMessageHandler(this.ptr);
 		const ret_hu_conv: ChannelMessageHandler = new ChannelMessageHandler(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new OffersMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned OffersMessageHandler must be freed before this_arg is
+	 */
+	public as_OffersMessageHandler(): OffersMessageHandler {
+		const ret: bigint = bindings.ChannelManager_as_OffersMessageHandler(this.ptr);
+		const ret_hu_conv: OffersMessageHandler = new OffersMessageHandler(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
