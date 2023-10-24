@@ -313,29 +313,27 @@ tests.push(async () => {
 
 	var a_handled_msg = false;
 	const om_handler_a = ldk.CustomOnionMessageHandler.new_impl({
-		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
+		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_OnionMessageContentsZDecodeErrorZ {
 			assert(message_type == 4343n);
 			assert(buffer.length == 44);
 			for (var i = 0; i < 44; i++) assert(buffer[i] == 67);
-			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
+			return ldk.Result_COption_OnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_OnionMessageContentsZ.constructor_some(ldk.OnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9998n; },
 				write(): Uint8Array { throw new Error(); }
-			} as ldk.CustomOnionMessageContentsInterface)));
+			} as ldk.OnionMessageContentsInterface)));
 		},
-		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
+		handle_custom_message(msg: ldk.OnionMessageContents) {
 			assert(msg.tlv_type() == 9998n);
 			a_handled_msg = true;
+		},
+		release_pending_custom_messages(): ldk.ThreeTuple_OnionMessageContentsDestinationBlindedPathZ[] {
+			return [];
 		},
 	} as ldk.CustomOnionMessageHandlerInterface);
 
 	const underlying_om_a = ldk.OnionMessenger.constructor_new(a.keys_manager.as_EntropySource(),
 		a.keys_manager.as_NodeSigner(), a.logger, ldk.DefaultMessageRouter.constructor_new().as_MessageRouter(),
 		ignorer.as_OffersMessageHandler(), om_handler_a);
-	const om_provider_a = {
-		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
-			return underlying_om_a.as_OnionMessageProvider().next_onion_message_for_peer(peer_node_id);
-		}
-	} as ldk.OnionMessageProviderInterface;
 	const om_a = ldk.OnionMessageHandler.new_impl({
 		handle_onion_message(peer_node_id: Uint8Array, msg: ldk.OnionMessage) {
 			underlying_om_a.as_OnionMessageHandler().handle_onion_message(peer_node_id, msg);
@@ -351,24 +349,30 @@ tests.push(async () => {
 		},
 		provided_init_features(their_node_id: Uint8Array): ldk.InitFeatures {
 			return underlying_om_a.as_OnionMessageHandler().provided_init_features(their_node_id);
-		}
-	} as ldk.OnionMessageHandlerInterface, om_provider_a);
+		},
+		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
+			return underlying_om_a.as_OnionMessageHandler().next_onion_message_for_peer(peer_node_id);
+		},
+	} as ldk.OnionMessageHandlerInterface);
 
 	var b_handled_msg = false;
 	const om_handler_b = ldk.CustomOnionMessageHandler.new_impl({
-		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ {
+		read_custom_message(message_type: bigint, buffer: Uint8Array): ldk.Result_COption_OnionMessageContentsZDecodeErrorZ {
 			assert(message_type == 4242n);
 			assert(buffer.length == 43);
 			for (var i = 0; i < 43; i++) assert(buffer[i] == 66);
-			return ldk.Result_COption_CustomOnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_CustomOnionMessageContentsZ.constructor_some(ldk.CustomOnionMessageContents.new_impl({
+			return ldk.Result_COption_OnionMessageContentsZDecodeErrorZ.constructor_ok(ldk.Option_OnionMessageContentsZ.constructor_some(ldk.OnionMessageContents.new_impl({
 				tlv_type(): bigint { return 9999n; },
 				write(): Uint8Array { throw new Error(); }
-			} as ldk.CustomOnionMessageContentsInterface)));
+			} as ldk.OnionMessageContentsInterface)));
 		},
-		handle_custom_message(msg: ldk.CustomOnionMessageContents) {
+		handle_custom_message(msg: ldk.OnionMessageContents) {
 			assert(msg.tlv_type() == 9999n);
 			b_handled_msg = true;
 		},
+		release_pending_custom_messages(): ldk.ThreeTuple_OnionMessageContentsDestinationBlindedPathZ[] {
+			return [];
+		}
 	} as ldk.CustomOnionMessageHandlerInterface);
 	const om_b = ldk.OnionMessenger.constructor_new(b.keys_manager.as_EntropySource(), b.keys_manager.as_NodeSigner(),
 		b.logger, ldk.DefaultMessageRouter.constructor_new().as_MessageRouter(), ignorer.as_OffersMessageHandler(),
@@ -433,27 +437,27 @@ tests.push(async () => {
 
 	underlying_om_a.send_onion_message(
 		ldk.OnionMessagePath.constructor_new([], ldk.Destination.constructor_node(b.node_id)),
-		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
+		ldk.OnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4242n; },
 			write(): Uint8Array {
 				const ret = new Uint8Array(43);
 				for (var i = 0; i < 43; i++) ret[i] = 66;
 				return ret;
 			}
-		} as ldk.CustomOnionMessageContentsInterface)), null);
+		} as ldk.OnionMessageContentsInterface), null);
 	pm_a.process_events();
 	assert(b_handled_msg);
 
 	om_b.send_onion_message(
 		ldk.OnionMessagePath.constructor_new([], ldk.Destination.constructor_node(a.node_id)),
-		ldk.OnionMessageContents.constructor_custom(ldk.CustomOnionMessageContents.new_impl({
+		ldk.OnionMessageContents.new_impl({
 			tlv_type(): bigint { return 4343n; },
 			write(): Uint8Array {
 				const ret = new Uint8Array(44);
 				for (var i = 0; i < 44; i++) ret[i] = 67;
 				return ret;
 			}
-		} as ldk.CustomOnionMessageContentsInterface)), null);
+		} as ldk.OnionMessageContentsInterface), null);
 	pm_b.process_events();
 	assert(a_handled_msg);
 
