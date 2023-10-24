@@ -9,9 +9,21 @@ import javax.annotation.Nullable;
 
 
 /**
- * A sender, receiver and forwarder of onion messages. In upcoming releases, this object will be
- * used to retrieve invoices and fulfill invoice requests from [offers]. Currently, only sending
- * and receiving custom onion messages is supported.
+ * A sender, receiver and forwarder of [`OnionMessage`]s.
+ * 
+ * # Handling Messages
+ * 
+ * `OnionMessenger` implements [`OnionMessageHandler`], making it responsible for either forwarding
+ * messages to peers or delegating to the appropriate handler for the message type. Currently, the
+ * available handlers are:
+ * [`OffersMessageHandler`], for responding to [`InvoiceRequest`]s and paying [`Bolt12Invoice`]s
+ * [`CustomOnionMessageHandler`], for handling user-defined message types
+ * 
+ * # Sending Messages
+ * 
+ * [`OnionMessage`]s are sent initially using [`OnionMessenger::send_onion_message`]. When handling
+ * a message, the matched handler may return a response message which `OnionMessenger` will send
+ * on its behalf.
  * 
  * # Example
  * 
@@ -23,7 +35,7 @@ import javax.annotation.Nullable;
  * # use lightning::sign::KeysManager;
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
  * # use lightning::onion_message::messenger::{Destination, MessageRouter, OnionMessenger, OnionMessagePath};
- * # use lightning::onion_message::packet::{CustomOnionMessageContents, OnionMessageContents};
+ * # use lightning::onion_message::packet::OnionMessageContents;
  * # use lightning::util::logger::{Logger, Record};
  * # use lightning::util::ser::{Writeable, Writer};
  * # use lightning::io;
@@ -65,7 +77,7 @@ import javax.annotation.Nullable;
  * \t\t// Write your custom onion message to `w`
  * \t}
  * }
- * impl CustomOnionMessageContents for YourCustomMessage {
+ * impl OnionMessageContents for YourCustomMessage {
  * \tfn tlv_type(&self) -> u64 {
  * \t\t# let your_custom_message_type = 42;
  * \t\tyour_custom_message_type
@@ -77,8 +89,7 @@ import javax.annotation.Nullable;
  * \tdestination: Destination::Node(destination_node_id),
  * };
  * let reply_path = None;
- * # let your_custom_message = YourCustomMessage {};
- * let message = OnionMessageContents::Custom(your_custom_message);
+ * # let message = YourCustomMessage {};
  * onion_messenger.send_onion_message(path, message, reply_path);
  * 
  * Create a blinded path to yourself, for someone to send an onion message to.
@@ -92,13 +103,12 @@ import javax.annotation.Nullable;
  * \tdestination: Destination::BlindedPath(blinded_path),
  * };
  * let reply_path = None;
- * # let your_custom_message = YourCustomMessage {};
- * let message = OnionMessageContents::Custom(your_custom_message);
+ * # let message = YourCustomMessage {};
  * onion_messenger.send_onion_message(path, message, reply_path);
  * ```
  * 
- * [offers]: <https://github.com/lightning/bolts/pull/798>
- * [`OnionMessenger`]: crate::onion_message::OnionMessenger
+ * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+ * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessenger extends CommonBase {
@@ -134,22 +144,23 @@ public class OnionMessenger extends CommonBase {
 	}
 
 	/**
-	 * Send an onion message with contents `message` to the destination of `path`.
+	 * Sends an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`.
 	 * 
 	 * See [`OnionMessenger`] for example usage.
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneSendErrorZ send_onion_message(org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents message, @Nullable org.ldk.structs.BlindedPath reply_path) {
-		long ret = bindings.OnionMessenger_send_onion_message(this.ptr, path == null ? 0 : path.ptr, message.ptr, reply_path == null ? 0 : reply_path.ptr);
+	public Result_NoneSendErrorZ send_onion_message(org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, @Nullable org.ldk.structs.BlindedPath reply_path) {
+		long ret = bindings.OnionMessenger_send_onion_message(this.ptr, path == null ? 0 : path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(message);
+		Reference.reachabilityFence(contents);
 		Reference.reachabilityFence(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneSendErrorZ ret_hu_conv = Result_NoneSendErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(path); };
-		if (this != null) { this.ptrs_to.add(message); };
+		if (this != null) { this.ptrs_to.add(contents); };
 		if (this != null) { this.ptrs_to.add(reply_path); };
 		return ret_hu_conv;
 	}
@@ -163,19 +174,6 @@ public class OnionMessenger extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OnionMessageHandler ret_hu_conv = new OnionMessageHandler(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Constructs a new OnionMessageProvider which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned OnionMessageProvider must be freed before this_arg is
-	 */
-	public OnionMessageProvider as_OnionMessageProvider() {
-		long ret = bindings.OnionMessenger_as_OnionMessageProvider(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		OnionMessageProvider ret_hu_conv = new OnionMessageProvider(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

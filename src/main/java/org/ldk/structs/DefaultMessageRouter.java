@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * A [`MessageRouter`] that always fails.
+ * A [`MessageRouter`] that can only route to a directly connected [`Destination`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class DefaultMessageRouter extends CommonBase {

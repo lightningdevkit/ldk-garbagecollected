@@ -7,56 +7,80 @@ import java.util.Arrays;
 import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
-
 /**
- * The contents of an onion message. In the context of offers, this would be the invoice, invoice
- * request, or invoice error.
+ * The contents of an onion message.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessageContents extends CommonBase {
-	private OnionMessageContents(Object _dummy, long ptr) { super(ptr); }
+	final bindings.LDKOnionMessageContents bindings_instance;
+	OnionMessageContents(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private OnionMessageContents(bindings.LDKOnionMessageContents arg) {
+		super(bindings.LDKOnionMessageContents_new(arg));
+		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
+	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.OnionMessageContents_free(ptr); }
+		if (ptr != 0) { bindings.OnionMessageContents_free(ptr); } super.finalize();
 	}
-	static OnionMessageContents constr_from_ptr(long ptr) {
-		bindings.LDKOnionMessageContents raw_val = bindings.LDKOnionMessageContents_ref_from_ptr(ptr);
-		if (raw_val.getClass() == bindings.LDKOnionMessageContents.Offers.class) {
-			return new Offers(ptr, (bindings.LDKOnionMessageContents.Offers)raw_val);
-		}
-		if (raw_val.getClass() == bindings.LDKOnionMessageContents.Custom.class) {
-			return new Custom(ptr, (bindings.LDKOnionMessageContents.Custom)raw_val);
-		}
-		assert false; return null; // Unreachable without extending the (internal) bindings interface
+	/**
+	 * Destroys the object, freeing associated resources. After this call, any access
+	 * to this object may result in a SEGFAULT or worse.
+	 *
+	 * You should generally NEVER call this method. You should let the garbage collector
+	 * do this for you when it finalizes objects. However, it may be useful for types
+	 * which represent locks and should be closed immediately to avoid holding locks
+	 * until the GC runs.
+	 */
+	public void destroy() {
+		if (ptr != 0) { bindings.OnionMessageContents_free(ptr); }
+		ptr = 0;
+	}
+	public static interface OnionMessageContentsInterface {
+		/**
+		 * Returns the TLV type identifying the message contents. MUST be >= 64.
+		 */
+		long tlv_type();
+		/**
+		 * Serialize the object into a byte array
+		 */
+		byte[] write();
+	}
+	private static class LDKOnionMessageContentsHolder { OnionMessageContents held; }
+	public static OnionMessageContents new_impl(OnionMessageContentsInterface arg) {
+		final LDKOnionMessageContentsHolder impl_holder = new LDKOnionMessageContentsHolder();
+		impl_holder.held = new OnionMessageContents(new bindings.LDKOnionMessageContents() {
+			@Override public long tlv_type() {
+				long ret = arg.tlv_type();
+				Reference.reachabilityFence(arg);
+				return ret;
+			}
+			@Override public byte[] write() {
+				byte[] ret = arg.write();
+				Reference.reachabilityFence(arg);
+				return ret;
+			}
+		});
+		return impl_holder.held;
+	}
+	/**
+	 * Returns the TLV type identifying the message contents. MUST be >= 64.
+	 */
+	public long tlv_type() {
+		long ret = bindings.OnionMessageContents_tlv_type(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**
-	 * A message related to BOLT 12 Offers.
+	 * Serialize the object into a byte array
 	 */
-	public final static class Offers extends OnionMessageContents {
-		public final org.ldk.structs.OffersMessage offers;
-		private Offers(long ptr, bindings.LDKOnionMessageContents.Offers obj) {
-			super(null, ptr);
-			long offers = obj.offers;
-			org.ldk.structs.OffersMessage offers_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(offers);
-			if (offers_hu_conv != null) { offers_hu_conv.ptrs_to.add(this); };
-			this.offers = offers_hu_conv;
-		}
+	public byte[] write() {
+		byte[] ret = bindings.OnionMessageContents_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
-	/**
-	 * A custom onion message specified by the user.
-	 */
-	public final static class Custom extends OnionMessageContents {
-		public final org.ldk.structs.CustomOnionMessageContents custom;
-		private Custom(long ptr, bindings.LDKOnionMessageContents.Custom obj) {
-			super(null, ptr);
-			long custom = obj.custom;
-			CustomOnionMessageContents ret_hu_conv = new CustomOnionMessageContents(null, custom);
-			if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-			this.custom = ret_hu_conv;
-		}
-	}
+
 	long clone_ptr() {
 		long ret = bindings.OnionMessageContents_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -64,40 +88,14 @@ public class OnionMessageContents extends CommonBase {
 	}
 
 	/**
-	 * Creates a copy of the OnionMessageContents
+	 * Creates a copy of a OnionMessageContents
 	 */
 	public OnionMessageContents clone() {
 		long ret = bindings.OnionMessageContents_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
+		OnionMessageContents ret_hu_conv = new OnionMessageContents(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new Offers-variant OnionMessageContents
-	 */
-	public static OnionMessageContents offers(org.ldk.structs.OffersMessage a) {
-		long ret = bindings.OnionMessageContents_offers(a.ptr);
-		Reference.reachabilityFence(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new Custom-variant OnionMessageContents
-	 */
-	public static OnionMessageContents custom(org.ldk.structs.CustomOnionMessageContents a) {
-		long ret = bindings.OnionMessageContents_custom(a.ptr);
-		Reference.reachabilityFence(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(a); };
 		return ret_hu_conv;
 	}
 

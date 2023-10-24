@@ -34,6 +34,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentClaimed.class) {
 			return new PaymentClaimed(ptr, (bindings.LDKEvent.PaymentClaimed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.InvoiceRequestFailed.class) {
+			return new InvoiceRequestFailed(ptr, (bindings.LDKEvent.InvoiceRequestFailed)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentSent.class) {
 			return new PaymentSent(ptr, (bindings.LDKEvent.PaymentSent)raw_val);
 		}
@@ -356,6 +359,26 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u64Z sender_intended_total_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(sender_intended_total_msat);
 			if (sender_intended_total_msat_hu_conv != null) { sender_intended_total_msat_hu_conv.ptrs_to.add(this); };
 			this.sender_intended_total_msat = sender_intended_total_msat_hu_conv;
+		}
+	}
+	/**
+	 * Indicates a request for an invoice failed to yield a response in a reasonable amount of time
+	 * or was explicitly abandoned by [`ChannelManager::abandon_payment`]. This may be for an
+	 * [`InvoiceRequest`] sent for an [`Offer`] or for a [`Refund`] that hasn't been redeemed.
+	 * 
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 * [`Offer`]: crate::offers::offer::Offer
+	 * [`Refund`]: crate::offers::refund::Refund
+	 */
+	public final static class InvoiceRequestFailed extends Event {
+		/**
+		 * The `payment_id` to have been associated with payment for the requested invoice.
+		*/
+		public final byte[] payment_id;
+		private InvoiceRequestFailed(long ptr, bindings.LDKEvent.InvoiceRequestFailed obj) {
+			super(null, ptr);
+			this.payment_id = obj.payment_id;
 		}
 	}
 	/**
@@ -1203,6 +1226,18 @@ public class Event extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(purpose); };
 		for (ClaimedHTLC htlcs_conv_13: htlcs) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(htlcs_conv_13); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(sender_intended_total_msat); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvoiceRequestFailed-variant Event
+	 */
+	public static Event invoice_request_failed(byte[] payment_id) {
+		long ret = bindings.Event_invoice_request_failed(InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(payment_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

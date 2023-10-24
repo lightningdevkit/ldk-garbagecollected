@@ -261,6 +261,15 @@ public class SocketAddress extends CommonBase {
 	}
 
 	/**
+	 * Get the string representation of a SocketAddress object
+	 */
+	public String to_str() {
+		String ret = bindings.SocketAddress_to_str(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Read a SocketAddress object from a string
 	 */
 	public static Result_SocketAddressSocketAddressParseErrorZ from_str(java.lang.String s) {

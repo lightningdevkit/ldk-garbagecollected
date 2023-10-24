@@ -39,19 +39,19 @@ public class UtxoLookup extends CommonBase {
 	public static interface UtxoLookupInterface {
 		/**
 		 * Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
-		 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
-		 * is unknown.
+		 * Returns an error if `chain_hash` is for a different chain or if such a transaction output is
+		 * unknown.
 		 * 
 		 * [`short_channel_id`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 		 */
-		UtxoResult get_utxo(byte[] genesis_hash, long short_channel_id);
+		UtxoResult get_utxo(byte[] chain_hash, long short_channel_id);
 	}
 	private static class LDKUtxoLookupHolder { UtxoLookup held; }
 	public static UtxoLookup new_impl(UtxoLookupInterface arg) {
 		final LDKUtxoLookupHolder impl_holder = new LDKUtxoLookupHolder();
 		impl_holder.held = new UtxoLookup(new bindings.LDKUtxoLookup() {
-			@Override public long get_utxo(byte[] genesis_hash, long short_channel_id) {
-				UtxoResult ret = arg.get_utxo(genesis_hash, short_channel_id);
+			@Override public long get_utxo(byte[] chain_hash, long short_channel_id) {
+				UtxoResult ret = arg.get_utxo(chain_hash, short_channel_id);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
@@ -62,15 +62,15 @@ public class UtxoLookup extends CommonBase {
 	}
 	/**
 	 * Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
-	 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
-	 * is unknown.
+	 * Returns an error if `chain_hash` is for a different chain or if such a transaction output is
+	 * unknown.
 	 * 
 	 * [`short_channel_id`]: https://github.com/lightning/bolts/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 	 */
-	public UtxoResult get_utxo(byte[] genesis_hash, long short_channel_id) {
-		long ret = bindings.UtxoLookup_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);
+	public UtxoResult get_utxo(byte[] chain_hash, long short_channel_id) {
+		long ret = bindings.UtxoLookup_get_utxo(this.ptr, InternalUtils.check_arr_len(chain_hash, 32), short_channel_id);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(genesis_hash);
+		Reference.reachabilityFence(chain_hash);
 		Reference.reachabilityFence(short_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UtxoResult ret_hu_conv = org.ldk.structs.UtxoResult.constr_from_ptr(ret);

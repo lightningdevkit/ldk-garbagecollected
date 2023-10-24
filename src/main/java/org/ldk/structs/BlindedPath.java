@@ -161,10 +161,23 @@ public class BlindedPath extends CommonBase {
 		return this.eq((BlindedPath)o);
 	}
 	/**
+	 * Create a one-hop blinded path for a message.
+	 */
+	public static Result_BlindedPathNoneZ one_hop_for_message(byte[] recipient_node_id, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedPath_one_hop_for_message(InternalUtils.check_arr_len(recipient_node_id, 33), entropy_source.ptr);
+		Reference.reachabilityFence(recipient_node_id);
+		Reference.reachabilityFence(entropy_source);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_BlindedPathNoneZ ret_hu_conv = Result_BlindedPathNoneZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Create a blinded path for an onion message, to be forwarded along `node_pks`. The last node
 	 * pubkey in `node_pks` will be the destination node.
 	 * 
-	 * Errors if less than two hops are provided or if `node_pk`(s) are invalid.
+	 * Errors if no hops are provided or if `node_pk`(s) are invalid.
 	 */
 	public static Result_BlindedPathNoneZ new_for_message(byte[][] node_pks, org.ldk.structs.EntropySource entropy_source) {
 		long ret = bindings.BlindedPath_new_for_message(node_pks != null ? Arrays.stream(node_pks).map(node_pks_conv_8 -> InternalUtils.check_arr_len(node_pks_conv_8, 33)).toArray(byte[][]::new) : null, entropy_source.ptr);
