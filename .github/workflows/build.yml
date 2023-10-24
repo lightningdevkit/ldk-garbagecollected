@@ -40,11 +40,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings without STD
@@ -136,11 +136,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
@@ -199,11 +199,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
@@ -316,11 +316,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
       - name: Fetch MacOS SDK
         run: |
           curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
@@ -453,11 +453,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
           cd lightning-c-bindings
           . $HOME/.cargo/env
           cargo update -p memchr --precise "2.5.0" --verbose
@@ -529,11 +529,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/rghtningdevkit/ust-lightning
           cd rust-lightning
-          git checkout origin/0.0.117-bindings
+          git checkout origin/0.0.118-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.117
+          git checkout 0.0.118
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings and check the sample app builds + links
