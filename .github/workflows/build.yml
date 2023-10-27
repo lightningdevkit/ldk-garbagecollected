@@ -108,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
     # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
-    container: debian:bullseye
+    container: debian:bookworm
     strategy:
       fail-fast: false
     steps:
@@ -116,7 +116,7 @@ jobs:
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install cargo valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
+          apt-get -y install cargo valgrind lld git g++ clang openjdk-17-jdk maven faketime zip unzip llvm curl
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -153,15 +153,15 @@ jobs:
           cd ldk-c-bindings
           ./genbindings.sh ../rust-lightning true
       - name: Build Java Debug Bindings
-        run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
+        run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" true false
       - name: Run Java Tests against Debug Bindings
         run: |
           mv liblightningjni_debug_Linux-amd64.so liblightningjni.so
           export ASAN_OPTIONS=detect_leaks=0
-          LD_PRELOAD=/usr/lib/llvm-11/lib/clang/11.0.1/lib/linux/libclang_rt.asan-x86_64.so LD_LIBRARY_PATH=. mvn test
+          LD_PRELOAD=/usr/lib/llvm-14/lib/clang/14.0.6/lib/linux/libclang_rt.asan-x86_64.so LD_LIBRARY_PATH=. mvn test
       - name: Build Java Release Bindings
         run: |
-          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" false false
       - name: Check latest headers are in git
         run: |
           git checkout pom.xml
@@ -171,7 +171,7 @@ jobs:
     runs-on: ubuntu-latest
     # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
     # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
-    container: debian:bullseye
+    container: debian:bookworm
     strategy:
       fail-fast: false
     steps:
@@ -179,7 +179,7 @@ jobs:
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install cargo valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
+          apt-get -y install cargo valgrind lld git g++ clang openjdk-17-jdk maven faketime zip unzip llvm curl
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -238,7 +238,7 @@ jobs:
       - name: Build Leaktracking Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" leaks false
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" leaks false
       - name: Build deterministic release jar
         run: |
           ./build-release-jar.sh
@@ -251,7 +251,7 @@ jobs:
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
       - name: Check latest library and jars are in bins repo
@@ -409,7 +409,7 @@ jobs:
   android:
     runs-on: ubuntu-latest
     # Frankly, I'm not really sure why debian and ubuntu differ in the results here, they really shouldn't
-    container: debian:bullseye
+    container: debian:bookworm
     strategy:
       fail-fast: false
     steps:
@@ -417,7 +417,7 @@ jobs:
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install git g++ clang faketime zip unzip curl openjdk-11-jdk
+          apt-get -y install git g++ clang faketime zip unzip curl openjdk-17-jdk
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
           chmod +x ./rustup.sh
           ./rustup.sh -y
