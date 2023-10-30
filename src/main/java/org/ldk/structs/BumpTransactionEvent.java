@@ -158,7 +158,6 @@ public class BumpTransactionEvent extends CommonBase {
 	 * 
 	 * [`EcdsaChannelSigner`]: crate::sign::EcdsaChannelSigner
 	 * [`EcdsaChannelSigner::sign_holder_htlc_transaction`]: crate::sign::EcdsaChannelSigner::sign_holder_htlc_transaction
-	 * [`HTLCDescriptor::tx_input_witness`]: HTLCDescriptor::tx_input_witness
 	 */
 	public final static class HTLCResolution extends BumpTransactionEvent {
 		/**

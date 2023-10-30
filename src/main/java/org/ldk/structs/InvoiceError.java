@@ -114,6 +114,18 @@ public class InvoiceError extends CommonBase {
 	}
 
 	/**
+	 * Creates an [`InvoiceError`] with the given message.
+	 */
+	public static InvoiceError from_string(java.lang.String s) {
+		long ret = bindings.InvoiceError_from_string(s);
+		Reference.reachabilityFence(s);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InvoiceError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Serialize the InvoiceError object into a byte array which can be read by InvoiceError_read
 	 */
 	public byte[] write() {

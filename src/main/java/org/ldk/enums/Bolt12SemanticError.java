@@ -89,6 +89,10 @@ public enum Bolt12SemanticError {
 	 */
 	LDKBolt12SemanticError_MissingPayerId,
 	/**
+	 * The payment id for a refund or request is already in use.
+	 */
+	LDKBolt12SemanticError_DuplicatePaymentId,
+	/**
 	 * Blinded paths were expected but were missing.
 	 */
 	LDKBolt12SemanticError_MissingPaths,

@@ -440,7 +440,7 @@ namespace org { namespace ldk { namespace structs {
         self.usize_c_ty = "int64_t"
         self.usize_native_ty = "long"
         self.native_zero_ptr = "0"
-        self.result_c_ty = "jclass"
+        self.unitary_enum_c_ty = "int32_t"
         self.ptr_arr = "jobjectArray"
         self.is_arr_some_check = ("", " != NULL")
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
@@ -1033,7 +1033,7 @@ namespace org { namespace ldk { namespace structs {
                 out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n"
                 out_c += f"\tassert(obj->tag == {struct_name}_{var.var_name});\n"
                 if field_map.ret_conv is not None:
-                    out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
+                    out_c += ("\t" + field_map.ret_conv[0].replace("\n", "\n\t"))
                     if var.tuple_variant:
                         out_c += "obj->" + camel_to_snake(var.var_name)
                     else:

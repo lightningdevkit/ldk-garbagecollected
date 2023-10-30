@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * A path for sending an [`msgs::OnionMessage`].
+ * A path for sending an [`OnionMessage`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessagePath extends CommonBase {

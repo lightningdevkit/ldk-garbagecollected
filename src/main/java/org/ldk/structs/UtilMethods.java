@@ -144,7 +144,7 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Fetches the set of [`InitFeatures`] flags which are provided by or required by
+	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
 	public static InitFeatures provided_init_features(org.ldk.structs.UserConfig config) {
@@ -649,25 +649,48 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Create an onion message with contents `message` to the destination of `path`.
-	 * Returns (introduction_node_id, onion_msg)
+	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`.
+	 * 
+	 * Returns both the node id of the peer to send the message to and the message itself.
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents message, @Nullable org.ldk.structs.BlindedPath reply_path) {
-		long ret = bindings.create_onion_message(entropy_source.ptr, node_signer.ptr, path == null ? 0 : path.ptr, message.ptr, reply_path == null ? 0 : reply_path.ptr);
+	public static Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, @Nullable org.ldk.structs.BlindedPath reply_path) {
+		long ret = bindings.create_onion_message(entropy_source.ptr, node_signer.ptr, path == null ? 0 : path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
 		Reference.reachabilityFence(entropy_source);
 		Reference.reachabilityFence(node_signer);
 		Reference.reachabilityFence(path);
-		Reference.reachabilityFence(message);
+		Reference.reachabilityFence(contents);
 		Reference.reachabilityFence(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ ret_hu_conv = Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(path); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(message); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(contents); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(reply_path); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Decode one layer of an incoming [`OnionMessage`].
+	 * 
+	 * Returns either the next layer of the onion for forwarding or the decrypted content for the
+	 * receiver.
+	 */
+	public static Result_PeeledOnionNoneZ peel_onion_message(org.ldk.structs.OnionMessage msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
+		long ret = bindings.peel_onion_message(msg == null ? 0 : msg.ptr, node_signer.ptr, logger.ptr, custom_handler.ptr);
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(node_signer);
+		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(custom_handler);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PeeledOnionNoneZ ret_hu_conv = Result_PeeledOnionNoneZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_handler); };
 		return ret_hu_conv;
 	}
 

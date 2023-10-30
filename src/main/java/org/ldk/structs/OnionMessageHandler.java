@@ -8,16 +8,15 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * A trait to describe an object that can receive onion messages.
+ * A handler for received [`OnionMessage`]s and for providing generated ones to send.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessageHandler extends CommonBase {
 	final bindings.LDKOnionMessageHandler bindings_instance;
 	OnionMessageHandler(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private OnionMessageHandler(bindings.LDKOnionMessageHandler arg, bindings.LDKOnionMessageProvider OnionMessageProvider) {
-		super(bindings.LDKOnionMessageHandler_new(arg, OnionMessageProvider));
+	private OnionMessageHandler(bindings.LDKOnionMessageHandler arg) {
+		super(bindings.LDKOnionMessageHandler_new(arg));
 		this.ptrs_to.add(arg);
-		this.ptrs_to.add(OnionMessageProvider);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
@@ -42,6 +41,12 @@ public class OnionMessageHandler extends CommonBase {
 		 * Handle an incoming `onion_message` message from the given peer.
 		 */
 		void handle_onion_message(byte[] peer_node_id, OnionMessage msg);
+		/**
+		 * Returns the next pending onion message for the peer with the given node id.
+		 * 
+		 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		OnionMessage next_onion_message_for_peer(byte[] peer_node_id);
 		/**
 		 * Called when a connection is established with a peer. Can be used to track which peers
 		 * advertise onion message support and are online.
@@ -72,13 +77,19 @@ public class OnionMessageHandler extends CommonBase {
 		InitFeatures provided_init_features(byte[] their_node_id);
 	}
 	private static class LDKOnionMessageHandlerHolder { OnionMessageHandler held; }
-	public static OnionMessageHandler new_impl(OnionMessageHandlerInterface arg, OnionMessageProvider.OnionMessageProviderInterface OnionMessageProvider_impl) {
+	public static OnionMessageHandler new_impl(OnionMessageHandlerInterface arg) {
 		final LDKOnionMessageHandlerHolder impl_holder = new LDKOnionMessageHandlerHolder();
 		impl_holder.held = new OnionMessageHandler(new bindings.LDKOnionMessageHandler() {
 			@Override public void handle_onion_message(byte[] peer_node_id, long msg) {
 				org.ldk.structs.OnionMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.OnionMessage(null, msg); }
 				arg.handle_onion_message(peer_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
+			}
+			@Override public long next_onion_message_for_peer(byte[] peer_node_id) {
+				OnionMessage ret = arg.next_onion_message_for_peer(peer_node_id);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
 			}
 			@Override public long peer_connected(byte[] their_node_id, long init, boolean inbound) {
 				org.ldk.structs.Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new org.ldk.structs.Init(null, init); }
@@ -103,19 +114,9 @@ public class OnionMessageHandler extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-		}, OnionMessageProvider.new_impl(OnionMessageProvider_impl).bindings_instance);
+		});
 		return impl_holder.held;
 	}
-
-	/**
-	 * Gets the underlying OnionMessageProvider.
-	 */
-	public OnionMessageProvider get_onion_message_provider() {
-		OnionMessageProvider res = new OnionMessageProvider(null, bindings.LDKOnionMessageHandler_get_OnionMessageProvider(this.ptr));
-		res.ptrs_to.add(this);
-		return res;
-	}
-
 	/**
 	 * Handle an incoming `onion_message` message from the given peer.
 	 */
@@ -125,6 +126,22 @@ public class OnionMessageHandler extends CommonBase {
 		Reference.reachabilityFence(peer_node_id);
 		Reference.reachabilityFence(msg);
 		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Returns the next pending onion message for the peer with the given node id.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public OnionMessage next_onion_message_for_peer(byte[] peer_node_id) {
+		long ret = bindings.OnionMessageHandler_next_onion_message_for_peer(this.ptr, InternalUtils.check_arr_len(peer_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(peer_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OnionMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessage(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

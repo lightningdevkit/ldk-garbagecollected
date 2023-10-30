@@ -136,15 +136,6 @@ public class OffersMessage extends CommonBase {
 	}
 
 	/**
-	 * The TLV record type for the message as used in an `onionmsg_tlv` TLV stream.
-	 */
-	public long tlv_type() {
-		long ret = bindings.OffersMessage_tlv_type(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
 	 * Serialize the OffersMessage object into a byte array which can be read by OffersMessage_read
 	 */
 	public byte[] write() {

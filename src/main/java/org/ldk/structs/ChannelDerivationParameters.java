@@ -59,8 +59,6 @@ public class ChannelDerivationParameters extends CommonBase {
 	/**
 	 * The necessary channel parameters that need to be provided to the re-derived signer through
 	 * [`ChannelSigner::provide_channel_parameters`].
-	 * 
-	 * [`ChannelSigner::provide_channel_parameters`]: crate::sign::ChannelSigner::provide_channel_parameters
 	 */
 	public ChannelTransactionParameters get_transaction_parameters() {
 		long ret = bindings.ChannelDerivationParameters_get_transaction_parameters(this.ptr);
@@ -74,8 +72,6 @@ public class ChannelDerivationParameters extends CommonBase {
 	/**
 	 * The necessary channel parameters that need to be provided to the re-derived signer through
 	 * [`ChannelSigner::provide_channel_parameters`].
-	 * 
-	 * [`ChannelSigner::provide_channel_parameters`]: crate::sign::ChannelSigner::provide_channel_parameters
 	 */
 	public void set_transaction_parameters(org.ldk.structs.ChannelTransactionParameters val) {
 		bindings.ChannelDerivationParameters_set_transaction_parameters(this.ptr, val == null ? 0 : val.ptr);

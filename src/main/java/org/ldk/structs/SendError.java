@@ -70,8 +70,8 @@ public class SendError extends CommonBase {
 		}
 	}
 	/**
-	 * The provided [`Destination`] was an invalid [`BlindedPath`], due to having fewer than two
-	 * blinded hops.
+	 * The provided [`Destination`] was an invalid [`BlindedPath`] due to not having any blinded
+	 * hops.
 	 */
 	public final static class TooFewBlindedHops extends SendError {
 		private TooFewBlindedHops(long ptr, bindings.LDKSendError.TooFewBlindedHops obj) {

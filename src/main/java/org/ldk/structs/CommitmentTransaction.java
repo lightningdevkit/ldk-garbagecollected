@@ -73,6 +73,15 @@ public class CommitmentTransaction extends CommonBase {
 	}
 
 	/**
+	 * The per commitment point used by the broadcaster.
+	 */
+	public byte[] per_commitment_point() {
+		byte[] ret = bindings.CommitmentTransaction_per_commitment_point(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * The value to be sent to the broadcaster
 	 */
 	public long to_broadcaster_value_sat() {

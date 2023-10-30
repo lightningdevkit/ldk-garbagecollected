@@ -23,8 +23,7 @@ public class PaymentConstraints extends CommonBase {
 	}
 
 	/**
-	 * The maximum total CLTV delta that is acceptable when relaying a payment over this
-	 * [`BlindedHop`].
+	 * The maximum total CLTV that is acceptable when relaying a payment over this [`BlindedHop`].
 	 */
 	public int get_max_cltv_expiry() {
 		int ret = bindings.PaymentConstraints_get_max_cltv_expiry(this.ptr);
@@ -33,8 +32,7 @@ public class PaymentConstraints extends CommonBase {
 	}
 
 	/**
-	 * The maximum total CLTV delta that is acceptable when relaying a payment over this
-	 * [`BlindedHop`].
+	 * The maximum total CLTV that is acceptable when relaying a payment over this [`BlindedHop`].
 	 */
 	public void set_max_cltv_expiry(int val) {
 		bindings.PaymentConstraints_set_max_cltv_expiry(this.ptr, val);

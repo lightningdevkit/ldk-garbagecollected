@@ -184,12 +184,12 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		InitFeatures provided_init_features(byte[] their_node_id);
 		/**
-		 * Gets the genesis hashes for this `ChannelMessageHandler` indicating which chains it supports.
+		 * Gets the chain hashes for this `ChannelMessageHandler` indicating which chains it supports.
 		 * 
 		 * If it's `None`, then no particular network chain hash compatibility will be enforced when
 		 * connecting to peers.
 		 */
-		Option_CVec_ThirtyTwoBytesZZ get_genesis_hashes();
+		Option_CVec_ThirtyTwoBytesZZ get_chain_hashes();
 	}
 	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
 	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
@@ -363,8 +363,8 @@ public class ChannelMessageHandler extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long get_genesis_hashes() {
-				Option_CVec_ThirtyTwoBytesZZ ret = arg.get_genesis_hashes();
+			@Override public long get_chain_hashes() {
+				Option_CVec_ThirtyTwoBytesZZ ret = arg.get_chain_hashes();
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				if (impl_holder.held != null) { impl_holder.held.ptrs_to.add(ret); };
@@ -762,13 +762,13 @@ public class ChannelMessageHandler extends CommonBase {
 	}
 
 	/**
-	 * Gets the genesis hashes for this `ChannelMessageHandler` indicating which chains it supports.
+	 * Gets the chain hashes for this `ChannelMessageHandler` indicating which chains it supports.
 	 * 
 	 * If it's `None`, then no particular network chain hash compatibility will be enforced when
 	 * connecting to peers.
 	 */
-	public Option_CVec_ThirtyTwoBytesZZ get_genesis_hashes() {
-		long ret = bindings.ChannelMessageHandler_get_genesis_hashes(this.ptr);
+	public Option_CVec_ThirtyTwoBytesZZ get_chain_hashes() {
+		long ret = bindings.ChannelMessageHandler_get_chain_hashes(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ ret_hu_conv = org.ldk.structs.Option_CVec_ThirtyTwoBytesZZ.constr_from_ptr(ret);

@@ -111,8 +111,8 @@ class HumanObjectPeerTestInstance {
                             @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
                                 return underlying_ecs.validate_counterparty_revocation(idx, secret);
                             }
-                            @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
-                                return underlying_ecs.sign_holder_commitment_and_htlcs(commitment_tx);
+                            @Override public Result_ECDSASignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx) {
+                                return underlying_ecs.sign_holder_commitment(commitment_tx);
                             }
                             @Override public Result_ECDSASignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
                                 return underlying_ecs.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
@@ -768,6 +768,16 @@ class HumanObjectPeerTestInstance {
             peer2.nio_peer_handler.check_events();
         }
     }
+    void do_disconnect_event(PeerManager pm, SocketDescriptor descriptor) {
+        if (!t.isAlive()) t.start();
+        synchronized (runqueue) {
+            ran = true;
+            runqueue.add(() -> {
+                pm.socket_disconnected(descriptor);
+            });
+            runqueue.notifyAll();
+        }
+    }
     void do_read_event(PeerManager pm, SocketDescriptor descriptor, byte[] data) {
         if (!t.isAlive()) t.start();
         synchronized (runqueue) {
@@ -801,7 +811,7 @@ class HumanObjectPeerTestInstance {
                     return data.length;
                 }
 
-                @Override public void disconnect_socket() { assert false; }
+                @Override public void disconnect_socket() { do_disconnect_event(peer1.peer_manager, descriptor1ref.val); }
                 @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 2; }
                 @Override public long hash() { return 2; }
             });
@@ -813,7 +823,7 @@ class HumanObjectPeerTestInstance {
                     return data.length;
                 }
 
-                @Override public void disconnect_socket() { assert false; }
+                @Override public void disconnect_socket() { do_disconnect_event(peer2.peer_manager, descriptor2); }
                 @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 1; }
                 @Override public long hash() { return 1; }
             });
@@ -1179,6 +1189,13 @@ if (parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_B
                 assert Arrays.equals(built_tx.getOutput(0).getScriptBytes(), new byte[]{0x42});
                 assert built_tx.getOutput(0).getValue().value == 420;
             }
+
+            while (state.peer1.peer_manager.get_peer_node_ids().length != 0 || state.peer2.peer_manager.get_peer_node_ids().length != 0) {
+                // LDK disconnects peers before sending an error message, so wait for disconnection.
+                Thread.sleep(10);
+            }
+
+            connect_peers(state.peer1, state.peer2);
         }
 
         // Test exchanging a custom message (note that ChannelManagerConstructor) always loads an IgnorimgMessageHandler

@@ -68,23 +68,17 @@ public class EcdsaChannelSigner extends CommonBase {
 		 */
 		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 		/**
-		 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+		 * Creates a signature for a holder's commitment transaction.
 		 * 
 		 * This will be called
 		 * - with a non-revoked `commitment_tx`.
 		 * - with the latest `commitment_tx` when we initiate a force-close.
-		 * - with the previous `commitment_tx`, just to get claiming HTLC
-		 * signatures, if we are reacting to a [`ChannelMonitor`]
-		 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
-		 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
 		 * 
 		 * This may be called multiple times for the same transaction.
 		 * 
 		 * An external signer implementation should check that the commitment has not been revoked.
-		 * 
-		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 		 */
-		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
+		Result_ECDSASignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx);
 		/**
 		 * Create a signature for the given input in a transaction spending an HTLC transaction output
 		 * or a commitment transaction `to_local` output when our counterparty broadcasts an old state.
@@ -126,11 +120,14 @@ public class EcdsaChannelSigner extends CommonBase {
 		/**
 		 * Computes the signature for a commitment transaction's HTLC output used as an input within
 		 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
-		 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
-		 * sign HTLC transactions from channels supporting anchor outputs after all additional
-		 * inputs/outputs have been added to the transaction.
+		 * must be be computed using [`EcdsaSighashType::All`].
+		 * 
+		 * Note that this may be called for HTLCs in the penultimate commitment transaction if a
+		 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+		 * broadcasts it before receiving the update for the latest commitment transaction.
 		 * 
 		 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 		 */
 		Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor);
 		/**
@@ -195,9 +192,9 @@ public class EcdsaChannelSigner extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long sign_holder_commitment_and_htlcs(long commitment_tx) {
+			@Override public long sign_holder_commitment(long commitment_tx) {
 				org.ldk.structs.HolderCommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, commitment_tx); }
-				Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
+				Result_ECDSASignatureNoneZ ret = arg.sign_holder_commitment(commitment_tx_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -305,28 +302,22 @@ public class EcdsaChannelSigner extends CommonBase {
 	}
 
 	/**
-	 * Creates a signature for a holder's commitment transaction and its claiming HTLC transactions.
+	 * Creates a signature for a holder's commitment transaction.
 	 * 
 	 * This will be called
 	 * - with a non-revoked `commitment_tx`.
 	 * - with the latest `commitment_tx` when we initiate a force-close.
-	 * - with the previous `commitment_tx`, just to get claiming HTLC
-	 * signatures, if we are reacting to a [`ChannelMonitor`]
-	 * [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
-	 * that decided to broadcast before it had been updated to the latest `commitment_tx`.
 	 * 
 	 * This may be called multiple times for the same transaction.
 	 * 
 	 * An external signer implementation should check that the commitment has not been revoked.
-	 * 
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_holder_commitment_and_htlcs(org.ldk.structs.HolderCommitmentTransaction commitment_tx) {
-		long ret = bindings.EcdsaChannelSigner_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr);
+	public Result_ECDSASignatureNoneZ sign_holder_commitment(org.ldk.structs.HolderCommitmentTransaction commitment_tx) {
+		long ret = bindings.EcdsaChannelSigner_sign_holder_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret_hu_conv = Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.constr_from_ptr(ret);
+		Result_ECDSASignatureNoneZ ret_hu_conv = Result_ECDSASignatureNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(commitment_tx); };
 		return ret_hu_conv;
 	}
@@ -396,11 +387,14 @@ public class EcdsaChannelSigner extends CommonBase {
 	/**
 	 * Computes the signature for a commitment transaction's HTLC output used as an input within
 	 * `htlc_tx`, which spends the commitment transaction at index `input`. The signature returned
-	 * must be be computed using [`EcdsaSighashType::All`]. Note that this should only be used to
-	 * sign HTLC transactions from channels supporting anchor outputs after all additional
-	 * inputs/outputs have been added to the transaction.
+	 * must be be computed using [`EcdsaSighashType::All`].
+	 * 
+	 * Note that this may be called for HTLCs in the penultimate commitment transaction if a
+	 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
+	 * broadcasts it before receiving the update for the latest commitment transaction.
 	 * 
 	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, org.ldk.structs.HTLCDescriptor htlc_descriptor) {
 		long ret = bindings.EcdsaChannelSigner_sign_holder_htlc_transaction(this.ptr, htlc_tx, input, htlc_descriptor == null ? 0 : htlc_descriptor.ptr);

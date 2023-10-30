@@ -22,6 +22,8 @@ public class NetworkGraph extends CommonBase {
 
 	/**
 	 * Handles any network updates originating from [`Event`]s.
+	 * Note that this will skip applying any [`NetworkUpdate::ChannelUpdateMessage`] to avoid
+	 * leaking possibly identifying information of the sender to the public network.
 	 * 
 	 * [`Event`]: crate::events::Event
 	 */
@@ -32,10 +34,10 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Gets the genesis hash for this network graph.
+	 * Gets the chain hash for this network graph.
 	 */
-	public byte[] get_genesis_hash() {
-		byte[] ret = bindings.NetworkGraph_get_genesis_hash(this.ptr);
+	public byte[] get_chain_hash() {
+		byte[] ret = bindings.NetworkGraph_get_chain_hash(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -297,8 +299,8 @@ public class NetworkGraph extends CommonBase {
 	 * For an already known (from announcement) channel, update info about one of the directions
 	 * of the channel.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
-	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
 	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
@@ -324,6 +326,24 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel_unsigned(org.ldk.structs.UnsignedChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * For an already known (from announcement) channel, verify the given [`ChannelUpdate`].
+	 * 
+	 * This checks whether the update currently is applicable by [`Self::update_channel`].
+	 * 
+	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
+	 * materially in the future will be rejected.
+	 */
+	public Result_NoneLightningErrorZ verify_channel_update(org.ldk.structs.ChannelUpdate msg) {
+		long ret = bindings.NetworkGraph_verify_channel_update(this.ptr, msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

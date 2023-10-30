@@ -280,62 +280,10 @@ else
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=libcode.version -fuse-ld=lld"
-			# __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd.
-			# However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and
-			# fallback in case it is missing.
-			# Because it is weak-linked on the rust side, we should be able to simply define it
-			# explicitly, forcing rust to use the fallback. However, for some reason involving ancient
-			# dark magic and haunted code segments, overriding the weak symbol only impacts sites which
-			# *call* the symbol in question, not sites which *compare with* the symbol in question.
-			# This means that the NULL check in rust's libstd will always think the function is
-			# callable while the function which is called ends up being NULL (leading to a jmp to the
-			# zero page and a quick SEGFAULT).
-			# This issue persists not only with directly providing a symbol, but also ld.lld's -wrap
-			# and --defsym arguments.
-			# In smaller programs, it appears to be possible to work around this with -Bsymbolic and
-			# -nostdlib, however when applied the full-sized JNI library here it no longer works.
-			# After exhausting nearly every flag documented in lld, the only reliable method appears
-			# to be editing the LDK binary. Luckily, LLVM's tooling makes this rather easy as we can
-			# disassemble it into very readable code, edit it, and then reassemble it.
-			# Note that if we do so we don't have to bother overriding the actual call, LLVM should
-			# optimize it away, which also provides a good check that there isn't anything actually
-			# relying on it elsewhere.
-			[ ! -f "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a ] && exit 1
-			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep -v "\.o$" || echo)" != "" ]; then
-				echo "Archive contained non-object files!"
-				exit 1
-			fi
-			if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
-				echo "Archive contained more than one LDK object file"
-				exit 1
-			fi
-			mkdir -p tmp
-			rm -f tmp/*
-			ar x --output=tmp "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
-			pushd tmp
-			llvm-dis ldk*-cgu.*.rcgu.o
-			sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk*-cgu.*.rcgu.o.ll
-			llvm-as ldk*-cgu.*.rcgu.o.ll -o ./libldk.bc
-			ar q libldk.a *.o
-			popd
-			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 		fi
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
-		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
-			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
-			if [ "$GLIBC_SYMBS" != "" ]; then
-				echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."
-				echo "$GLIBC_SYMBS"
-				exit 1
-			fi
-			REALLOC_ARRAY_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep reallocarray || echo)"
-			if [ "$REALLOC_ARRAY_SYMBS" != "" ]; then
-				echo "Unexpected reallocarray dependency!"
-				exit 1
-			fi
-		fi
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy to JNI native directory for inclusion in JARs
 			mkdir -p src/main/resources/

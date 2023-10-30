@@ -54,8 +54,8 @@ public class ChannelManagerConstructor {
     public PeerManager peer_manager = null;
     /**
      * A NioPeerHandler which manages a background thread to handle socket events and pass them to the peer_manager.
-	 *
-	 * This is `null` until `chain_sync_completed` is called.
+     *
+     * This is `null` until `chain_sync_completed` is called.
      */
     public NioPeerHandler nio_peer_handler = null;
 
@@ -288,8 +288,9 @@ public class ChannelManagerConstructor {
             routing_msg_handler = graph_msg_handler.as_RoutingMessageHandler();
         else
             routing_msg_handler = ignoring_handler.as_RoutingMessageHandler();
+        OnionMessenger messenger = OnionMessenger.of(this.entropy_source, this.node_signer, this.logger, DefaultMessageRouter.of().as_MessageRouter(), channel_manager.as_OffersMessageHandler(), IgnoringMessageHandler.of().as_CustomOnionMessageHandler());
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                routing_msg_handler, ignoring_handler.as_OnionMessageHandler(),
+                routing_msg_handler, messenger.as_OnionMessageHandler(),
                 ignoring_handler.as_CustomMessageHandler(), (int)(System.currentTimeMillis() / 1000),
                 this.entropy_source.get_secure_random_bytes(), logger, this.node_signer);
 

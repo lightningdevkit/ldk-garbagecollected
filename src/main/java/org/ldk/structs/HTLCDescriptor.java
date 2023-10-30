@@ -87,6 +87,28 @@ public class HTLCDescriptor extends CommonBase {
 	}
 
 	/**
+	 * The feerate to use on the HTLC claiming transaction. This is always `0` for HTLCs
+	 * originating from a channel supporting anchor outputs, otherwise it is the channel's
+	 * negotiated feerate at the time the commitment transaction was built.
+	 */
+	public int get_feerate_per_kw() {
+		int ret = bindings.HTLCDescriptor_get_feerate_per_kw(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * The feerate to use on the HTLC claiming transaction. This is always `0` for HTLCs
+	 * originating from a channel supporting anchor outputs, otherwise it is the channel's
+	 * negotiated feerate at the time the commitment transaction was built.
+	 */
+	public void set_feerate_per_kw(int val) {
+		bindings.HTLCDescriptor_set_feerate_per_kw(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * The details of the HTLC as it appears in the commitment transaction.
 	 */
 	public HTLCOutputInCommitment get_htlc() {

@@ -9,8 +9,6 @@ import javax.annotation.Nullable;
 
 /**
  * A trait defining behavior for routing an [`OnionMessage`].
- * 
- * [`OnionMessage`]: msgs::OnionMessage
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class MessageRouter extends CommonBase {
@@ -41,8 +39,6 @@ public class MessageRouter extends CommonBase {
 	public static interface MessageRouterInterface {
 		/**
 		 * Returns a route for sending an [`OnionMessage`] to the given [`Destination`].
-		 * 
-		 * [`OnionMessage`]: msgs::OnionMessage
 		 */
 		Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination);
 	}
@@ -63,8 +59,6 @@ public class MessageRouter extends CommonBase {
 	}
 	/**
 	 * Returns a route for sending an [`OnionMessage`] to the given [`Destination`].
-	 * 
-	 * [`OnionMessage`]: msgs::OnionMessage
 	 */
 	public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, org.ldk.structs.Destination destination) {
 		long ret = bindings.MessageRouter_find_path(this.ptr, InternalUtils.check_arr_len(sender, 33), peers != null ? Arrays.stream(peers).map(peers_conv_8 -> InternalUtils.check_arr_len(peers_conv_8, 33)).toArray(byte[][]::new) : null, destination.ptr);

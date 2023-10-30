@@ -384,7 +384,7 @@ def java_c_types(fn_arg, ret_arr_len):
             assert ma.group(1).strip().startswith("LDK")
             java_ty = ma.group(1).strip()[3:]
             java_hu_ty = java_ty
-            c_ty = consts.result_c_ty
+            c_ty = consts.unitary_enum_c_ty
             fn_ty_arg = "Lorg/ldk/enums/" + java_ty + ";"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
