@@ -248,6 +248,12 @@ jobs:
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"{aarch64,x86_64}.nativelib src/main/resources/
+      - name: Build Java leaktracking Bindings
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" leaks false
+          mkdir ldk-java-bins/new/
+          cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/liblightningjni_Linux-amd64-leaktracking.nativelib
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -257,7 +263,6 @@ jobs:
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          mkdir ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
