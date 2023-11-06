@@ -441,9 +441,9 @@ namespace org { namespace ldk { namespace structs {
         self.usize_native_ty = "long"
         self.native_zero_ptr = "0"
         self.unitary_enum_c_ty = "int32_t"
-        self.ptr_arr = "jobjectArray"
+        self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != NULL")
-        self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
+        self.get_native_arr_len_call = ("", "->arr_len")
 
         self.bindings_footer_wip = "\tstatic bindings() {\n"
     def bindings_footer(self):
