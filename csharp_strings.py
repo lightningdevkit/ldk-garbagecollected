@@ -5,6 +5,16 @@ import sys
 class Target(Enum):
     CSHARP = 1,
 
+def first_to_lower(string: str) -> str:
+    first = string[0]
+    return first.lower() + string[1:]
+
+def safe_arg_name(arg_name):
+    return "_" + arg_name if arg_name == "lock" or arg_name == "event" or arg_name == "params" else arg_name
+
+def arg_name_repl(s, arg_name):
+    return s.replace(arg_name, "_" + arg_name) if arg_name == "lock" or arg_name == "event" or arg_name == "params" else s
+
 class Consts:
     def __init__(self, DEBUG: bool, target: Target, **kwargs):
         self.target = target
@@ -1123,7 +1133,6 @@ namespace org { namespace ldk { namespace structs {
         return java_hu_struct
 
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
-        arg_name_repl = lambda s, arg_name: s.replace(arg_name, "_" + arg_name) if arg_name == "lock" or arg_name == "event" or arg_name == "params" else s
         out_java = ""
         out_c = ""
         out_java_struct = None
