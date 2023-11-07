@@ -1204,8 +1204,6 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
                 out_c += (", ")
             if arg_conv_info.c_ty != "void":
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
-                if "[]" in arg_conv_info.java_ty:
-                    out_java += "[MarshalAs(UnmanagedType.CustomMarshaler, MarshalType=\"org.ldk.impl.ArrayCoder\")] "
                 out_java += (arg_conv_info.java_ty + " _" + arg_conv_info.arg_name) # Add a _ to avoid using reserved words
 
         out_java_struct = ""
