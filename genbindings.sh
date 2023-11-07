@@ -109,7 +109,7 @@ if [ "$2" = "c_sharp" ]; then
 	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	# Compiling C# bindings with Mono
-	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
+	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
 	if [ "$3" = "true" ]; then
 		mono-csc $MONO_COMPILE
 	else
@@ -125,13 +125,12 @@ if [ "$2" = "c_sharp" ]; then
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 	[ "$IS_MAC" = "false" -a "$3" != "false" ] && LINK="$LINK -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
 
-	exit 0 # Sadly compilation doesn't currently work
 	if [ "$3" = "true" ]; then
-		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
+		$COMPILE $LINK -o libldkcsharp_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
-		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
-		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
+		$COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "python" ]; then
 	echo "Creating Python bindings..."
