@@ -23,16 +23,16 @@ class Consts:
         self.function_ptr_counter = 0
         self.function_ptrs = {}
         self.c_type_map = dict(
-            bool = ['bool'],
-            uint8_t = ['byte'],
-            uint16_t = ['short'],
-            uint32_t = ['int'],
-            uint64_t = ['long'],
-            int64_t = ['long'],
-            double = ['double'],
+            bool = ['bool', 'long', 'bool[]'],
+            uint8_t = ['byte', 'long', 'byte[]'],
+            uint16_t = ['short', 'long', 'short[]'],
+            uint32_t = ['int', 'long', 'int[]'],
+            uint64_t = ['long', 'long', 'long[]'],
+            int64_t = ['long', 'long', 'long[]'],
+            double = ['double', 'long', 'double[]'],
         )
         self.java_type_map = dict(
-            String = "string"
+            String = "long"
         )
         self.java_hu_type_map = dict(
             String = "string"
@@ -54,49 +54,13 @@ namespace org { namespace ldk { namespace impl {
 
 internal class bindings {
 	static List<WeakReference> js_objs = new List<WeakReference>();
-	internal class ArrayCoder : ICustomMarshaler {
-		int size = 0;
-		public static ICustomMarshaler GetInstance(string pstrCookie) {
-			return new ArrayCoder();
-		}
 
-		public Object MarshalNativeToManaged(IntPtr pNativeData) { throw new NotImplementedException(); }
-		public IntPtr MarshalManagedToNative(Object obj) {
-			if (obj.GetType() == typeof(byte[])) {
-				byte[] inp = (byte[])obj;
-				IntPtr data = Marshal.AllocHGlobal(inp.Length + 8);
-				Marshal.WriteInt64(data, inp.Length);
-				Marshal.Copy(inp, 0, data + 8, inp.Length);
-				this.size = inp.Length + 8;
-				return data;
-			} else {
-				throw new NotImplementedException();
-			}
-		}
-		public void CleanUpNativeData(IntPtr pNativeData) {
-			Marshal.FreeHGlobal(pNativeData);
-		}
-		public void CleanUpManagedData(Object ManagedObj) { }
-		public int GetNativeDataSize() {
-			// Blindly guess based on the last allocation, no idea how else to implement this.
-			return this.size;
-		}
-	}
-
-	/*static {
-		init(java.lang.Enum.class, VecOrSliceDef.class);
-		init_class_cache();
-		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
-			throw new ArgumentException("Compiled LDK library and LDK class failes do not match");
-		// Fetching the LDK versions from C also checks that the header and binaries match
-		Console.Error.WriteLine("Loaded LDK-Java Bindings " + version.get_ldk_java_bindings_version() + " with LDK " + get_ldk_version() + " and LDK-C-Bindings " + get_ldk_c_bindings_version());
-	}*/
-	//static extern void init(java.lang.Class c);
-	//static native void init_class_cache();
 """
         self.bindings_header += self.native_meth_decl("get_lib_version_string", "string") + "();\n"
         self.bindings_header += self.native_meth_decl("get_ldk_c_bindings_version", "string") + "();\n"
         self.bindings_header += self.native_meth_decl("get_ldk_version", "string") + "();\n\n"
+        self.bindings_header += self.native_meth_decl("allocate_buffer", "long") + "(long buflen);\n\n"
+        self.bindings_header += self.native_meth_decl("free_buffer", "void") + "(long buf);\n\n"
 
         self.bindings_version_file = """
 
@@ -139,14 +103,14 @@ public class CommonBase {
 	public readonly int previous_vout;
 
 	internal TxIn(object _dummy, long ptr) : base(ptr) {
-		this.witness = bindings.TxIn_get_witness(ptr);
-		this.script_sig = bindings.TxIn_get_script_sig(ptr);
+		this.witness = InternalUtils.decodeUint8Array(bindings.TxIn_get_witness(ptr));
+		this.script_sig = InternalUtils.decodeUint8Array(bindings.TxIn_get_script_sig(ptr));
 		this.sequence = bindings.TxIn_get_sequence(ptr);
-		this.previous_txid = bindings.TxIn_get_previous_txid(ptr);
+		this.previous_txid = InternalUtils.decodeUint8Array(bindings.TxIn_get_previous_txid(ptr));
 		this.previous_vout = bindings.TxIn_get_previous_vout(ptr);
 	}
 	public TxIn(byte[] witness, byte[] script_sig, int sequence, byte[] previous_txid, int previous_vout)
-	: this(null, bindings.TxIn_new(witness, script_sig, sequence, previous_txid, previous_vout)) {}
+	: this(null, bindings.TxIn_new(InternalUtils.encodeUint8Array(witness), InternalUtils.encodeUint8Array(script_sig), sequence, InternalUtils.encodeUint8Array(previous_txid), previous_vout)) {}
 
 	~TxIn() {
 		if (ptr != 0) { bindings.TxIn_free(ptr); }
@@ -160,10 +124,10 @@ public class CommonBase {
 	public readonly long value;
 
     internal TxOut(object _dummy, long ptr) : base(ptr) {
-		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.script_pubkey = InternalUtils.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-    public TxOut(long value, byte[] script_pubkey) : this(null, bindings.TxOut_new(script_pubkey, value)) {}
+    public TxOut(long value, byte[] script_pubkey) : this(null, bindings.TxOut_new(InternalUtils.encodeUint8Array(script_pubkey), value)) {}
 
 	~TxOut() {
 		if (ptr != 0) { bindings.TxOut_free(ptr); }
@@ -175,10 +139,10 @@ public class CommonBase {
 	public readonly byte[] scalar_bytes;
 
     internal BigEndianScalar(object _dummy, long ptr) : base(ptr) {
-		this.scalar_bytes = bindings.BigEndianScalar_get_bytes(ptr);
+		this.scalar_bytes = InternalUtils.decodeUint8Array(bindings.BigEndianScalar_get_bytes(ptr));
 	}
-    public BigEndianScalar(byte[] scalar_bytes) : base(bindings.BigEndianScalar_new(scalar_bytes)) {
-		this.scalar_bytes = bindings.BigEndianScalar_get_bytes(ptr);
+    public BigEndianScalar(byte[] scalar_bytes) : base(bindings.BigEndianScalar_new(InternalUtils.encodeUint8Array(scalar_bytes))) {
+		this.scalar_bytes = InternalUtils.decodeUint8Array(bindings.BigEndianScalar_get_bytes(ptr));
 	}
 
 	~BigEndianScalar() {
@@ -363,7 +327,7 @@ void __attribute__((destructor)) check_leaks() {
 	unsigned long alloc_count = 0;
 	unsigned long alloc_size = 0;
 	DEBUG_PRINT("The following LDK-allocated blocks still remain.\\n");
-	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("Note that this is only accurate if System.GC.Collect(); GC.WaitForPendingFinalizers();\\n");
 	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
 		DEBUG_PRINT("%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
@@ -373,7 +337,7 @@ void __attribute__((destructor)) check_leaks() {
 		alloc_size += a->alloc_len;
 	}
 	DEBUG_PRINT("%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
-	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("Note that this is only accurate if System.GC.Collect(); GC.WaitForPendingFinalizers()\\n");
 	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 }
 """
@@ -425,6 +389,14 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 }
 
 typedef bool jboolean;
+
+int64_t CS_LDK_allocate_buffer(int64_t len) {
+	return MALLOC(len, "C#-requested buffer");
+}
+
+void CS_LDK_free_buffer(int64_t buf) {
+	FREE(buf);
+}
 
 jstring CS_LDK_get_ldk_c_bindings_version() {
 	return str_ref_to_cs(check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
@@ -512,20 +484,20 @@ namespace org { namespace ldk { namespace structs {
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty, is_nullable):
         if elem_ty.java_hu_ty == "UInt5":
-            return arr_name + " != null ? InternalUtils.convUInt5Array(" + arr_name + ") : null"
+            return "InternalUtils.convUInt5Array(" + arr_name + ")"
         elif elem_ty.java_hu_ty == "WitnessVersion":
-            return arr_name + " != null ? InternalUtils.convWitnessVersionArray(" + arr_name + ") : null"
+            return "InternalUtils.convWitnessVersionArray(" + arr_name + ")"
         else:
-            return arr_name + " != null ? InternalUtils.mapArray(" + arr_name + ", " + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
+            return "InternalUtils.mapArray(" + arr_name + ", " + conv_name + " => " + elem_ty.from_hu_conv[0] + ")"
 
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_cs(" + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
         return "str_ref_to_owned_c(" + var_name + ")"
     def str_to_hu_conv(self, var_name):
-        return None
+        return "string " + var_name + "_conv = InternalUtils.decodeString(" + var_name + ");"
     def str_from_hu_conv(self, var_name):
-        return None
+        return ("InternalUtils.encodeString(" + var_name + ")", "")
 
     def init_str(self):
         ret = ""
@@ -547,9 +519,18 @@ int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
         return ty_string + " " + var_name + " = " + statement
 
     def get_java_arr_len(self, arr_name):
-        return arr_name + ".Length"
+        return "InternalUtils.getArrayLength(" + arr_name + ")"
+
     def get_java_arr_elem(self, elem_ty, arr_name, idx):
-        return arr_name + "[" + idx + "]"
+        if elem_ty.c_ty == "int64_t" or elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array") or elem_ty.c_ty == "uintptr_t":
+            return "InternalUtils.getU64ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.rust_obj == "LDKU5":
+            return "InternalUtils.getU8ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.rust_obj == "LDKStr":
+            return "InternalUtils.getU32ArrayElem(" + arr_name + ", " + idx + ")"
+        else:
+            assert False
+
     def constr_hu_array(self, ty_info, arr_len):
         base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
         conv = "new " + base_ty + "[" + arr_len + "]"
@@ -558,22 +539,44 @@ int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
             conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
         return conv
     def cleanup_converted_native_array(self, ty_info, arr_name):
-        return None
+        return "bindings.free_buffer(" + arr_name + ");"
 
     def primitive_arr_from_hu(self, arr_ty, fixed_len, arr_name):
         mapped_ty = arr_ty.subty
+        inner = arr_name
         if arr_ty.rust_obj == "LDKU128":
-            return ("" + arr_name + ".getLEBytes()", "")
+            return ("InternalUtils.encodeUint8Array(" + arr_name + ".getLEBytes())", "")
         if fixed_len is not None:
-            return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
-        return None
+            inner = "InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")"
+        if mapped_ty.c_ty.endswith("Array"):
+            return ("InternalUtils.encodeUint64Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+            return ("InternalUtils.encodeUint8Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
+            return ("InternalUtils.encodeUint16Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint32_t":
+            return ("InternalUtils.encodeUint32Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "int64_t" or mapped_ty.c_ty == "uint64_t" or mapped_ty.rust_obj == "LDKStr":
+            return ("InternalUtils.encodeUint64Array(" + inner + ")", "")
+        else:
+            print(mapped_ty.c_ty)
+            assert False
+
     def primitive_arr_to_hu(self, arr_ty, fixed_len, arr_name, conv_name):
+        mapped_ty = arr_ty.subty
         if arr_ty.rust_obj == "LDKU128":
             return "org.ldk.util.UInt128 " + conv_name + " = new org.ldk.util.UInt128(" + arr_name + ");"
-        return None
+        elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+            return "byte[] " + conv_name + " = InternalUtils.decodeUint8Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
+            return "short[] " + conv_name + " = InternalUtils.decodeUint16Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
+            return "long[] " + conv_name + " = InternalUtils.decodeUint64Array(" + arr_name + ");"
+        else:
+            assert False
 
     def java_arr_ty_str(self, elem_ty_str):
-        return elem_ty_str + "[]"
+        return "long"
 
     def for_n_in_range(self, n, minimum, maximum):
         return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
