@@ -97,9 +97,11 @@ public class SignOrCreationError : CommonBase {
 	 * Get the string representation of a SignOrCreationError object
 	 */
 	public string to_str() {
-		string ret = bindings.SignOrCreationError_to_str(this.ptr);
+		long ret = bindings.SignOrCreationError_to_str(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 }

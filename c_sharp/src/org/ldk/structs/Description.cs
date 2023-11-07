@@ -72,7 +72,7 @@ public class Description : CommonBase {
 	 * Please note that single characters may use more than one byte due to UTF8 encoding.
 	 */
 	public static Result_DescriptionCreationErrorZ of(string description) {
-		long ret = bindings.Description_new(description);
+		long ret = bindings.Description_new(InternalUtils.encodeString(description));
 		GC.KeepAlive(description);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
@@ -83,10 +83,12 @@ public class Description : CommonBase {
 	 * Returns the underlying description [`String`]
 	 */
 	public string into_inner() {
-		string ret = bindings.Description_into_inner(this.ptr);
+		long ret = bindings.Description_into_inner(this.ptr);
 		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
 		if (this != null) { this.ptrs_to.AddLast(this); };
-		return ret;
+		return ret_conv;
 	}
 
 }

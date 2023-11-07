@@ -21,9 +21,11 @@ public class InvalidShutdownScript : CommonBase {
 	 * [BOLT #2]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md
 	 */
 	public byte[] get_script() {
-		byte[] ret = bindings.InvalidShutdownScript_get_script(this.ptr);
+		long ret = bindings.InvalidShutdownScript_get_script(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -32,7 +34,7 @@ public class InvalidShutdownScript : CommonBase {
 	 * [BOLT #2]: https://github.com/lightning/bolts/blob/master/02-peer-protocol.md
 	 */
 	public void set_script(byte[] val) {
-		bindings.InvalidShutdownScript_set_script(this.ptr, val);
+		bindings.InvalidShutdownScript_set_script(this.ptr, InternalUtils.encodeUint8Array(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -41,7 +43,7 @@ public class InvalidShutdownScript : CommonBase {
 	 * Constructs a new InvalidShutdownScript given each field
 	 */
 	public static InvalidShutdownScript of(byte[] script_arg) {
-		long ret = bindings.InvalidShutdownScript_new(script_arg);
+		long ret = bindings.InvalidShutdownScript_new(InternalUtils.encodeUint8Array(script_arg));
 		GC.KeepAlive(script_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvalidShutdownScript(null, ret); }

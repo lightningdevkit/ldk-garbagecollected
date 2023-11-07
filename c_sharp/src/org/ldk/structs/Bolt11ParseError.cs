@@ -140,7 +140,9 @@ public class Bolt11ParseError : CommonBase {
 	public class Bolt11ParseError_InvalidSliceLength : Bolt11ParseError {
 		public string invalid_slice_length;
 		internal Bolt11ParseError_InvalidSliceLength(long ptr) : base(null, ptr) {
-			this.invalid_slice_length = bindings.LDKBolt11ParseError_InvalidSliceLength_get_invalid_slice_length(ptr);
+			long invalid_slice_length = bindings.LDKBolt11ParseError_InvalidSliceLength_get_invalid_slice_length(ptr);
+			string invalid_slice_length_conv = InternalUtils.decodeString(invalid_slice_length);
+			this.invalid_slice_length = invalid_slice_length_conv;
 		}
 	}
 	/** A Bolt11ParseError of type Skip */
@@ -351,7 +353,7 @@ public class Bolt11ParseError : CommonBase {
 	 * Utility method to constructs a new InvalidSliceLength-variant Bolt11ParseError
 	 */
 	public static Bolt11ParseError invalid_slice_length(string a) {
-		long ret = bindings.Bolt11ParseError_invalid_slice_length(a);
+		long ret = bindings.Bolt11ParseError_invalid_slice_length(InternalUtils.encodeString(a));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Bolt11ParseError ret_hu_conv = org.ldk.structs.Bolt11ParseError.constr_from_ptr(ret);
@@ -389,9 +391,11 @@ public class Bolt11ParseError : CommonBase {
 	 * Get the string representation of a Bolt11ParseError object
 	 */
 	public string to_str() {
-		string ret = bindings.Bolt11ParseError_to_str(this.ptr);
+		long ret = bindings.Bolt11ParseError_to_str(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 }

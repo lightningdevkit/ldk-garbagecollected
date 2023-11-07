@@ -1,3 +1,4 @@
+
 using org.ldk.impl;
 using org.ldk.enums;
 using org.ldk.util;
@@ -5,46 +6,80 @@ using System;
 
 namespace org { namespace ldk { namespace structs {
 
+
+
+/** An implementation of OnionMessageContents */
+public interface OnionMessageContentsInterface {
+	/**Returns the TLV type identifying the message contents. MUST be >= 64.
+	 */
+	long tlv_type();
+	/**Serialize the object into a byte array
+	 */
+	byte[] write();
+}
+
 /**
- * The contents of an onion message. In the context of offers, this would be the invoice, invoice
- * request, or invoice error.
+ * The contents of an onion message.
  */
 public class OnionMessageContents : CommonBase {
-	protected OnionMessageContents(object _dummy, long ptr) : base(ptr) { }
+	internal bindings.LDKOnionMessageContents bindings_instance;
+	internal long instance_idx;
+
+	internal OnionMessageContents(object _dummy, long ptr) : base(ptr) { bindings_instance = null; }
 	~OnionMessageContents() {
 		if (ptr != 0) { bindings.OnionMessageContents_free(ptr); }
 	}
 
-	internal static OnionMessageContents constr_from_ptr(long ptr) {
-		long raw_ty = bindings.LDKOnionMessageContents_ty_from_ptr(ptr);
-		switch (raw_ty) {
-			case 0: return new OnionMessageContents_Offers(ptr);
-			case 1: return new OnionMessageContents_Custom(ptr);
-			default:
-				throw new ArgumentException("Impossible enum variant");
+	private class LDKOnionMessageContentsHolder { internal OnionMessageContents held; }
+	private class LDKOnionMessageContentsImpl : bindings.LDKOnionMessageContents {
+		internal LDKOnionMessageContentsImpl(OnionMessageContentsInterface arg, LDKOnionMessageContentsHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
+		private OnionMessageContentsInterface arg;
+		private LDKOnionMessageContentsHolder impl_holder;
+		public long tlv_type() {
+			long ret = arg.tlv_type();
+				GC.KeepAlive(arg);
+			return ret;
+		}
+		public long write() {
+			byte[] ret = arg.write();
+				GC.KeepAlive(arg);
+			long result = InternalUtils.encodeUint8Array(ret);
+			return result;
 		}
 	}
 
-	/** A OnionMessageContents of type Offers */
-	public class OnionMessageContents_Offers : OnionMessageContents {
-		public OffersMessage offers;
-		internal OnionMessageContents_Offers(long ptr) : base(null, ptr) {
-			long offers = bindings.LDKOnionMessageContents_Offers_get_offers(ptr);
-			org.ldk.structs.OffersMessage offers_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(offers);
-			if (offers_hu_conv != null) { offers_hu_conv.ptrs_to.AddLast(this); };
-			this.offers = offers_hu_conv;
-		}
+	/** Creates a new instance of OnionMessageContents from a given implementation */
+	public static OnionMessageContents new_impl(OnionMessageContentsInterface arg) {
+		LDKOnionMessageContentsHolder impl_holder = new LDKOnionMessageContentsHolder();
+		LDKOnionMessageContentsImpl impl = new LDKOnionMessageContentsImpl(arg, impl_holder);
+		long[] ptr_idx = bindings.LDKOnionMessageContents_new(impl);
+
+		impl_holder.held = new OnionMessageContents(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
+		impl_holder.held.bindings_instance = impl;
+		return impl_holder.held;
 	}
-	/** A OnionMessageContents of type Custom */
-	public class OnionMessageContents_Custom : OnionMessageContents {
-		public CustomOnionMessageContents custom;
-		internal OnionMessageContents_Custom(long ptr) : base(null, ptr) {
-			long custom = bindings.LDKOnionMessageContents_Custom_get_custom(ptr);
-			CustomOnionMessageContents ret_hu_conv = new CustomOnionMessageContents(null, custom);
-			if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-			this.custom = ret_hu_conv;
-		}
+
+	/**
+	 * Returns the TLV type identifying the message contents. MUST be >= 64.
+	 */
+	public long tlv_type() {
+		long ret = bindings.OnionMessageContents_tlv_type(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
+
+	/**
+	 * Serialize the object into a byte array
+	 */
+	public byte[] write() {
+		long ret = bindings.OnionMessageContents_write(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
 	internal long clone_ptr() {
 		long ret = bindings.OnionMessageContents_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -52,40 +87,14 @@ public class OnionMessageContents : CommonBase {
 	}
 
 	/**
-	 * Creates a copy of the OnionMessageContents
+	 * Creates a copy of a OnionMessageContents
 	 */
 	public OnionMessageContents clone() {
 		long ret = bindings.OnionMessageContents_clone(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
+		OnionMessageContents ret_hu_conv = new OnionMessageContents(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new Offers-variant OnionMessageContents
-	 */
-	public static OnionMessageContents offers(org.ldk.structs.OffersMessage a) {
-		long ret = bindings.OnionMessageContents_offers(a.ptr);
-		GC.KeepAlive(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new Custom-variant OnionMessageContents
-	 */
-	public static OnionMessageContents custom(org.ldk.structs.CustomOnionMessageContents a) {
-		long ret = bindings.OnionMessageContents_custom(a.ptr);
-		GC.KeepAlive(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OnionMessageContents ret_hu_conv = org.ldk.structs.OnionMessageContents.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
 		return ret_hu_conv;
 	}
 

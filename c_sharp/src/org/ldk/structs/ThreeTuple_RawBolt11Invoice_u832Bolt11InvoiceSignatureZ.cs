@@ -31,9 +31,11 @@ public class ThreeTuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ : CommonBas
 	 * 
 	 */
 	public byte[] get_b() {
-		byte[] ret = bindings.C3Tuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ_get_b(this.ptr);
+		long ret = bindings.C3Tuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ_get_b(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class ThreeTuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ : CommonBas
 	 * Creates a new C3Tuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ from the contained elements.
 	 */
 	public static ThreeTuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ of(org.ldk.structs.RawBolt11Invoice a, byte[] b, org.ldk.structs.Bolt11InvoiceSignature c) {
-		long ret = bindings.C3Tuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ_new(a == null ? 0 : a.ptr, InternalUtils.check_arr_len(b, 32), c == null ? 0 : c.ptr);
+		long ret = bindings.C3Tuple_RawBolt11Invoice_u832Bolt11InvoiceSignatureZ_new(a == null ? 0 : a.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(b, 32)), c == null ? 0 : c.ptr);
 		GC.KeepAlive(a);
 		GC.KeepAlive(b);
 		GC.KeepAlive(c);

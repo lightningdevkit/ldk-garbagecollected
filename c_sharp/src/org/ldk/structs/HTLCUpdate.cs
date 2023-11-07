@@ -56,16 +56,18 @@ public class HTLCUpdate : CommonBase {
 	 * Serialize the HTLCUpdate object into a byte array which can be read by HTLCUpdate_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.HTLCUpdate_write(this.ptr);
+		long ret = bindings.HTLCUpdate_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a HTLCUpdate from a byte array, created by HTLCUpdate_write
 	 */
 	public static Result_HTLCUpdateDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.HTLCUpdate_read(ser);
+		long ret = bindings.HTLCUpdate_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);

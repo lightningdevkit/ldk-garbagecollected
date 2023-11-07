@@ -210,16 +210,18 @@ public class BlindedPayInfo : CommonBase {
 	 * Serialize the BlindedPayInfo object into a byte array which can be read by BlindedPayInfo_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.BlindedPayInfo_write(this.ptr);
+		long ret = bindings.BlindedPayInfo_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a BlindedPayInfo from a byte array, created by BlindedPayInfo_write
 	 */
 	public static Result_BlindedPayInfoDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.BlindedPayInfo_read(ser);
+		long ret = bindings.BlindedPayInfo_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BlindedPayInfoDecodeErrorZ ret_hu_conv = Result_BlindedPayInfoDecodeErrorZ.constr_from_ptr(ret);

@@ -45,14 +45,15 @@ public class PaymentSendFailure : CommonBase {
 	public class PaymentSendFailure_PathParameterError : PaymentSendFailure {
 		public Result_NoneAPIErrorZ[] path_parameter_error;
 		internal PaymentSendFailure_PathParameterError(long ptr) : base(null, ptr) {
-			long[] path_parameter_error = bindings.LDKPaymentSendFailure_PathParameterError_get_path_parameter_error(ptr);
-			int path_parameter_error_conv_22_len = path_parameter_error.Length;
+			long path_parameter_error = bindings.LDKPaymentSendFailure_PathParameterError_get_path_parameter_error(ptr);
+			int path_parameter_error_conv_22_len = InternalUtils.getArrayLength(path_parameter_error);
 			Result_NoneAPIErrorZ[] path_parameter_error_conv_22_arr = new Result_NoneAPIErrorZ[path_parameter_error_conv_22_len];
 			for (int w = 0; w < path_parameter_error_conv_22_len; w++) {
-				long path_parameter_error_conv_22 = path_parameter_error[w];
+				long path_parameter_error_conv_22 = InternalUtils.getU64ArrayElem(path_parameter_error, w);
 				Result_NoneAPIErrorZ path_parameter_error_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(path_parameter_error_conv_22);
 				path_parameter_error_conv_22_arr[w] = path_parameter_error_conv_22_hu_conv;
 			}
+			bindings.free_buffer(path_parameter_error);
 			this.path_parameter_error = path_parameter_error_conv_22_arr;
 		}
 	}
@@ -60,15 +61,16 @@ public class PaymentSendFailure : CommonBase {
 	public class PaymentSendFailure_AllFailedResendSafe : PaymentSendFailure {
 		public APIError[] all_failed_resend_safe;
 		internal PaymentSendFailure_AllFailedResendSafe(long ptr) : base(null, ptr) {
-			long[] all_failed_resend_safe = bindings.LDKPaymentSendFailure_AllFailedResendSafe_get_all_failed_resend_safe(ptr);
-			int all_failed_resend_safe_conv_10_len = all_failed_resend_safe.Length;
+			long all_failed_resend_safe = bindings.LDKPaymentSendFailure_AllFailedResendSafe_get_all_failed_resend_safe(ptr);
+			int all_failed_resend_safe_conv_10_len = InternalUtils.getArrayLength(all_failed_resend_safe);
 			APIError[] all_failed_resend_safe_conv_10_arr = new APIError[all_failed_resend_safe_conv_10_len];
 			for (int k = 0; k < all_failed_resend_safe_conv_10_len; k++) {
-				long all_failed_resend_safe_conv_10 = all_failed_resend_safe[k];
+				long all_failed_resend_safe_conv_10 = InternalUtils.getU64ArrayElem(all_failed_resend_safe, k);
 				org.ldk.structs.APIError all_failed_resend_safe_conv_10_hu_conv = org.ldk.structs.APIError.constr_from_ptr(all_failed_resend_safe_conv_10);
 				if (all_failed_resend_safe_conv_10_hu_conv != null) { all_failed_resend_safe_conv_10_hu_conv.ptrs_to.AddLast(this); };
 				all_failed_resend_safe_conv_10_arr[k] = all_failed_resend_safe_conv_10_hu_conv;
 			}
+			bindings.free_buffer(all_failed_resend_safe);
 			this.all_failed_resend_safe = all_failed_resend_safe_conv_10_arr;
 		}
 	}
@@ -95,20 +97,23 @@ public class PaymentSendFailure : CommonBase {
 		 */
 		public byte[] payment_id;
 		internal PaymentSendFailure_PartialFailure(long ptr) : base(null, ptr) {
-			long[] results = bindings.LDKPaymentSendFailure_PartialFailure_get_results(ptr);
-			int results_conv_22_len = results.Length;
+			long results = bindings.LDKPaymentSendFailure_PartialFailure_get_results(ptr);
+			int results_conv_22_len = InternalUtils.getArrayLength(results);
 			Result_NoneAPIErrorZ[] results_conv_22_arr = new Result_NoneAPIErrorZ[results_conv_22_len];
 			for (int w = 0; w < results_conv_22_len; w++) {
-				long results_conv_22 = results[w];
+				long results_conv_22 = InternalUtils.getU64ArrayElem(results, w);
 				Result_NoneAPIErrorZ results_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
 				results_conv_22_arr[w] = results_conv_22_hu_conv;
 			}
+			bindings.free_buffer(results);
 			this.results = results_conv_22_arr;
 			long failed_paths_retry = bindings.LDKPaymentSendFailure_PartialFailure_get_failed_paths_retry(ptr);
 			org.ldk.structs.RouteParameters failed_paths_retry_hu_conv = null; if (failed_paths_retry < 0 || failed_paths_retry > 4096) { failed_paths_retry_hu_conv = new org.ldk.structs.RouteParameters(null, failed_paths_retry); }
 			if (failed_paths_retry_hu_conv != null) { failed_paths_retry_hu_conv.ptrs_to.AddLast(this); };
 			this.failed_paths_retry = failed_paths_retry_hu_conv;
-			this.payment_id = bindings.LDKPaymentSendFailure_PartialFailure_get_payment_id(ptr);
+			long payment_id = bindings.LDKPaymentSendFailure_PartialFailure_get_payment_id(ptr);
+			byte[] payment_id_conv = InternalUtils.decodeUint8Array(payment_id);
+			this.payment_id = payment_id_conv;
 		}
 	}
 	internal long clone_ptr() {
@@ -146,7 +151,7 @@ public class PaymentSendFailure : CommonBase {
 	 * Utility method to constructs a new PathParameterError-variant PaymentSendFailure
 	 */
 	public static PaymentSendFailure path_parameter_error(Result_NoneAPIErrorZ[] a) {
-		long ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? InternalUtils.mapArray(a, a_conv_22 => a_conv_22 != null ? a_conv_22.ptr : 0) : null);
+		long ret = bindings.PaymentSendFailure_path_parameter_error(InternalUtils.encodeUint64Array(InternalUtils.mapArray(a, a_conv_22 => a_conv_22 != null ? a_conv_22.ptr : 0)));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
@@ -158,7 +163,7 @@ public class PaymentSendFailure : CommonBase {
 	 * Utility method to constructs a new AllFailedResendSafe-variant PaymentSendFailure
 	 */
 	public static PaymentSendFailure all_failed_resend_safe(APIError[] a) {
-		long ret = bindings.PaymentSendFailure_all_failed_resend_safe(a != null ? InternalUtils.mapArray(a, a_conv_10 => a_conv_10.ptr) : null);
+		long ret = bindings.PaymentSendFailure_all_failed_resend_safe(InternalUtils.encodeUint64Array(InternalUtils.mapArray(a, a_conv_10 => a_conv_10.ptr)));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
@@ -182,7 +187,7 @@ public class PaymentSendFailure : CommonBase {
 	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
 	 */
 	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, org.ldk.structs.RouteParameters failed_paths_retry, byte[] payment_id) {
-		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? InternalUtils.mapArray(results, results_conv_22 => results_conv_22 != null ? results_conv_22.ptr : 0) : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr, InternalUtils.check_arr_len(payment_id, 32));
+		long ret = bindings.PaymentSendFailure_partial_failure(InternalUtils.encodeUint64Array(InternalUtils.mapArray(results, results_conv_22 => results_conv_22 != null ? results_conv_22.ptr : 0)), failed_paths_retry == null ? 0 : failed_paths_retry.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)));
 		GC.KeepAlive(results);
 		GC.KeepAlive(failed_paths_retry);
 		GC.KeepAlive(payment_id);
@@ -193,5 +198,20 @@ public class PaymentSendFailure : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two PaymentSendFailures contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
+	public bool eq(org.ldk.structs.PaymentSendFailure b) {
+		bool ret = bindings.PaymentSendFailure_eq(this.ptr, b == null ? 0 : b.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(b);
+		return ret;
+	}
+
+	public override bool Equals(object o) {
+		if (!(o is PaymentSendFailure)) return false;
+		return this.eq((PaymentSendFailure)o);
+	}
 }
 } } }

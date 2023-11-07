@@ -21,7 +21,9 @@ public class Result_CVec_u8ZPeerHandleErrorZ : CommonBase {
 	public class Result_CVec_u8ZPeerHandleErrorZ_OK : Result_CVec_u8ZPeerHandleErrorZ {
 		public readonly byte[] res;
 		internal Result_CVec_u8ZPeerHandleErrorZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			this.res = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
+			long res = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
+			byte[] res_conv = InternalUtils.decodeUint8Array(res);
+			this.res = res_conv;
 		}
 	}
 
@@ -39,7 +41,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ : CommonBase {
 	 * Creates a new CResult_CVec_u8ZPeerHandleErrorZ in the success state.
 	 */
 	public static Result_CVec_u8ZPeerHandleErrorZ ok(byte[] o) {
-		long ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(o);
+		long ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(InternalUtils.encodeUint8Array(o));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);

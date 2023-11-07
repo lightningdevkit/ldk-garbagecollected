@@ -43,16 +43,18 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * Per commitment point to derive the delayed payment key by key holder.
 	 */
 	public byte[] get_per_commitment_point() {
-		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
+		long ret = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Per commitment point to derive the delayed payment key by key holder.
 	 */
 	public void set_per_commitment_point(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -102,9 +104,11 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * derive the witnessScript for this output.
 	 */
 	public byte[] get_revocation_pubkey() {
-		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
+		long ret = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -112,7 +116,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * derive the witnessScript for this output.
 	 */
 	public void set_revocation_pubkey(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -122,9 +126,11 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public byte[] get_channel_keys_id() {
-		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
+		long ret = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -132,7 +138,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * This may be useful in re-deriving keys used in the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -159,7 +165,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * Constructs a new DelayedPaymentOutputDescriptor given each field
 	 */
 	public static DelayedPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, org.ldk.structs.TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
-		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point_arg, 33)), to_self_delay_arg, output_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(revocation_pubkey_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		GC.KeepAlive(outpoint_arg);
 		GC.KeepAlive(per_commitment_point_arg);
 		GC.KeepAlive(to_self_delay_arg);
@@ -193,6 +199,18 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the DelayedPaymentOutputDescriptor.
+	 */
+	public long hash() {
+		long ret = bindings.DelayedPaymentOutputDescriptor_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two DelayedPaymentOutputDescriptors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
@@ -213,16 +231,18 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 	 * Serialize the DelayedPaymentOutputDescriptor object into a byte array which can be read by DelayedPaymentOutputDescriptor_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
+		long ret = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a DelayedPaymentOutputDescriptor from a byte array, created by DelayedPaymentOutputDescriptor_write
 	 */
 	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.DelayedPaymentOutputDescriptor_read(ser);
+		long ret = bindings.DelayedPaymentOutputDescriptor_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DelayedPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_DelayedPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);

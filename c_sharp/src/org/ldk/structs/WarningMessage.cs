@@ -23,9 +23,11 @@ public class WarningMessage : CommonBase {
 	 * All-0s indicates a warning unrelated to a specific channel.
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.WarningMessage_get_channel_id(this.ptr);
+		long ret = bindings.WarningMessage_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -34,7 +36,7 @@ public class WarningMessage : CommonBase {
 	 * All-0s indicates a warning unrelated to a specific channel.
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.WarningMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.WarningMessage_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -47,9 +49,11 @@ public class WarningMessage : CommonBase {
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public string get_data() {
-		string ret = bindings.WarningMessage_get_data(this.ptr);
+		long ret = bindings.WarningMessage_get_data(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -60,7 +64,7 @@ public class WarningMessage : CommonBase {
 	 * the terminal emulator or the logging subsystem.
 	 */
 	public void set_data(string val) {
-		bindings.WarningMessage_set_data(this.ptr, val);
+		bindings.WarningMessage_set_data(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -69,7 +73,7 @@ public class WarningMessage : CommonBase {
 	 * Constructs a new WarningMessage given each field
 	 */
 	public static WarningMessage of(byte[] channel_id_arg, string data_arg) {
-		long ret = bindings.WarningMessage_new(InternalUtils.check_arr_len(channel_id_arg, 32), data_arg);
+		long ret = bindings.WarningMessage_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeString(data_arg));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(data_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -117,16 +121,18 @@ public class WarningMessage : CommonBase {
 	 * Serialize the WarningMessage object into a byte array which can be read by WarningMessage_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.WarningMessage_write(this.ptr);
+		long ret = bindings.WarningMessage_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a WarningMessage from a byte array, created by WarningMessage_write
 	 */
 	public static Result_WarningMessageDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.WarningMessage_read(ser);
+		long ret = bindings.WarningMessage_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_WarningMessageDecodeErrorZ ret_hu_conv = Result_WarningMessageDecodeErrorZ.constr_from_ptr(ret);

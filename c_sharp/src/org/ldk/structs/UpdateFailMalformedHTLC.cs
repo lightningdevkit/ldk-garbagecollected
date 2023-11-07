@@ -21,16 +21,18 @@ public class UpdateFailMalformedHTLC : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
+		long ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -110,16 +112,18 @@ public class UpdateFailMalformedHTLC : CommonBase {
 	 * Serialize the UpdateFailMalformedHTLC object into a byte array which can be read by UpdateFailMalformedHTLC_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
+		long ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UpdateFailMalformedHTLC from a byte array, created by UpdateFailMalformedHTLC_write
 	 */
 	public static Result_UpdateFailMalformedHTLCDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
+		long ret = bindings.UpdateFailMalformedHTLC_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);

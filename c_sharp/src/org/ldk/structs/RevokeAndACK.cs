@@ -21,16 +21,18 @@ public class RevokeAndACK : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.RevokeAndACK_get_channel_id(this.ptr);
+		long ret = bindings.RevokeAndACK_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.RevokeAndACK_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.RevokeAndACK_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -39,16 +41,18 @@ public class RevokeAndACK : CommonBase {
 	 * The secret corresponding to the per-commitment point
 	 */
 	public byte[] get_per_commitment_secret() {
-		byte[] ret = bindings.RevokeAndACK_get_per_commitment_secret(this.ptr);
+		long ret = bindings.RevokeAndACK_get_per_commitment_secret(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The secret corresponding to the per-commitment point
 	 */
 	public void set_per_commitment_secret(byte[] val) {
-		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -57,16 +61,18 @@ public class RevokeAndACK : CommonBase {
 	 * The next sender-broadcast commitment transaction's per-commitment point
 	 */
 	public byte[] get_next_per_commitment_point() {
-		byte[] ret = bindings.RevokeAndACK_get_next_per_commitment_point(this.ptr);
+		long ret = bindings.RevokeAndACK_get_next_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The next sender-broadcast commitment transaction's per-commitment point
 	 */
 	public void set_next_per_commitment_point(byte[] val) {
-		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -75,7 +81,7 @@ public class RevokeAndACK : CommonBase {
 	 * Constructs a new RevokeAndACK given each field
 	 */
 	public static RevokeAndACK of(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
-		long ret = bindings.RevokeAndACK_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(per_commitment_secret_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
+		long ret = bindings.RevokeAndACK_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_secret_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(next_per_commitment_point_arg, 33)));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(per_commitment_secret_arg);
 		GC.KeepAlive(next_per_commitment_point_arg);
@@ -124,16 +130,18 @@ public class RevokeAndACK : CommonBase {
 	 * Serialize the RevokeAndACK object into a byte array which can be read by RevokeAndACK_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.RevokeAndACK_write(this.ptr);
+		long ret = bindings.RevokeAndACK_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a RevokeAndACK from a byte array, created by RevokeAndACK_write
 	 */
 	public static Result_RevokeAndACKDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.RevokeAndACK_read(ser);
+		long ret = bindings.RevokeAndACK_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);

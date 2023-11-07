@@ -21,7 +21,9 @@ public class Result_PublicKeyNoneZ : CommonBase {
 	public class Result_PublicKeyNoneZ_OK : Result_PublicKeyNoneZ {
 		public readonly byte[] res;
 		internal Result_PublicKeyNoneZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			this.res = bindings.CResult_PublicKeyNoneZ_get_ok(ptr);
+			long res = bindings.CResult_PublicKeyNoneZ_get_ok(ptr);
+			byte[] res_conv = InternalUtils.decodeUint8Array(res);
+			this.res = res_conv;
 		}
 	}
 
@@ -34,7 +36,7 @@ public class Result_PublicKeyNoneZ : CommonBase {
 	 * Creates a new CResult_PublicKeyNoneZ in the success state.
 	 */
 	public static Result_PublicKeyNoneZ ok(byte[] o) {
-		long ret = bindings.CResult_PublicKeyNoneZ_ok(InternalUtils.check_arr_len(o, 33));
+		long ret = bindings.CResult_PublicKeyNoneZ_ok(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(o, 33)));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyNoneZ ret_hu_conv = Result_PublicKeyNoneZ.constr_from_ptr(ret);

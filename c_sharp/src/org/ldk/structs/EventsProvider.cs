@@ -1,9 +1,21 @@
+
 using org.ldk.impl;
 using org.ldk.enums;
 using org.ldk.util;
 using System;
 
 namespace org { namespace ldk { namespace structs {
+
+
+
+/** An implementation of EventsProvider */
+public interface EventsProviderInterface {
+	/**Processes any events generated since the last call using the given event handler.
+	 * 
+	 * See the trait-level documentation for requirements.
+	 */
+	void process_pending_events(EventHandler handler);
+}
 
 /**
  * A trait indicating an object may generate events.
@@ -44,24 +56,14 @@ namespace org { namespace ldk { namespace structs {
  * [`ChainMonitor::process_pending_events_async`]: crate::chain::chainmonitor::ChainMonitor::process_pending_events_async
  */
 public class EventsProvider : CommonBase {
-	internal readonly bindings.LDKEventsProvider bindings_instance;
+	internal bindings.LDKEventsProvider bindings_instance;
+	internal long instance_idx;
+
 	internal EventsProvider(object _dummy, long ptr) : base(ptr) { bindings_instance = null; }
-	private EventsProvider(bindings.LDKEventsProvider arg) : base(bindings.LDKEventsProvider_new(arg)) {
-		this.ptrs_to.AddLast(arg);
-		this.bindings_instance = arg;
-	}
 	~EventsProvider() {
 		if (ptr != 0) { bindings.EventsProvider_free(ptr); }
 	}
 
-	public interface EventsProviderInterface {
-		/**
-		 * Processes any events generated since the last call using the given event handler.
-		 * 
-		 * See the trait-level documentation for requirements.
-		 */
-		void process_pending_events(EventHandler _handler);
-	}
 	private class LDKEventsProviderHolder { internal EventsProvider held; }
 	private class LDKEventsProviderImpl : bindings.LDKEventsProvider {
 		internal LDKEventsProviderImpl(EventsProviderInterface arg, LDKEventsProviderHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
@@ -74,11 +76,19 @@ public class EventsProvider : CommonBase {
 				GC.KeepAlive(arg);
 		}
 	}
+
+	/** Creates a new instance of EventsProvider from a given implementation */
 	public static EventsProvider new_impl(EventsProviderInterface arg) {
 		LDKEventsProviderHolder impl_holder = new LDKEventsProviderHolder();
-		impl_holder.held = new EventsProvider(new LDKEventsProviderImpl(arg, impl_holder));
+		LDKEventsProviderImpl impl = new LDKEventsProviderImpl(arg, impl_holder);
+		long[] ptr_idx = bindings.LDKEventsProvider_new(impl);
+
+		impl_holder.held = new EventsProvider(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
+		impl_holder.held.bindings_instance = impl;
 		return impl_holder.held;
 	}
+
 	/**
 	 * Processes any events generated since the last call using the given event handler.
 	 * 

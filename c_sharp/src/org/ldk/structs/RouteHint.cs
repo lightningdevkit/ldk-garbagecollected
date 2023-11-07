@@ -16,21 +16,23 @@ public class RouteHint : CommonBase {
 	}
 
 	public RouteHintHop[] get_a() {
-		long[] ret = bindings.RouteHint_get_a(this.ptr);
+		long ret = bindings.RouteHint_get_a(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_14_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_14_len = InternalUtils.getArrayLength(ret);
 		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
-			long ret_conv_14 = ret[o];
+			long ret_conv_14 = InternalUtils.getU64ArrayElem(ret, o);
 			org.ldk.structs.RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.RouteHintHop(null, ret_conv_14); }
 			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_14_arr;
 	}
 
 	public void set_a(RouteHintHop[] val) {
-		bindings.RouteHint_set_a(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_14 => val_conv_14 == null ? 0 : val_conv_14.ptr) : null);
+		bindings.RouteHint_set_a(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_14 => val_conv_14 == null ? 0 : val_conv_14.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (RouteHintHop val_conv_14 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_14); }; };
@@ -40,7 +42,7 @@ public class RouteHint : CommonBase {
 	 * Constructs a new RouteHint given each field
 	 */
 	public static RouteHint of(RouteHintHop[] a_arg) {
-		long ret = bindings.RouteHint_new(a_arg != null ? InternalUtils.mapArray(a_arg, a_arg_conv_14 => a_arg_conv_14 == null ? 0 : a_arg_conv_14.ptr) : null);
+		long ret = bindings.RouteHint_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(a_arg, a_arg_conv_14 => a_arg_conv_14 == null ? 0 : a_arg_conv_14.ptr)));
 		GC.KeepAlive(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
@@ -100,16 +102,18 @@ public class RouteHint : CommonBase {
 	 * Serialize the RouteHint object into a byte array which can be read by RouteHint_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.RouteHint_write(this.ptr);
+		long ret = bindings.RouteHint_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a RouteHint from a byte array, created by RouteHint_write
 	 */
 	public static Result_RouteHintDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.RouteHint_read(ser);
+		long ret = bindings.RouteHint_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteHintDecodeErrorZ ret_hu_conv = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);

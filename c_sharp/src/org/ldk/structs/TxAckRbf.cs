@@ -20,16 +20,18 @@ public class TxAckRbf : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxAckRbf_get_channel_id(this.ptr);
+		long ret = bindings.TxAckRbf_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxAckRbf_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxAckRbf_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -62,7 +64,7 @@ public class TxAckRbf : CommonBase {
 	 * Constructs a new TxAckRbf given each field
 	 */
 	public static TxAckRbf of(byte[] channel_id_arg, org.ldk.structs.Option_i64Z funding_output_contribution_arg) {
-		long ret = bindings.TxAckRbf_new(InternalUtils.check_arr_len(channel_id_arg, 32), funding_output_contribution_arg.ptr);
+		long ret = bindings.TxAckRbf_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), funding_output_contribution_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(funding_output_contribution_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -111,16 +113,18 @@ public class TxAckRbf : CommonBase {
 	 * Serialize the TxAckRbf object into a byte array which can be read by TxAckRbf_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxAckRbf_write(this.ptr);
+		long ret = bindings.TxAckRbf_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxAckRbf from a byte array, created by TxAckRbf_write
 	 */
 	public static Result_TxAckRbfDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxAckRbf_read(ser);
+		long ret = bindings.TxAckRbf_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxAckRbfDecodeErrorZ ret_hu_conv = Result_TxAckRbfDecodeErrorZ.constr_from_ptr(ret);

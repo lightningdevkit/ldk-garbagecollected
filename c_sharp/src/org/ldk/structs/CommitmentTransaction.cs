@@ -42,16 +42,18 @@ public class CommitmentTransaction : CommonBase {
 	 * Serialize the CommitmentTransaction object into a byte array which can be read by CommitmentTransaction_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.CommitmentTransaction_write(this.ptr);
+		long ret = bindings.CommitmentTransaction_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a CommitmentTransaction from a byte array, created by CommitmentTransaction_write
 	 */
 	public static Result_CommitmentTransactionDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.CommitmentTransaction_read(ser);
+		long ret = bindings.CommitmentTransaction_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CommitmentTransactionDecodeErrorZ ret_hu_conv = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
@@ -65,6 +67,17 @@ public class CommitmentTransaction : CommonBase {
 		long ret = bindings.CommitmentTransaction_commitment_number(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
+	}
+
+	/**
+	 * The per commitment point used by the broadcaster.
+	 */
+	public byte[] per_commitment_point() {
+		long ret = bindings.CommitmentTransaction_per_commitment_point(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**

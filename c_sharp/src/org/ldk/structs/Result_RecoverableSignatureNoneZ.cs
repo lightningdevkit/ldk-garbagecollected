@@ -21,7 +21,9 @@ public class Result_RecoverableSignatureNoneZ : CommonBase {
 	public class Result_RecoverableSignatureNoneZ_OK : Result_RecoverableSignatureNoneZ {
 		public readonly byte[] res;
 		internal Result_RecoverableSignatureNoneZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			this.res = bindings.CResult_RecoverableSignatureNoneZ_get_ok(ptr);
+			long res = bindings.CResult_RecoverableSignatureNoneZ_get_ok(ptr);
+			byte[] res_conv = InternalUtils.decodeUint8Array(res);
+			this.res = res_conv;
 		}
 	}
 
@@ -34,7 +36,7 @@ public class Result_RecoverableSignatureNoneZ : CommonBase {
 	 * Creates a new CResult_RecoverableSignatureNoneZ in the success state.
 	 */
 	public static Result_RecoverableSignatureNoneZ ok(byte[] o) {
-		long ret = bindings.CResult_RecoverableSignatureNoneZ_ok(InternalUtils.check_arr_len(o, 68));
+		long ret = bindings.CResult_RecoverableSignatureNoneZ_ok(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(o, 68)));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);

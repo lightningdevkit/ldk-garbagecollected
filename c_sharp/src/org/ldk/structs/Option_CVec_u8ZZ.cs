@@ -28,7 +28,9 @@ public class Option_CVec_u8ZZ : CommonBase {
 	public class Option_CVec_u8ZZ_Some : Option_CVec_u8ZZ {
 		public byte[] some;
 		internal Option_CVec_u8ZZ_Some(long ptr) : base(null, ptr) {
-			this.some = bindings.LDKCOption_CVec_u8ZZ_Some_get_some(ptr);
+			long some = bindings.LDKCOption_CVec_u8ZZ_Some_get_some(ptr);
+			byte[] some_conv = InternalUtils.decodeUint8Array(some);
+			this.some = some_conv;
 		}
 	}
 	/** A Option_CVec_u8ZZ of type None */
@@ -40,7 +42,7 @@ public class Option_CVec_u8ZZ : CommonBase {
 	 * Constructs a new COption_CVec_u8ZZ containing a crate::c_types::derived::CVec_u8Z
 	 */
 	public static Option_CVec_u8ZZ some(byte[] o) {
-		long ret = bindings.COption_CVec_u8ZZ_some(o);
+		long ret = bindings.COption_CVec_u8ZZ_some(InternalUtils.encodeUint8Array(o));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);

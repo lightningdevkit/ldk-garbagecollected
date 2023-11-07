@@ -92,9 +92,11 @@ public class RawBolt11Invoice : CommonBase {
 	 * Calculate the hash of the encoded `RawBolt11Invoice` which should be signed.
 	 */
 	public byte[] signable_hash() {
-		byte[] ret = bindings.RawBolt11Invoice_signable_hash(this.ptr);
+		long ret = bindings.RawBolt11Invoice_signable_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -169,11 +171,11 @@ public class RawBolt11Invoice : CommonBase {
 		return ret_hu_conv;
 	}
 
-	public Option_PaymentSecretZ payment_secret() {
+	public Option_ThirtyTwoBytesZ payment_secret() {
 		long ret = bindings.RawBolt11Invoice_payment_secret(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_PaymentSecretZ ret_hu_conv = org.ldk.structs.Option_PaymentSecretZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -200,16 +202,18 @@ public class RawBolt11Invoice : CommonBase {
 	}
 
 	public PrivateRoute[] private_routes() {
-		long[] ret = bindings.RawBolt11Invoice_private_routes(this.ptr);
+		long ret = bindings.RawBolt11Invoice_private_routes(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_14_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_14_len = InternalUtils.getArrayLength(ret);
 		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
-			long ret_conv_14 = ret[o];
+			long ret_conv_14 = InternalUtils.getU64ArrayElem(ret, o);
 			org.ldk.structs.PrivateRoute ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.PrivateRoute(null, ret_conv_14); }
 			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_14_arr;
 	}
 

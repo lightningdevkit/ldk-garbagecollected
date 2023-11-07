@@ -17,13 +17,15 @@ public class PrintableString : CommonBase {
 	}
 
 	public string get_a() {
-		string ret = bindings.PrintableString_get_a(this.ptr);
+		long ret = bindings.PrintableString_get_a(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	public void set_a(string val) {
-		bindings.PrintableString_set_a(this.ptr, val);
+		bindings.PrintableString_set_a(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -32,7 +34,7 @@ public class PrintableString : CommonBase {
 	 * Constructs a new PrintableString given each field
 	 */
 	public static PrintableString of(string a_arg) {
-		long ret = bindings.PrintableString_new(a_arg);
+		long ret = bindings.PrintableString_new(InternalUtils.encodeString(a_arg));
 		GC.KeepAlive(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PrintableString ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PrintableString(null, ret); }

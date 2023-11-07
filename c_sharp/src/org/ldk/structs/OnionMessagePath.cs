@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A path for sending an [`msgs::OnionMessage`].
+ * A path for sending an [`OnionMessage`].
  */
 public class OnionMessagePath : CommonBase {
 	internal OnionMessagePath(object _dummy, long ptr) : base(ptr) { }
@@ -21,16 +21,25 @@ public class OnionMessagePath : CommonBase {
 	 * Returns a copy of the field.
 	 */
 	public byte[][] get_intermediate_nodes() {
-		byte[][] ret = bindings.OnionMessagePath_get_intermediate_nodes(this.ptr);
+		long ret = bindings.OnionMessagePath_get_intermediate_nodes(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
+		byte[][] ret_conv_8_arr = new byte[ret_conv_8_len][];
+		for (int i = 0; i < ret_conv_8_len; i++) {
+			long ret_conv_8 = InternalUtils.getU64ArrayElem(ret, i);
+			byte[] ret_conv_8_conv = InternalUtils.decodeUint8Array(ret_conv_8);
+			ret_conv_8_arr[i] = ret_conv_8_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_8_arr;
 	}
 
 	/**
 	 * Nodes on the path between the sender and the destination.
 	 */
 	public void set_intermediate_nodes(byte[][] val) {
-		bindings.OnionMessagePath_set_intermediate_nodes(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_8 => InternalUtils.check_arr_len(val_conv_8, 33)) : null);
+		bindings.OnionMessagePath_set_intermediate_nodes(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val_conv_8, 33)))));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -61,7 +70,7 @@ public class OnionMessagePath : CommonBase {
 	 * Constructs a new OnionMessagePath given each field
 	 */
 	public static OnionMessagePath of(byte[][] intermediate_nodes_arg, org.ldk.structs.Destination destination_arg) {
-		long ret = bindings.OnionMessagePath_new(intermediate_nodes_arg != null ? InternalUtils.mapArray(intermediate_nodes_arg, intermediate_nodes_arg_conv_8 => InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)) : null, destination_arg.ptr);
+		long ret = bindings.OnionMessagePath_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(intermediate_nodes_arg, intermediate_nodes_arg_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)))), destination_arg.ptr);
 		GC.KeepAlive(intermediate_nodes_arg);
 		GC.KeepAlive(destination_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }

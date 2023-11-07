@@ -23,16 +23,18 @@ public class FundingCreated : CommonBase {
 	 * A temporary channel ID, until the funding is established
 	 */
 	public byte[] get_temporary_channel_id() {
-		byte[] ret = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
+		long ret = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A temporary channel ID, until the funding is established
 	 */
 	public void set_temporary_channel_id(byte[] val) {
-		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -41,16 +43,18 @@ public class FundingCreated : CommonBase {
 	 * The funding transaction ID
 	 */
 	public byte[] get_funding_txid() {
-		byte[] ret = bindings.FundingCreated_get_funding_txid(this.ptr);
+		long ret = bindings.FundingCreated_get_funding_txid(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The funding transaction ID
 	 */
 	public void set_funding_txid(byte[] val) {
-		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -77,16 +81,18 @@ public class FundingCreated : CommonBase {
 	 * The signature of the channel initiator (funder) on the initial commitment transaction
 	 */
 	public byte[] get_signature() {
-		byte[] ret = bindings.FundingCreated_get_signature(this.ptr);
+		long ret = bindings.FundingCreated_get_signature(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The signature of the channel initiator (funder) on the initial commitment transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -95,7 +101,7 @@ public class FundingCreated : CommonBase {
 	 * Constructs a new FundingCreated given each field
 	 */
 	public static FundingCreated of(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, byte[] signature_arg) {
-		long ret = bindings.FundingCreated_new(InternalUtils.check_arr_len(temporary_channel_id_arg, 32), InternalUtils.check_arr_len(funding_txid_arg, 32), funding_output_index_arg, InternalUtils.check_arr_len(signature_arg, 64));
+		long ret = bindings.FundingCreated_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(temporary_channel_id_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_txid_arg, 32)), funding_output_index_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(signature_arg, 64)));
 		GC.KeepAlive(temporary_channel_id_arg);
 		GC.KeepAlive(funding_txid_arg);
 		GC.KeepAlive(funding_output_index_arg);
@@ -145,16 +151,18 @@ public class FundingCreated : CommonBase {
 	 * Serialize the FundingCreated object into a byte array which can be read by FundingCreated_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.FundingCreated_write(this.ptr);
+		long ret = bindings.FundingCreated_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a FundingCreated from a byte array, created by FundingCreated_write
 	 */
 	public static Result_FundingCreatedDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.FundingCreated_read(ser);
+		long ret = bindings.FundingCreated_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);

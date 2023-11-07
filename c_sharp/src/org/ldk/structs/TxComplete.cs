@@ -20,16 +20,18 @@ public class TxComplete : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxComplete_get_channel_id(this.ptr);
+		long ret = bindings.TxComplete_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxComplete_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxComplete_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -38,7 +40,7 @@ public class TxComplete : CommonBase {
 	 * Constructs a new TxComplete given each field
 	 */
 	public static TxComplete of(byte[] channel_id_arg) {
-		long ret = bindings.TxComplete_new(InternalUtils.check_arr_len(channel_id_arg, 32));
+		long ret = bindings.TxComplete_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)));
 		GC.KeepAlive(channel_id_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TxComplete ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxComplete(null, ret); }
@@ -85,16 +87,18 @@ public class TxComplete : CommonBase {
 	 * Serialize the TxComplete object into a byte array which can be read by TxComplete_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxComplete_write(this.ptr);
+		long ret = bindings.TxComplete_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxComplete from a byte array, created by TxComplete_write
 	 */
 	public static Result_TxCompleteDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxComplete_read(ser);
+		long ret = bindings.TxComplete_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCompleteDecodeErrorZ ret_hu_conv = Result_TxCompleteDecodeErrorZ.constr_from_ptr(ret);

@@ -21,16 +21,18 @@ public class UpdateAddHTLC : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
+		long ret = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -75,16 +77,18 @@ public class UpdateAddHTLC : CommonBase {
 	 * The payment hash, the pre-image of which controls HTLC redemption
 	 */
 	public byte[] get_payment_hash() {
-		byte[] ret = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
+		long ret = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The payment hash, the pre-image of which controls HTLC redemption
 	 */
 	public void set_payment_hash(byte[] val) {
-		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -174,16 +178,18 @@ public class UpdateAddHTLC : CommonBase {
 	 * Serialize the UpdateAddHTLC object into a byte array which can be read by UpdateAddHTLC_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UpdateAddHTLC_write(this.ptr);
+		long ret = bindings.UpdateAddHTLC_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UpdateAddHTLC from a byte array, created by UpdateAddHTLC_write
 	 */
 	public static Result_UpdateAddHTLCDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UpdateAddHTLC_read(ser);
+		long ret = bindings.UpdateAddHTLC_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);

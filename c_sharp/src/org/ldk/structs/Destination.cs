@@ -28,7 +28,9 @@ public class Destination : CommonBase {
 	public class Destination_Node : Destination {
 		public byte[] node;
 		internal Destination_Node(long ptr) : base(null, ptr) {
-			this.node = bindings.LDKDestination_Node_get_node(ptr);
+			long node = bindings.LDKDestination_Node_get_node(ptr);
+			byte[] node_conv = InternalUtils.decodeUint8Array(node);
+			this.node = node_conv;
 		}
 	}
 	/** A Destination of type BlindedPath */
@@ -63,7 +65,7 @@ public class Destination : CommonBase {
 	 * Utility method to constructs a new Node-variant Destination
 	 */
 	public static Destination node(byte[] a) {
-		long ret = bindings.Destination_node(InternalUtils.check_arr_len(a, 33));
+		long ret = bindings.Destination_node(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a, 33)));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Destination ret_hu_conv = org.ldk.structs.Destination.constr_from_ptr(ret);

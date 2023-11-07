@@ -20,16 +20,18 @@ public class TxInitRbf : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxInitRbf_get_channel_id(this.ptr);
+		long ret = bindings.TxInitRbf_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxInitRbf_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxInitRbf_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -98,7 +100,7 @@ public class TxInitRbf : CommonBase {
 	 * Constructs a new TxInitRbf given each field
 	 */
 	public static TxInitRbf of(byte[] channel_id_arg, int locktime_arg, int feerate_sat_per_1000_weight_arg, org.ldk.structs.Option_i64Z funding_output_contribution_arg) {
-		long ret = bindings.TxInitRbf_new(InternalUtils.check_arr_len(channel_id_arg, 32), locktime_arg, feerate_sat_per_1000_weight_arg, funding_output_contribution_arg.ptr);
+		long ret = bindings.TxInitRbf_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), locktime_arg, feerate_sat_per_1000_weight_arg, funding_output_contribution_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(locktime_arg);
 		GC.KeepAlive(feerate_sat_per_1000_weight_arg);
@@ -149,16 +151,18 @@ public class TxInitRbf : CommonBase {
 	 * Serialize the TxInitRbf object into a byte array which can be read by TxInitRbf_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxInitRbf_write(this.ptr);
+		long ret = bindings.TxInitRbf_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxInitRbf from a byte array, created by TxInitRbf_write
 	 */
 	public static Result_TxInitRbfDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxInitRbf_read(ser);
+		long ret = bindings.TxInitRbf_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxInitRbfDecodeErrorZ ret_hu_conv = Result_TxInitRbfDecodeErrorZ.constr_from_ptr(ret);

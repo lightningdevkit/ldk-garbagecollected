@@ -22,9 +22,11 @@ public class ChannelDetails : CommonBase {
 	 * lifetime of the channel.
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.ChannelDetails_get_channel_id(this.ptr);
+		long ret = bindings.ChannelDetails_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -34,7 +36,7 @@ public class ChannelDetails : CommonBase {
 	 * lifetime of the channel.
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ChannelDetails_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelDetails_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -306,24 +308,37 @@ public class ChannelDetails : CommonBase {
 	}
 
 	/**
-	 * The `user_channel_id` passed in to create_channel, or a random value if the channel was
-	 * inbound. This may be zero for inbound channels serialized with LDK versions prior to
-	 * 0.0.113.
+	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+	 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+	 * `user_channel_id` will be randomized for an inbound channel.  This may be zero for objects
+	 * serialized with LDK versions prior to 0.0.113.
+	 * 
+	 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 	 */
 	public UInt128 get_user_channel_id() {
-		byte[] ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
+		long ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.util.UInt128 ret_conv = new org.ldk.util.UInt128(ret);
 		return ret_conv;
 	}
 
 	/**
-	 * The `user_channel_id` passed in to create_channel, or a random value if the channel was
-	 * inbound. This may be zero for inbound channels serialized with LDK versions prior to
-	 * 0.0.113.
+	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+	 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+	 * `user_channel_id` will be randomized for an inbound channel.  This may be zero for objects
+	 * serialized with LDK versions prior to 0.0.113.
+	 * 
+	 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 	 */
 	public void set_user_channel_id(org.ldk.util.UInt128 val) {
-		bindings.ChannelDetails_set_user_channel_id(this.ptr, val.getLEBytes());
+		bindings.ChannelDetails_set_user_channel_id(this.ptr, InternalUtils.encodeUint8Array(val.getLEBytes()));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -812,9 +827,13 @@ public class ChannelDetails : CommonBase {
 
 	/**
 	 * Constructs a new ChannelDetails given each field
+	 * 
+	 * Note that funding_txo_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that channel_type_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that config_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static ChannelDetails of(byte[] channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, org.ldk.structs.OutPoint funding_txo_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, org.ldk.structs.Option_u32Z feerate_sat_per_1000_weight_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long next_outbound_htlc_minimum_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, bool is_outbound_arg, bool is_channel_ready_arg, org.ldk.structs.Option_ChannelShutdownStateZ channel_shutdown_state_arg, bool is_usable_arg, bool is_public_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, org.ldk.structs.ChannelConfig config_arg) {
-		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), feerate_sat_per_1000_weight_arg.ptr, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, next_outbound_htlc_minimum_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, channel_shutdown_state_arg.ptr, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
+		long ret = bindings.ChannelDetails_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, InternalUtils.encodeUint8Array(user_channel_id_arg.getLEBytes()), feerate_sat_per_1000_weight_arg.ptr, balance_msat_arg, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, next_outbound_htlc_minimum_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, channel_shutdown_state_arg.ptr, is_usable_arg, is_public_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(counterparty_arg);
 		GC.KeepAlive(funding_txo_arg);
@@ -919,16 +938,18 @@ public class ChannelDetails : CommonBase {
 	 * Serialize the ChannelDetails object into a byte array which can be read by ChannelDetails_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelDetails_write(this.ptr);
+		long ret = bindings.ChannelDetails_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelDetails from a byte array, created by ChannelDetails_write
 	 */
 	public static Result_ChannelDetailsDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelDetails_read(ser);
+		long ret = bindings.ChannelDetails_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelDetailsDecodeErrorZ ret_hu_conv = Result_ChannelDetailsDecodeErrorZ.constr_from_ptr(ret);

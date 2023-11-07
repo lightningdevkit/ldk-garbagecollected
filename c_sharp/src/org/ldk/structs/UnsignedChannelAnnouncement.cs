@@ -43,16 +43,18 @@ public class UnsignedChannelAnnouncement : CommonBase {
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
+		long ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -163,6 +165,58 @@ public class UnsignedChannelAnnouncement : CommonBase {
 		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
+	/**
+	 * Excess data which was signed as a part of the message which we do not (yet) understand how
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public byte[] get_excess_data() {
+		long ret = bindings.UnsignedChannelAnnouncement_get_excess_data(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Excess data which was signed as a part of the message which we do not (yet) understand how
+	 * to decode.
+	 * 
+	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
+	 */
+	public void set_excess_data(byte[] val) {
+		bindings.UnsignedChannelAnnouncement_set_excess_data(this.ptr, InternalUtils.encodeUint8Array(val));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * Constructs a new UnsignedChannelAnnouncement given each field
+	 */
+	public static UnsignedChannelAnnouncement of(org.ldk.structs.ChannelFeatures features_arg, byte[] chain_hash_arg, long short_channel_id_arg, org.ldk.structs.NodeId node_id_1_arg, org.ldk.structs.NodeId node_id_2_arg, org.ldk.structs.NodeId bitcoin_key_1_arg, org.ldk.structs.NodeId bitcoin_key_2_arg, byte[] excess_data_arg) {
+		long ret = bindings.UnsignedChannelAnnouncement_new(features_arg == null ? 0 : features_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), short_channel_id_arg, node_id_1_arg == null ? 0 : node_id_1_arg.ptr, node_id_2_arg == null ? 0 : node_id_2_arg.ptr, bitcoin_key_1_arg == null ? 0 : bitcoin_key_1_arg.ptr, bitcoin_key_2_arg == null ? 0 : bitcoin_key_2_arg.ptr, InternalUtils.encodeUint8Array(excess_data_arg));
+		GC.KeepAlive(features_arg);
+		GC.KeepAlive(chain_hash_arg);
+		GC.KeepAlive(short_channel_id_arg);
+		GC.KeepAlive(node_id_1_arg);
+		GC.KeepAlive(node_id_2_arg);
+		GC.KeepAlive(bitcoin_key_1_arg);
+		GC.KeepAlive(bitcoin_key_2_arg);
+		GC.KeepAlive(excess_data_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.UnsignedChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UnsignedChannelAnnouncement(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(features_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_1_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_2_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(bitcoin_key_1_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(bitcoin_key_2_arg); };
+		return ret_hu_conv;
+	}
+
 	internal long clone_ptr() {
 		long ret = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -202,16 +256,18 @@ public class UnsignedChannelAnnouncement : CommonBase {
 	 * Serialize the UnsignedChannelAnnouncement object into a byte array which can be read by UnsignedChannelAnnouncement_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
+		long ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UnsignedChannelAnnouncement from a byte array, created by UnsignedChannelAnnouncement_write
 	 */
 	public static Result_UnsignedChannelAnnouncementDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UnsignedChannelAnnouncement_read(ser);
+		long ret = bindings.UnsignedChannelAnnouncement_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);

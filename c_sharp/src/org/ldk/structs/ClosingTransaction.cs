@@ -70,7 +70,7 @@ public class ClosingTransaction : CommonBase {
 	 * Construct an object of the class
 	 */
 	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, org.ldk.structs.OutPoint funding_outpoint) {
-		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr);
+		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, InternalUtils.encodeUint8Array(to_holder_script), InternalUtils.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0 : funding_outpoint.ptr);
 		GC.KeepAlive(to_holder_value_sat);
 		GC.KeepAlive(to_counterparty_value_sat);
 		GC.KeepAlive(to_holder_script);
@@ -140,18 +140,22 @@ public class ClosingTransaction : CommonBase {
 	 * The destination of the holder's output
 	 */
 	public byte[] to_holder_script() {
-		byte[] ret = bindings.ClosingTransaction_to_holder_script(this.ptr);
+		long ret = bindings.ClosingTransaction_to_holder_script(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The destination of the counterparty's output
 	 */
 	public byte[] to_counterparty_script() {
-		byte[] ret = bindings.ClosingTransaction_to_counterparty_script(this.ptr);
+		long ret = bindings.ClosingTransaction_to_counterparty_script(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

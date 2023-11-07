@@ -242,16 +242,18 @@ public class ChannelInfo : CommonBase {
 	 * Serialize the ChannelInfo object into a byte array which can be read by ChannelInfo_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelInfo_write(this.ptr);
+		long ret = bindings.ChannelInfo_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelInfo from a byte array, created by ChannelInfo_write
 	 */
 	public static Result_ChannelInfoDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelInfo_read(ser);
+		long ret = bindings.ChannelInfo_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelInfoDecodeErrorZ ret_hu_conv = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);

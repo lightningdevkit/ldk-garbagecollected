@@ -19,16 +19,18 @@ public class TxAddInput : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxAddInput_get_channel_id(this.ptr);
+		long ret = bindings.TxAddInput_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxAddInput_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxAddInput_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -117,7 +119,7 @@ public class TxAddInput : CommonBase {
 	 * Constructs a new TxAddInput given each field
 	 */
 	public static TxAddInput of(byte[] channel_id_arg, long serial_id_arg, org.ldk.structs.TransactionU16LenLimited prevtx_arg, int prevtx_out_arg, int sequence_arg) {
-		long ret = bindings.TxAddInput_new(InternalUtils.check_arr_len(channel_id_arg, 32), serial_id_arg, prevtx_arg == null ? 0 : prevtx_arg.ptr, prevtx_out_arg, sequence_arg);
+		long ret = bindings.TxAddInput_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), serial_id_arg, prevtx_arg == null ? 0 : prevtx_arg.ptr, prevtx_out_arg, sequence_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(serial_id_arg);
 		GC.KeepAlive(prevtx_arg);
@@ -169,16 +171,18 @@ public class TxAddInput : CommonBase {
 	 * Serialize the TxAddInput object into a byte array which can be read by TxAddInput_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxAddInput_write(this.ptr);
+		long ret = bindings.TxAddInput_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxAddInput from a byte array, created by TxAddInput_write
 	 */
 	public static Result_TxAddInputDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxAddInput_read(ser);
+		long ret = bindings.TxAddInput_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxAddInputDecodeErrorZ ret_hu_conv = Result_TxAddInputDecodeErrorZ.constr_from_ptr(ret);

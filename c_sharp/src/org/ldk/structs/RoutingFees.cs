@@ -117,16 +117,18 @@ public class RoutingFees : CommonBase {
 	 * Serialize the RoutingFees object into a byte array which can be read by RoutingFees_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.RoutingFees_write(this.ptr);
+		long ret = bindings.RoutingFees_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a RoutingFees from a byte array, created by RoutingFees_write
 	 */
 	public static Result_RoutingFeesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.RoutingFees_read(ser);
+		long ret = bindings.RoutingFees_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);

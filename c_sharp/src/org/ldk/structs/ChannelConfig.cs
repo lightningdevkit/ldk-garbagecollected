@@ -209,20 +209,20 @@ public class ChannelConfig : CommonBase {
 	 * funder/initiator.
 	 * 
 	 * When we are the funder, because we have to pay the channel closing fee, we bound the
-	 * acceptable fee by our [`Background`] and [`Normal`] fees, with the upper bound increased by
+	 * acceptable fee by our [`ChannelCloseMinimum`] and [`NonAnchorChannelFee`] fees, with the upper bound increased by
 	 * this value. Because the on-chain fee we'd pay to force-close the channel is kept near our
-	 * [`Normal`] feerate during normal operation, this value represents the additional fee we're
+	 * [`NonAnchorChannelFee`] feerate during normal operation, this value represents the additional fee we're
 	 * willing to pay in order to avoid waiting for our counterparty's to_self_delay to reclaim our
 	 * funds.
 	 * 
 	 * When we are not the funder, we require the closing transaction fee pay at least our
-	 * [`Background`] fee estimate, but allow our counterparty to pay as much fee as they like.
+	 * [`ChannelCloseMinimum`] fee estimate, but allow our counterparty to pay as much fee as they like.
 	 * Thus, this value is ignored when we are not the funder.
 	 * 
 	 * Default value: 1000 satoshis.
 	 * 
-	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
-	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
+	 * [`ChannelCloseMinimum`]: crate::chain::chaininterface::ConfirmationTarget::ChannelCloseMinimum
 	 */
 	public long get_force_close_avoidance_max_fee_satoshis() {
 		long ret = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
@@ -239,20 +239,20 @@ public class ChannelConfig : CommonBase {
 	 * funder/initiator.
 	 * 
 	 * When we are the funder, because we have to pay the channel closing fee, we bound the
-	 * acceptable fee by our [`Background`] and [`Normal`] fees, with the upper bound increased by
+	 * acceptable fee by our [`ChannelCloseMinimum`] and [`NonAnchorChannelFee`] fees, with the upper bound increased by
 	 * this value. Because the on-chain fee we'd pay to force-close the channel is kept near our
-	 * [`Normal`] feerate during normal operation, this value represents the additional fee we're
+	 * [`NonAnchorChannelFee`] feerate during normal operation, this value represents the additional fee we're
 	 * willing to pay in order to avoid waiting for our counterparty's to_self_delay to reclaim our
 	 * funds.
 	 * 
 	 * When we are not the funder, we require the closing transaction fee pay at least our
-	 * [`Background`] fee estimate, but allow our counterparty to pay as much fee as they like.
+	 * [`ChannelCloseMinimum`] fee estimate, but allow our counterparty to pay as much fee as they like.
 	 * Thus, this value is ignored when we are not the funder.
 	 * 
 	 * Default value: 1000 satoshis.
 	 * 
-	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
-	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
+	 * [`ChannelCloseMinimum`]: crate::chain::chaininterface::ConfirmationTarget::ChannelCloseMinimum
 	 */
 	public void set_force_close_avoidance_max_fee_satoshis(long val) {
 		bindings.ChannelConfig_set_force_close_avoidance_max_fee_satoshis(this.ptr, val);
@@ -412,16 +412,18 @@ public class ChannelConfig : CommonBase {
 	 * Serialize the ChannelConfig object into a byte array which can be read by ChannelConfig_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelConfig_write(this.ptr);
+		long ret = bindings.ChannelConfig_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelConfig from a byte array, created by ChannelConfig_write
 	 */
 	public static Result_ChannelConfigDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelConfig_read(ser);
+		long ret = bindings.ChannelConfig_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelConfigDecodeErrorZ ret_hu_conv = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);

@@ -88,6 +88,18 @@ public class CounterpartyChannelTransactionParameters : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the CounterpartyChannelTransactionParameters.
+	 */
+	public long hash() {
+		long ret = bindings.CounterpartyChannelTransactionParameters_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two CounterpartyChannelTransactionParameterss contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.
@@ -108,16 +120,18 @@ public class CounterpartyChannelTransactionParameters : CommonBase {
 	 * Serialize the CounterpartyChannelTransactionParameters object into a byte array which can be read by CounterpartyChannelTransactionParameters_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
+		long ret = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a CounterpartyChannelTransactionParameters from a byte array, created by CounterpartyChannelTransactionParameters_write
 	 */
 	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
+		long ret = bindings.CounterpartyChannelTransactionParameters_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);

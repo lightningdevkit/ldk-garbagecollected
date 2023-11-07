@@ -100,16 +100,18 @@ public class MaxDustHTLCExposure : CommonBase {
 	 * Serialize the MaxDustHTLCExposure object into a byte array which can be read by MaxDustHTLCExposure_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.MaxDustHTLCExposure_write(this.ptr);
+		long ret = bindings.MaxDustHTLCExposure_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a MaxDustHTLCExposure from a byte array, created by MaxDustHTLCExposure_write
 	 */
 	public static Result_MaxDustHTLCExposureDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.MaxDustHTLCExposure_read(ser);
+		long ret = bindings.MaxDustHTLCExposure_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_MaxDustHTLCExposureDecodeErrorZ ret_hu_conv = Result_MaxDustHTLCExposureDecodeErrorZ.constr_from_ptr(ret);

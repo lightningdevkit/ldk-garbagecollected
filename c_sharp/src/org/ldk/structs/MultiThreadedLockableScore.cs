@@ -32,9 +32,11 @@ public class MultiThreadedLockableScore : CommonBase {
 	 * Serialize the MultiThreadedLockableScore object into a byte array which can be read by MultiThreadedLockableScore_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.MultiThreadedLockableScore_write(this.ptr);
+		long ret = bindings.MultiThreadedLockableScore_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**

@@ -20,16 +20,18 @@ public class ChannelCounterparty : CommonBase {
 	 * The node_id of our counterparty
 	 */
 	public byte[] get_node_id() {
-		byte[] ret = bindings.ChannelCounterparty_get_node_id(this.ptr);
+		long ret = bindings.ChannelCounterparty_get_node_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The node_id of our counterparty
 	 */
 	public void set_node_id(byte[] val) {
-		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -168,9 +170,11 @@ public class ChannelCounterparty : CommonBase {
 
 	/**
 	 * Constructs a new ChannelCounterparty given each field
+	 * 
+	 * Note that forwarding_info_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static ChannelCounterparty of(byte[] node_id_arg, org.ldk.structs.InitFeatures features_arg, long unspendable_punishment_reserve_arg, org.ldk.structs.CounterpartyForwardingInfo forwarding_info_arg, org.ldk.structs.Option_u64Z outbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z outbound_htlc_maximum_msat_arg) {
-		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
+		long ret = bindings.ChannelCounterparty_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id_arg, 33)), features_arg == null ? 0 : features_arg.ptr, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr, outbound_htlc_minimum_msat_arg.ptr, outbound_htlc_maximum_msat_arg.ptr);
 		GC.KeepAlive(node_id_arg);
 		GC.KeepAlive(features_arg);
 		GC.KeepAlive(unspendable_punishment_reserve_arg);
@@ -209,16 +213,18 @@ public class ChannelCounterparty : CommonBase {
 	 * Serialize the ChannelCounterparty object into a byte array which can be read by ChannelCounterparty_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelCounterparty_write(this.ptr);
+		long ret = bindings.ChannelCounterparty_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelCounterparty from a byte array, created by ChannelCounterparty_write
 	 */
 	public static Result_ChannelCounterpartyDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelCounterparty_read(ser);
+		long ret = bindings.ChannelCounterparty_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelCounterpartyDecodeErrorZ ret_hu_conv = Result_ChannelCounterpartyDecodeErrorZ.constr_from_ptr(ret);

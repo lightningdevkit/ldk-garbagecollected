@@ -37,16 +37,18 @@ public class ChannelDerivationParameters : CommonBase {
 	 * The unique identifier to re-derive the signer for the associated channel.
 	 */
 	public byte[] get_keys_id() {
-		byte[] ret = bindings.ChannelDerivationParameters_get_keys_id(this.ptr);
+		long ret = bindings.ChannelDerivationParameters_get_keys_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The unique identifier to re-derive the signer for the associated channel.
 	 */
 	public void set_keys_id(byte[] val) {
-		bindings.ChannelDerivationParameters_set_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelDerivationParameters_set_keys_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -54,8 +56,6 @@ public class ChannelDerivationParameters : CommonBase {
 	/**
 	 * The necessary channel parameters that need to be provided to the re-derived signer through
 	 * [`ChannelSigner::provide_channel_parameters`].
-	 * 
-	 * [`ChannelSigner::provide_channel_parameters`]: crate::sign::ChannelSigner::provide_channel_parameters
 	 */
 	public ChannelTransactionParameters get_transaction_parameters() {
 		long ret = bindings.ChannelDerivationParameters_get_transaction_parameters(this.ptr);
@@ -69,8 +69,6 @@ public class ChannelDerivationParameters : CommonBase {
 	/**
 	 * The necessary channel parameters that need to be provided to the re-derived signer through
 	 * [`ChannelSigner::provide_channel_parameters`].
-	 * 
-	 * [`ChannelSigner::provide_channel_parameters`]: crate::sign::ChannelSigner::provide_channel_parameters
 	 */
 	public void set_transaction_parameters(org.ldk.structs.ChannelTransactionParameters val) {
 		bindings.ChannelDerivationParameters_set_transaction_parameters(this.ptr, val == null ? 0 : val.ptr);
@@ -83,7 +81,7 @@ public class ChannelDerivationParameters : CommonBase {
 	 * Constructs a new ChannelDerivationParameters given each field
 	 */
 	public static ChannelDerivationParameters of(long value_satoshis_arg, byte[] keys_id_arg, org.ldk.structs.ChannelTransactionParameters transaction_parameters_arg) {
-		long ret = bindings.ChannelDerivationParameters_new(value_satoshis_arg, InternalUtils.check_arr_len(keys_id_arg, 32), transaction_parameters_arg == null ? 0 : transaction_parameters_arg.ptr);
+		long ret = bindings.ChannelDerivationParameters_new(value_satoshis_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(keys_id_arg, 32)), transaction_parameters_arg == null ? 0 : transaction_parameters_arg.ptr);
 		GC.KeepAlive(value_satoshis_arg);
 		GC.KeepAlive(keys_id_arg);
 		GC.KeepAlive(transaction_parameters_arg);
@@ -129,5 +127,27 @@ public class ChannelDerivationParameters : CommonBase {
 		if (!(o is ChannelDerivationParameters)) return false;
 		return this.eq((ChannelDerivationParameters)o);
 	}
+	/**
+	 * Serialize the ChannelDerivationParameters object into a byte array which can be read by ChannelDerivationParameters_read
+	 */
+	public byte[] write() {
+		long ret = bindings.ChannelDerivationParameters_write(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a ChannelDerivationParameters from a byte array, created by ChannelDerivationParameters_write
+	 */
+	public static Result_ChannelDerivationParametersDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.ChannelDerivationParameters_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelDerivationParametersDecodeErrorZ ret_hu_conv = Result_ChannelDerivationParametersDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }
 } } }

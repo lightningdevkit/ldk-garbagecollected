@@ -19,16 +19,18 @@ public class RouteHintHop : CommonBase {
 	 * The node_id of the non-target end of the route
 	 */
 	public byte[] get_src_node_id() {
-		byte[] ret = bindings.RouteHintHop_get_src_node_id(this.ptr);
+		long ret = bindings.RouteHintHop_get_src_node_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The node_id of the non-target end of the route
 	 */
 	public void set_src_node_id(byte[] val) {
-		bindings.RouteHintHop_set_src_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.RouteHintHop_set_src_node_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -139,7 +141,7 @@ public class RouteHintHop : CommonBase {
 	 * Constructs a new RouteHintHop given each field
 	 */
 	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, org.ldk.structs.RoutingFees fees_arg, short cltv_expiry_delta_arg, org.ldk.structs.Option_u64Z htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z htlc_maximum_msat_arg) {
-		long ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		long ret = bindings.RouteHintHop_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(src_node_id_arg, 33)), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		GC.KeepAlive(src_node_id_arg);
 		GC.KeepAlive(short_channel_id_arg);
 		GC.KeepAlive(fees_arg);
@@ -206,16 +208,18 @@ public class RouteHintHop : CommonBase {
 	 * Serialize the RouteHintHop object into a byte array which can be read by RouteHintHop_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.RouteHintHop_write(this.ptr);
+		long ret = bindings.RouteHintHop_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a RouteHintHop from a byte array, created by RouteHintHop_write
 	 */
 	public static Result_RouteHintHopDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.RouteHintHop_read(ser);
+		long ret = bindings.RouteHintHop_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteHintHopDecodeErrorZ ret_hu_conv = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);

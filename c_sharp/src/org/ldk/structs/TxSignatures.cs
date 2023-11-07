@@ -20,16 +20,18 @@ public class TxSignatures : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxSignatures_get_channel_id(this.ptr);
+		long ret = bindings.TxSignatures_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxSignatures_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -38,16 +40,18 @@ public class TxSignatures : CommonBase {
 	 * The TXID
 	 */
 	public byte[] get_tx_hash() {
-		byte[] ret = bindings.TxSignatures_get_tx_hash(this.ptr);
+		long ret = bindings.TxSignatures_get_tx_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The TXID
 	 */
 	public void set_tx_hash(byte[] val) {
-		bindings.TxSignatures_set_tx_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxSignatures_set_tx_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -58,16 +62,25 @@ public class TxSignatures : CommonBase {
 	 * Returns a copy of the field.
 	 */
 	public byte[][] get_witnesses() {
-		byte[][] ret = bindings.TxSignatures_get_witnesses(this.ptr);
+		long ret = bindings.TxSignatures_get_witnesses(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
+		byte[][] ret_conv_8_arr = new byte[ret_conv_8_len][];
+		for (int i = 0; i < ret_conv_8_len; i++) {
+			long ret_conv_8 = InternalUtils.getU64ArrayElem(ret, i);
+			byte[] ret_conv_8_conv = InternalUtils.decodeUint8Array(ret_conv_8);
+			ret_conv_8_arr[i] = ret_conv_8_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_8_arr;
 	}
 
 	/**
 	 * The list of witnesses
 	 */
 	public void set_witnesses(byte[][] val) {
-		bindings.TxSignatures_set_witnesses(this.ptr, val);
+		bindings.TxSignatures_set_witnesses(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_8 => InternalUtils.encodeUint8Array(val_conv_8))));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -76,7 +89,7 @@ public class TxSignatures : CommonBase {
 	 * Constructs a new TxSignatures given each field
 	 */
 	public static TxSignatures of(byte[] channel_id_arg, byte[] tx_hash_arg, byte[][] witnesses_arg) {
-		long ret = bindings.TxSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(tx_hash_arg, 32), witnesses_arg);
+		long ret = bindings.TxSignatures_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(tx_hash_arg, 32)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(witnesses_arg, witnesses_arg_conv_8 => InternalUtils.encodeUint8Array(witnesses_arg_conv_8))));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(tx_hash_arg);
 		GC.KeepAlive(witnesses_arg);
@@ -125,16 +138,18 @@ public class TxSignatures : CommonBase {
 	 * Serialize the TxSignatures object into a byte array which can be read by TxSignatures_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxSignatures_write(this.ptr);
+		long ret = bindings.TxSignatures_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxSignatures from a byte array, created by TxSignatures_write
 	 */
 	public static Result_TxSignaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxSignatures_read(ser);
+		long ret = bindings.TxSignatures_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxSignaturesDecodeErrorZ ret_hu_conv = Result_TxSignaturesDecodeErrorZ.constr_from_ptr(ret);

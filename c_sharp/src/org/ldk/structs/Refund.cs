@@ -58,11 +58,11 @@ public class Refund : CommonBase {
 	 * 
 	 * If `None`, the refund does not expire.
 	 */
-	public Option_DurationZ absolute_expiry() {
+	public Option_u64Z absolute_expiry() {
 		long ret = bindings.Refund_absolute_expiry(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -96,16 +96,18 @@ public class Refund : CommonBase {
 	 * privacy by obfuscating its node id.
 	 */
 	public BlindedPath[] paths() {
-		long[] ret = bindings.Refund_paths(this.ptr);
+		long ret = bindings.Refund_paths(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_13_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_13_len = InternalUtils.getArrayLength(ret);
 		BlindedPath[] ret_conv_13_arr = new BlindedPath[ret_conv_13_len];
 		for (int n = 0; n < ret_conv_13_len; n++) {
-			long ret_conv_13 = ret[n];
+			long ret_conv_13 = InternalUtils.getU64ArrayElem(ret, n);
 			org.ldk.structs.BlindedPath ret_conv_13_hu_conv = null; if (ret_conv_13 < 0 || ret_conv_13 > 4096) { ret_conv_13_hu_conv = new org.ldk.structs.BlindedPath(null, ret_conv_13); }
 			if (ret_conv_13_hu_conv != null) { ret_conv_13_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_13_arr[n] = ret_conv_13_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_13_arr;
 	}
 
@@ -115,19 +117,23 @@ public class Refund : CommonBase {
 	 * 
 	 * [`payer_id`]: Self::payer_id
 	 */
-	public byte[] metadata() {
-		byte[] ret = bindings.Refund_metadata(this.ptr);
+	public byte[] payer_metadata() {
+		long ret = bindings.Refund_payer_metadata(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A chain that the refund is valid for.
 	 */
 	public byte[] chain() {
-		byte[] ret = bindings.Refund_chain(this.ptr);
+		long ret = bindings.Refund_chain(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -172,9 +178,11 @@ public class Refund : CommonBase {
 	 * [`paths`]: Self::paths
 	 */
 	public byte[] payer_id() {
-		byte[] ret = bindings.Refund_payer_id(this.ptr);
+		long ret = bindings.Refund_payer_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -195,16 +203,18 @@ public class Refund : CommonBase {
 	 * Serialize the Refund object into a byte array which can be read by Refund_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Refund_write(this.ptr);
+		long ret = bindings.Refund_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Refund object from a string
 	 */
 	public static Result_RefundBolt12ParseErrorZ from_str(string s) {
-		long ret = bindings.Refund_from_str(s);
+		long ret = bindings.Refund_from_str(InternalUtils.encodeString(s));
 		GC.KeepAlive(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RefundBolt12ParseErrorZ ret_hu_conv = Result_RefundBolt12ParseErrorZ.constr_from_ptr(ret);

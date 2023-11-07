@@ -81,16 +81,18 @@ public class HTLCOutputInCommitment : CommonBase {
 	 * The hash of the preimage which unlocks this HTLC.
 	 */
 	public byte[] get_payment_hash() {
-		byte[] ret = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
+		long ret = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The hash of the preimage which unlocks this HTLC.
 	 */
 	public void set_payment_hash(byte[] val) {
-		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -125,7 +127,7 @@ public class HTLCOutputInCommitment : CommonBase {
 	 * Constructs a new HTLCOutputInCommitment given each field
 	 */
 	public static HTLCOutputInCommitment of(bool offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, org.ldk.structs.Option_u32Z transaction_output_index_arg) {
-		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), transaction_output_index_arg.ptr);
+		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash_arg, 32)), transaction_output_index_arg.ptr);
 		GC.KeepAlive(offered_arg);
 		GC.KeepAlive(amount_msat_arg);
 		GC.KeepAlive(cltv_expiry_arg);
@@ -177,16 +179,18 @@ public class HTLCOutputInCommitment : CommonBase {
 	 * Serialize the HTLCOutputInCommitment object into a byte array which can be read by HTLCOutputInCommitment_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.HTLCOutputInCommitment_write(this.ptr);
+		long ret = bindings.HTLCOutputInCommitment_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a HTLCOutputInCommitment from a byte array, created by HTLCOutputInCommitment_write
 	 */
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.HTLCOutputInCommitment_read(ser);
+		long ret = bindings.HTLCOutputInCommitment_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);

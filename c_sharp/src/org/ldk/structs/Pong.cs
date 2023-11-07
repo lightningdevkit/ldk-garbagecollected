@@ -90,16 +90,18 @@ public class Pong : CommonBase {
 	 * Serialize the Pong object into a byte array which can be read by Pong_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Pong_write(this.ptr);
+		long ret = bindings.Pong_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Pong from a byte array, created by Pong_write
 	 */
 	public static Result_PongDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.Pong_read(ser);
+		long ret = bindings.Pong_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);

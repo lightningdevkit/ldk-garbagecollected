@@ -28,7 +28,9 @@ public class PaymentError : CommonBase {
 	public class PaymentError_Invoice : PaymentError {
 		public string invoice;
 		internal PaymentError_Invoice(long ptr) : base(null, ptr) {
-			this.invoice = bindings.LDKPaymentError_Invoice_get_invoice(ptr);
+			long invoice = bindings.LDKPaymentError_Invoice_get_invoice(ptr);
+			string invoice_conv = InternalUtils.decodeString(invoice);
+			this.invoice = invoice_conv;
 		}
 	}
 	/** A PaymentError of type Sending */
@@ -60,7 +62,7 @@ public class PaymentError : CommonBase {
 	 * Utility method to constructs a new Invoice-variant PaymentError
 	 */
 	public static PaymentError invoice(string a) {
-		long ret = bindings.PaymentError_invoice(a);
+		long ret = bindings.PaymentError_invoice(InternalUtils.encodeString(a));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);

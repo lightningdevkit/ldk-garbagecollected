@@ -42,15 +42,16 @@ public class Payee : CommonBase {
 		 */
 		public Bolt12InvoiceFeatures features;
 		internal Payee_Blinded(long ptr) : base(null, ptr) {
-			long[] route_hints = bindings.LDKPayee_Blinded_get_route_hints(ptr);
-			int route_hints_conv_37_len = route_hints.Length;
+			long route_hints = bindings.LDKPayee_Blinded_get_route_hints(ptr);
+			int route_hints_conv_37_len = InternalUtils.getArrayLength(route_hints);
 			TwoTuple_BlindedPayInfoBlindedPathZ[] route_hints_conv_37_arr = new TwoTuple_BlindedPayInfoBlindedPathZ[route_hints_conv_37_len];
 			for (int l = 0; l < route_hints_conv_37_len; l++) {
-				long route_hints_conv_37 = route_hints[l];
+				long route_hints_conv_37 = InternalUtils.getU64ArrayElem(route_hints, l);
 				TwoTuple_BlindedPayInfoBlindedPathZ route_hints_conv_37_hu_conv = new TwoTuple_BlindedPayInfoBlindedPathZ(null, route_hints_conv_37);
 				if (route_hints_conv_37_hu_conv != null) { route_hints_conv_37_hu_conv.ptrs_to.AddLast(this); };
 				route_hints_conv_37_arr[l] = route_hints_conv_37_hu_conv;
 			}
+			bindings.free_buffer(route_hints);
 			this.route_hints = route_hints_conv_37_arr;
 			long features = bindings.LDKPayee_Blinded_get_features(ptr);
 			org.ldk.structs.Bolt12InvoiceFeatures features_hu_conv = null; if (features < 0 || features > 4096) { features_hu_conv = new org.ldk.structs.Bolt12InvoiceFeatures(null, features); }
@@ -84,16 +85,19 @@ public class Payee : CommonBase {
 		 */
 		public int final_cltv_expiry_delta;
 		internal Payee_Clear(long ptr) : base(null, ptr) {
-			this.node_id = bindings.LDKPayee_Clear_get_node_id(ptr);
-			long[] route_hints = bindings.LDKPayee_Clear_get_route_hints(ptr);
-			int route_hints_conv_11_len = route_hints.Length;
+			long node_id = bindings.LDKPayee_Clear_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long route_hints = bindings.LDKPayee_Clear_get_route_hints(ptr);
+			int route_hints_conv_11_len = InternalUtils.getArrayLength(route_hints);
 			RouteHint[] route_hints_conv_11_arr = new RouteHint[route_hints_conv_11_len];
 			for (int l = 0; l < route_hints_conv_11_len; l++) {
-				long route_hints_conv_11 = route_hints[l];
+				long route_hints_conv_11 = InternalUtils.getU64ArrayElem(route_hints, l);
 				org.ldk.structs.RouteHint route_hints_conv_11_hu_conv = null; if (route_hints_conv_11 < 0 || route_hints_conv_11 > 4096) { route_hints_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, route_hints_conv_11); }
 				if (route_hints_conv_11_hu_conv != null) { route_hints_conv_11_hu_conv.ptrs_to.AddLast(this); };
 				route_hints_conv_11_arr[l] = route_hints_conv_11_hu_conv;
 			}
+			bindings.free_buffer(route_hints);
 			this.route_hints = route_hints_conv_11_arr;
 			long features = bindings.LDKPayee_Clear_get_features(ptr);
 			org.ldk.structs.Bolt11InvoiceFeatures features_hu_conv = null; if (features < 0 || features > 4096) { features_hu_conv = new org.ldk.structs.Bolt11InvoiceFeatures(null, features); }
@@ -124,7 +128,7 @@ public class Payee : CommonBase {
 	 * Utility method to constructs a new Blinded-variant Payee
 	 */
 	public static Payee blinded(TwoTuple_BlindedPayInfoBlindedPathZ[] route_hints, org.ldk.structs.Bolt12InvoiceFeatures features) {
-		long ret = bindings.Payee_blinded(route_hints != null ? InternalUtils.mapArray(route_hints, route_hints_conv_37 => route_hints_conv_37 != null ? route_hints_conv_37.ptr : 0) : null, features == null ? 0 : features.ptr);
+		long ret = bindings.Payee_blinded(InternalUtils.encodeUint64Array(InternalUtils.mapArray(route_hints, route_hints_conv_37 => route_hints_conv_37 != null ? route_hints_conv_37.ptr : 0)), features == null ? 0 : features.ptr);
 		GC.KeepAlive(route_hints);
 		GC.KeepAlive(features);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -138,7 +142,7 @@ public class Payee : CommonBase {
 	 * Utility method to constructs a new Clear-variant Payee
 	 */
 	public static Payee clear(byte[] node_id, RouteHint[] route_hints, org.ldk.structs.Bolt11InvoiceFeatures features, int final_cltv_expiry_delta) {
-		long ret = bindings.Payee_clear(InternalUtils.check_arr_len(node_id, 33), route_hints != null ? InternalUtils.mapArray(route_hints, route_hints_conv_11 => route_hints_conv_11 == null ? 0 : route_hints_conv_11.ptr) : null, features == null ? 0 : features.ptr, final_cltv_expiry_delta);
+		long ret = bindings.Payee_clear(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(route_hints, route_hints_conv_11 => route_hints_conv_11 == null ? 0 : route_hints_conv_11.ptr)), features == null ? 0 : features.ptr, final_cltv_expiry_delta);
 		GC.KeepAlive(node_id);
 		GC.KeepAlive(route_hints);
 		GC.KeepAlive(features);

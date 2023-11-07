@@ -28,11 +28,11 @@ public class WatchedOutput : CommonBase {
 	/**
 	 * First block where the transaction output may have been spent.
 	 */
-	public Option_BlockHashZ get_block_hash() {
+	public Option_ThirtyTwoBytesZ get_block_hash() {
 		long ret = bindings.WatchedOutput_get_block_hash(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_BlockHashZ ret_hu_conv = org.ldk.structs.Option_BlockHashZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -40,7 +40,7 @@ public class WatchedOutput : CommonBase {
 	/**
 	 * First block where the transaction output may have been spent.
 	 */
-	public void set_block_hash(org.ldk.structs.Option_BlockHashZ val) {
+	public void set_block_hash(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
 		bindings.WatchedOutput_set_block_hash(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
@@ -73,16 +73,18 @@ public class WatchedOutput : CommonBase {
 	 * Spending condition of the transaction output.
 	 */
 	public byte[] get_script_pubkey() {
-		byte[] ret = bindings.WatchedOutput_get_script_pubkey(this.ptr);
+		long ret = bindings.WatchedOutput_get_script_pubkey(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Spending condition of the transaction output.
 	 */
 	public void set_script_pubkey(byte[] val) {
-		bindings.WatchedOutput_set_script_pubkey(this.ptr, val);
+		bindings.WatchedOutput_set_script_pubkey(this.ptr, InternalUtils.encodeUint8Array(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -90,8 +92,8 @@ public class WatchedOutput : CommonBase {
 	/**
 	 * Constructs a new WatchedOutput given each field
 	 */
-	public static WatchedOutput of(org.ldk.structs.Option_BlockHashZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
-		long ret = bindings.WatchedOutput_new(block_hash_arg.ptr, outpoint_arg == null ? 0 : outpoint_arg.ptr, script_pubkey_arg);
+	public static WatchedOutput of(org.ldk.structs.Option_ThirtyTwoBytesZ block_hash_arg, org.ldk.structs.OutPoint outpoint_arg, byte[] script_pubkey_arg) {
+		long ret = bindings.WatchedOutput_new(block_hash_arg.ptr, outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.encodeUint8Array(script_pubkey_arg));
 		GC.KeepAlive(block_hash_arg);
 		GC.KeepAlive(outpoint_arg);
 		GC.KeepAlive(script_pubkey_arg);

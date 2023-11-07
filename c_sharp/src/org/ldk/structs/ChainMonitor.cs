@@ -69,17 +69,19 @@ public class ChainMonitor : CommonBase {
 	 * inclusion in the return value.
 	 */
 	public Balance[] get_claimable_balances(ChannelDetails[] ignored_channels) {
-		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? InternalUtils.mapArray(ignored_channels, ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr) : null);
+		long ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(ignored_channels, ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(ignored_channels);
-		int ret_conv_9_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_9_len = InternalUtils.getArrayLength(ret);
 		Balance[] ret_conv_9_arr = new Balance[ret_conv_9_len];
 		for (int j = 0; j < ret_conv_9_len; j++) {
-			long ret_conv_9 = ret[j];
+			long ret_conv_9 = InternalUtils.getU64ArrayElem(ret, j);
 			org.ldk.structs.Balance ret_conv_9_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret_conv_9);
 			if (ret_conv_9_hu_conv != null) { ret_conv_9_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		foreach (ChannelDetails ignored_channels_conv_16 in ignored_channels) { if (this != null) { this.ptrs_to.AddLast(ignored_channels_conv_16); }; };
 		return ret_conv_9_arr;
 	}
@@ -108,16 +110,18 @@ public class ChainMonitor : CommonBase {
 	 * monitoring for on-chain state resolutions.
 	 */
 	public OutPoint[] list_monitors() {
-		long[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
+		long ret = bindings.ChainMonitor_list_monitors(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_10_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_10_len = InternalUtils.getArrayLength(ret);
 		OutPoint[] ret_conv_10_arr = new OutPoint[ret_conv_10_len];
 		for (int k = 0; k < ret_conv_10_len; k++) {
-			long ret_conv_10 = ret[k];
+			long ret_conv_10 = InternalUtils.getU64ArrayElem(ret, k);
 			org.ldk.structs.OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new org.ldk.structs.OutPoint(null, ret_conv_10); }
 			if (ret_conv_10_hu_conv != null) { ret_conv_10_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_10_arr;
 	}
 
@@ -125,16 +129,18 @@ public class ChainMonitor : CommonBase {
 	 * Lists the pending updates for each [`ChannelMonitor`] (by `OutPoint` being monitored).
 	 */
 	public TwoTuple_OutPointCVec_MonitorUpdateIdZZ[] list_pending_monitor_updates() {
-		long[] ret = bindings.ChainMonitor_list_pending_monitor_updates(this.ptr);
+		long ret = bindings.ChainMonitor_list_pending_monitor_updates(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_41_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_41_len = InternalUtils.getArrayLength(ret);
 		TwoTuple_OutPointCVec_MonitorUpdateIdZZ[] ret_conv_41_arr = new TwoTuple_OutPointCVec_MonitorUpdateIdZZ[ret_conv_41_len];
 		for (int p = 0; p < ret_conv_41_len; p++) {
-			long ret_conv_41 = ret[p];
+			long ret_conv_41 = InternalUtils.getU64ArrayElem(ret, p);
 			TwoTuple_OutPointCVec_MonitorUpdateIdZZ ret_conv_41_hu_conv = new TwoTuple_OutPointCVec_MonitorUpdateIdZZ(null, ret_conv_41);
 			if (ret_conv_41_hu_conv != null) { ret_conv_41_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_41_arr[p] = ret_conv_41_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_41_arr;
 	}
 

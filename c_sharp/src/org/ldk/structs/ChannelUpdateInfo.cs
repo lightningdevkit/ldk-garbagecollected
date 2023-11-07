@@ -163,6 +163,8 @@ public class ChannelUpdateInfo : CommonBase {
 
 	/**
 	 * Constructs a new ChannelUpdateInfo given each field
+	 * 
+	 * Note that last_update_message_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static ChannelUpdateInfo of(int last_update_arg, bool enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, org.ldk.structs.RoutingFees fees_arg, org.ldk.structs.ChannelUpdate last_update_message_arg) {
 		long ret = bindings.ChannelUpdateInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fees_arg == null ? 0 : fees_arg.ptr, last_update_message_arg == null ? 0 : last_update_message_arg.ptr);
@@ -220,16 +222,18 @@ public class ChannelUpdateInfo : CommonBase {
 	 * Serialize the ChannelUpdateInfo object into a byte array which can be read by ChannelUpdateInfo_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelUpdateInfo_write(this.ptr);
+		long ret = bindings.ChannelUpdateInfo_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelUpdateInfo from a byte array, created by ChannelUpdateInfo_write
 	 */
 	public static Result_ChannelUpdateInfoDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelUpdateInfo_read(ser);
+		long ret = bindings.ChannelUpdateInfo_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelUpdateInfoDecodeErrorZ ret_hu_conv = Result_ChannelUpdateInfoDecodeErrorZ.constr_from_ptr(ret);

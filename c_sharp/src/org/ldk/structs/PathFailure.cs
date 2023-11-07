@@ -121,9 +121,11 @@ public class PathFailure : CommonBase {
 	 * Serialize the PathFailure object into a byte array which can be read by PathFailure_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.PathFailure_write(this.ptr);
+		long ret = bindings.PathFailure_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

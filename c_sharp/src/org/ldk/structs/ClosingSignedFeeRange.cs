@@ -110,16 +110,18 @@ public class ClosingSignedFeeRange : CommonBase {
 	 * Serialize the ClosingSignedFeeRange object into a byte array which can be read by ClosingSignedFeeRange_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ClosingSignedFeeRange_write(this.ptr);
+		long ret = bindings.ClosingSignedFeeRange_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ClosingSignedFeeRange from a byte array, created by ClosingSignedFeeRange_write
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ClosingSignedFeeRange_read(ser);
+		long ret = bindings.ClosingSignedFeeRange_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);

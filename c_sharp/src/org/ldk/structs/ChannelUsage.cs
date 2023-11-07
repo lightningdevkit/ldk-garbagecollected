@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * Proposed use of a channel passed as a parameter to [`Score::channel_penalty_msat`].
+ * Proposed use of a channel passed as a parameter to [`ScoreLookUp::channel_penalty_msat`].
  */
 public class ChannelUsage : CommonBase {
 	internal ChannelUsage(object _dummy, long ptr) : base(ptr) { }

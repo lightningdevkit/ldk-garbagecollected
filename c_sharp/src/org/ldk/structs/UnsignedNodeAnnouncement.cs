@@ -85,16 +85,18 @@ public class UnsignedNodeAnnouncement : CommonBase {
 	 * An RGB color for UI purposes
 	 */
 	public byte[] get_rgb() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_rgb(this.ptr);
+		long ret = bindings.UnsignedNodeAnnouncement_get_rgb(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * An RGB color for UI purposes
 	 */
 	public void set_rgb(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
+		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 3)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -130,28 +132,30 @@ public class UnsignedNodeAnnouncement : CommonBase {
 	 * 
 	 * Returns a copy of the field.
 	 */
-	public NetAddress[] get_addresses() {
-		long[] ret = bindings.UnsignedNodeAnnouncement_get_addresses(this.ptr);
+	public SocketAddress[] get_addresses() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_addresses(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_12_len = ret.Length;
-		NetAddress[] ret_conv_12_arr = new NetAddress[ret_conv_12_len];
-		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
-			org.ldk.structs.NetAddress ret_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret_conv_12);
-			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.AddLast(this); };
-			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_15_len = InternalUtils.getArrayLength(ret);
+		SocketAddress[] ret_conv_15_arr = new SocketAddress[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = InternalUtils.getU64ArrayElem(ret, p);
+			org.ldk.structs.SocketAddress ret_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(ret_conv_15);
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
-		return ret_conv_12_arr;
+		bindings.free_buffer(ret);
+		return ret_conv_15_arr;
 	}
 
 	/**
 	 * List of addresses on which this node is reachable
 	 */
-	public void set_addresses(NetAddress[] val) {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_12 => val_conv_12.ptr) : null);
+	public void set_addresses(SocketAddress[] val) {
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_15 => val_conv_15.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
-		foreach (NetAddress val_conv_12 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_12); }; };
+		foreach (SocketAddress val_conv_15 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_15); }; };
 	}
 
 	internal long clone_ptr() {
@@ -193,16 +197,18 @@ public class UnsignedNodeAnnouncement : CommonBase {
 	 * Serialize the UnsignedNodeAnnouncement object into a byte array which can be read by UnsignedNodeAnnouncement_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_write(this.ptr);
+		long ret = bindings.UnsignedNodeAnnouncement_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UnsignedNodeAnnouncement from a byte array, created by UnsignedNodeAnnouncement_write
 	 */
 	public static Result_UnsignedNodeAnnouncementDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
+		long ret = bindings.UnsignedNodeAnnouncement_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);

@@ -98,9 +98,11 @@ public class SignedRawBolt11Invoice : CommonBase {
 	 * The hash of the [`RawBolt11Invoice`] that was signed.
 	 */
 	public byte[] signable_hash() {
-		byte[] ret = bindings.SignedRawBolt11Invoice_signable_hash(this.ptr);
+		long ret = bindings.SignedRawBolt11Invoice_signable_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -118,11 +120,11 @@ public class SignedRawBolt11Invoice : CommonBase {
 	/**
 	 * Recovers the public key used for signing the invoice from the recoverable signature.
 	 */
-	public Result_PayeePubKeyErrorZ recover_payee_pub_key() {
+	public Result_PayeePubKeySecp256k1ErrorZ recover_payee_pub_key() {
 		long ret = bindings.SignedRawBolt11Invoice_recover_payee_pub_key(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
+		Result_PayeePubKeySecp256k1ErrorZ ret_hu_conv = Result_PayeePubKeySecp256k1ErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -140,7 +142,7 @@ public class SignedRawBolt11Invoice : CommonBase {
 	 * Read a SignedRawBolt11Invoice object from a string
 	 */
 	public static Result_SignedRawBolt11InvoiceBolt11ParseErrorZ from_str(string s) {
-		long ret = bindings.SignedRawBolt11Invoice_from_str(s);
+		long ret = bindings.SignedRawBolt11Invoice_from_str(InternalUtils.encodeString(s));
 		GC.KeepAlive(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignedRawBolt11InvoiceBolt11ParseErrorZ ret_hu_conv = Result_SignedRawBolt11InvoiceBolt11ParseErrorZ.constr_from_ptr(ret);
@@ -151,9 +153,11 @@ public class SignedRawBolt11Invoice : CommonBase {
 	 * Get the string representation of a SignedRawBolt11Invoice object
 	 */
 	public string to_str() {
-		string ret = bindings.SignedRawBolt11Invoice_to_str(this.ptr);
+		long ret = bindings.SignedRawBolt11Invoice_to_str(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 }

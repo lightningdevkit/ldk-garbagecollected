@@ -33,21 +33,27 @@ public class Fallback : CommonBase {
 			byte version = bindings.LDKFallback_SegWitProgram_get_version(ptr);
 			WitnessVersion version_conv = new WitnessVersion(version);
 			this.version = version_conv;
-			this.program = bindings.LDKFallback_SegWitProgram_get_program(ptr);
+			long program = bindings.LDKFallback_SegWitProgram_get_program(ptr);
+			byte[] program_conv = InternalUtils.decodeUint8Array(program);
+			this.program = program_conv;
 		}
 	}
 	/** A Fallback of type PubKeyHash */
 	public class Fallback_PubKeyHash : Fallback {
 		public byte[] pub_key_hash;
 		internal Fallback_PubKeyHash(long ptr) : base(null, ptr) {
-			this.pub_key_hash = bindings.LDKFallback_PubKeyHash_get_pub_key_hash(ptr);
+			long pub_key_hash = bindings.LDKFallback_PubKeyHash_get_pub_key_hash(ptr);
+			byte[] pub_key_hash_conv = InternalUtils.decodeUint8Array(pub_key_hash);
+			this.pub_key_hash = pub_key_hash_conv;
 		}
 	}
 	/** A Fallback of type ScriptHash */
 	public class Fallback_ScriptHash : Fallback {
 		public byte[] script_hash;
 		internal Fallback_ScriptHash(long ptr) : base(null, ptr) {
-			this.script_hash = bindings.LDKFallback_ScriptHash_get_script_hash(ptr);
+			long script_hash = bindings.LDKFallback_ScriptHash_get_script_hash(ptr);
+			byte[] script_hash_conv = InternalUtils.decodeUint8Array(script_hash);
+			this.script_hash = script_hash_conv;
 		}
 	}
 	internal long clone_ptr() {
@@ -72,7 +78,7 @@ public class Fallback : CommonBase {
 	 * Utility method to constructs a new SegWitProgram-variant Fallback
 	 */
 	public static Fallback seg_wit_program(org.ldk.util.WitnessVersion version, byte[] program) {
-		long ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
+		long ret = bindings.Fallback_seg_wit_program(version.getVal(), InternalUtils.encodeUint8Array(program));
 		GC.KeepAlive(version);
 		GC.KeepAlive(program);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -85,7 +91,7 @@ public class Fallback : CommonBase {
 	 * Utility method to constructs a new PubKeyHash-variant Fallback
 	 */
 	public static Fallback pub_key_hash(byte[] a) {
-		long ret = bindings.Fallback_pub_key_hash(InternalUtils.check_arr_len(a, 20));
+		long ret = bindings.Fallback_pub_key_hash(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a, 20)));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);
@@ -97,7 +103,7 @@ public class Fallback : CommonBase {
 	 * Utility method to constructs a new ScriptHash-variant Fallback
 	 */
 	public static Fallback script_hash(byte[] a) {
-		long ret = bindings.Fallback_script_hash(InternalUtils.check_arr_len(a, 20));
+		long ret = bindings.Fallback_script_hash(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a, 20)));
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);

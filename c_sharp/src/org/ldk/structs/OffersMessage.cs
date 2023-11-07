@@ -115,28 +115,21 @@ public class OffersMessage : CommonBase {
 	}
 
 	/**
-	 * The TLV record type for the message as used in an `onionmsg_tlv` TLV stream.
-	 */
-	public long tlv_type() {
-		long ret = bindings.OffersMessage_tlv_type(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
 	 * Serialize the OffersMessage object into a byte array which can be read by OffersMessage_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.OffersMessage_write(this.ptr);
+		long ret = bindings.OffersMessage_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a OffersMessage from a byte array, created by OffersMessage_write
 	 */
 	public static Result_OffersMessageDecodeErrorZ read(byte[] ser, long arg_a, org.ldk.structs.Logger arg_b) {
-		long ret = bindings.OffersMessage_read(ser, arg_a, arg_b.ptr);
+		long ret = bindings.OffersMessage_read(InternalUtils.encodeUint8Array(ser), arg_a, arg_b.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg_a);
 		GC.KeepAlive(arg_b);
