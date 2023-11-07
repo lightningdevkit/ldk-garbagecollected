@@ -16,9 +16,12 @@ def arg_name_repl(s, arg_name):
     return s.replace(arg_name, "_" + arg_name) if arg_name == "lock" or arg_name == "event" or arg_name == "params" else s
 
 class Consts:
-    def __init__(self, DEBUG: bool, target: Target, **kwargs):
+    def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
+        self.outdir = outdir
         self.target = target
         self.c_array_class_caches = set()
+        self.function_ptr_counter = 0
+        self.function_ptrs = {}
         self.c_type_map = dict(
             bool = ['bool'],
             uint8_t = ['byte'],
@@ -44,14 +47,15 @@ class Consts:
 using org.ldk.enums;
 using org.ldk.impl;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace org { namespace ldk { namespace impl {
 
 internal class bindings {
+	static List<WeakReference> js_objs = new List<WeakReference>();
 	internal class ArrayCoder : ICustomMarshaler {
 		int size = 0;
-		GCHandle pinnedArray;
 		public static ICustomMarshaler GetInstance(string pstrCookie) {
 			return new ArrayCoder();
 		}
@@ -420,6 +424,8 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 	return res;
 }
 
+typedef bool jboolean;
+
 jstring CS_LDK_get_ldk_c_bindings_version() {
 	return str_ref_to_cs(check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
 }
@@ -457,7 +463,7 @@ namespace org { namespace ldk { namespace structs {
 
         self.bindings_footer_wip = "\tstatic bindings() {\n"
     def bindings_footer(self):
-        return self.bindings_footer_wip + "\t}\n}\n} } }\n"
+        return ""
 
     def native_meth_decl(self, meth_name, ret_ty_str):
         return "\t[DllImport (\"ldkcsharp\", EntryPoint=\"CS_LDK_" + meth_name + "\")] public static extern " + ret_ty_str + " " + meth_name
@@ -522,7 +528,20 @@ namespace org { namespace ldk { namespace structs {
         return None
 
     def init_str(self):
-        return ""
+        ret = ""
+        for fn_suffix in self.function_ptrs:
+            cret = self.function_ptrs[fn_suffix]["ret"][1]
+            cargs = self.function_ptrs[fn_suffix]["args"][1]
+            ret += f"""
+typedef {cret} (*invoker_{fn_suffix})(int obj_ptr, int fn_id{cargs});
+static invoker_{fn_suffix} js_invoke_function_{fn_suffix};
+int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
+	js_invoke_function_{fn_suffix} = invoker;
+	return 0;
+}}
+"""
+
+        return ret
 
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
@@ -642,89 +661,69 @@ namespace org { namespace ldk { namespace structs {
             ret = ret + ", " + param
         return ret + ")"
 
-    def native_c_map_trait(self, struct_name, field_vars, flattened_field_vars, field_fns, trait_doc_comment):
-        out_java_trait = ""
-        out_java = ""
-
-        # First generate most of the Java code, note that we need information about java method argument strings for C
-        out_java_trait += self.hu_struct_file_prefix
-        if trait_doc_comment is not None:
-            out_java_trait += "/**\n * " + trait_doc_comment.replace("\n", "\n * ") + "\n */\n"
-        out_java_trait = out_java_trait + "public class " + struct_name.replace("LDK","") + " : CommonBase {\n"
-        out_java_trait = out_java_trait + "\tinternal readonly bindings." + struct_name + " bindings_instance;\n"
-        out_java_trait = out_java_trait + "\tinternal " + struct_name.replace("LDK", "") + "(object _dummy, long ptr) : base(ptr) { bindings_instance = null; }\n"
-        out_java_trait = out_java_trait + "\tprivate " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg"
-        for var in flattened_field_vars:
+    def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
+        out_typescript_bindings = ""
+        super_instantiator = ""
+        bindings_instantiator = ""
+        pointer_to_adder = ""
+        impl_constructor_arguments = ""
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
-                out_java_trait += ", " + var.java_hu_ty + " " + var.arg_name
-            else:
-                out_java_trait += ", bindings." + var[0] + " " + var[1]
-        out_java_trait += ") : base(bindings." + struct_name + "_new(arg"
-        for var in flattened_field_vars:
-            if isinstance(var, ConvInfo):
+                impl_constructor_arguments += f", {var.java_hu_ty} {var.arg_name}"
                 if var.from_hu_conv is not None:
-                    out_java_trait = out_java_trait + ", " + var.from_hu_conv[0]
+                    bindings_instantiator += ", " + var.from_hu_conv[0]
+                    if var.from_hu_conv[1] != "":
+                        pointer_to_adder += "\t\t\t" + var.from_hu_conv[1] + ";\n"
                 else:
-                    out_java_trait = out_java_trait + ", " + var.arg_name
+                    bindings_instantiator += ", " + first_to_lower(var.arg_name)
             else:
-                out_java_trait = out_java_trait + ", " + var[1]
-        out_java_trait = out_java_trait + ")) {\n"
-        out_java_trait = out_java_trait + "\t\tthis.ptrs_to.AddLast(arg);\n"
-        for var in flattened_field_vars:
+                bindings_instantiator += ", " + first_to_lower(var[1]) + ".instance_idx"
+                pointer_to_adder += "\t\timpl_holder.held.ptrs_to.AddLast(" + first_to_lower(var[1]) + ");\n"
+                impl_constructor_arguments += f", {var[0].replace('LDK', '')}Interface {first_to_lower(var[1])}_impl"
+
+        super_constructor_statements = ""
+        trait_constructor_arguments = ""
+        for var in field_var_conversions:
             if isinstance(var, ConvInfo):
-                if var.from_hu_conv is not None and var.from_hu_conv[1] != "":
-                    out_java_trait = out_java_trait + "\t\t" + var.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n"
+                trait_constructor_arguments += ", " + var.arg_name
             else:
-                out_java_trait = out_java_trait + "\t\tthis.ptrs_to.AddLast(" + var[1] + ");\n"
-        out_java_trait = out_java_trait + "\t\tthis.bindings_instance = arg;\n"
-        out_java_trait = out_java_trait + "\t}\n"
-        out_java_trait = out_java_trait + "\t~" + struct_name.replace("LDK","") + "() {\n"
-        out_java_trait = out_java_trait + "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); }\n"
-        out_java_trait = out_java_trait + "\t}\n\n"
+                super_constructor_statements += "\t\t" + var[1] + " " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + first_to_lower(var[1]) + "_impl"
+                super_instantiator = ""
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        super_instantiator += ", " + suparg.arg_name
+                    else:
+                        super_instantiator += ", " + first_to_lower(suparg[1]) + "_impl"
+                super_constructor_statements += super_instantiator + ");\n"
+                trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".instance_idx"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        trait_constructor_arguments += ", " + suparg.arg_name
+                    else:
+                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
+                        super_constructor_statements += "\t\t" + suparg[1] + " " + first_to_lower(suparg[1]) + " = " + suparg[1] + ".new_impl(" + super_instantiator.split(", ", 1)[1] + ");\n"
+                        trait_constructor_arguments += ", " + suparg[1]
+
+        # BUILD INTERFACE METHODS
 
         java_trait_wrapper = "\tprivate class " + struct_name + "Holder { internal " + struct_name.replace("LDK", "") + " held; }\n"
         java_trait_wrapper += "\tprivate class " + struct_name + "Impl : bindings." + struct_name + " {\n"
         java_trait_wrapper += "\t\tinternal " + struct_name + "Impl(" + struct_name.replace("LDK", "") + "Interface arg, " + struct_name + "Holder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }\n"
         java_trait_wrapper += "\t\tprivate " + struct_name.replace("LDK", "") + "Interface arg;\n"
         java_trait_wrapper += "\t\tprivate " + struct_name + "Holder impl_holder;\n"
-        java_trait_constr = "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
-        for var in flattened_field_vars:
-            if isinstance(var, ConvInfo):
-                java_trait_constr += ", " + var.java_hu_ty + " " + var.arg_name
-            else:
-                # Ideally we'd be able to take any instance of the interface, but our C code can only represent
-                # Java-implemented version, so we require users pass a Java implementation here :/
-                java_trait_constr += ", " + var[0].replace("LDK", "") + "." + var[0].replace("LDK", "") + "Interface " + var[1] + "_impl"
-        java_trait_constr = java_trait_constr + ") {\n\t\t" + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
-        java_trait_constr = java_trait_constr + "\t\timpl_holder.held = new " + struct_name.replace("LDK", "") + "(new " + struct_name + "Impl(arg, impl_holder)"
-        out_java_trait += "\tpublic interface " + struct_name.replace("LDK", "") + "Interface {\n"
-        out_java += "\tpublic interface " + struct_name + " {\n"
-        java_meths = []
-        for fn_line in field_fns:
-            java_meth_descr = "("
+
+        for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 fn_name = fn_line.fn_name
                 if fn_name == "lock": # reserved symbol
                     fn_name = "do_lock"
-                out_java += "\t\t" + fn_line.ret_ty_info.java_ty + " " + fn_name + "("
                 java_trait_wrapper += "\t\tpublic " + fn_line.ret_ty_info.java_ty + " " + fn_name + "("
-                out_java_trait += "\t\t/**\n\t\t * " + fn_line.docs.replace("\n", "\n\t\t * ") + "\n\t\t */\n"
-                out_java_trait += "\t\t" + fn_line.ret_ty_info.java_hu_ty + " " + fn_name + "("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
-                        out_java += ", "
                         java_trait_wrapper += ", "
-                        out_java_trait += ", "
-                    out_java += arg_conv_info.java_ty + " _" + arg_conv_info.arg_name
-                    out_java_trait += arg_conv_info.java_hu_ty + " _" + arg_conv_info.arg_name
                     java_trait_wrapper += arg_conv_info.java_ty + " _" + arg_conv_info.arg_name
-                    java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
-                java_meth_descr = java_meth_descr + ")" + fn_line.ret_ty_info.java_fn_ty_arg
-                java_meths.append((fn_line.fn_name, java_meth_descr))
 
-                out_java += ");\n"
-                out_java_trait += ");\n"
                 java_trait_wrapper += ") {\n"
 
                 for arg_info in fn_line.args_ty:
@@ -756,66 +755,133 @@ namespace org { namespace ldk { namespace structs {
                         java_trait_wrapper += "\t\t\treturn ret;\n"
                 java_trait_wrapper += "\t\t}\n"
         java_trait_wrapper += "\t}"
-        for var in field_vars:
-            if isinstance(var, ConvInfo):
-                java_trait_constr = java_trait_constr + ", " + var.arg_name
-            else:
-                java_trait_constr += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
-                suptrait_constr = ""
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        suptrait_constr += ", " + suparg.arg_name
-                    else:
-                        suptrait_constr += ", " + suparg[1] + "_impl"
-                java_trait_constr += suptrait_constr + ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        java_trait_constr += ", " + suparg.arg_name
-                    else:
-                        java_trait_constr += ", " + suparg[1] + ".new_impl("
-                        # Blindly assume that we can just strip the first arg to build the args for the supertrait
-                        java_trait_constr += suptrait_constr.split(", ", 1)[1]
-                        java_trait_constr += ").bindings_instance"
-        out_java_trait += "\t}\n" + java_trait_wrapper + "\n"
-        out_java_trait += java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
-        out_java += "\t}\n"
+        out_java_interface = ""
+        java_methods = []
+        for fn_line in field_function_lines:
+            java_method_descriptor = ""
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
+                out_java_interface += "\t/**" + fn_line.docs.replace("\n", "\n\t * ") + "\n\t */\n"
+                out_java_interface += "\t" + fn_line.ret_ty_info.java_hu_ty + " " + fn_line.fn_name + "("
 
-        out_java += self.native_meth_decl(struct_name + "_new", "long") + "(" + struct_name + " impl"
-        for var in flattened_field_vars:
+                for idx, arg_conv_info in enumerate(fn_line.args_ty):
+                    if idx >= 1:
+                        out_java_interface += ", "
+                    out_java_interface += f"{arg_conv_info.java_hu_ty} {safe_arg_name(arg_conv_info.arg_name)}"
+                    java_method_descriptor += arg_conv_info.java_fn_ty_arg
+                out_java_interface += f");\n"
+                java_method_descriptor += ")" + fn_line.ret_ty_info.java_fn_ty_arg
+                java_methods.append((fn_line.fn_name, java_method_descriptor))
+
+        formatted_trait_docs = trait_doc_comment.replace("\n", "\n * ")
+        out_typescript_human = f"""
+{self.hu_struct_file_prefix}
+
+/** An implementation of {struct_name.replace("LDK","")} */
+public interface {struct_name.replace("LDK", "")}Interface {{
+{out_java_interface}}}
+
+/**
+ * {formatted_trait_docs}
+ */
+public class {struct_name.replace("LDK","")} : CommonBase {{
+	internal bindings.{struct_name} bindings_instance;
+	internal long instance_idx;
+
+	internal {struct_name.replace("LDK","")}(object _dummy, long ptr) : base(ptr) {{ bindings_instance = null; }}
+	~{struct_name.replace("LDK","")}() {{
+		if (ptr != 0) {{ bindings.{struct_name.replace("LDK","")}_free(ptr); }}
+	}}
+
+{java_trait_wrapper}
+
+	/** Creates a new instance of {struct_name.replace("LDK","")} from a given implementation */
+	public static {struct_name.replace("LDK", "")} new_impl({struct_name.replace("LDK", "")}Interface arg{impl_constructor_arguments}) {{
+		{struct_name}Holder impl_holder = new {struct_name}Holder();
+		{struct_name}Impl impl = new {struct_name}Impl(arg, impl_holder);
+{super_constructor_statements}		long[] ptr_idx = bindings.{struct_name}_new(impl{bindings_instantiator});
+
+		impl_holder.held = new {struct_name.replace("LDK", "")}(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
+		impl_holder.held.bindings_instance = impl;
+{pointer_to_adder}		return impl_holder.held;
+	}}
+
+"""
+
+        out_typescript_bindings += "\tpublic interface " + struct_name + " {\n"
+        java_meths = []
+        for fn_line in field_function_lines:
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
+                out_typescript_bindings += f"\t\t{fn_line.ret_ty_info.java_ty} {fn_line.fn_name}("
+
+                for idx, arg_conv_info in enumerate(fn_line.args_ty):
+                    if idx >= 1:
+                        out_typescript_bindings = out_typescript_bindings + ", "
+                    out_typescript_bindings += f"{arg_conv_info.java_ty} {safe_arg_name(arg_conv_info.arg_name)}"
+
+                out_typescript_bindings += f");\n"
+
+        out_typescript_bindings += "\t}\n"
+
+        c_call_extra_args = ""
+        native_fn_args = "long impl_idx"
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
-                out_java += ", " + var.java_ty + " " + var.arg_name
+                native_fn_args += ", " + var.java_ty + " " + var.arg_name
             else:
-                out_java += ", " + var[0] + " " + var[1]
-        out_java += ");\n"
+                native_fn_args += ", long " + var[1]
+        out_typescript_bindings += self.native_meth_decl(struct_name + "_new", "long") + "_native(" + native_fn_args + ");\n"
+        out_typescript_bindings += f"\tpublic static long[] {struct_name}_new({struct_name} impl"
+        for var in flattened_field_var_conversions:
+            if isinstance(var, ConvInfo):
+                out_typescript_bindings += f", {var.java_ty} {var.arg_name}"
+                c_call_extra_args += f", {var.arg_name}"
+            else:
+                out_typescript_bindings += f", long {var[1]}"
+                c_call_extra_args += f", {var[1]}"
+
+
+        out_typescript_bindings += f""") {{
+		long new_obj_idx = js_objs.Count;
+		int i = 0;
+		for (; i < js_objs.Count; i++) {{
+			if (js_objs[i] == null || !js_objs[i].IsAlive) {{ new_obj_idx = i; break; }}
+		}}
+		if (i == js_objs.Count) {{
+			js_objs.Add(new WeakReference(impl));
+		}} else {{
+			js_objs[i] = new WeakReference(impl);
+		}}
+		long[] ret = new long[2];
+		ret[0] = {struct_name}_new_native(i{c_call_extra_args});
+		ret[1] = i;
+		return ret;
+	}}
+"""
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
-        out_c = out_c + "\tatomic_size_t refcnt;\n"
-        out_c = out_c + "\tJavaVM *vm;\n"
-        out_c = out_c + "\tjweak o;\n"
-        for var in flattened_field_vars:
+        out_c += "\tatomic_size_t refcnt;\n"
+        out_c += "\tuint32_t instance_ptr;\n"
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
                 pass
             else:
                 # We're a supertrait
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
-        for fn in field_fns:
-            if fn.fn_name != "free" and fn.fn_name != "cloned":
-                out_c = out_c + "\tjmethodID " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
-        for fn_line in field_fns:
+        for fn_line in field_function_lines:
             if fn_line.fn_name == "free":
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
-        for idx, fn_line in enumerate(field_fns):
+        for idx, fn_line in enumerate(field_function_lines):
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
                 out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_" + struct_name + "_jcall("
@@ -836,87 +902,92 @@ namespace org { namespace ldk { namespace structs {
                         out_c = out_c + arg_info.arg_name
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
-                out_c = out_c + "\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tCHECK(obj != NULL);\n"
+                ty_to_c = lambda jty, ty: "b" if jty == "bool" else "c" if jty == "char" else "s" if jty == "short" else "i" if jty == "int" else "l" if jty == "long" else "void" if jty == "void" else jty
+
+                fn_java_callback_args = ""
+                fn_c_callback_args = ""
+                fn_callback_call_args = ""
+                fn_suffix = ty_to_c(fn_line.ret_ty_info.java_ty, fn_line.ret_ty_info) + "_"
+                idx = 0
+                for arg_info in fn_line.args_ty:
+                    fn_suffix += ty_to_c(arg_info.java_ty, arg_info)
+                    fn_java_callback_args += ", " + arg_info.java_ty + " " + chr(ord("a") + idx)
+                    fn_c_callback_args += ", " + arg_info.c_ty + " " + chr(ord("a") + idx)
+                    if idx != 0:
+                        fn_callback_call_args += ", "
+                    fn_callback_call_args += chr(ord("a") + idx)
+                    idx += 1
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.c_ty == "void":
-                    out_c += "\t(*env)->CallVoidMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.java_hu_ty == "string" or "org/ldk/enums" in fn_line.ret_ty_info.java_fn_ty_arg:
-                    # Manually write out string methods as they're just an Object
-                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
+                    out_c += "js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                elif fn_line.ret_ty_info.java_ty == "void":
+                    out_c = out_c + "\tjs_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                elif fn_line.ret_ty_info.java_hu_ty == "string":
+                    out_c += "\tjstring ret = (jstring)js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                elif fn_line.ret_ty_info.arg_conv is None:
+                    out_c += "\treturn js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
-                    out_c = out_c + "\tuint64_t ret = (*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "\tuint64_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+
+                if fn_suffix not in self.function_ptrs:
+                    self.function_ptrs[fn_suffix] = {"args": [fn_java_callback_args, fn_c_callback_args], "ret": [fn_line.ret_ty_info.java_ty, fn_line.ret_ty_info.c_ty]}
+                self.function_ptrs[fn_suffix][self.function_ptr_counter] = (struct_name, fn_line.fn_name, fn_callback_call_args)
+                self.function_ptr_counter += 1
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c = out_c + ", " + arg_info.ret_conv_name
+                        if arg_info.c_ty.endswith("Array"):
+                            out_c += ", (int64_t)" + arg_info.ret_conv_name
+                        else:
+                            out_c += ", " + arg_info.ret_conv_name
                     else:
-                        out_c = out_c + ", " + arg_info.arg_name
+                        assert False # TODO: Would we need some conversion here?
+                        out_c += ", (int64_t)" + arg_info.arg_name
                 out_c = out_c + ");\n"
-
-                out_c += "\tif (UNLIKELY((*env)->ExceptionCheck(env))) {\n"
-                out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
-                out_c += "\t\t(*env)->FatalError(env, \"A call to " + fn_line.fn_name + " in " + struct_name + " from rust threw an exception.\");\n"
-                out_c += "\t}\n"
-
                 if fn_line.ret_ty_info.arg_conv is not None:
-                    out_c += "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n"
-                    out_c += "\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
-                else:
-                    if not fn_line.ret_ty_info.passed_as_ptr and fn_line.ret_ty_info.c_ty != "void":
-                        out_c += "\treturn ret;\n"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
 
                 out_c = out_c + "}\n"
 
-        # If we can, write out a clone function whether we need one or not, as we use them in moving to rust
-        can_clone_with_ptr = True
-        for var in field_vars:
-            if isinstance(var, ConvInfo):
-                can_clone_with_ptr = False
-        if can_clone_with_ptr:
-            out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
-            out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
-            out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
-            for var in field_vars:
-                if not isinstance(var, ConvInfo):
-                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
-            out_c = out_c + "}\n"
+        # Write out a clone function whether we need one or not, as we use them in moving to rust
+        out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
+        out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
+        out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
+        for var in flattened_field_var_conversions:
+            if not isinstance(var, ConvInfo):
+                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[2].replace(".", "->") + "->refcnt, 1, memory_order_release);\n"
+        out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
-        for var in flattened_field_vars:
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (int64_t o"
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", int64_t " + var[1]
         out_c = out_c + ") {\n"
 
-        out_c = out_c + "\tjclass c = (*env)->GetObjectClass(env, o);\n"
-        out_c = out_c + "\tCHECK(c != NULL);\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
-        out_c = out_c + "\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n"
-        out_c = out_c + "\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n"
+        out_c = out_c + "\tcalls->instance_ptr = o;\n"
 
         for (fn_name, java_meth_descr) in java_meths:
             if fn_name != "free" and fn_name != "cloned":
                 out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
                 out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
 
-        for var in flattened_field_vars:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo) and var.arg_conv is not None:
                 out_c = out_c + "\n\t" + var.arg_conv.replace("\n", "\n\t") +"\n"
         out_c = out_c + "\n\t" + struct_name + " ret = {\n"
         out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
-        for fn_line in field_fns:
+        for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_" + struct_name + "_jcall,\n"
             elif fn_line.fn_name == "free":
                 out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
             else:
                 out_c = out_c + "\t\t.cloned = " + struct_name + "_JCalls_cloned,\n"
-        for var in field_vars:
+        for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 if var.arg_conv_name is not None:
                     out_c = out_c + "\t\t." + var.arg_name + " = " + var.arg_conv_name + ",\n"
@@ -925,30 +996,30 @@ namespace org { namespace ldk { namespace structs {
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c += "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1]
+                out_c += "\t\t." + var[1] + " = " + var[0] + "_init(" + var[1]
                 for suparg in var[2]:
                     if isinstance(suparg, ConvInfo):
-                        out_c = out_c + ", " + suparg.arg_name
+                        out_c += ", " + suparg.arg_name
                     else:
-                        out_c = out_c + ", " + suparg[1]
+                        out_c += ", " + suparg[1]
                 out_c += "),\n"
         out_c = out_c + "\t};\n"
-        for var in flattened_field_vars:
+        for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[2] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c += "int64_t " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "jobject o"
-        for var in flattened_field_vars:
+        out_c = out_c + self.c_fn_ty_pfx + "uint64_t " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "int32_t o"
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", int32_t " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
-        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(env, clz, o"
-        for var in flattened_field_vars:
+        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(o"
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
             else:
@@ -957,27 +1028,7 @@ namespace org { namespace ldk { namespace structs {
         out_c = out_c + "\treturn tag_ptr(res_ptr, true);\n"
         out_c = out_c + "}\n"
 
-        for var in flattened_field_vars:
-            if not isinstance(var, ConvInfo):
-                out_java_trait += "\n\t/**\n"
-                out_java_trait += "\t * Gets the underlying " + var[1] + ".\n"
-                out_java_trait += "\t */\n"
-                underscore_name = ''.join('_' + c.lower() if c.isupper() else c for c in var[1]).strip('_')
-                out_java_trait += "\tpublic " + var[1] + " get_" + underscore_name + "() {\n"
-                out_java_trait += "\t\t" + var[1] + " res = new " + var[1] + "(null, bindings." + struct_name + "_get_" + var[1] + "(this.ptr));\n"
-                out_java_trait += "\t\tthis.ptrs_to.AddLast(res);\n"
-                out_java_trait += "\t\treturn res;\n"
-                out_java_trait += "\t}\n"
-                out_java_trait += "\n"
-
-                out_java += self.native_meth_decl(struct_name + "_get_" + var[1], "long") + "(long arg);\n"
-
-                out_c += "int64_t " + self.c_fn_name_define_pfx(struct_name + "_get_" + var[1], True) + "int64_t arg) {\n"
-                out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)untag_ptr(arg);\n"
-                out_c += "\treturn tag_ptr(&inp->" + var[1] + ", false);\n"
-                out_c += "}\n"
-
-        return (out_java, out_java_trait, out_c)
+        return (out_typescript_bindings, out_typescript_human, out_c)
 
     def trait_struct_inc_refcnt(self, ty_info):
         base_conv = "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
@@ -1329,4 +1380,54 @@ namespace org { namespace ldk { namespace structs {
         return (out_java, out_c, out_java_struct + extra_java_struct_out)
 
     def cleanup(self):
-        pass
+        with open(self.outdir + "src/org/ldk/impl/bindings.cs", "a") as bindings:
+            for fn_suffix in self.function_ptrs:
+                jret = self.function_ptrs[fn_suffix]["ret"][0]
+                jargs = self.function_ptrs[fn_suffix]["args"][0]
+
+                bindings.write(f"""
+	static {jret} c_callback_{fn_suffix}(int obj_ptr, int fn_id{jargs}) {{
+		if (obj_ptr >= js_objs.Count) {{
+			Console.Error.WriteLine("Got function call on unknown/free'd JS object in {fn_suffix}");
+			Console.Error.Flush();
+			Environment.Exit(42);
+		}}
+		object obj = js_objs[obj_ptr].Target;
+		if (obj == null) {{
+			Console.Error.WriteLine("Got function call on GC'd JS object in {fn_suffix}");
+			Console.Error.Flush();
+			Environment.Exit(43);
+		}}
+""")
+                bindings.write("\t\tswitch (fn_id) {\n")
+                for f in self.function_ptrs[fn_suffix]:
+                    if f != "ret" and f != "args" and f != "call":
+                        bindings.write(f"""\t\t\tcase {str(f)}:
+				if (!(obj is {self.function_ptrs[fn_suffix][f][0]})) {{
+					Console.Error.WriteLine("Got function call to object that wasn't a {self.function_ptrs[fn_suffix][f][0]} in {fn_suffix}");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}}\n""")
+                        call = f"(({self.function_ptrs[fn_suffix][f][0]})obj).{self.function_ptrs[fn_suffix][f][1]}({self.function_ptrs[fn_suffix][f][2]});"
+                        if jret != "void":
+                            bindings.write("\t\t\t\treturn " + call)
+                        else:
+                            bindings.write("\t\t\t\t" + call + "\n\t\t\t\treturn;")
+                        bindings.write("\n")
+
+                bindings.write(f"""\t\t\tdefault:
+				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in {fn_suffix}");
+				Console.Error.Flush();
+				Environment.Exit(45);
+				return{" false" if jret == "bool" else " 0" if jret != "void" else ""};
+		}}
+	}}
+	public delegate {jret} {fn_suffix}_callback(int obj_ptr, int fn_id{jargs});
+""")
+                bindings.write(self.native_meth_decl(f"register_{fn_suffix}_invoker", "int") + f"({fn_suffix}_callback callee);\n")
+                # Easiest way to get a static run is just define a variable, even if we dont care
+                bindings.write(f"\tstatic int _run_{fn_suffix}_registration = register_{fn_suffix}_invoker(c_callback_{fn_suffix});")
+
+            bindings.write("""
+}
+} } }""")
