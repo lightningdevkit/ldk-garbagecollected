@@ -31,6 +31,8 @@ if [ "$TARGET_STRING" = "" ]; then
 fi
 
 IS_MAC=false
+IS_WIN=false
+
 [ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
 IS_APPLE_CLANG=false
 [ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
@@ -38,18 +40,27 @@ IS_APPLE_CLANG=false
 case "$TARGET_STRING" in
 	"x86_64-pc-linux"*)
 		LDK_TARGET_SUFFIX="_Linux-amd64"
+		CS_PLATFORM_NAME="linux-x64"
 		LDK_JAR_TARGET=true
 		;;
 	"x86_64-apple-darwin"*)
 		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+		CS_PLATFORM_NAME="osx-x64"
 		LDK_JAR_TARGET=true
 		IS_MAC=true
 		;;
 	"aarch64-apple-darwin"*)
 		LDK_TARGET_CPU="apple-a14"
 		LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+		CS_PLATFORM_NAME="osx-arm64"
 		LDK_JAR_TARGET=true
 		IS_MAC=true
+		;;
+	"x86_64-pc-windows"*)
+		LDK_TARGET_SUFFIX="_Win-amd64"
+		CS_PLATFORM_NAME="win-x64"
+		LDK_JAR_TARGET=true
+		IS_WIN=true
 		;;
 	*)
 		LDK_TARGET_SUFFIX="_${TARGET_STRING}"
@@ -120,14 +131,15 @@ if [ "$2" = "c_sharp" ]; then
 	# Compiling C# bindings with Mono
 	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
 	if [ "$3" = "true" ]; then
-		mono-csc $MONO_COMPILE
+		mono-csc -g $MONO_COMPILE
 	else
-		mono-csc -o $MONO_COMPILE
+		mono-csc -optimize+ $MONO_COMPILE
 	fi
 
 	echo "Building C# bindings..."
-	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-ldl -shared"
+	COMPILE="$COMMON_COMPILE -pthread -fPIC"
+	LINK="-shared"
+	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
@@ -137,9 +149,35 @@ if [ "$2" = "c_sharp" ]; then
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o libldkcsharp_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
-		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
-		$COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -flto -O3 -Wl,--lto-O3 -Wl,-O3 -Wl,--version-script=c_sharp/libcode.version -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
+		[ "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -fuse-ld=lld"
+		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
+		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
+		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -static-libgcc"
+		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
+		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
+			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
+		fi
+
+		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
+		$COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
+
+		if [ "$LDK_JAR_TARGET" = "true" ]; then
+			# Copy resulting native binary for inclusion in release nuget zip
+			mkdir -p c_sharp/packaging_artifacts/lib/net3.0/
+			cp csharpldk.dll c_sharp/packaging_artifacts/lib/net3.0/
+
+			mkdir -p c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/
+			if [ "$IS_WIN" = "true" ]; then
+				cp libldkcsharp_release$LDK_TARGET_SUFFIX.so c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/ldkcsharp.dll
+			elif [ "$IS_MAC" = "true" ]; then
+				cp libldkcsharp_release$LDK_TARGET_SUFFIX.so c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/libldkcsharp.dylib
+			else
+				cp libldkcsharp_release$LDK_TARGET_SUFFIX.so c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/libldkcsharp.so
+			fi
+		fi
 	fi
 elif [ "$2" = "python" ]; then
 	echo "Creating Python bindings..."
@@ -272,7 +310,8 @@ else
 
 	echo "Building Java bindings..."
 	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-ldl -shared"
+	LINK="-shared"
+	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
@@ -281,16 +320,18 @@ else
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
-		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined -flto -Wl,-O3 -Wl,--lto-O3"
-		[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -flto"
-		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -Wl,--lto-O3"
-		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -fuse-ld=lld"
+		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
+		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
+		[ "$IS_WIN" = "true" ] && LINK="$LINK -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
-		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
-			LINK="$LINK -Wl,--version-script=libcode.version -fuse-ld=lld"
+		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
+			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
 		fi
+
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
-		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o $LDK_LIB -lm
+		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 $2 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy to JNI native directory for inclusion in JARs
