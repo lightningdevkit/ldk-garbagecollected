@@ -10,3 +10,5 @@ ts/version.ts
 ts/version.c
 c_sharp/src/org/ldk/impl/version.cs
 c_sharp/version.c
+c_sharp/packaging_artifacts/runtimes/
+c_sharp/packaging_artifacts/lib/

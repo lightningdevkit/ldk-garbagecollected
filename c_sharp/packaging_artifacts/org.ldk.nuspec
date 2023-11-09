@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>org.ldk</id>
+    <version>Set in genbindings.sh automagically</version>
+    <authors>LDK</authors>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://github.com/lightningdevkit/rust-lightning/blob/main/LICENSE.md</licenseUrl>
+    <readme>README.md</readme>
+    <projectUrl>https://lightningdevkit.org/</projectUrl>
+    <description>LDK C# Bindings</description>
+    <copyright>2023 LDK Contributors</copyright>
+    <tags>bitcoin lightning ldk sdk non-custodial</tags>
+    <repository type="git" url="https://github.com/lightningdevkit/ldk-garbagecollected" />
+    <dependencies>
+      <group targetFramework="net3.0" />
+    </dependencies>
+  </metadata>
+</package>
