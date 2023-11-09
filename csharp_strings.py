@@ -1095,7 +1095,7 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
                 fn_name = f"{struct_name}_{var.var_name}_get_{field_map.arg_name}"
                 out_c += self.c_fn_ty_pfx + field_map.c_ty + self.c_fn_name_define_pfx(fn_name, True) + self.ptr_c_ty + " ptr) {\n"
                 out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)untag_ptr(ptr);\n"
-                out_c += f"\tassert(obj->tag == {struct_name}_{var.var_name});\n"
+                out_c += f"\tCHECK(obj->tag == {struct_name}_{var.var_name});\n"
                 if field_map.ret_conv is not None:
                     out_c += ("\t" + field_map.ret_conv[0].replace("\n", "\n\t"))
                     if var.tuple_variant:
