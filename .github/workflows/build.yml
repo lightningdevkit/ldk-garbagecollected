@@ -104,6 +104,148 @@ jobs:
           git checkout node-net/package.json
           git diff --exit-code
 
+  c_sharp_bindings:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of clang doesn't support....anything that should work.
+    # Ubuntu is an utter trash OS and should generally never be used for anything.
+    # We also require at least rustc 1.51 (ie https://github.com/rust-lang/rust/pull/79998),
+    # so we use debian testing
+    container: debian:bookworm
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install required dependencies
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo lld llvm git g++ clang curl python3 mono-devel
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install cbindgen
+        run: |
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global safe.directory '*'
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://github.com/lightningdevkit/rust-lightning
+          cd rust-lightning
+          git checkout origin/0.0.118-bindings
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.118
+          cd lightning-c-bindings
+          cargo update -p memchr --precise "2.5.0" --verbose
+      - name: Rebuild C bindings with STD
+        run: |
+          cd ldk-c-bindings
+          git config --global safe.directory "*"
+          ./genbindings.sh ../rust-lightning true
+      - name: Build and Test C# Debug Bindings
+        run: |
+          ./genbindings.sh ./ldk-c-bindings/ c_sharp true true
+          mono-csc -out:test.exe -langversion:3 -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs c_sharp/test/src/tests.cs
+          ln -s libldkcsharp_debug_Linux-amd64.so libldkcsharp.so
+          export ASAN_OPTIONS=detect_leaks=0
+          LD_PRELOAD=/usr/lib/llvm-14/lib/clang/14.0.6/lib/linux/libclang_rt.asan-x86_64.so mono test.exe
+
+  c_sharp_determinism:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of clang doesn't support....anything that should work.
+    # Ubuntu is an utter trash OS and should generally never be used for anything.
+    # We also require at least rustc 1.51 (ie https://github.com/rust-lang/rust/pull/79998),
+    # so we use debian testing
+    container: debian:bookworm
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install required dependencies
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo libstd-rust-dev-windows lld llvm git g++ clang curl gcc-mingw-w64-x86-64-win32 python3 mono-devel zip faketime
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install cbindgen
+        run: |
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global safe.directory '*'
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://github.com/lightningdevkit/rust-lightning
+          cd rust-lightning
+          git checkout origin/0.0.118-bindings
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.118
+      - name: Rebuild C bindings with STD
+        run: |
+          cd ldk-c-bindings
+          export LDK_C_BINDINGS_EXTRA_TARGETS=x86_64-pc-windows-gnu
+          export LDK_C_BINDINGS_EXTRA_TARGET_CCS=`pwd`/deterministic-build-wrappers/clang-x86_64-windows
+          ./genbindings.sh ../rust-lightning true
+      - name: Remove checked-in source to ensure its correctly checked-in
+        run: rm c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/structs/*.cs
+      - name: Build Windows C# Bindings
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          LDK_TARGET=x86_64-pc-windows-gnu faketime -f "2021-01-01 00:00:00" ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+      - name: Build Linux C# Bindings
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+      - name: Build Release NUPKG
+        run: |
+          cd c_sharp
+          ./build-release-nupkg.sh
+      - name: Check latest auto-generated code is in git
+        run: |
+          # Checkout files that get updated with version information
+          git checkout c_sharp/packaging_artifacts/package/services/metadata/core-properties/ldk.psmdcp
+          git checkout c_sharp/packaging_artifacts/org.ldk.nuspec
+          git diff --exit-code
+      - name: Checkout latest binaries
+        shell: bash
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
+          SNAPSHOT_LINK="$(curl "https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE};hb=refs/heads/main" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          curl -o bins-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+          mkdir -p ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          cd ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          tar xvvf ../../bins-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          rm -r ldk-java-bins-*
+      - name: Compare C# nupkg with built one
+        shell: bash
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          if ! diff ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"org.ldk.nupkg c_sharp/org.ldk.nupkg; then
+            apt-get -y install diffoscope
+            diffoscope ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"org.ldk.nupkg c_sharp/org.ldk.nupkg || echo
+            exit 1
+          fi
+
   java_bindings:
     runs-on: ubuntu-latest
     # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
