@@ -4,8 +4,8 @@
     <id>org.ldk</id>
     <version>Set in genbindings.sh automagically</version>
     <authors>LDK</authors>
-    <license type="file">LICENSE</license>
-    <licenseUrl>https://github.com/lightningdevkit/rust-lightning/blob/main/LICENSE.md</licenseUrl>
+    <license type="file">LICENSE.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
     <readme>README.md</readme>
     <projectUrl>https://lightningdevkit.org/</projectUrl>
     <description>LDK C# Bindings</description>
