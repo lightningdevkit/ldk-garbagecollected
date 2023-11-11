@@ -21,16 +21,18 @@ public class Shutdown : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.Shutdown_get_channel_id(this.ptr);
+		long ret = bindings.Shutdown_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.Shutdown_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.Shutdown_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -41,9 +43,11 @@ public class Shutdown : CommonBase {
 	 * Must be in one of these forms: P2PKH, P2SH, P2WPKH, P2WSH, P2TR.
 	 */
 	public byte[] get_scriptpubkey() {
-		byte[] ret = bindings.Shutdown_get_scriptpubkey(this.ptr);
+		long ret = bindings.Shutdown_get_scriptpubkey(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -52,7 +56,7 @@ public class Shutdown : CommonBase {
 	 * Must be in one of these forms: P2PKH, P2SH, P2WPKH, P2WSH, P2TR.
 	 */
 	public void set_scriptpubkey(byte[] val) {
-		bindings.Shutdown_set_scriptpubkey(this.ptr, val);
+		bindings.Shutdown_set_scriptpubkey(this.ptr, InternalUtils.encodeUint8Array(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -61,7 +65,7 @@ public class Shutdown : CommonBase {
 	 * Constructs a new Shutdown given each field
 	 */
 	public static Shutdown of(byte[] channel_id_arg, byte[] scriptpubkey_arg) {
-		long ret = bindings.Shutdown_new(InternalUtils.check_arr_len(channel_id_arg, 32), scriptpubkey_arg);
+		long ret = bindings.Shutdown_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(scriptpubkey_arg));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(scriptpubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -109,16 +113,18 @@ public class Shutdown : CommonBase {
 	 * Serialize the Shutdown object into a byte array which can be read by Shutdown_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Shutdown_write(this.ptr);
+		long ret = bindings.Shutdown_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Shutdown from a byte array, created by Shutdown_write
 	 */
 	public static Result_ShutdownDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.Shutdown_read(ser);
+		long ret = bindings.Shutdown_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);

@@ -26,6 +26,7 @@ public class ClosureReason : CommonBase {
 			case 6: return new ClosureReason_DisconnectedPeer(ptr);
 			case 7: return new ClosureReason_OutdatedChannelManager(ptr);
 			case 8: return new ClosureReason_CounterpartyCoopClosedUnfundedChannel(ptr);
+			case 9: return new ClosureReason_FundingBatchClosure(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -77,7 +78,9 @@ public class ClosureReason : CommonBase {
 		 */
 		public string err;
 		internal ClosureReason_ProcessingError(long ptr) : base(null, ptr) {
-			this.err = bindings.LDKClosureReason_ProcessingError_get_err(ptr);
+			long err = bindings.LDKClosureReason_ProcessingError_get_err(ptr);
+			string err_conv = InternalUtils.decodeString(err);
+			this.err = err_conv;
 		}
 	}
 	/** A ClosureReason of type DisconnectedPeer */
@@ -93,6 +96,11 @@ public class ClosureReason : CommonBase {
 	/** A ClosureReason of type CounterpartyCoopClosedUnfundedChannel */
 	public class ClosureReason_CounterpartyCoopClosedUnfundedChannel : ClosureReason {
 		internal ClosureReason_CounterpartyCoopClosedUnfundedChannel(long ptr) : base(null, ptr) {
+		}
+	}
+	/** A ClosureReason of type FundingBatchClosure */
+	public class ClosureReason_FundingBatchClosure : ClosureReason {
+		internal ClosureReason_FundingBatchClosure(long ptr) : base(null, ptr) {
 		}
 	}
 	internal long clone_ptr() {
@@ -174,7 +182,7 @@ public class ClosureReason : CommonBase {
 	 * Utility method to constructs a new ProcessingError-variant ClosureReason
 	 */
 	public static ClosureReason processing_error(string err) {
-		long ret = bindings.ClosureReason_processing_error(err);
+		long ret = bindings.ClosureReason_processing_error(InternalUtils.encodeString(err));
 		GC.KeepAlive(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
@@ -216,6 +224,17 @@ public class ClosureReason : CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new FundingBatchClosure-variant ClosureReason
+	 */
+	public static ClosureReason funding_batch_closure() {
+		long ret = bindings.ClosureReason_funding_batch_closure();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Checks if two ClosureReasons contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
@@ -234,9 +253,11 @@ public class ClosureReason : CommonBase {
 	 * Serialize the ClosureReason object into a byte array which can be read by ClosureReason_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ClosureReason_write(this.ptr);
+		long ret = bindings.ClosureReason_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

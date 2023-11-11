@@ -38,16 +38,18 @@ public class Record : CommonBase {
 	 * The message body.
 	 */
 	public string get_args() {
-		string ret = bindings.Record_get_args(this.ptr);
+		long ret = bindings.Record_get_args(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The message body.
 	 */
 	public void set_args(string val) {
-		bindings.Record_set_args(this.ptr, val);
+		bindings.Record_set_args(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -56,16 +58,18 @@ public class Record : CommonBase {
 	 * The module path of the message.
 	 */
 	public string get_module_path() {
-		string ret = bindings.Record_get_module_path(this.ptr);
+		long ret = bindings.Record_get_module_path(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The module path of the message.
 	 */
 	public void set_module_path(string val) {
-		bindings.Record_set_module_path(this.ptr, val);
+		bindings.Record_set_module_path(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -74,16 +78,18 @@ public class Record : CommonBase {
 	 * The source file containing the message.
 	 */
 	public string get_file() {
-		string ret = bindings.Record_get_file(this.ptr);
+		long ret = bindings.Record_get_file(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The source file containing the message.
 	 */
 	public void set_file(string val) {
-		bindings.Record_set_file(this.ptr, val);
+		bindings.Record_set_file(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}

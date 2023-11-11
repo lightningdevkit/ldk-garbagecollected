@@ -58,7 +58,7 @@ public class TransactionU16LenLimited : CommonBase {
 	 * serialized length is <= u16::MAX.
 	 */
 	public static Result_TransactionU16LenLimitedNoneZ of(byte[] transaction) {
-		long ret = bindings.TransactionU16LenLimited_new(transaction);
+		long ret = bindings.TransactionU16LenLimited_new(InternalUtils.encodeUint8Array(transaction));
 		GC.KeepAlive(transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionU16LenLimitedNoneZ ret_hu_conv = Result_TransactionU16LenLimitedNoneZ.constr_from_ptr(ret);
@@ -69,26 +69,30 @@ public class TransactionU16LenLimited : CommonBase {
 	 * Consumes this `TransactionU16LenLimited` and returns its contained `Transaction`.
 	 */
 	public byte[] into_transaction() {
-		byte[] ret = bindings.TransactionU16LenLimited_into_transaction(this.ptr);
+		long ret = bindings.TransactionU16LenLimited_into_transaction(this.ptr);
 		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		if (this != null) { this.ptrs_to.AddLast(this); };
-		return ret;
+		return ret_conv;
 	}
 
 	/**
 	 * Serialize the TransactionU16LenLimited object into a byte array which can be read by TransactionU16LenLimited_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TransactionU16LenLimited_write(this.ptr);
+		long ret = bindings.TransactionU16LenLimited_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TransactionU16LenLimited from a byte array, created by TransactionU16LenLimited_write
 	 */
 	public static Result_TransactionU16LenLimitedDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TransactionU16LenLimited_read(ser);
+		long ret = bindings.TransactionU16LenLimited_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionU16LenLimitedDecodeErrorZ ret_hu_conv = Result_TransactionU16LenLimitedDecodeErrorZ.constr_from_ptr(ret);

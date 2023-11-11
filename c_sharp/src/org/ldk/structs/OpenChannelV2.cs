@@ -21,16 +21,18 @@ public class OpenChannelV2 : CommonBase {
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.OpenChannelV2_get_chain_hash(this.ptr);
+		long ret = bindings.OpenChannelV2_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.OpenChannelV2_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.OpenChannelV2_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -39,16 +41,18 @@ public class OpenChannelV2 : CommonBase {
 	 * A temporary channel ID derived using a zeroed out value for the channel acceptor's revocation basepoint
 	 */
 	public byte[] get_temporary_channel_id() {
-		byte[] ret = bindings.OpenChannelV2_get_temporary_channel_id(this.ptr);
+		long ret = bindings.OpenChannelV2_get_temporary_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A temporary channel ID derived using a zeroed out value for the channel acceptor's revocation basepoint
 	 */
 	public void set_temporary_channel_id(byte[] val) {
-		bindings.OpenChannelV2_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.OpenChannelV2_set_temporary_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -223,16 +227,18 @@ public class OpenChannelV2 : CommonBase {
 	 * The channel initiator's key controlling the funding transaction
 	 */
 	public byte[] get_funding_pubkey() {
-		byte[] ret = bindings.OpenChannelV2_get_funding_pubkey(this.ptr);
+		long ret = bindings.OpenChannelV2_get_funding_pubkey(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel initiator's key controlling the funding transaction
 	 */
 	public void set_funding_pubkey(byte[] val) {
-		bindings.OpenChannelV2_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_funding_pubkey(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -241,16 +247,18 @@ public class OpenChannelV2 : CommonBase {
 	 * Used to derive a revocation key for transactions broadcast by counterparty
 	 */
 	public byte[] get_revocation_basepoint() {
-		byte[] ret = bindings.OpenChannelV2_get_revocation_basepoint(this.ptr);
+		long ret = bindings.OpenChannelV2_get_revocation_basepoint(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Used to derive a revocation key for transactions broadcast by counterparty
 	 */
 	public void set_revocation_basepoint(byte[] val) {
-		bindings.OpenChannelV2_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_revocation_basepoint(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -259,16 +267,18 @@ public class OpenChannelV2 : CommonBase {
 	 * A payment key to channel initiator for transactions broadcast by counterparty
 	 */
 	public byte[] get_payment_basepoint() {
-		byte[] ret = bindings.OpenChannelV2_get_payment_basepoint(this.ptr);
+		long ret = bindings.OpenChannelV2_get_payment_basepoint(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A payment key to channel initiator for transactions broadcast by counterparty
 	 */
 	public void set_payment_basepoint(byte[] val) {
-		bindings.OpenChannelV2_set_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_payment_basepoint(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -278,9 +288,11 @@ public class OpenChannelV2 : CommonBase {
 	 * initiator
 	 */
 	public byte[] get_delayed_payment_basepoint() {
-		byte[] ret = bindings.OpenChannelV2_get_delayed_payment_basepoint(this.ptr);
+		long ret = bindings.OpenChannelV2_get_delayed_payment_basepoint(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -288,7 +300,7 @@ public class OpenChannelV2 : CommonBase {
 	 * initiator
 	 */
 	public void set_delayed_payment_basepoint(byte[] val) {
-		bindings.OpenChannelV2_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_delayed_payment_basepoint(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -297,16 +309,18 @@ public class OpenChannelV2 : CommonBase {
 	 * Used to derive an HTLC payment key to channel initiator
 	 */
 	public byte[] get_htlc_basepoint() {
-		byte[] ret = bindings.OpenChannelV2_get_htlc_basepoint(this.ptr);
+		long ret = bindings.OpenChannelV2_get_htlc_basepoint(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Used to derive an HTLC payment key to channel initiator
 	 */
 	public void set_htlc_basepoint(byte[] val) {
-		bindings.OpenChannelV2_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_htlc_basepoint(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -315,16 +329,18 @@ public class OpenChannelV2 : CommonBase {
 	 * The first to-be-broadcast-by-channel-initiator transaction's per commitment point
 	 */
 	public byte[] get_first_per_commitment_point() {
-		byte[] ret = bindings.OpenChannelV2_get_first_per_commitment_point(this.ptr);
+		long ret = bindings.OpenChannelV2_get_first_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The first to-be-broadcast-by-channel-initiator transaction's per commitment point
 	 */
 	public void set_first_per_commitment_point(byte[] val) {
-		bindings.OpenChannelV2_set_first_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_first_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -333,16 +349,18 @@ public class OpenChannelV2 : CommonBase {
 	 * The second to-be-broadcast-by-channel-initiator transaction's per commitment point
 	 */
 	public byte[] get_second_per_commitment_point() {
-		byte[] ret = bindings.OpenChannelV2_get_second_per_commitment_point(this.ptr);
+		long ret = bindings.OpenChannelV2_get_second_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The second to-be-broadcast-by-channel-initiator transaction's per commitment point
 	 */
 	public void set_second_per_commitment_point(byte[] val) {
-		bindings.OpenChannelV2_set_second_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.OpenChannelV2_set_second_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -369,11 +387,11 @@ public class OpenChannelV2 : CommonBase {
 	 * Optionally, a request to pre-set the to-channel-initiator output's scriptPubkey for when we
 	 * collaboratively close
 	 */
-	public Option_ScriptZ get_shutdown_scriptpubkey() {
+	public Option_CVec_u8ZZ get_shutdown_scriptpubkey() {
 		long ret = bindings.OpenChannelV2_get_shutdown_scriptpubkey(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_ScriptZ ret_hu_conv = org.ldk.structs.Option_ScriptZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -382,7 +400,7 @@ public class OpenChannelV2 : CommonBase {
 	 * Optionally, a request to pre-set the to-channel-initiator output's scriptPubkey for when we
 	 * collaboratively close
 	 */
-	public void set_shutdown_scriptpubkey(org.ldk.structs.Option_ScriptZ val) {
+	public void set_shutdown_scriptpubkey(org.ldk.structs.Option_CVec_u8ZZ val) {
 		bindings.OpenChannelV2_set_shutdown_scriptpubkey(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
@@ -439,9 +457,11 @@ public class OpenChannelV2 : CommonBase {
 
 	/**
 	 * Constructs a new OpenChannelV2 given each field
+	 * 
+	 * Note that channel_type_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static OpenChannelV2 of(byte[] chain_hash_arg, byte[] temporary_channel_id_arg, int funding_feerate_sat_per_1000_weight_arg, int commitment_feerate_sat_per_1000_weight_arg, long funding_satoshis_arg, long dust_limit_satoshis_arg, long max_htlc_value_in_flight_msat_arg, long htlc_minimum_msat_arg, short to_self_delay_arg, short max_accepted_htlcs_arg, int locktime_arg, byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_basepoint_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg, byte[] first_per_commitment_point_arg, byte[] second_per_commitment_point_arg, byte channel_flags_arg, org.ldk.structs.Option_ScriptZ shutdown_scriptpubkey_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, COption_NoneZ require_confirmed_inputs_arg) {
-		long ret = bindings.OpenChannelV2_new(InternalUtils.check_arr_len(chain_hash_arg, 32), InternalUtils.check_arr_len(temporary_channel_id_arg, 32), funding_feerate_sat_per_1000_weight_arg, commitment_feerate_sat_per_1000_weight_arg, funding_satoshis_arg, dust_limit_satoshis_arg, max_htlc_value_in_flight_msat_arg, htlc_minimum_msat_arg, to_self_delay_arg, max_accepted_htlcs_arg, locktime_arg, InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_basepoint_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33), InternalUtils.check_arr_len(first_per_commitment_point_arg, 33), InternalUtils.check_arr_len(second_per_commitment_point_arg, 33), channel_flags_arg, shutdown_scriptpubkey_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, require_confirmed_inputs_arg);
+	public static OpenChannelV2 of(byte[] chain_hash_arg, byte[] temporary_channel_id_arg, int funding_feerate_sat_per_1000_weight_arg, int commitment_feerate_sat_per_1000_weight_arg, long funding_satoshis_arg, long dust_limit_satoshis_arg, long max_htlc_value_in_flight_msat_arg, long htlc_minimum_msat_arg, short to_self_delay_arg, short max_accepted_htlcs_arg, int locktime_arg, byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_basepoint_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg, byte[] first_per_commitment_point_arg, byte[] second_per_commitment_point_arg, byte channel_flags_arg, org.ldk.structs.Option_CVec_u8ZZ shutdown_scriptpubkey_arg, org.ldk.structs.ChannelTypeFeatures channel_type_arg, COption_NoneZ require_confirmed_inputs_arg) {
+		long ret = bindings.OpenChannelV2_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(temporary_channel_id_arg, 32)), funding_feerate_sat_per_1000_weight_arg, commitment_feerate_sat_per_1000_weight_arg, funding_satoshis_arg, dust_limit_satoshis_arg, max_htlc_value_in_flight_msat_arg, htlc_minimum_msat_arg, to_self_delay_arg, max_accepted_htlcs_arg, locktime_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_pubkey_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(revocation_basepoint_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_basepoint_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(htlc_basepoint_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(first_per_commitment_point_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(second_per_commitment_point_arg, 33)), channel_flags_arg, shutdown_scriptpubkey_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, require_confirmed_inputs_arg);
 		GC.KeepAlive(chain_hash_arg);
 		GC.KeepAlive(temporary_channel_id_arg);
 		GC.KeepAlive(funding_feerate_sat_per_1000_weight_arg);
@@ -511,16 +531,18 @@ public class OpenChannelV2 : CommonBase {
 	 * Serialize the OpenChannelV2 object into a byte array which can be read by OpenChannelV2_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.OpenChannelV2_write(this.ptr);
+		long ret = bindings.OpenChannelV2_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a OpenChannelV2 from a byte array, created by OpenChannelV2_write
 	 */
 	public static Result_OpenChannelV2DecodeErrorZ read(byte[] ser) {
-		long ret = bindings.OpenChannelV2_read(ser);
+		long ret = bindings.OpenChannelV2_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OpenChannelV2DecodeErrorZ ret_hu_conv = Result_OpenChannelV2DecodeErrorZ.constr_from_ptr(ret);

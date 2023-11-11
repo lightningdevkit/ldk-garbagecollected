@@ -139,9 +139,11 @@ public class AnchorDescriptor : CommonBase {
 	 * Returns the witness script of the anchor output in the commitment transaction.
 	 */
 	public byte[] witness_script() {
-		byte[] ret = bindings.AnchorDescriptor_witness_script(this.ptr);
+		long ret = bindings.AnchorDescriptor_witness_script(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -149,10 +151,12 @@ public class AnchorDescriptor : CommonBase {
 	 * transaction.
 	 */
 	public byte[] tx_input_witness(byte[] signature) {
-		byte[] ret = bindings.AnchorDescriptor_tx_input_witness(this.ptr, InternalUtils.check_arr_len(signature, 64));
+		long ret = bindings.AnchorDescriptor_tx_input_witness(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(signature, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(signature);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**

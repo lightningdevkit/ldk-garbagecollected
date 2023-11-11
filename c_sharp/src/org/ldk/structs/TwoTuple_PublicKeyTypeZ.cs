@@ -19,9 +19,11 @@ public class TwoTuple_PublicKeyTypeZ : CommonBase {
 	 * 
 	 */
 	public byte[] get_a() {
-		byte[] ret = bindings.C2Tuple_PublicKeyTypeZ_get_a(this.ptr);
+		long ret = bindings.C2Tuple_PublicKeyTypeZ_get_a(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class TwoTuple_PublicKeyTypeZ : CommonBase {
 	 * Creates a new C2Tuple_PublicKeyTypeZ from the contained elements.
 	 */
 	public static TwoTuple_PublicKeyTypeZ of(byte[] a, org.ldk.structs.Type b) {
-		long ret = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.check_arr_len(a, 33), b.ptr);
+		long ret = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a, 33)), b.ptr);
 		GC.KeepAlive(a);
 		GC.KeepAlive(b);
 		if (ret >= 0 && ret <= 4096) { return null; }

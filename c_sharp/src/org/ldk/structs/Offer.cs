@@ -51,19 +51,18 @@ public class Offer : CommonBase {
 	 * for the selected chain.
 	 */
 	public byte[][] chains() {
-		byte[][] ret = bindings.Offer_chains(this.ptr);
+		long ret = bindings.Offer_chains(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
-	 * Returns whether the given chain is supported by the offer.
-	 */
-	public bool supports_chain(byte[] chain) {
-		bool ret = bindings.Offer_supports_chain(this.ptr, InternalUtils.check_arr_len(chain, 32));
-		GC.KeepAlive(this);
-		GC.KeepAlive(chain);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
+		byte[][] ret_conv_8_arr = new byte[ret_conv_8_len][];
+		for (int i = 0; i < ret_conv_8_len; i++) {
+			long ret_conv_8 = InternalUtils.getU64ArrayElem(ret, i);
+			byte[] ret_conv_8_conv = InternalUtils.decodeUint8Array(ret_conv_8);
+			ret_conv_8_arr[i] = ret_conv_8_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_8_arr;
 	}
 
 	/**
@@ -109,8 +108,8 @@ public class Offer : CommonBase {
 	/**
 	 * Features pertaining to the offer.
 	 */
-	public OfferFeatures features() {
-		long ret = bindings.Offer_features(this.ptr);
+	public OfferFeatures offer_features() {
+		long ret = bindings.Offer_offer_features(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OfferFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OfferFeatures(null, ret); }
@@ -123,22 +122,13 @@ public class Offer : CommonBase {
 	 * 
 	 * If `None`, the offer does not expire.
 	 */
-	public Option_DurationZ absolute_expiry() {
+	public Option_u64Z absolute_expiry() {
 		long ret = bindings.Offer_absolute_expiry(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Whether the offer has expired.
-	 */
-	public bool is_expired() {
-		bool ret = bindings.Offer_is_expired(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
 	}
 
 	/**
@@ -161,16 +151,18 @@ public class Offer : CommonBase {
 	 * recipient privacy by obfuscating its node id.
 	 */
 	public BlindedPath[] paths() {
-		long[] ret = bindings.Offer_paths(this.ptr);
+		long ret = bindings.Offer_paths(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_13_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_13_len = InternalUtils.getArrayLength(ret);
 		BlindedPath[] ret_conv_13_arr = new BlindedPath[ret_conv_13_len];
 		for (int n = 0; n < ret_conv_13_len; n++) {
-			long ret_conv_13 = ret[n];
+			long ret_conv_13 = InternalUtils.getU64ArrayElem(ret, n);
 			org.ldk.structs.BlindedPath ret_conv_13_hu_conv = null; if (ret_conv_13 < 0 || ret_conv_13 > 4096) { ret_conv_13_hu_conv = new org.ldk.structs.BlindedPath(null, ret_conv_13); }
 			if (ret_conv_13_hu_conv != null) { ret_conv_13_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_13_arr[n] = ret_conv_13_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_13_arr;
 	}
 
@@ -184,6 +176,36 @@ public class Offer : CommonBase {
 		org.ldk.structs.Quantity ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Quantity(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * The public key used by the recipient to sign invoices.
+	 */
+	public byte[] signing_pubkey() {
+		long ret = bindings.Offer_signing_pubkey(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Returns whether the given chain is supported by the offer.
+	 */
+	public bool supports_chain(byte[] chain) {
+		bool ret = bindings.Offer_supports_chain(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain, 32)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(chain);
+		return ret;
+	}
+
+	/**
+	 * Whether the offer has expired.
+	 */
+	public bool is_expired() {
+		bool ret = bindings.Offer_is_expired(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 	/**
@@ -208,28 +230,21 @@ public class Offer : CommonBase {
 	}
 
 	/**
-	 * The public key used by the recipient to sign invoices.
-	 */
-	public byte[] signing_pubkey() {
-		byte[] ret = bindings.Offer_signing_pubkey(this.ptr);
-		GC.KeepAlive(this);
-		return ret;
-	}
-
-	/**
 	 * Serialize the Offer object into a byte array which can be read by Offer_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Offer_write(this.ptr);
+		long ret = bindings.Offer_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Offer object from a string
 	 */
 	public static Result_OfferBolt12ParseErrorZ from_str(string s) {
-		long ret = bindings.Offer_from_str(s);
+		long ret = bindings.Offer_from_str(InternalUtils.encodeString(s));
 		GC.KeepAlive(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OfferBolt12ParseErrorZ ret_hu_conv = Result_OfferBolt12ParseErrorZ.constr_from_ptr(ret);

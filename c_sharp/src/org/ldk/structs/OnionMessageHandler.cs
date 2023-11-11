@@ -1,3 +1,4 @@
+
 using org.ldk.impl;
 using org.ldk.enums;
 using org.ldk.util;
@@ -5,74 +6,85 @@ using System;
 
 namespace org { namespace ldk { namespace structs {
 
+
+
+/** An implementation of OnionMessageHandler */
+public interface OnionMessageHandlerInterface {
+	/**Handle an incoming `onion_message` message from the given peer.
+	 */
+	void handle_onion_message(byte[] peer_node_id, OnionMessage msg);
+	/**Returns the next pending onion message for the peer with the given node id.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	OnionMessage next_onion_message_for_peer(byte[] peer_node_id);
+	/**Called when a connection is established with a peer. Can be used to track which peers
+	 * advertise onion message support and are online.
+	 * 
+	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
+	 * with us. Implementors should be somewhat conservative about doing so, however, as other
+	 * message handlers may still wish to communicate with this peer.
+	 */
+	Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init, bool inbound);
+	/**Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
+	 * drop and refuse to forward onion messages to this peer.
+	 */
+	void peer_disconnected(byte[] their_node_id);
+	/**Gets the node feature flags which this handler itself supports. All available handlers are
+	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
+	 * which are broadcasted in our [`NodeAnnouncement`] message.
+	 */
+	NodeFeatures provided_node_features();
+	/**Gets the init feature flags which should be sent to the given peer. All available handlers
+	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
+	 * which are sent in our [`Init`] message.
+	 * 
+	 * Note that this method is called before [`Self::peer_connected`].
+	 */
+	InitFeatures provided_init_features(byte[] their_node_id);
+}
+
 /**
- * A trait to describe an object that can receive onion messages.
+ * A handler for received [`OnionMessage`]s and for providing generated ones to send.
  */
 public class OnionMessageHandler : CommonBase {
-	internal readonly bindings.LDKOnionMessageHandler bindings_instance;
+	internal bindings.LDKOnionMessageHandler bindings_instance;
+	internal long instance_idx;
+
 	internal OnionMessageHandler(object _dummy, long ptr) : base(ptr) { bindings_instance = null; }
-	private OnionMessageHandler(bindings.LDKOnionMessageHandler arg, bindings.LDKOnionMessageProvider OnionMessageProvider) : base(bindings.LDKOnionMessageHandler_new(arg, OnionMessageProvider)) {
-		this.ptrs_to.AddLast(arg);
-		this.ptrs_to.AddLast(OnionMessageProvider);
-		this.bindings_instance = arg;
-	}
 	~OnionMessageHandler() {
 		if (ptr != 0) { bindings.OnionMessageHandler_free(ptr); }
 	}
 
-	public interface OnionMessageHandlerInterface {
-		/**
-		 * Handle an incoming `onion_message` message from the given peer.
-		 */
-		void handle_onion_message(byte[] _peer_node_id, OnionMessage _msg);
-		/**
-		 * Called when a connection is established with a peer. Can be used to track which peers
-		 * advertise onion message support and are online.
-		 * 
-		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-		 * with us. Implementors should be somewhat conservative about doing so, however, as other
-		 * message handlers may still wish to communicate with this peer.
-		 */
-		Result_NoneNoneZ peer_connected(byte[] _their_node_id, Init _init, bool _inbound);
-		/**
-		 * Indicates a connection to the peer failed/an existing connection was lost. Allows handlers to
-		 * drop and refuse to forward onion messages to this peer.
-		 */
-		void peer_disconnected(byte[] _their_node_id);
-		/**
-		 * Gets the node feature flags which this handler itself supports. All available handlers are
-		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-		 * which are broadcasted in our [`NodeAnnouncement`] message.
-		 */
-		NodeFeatures provided_node_features();
-		/**
-		 * Gets the init feature flags which should be sent to the given peer. All available handlers
-		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-		 * which are sent in our [`Init`] message.
-		 * 
-		 * Note that this method is called before [`Self::peer_connected`].
-		 */
-		InitFeatures provided_init_features(byte[] _their_node_id);
-	}
 	private class LDKOnionMessageHandlerHolder { internal OnionMessageHandler held; }
 	private class LDKOnionMessageHandlerImpl : bindings.LDKOnionMessageHandler {
 		internal LDKOnionMessageHandlerImpl(OnionMessageHandlerInterface arg, LDKOnionMessageHandlerHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private OnionMessageHandlerInterface arg;
 		private LDKOnionMessageHandlerHolder impl_holder;
-		public void handle_onion_message(byte[] _peer_node_id, long _msg) {
+		public void handle_onion_message(long _peer_node_id, long _msg) {
+			byte[] _peer_node_id_conv = InternalUtils.decodeUint8Array(_peer_node_id);
 			org.ldk.structs.OnionMessage _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.OnionMessage(null, _msg); }
-			arg.handle_onion_message(_peer_node_id, _msg_hu_conv);
+			arg.handle_onion_message(_peer_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
-		public long peer_connected(byte[] _their_node_id, long _init, bool _inbound) {
-			org.ldk.structs.Init _init_hu_conv = null; if (_init < 0 || _init > 4096) { _init_hu_conv = new org.ldk.structs.Init(null, _init); }
-			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id, _init_hu_conv, _inbound);
+		public long next_onion_message_for_peer(long _peer_node_id) {
+			byte[] _peer_node_id_conv = InternalUtils.decodeUint8Array(_peer_node_id);
+			OnionMessage ret = arg.next_onion_message_for_peer(_peer_node_id_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public void peer_disconnected(byte[] _their_node_id) {
-			arg.peer_disconnected(_their_node_id);
+		public long peer_connected(long _their_node_id, long _init, bool _inbound) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.Init _init_hu_conv = null; if (_init < 0 || _init > 4096) { _init_hu_conv = new org.ldk.structs.Init(null, _init); }
+			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id_conv, _init_hu_conv, _inbound);
+				GC.KeepAlive(arg);
+			long result = ret == null ? 0 : ret.clone_ptr();
+			return result;
+		}
+		public void peer_disconnected(long _their_node_id) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			arg.peer_disconnected(_their_node_id_conv);
 				GC.KeepAlive(arg);
 		}
 		public long provided_node_features() {
@@ -81,37 +93,51 @@ public class OnionMessageHandler : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public long provided_init_features(byte[] _their_node_id) {
-			InitFeatures ret = arg.provided_init_features(_their_node_id);
+		public long provided_init_features(long _their_node_id) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			InitFeatures ret = arg.provided_init_features(_their_node_id_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
 	}
-	public static OnionMessageHandler new_impl(OnionMessageHandlerInterface arg, OnionMessageProvider.OnionMessageProviderInterface OnionMessageProvider_impl) {
-		LDKOnionMessageHandlerHolder impl_holder = new LDKOnionMessageHandlerHolder();
-		impl_holder.held = new OnionMessageHandler(new LDKOnionMessageHandlerImpl(arg, impl_holder), OnionMessageProvider.new_impl(OnionMessageProvider_impl).bindings_instance);
-		return impl_holder.held;
-	}
 
-	/**
-	 * Gets the underlying OnionMessageProvider.
-	 */
-	public OnionMessageProvider get_onion_message_provider() {
-		OnionMessageProvider res = new OnionMessageProvider(null, bindings.LDKOnionMessageHandler_get_OnionMessageProvider(this.ptr));
-		this.ptrs_to.AddLast(res);
-		return res;
+	/** Creates a new instance of OnionMessageHandler from a given implementation */
+	public static OnionMessageHandler new_impl(OnionMessageHandlerInterface arg) {
+		LDKOnionMessageHandlerHolder impl_holder = new LDKOnionMessageHandlerHolder();
+		LDKOnionMessageHandlerImpl impl = new LDKOnionMessageHandlerImpl(arg, impl_holder);
+		long[] ptr_idx = bindings.LDKOnionMessageHandler_new(impl);
+
+		impl_holder.held = new OnionMessageHandler(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
+		impl_holder.held.bindings_instance = impl;
+		return impl_holder.held;
 	}
 
 	/**
 	 * Handle an incoming `onion_message` message from the given peer.
 	 */
 	public void handle_onion_message(byte[] peer_node_id, org.ldk.structs.OnionMessage msg) {
-		bindings.OnionMessageHandler_handle_onion_message(this.ptr, InternalUtils.check_arr_len(peer_node_id, 33), msg == null ? 0 : msg.ptr);
+		bindings.OnionMessageHandler_handle_onion_message(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(peer_node_id, 33)), msg == null ? 0 : msg.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(peer_node_id);
 		GC.KeepAlive(msg);
 		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Returns the next pending onion message for the peer with the given node id.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public OnionMessage next_onion_message_for_peer(byte[] peer_node_id) {
+		long ret = bindings.OnionMessageHandler_next_onion_message_for_peer(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(peer_node_id, 33)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(peer_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OnionMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessage(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -123,7 +149,7 @@ public class OnionMessageHandler : CommonBase {
 	 * message handlers may still wish to communicate with this peer.
 	 */
 	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, bool inbound) {
-		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr, inbound);
+		long ret = bindings.OnionMessageHandler_peer_connected(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), init == null ? 0 : init.ptr, inbound);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(init);
@@ -139,7 +165,7 @@ public class OnionMessageHandler : CommonBase {
 	 * drop and refuse to forward onion messages to this peer.
 	 */
 	public void peer_disconnected(byte[] their_node_id) {
-		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
+		bindings.OnionMessageHandler_peer_disconnected(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 	}
@@ -166,7 +192,7 @@ public class OnionMessageHandler : CommonBase {
 	 * Note that this method is called before [`Self::peer_connected`].
 	 */
 	public InitFeatures provided_init_features(byte[] their_node_id) {
-		long ret = bindings.OnionMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
+		long ret = bindings.OnionMessageHandler_provided_init_features(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }

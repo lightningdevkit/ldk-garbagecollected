@@ -43,7 +43,7 @@ public class RapidGossipSync : CommonBase {
 	 * `sync_path`: Path to the file where the gossip update data is located
 	 */
 	public Result_u32GraphSyncErrorZ sync_network_graph_with_file_path(string sync_path) {
-		long ret = bindings.RapidGossipSync_sync_network_graph_with_file_path(this.ptr, sync_path);
+		long ret = bindings.RapidGossipSync_sync_network_graph_with_file_path(this.ptr, InternalUtils.encodeString(sync_path));
 		GC.KeepAlive(this);
 		GC.KeepAlive(sync_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -58,7 +58,7 @@ public class RapidGossipSync : CommonBase {
 	 * `update_data`: `&[u8]` binary stream that comprises the update data
 	 */
 	public Result_u32GraphSyncErrorZ update_network_graph(byte[] update_data) {
-		long ret = bindings.RapidGossipSync_update_network_graph(this.ptr, update_data);
+		long ret = bindings.RapidGossipSync_update_network_graph(this.ptr, InternalUtils.encodeUint8Array(update_data));
 		GC.KeepAlive(this);
 		GC.KeepAlive(update_data);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -74,7 +74,7 @@ public class RapidGossipSync : CommonBase {
 	 * `current_time_unix`: `Option<u64>` optional current timestamp to verify data age
 	 */
 	public Result_u32GraphSyncErrorZ update_network_graph_no_std(byte[] update_data, org.ldk.structs.Option_u64Z current_time_unix) {
-		long ret = bindings.RapidGossipSync_update_network_graph_no_std(this.ptr, update_data, current_time_unix.ptr);
+		long ret = bindings.RapidGossipSync_update_network_graph_no_std(this.ptr, InternalUtils.encodeUint8Array(update_data), current_time_unix.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(update_data);
 		GC.KeepAlive(current_time_unix);

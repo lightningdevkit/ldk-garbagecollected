@@ -29,16 +29,18 @@ public class QueryShortChannelIds : CommonBase {
 	 * The genesis hash of the blockchain being queried
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.QueryShortChannelIds_get_chain_hash(this.ptr);
+		long ret = bindings.QueryShortChannelIds_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain being queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -49,16 +51,18 @@ public class QueryShortChannelIds : CommonBase {
 	 * Returns a copy of the field.
 	 */
 	public long[] get_short_channel_ids() {
-		long[] ret = bindings.QueryShortChannelIds_get_short_channel_ids(this.ptr);
+		long ret = bindings.QueryShortChannelIds_get_short_channel_ids(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		long[] ret_conv = InternalUtils.decodeUint64Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The short_channel_ids that are being queried
 	 */
 	public void set_short_channel_ids(long[] val) {
-		bindings.QueryShortChannelIds_set_short_channel_ids(this.ptr, val);
+		bindings.QueryShortChannelIds_set_short_channel_ids(this.ptr, InternalUtils.encodeUint64Array(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -67,7 +71,7 @@ public class QueryShortChannelIds : CommonBase {
 	 * Constructs a new QueryShortChannelIds given each field
 	 */
 	public static QueryShortChannelIds of(byte[] chain_hash_arg, long[] short_channel_ids_arg) {
-		long ret = bindings.QueryShortChannelIds_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_ids_arg);
+		long ret = bindings.QueryShortChannelIds_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), InternalUtils.encodeUint64Array(short_channel_ids_arg));
 		GC.KeepAlive(chain_hash_arg);
 		GC.KeepAlive(short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -115,7 +119,7 @@ public class QueryShortChannelIds : CommonBase {
 	 * Read a QueryShortChannelIds from a byte array, created by QueryShortChannelIds_write
 	 */
 	public static Result_QueryShortChannelIdsDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.QueryShortChannelIds_read(ser);
+		long ret = bindings.QueryShortChannelIds_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
@@ -126,9 +130,11 @@ public class QueryShortChannelIds : CommonBase {
 	 * Serialize the QueryShortChannelIds object into a byte array which can be read by QueryShortChannelIds_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.QueryShortChannelIds_write(this.ptr);
+		long ret = bindings.QueryShortChannelIds_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

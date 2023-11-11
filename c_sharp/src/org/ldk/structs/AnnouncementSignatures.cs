@@ -21,16 +21,18 @@ public class AnnouncementSignatures : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
+		long ret = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -57,16 +59,18 @@ public class AnnouncementSignatures : CommonBase {
 	 * A signature by the node key
 	 */
 	public byte[] get_node_signature() {
-		byte[] ret = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
+		long ret = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A signature by the node key
 	 */
 	public void set_node_signature(byte[] val) {
-		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -75,16 +79,18 @@ public class AnnouncementSignatures : CommonBase {
 	 * A signature by the funding key
 	 */
 	public byte[] get_bitcoin_signature() {
-		byte[] ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
+		long ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A signature by the funding key
 	 */
 	public void set_bitcoin_signature(byte[] val) {
-		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -93,7 +99,7 @@ public class AnnouncementSignatures : CommonBase {
 	 * Constructs a new AnnouncementSignatures given each field
 	 */
 	public static AnnouncementSignatures of(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
-		long ret = bindings.AnnouncementSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), short_channel_id_arg, InternalUtils.check_arr_len(node_signature_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_arg, 64));
+		long ret = bindings.AnnouncementSignatures_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), short_channel_id_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_signature_arg, 64)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(bitcoin_signature_arg, 64)));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(short_channel_id_arg);
 		GC.KeepAlive(node_signature_arg);
@@ -143,16 +149,18 @@ public class AnnouncementSignatures : CommonBase {
 	 * Serialize the AnnouncementSignatures object into a byte array which can be read by AnnouncementSignatures_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.AnnouncementSignatures_write(this.ptr);
+		long ret = bindings.AnnouncementSignatures_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a AnnouncementSignatures from a byte array, created by AnnouncementSignatures_write
 	 */
 	public static Result_AnnouncementSignaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.AnnouncementSignatures_read(ser);
+		long ret = bindings.AnnouncementSignatures_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);

@@ -21,16 +21,18 @@ public class UnsignedChannelUpdate : CommonBase {
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
+		long ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -206,9 +208,11 @@ public class UnsignedChannelUpdate : CommonBase {
 	 * Returns a copy of the field.
 	 */
 	public byte[] get_excess_data() {
-		byte[] ret = bindings.UnsignedChannelUpdate_get_excess_data(this.ptr);
+		long ret = bindings.UnsignedChannelUpdate_get_excess_data(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -218,7 +222,7 @@ public class UnsignedChannelUpdate : CommonBase {
 	 * This is stored to ensure forward-compatibility as new fields are added to the lightning gossip protocol.
 	 */
 	public void set_excess_data(byte[] val) {
-		bindings.UnsignedChannelUpdate_set_excess_data(this.ptr, val);
+		bindings.UnsignedChannelUpdate_set_excess_data(this.ptr, InternalUtils.encodeUint8Array(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -227,7 +231,7 @@ public class UnsignedChannelUpdate : CommonBase {
 	 * Constructs a new UnsignedChannelUpdate given each field
 	 */
 	public static UnsignedChannelUpdate of(byte[] chain_hash_arg, long short_channel_id_arg, int timestamp_arg, byte flags_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, long htlc_maximum_msat_arg, int fee_base_msat_arg, int fee_proportional_millionths_arg, byte[] excess_data_arg) {
-		long ret = bindings.UnsignedChannelUpdate_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_id_arg, timestamp_arg, flags_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fee_base_msat_arg, fee_proportional_millionths_arg, excess_data_arg);
+		long ret = bindings.UnsignedChannelUpdate_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), short_channel_id_arg, timestamp_arg, flags_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg, fee_base_msat_arg, fee_proportional_millionths_arg, InternalUtils.encodeUint8Array(excess_data_arg));
 		GC.KeepAlive(chain_hash_arg);
 		GC.KeepAlive(short_channel_id_arg);
 		GC.KeepAlive(timestamp_arg);
@@ -283,16 +287,18 @@ public class UnsignedChannelUpdate : CommonBase {
 	 * Serialize the UnsignedChannelUpdate object into a byte array which can be read by UnsignedChannelUpdate_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UnsignedChannelUpdate_write(this.ptr);
+		long ret = bindings.UnsignedChannelUpdate_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UnsignedChannelUpdate from a byte array, created by UnsignedChannelUpdate_write
 	 */
 	public static Result_UnsignedChannelUpdateDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UnsignedChannelUpdate_read(ser);
+		long ret = bindings.UnsignedChannelUpdate_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);

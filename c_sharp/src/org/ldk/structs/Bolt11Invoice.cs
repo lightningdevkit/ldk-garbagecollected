@@ -73,9 +73,11 @@ public class Bolt11Invoice : CommonBase {
 	 * The hash of the [`RawBolt11Invoice`] that was signed.
 	 */
 	public byte[] signable_hash() {
-		byte[] ret = bindings.Bolt11Invoice_signable_hash(this.ptr);
+		long ret = bindings.Bolt11Invoice_signable_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -155,9 +157,11 @@ public class Bolt11Invoice : CommonBase {
 	 * Returns the hash to which we will receive the preimage on completion of the payment
 	 */
 	public byte[] payment_hash() {
-		byte[] ret = bindings.Bolt11Invoice_payment_hash(this.ptr);
+		long ret = bindings.Bolt11Invoice_payment_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -166,18 +170,22 @@ public class Bolt11Invoice : CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public byte[] payee_pub_key() {
-		byte[] ret = bindings.Bolt11Invoice_payee_pub_key(this.ptr);
+		long ret = bindings.Bolt11Invoice_payee_pub_key(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Get the payment secret if one was included in the invoice
 	 */
 	public byte[] payment_secret() {
-		byte[] ret = bindings.Bolt11Invoice_payment_secret(this.ptr);
+		long ret = bindings.Bolt11Invoice_payment_secret(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -210,20 +218,22 @@ public class Bolt11Invoice : CommonBase {
 	 * Recover the payee's public key (only to be used if none was included in the invoice)
 	 */
 	public byte[] recover_payee_pub_key() {
-		byte[] ret = bindings.Bolt11Invoice_recover_payee_pub_key(this.ptr);
+		long ret = bindings.Bolt11Invoice_recover_payee_pub_key(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Returns the Duration since the Unix epoch at which the invoice expires.
 	 * Returning None if overflow occurred.
 	 */
-	public Option_DurationZ expires_at() {
+	public Option_u64Z expires_at() {
 		long ret = bindings.Bolt11Invoice_expires_at(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_DurationZ ret_hu_conv = org.ldk.structs.Option_DurationZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -291,25 +301,36 @@ public class Bolt11Invoice : CommonBase {
 	 * Returns a list of all fallback addresses as [`Address`]es
 	 */
 	public string[] fallback_addresses() {
-		string[] ret = bindings.Bolt11Invoice_fallback_addresses(this.ptr);
+		long ret = bindings.Bolt11Invoice_fallback_addresses(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
+		string[] ret_conv_8_arr = new string[ret_conv_8_len];
+		for (int i = 0; i < ret_conv_8_len; i++) {
+			long ret_conv_8 = InternalUtils.getU32ArrayElem(ret, i);
+			string ret_conv_8_conv = InternalUtils.decodeString(ret_conv_8);
+			ret_conv_8_arr[i] = ret_conv_8_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_8_arr;
 	}
 
 	/**
 	 * Returns a list of all routes included in the invoice
 	 */
 	public PrivateRoute[] private_routes() {
-		long[] ret = bindings.Bolt11Invoice_private_routes(this.ptr);
+		long ret = bindings.Bolt11Invoice_private_routes(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_14_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_14_len = InternalUtils.getArrayLength(ret);
 		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
-			long ret_conv_14 = ret[o];
+			long ret_conv_14 = InternalUtils.getU64ArrayElem(ret, o);
 			org.ldk.structs.PrivateRoute ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new org.ldk.structs.PrivateRoute(null, ret_conv_14); }
 			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_14_arr;
 	}
 
@@ -317,16 +338,18 @@ public class Bolt11Invoice : CommonBase {
 	 * Returns a list of all routes included in the invoice as the underlying hints
 	 */
 	public RouteHint[] route_hints() {
-		long[] ret = bindings.Bolt11Invoice_route_hints(this.ptr);
+		long ret = bindings.Bolt11Invoice_route_hints(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_11_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_11_len = InternalUtils.getArrayLength(ret);
 		RouteHint[] ret_conv_11_arr = new RouteHint[ret_conv_11_len];
 		for (int l = 0; l < ret_conv_11_len; l++) {
-			long ret_conv_11 = ret[l];
+			long ret_conv_11 = InternalUtils.getU64ArrayElem(ret, l);
 			org.ldk.structs.RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.RouteHint(null, ret_conv_11); }
 			if (ret_conv_11_hu_conv != null) { ret_conv_11_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_11_arr;
 	}
 
@@ -355,7 +378,7 @@ public class Bolt11Invoice : CommonBase {
 	 * Read a Bolt11Invoice object from a string
 	 */
 	public static Result_Bolt11InvoiceParseOrSemanticErrorZ from_str(string s) {
-		long ret = bindings.Bolt11Invoice_from_str(s);
+		long ret = bindings.Bolt11Invoice_from_str(InternalUtils.encodeString(s));
 		GC.KeepAlive(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_Bolt11InvoiceParseOrSemanticErrorZ ret_hu_conv = Result_Bolt11InvoiceParseOrSemanticErrorZ.constr_from_ptr(ret);
@@ -366,9 +389,11 @@ public class Bolt11Invoice : CommonBase {
 	 * Get the string representation of a Bolt11Invoice object
 	 */
 	public string to_str() {
-		string ret = bindings.Bolt11Invoice_to_str(this.ptr);
+		long ret = bindings.Bolt11Invoice_to_str(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 }

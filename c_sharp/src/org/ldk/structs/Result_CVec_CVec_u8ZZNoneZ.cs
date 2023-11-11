@@ -21,7 +21,16 @@ public class Result_CVec_CVec_u8ZZNoneZ : CommonBase {
 	public class Result_CVec_CVec_u8ZZNoneZ_OK : Result_CVec_CVec_u8ZZNoneZ {
 		public readonly byte[][] res;
 		internal Result_CVec_CVec_u8ZZNoneZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			this.res = bindings.CResult_CVec_CVec_u8ZZNoneZ_get_ok(ptr);
+			long res = bindings.CResult_CVec_CVec_u8ZZNoneZ_get_ok(ptr);
+			int res_conv_8_len = InternalUtils.getArrayLength(res);
+			byte[][] res_conv_8_arr = new byte[res_conv_8_len][];
+			for (int i = 0; i < res_conv_8_len; i++) {
+				long res_conv_8 = InternalUtils.getU64ArrayElem(res, i);
+				byte[] res_conv_8_conv = InternalUtils.decodeUint8Array(res_conv_8);
+				res_conv_8_arr[i] = res_conv_8_conv;
+			}
+			bindings.free_buffer(res);
+			this.res = res_conv_8_arr;
 		}
 	}
 
@@ -34,7 +43,7 @@ public class Result_CVec_CVec_u8ZZNoneZ : CommonBase {
 	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the success state.
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ ok(byte[][] o) {
-		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
+		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(InternalUtils.encodeUint64Array(InternalUtils.mapArray(o, o_conv_8 => InternalUtils.encodeUint8Array(o_conv_8))));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);

@@ -37,7 +37,7 @@ public class NodeId : CommonBase {
 	 * Create a new NodeId from a public key
 	 */
 	public static NodeId from_pubkey(byte[] pubkey) {
-		long ret = bindings.NodeId_from_pubkey(InternalUtils.check_arr_len(pubkey, 33));
+		long ret = bindings.NodeId_from_pubkey(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(pubkey, 33)));
 		GC.KeepAlive(pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
@@ -49,19 +49,21 @@ public class NodeId : CommonBase {
 	 * Get the public key slice from this NodeId
 	 */
 	public byte[] as_slice() {
-		byte[] ret = bindings.NodeId_as_slice(this.ptr);
+		long ret = bindings.NodeId_as_slice(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Get the public key from this NodeId
 	 */
-	public Result_PublicKeyErrorZ as_pubkey() {
+	public Result_PublicKeySecp256k1ErrorZ as_pubkey() {
 		long ret = bindings.NodeId_as_pubkey(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		Result_PublicKeySecp256k1ErrorZ ret_hu_conv = Result_PublicKeySecp256k1ErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -81,16 +83,18 @@ public class NodeId : CommonBase {
 	 * Serialize the NodeId object into a byte array which can be read by NodeId_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.NodeId_write(this.ptr);
+		long ret = bindings.NodeId_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a NodeId from a byte array, created by NodeId_write
 	 */
 	public static Result_NodeIdDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.NodeId_read(ser);
+		long ret = bindings.NodeId_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeIdDecodeErrorZ ret_hu_conv = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);

@@ -96,16 +96,18 @@ public class BigSize : CommonBase {
 	 * Serialize the BigSize object into a byte array which can be read by BigSize_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.BigSize_write(this.ptr);
+		long ret = bindings.BigSize_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a BigSize from a byte array, created by BigSize_write
 	 */
 	public static Result_BigSizeDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.BigSize_read(ser);
+		long ret = bindings.BigSize_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BigSizeDecodeErrorZ ret_hu_conv = Result_BigSizeDecodeErrorZ.constr_from_ptr(ret);

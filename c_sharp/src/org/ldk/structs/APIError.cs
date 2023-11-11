@@ -36,7 +36,9 @@ public class APIError : CommonBase {
 		 */
 		public string err;
 		internal APIError_APIMisuseError(long ptr) : base(null, ptr) {
-			this.err = bindings.LDKAPIError_APIMisuseError_get_err(ptr);
+			long err = bindings.LDKAPIError_APIMisuseError_get_err(ptr);
+			string err_conv = InternalUtils.decodeString(err);
+			this.err = err_conv;
 		}
 	}
 	/** A APIError of type FeeRateTooHigh */
@@ -50,7 +52,9 @@ public class APIError : CommonBase {
 		 */
 		public int feerate;
 		internal APIError_FeeRateTooHigh(long ptr) : base(null, ptr) {
-			this.err = bindings.LDKAPIError_FeeRateTooHigh_get_err(ptr);
+			long err = bindings.LDKAPIError_FeeRateTooHigh_get_err(ptr);
+			string err_conv = InternalUtils.decodeString(err);
+			this.err = err_conv;
 			this.feerate = bindings.LDKAPIError_FeeRateTooHigh_get_feerate(ptr);
 		}
 	}
@@ -61,7 +65,9 @@ public class APIError : CommonBase {
 		 */
 		public string err;
 		internal APIError_InvalidRoute(long ptr) : base(null, ptr) {
-			this.err = bindings.LDKAPIError_InvalidRoute_get_err(ptr);
+			long err = bindings.LDKAPIError_InvalidRoute_get_err(ptr);
+			string err_conv = InternalUtils.decodeString(err);
+			this.err = err_conv;
 		}
 	}
 	/** A APIError of type ChannelUnavailable */
@@ -71,7 +77,9 @@ public class APIError : CommonBase {
 		 */
 		public string err;
 		internal APIError_ChannelUnavailable(long ptr) : base(null, ptr) {
-			this.err = bindings.LDKAPIError_ChannelUnavailable_get_err(ptr);
+			long err = bindings.LDKAPIError_ChannelUnavailable_get_err(ptr);
+			string err_conv = InternalUtils.decodeString(err);
+			this.err = err_conv;
 		}
 	}
 	/** A APIError of type MonitorUpdateInProgress */
@@ -114,7 +122,7 @@ public class APIError : CommonBase {
 	 * Utility method to constructs a new APIMisuseError-variant APIError
 	 */
 	public static APIError apimisuse_error(string err) {
-		long ret = bindings.APIError_apimisuse_error(err);
+		long ret = bindings.APIError_apimisuse_error(InternalUtils.encodeString(err));
 		GC.KeepAlive(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
@@ -126,7 +134,7 @@ public class APIError : CommonBase {
 	 * Utility method to constructs a new FeeRateTooHigh-variant APIError
 	 */
 	public static APIError fee_rate_too_high(string err, int feerate) {
-		long ret = bindings.APIError_fee_rate_too_high(err, feerate);
+		long ret = bindings.APIError_fee_rate_too_high(InternalUtils.encodeString(err), feerate);
 		GC.KeepAlive(err);
 		GC.KeepAlive(feerate);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -139,7 +147,7 @@ public class APIError : CommonBase {
 	 * Utility method to constructs a new InvalidRoute-variant APIError
 	 */
 	public static APIError invalid_route(string err) {
-		long ret = bindings.APIError_invalid_route(err);
+		long ret = bindings.APIError_invalid_route(InternalUtils.encodeString(err));
 		GC.KeepAlive(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
@@ -151,7 +159,7 @@ public class APIError : CommonBase {
 	 * Utility method to constructs a new ChannelUnavailable-variant APIError
 	 */
 	public static APIError channel_unavailable(string err) {
-		long ret = bindings.APIError_channel_unavailable(err);
+		long ret = bindings.APIError_channel_unavailable(InternalUtils.encodeString(err));
 		GC.KeepAlive(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
@@ -202,9 +210,11 @@ public class APIError : CommonBase {
 	 * Serialize the APIError object into a byte array which can be read by APIError_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.APIError_write(this.ptr);
+		long ret = bindings.APIError_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

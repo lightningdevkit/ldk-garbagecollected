@@ -109,16 +109,18 @@ public class Ping : CommonBase {
 	 * Serialize the Ping object into a byte array which can be read by Ping_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Ping_write(this.ptr);
+		long ret = bindings.Ping_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Ping from a byte array, created by Ping_write
 	 */
 	public static Result_PingDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.Ping_read(ser);
+		long ret = bindings.Ping_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PingDecodeErrorZ ret_hu_conv = Result_PingDecodeErrorZ.constr_from_ptr(ret);

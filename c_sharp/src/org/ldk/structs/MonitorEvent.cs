@@ -18,9 +18,8 @@ public class MonitorEvent : CommonBase {
 		long raw_ty = bindings.LDKMonitorEvent_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new MonitorEvent_HTLCEvent(ptr);
-			case 1: return new MonitorEvent_CommitmentTxConfirmed(ptr);
+			case 1: return new MonitorEvent_HolderForceClosed(ptr);
 			case 2: return new MonitorEvent_Completed(ptr);
-			case 3: return new MonitorEvent_UpdateFailed(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -36,14 +35,14 @@ public class MonitorEvent : CommonBase {
 			this.htlc_event = htlc_event_hu_conv;
 		}
 	}
-	/** A MonitorEvent of type CommitmentTxConfirmed */
-	public class MonitorEvent_CommitmentTxConfirmed : MonitorEvent {
-		public OutPoint commitment_tx_confirmed;
-		internal MonitorEvent_CommitmentTxConfirmed(long ptr) : base(null, ptr) {
-			long commitment_tx_confirmed = bindings.LDKMonitorEvent_CommitmentTxConfirmed_get_commitment_tx_confirmed(ptr);
-			org.ldk.structs.OutPoint commitment_tx_confirmed_hu_conv = null; if (commitment_tx_confirmed < 0 || commitment_tx_confirmed > 4096) { commitment_tx_confirmed_hu_conv = new org.ldk.structs.OutPoint(null, commitment_tx_confirmed); }
-			if (commitment_tx_confirmed_hu_conv != null) { commitment_tx_confirmed_hu_conv.ptrs_to.AddLast(this); };
-			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
+	/** A MonitorEvent of type HolderForceClosed */
+	public class MonitorEvent_HolderForceClosed : MonitorEvent {
+		public OutPoint holder_force_closed;
+		internal MonitorEvent_HolderForceClosed(long ptr) : base(null, ptr) {
+			long holder_force_closed = bindings.LDKMonitorEvent_HolderForceClosed_get_holder_force_closed(ptr);
+			org.ldk.structs.OutPoint holder_force_closed_hu_conv = null; if (holder_force_closed < 0 || holder_force_closed > 4096) { holder_force_closed_hu_conv = new org.ldk.structs.OutPoint(null, holder_force_closed); }
+			if (holder_force_closed_hu_conv != null) { holder_force_closed_hu_conv.ptrs_to.AddLast(this); };
+			this.holder_force_closed = holder_force_closed_hu_conv;
 		}
 	}
 	/** A MonitorEvent of type Completed */
@@ -66,16 +65,6 @@ public class MonitorEvent : CommonBase {
 			if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.AddLast(this); };
 			this.funding_txo = funding_txo_hu_conv;
 			this.monitor_update_id = bindings.LDKMonitorEvent_Completed_get_monitor_update_id(ptr);
-		}
-	}
-	/** A MonitorEvent of type UpdateFailed */
-	public class MonitorEvent_UpdateFailed : MonitorEvent {
-		public OutPoint update_failed;
-		internal MonitorEvent_UpdateFailed(long ptr) : base(null, ptr) {
-			long update_failed = bindings.LDKMonitorEvent_UpdateFailed_get_update_failed(ptr);
-			org.ldk.structs.OutPoint update_failed_hu_conv = null; if (update_failed < 0 || update_failed > 4096) { update_failed_hu_conv = new org.ldk.structs.OutPoint(null, update_failed); }
-			if (update_failed_hu_conv != null) { update_failed_hu_conv.ptrs_to.AddLast(this); };
-			this.update_failed = update_failed_hu_conv;
 		}
 	}
 	internal long clone_ptr() {
@@ -110,10 +99,10 @@ public class MonitorEvent : CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
+	 * Utility method to constructs a new HolderForceClosed-variant MonitorEvent
 	 */
-	public static MonitorEvent commitment_tx_confirmed(org.ldk.structs.OutPoint a) {
-		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr);
+	public static MonitorEvent holder_force_closed(org.ldk.structs.OutPoint a) {
+		long ret = bindings.MonitorEvent_holder_force_closed(a == null ? 0 : a.ptr);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
@@ -137,19 +126,6 @@ public class MonitorEvent : CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
-	 */
-	public static MonitorEvent update_failed(org.ldk.structs.OutPoint a) {
-		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr);
-		GC.KeepAlive(a);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(a); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Checks if two MonitorEvents contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
@@ -168,9 +144,11 @@ public class MonitorEvent : CommonBase {
 	 * Serialize the MonitorEvent object into a byte array which can be read by MonitorEvent_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.MonitorEvent_write(this.ptr);
+		long ret = bindings.MonitorEvent_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

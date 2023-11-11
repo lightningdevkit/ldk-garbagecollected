@@ -82,8 +82,12 @@ public class Balance : CommonBase {
 		internal Balance_ContentiousClaimable(long ptr) : base(null, ptr) {
 			this.amount_satoshis = bindings.LDKBalance_ContentiousClaimable_get_amount_satoshis(ptr);
 			this.timeout_height = bindings.LDKBalance_ContentiousClaimable_get_timeout_height(ptr);
-			this.payment_hash = bindings.LDKBalance_ContentiousClaimable_get_payment_hash(ptr);
-			this.payment_preimage = bindings.LDKBalance_ContentiousClaimable_get_payment_preimage(ptr);
+			long payment_hash = bindings.LDKBalance_ContentiousClaimable_get_payment_hash(ptr);
+			byte[] payment_hash_conv = InternalUtils.decodeUint8Array(payment_hash);
+			this.payment_hash = payment_hash_conv;
+			long payment_preimage = bindings.LDKBalance_ContentiousClaimable_get_payment_preimage(ptr);
+			byte[] payment_preimage_conv = InternalUtils.decodeUint8Array(payment_preimage);
+			this.payment_preimage = payment_preimage_conv;
 		}
 	}
 	/** A Balance of type MaybeTimeoutClaimableHTLC */
@@ -105,7 +109,9 @@ public class Balance : CommonBase {
 		internal Balance_MaybeTimeoutClaimableHTLC(long ptr) : base(null, ptr) {
 			this.amount_satoshis = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_amount_satoshis(ptr);
 			this.claimable_height = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_claimable_height(ptr);
-			this.payment_hash = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_payment_hash(ptr);
+			long payment_hash = bindings.LDKBalance_MaybeTimeoutClaimableHTLC_get_payment_hash(ptr);
+			byte[] payment_hash_conv = InternalUtils.decodeUint8Array(payment_hash);
+			this.payment_hash = payment_hash_conv;
 		}
 	}
 	/** A Balance of type MaybePreimageClaimableHTLC */
@@ -127,7 +133,9 @@ public class Balance : CommonBase {
 		internal Balance_MaybePreimageClaimableHTLC(long ptr) : base(null, ptr) {
 			this.amount_satoshis = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_amount_satoshis(ptr);
 			this.expiry_height = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_expiry_height(ptr);
-			this.payment_hash = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_payment_hash(ptr);
+			long payment_hash = bindings.LDKBalance_MaybePreimageClaimableHTLC_get_payment_hash(ptr);
+			byte[] payment_hash_conv = InternalUtils.decodeUint8Array(payment_hash);
+			this.payment_hash = payment_hash_conv;
 		}
 	}
 	/** A Balance of type CounterpartyRevokedOutputClaimable */
@@ -190,7 +198,7 @@ public class Balance : CommonBase {
 	 * Utility method to constructs a new ContentiousClaimable-variant Balance
 	 */
 	public static Balance contentious_claimable(long amount_satoshis, int timeout_height, byte[] payment_hash, byte[] payment_preimage) {
-		long ret = bindings.Balance_contentious_claimable(amount_satoshis, timeout_height, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_preimage, 32));
+		long ret = bindings.Balance_contentious_claimable(amount_satoshis, timeout_height, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_preimage, 32)));
 		GC.KeepAlive(amount_satoshis);
 		GC.KeepAlive(timeout_height);
 		GC.KeepAlive(payment_hash);
@@ -205,7 +213,7 @@ public class Balance : CommonBase {
 	 * Utility method to constructs a new MaybeTimeoutClaimableHTLC-variant Balance
 	 */
 	public static Balance maybe_timeout_claimable_htlc(long amount_satoshis, int claimable_height, byte[] payment_hash) {
-		long ret = bindings.Balance_maybe_timeout_claimable_htlc(amount_satoshis, claimable_height, InternalUtils.check_arr_len(payment_hash, 32));
+		long ret = bindings.Balance_maybe_timeout_claimable_htlc(amount_satoshis, claimable_height, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)));
 		GC.KeepAlive(amount_satoshis);
 		GC.KeepAlive(claimable_height);
 		GC.KeepAlive(payment_hash);
@@ -219,7 +227,7 @@ public class Balance : CommonBase {
 	 * Utility method to constructs a new MaybePreimageClaimableHTLC-variant Balance
 	 */
 	public static Balance maybe_preimage_claimable_htlc(long amount_satoshis, int expiry_height, byte[] payment_hash) {
-		long ret = bindings.Balance_maybe_preimage_claimable_htlc(amount_satoshis, expiry_height, InternalUtils.check_arr_len(payment_hash, 32));
+		long ret = bindings.Balance_maybe_preimage_claimable_htlc(amount_satoshis, expiry_height, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)));
 		GC.KeepAlive(amount_satoshis);
 		GC.KeepAlive(expiry_height);
 		GC.KeepAlive(payment_hash);

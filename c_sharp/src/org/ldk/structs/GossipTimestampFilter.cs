@@ -23,16 +23,18 @@ public class GossipTimestampFilter : CommonBase {
 	 * The genesis hash of the blockchain for channel and node information
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
+		long ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain for channel and node information
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -77,7 +79,7 @@ public class GossipTimestampFilter : CommonBase {
 	 * Constructs a new GossipTimestampFilter given each field
 	 */
 	public static GossipTimestampFilter of(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
-		long ret = bindings.GossipTimestampFilter_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_timestamp_arg, timestamp_range_arg);
+		long ret = bindings.GossipTimestampFilter_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), first_timestamp_arg, timestamp_range_arg);
 		GC.KeepAlive(chain_hash_arg);
 		GC.KeepAlive(first_timestamp_arg);
 		GC.KeepAlive(timestamp_range_arg);
@@ -126,16 +128,18 @@ public class GossipTimestampFilter : CommonBase {
 	 * Serialize the GossipTimestampFilter object into a byte array which can be read by GossipTimestampFilter_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.GossipTimestampFilter_write(this.ptr);
+		long ret = bindings.GossipTimestampFilter_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a GossipTimestampFilter from a byte array, created by GossipTimestampFilter_write
 	 */
 	public static Result_GossipTimestampFilterDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.GossipTimestampFilter_read(ser);
+		long ret = bindings.GossipTimestampFilter_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);

@@ -49,7 +49,7 @@ public class InFlightHtlcs : CommonBase {
 	 * Takes in a path with payer's node id and adds the path's details to `InFlightHtlcs`.
 	 */
 	public void process_path(org.ldk.structs.Path path, byte[] payer_node_id) {
-		bindings.InFlightHtlcs_process_path(this.ptr, path == null ? 0 : path.ptr, InternalUtils.check_arr_len(payer_node_id, 33));
+		bindings.InFlightHtlcs_process_path(this.ptr, path == null ? 0 : path.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payer_node_id, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(payer_node_id);
@@ -93,16 +93,18 @@ public class InFlightHtlcs : CommonBase {
 	 * Serialize the InFlightHtlcs object into a byte array which can be read by InFlightHtlcs_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.InFlightHtlcs_write(this.ptr);
+		long ret = bindings.InFlightHtlcs_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a InFlightHtlcs from a byte array, created by InFlightHtlcs_write
 	 */
 	public static Result_InFlightHtlcsDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.InFlightHtlcs_read(ser);
+		long ret = bindings.InFlightHtlcs_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InFlightHtlcsDecodeErrorZ ret_hu_conv = Result_InFlightHtlcsDecodeErrorZ.constr_from_ptr(ret);

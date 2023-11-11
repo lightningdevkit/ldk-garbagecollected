@@ -44,12 +44,13 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
-	 * channel, in excess of the [`base_penalty_msat`].
+	 * A multiplier used with the total amount flowing over a channel to calculate a fixed penalty
+	 * applied to each channel, in excess of the [`base_penalty_msat`].
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
-	 * multiplier and `2^30`ths of the payment amount.
+	 * multiplier and `2^30`ths of the total amount flowing over a channel (i.e. the payment
+	 * amount plus the amount of any other HTLCs flowing we sent over the same channel).
 	 * 
 	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
 	 * 
@@ -64,12 +65,13 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used with the payment amount to calculate a fixed penalty applied to each
-	 * channel, in excess of the [`base_penalty_msat`].
+	 * A multiplier used with the total amount flowing over a channel to calculate a fixed penalty
+	 * applied to each channel, in excess of the [`base_penalty_msat`].
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
-	 * multiplier and `2^30`ths of the payment amount.
+	 * multiplier and `2^30`ths of the total amount flowing over a channel (i.e. the payment
+	 * amount plus the amount of any other HTLCs flowing we sent over the same channel).
 	 * 
 	 * ie `base_penalty_amount_multiplier_msat * amount_msat / 2^30`
 	 * 
@@ -132,14 +134,14 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
-	 * channel's success probability for the payment, as determined by our latest estimates of the
-	 * channel's liquidity, to determine the amount penalty.
+	 * A multiplier used in conjunction with the total amount flowing over a channel and the
+	 * negative `log10` of the channel's success probability for the payment, as determined by our
+	 * latest estimates of the channel's liquidity, to determine the amount penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
-	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
-	 * success probability.
+	 * multiplier and `2^20`ths of the amount flowing over this channel, weighted by the negative
+	 * `log10` of the success probability.
 	 * 
 	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
@@ -158,14 +160,14 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
-	 * channel's success probability for the payment, as determined by our latest estimates of the
-	 * channel's liquidity, to determine the amount penalty.
+	 * A multiplier used in conjunction with the total amount flowing over a channel and the
+	 * negative `log10` of the channel's success probability for the payment, as determined by our
+	 * latest estimates of the channel's liquidity, to determine the amount penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
 	 * fees plus penalty) for large payments. The penalty is computed as the product of this
-	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
-	 * success probability.
+	 * multiplier and `2^20`ths of the amount flowing over this channel, weighted by the negative
+	 * `log10` of the success probability.
 	 * 
 	 * `-log10(success_probability) * liquidity_penalty_amount_multiplier_msat * amount_msat / 2^20`
 	 * 
@@ -228,13 +230,15 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used in conjunction with the payment amount and the negative `log10` of the
-	 * channel's success probability for the payment, as determined based on the history of our
-	 * estimates of the channel's available liquidity, to determine a penalty.
+	 * A multiplier used in conjunction with the total amount flowing over a channel and the
+	 * negative `log10` of the channel's success probability for the payment, as determined based
+	 * on the history of our estimates of the channel's available liquidity, to determine a
+	 * penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost for
-	 * large payments. The penalty is computed as the product of this multiplier and the `2^20`ths
-	 * of the payment amount, weighted by the negative `log10` of the success probability.
+	 * large payments. The penalty is computed as the product of this multiplier and `2^20`ths
+	 * of the amount flowing over this channel, weighted by the negative `log10` of the success
+	 * probability.
 	 * 
 	 * This penalty is similar to [`liquidity_penalty_amount_multiplier_msat`], however, instead
 	 * of using only our latest estimate for the current liquidity available in the channel, it
@@ -254,13 +258,15 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * A multiplier used in conjunction with the payment amount and the negative `log10` of the
-	 * channel's success probability for the payment, as determined based on the history of our
-	 * estimates of the channel's available liquidity, to determine a penalty.
+	 * A multiplier used in conjunction with the total amount flowing over a channel and the
+	 * negative `log10` of the channel's success probability for the payment, as determined based
+	 * on the history of our estimates of the channel's available liquidity, to determine a
+	 * penalty.
 	 * 
 	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost for
-	 * large payments. The penalty is computed as the product of this multiplier and the `2^20`ths
-	 * of the payment amount, weighted by the negative `log10` of the success probability.
+	 * large payments. The penalty is computed as the product of this multiplier and `2^20`ths
+	 * of the amount flowing over this channel, weighted by the negative `log10` of the success
+	 * probability.
 	 * 
 	 * This penalty is similar to [`liquidity_penalty_amount_multiplier_msat`], however, instead
 	 * of using only our latest estimate for the current liquidity available in the channel, it
@@ -310,8 +316,9 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
-	 * current estimate of the channel's available liquidity.
+	 * This penalty is applied when the total amount flowing over a channel exceeds our current
+	 * estimate of the channel's available liquidity. The total amount is the amount of the
+	 * current HTLC plus any HTLCs which we've sent over the same channel.
 	 * 
 	 * Note that in this case all other penalties, including the
 	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
@@ -335,8 +342,9 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	}
 
 	/**
-	 * This penalty is applied when the amount we're attempting to send over a channel exceeds our
-	 * current estimate of the channel's available liquidity.
+	 * This penalty is applied when the total amount flowing over a channel exceeds our current
+	 * estimate of the channel's available liquidity. The total amount is the amount of the
+	 * current HTLC plus any HTLCs which we've sent over the same channel.
 	 * 
 	 * Note that in this case all other penalties, including the
 	 * [`liquidity_penalty_multiplier_msat`] and [`liquidity_penalty_amount_multiplier_msat`]-based
@@ -355,6 +363,62 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	 */
 	public void set_considered_impossible_penalty_msat(long val) {
 		bindings.ProbabilisticScoringFeeParameters_set_considered_impossible_penalty_msat(this.ptr, val);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * In order to calculate most of the scores above, we must first convert a lower and upper
+	 * bound on the available liquidity in a channel into the probability that we think a payment
+	 * will succeed. That probability is derived from a Probability Density Function for where we
+	 * think the liquidity in a channel likely lies, given such bounds.
+	 * 
+	 * If this flag is set, that PDF is simply a constant - we assume that the actual available
+	 * liquidity in a channel is just as likely to be at any point between our lower and upper
+	 * bounds.
+	 * 
+	 * If this flag is *not* set, that PDF is `(x - 0.5*capacity) ^ 2`. That is, we use an
+	 * exponential curve which expects the liquidity of a channel to lie \"at the edges\". This
+	 * matches experimental results - most routing nodes do not aggressively rebalance their
+	 * channels and flows in the network are often unbalanced, leaving liquidity usually
+	 * unavailable.
+	 * 
+	 * Thus, for the \"best\" routes, leave this flag `false`. However, the flag does imply a number
+	 * of floating-point multiplications in the hottest routing code, which may lead to routing
+	 * performance degradation on some machines.
+	 * 
+	 * Default value: false
+	 */
+	public bool get_linear_success_probability() {
+		bool ret = bindings.ProbabilisticScoringFeeParameters_get_linear_success_probability(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * In order to calculate most of the scores above, we must first convert a lower and upper
+	 * bound on the available liquidity in a channel into the probability that we think a payment
+	 * will succeed. That probability is derived from a Probability Density Function for where we
+	 * think the liquidity in a channel likely lies, given such bounds.
+	 * 
+	 * If this flag is set, that PDF is simply a constant - we assume that the actual available
+	 * liquidity in a channel is just as likely to be at any point between our lower and upper
+	 * bounds.
+	 * 
+	 * If this flag is *not* set, that PDF is `(x - 0.5*capacity) ^ 2`. That is, we use an
+	 * exponential curve which expects the liquidity of a channel to lie \"at the edges\". This
+	 * matches experimental results - most routing nodes do not aggressively rebalance their
+	 * channels and flows in the network are often unbalanced, leaving liquidity usually
+	 * unavailable.
+	 * 
+	 * Thus, for the \"best\" routes, leave this flag `false`. However, the flag does imply a number
+	 * of floating-point multiplications in the hottest routing code, which may lead to routing
+	 * performance degradation on some machines.
+	 * 
+	 * Default value: false
+	 */
+	public void set_linear_success_probability(bool val) {
+		bindings.ProbabilisticScoringFeeParameters_set_linear_success_probability(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -404,7 +468,7 @@ public class ProbabilisticScoringFeeParameters : CommonBase {
 	 * they will be avoided during path finding.
 	 */
 	public void add_banned_from_list(NodeId[] node_ids) {
-		bindings.ProbabilisticScoringFeeParameters_add_banned_from_list(this.ptr, node_ids != null ? InternalUtils.mapArray(node_ids, node_ids_conv_8 => node_ids_conv_8 == null ? 0 : node_ids_conv_8.ptr) : null);
+		bindings.ProbabilisticScoringFeeParameters_add_banned_from_list(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(node_ids, node_ids_conv_8 => node_ids_conv_8 == null ? 0 : node_ids_conv_8.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(node_ids);
 		foreach (NodeId node_ids_conv_8 in node_ids) { if (this != null) { this.ptrs_to.AddLast(node_ids_conv_8); }; };

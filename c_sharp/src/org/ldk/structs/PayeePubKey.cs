@@ -16,13 +16,15 @@ public class PayeePubKey : CommonBase {
 	}
 
 	public byte[] get_a() {
-		byte[] ret = bindings.PayeePubKey_get_a(this.ptr);
+		long ret = bindings.PayeePubKey_get_a(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public void set_a(byte[] val) {
-		bindings.PayeePubKey_set_a(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.PayeePubKey_set_a(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -31,7 +33,7 @@ public class PayeePubKey : CommonBase {
 	 * Constructs a new PayeePubKey given each field
 	 */
 	public static PayeePubKey of(byte[] a_arg) {
-		long ret = bindings.PayeePubKey_new(InternalUtils.check_arr_len(a_arg, 33));
+		long ret = bindings.PayeePubKey_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a_arg, 33)));
 		GC.KeepAlive(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PayeePubKey(null, ret); }

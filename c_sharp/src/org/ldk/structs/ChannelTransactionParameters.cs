@@ -159,6 +159,9 @@ public class ChannelTransactionParameters : CommonBase {
 
 	/**
 	 * Constructs a new ChannelTransactionParameters given each field
+	 * 
+	 * Note that counterparty_parameters_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that funding_outpoint_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static ChannelTransactionParameters of(org.ldk.structs.ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, bool is_outbound_from_holder_arg, org.ldk.structs.CounterpartyChannelTransactionParameters counterparty_parameters_arg, org.ldk.structs.OutPoint funding_outpoint_arg, org.ldk.structs.ChannelTypeFeatures channel_type_features_arg) {
 		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr, channel_type_features_arg == null ? 0 : channel_type_features_arg.ptr);
@@ -196,6 +199,18 @@ public class ChannelTransactionParameters : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Generates a non-cryptographic 64-bit hash of the ChannelTransactionParameters.
+	 */
+	public long hash() {
+		long ret = bindings.ChannelTransactionParameters_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two ChannelTransactionParameterss contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
@@ -256,16 +271,18 @@ public class ChannelTransactionParameters : CommonBase {
 	 * Serialize the ChannelTransactionParameters object into a byte array which can be read by ChannelTransactionParameters_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelTransactionParameters_write(this.ptr);
+		long ret = bindings.ChannelTransactionParameters_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelTransactionParameters from a byte array, created by ChannelTransactionParameters_write
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelTransactionParameters_read(ser);
+		long ret = bindings.ChannelTransactionParameters_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);

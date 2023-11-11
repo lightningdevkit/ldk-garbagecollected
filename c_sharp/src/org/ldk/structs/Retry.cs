@@ -26,7 +26,7 @@ public class Retry : CommonBase {
 
 	/** A Retry of type Attempts */
 	public class Retry_Attempts : Retry {
-		public long attempts;
+		public int attempts;
 		internal Retry_Attempts(long ptr) : base(null, ptr) {
 			this.attempts = bindings.LDKRetry_Attempts_get_attempts(ptr);
 		}
@@ -59,7 +59,7 @@ public class Retry : CommonBase {
 	/**
 	 * Utility method to constructs a new Attempts-variant Retry
 	 */
-	public static Retry attempts(long a) {
+	public static Retry attempts(int a) {
 		long ret = bindings.Retry_attempts(a);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -107,5 +107,27 @@ public class Retry : CommonBase {
 	public override int GetHashCode() {
 		return (int)this.hash();
 	}
+	/**
+	 * Serialize the Retry object into a byte array which can be read by Retry_read
+	 */
+	public byte[] write() {
+		long ret = bindings.Retry_write(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a Retry from a byte array, created by Retry_write
+	 */
+	public static Result_RetryDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Retry_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RetryDecodeErrorZ ret_hu_conv = Result_RetryDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }
 } } }

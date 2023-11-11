@@ -5,6 +5,10 @@ target
 __pycache__
 src/main/java/org/ldk/impl/version.java
 src/main/jni/version.c
+**/*.class
 ts/version.ts
 ts/version.c
-**/*.class
+c_sharp/src/org/ldk/impl/version.cs
+c_sharp/version.c
+c_sharp/packaging_artifacts/runtimes/
+c_sharp/packaging_artifacts/lib/

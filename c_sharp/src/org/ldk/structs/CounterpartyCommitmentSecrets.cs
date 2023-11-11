@@ -63,7 +63,7 @@ public class CounterpartyCommitmentSecrets : CommonBase {
 	 * was generated in accordance with BOLT 3 and is consistent with previous secrets.
 	 */
 	public Result_NoneNoneZ provide_secret(long idx, byte[] secret) {
-		long ret = bindings.CounterpartyCommitmentSecrets_provide_secret(this.ptr, idx, InternalUtils.check_arr_len(secret, 32));
+		long ret = bindings.CounterpartyCommitmentSecrets_provide_secret(this.ptr, idx, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(secret, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(idx);
 		GC.KeepAlive(secret);
@@ -79,26 +79,30 @@ public class CounterpartyCommitmentSecrets : CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public byte[] get_secret(long idx) {
-		byte[] ret = bindings.CounterpartyCommitmentSecrets_get_secret(this.ptr, idx);
+		long ret = bindings.CounterpartyCommitmentSecrets_get_secret(this.ptr, idx);
 		GC.KeepAlive(this);
 		GC.KeepAlive(idx);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Serialize the CounterpartyCommitmentSecrets object into a byte array which can be read by CounterpartyCommitmentSecrets_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.CounterpartyCommitmentSecrets_write(this.ptr);
+		long ret = bindings.CounterpartyCommitmentSecrets_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a CounterpartyCommitmentSecrets from a byte array, created by CounterpartyCommitmentSecrets_write
 	 */
 	public static Result_CounterpartyCommitmentSecretsDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.CounterpartyCommitmentSecrets_read(ser);
+		long ret = bindings.CounterpartyCommitmentSecrets_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CounterpartyCommitmentSecretsDecodeErrorZ ret_hu_conv = Result_CounterpartyCommitmentSecretsDecodeErrorZ.constr_from_ptr(ret);

@@ -19,16 +19,18 @@ public class TxRemoveOutput : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.TxRemoveOutput_get_channel_id(this.ptr);
+		long ret = bindings.TxRemoveOutput_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.TxRemoveOutput_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.TxRemoveOutput_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -55,7 +57,7 @@ public class TxRemoveOutput : CommonBase {
 	 * Constructs a new TxRemoveOutput given each field
 	 */
 	public static TxRemoveOutput of(byte[] channel_id_arg, long serial_id_arg) {
-		long ret = bindings.TxRemoveOutput_new(InternalUtils.check_arr_len(channel_id_arg, 32), serial_id_arg);
+		long ret = bindings.TxRemoveOutput_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), serial_id_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(serial_id_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -103,16 +105,18 @@ public class TxRemoveOutput : CommonBase {
 	 * Serialize the TxRemoveOutput object into a byte array which can be read by TxRemoveOutput_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.TxRemoveOutput_write(this.ptr);
+		long ret = bindings.TxRemoveOutput_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a TxRemoveOutput from a byte array, created by TxRemoveOutput_write
 	 */
 	public static Result_TxRemoveOutputDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.TxRemoveOutput_read(ser);
+		long ret = bindings.TxRemoveOutput_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxRemoveOutputDecodeErrorZ ret_hu_conv = Result_TxRemoveOutputDecodeErrorZ.constr_from_ptr(ret);

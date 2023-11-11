@@ -31,16 +31,18 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ : CommonBase {
 	 * 
 	 */
 	public MonitorEvent[] get_b() {
-		long[] ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_b(this.ptr);
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_b(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_14_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_14_len = InternalUtils.getArrayLength(ret);
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
-			long ret_conv_14 = ret[o];
+			long ret_conv_14 = InternalUtils.getU64ArrayElem(ret, o);
 			org.ldk.structs.MonitorEvent ret_conv_14_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret_conv_14);
 			if (ret_conv_14_hu_conv != null) { ret_conv_14_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_14_arr;
 	}
 
@@ -48,9 +50,11 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ : CommonBase {
 	 * 
 	 */
 	public byte[] get_c() {
-		byte[] ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_c(this.ptr);
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_get_c(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	internal long clone_ptr() {
@@ -76,7 +80,7 @@ public class ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ : CommonBase {
 	 * Creates a new C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ from the contained elements.
 	 */
 	public static ThreeTuple_OutPointCVec_MonitorEventZPublicKeyZ of(org.ldk.structs.OutPoint a, MonitorEvent[] b, byte[] c) {
-		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(a == null ? 0 : a.ptr, b != null ? InternalUtils.mapArray(b, b_conv_14 => b_conv_14.ptr) : null, InternalUtils.check_arr_len(c, 33));
+		long ret = bindings.C3Tuple_OutPointCVec_MonitorEventZPublicKeyZ_new(a == null ? 0 : a.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(b, b_conv_14 => b_conv_14.ptr)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(c, 33)));
 		GC.KeepAlive(a);
 		GC.KeepAlive(b);
 		GC.KeepAlive(c);

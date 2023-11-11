@@ -106,16 +106,18 @@ public class ChannelMonitorUpdate : CommonBase {
 	 * Serialize the ChannelMonitorUpdate object into a byte array which can be read by ChannelMonitorUpdate_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelMonitorUpdate_write(this.ptr);
+		long ret = bindings.ChannelMonitorUpdate_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelMonitorUpdate from a byte array, created by ChannelMonitorUpdate_write
 	 */
 	public static Result_ChannelMonitorUpdateDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelMonitorUpdate_read(ser);
+		long ret = bindings.ChannelMonitorUpdate_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);

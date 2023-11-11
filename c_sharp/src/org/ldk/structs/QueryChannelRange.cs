@@ -24,16 +24,18 @@ public class QueryChannelRange : CommonBase {
 	 * The genesis hash of the blockchain being queried
 	 */
 	public byte[] get_chain_hash() {
-		byte[] ret = bindings.QueryChannelRange_get_chain_hash(this.ptr);
+		long ret = bindings.QueryChannelRange_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The genesis hash of the blockchain being queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.QueryChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.QueryChannelRange_set_chain_hash(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -78,7 +80,7 @@ public class QueryChannelRange : CommonBase {
 	 * Constructs a new QueryChannelRange given each field
 	 */
 	public static QueryChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
-		long ret = bindings.QueryChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg);
+		long ret = bindings.QueryChannelRange_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg);
 		GC.KeepAlive(chain_hash_arg);
 		GC.KeepAlive(first_blocknum_arg);
 		GC.KeepAlive(number_of_blocks_arg);
@@ -138,16 +140,18 @@ public class QueryChannelRange : CommonBase {
 	 * Serialize the QueryChannelRange object into a byte array which can be read by QueryChannelRange_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.QueryChannelRange_write(this.ptr);
+		long ret = bindings.QueryChannelRange_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
 	 */
 	public static Result_QueryChannelRangeDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.QueryChannelRange_read(ser);
+		long ret = bindings.QueryChannelRange_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);

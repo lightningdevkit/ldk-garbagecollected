@@ -67,7 +67,7 @@ public class BestBlock : CommonBase {
 	 * Returns a `BestBlock` as identified by the given block hash and height.
 	 */
 	public static BestBlock of(byte[] block_hash, int height) {
-		long ret = bindings.BestBlock_new(InternalUtils.check_arr_len(block_hash, 32), height);
+		long ret = bindings.BestBlock_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(block_hash, 32)), height);
 		GC.KeepAlive(block_hash);
 		GC.KeepAlive(height);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -80,9 +80,11 @@ public class BestBlock : CommonBase {
 	 * Returns the best block hash.
 	 */
 	public byte[] block_hash() {
-		byte[] ret = bindings.BestBlock_block_hash(this.ptr);
+		long ret = bindings.BestBlock_block_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**

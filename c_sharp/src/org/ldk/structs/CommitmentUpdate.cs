@@ -20,16 +20,18 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_add_htlc` messages which should be sent
 	 */
 	public UpdateAddHTLC[] get_update_add_htlcs() {
-		long[] ret = bindings.CommitmentUpdate_get_update_add_htlcs(this.ptr);
+		long ret = bindings.CommitmentUpdate_get_update_add_htlcs(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_15_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_15_len = InternalUtils.getArrayLength(ret);
 		UpdateAddHTLC[] ret_conv_15_arr = new UpdateAddHTLC[ret_conv_15_len];
 		for (int p = 0; p < ret_conv_15_len; p++) {
-			long ret_conv_15 = ret[p];
+			long ret_conv_15 = InternalUtils.getU64ArrayElem(ret, p);
 			org.ldk.structs.UpdateAddHTLC ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new org.ldk.structs.UpdateAddHTLC(null, ret_conv_15); }
 			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_15_arr;
 	}
 
@@ -37,7 +39,7 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_add_htlc` messages which should be sent
 	 */
 	public void set_update_add_htlcs(UpdateAddHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_15 => val_conv_15 == null ? 0 : val_conv_15.ptr) : null);
+		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_15 => val_conv_15 == null ? 0 : val_conv_15.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (UpdateAddHTLC val_conv_15 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_15); }; };
@@ -47,16 +49,18 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fulfill_htlc` messages which should be sent
 	 */
 	public UpdateFulfillHTLC[] get_update_fulfill_htlcs() {
-		long[] ret = bindings.CommitmentUpdate_get_update_fulfill_htlcs(this.ptr);
+		long ret = bindings.CommitmentUpdate_get_update_fulfill_htlcs(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_19_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_19_len = InternalUtils.getArrayLength(ret);
 		UpdateFulfillHTLC[] ret_conv_19_arr = new UpdateFulfillHTLC[ret_conv_19_len];
 		for (int t = 0; t < ret_conv_19_len; t++) {
-			long ret_conv_19 = ret[t];
+			long ret_conv_19 = InternalUtils.getU64ArrayElem(ret, t);
 			org.ldk.structs.UpdateFulfillHTLC ret_conv_19_hu_conv = null; if (ret_conv_19 < 0 || ret_conv_19 > 4096) { ret_conv_19_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, ret_conv_19); }
 			if (ret_conv_19_hu_conv != null) { ret_conv_19_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_19_arr[t] = ret_conv_19_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_19_arr;
 	}
 
@@ -64,7 +68,7 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fulfill_htlc` messages which should be sent
 	 */
 	public void set_update_fulfill_htlcs(UpdateFulfillHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_19 => val_conv_19 == null ? 0 : val_conv_19.ptr) : null);
+		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_19 => val_conv_19 == null ? 0 : val_conv_19.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (UpdateFulfillHTLC val_conv_19 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_19); }; };
@@ -74,16 +78,18 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fail_htlc` messages which should be sent
 	 */
 	public UpdateFailHTLC[] get_update_fail_htlcs() {
-		long[] ret = bindings.CommitmentUpdate_get_update_fail_htlcs(this.ptr);
+		long ret = bindings.CommitmentUpdate_get_update_fail_htlcs(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_16_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_16_len = InternalUtils.getArrayLength(ret);
 		UpdateFailHTLC[] ret_conv_16_arr = new UpdateFailHTLC[ret_conv_16_len];
 		for (int q = 0; q < ret_conv_16_len; q++) {
-			long ret_conv_16 = ret[q];
+			long ret_conv_16 = InternalUtils.getU64ArrayElem(ret, q);
 			org.ldk.structs.UpdateFailHTLC ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new org.ldk.structs.UpdateFailHTLC(null, ret_conv_16); }
 			if (ret_conv_16_hu_conv != null) { ret_conv_16_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_16_arr;
 	}
 
@@ -91,7 +97,7 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fail_htlc` messages which should be sent
 	 */
 	public void set_update_fail_htlcs(UpdateFailHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_16 => val_conv_16 == null ? 0 : val_conv_16.ptr) : null);
+		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_16 => val_conv_16 == null ? 0 : val_conv_16.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (UpdateFailHTLC val_conv_16 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_16); }; };
@@ -101,16 +107,18 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fail_malformed_htlc` messages which should be sent
 	 */
 	public UpdateFailMalformedHTLC[] get_update_fail_malformed_htlcs() {
-		long[] ret = bindings.CommitmentUpdate_get_update_fail_malformed_htlcs(this.ptr);
+		long ret = bindings.CommitmentUpdate_get_update_fail_malformed_htlcs(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_25_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_25_len = InternalUtils.getArrayLength(ret);
 		UpdateFailMalformedHTLC[] ret_conv_25_arr = new UpdateFailMalformedHTLC[ret_conv_25_len];
 		for (int z = 0; z < ret_conv_25_len; z++) {
-			long ret_conv_25 = ret[z];
+			long ret_conv_25 = InternalUtils.getU64ArrayElem(ret, z);
 			org.ldk.structs.UpdateFailMalformedHTLC ret_conv_25_hu_conv = null; if (ret_conv_25 < 0 || ret_conv_25 > 4096) { ret_conv_25_hu_conv = new org.ldk.structs.UpdateFailMalformedHTLC(null, ret_conv_25); }
 			if (ret_conv_25_hu_conv != null) { ret_conv_25_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_25_arr;
 	}
 
@@ -118,7 +126,7 @@ public class CommitmentUpdate : CommonBase {
 	 * `update_fail_malformed_htlc` messages which should be sent
 	 */
 	public void set_update_fail_malformed_htlcs(UpdateFailMalformedHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_25 => val_conv_25 == null ? 0 : val_conv_25.ptr) : null);
+		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_25 => val_conv_25 == null ? 0 : val_conv_25.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (UpdateFailMalformedHTLC val_conv_25 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_25); }; };
@@ -174,9 +182,11 @@ public class CommitmentUpdate : CommonBase {
 
 	/**
 	 * Constructs a new CommitmentUpdate given each field
+	 * 
+	 * Note that update_fee_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, org.ldk.structs.UpdateFee update_fee_arg, org.ldk.structs.CommitmentSigned commitment_signed_arg) {
-		long ret = bindings.CommitmentUpdate_new(update_add_htlcs_arg != null ? InternalUtils.mapArray(update_add_htlcs_arg, update_add_htlcs_arg_conv_15 => update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr) : null, update_fulfill_htlcs_arg != null ? InternalUtils.mapArray(update_fulfill_htlcs_arg, update_fulfill_htlcs_arg_conv_19 => update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr) : null, update_fail_htlcs_arg != null ? InternalUtils.mapArray(update_fail_htlcs_arg, update_fail_htlcs_arg_conv_16 => update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr) : null, update_fail_malformed_htlcs_arg != null ? InternalUtils.mapArray(update_fail_malformed_htlcs_arg, update_fail_malformed_htlcs_arg_conv_25 => update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr) : null, update_fee_arg == null ? 0 : update_fee_arg.ptr, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr);
+		long ret = bindings.CommitmentUpdate_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(update_add_htlcs_arg, update_add_htlcs_arg_conv_15 => update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(update_fulfill_htlcs_arg, update_fulfill_htlcs_arg_conv_19 => update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(update_fail_htlcs_arg, update_fail_htlcs_arg_conv_16 => update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(update_fail_malformed_htlcs_arg, update_fail_malformed_htlcs_arg_conv_25 => update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr)), update_fee_arg == null ? 0 : update_fee_arg.ptr, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr);
 		GC.KeepAlive(update_add_htlcs_arg);
 		GC.KeepAlive(update_fulfill_htlcs_arg);
 		GC.KeepAlive(update_fail_htlcs_arg);

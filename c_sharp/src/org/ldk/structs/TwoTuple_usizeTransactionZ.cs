@@ -28,9 +28,11 @@ public class TwoTuple_usizeTransactionZ : CommonBase {
 	 * 
 	 */
 	public byte[] get_b() {
-		byte[] ret = bindings.C2Tuple_usizeTransactionZ_get_b(this.ptr);
+		long ret = bindings.C2Tuple_usizeTransactionZ_get_b(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	internal long clone_ptr() {
@@ -56,7 +58,7 @@ public class TwoTuple_usizeTransactionZ : CommonBase {
 	 * Creates a new C2Tuple_usizeTransactionZ from the contained elements.
 	 */
 	public static TwoTuple_usizeTransactionZ of(long a, byte[] b) {
-		long ret = bindings.C2Tuple_usizeTransactionZ_new(a, b);
+		long ret = bindings.C2Tuple_usizeTransactionZ_new(a, InternalUtils.encodeUint8Array(b));
 		GC.KeepAlive(a);
 		GC.KeepAlive(b);
 		if (ret >= 0 && ret <= 4096) { return null; }

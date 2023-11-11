@@ -58,6 +58,11 @@ well to implement the required network handling to bridge the `lightningdevkit` 
 `SocketDescriptor` interface to Node.JS TCP Sockets. For those wishing to run a lightning node in
 the browser you will need to provide your own bridge from `SocketDescriptor` to a WebSocket proxy.
 
+# C#
+
+The C# bindings are functionally complete, but should be considered alpha quality. They are brand
+new and likely contain bugs or memory leaks.
+
 ## General
 
 The only known issue resulting in a use-after-free bug requires custom a custom ChannelKeys instance

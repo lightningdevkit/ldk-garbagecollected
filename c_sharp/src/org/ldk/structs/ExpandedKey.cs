@@ -24,7 +24,7 @@ public class ExpandedKey : CommonBase {
 	 * It is recommended to cache this value and not regenerate it for each new inbound payment.
 	 */
 	public static ExpandedKey of(byte[] key_material) {
-		long ret = bindings.ExpandedKey_new(InternalUtils.check_arr_len(key_material, 32));
+		long ret = bindings.ExpandedKey_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(key_material, 32)));
 		GC.KeepAlive(key_material);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ExpandedKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ExpandedKey(null, ret); }

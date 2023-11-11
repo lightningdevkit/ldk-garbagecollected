@@ -21,15 +21,16 @@ public class Result_CVec_UtxoZNoneZ : CommonBase {
 	public class Result_CVec_UtxoZNoneZ_OK : Result_CVec_UtxoZNoneZ {
 		public readonly Utxo[] res;
 		internal Result_CVec_UtxoZNoneZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			long[] res = bindings.CResult_CVec_UtxoZNoneZ_get_ok(ptr);
-			int res_conv_6_len = res.Length;
+			long res = bindings.CResult_CVec_UtxoZNoneZ_get_ok(ptr);
+			int res_conv_6_len = InternalUtils.getArrayLength(res);
 			Utxo[] res_conv_6_arr = new Utxo[res_conv_6_len];
 			for (int g = 0; g < res_conv_6_len; g++) {
-				long res_conv_6 = res[g];
+				long res_conv_6 = InternalUtils.getU64ArrayElem(res, g);
 				org.ldk.structs.Utxo res_conv_6_hu_conv = null; if (res_conv_6 < 0 || res_conv_6 > 4096) { res_conv_6_hu_conv = new org.ldk.structs.Utxo(null, res_conv_6); }
 				if (res_conv_6_hu_conv != null) { res_conv_6_hu_conv.ptrs_to.AddLast(this); };
 				res_conv_6_arr[g] = res_conv_6_hu_conv;
 			}
+			bindings.free_buffer(res);
 			this.res = res_conv_6_arr;
 		}
 	}
@@ -43,7 +44,7 @@ public class Result_CVec_UtxoZNoneZ : CommonBase {
 	 * Creates a new CResult_CVec_UtxoZNoneZ in the success state.
 	 */
 	public static Result_CVec_UtxoZNoneZ ok(Utxo[] o) {
-		long ret = bindings.CResult_CVec_UtxoZNoneZ_ok(o != null ? InternalUtils.mapArray(o, o_conv_6 => o_conv_6 == null ? 0 : o_conv_6.ptr) : null);
+		long ret = bindings.CResult_CVec_UtxoZNoneZ_ok(InternalUtils.encodeUint64Array(InternalUtils.mapArray(o, o_conv_6 => o_conv_6 == null ? 0 : o_conv_6.ptr)));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_UtxoZNoneZ ret_hu_conv = Result_CVec_UtxoZNoneZ.constr_from_ptr(ret);

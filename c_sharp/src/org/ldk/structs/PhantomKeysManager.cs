@@ -82,7 +82,7 @@ public class PhantomKeysManager : CommonBase {
 	 * [phantom node payments]: PhantomKeysManager
 	 */
 	public static PhantomKeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed) {
-		long ret = bindings.PhantomKeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos, InternalUtils.check_arr_len(cross_node_seed, 32));
+		long ret = bindings.PhantomKeysManager_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(cross_node_seed, 32)));
 		GC.KeepAlive(seed);
 		GC.KeepAlive(starting_time_secs);
 		GC.KeepAlive(starting_time_nanos);
@@ -96,8 +96,8 @@ public class PhantomKeysManager : CommonBase {
 	/**
 	 * See [`KeysManager::spend_spendable_outputs`] for documentation on this method.
 	 */
-	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_PackedLockTimeZ locktime) {
-		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? InternalUtils.mapArray(descriptors, descriptors_conv_27 => descriptors_conv_27.ptr) : null, outputs != null ? InternalUtils.mapArray(outputs, outputs_conv_7 => outputs_conv_7.ptr) : null, change_destination_script, feerate_sat_per_1000_weight, locktime.ptr);
+	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_u32Z locktime) {
+		long ret = bindings.PhantomKeysManager_spend_spendable_outputs(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(descriptors, descriptors_conv_27 => descriptors_conv_27.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(outputs, outputs_conv_7 => outputs_conv_7.ptr)), InternalUtils.encodeUint8Array(change_destination_script), feerate_sat_per_1000_weight, locktime.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(descriptors);
 		GC.KeepAlive(outputs);
@@ -115,7 +115,7 @@ public class PhantomKeysManager : CommonBase {
 	 * See [`KeysManager::derive_channel_keys`] for documentation on this method.
 	 */
 	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] _params) {
-		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(_params, 32));
+		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(_params, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(_params);
@@ -129,9 +129,11 @@ public class PhantomKeysManager : CommonBase {
 	 * Gets the \"node_id\" secret key used to sign gossip announcements, decode onion data, etc.
 	 */
 	public byte[] get_node_secret_key() {
-		byte[] ret = bindings.PhantomKeysManager_get_node_secret_key(this.ptr);
+		long ret = bindings.PhantomKeysManager_get_node_secret_key(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -139,9 +141,11 @@ public class PhantomKeysManager : CommonBase {
 	 * last-hop onion data, etc.
 	 */
 	public byte[] get_phantom_node_secret_key() {
-		byte[] ret = bindings.PhantomKeysManager_get_phantom_node_secret_key(this.ptr);
+		long ret = bindings.PhantomKeysManager_get_phantom_node_secret_key(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

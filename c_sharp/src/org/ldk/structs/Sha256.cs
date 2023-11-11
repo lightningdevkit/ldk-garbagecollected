@@ -67,7 +67,7 @@ public class Sha256 : CommonBase {
 	 * single sha256 hash.
 	 */
 	public static Sha256 from_bytes(byte[] bytes) {
-		long ret = bindings.Sha256_from_bytes(InternalUtils.check_arr_len(bytes, 32));
+		long ret = bindings.Sha256_from_bytes(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(bytes, 32)));
 		GC.KeepAlive(bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Sha256 ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Sha256(null, ret); }

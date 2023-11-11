@@ -48,7 +48,7 @@ public class Sleeper : CommonBase {
 	 * Constructs a new sleeper on many futures, allowing blocking on all at once.
 	 */
 	public static Sleeper of(Future[] futures) {
-		long ret = bindings.Sleeper_new(futures != null ? InternalUtils.mapArray(futures, futures_conv_8 => futures_conv_8 == null ? 0 : futures_conv_8.ptr) : null);
+		long ret = bindings.Sleeper_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(futures, futures_conv_8 => futures_conv_8 == null ? 0 : futures_conv_8.ptr)));
 		GC.KeepAlive(futures);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Sleeper ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Sleeper(null, ret); }

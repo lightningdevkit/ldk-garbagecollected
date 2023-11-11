@@ -19,7 +19,7 @@ public class DefaultRouter : CommonBase {
 	 * Creates a new router.
 	 */
 	public static DefaultRouter of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes, org.ldk.structs.LockableScore scorer, org.ldk.structs.ProbabilisticScoringFeeParameters score_params) {
-		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32), scorer.ptr, score_params == null ? 0 : score_params.ptr);
+		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr, logger.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(random_seed_bytes, 32)), scorer.ptr, score_params == null ? 0 : score_params.ptr);
 		GC.KeepAlive(network_graph);
 		GC.KeepAlive(logger);
 		GC.KeepAlive(random_seed_bytes);

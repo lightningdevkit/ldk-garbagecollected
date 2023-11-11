@@ -21,16 +21,18 @@ public class ChannelReady : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.ChannelReady_get_channel_id(this.ptr);
+		long ret = bindings.ChannelReady_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ChannelReady_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelReady_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -39,16 +41,18 @@ public class ChannelReady : CommonBase {
 	 * The per-commitment point of the second commitment transaction
 	 */
 	public byte[] get_next_per_commitment_point() {
-		byte[] ret = bindings.ChannelReady_get_next_per_commitment_point(this.ptr);
+		long ret = bindings.ChannelReady_get_next_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The per-commitment point of the second commitment transaction
 	 */
 	public void set_next_per_commitment_point(byte[] val) {
-		bindings.ChannelReady_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelReady_set_next_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -85,7 +89,7 @@ public class ChannelReady : CommonBase {
 	 * Constructs a new ChannelReady given each field
 	 */
 	public static ChannelReady of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, org.ldk.structs.Option_u64Z short_channel_id_alias_arg) {
-		long ret = bindings.ChannelReady_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33), short_channel_id_alias_arg.ptr);
+		long ret = bindings.ChannelReady_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(next_per_commitment_point_arg, 33)), short_channel_id_alias_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(next_per_commitment_point_arg);
 		GC.KeepAlive(short_channel_id_alias_arg);
@@ -135,16 +139,18 @@ public class ChannelReady : CommonBase {
 	 * Serialize the ChannelReady object into a byte array which can be read by ChannelReady_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelReady_write(this.ptr);
+		long ret = bindings.ChannelReady_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelReady from a byte array, created by ChannelReady_write
 	 */
 	public static Result_ChannelReadyDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelReady_read(ser);
+		long ret = bindings.ChannelReady_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelReadyDecodeErrorZ ret_hu_conv = Result_ChannelReadyDecodeErrorZ.constr_from_ptr(ret);

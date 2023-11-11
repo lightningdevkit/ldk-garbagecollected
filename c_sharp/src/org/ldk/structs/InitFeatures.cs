@@ -83,6 +83,42 @@ public class InitFeatures : CommonBase {
 	}
 
 	/**
+	 * Sets a required feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Required bits are even. If an odd bit is given, then the corresponding even bit will
+	 * be set instead (i.e., `bit - 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_required_feature_bit(long bit) {
+		long ret = bindings.InitFeatures_set_required_feature_bit(this.ptr, bit);
+		GC.KeepAlive(this);
+		GC.KeepAlive(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets an optional feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Optional bits are odd. If an even bit is given, then the corresponding odd bit will be
+	 * set instead (i.e., `bit + 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_optional_feature_bit(long bit) {
+		long ret = bindings.InitFeatures_set_optional_feature_bit(this.ptr, bit);
+		GC.KeepAlive(this);
+		GC.KeepAlive(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Sets a required custom feature bit. Errors if `bit` is outside the custom range as defined
 	 * by [bLIP 2] or if it is a known `T` feature.
 	 * 
@@ -122,16 +158,18 @@ public class InitFeatures : CommonBase {
 	 * Serialize the InitFeatures object into a byte array which can be read by InitFeatures_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.InitFeatures_write(this.ptr);
+		long ret = bindings.InitFeatures_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a InitFeatures from a byte array, created by InitFeatures_write
 	 */
 	public static Result_InitFeaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.InitFeatures_read(ser);
+		long ret = bindings.InitFeatures_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
@@ -533,6 +571,40 @@ public class InitFeatures : CommonBase {
 	 */
 	public bool requires_shutdown_anysegwit() {
 		bool ret = bindings.InitFeatures_requires_shutdown_anysegwit(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_taproot_optional() {
+		bindings.InitFeatures_set_taproot_optional(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_taproot_required() {
+		bindings.InitFeatures_set_taproot_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public bool supports_taproot() {
+		bool ret = bindings.InitFeatures_supports_taproot(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public bool requires_taproot() {
+		bool ret = bindings.InitFeatures_requires_taproot(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}

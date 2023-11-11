@@ -19,16 +19,18 @@ public class LightningError : CommonBase {
 	 * A human-readable message describing the error
 	 */
 	public string get_err() {
-		string ret = bindings.LightningError_get_err(this.ptr);
+		long ret = bindings.LightningError_get_err(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A human-readable message describing the error
 	 */
 	public void set_err(string val) {
-		bindings.LightningError_set_err(this.ptr, val);
+		bindings.LightningError_set_err(this.ptr, InternalUtils.encodeString(val));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -59,7 +61,7 @@ public class LightningError : CommonBase {
 	 * Constructs a new LightningError given each field
 	 */
 	public static LightningError of(string err_arg, org.ldk.structs.ErrorAction action_arg) {
-		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
+		long ret = bindings.LightningError_new(InternalUtils.encodeString(err_arg), action_arg.ptr);
 		GC.KeepAlive(err_arg);
 		GC.KeepAlive(action_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }

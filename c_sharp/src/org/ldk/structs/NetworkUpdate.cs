@@ -69,7 +69,9 @@ public class NetworkUpdate : CommonBase {
 		 */
 		public bool is_permanent;
 		internal NetworkUpdate_NodeFailure(long ptr) : base(null, ptr) {
-			this.node_id = bindings.LDKNetworkUpdate_NodeFailure_get_node_id(ptr);
+			long node_id = bindings.LDKNetworkUpdate_NodeFailure_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
 			this.is_permanent = bindings.LDKNetworkUpdate_NodeFailure_get_is_permanent(ptr);
 		}
 	}
@@ -121,7 +123,7 @@ public class NetworkUpdate : CommonBase {
 	 * Utility method to constructs a new NodeFailure-variant NetworkUpdate
 	 */
 	public static NetworkUpdate node_failure(byte[] node_id, bool is_permanent) {
-		long ret = bindings.NetworkUpdate_node_failure(InternalUtils.check_arr_len(node_id, 33), is_permanent);
+		long ret = bindings.NetworkUpdate_node_failure(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), is_permanent);
 		GC.KeepAlive(node_id);
 		GC.KeepAlive(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -149,9 +151,11 @@ public class NetworkUpdate : CommonBase {
 	 * Serialize the NetworkUpdate object into a byte array which can be read by NetworkUpdate_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.NetworkUpdate_write(this.ptr);
+		long ret = bindings.NetworkUpdate_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

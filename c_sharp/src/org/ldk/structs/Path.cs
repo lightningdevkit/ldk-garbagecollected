@@ -20,16 +20,18 @@ public class Path : CommonBase {
 	 * The list of unblinded hops in this [`Path`]. Must be at least length one.
 	 */
 	public RouteHop[] get_hops() {
-		long[] ret = bindings.Path_get_hops(this.ptr);
+		long ret = bindings.Path_get_hops(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_10_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_10_len = InternalUtils.getArrayLength(ret);
 		RouteHop[] ret_conv_10_arr = new RouteHop[ret_conv_10_len];
 		for (int k = 0; k < ret_conv_10_len; k++) {
-			long ret_conv_10 = ret[k];
+			long ret_conv_10 = InternalUtils.getU64ArrayElem(ret, k);
 			org.ldk.structs.RouteHop ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new org.ldk.structs.RouteHop(null, ret_conv_10); }
 			if (ret_conv_10_hu_conv != null) { ret_conv_10_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_10_arr;
 	}
 
@@ -37,7 +39,7 @@ public class Path : CommonBase {
 	 * The list of unblinded hops in this [`Path`]. Must be at least length one.
 	 */
 	public void set_hops(RouteHop[] val) {
-		bindings.Path_set_hops(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_10 => val_conv_10 == null ? 0 : val_conv_10.ptr) : null);
+		bindings.Path_set_hops(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_10 => val_conv_10 == null ? 0 : val_conv_10.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (RouteHop val_conv_10 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_10); }; };
@@ -71,9 +73,11 @@ public class Path : CommonBase {
 
 	/**
 	 * Constructs a new Path given each field
+	 * 
+	 * Note that blinded_tail_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static Path of(RouteHop[] hops_arg, org.ldk.structs.BlindedTail blinded_tail_arg) {
-		long ret = bindings.Path_new(hops_arg != null ? InternalUtils.mapArray(hops_arg, hops_arg_conv_10 => hops_arg_conv_10 == null ? 0 : hops_arg_conv_10.ptr) : null, blinded_tail_arg == null ? 0 : blinded_tail_arg.ptr);
+		long ret = bindings.Path_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(hops_arg, hops_arg_conv_10 => hops_arg_conv_10 == null ? 0 : hops_arg_conv_10.ptr)), blinded_tail_arg == null ? 0 : blinded_tail_arg.ptr);
 		GC.KeepAlive(hops_arg);
 		GC.KeepAlive(blinded_tail_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -61,23 +61,28 @@ public class BumpTransactionEvent : CommonBase {
 		 */
 		public HTLCOutputInCommitment[] pending_htlcs;
 		internal BumpTransactionEvent_ChannelClose(long ptr) : base(null, ptr) {
-			this.claim_id = bindings.LDKBumpTransactionEvent_ChannelClose_get_claim_id(ptr);
+			long claim_id = bindings.LDKBumpTransactionEvent_ChannelClose_get_claim_id(ptr);
+			byte[] claim_id_conv = InternalUtils.decodeUint8Array(claim_id);
+			this.claim_id = claim_id_conv;
 			this.package_target_feerate_sat_per_1000_weight = bindings.LDKBumpTransactionEvent_ChannelClose_get_package_target_feerate_sat_per_1000_weight(ptr);
-			this.commitment_tx = bindings.LDKBumpTransactionEvent_ChannelClose_get_commitment_tx(ptr);
+			long commitment_tx = bindings.LDKBumpTransactionEvent_ChannelClose_get_commitment_tx(ptr);
+			byte[] commitment_tx_conv = InternalUtils.decodeUint8Array(commitment_tx);
+			this.commitment_tx = commitment_tx_conv;
 			this.commitment_tx_fee_satoshis = bindings.LDKBumpTransactionEvent_ChannelClose_get_commitment_tx_fee_satoshis(ptr);
 			long anchor_descriptor = bindings.LDKBumpTransactionEvent_ChannelClose_get_anchor_descriptor(ptr);
 			org.ldk.structs.AnchorDescriptor anchor_descriptor_hu_conv = null; if (anchor_descriptor < 0 || anchor_descriptor > 4096) { anchor_descriptor_hu_conv = new org.ldk.structs.AnchorDescriptor(null, anchor_descriptor); }
 			if (anchor_descriptor_hu_conv != null) { anchor_descriptor_hu_conv.ptrs_to.AddLast(this); };
 			this.anchor_descriptor = anchor_descriptor_hu_conv;
-			long[] pending_htlcs = bindings.LDKBumpTransactionEvent_ChannelClose_get_pending_htlcs(ptr);
-			int pending_htlcs_conv_24_len = pending_htlcs.Length;
+			long pending_htlcs = bindings.LDKBumpTransactionEvent_ChannelClose_get_pending_htlcs(ptr);
+			int pending_htlcs_conv_24_len = InternalUtils.getArrayLength(pending_htlcs);
 			HTLCOutputInCommitment[] pending_htlcs_conv_24_arr = new HTLCOutputInCommitment[pending_htlcs_conv_24_len];
 			for (int y = 0; y < pending_htlcs_conv_24_len; y++) {
-				long pending_htlcs_conv_24 = pending_htlcs[y];
+				long pending_htlcs_conv_24 = InternalUtils.getU64ArrayElem(pending_htlcs, y);
 				org.ldk.structs.HTLCOutputInCommitment pending_htlcs_conv_24_hu_conv = null; if (pending_htlcs_conv_24 < 0 || pending_htlcs_conv_24 > 4096) { pending_htlcs_conv_24_hu_conv = new org.ldk.structs.HTLCOutputInCommitment(null, pending_htlcs_conv_24); }
 				if (pending_htlcs_conv_24_hu_conv != null) { pending_htlcs_conv_24_hu_conv.ptrs_to.AddLast(this); };
 				pending_htlcs_conv_24_arr[y] = pending_htlcs_conv_24_hu_conv;
 			}
+			bindings.free_buffer(pending_htlcs);
 			this.pending_htlcs = pending_htlcs_conv_24_arr;
 		}
 	}
@@ -106,17 +111,20 @@ public class BumpTransactionEvent : CommonBase {
 		 */
 		public int tx_lock_time;
 		internal BumpTransactionEvent_HTLCResolution(long ptr) : base(null, ptr) {
-			this.claim_id = bindings.LDKBumpTransactionEvent_HTLCResolution_get_claim_id(ptr);
+			long claim_id = bindings.LDKBumpTransactionEvent_HTLCResolution_get_claim_id(ptr);
+			byte[] claim_id_conv = InternalUtils.decodeUint8Array(claim_id);
+			this.claim_id = claim_id_conv;
 			this.target_feerate_sat_per_1000_weight = bindings.LDKBumpTransactionEvent_HTLCResolution_get_target_feerate_sat_per_1000_weight(ptr);
-			long[] htlc_descriptors = bindings.LDKBumpTransactionEvent_HTLCResolution_get_htlc_descriptors(ptr);
-			int htlc_descriptors_conv_16_len = htlc_descriptors.Length;
+			long htlc_descriptors = bindings.LDKBumpTransactionEvent_HTLCResolution_get_htlc_descriptors(ptr);
+			int htlc_descriptors_conv_16_len = InternalUtils.getArrayLength(htlc_descriptors);
 			HTLCDescriptor[] htlc_descriptors_conv_16_arr = new HTLCDescriptor[htlc_descriptors_conv_16_len];
 			for (int q = 0; q < htlc_descriptors_conv_16_len; q++) {
-				long htlc_descriptors_conv_16 = htlc_descriptors[q];
+				long htlc_descriptors_conv_16 = InternalUtils.getU64ArrayElem(htlc_descriptors, q);
 				org.ldk.structs.HTLCDescriptor htlc_descriptors_conv_16_hu_conv = null; if (htlc_descriptors_conv_16 < 0 || htlc_descriptors_conv_16 > 4096) { htlc_descriptors_conv_16_hu_conv = new org.ldk.structs.HTLCDescriptor(null, htlc_descriptors_conv_16); }
 				if (htlc_descriptors_conv_16_hu_conv != null) { htlc_descriptors_conv_16_hu_conv.ptrs_to.AddLast(this); };
 				htlc_descriptors_conv_16_arr[q] = htlc_descriptors_conv_16_hu_conv;
 			}
+			bindings.free_buffer(htlc_descriptors);
 			this.htlc_descriptors = htlc_descriptors_conv_16_arr;
 			this.tx_lock_time = bindings.LDKBumpTransactionEvent_HTLCResolution_get_tx_lock_time(ptr);
 		}
@@ -143,7 +151,7 @@ public class BumpTransactionEvent : CommonBase {
 	 * Utility method to constructs a new ChannelClose-variant BumpTransactionEvent
 	 */
 	public static BumpTransactionEvent channel_close(byte[] claim_id, int package_target_feerate_sat_per_1000_weight, byte[] commitment_tx, long commitment_tx_fee_satoshis, org.ldk.structs.AnchorDescriptor anchor_descriptor, HTLCOutputInCommitment[] pending_htlcs) {
-		long ret = bindings.BumpTransactionEvent_channel_close(InternalUtils.check_arr_len(claim_id, 32), package_target_feerate_sat_per_1000_weight, commitment_tx, commitment_tx_fee_satoshis, anchor_descriptor == null ? 0 : anchor_descriptor.ptr, pending_htlcs != null ? InternalUtils.mapArray(pending_htlcs, pending_htlcs_conv_24 => pending_htlcs_conv_24 == null ? 0 : pending_htlcs_conv_24.ptr) : null);
+		long ret = bindings.BumpTransactionEvent_channel_close(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(claim_id, 32)), package_target_feerate_sat_per_1000_weight, InternalUtils.encodeUint8Array(commitment_tx), commitment_tx_fee_satoshis, anchor_descriptor == null ? 0 : anchor_descriptor.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(pending_htlcs, pending_htlcs_conv_24 => pending_htlcs_conv_24 == null ? 0 : pending_htlcs_conv_24.ptr)));
 		GC.KeepAlive(claim_id);
 		GC.KeepAlive(package_target_feerate_sat_per_1000_weight);
 		GC.KeepAlive(commitment_tx);
@@ -162,7 +170,7 @@ public class BumpTransactionEvent : CommonBase {
 	 * Utility method to constructs a new HTLCResolution-variant BumpTransactionEvent
 	 */
 	public static BumpTransactionEvent htlcresolution(byte[] claim_id, int target_feerate_sat_per_1000_weight, HTLCDescriptor[] htlc_descriptors, int tx_lock_time) {
-		long ret = bindings.BumpTransactionEvent_htlcresolution(InternalUtils.check_arr_len(claim_id, 32), target_feerate_sat_per_1000_weight, htlc_descriptors != null ? InternalUtils.mapArray(htlc_descriptors, htlc_descriptors_conv_16 => htlc_descriptors_conv_16 == null ? 0 : htlc_descriptors_conv_16.ptr) : null, tx_lock_time);
+		long ret = bindings.BumpTransactionEvent_htlcresolution(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(claim_id, 32)), target_feerate_sat_per_1000_weight, InternalUtils.encodeUint64Array(InternalUtils.mapArray(htlc_descriptors, htlc_descriptors_conv_16 => htlc_descriptors_conv_16 == null ? 0 : htlc_descriptors_conv_16.ptr)), tx_lock_time);
 		GC.KeepAlive(claim_id);
 		GC.KeepAlive(target_feerate_sat_per_1000_weight);
 		GC.KeepAlive(htlc_descriptors);

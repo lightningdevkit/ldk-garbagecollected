@@ -54,19 +54,6 @@ public class IgnoringMessageHandler : CommonBase {
 	}
 
 	/**
-	 * Constructs a new OnionMessageProvider which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned OnionMessageProvider must be freed before this_arg is
-	 */
-	public OnionMessageProvider as_OnionMessageProvider() {
-		long ret = bindings.IgnoringMessageHandler_as_OnionMessageProvider(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		OnionMessageProvider ret_hu_conv = new OnionMessageProvider(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Constructs a new OnionMessageHandler which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned OnionMessageHandler must be freed before this_arg is
 	 */

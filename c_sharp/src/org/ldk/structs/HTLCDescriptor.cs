@@ -63,9 +63,11 @@ public class HTLCDescriptor : CommonBase {
 	 * See <https://github.com/lightning/bolts/blob/master/03-transactions.md#keys> for more info.
 	 */
 	public byte[] get_per_commitment_point() {
-		byte[] ret = bindings.HTLCDescriptor_get_per_commitment_point(this.ptr);
+		long ret = bindings.HTLCDescriptor_get_per_commitment_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -76,7 +78,29 @@ public class HTLCDescriptor : CommonBase {
 	 * See <https://github.com/lightning/bolts/blob/master/03-transactions.md#keys> for more info.
 	 */
 	public void set_per_commitment_point(byte[] val) {
-		bindings.HTLCDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.HTLCDescriptor_set_per_commitment_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * The feerate to use on the HTLC claiming transaction. This is always `0` for HTLCs
+	 * originating from a channel supporting anchor outputs, otherwise it is the channel's
+	 * negotiated feerate at the time the commitment transaction was built.
+	 */
+	public int get_feerate_per_kw() {
+		int ret = bindings.HTLCDescriptor_get_feerate_per_kw(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * The feerate to use on the HTLC claiming transaction. This is always `0` for HTLCs
+	 * originating from a channel supporting anchor outputs, otherwise it is the channel's
+	 * negotiated feerate at the time the commitment transaction was built.
+	 */
+	public void set_feerate_per_kw(int val) {
+		bindings.HTLCDescriptor_set_feerate_per_kw(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -107,11 +131,11 @@ public class HTLCDescriptor : CommonBase {
 	 * The preimage, if `Some`, to claim the HTLC output with. If `None`, the timeout path must be
 	 * taken.
 	 */
-	public Option_PaymentPreimageZ get_preimage() {
+	public Option_ThirtyTwoBytesZ get_preimage() {
 		long ret = bindings.HTLCDescriptor_get_preimage(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_PaymentPreimageZ ret_hu_conv = org.ldk.structs.Option_PaymentPreimageZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
@@ -120,7 +144,7 @@ public class HTLCDescriptor : CommonBase {
 	 * The preimage, if `Some`, to claim the HTLC output with. If `None`, the timeout path must be
 	 * taken.
 	 */
-	public void set_preimage(org.ldk.structs.Option_PaymentPreimageZ val) {
+	public void set_preimage(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
 		bindings.HTLCDescriptor_set_preimage(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
@@ -131,16 +155,18 @@ public class HTLCDescriptor : CommonBase {
 	 * The counterparty's signature required to spend the HTLC output.
 	 */
 	public byte[] get_counterparty_sig() {
-		byte[] ret = bindings.HTLCDescriptor_get_counterparty_sig(this.ptr);
+		long ret = bindings.HTLCDescriptor_get_counterparty_sig(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The counterparty's signature required to spend the HTLC output.
 	 */
 	public void set_counterparty_sig(byte[] val) {
-		bindings.HTLCDescriptor_set_counterparty_sig(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.HTLCDescriptor_set_counterparty_sig(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -180,6 +206,28 @@ public class HTLCDescriptor : CommonBase {
 		if (!(o is HTLCDescriptor)) return false;
 		return this.eq((HTLCDescriptor)o);
 	}
+	/**
+	 * Serialize the HTLCDescriptor object into a byte array which can be read by HTLCDescriptor_read
+	 */
+	public byte[] write() {
+		long ret = bindings.HTLCDescriptor_write(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a HTLCDescriptor from a byte array, created by HTLCDescriptor_write
+	 */
+	public static Result_HTLCDescriptorDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.HTLCDescriptor_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_HTLCDescriptorDecodeErrorZ ret_hu_conv = Result_HTLCDescriptorDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Returns the outpoint of the HTLC output in the commitment transaction. This is the outpoint
 	 * being spent by the HTLC input in the HTLC transaction.
@@ -233,9 +281,11 @@ public class HTLCDescriptor : CommonBase {
 	 * Returns the witness script of the HTLC output in the commitment transaction.
 	 */
 	public byte[] witness_script() {
-		byte[] ret = bindings.HTLCDescriptor_witness_script(this.ptr);
+		long ret = bindings.HTLCDescriptor_witness_script(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -243,11 +293,13 @@ public class HTLCDescriptor : CommonBase {
 	 * transaction.
 	 */
 	public byte[] tx_input_witness(byte[] signature, byte[] witness_script) {
-		byte[] ret = bindings.HTLCDescriptor_tx_input_witness(this.ptr, InternalUtils.check_arr_len(signature, 64), witness_script);
+		long ret = bindings.HTLCDescriptor_tx_input_witness(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(signature, 64)), InternalUtils.encodeUint8Array(witness_script));
 		GC.KeepAlive(this);
 		GC.KeepAlive(signature);
 		GC.KeepAlive(witness_script);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**

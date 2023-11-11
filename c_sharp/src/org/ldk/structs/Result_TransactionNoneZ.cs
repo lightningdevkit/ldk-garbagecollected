@@ -21,7 +21,9 @@ public class Result_TransactionNoneZ : CommonBase {
 	public class Result_TransactionNoneZ_OK : Result_TransactionNoneZ {
 		public readonly byte[] res;
 		internal Result_TransactionNoneZ_OK(object _dummy, long ptr) : base(_dummy, ptr) {
-			this.res = bindings.CResult_TransactionNoneZ_get_ok(ptr);
+			long res = bindings.CResult_TransactionNoneZ_get_ok(ptr);
+			byte[] res_conv = InternalUtils.decodeUint8Array(res);
+			this.res = res_conv;
 		}
 	}
 
@@ -34,7 +36,7 @@ public class Result_TransactionNoneZ : CommonBase {
 	 * Creates a new CResult_TransactionNoneZ in the success state.
 	 */
 	public static Result_TransactionNoneZ ok(byte[] o) {
-		long ret = bindings.CResult_TransactionNoneZ_ok(o);
+		long ret = bindings.CResult_TransactionNoneZ_ok(InternalUtils.encodeUint8Array(o));
 		GC.KeepAlive(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);

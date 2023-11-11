@@ -21,16 +21,18 @@ public class ClosingSigned : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.ClosingSigned_get_channel_id(this.ptr);
+		long ret = bindings.ClosingSigned_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ClosingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ClosingSigned_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -57,16 +59,18 @@ public class ClosingSigned : CommonBase {
 	 * A signature on the closing transaction
 	 */
 	public byte[] get_signature() {
-		byte[] ret = bindings.ClosingSigned_get_signature(this.ptr);
+		long ret = bindings.ClosingSigned_get_signature(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * A signature on the closing transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.ClosingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ClosingSigned_set_signature(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 64)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -101,9 +105,11 @@ public class ClosingSigned : CommonBase {
 
 	/**
 	 * Constructs a new ClosingSigned given each field
+	 * 
+	 * Note that fee_range_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg, org.ldk.structs.ClosingSignedFeeRange fee_range_arg) {
-		long ret = bindings.ClosingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), fee_satoshis_arg, InternalUtils.check_arr_len(signature_arg, 64), fee_range_arg == null ? 0 : fee_range_arg.ptr);
+		long ret = bindings.ClosingSigned_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), fee_satoshis_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(signature_arg, 64)), fee_range_arg == null ? 0 : fee_range_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(fee_satoshis_arg);
 		GC.KeepAlive(signature_arg);
@@ -154,16 +160,18 @@ public class ClosingSigned : CommonBase {
 	 * Serialize the ClosingSigned object into a byte array which can be read by ClosingSigned_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ClosingSigned_write(this.ptr);
+		long ret = bindings.ClosingSigned_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ClosingSigned from a byte array, created by ClosingSigned_write
 	 */
 	public static Result_ClosingSignedDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ClosingSigned_read(ser);
+		long ret = bindings.ClosingSigned_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);

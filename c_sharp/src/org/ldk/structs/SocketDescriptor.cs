@@ -1,9 +1,48 @@
+
 using org.ldk.impl;
 using org.ldk.enums;
 using org.ldk.util;
 using System;
 
 namespace org { namespace ldk { namespace structs {
+
+
+
+/** An implementation of SocketDescriptor */
+public interface SocketDescriptorInterface {
+	/**Attempts to send some data from the given slice to the peer.
+	 * 
+	 * Returns the amount of data which was sent, possibly 0 if the socket has since disconnected.
+	 * Note that in the disconnected case, [`PeerManager::socket_disconnected`] must still be
+	 * called and further write attempts may occur until that time.
+	 * 
+	 * If the returned size is smaller than `data.len()`, a
+	 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
+	 * written. Additionally, until a `send_data` event completes fully, no further
+	 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
+	 * prevent denial-of-service issues, you should not read or buffer any data from the socket
+	 * until then.
+	 * 
+	 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
+	 * (indicating that read events should be paused to prevent DoS in the send buffer),
+	 * `resume_read` may be set indicating that read events on this descriptor should resume. A
+	 * `resume_read` of false carries no meaning, and should not cause any action.
+	 */
+	long send_data(byte[] data, bool resume_read);
+	/**Disconnect the socket pointed to by this SocketDescriptor.
+	 * 
+	 * You do *not* need to call [`PeerManager::socket_disconnected`] with this socket after this
+	 * call (doing so is a noop).
+	 */
+	void disconnect_socket();
+	/**Checks if two objects are equal given this object's this_arg pointer and another object.
+	 */
+	bool eq(SocketDescriptor other_arg);
+	/**Calculate a succinct non-cryptographic hash for an object given its this_arg pointer.
+	 * This is used, for example, for inclusion of this object in a hash map.
+	 */
+	long hash();
+}
 
 /**
  * Provides an object which can be used to send data to and which uniquely identifies a connection
@@ -20,61 +59,22 @@ namespace org { namespace ldk { namespace structs {
  * to simply use another value which is guaranteed to be globally unique instead.
  */
 public class SocketDescriptor : CommonBase {
-	internal readonly bindings.LDKSocketDescriptor bindings_instance;
+	internal bindings.LDKSocketDescriptor bindings_instance;
+	internal long instance_idx;
+
 	internal SocketDescriptor(object _dummy, long ptr) : base(ptr) { bindings_instance = null; }
-	private SocketDescriptor(bindings.LDKSocketDescriptor arg) : base(bindings.LDKSocketDescriptor_new(arg)) {
-		this.ptrs_to.AddLast(arg);
-		this.bindings_instance = arg;
-	}
 	~SocketDescriptor() {
 		if (ptr != 0) { bindings.SocketDescriptor_free(ptr); }
 	}
 
-	public interface SocketDescriptorInterface {
-		/**
-		 * Attempts to send some data from the given slice to the peer.
-		 * 
-		 * Returns the amount of data which was sent, possibly 0 if the socket has since disconnected.
-		 * Note that in the disconnected case, [`PeerManager::socket_disconnected`] must still be
-		 * called and further write attempts may occur until that time.
-		 * 
-		 * If the returned size is smaller than `data.len()`, a
-		 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
-		 * written. Additionally, until a `send_data` event completes fully, no further
-		 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
-		 * prevent denial-of-service issues, you should not read or buffer any data from the socket
-		 * until then.
-		 * 
-		 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
-		 * (indicating that read events should be paused to prevent DoS in the send buffer),
-		 * `resume_read` may be set indicating that read events on this descriptor should resume. A
-		 * `resume_read` of false carries no meaning, and should not cause any action.
-		 */
-		long send_data(byte[] _data, bool _resume_read);
-		/**
-		 * Disconnect the socket pointed to by this SocketDescriptor.
-		 * 
-		 * You do *not* need to call [`PeerManager::socket_disconnected`] with this socket after this
-		 * call (doing so is a noop).
-		 */
-		void disconnect_socket();
-		/**
-		 * Checks if two objects are equal given this object's this_arg pointer and another object.
-		 */
-		bool eq(SocketDescriptor _other_arg);
-		/**
-		 * Calculate a succinct non-cryptographic hash for an object given its this_arg pointer.
-		 * This is used, for example, for inclusion of this object in a hash map.
-		 */
-		long hash();
-	}
 	private class LDKSocketDescriptorHolder { internal SocketDescriptor held; }
 	private class LDKSocketDescriptorImpl : bindings.LDKSocketDescriptor {
 		internal LDKSocketDescriptorImpl(SocketDescriptorInterface arg, LDKSocketDescriptorHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private SocketDescriptorInterface arg;
 		private LDKSocketDescriptorHolder impl_holder;
-		public long send_data(byte[] _data, bool _resume_read) {
-			long ret = arg.send_data(_data, _resume_read);
+		public long send_data(long _data, bool _resume_read) {
+			byte[] _data_conv = InternalUtils.decodeUint8Array(_data);
+			long ret = arg.send_data(_data_conv, _resume_read);
 				GC.KeepAlive(arg);
 			return ret;
 		}
@@ -95,11 +95,19 @@ public class SocketDescriptor : CommonBase {
 			return ret;
 		}
 	}
+
+	/** Creates a new instance of SocketDescriptor from a given implementation */
 	public static SocketDescriptor new_impl(SocketDescriptorInterface arg) {
 		LDKSocketDescriptorHolder impl_holder = new LDKSocketDescriptorHolder();
-		impl_holder.held = new SocketDescriptor(new LDKSocketDescriptorImpl(arg, impl_holder));
+		LDKSocketDescriptorImpl impl = new LDKSocketDescriptorImpl(arg, impl_holder);
+		long[] ptr_idx = bindings.LDKSocketDescriptor_new(impl);
+
+		impl_holder.held = new SocketDescriptor(null, ptr_idx[0]);
+		impl_holder.held.instance_idx = ptr_idx[1];
+		impl_holder.held.bindings_instance = impl;
 		return impl_holder.held;
 	}
+
 	/**
 	 * Attempts to send some data from the given slice to the peer.
 	 * 
@@ -120,7 +128,7 @@ public class SocketDescriptor : CommonBase {
 	 * `resume_read` of false carries no meaning, and should not cause any action.
 	 */
 	public long send_data(byte[] data, bool resume_read) {
-		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
+		long ret = bindings.SocketDescriptor_send_data(this.ptr, InternalUtils.encodeUint8Array(data), resume_read);
 		GC.KeepAlive(this);
 		GC.KeepAlive(data);
 		GC.KeepAlive(resume_read);

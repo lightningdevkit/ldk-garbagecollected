@@ -146,7 +146,7 @@ public class Utxo : CommonBase {
 	 * Returns a `Utxo` with the `satisfaction_weight` estimate for a legacy P2PKH output.
 	 */
 	public static Utxo new_p2pkh(org.ldk.structs.OutPoint outpoint, long value, byte[] pubkey_hash) {
-		long ret = bindings.Utxo_new_p2pkh(outpoint == null ? 0 : outpoint.ptr, value, InternalUtils.check_arr_len(pubkey_hash, 20));
+		long ret = bindings.Utxo_new_p2pkh(outpoint == null ? 0 : outpoint.ptr, value, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(pubkey_hash, 20)));
 		GC.KeepAlive(outpoint);
 		GC.KeepAlive(value);
 		GC.KeepAlive(pubkey_hash);

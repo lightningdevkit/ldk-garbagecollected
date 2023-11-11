@@ -24,16 +24,18 @@ public class BlindedTail : CommonBase {
 	 * [`BlindedPath`]: crate::blinded_path::BlindedPath
 	 */
 	public BlindedHop[] get_hops() {
-		long[] ret = bindings.BlindedTail_get_hops(this.ptr);
+		long ret = bindings.BlindedTail_get_hops(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_12_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_12_len = InternalUtils.getArrayLength(ret);
 		BlindedHop[] ret_conv_12_arr = new BlindedHop[ret_conv_12_len];
 		for (int m = 0; m < ret_conv_12_len; m++) {
-			long ret_conv_12 = ret[m];
+			long ret_conv_12 = InternalUtils.getU64ArrayElem(ret, m);
 			org.ldk.structs.BlindedHop ret_conv_12_hu_conv = null; if (ret_conv_12 < 0 || ret_conv_12 > 4096) { ret_conv_12_hu_conv = new org.ldk.structs.BlindedHop(null, ret_conv_12); }
 			if (ret_conv_12_hu_conv != null) { ret_conv_12_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_12_arr[m] = ret_conv_12_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_12_arr;
 	}
 
@@ -43,7 +45,7 @@ public class BlindedTail : CommonBase {
 	 * [`BlindedPath`]: crate::blinded_path::BlindedPath
 	 */
 	public void set_hops(BlindedHop[] val) {
-		bindings.BlindedTail_set_hops(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_12 => val_conv_12 == null ? 0 : val_conv_12.ptr) : null);
+		bindings.BlindedTail_set_hops(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_12 => val_conv_12 == null ? 0 : val_conv_12.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (BlindedHop val_conv_12 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_12); }; };
@@ -55,9 +57,11 @@ public class BlindedTail : CommonBase {
 	 * [`BlindedPath`]: crate::blinded_path::BlindedPath
 	 */
 	public byte[] get_blinding_point() {
-		byte[] ret = bindings.BlindedTail_get_blinding_point(this.ptr);
+		long ret = bindings.BlindedTail_get_blinding_point(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -66,7 +70,7 @@ public class BlindedTail : CommonBase {
 	 * [`BlindedPath`]: crate::blinded_path::BlindedPath
 	 */
 	public void set_blinding_point(byte[] val) {
-		bindings.BlindedTail_set_blinding_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.BlindedTail_set_blinding_point(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -113,7 +117,7 @@ public class BlindedTail : CommonBase {
 	 * Constructs a new BlindedTail given each field
 	 */
 	public static BlindedTail of(BlindedHop[] hops_arg, byte[] blinding_point_arg, int excess_final_cltv_expiry_delta_arg, long final_value_msat_arg) {
-		long ret = bindings.BlindedTail_new(hops_arg != null ? InternalUtils.mapArray(hops_arg, hops_arg_conv_12 => hops_arg_conv_12 == null ? 0 : hops_arg_conv_12.ptr) : null, InternalUtils.check_arr_len(blinding_point_arg, 33), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
+		long ret = bindings.BlindedTail_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(hops_arg, hops_arg_conv_12 => hops_arg_conv_12 == null ? 0 : hops_arg_conv_12.ptr)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point_arg, 33)), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
 		GC.KeepAlive(hops_arg);
 		GC.KeepAlive(blinding_point_arg);
 		GC.KeepAlive(excess_final_cltv_expiry_delta_arg);
@@ -176,16 +180,18 @@ public class BlindedTail : CommonBase {
 	 * Serialize the BlindedTail object into a byte array which can be read by BlindedTail_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.BlindedTail_write(this.ptr);
+		long ret = bindings.BlindedTail_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a BlindedTail from a byte array, created by BlindedTail_write
 	 */
 	public static Result_BlindedTailDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.BlindedTail_read(ser);
+		long ret = bindings.BlindedTail_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BlindedTailDecodeErrorZ ret_hu_conv = Result_BlindedTailDecodeErrorZ.constr_from_ptr(ret);

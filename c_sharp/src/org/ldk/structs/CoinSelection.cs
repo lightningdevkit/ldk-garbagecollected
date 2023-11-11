@@ -21,16 +21,18 @@ public class CoinSelection : CommonBase {
 	 * requiring additional fees.
 	 */
 	public Utxo[] get_confirmed_utxos() {
-		long[] ret = bindings.CoinSelection_get_confirmed_utxos(this.ptr);
+		long ret = bindings.CoinSelection_get_confirmed_utxos(this.ptr);
 		GC.KeepAlive(this);
-		int ret_conv_6_len = ret.Length;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_6_len = InternalUtils.getArrayLength(ret);
 		Utxo[] ret_conv_6_arr = new Utxo[ret_conv_6_len];
 		for (int g = 0; g < ret_conv_6_len; g++) {
-			long ret_conv_6 = ret[g];
+			long ret_conv_6 = InternalUtils.getU64ArrayElem(ret, g);
 			org.ldk.structs.Utxo ret_conv_6_hu_conv = null; if (ret_conv_6 < 0 || ret_conv_6 > 4096) { ret_conv_6_hu_conv = new org.ldk.structs.Utxo(null, ret_conv_6); }
 			if (ret_conv_6_hu_conv != null) { ret_conv_6_hu_conv.ptrs_to.AddLast(this); };
 			ret_conv_6_arr[g] = ret_conv_6_hu_conv;
 		}
+		bindings.free_buffer(ret);
 		return ret_conv_6_arr;
 	}
 
@@ -39,7 +41,7 @@ public class CoinSelection : CommonBase {
 	 * requiring additional fees.
 	 */
 	public void set_confirmed_utxos(Utxo[] val) {
-		bindings.CoinSelection_set_confirmed_utxos(this.ptr, val != null ? InternalUtils.mapArray(val, val_conv_6 => val_conv_6 == null ? 0 : val_conv_6.ptr) : null);
+		bindings.CoinSelection_set_confirmed_utxos(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_6 => val_conv_6 == null ? 0 : val_conv_6.ptr)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 		foreach (Utxo val_conv_6 in val) { if (this != null) { this.ptrs_to.AddLast(val_conv_6); }; };
@@ -77,7 +79,7 @@ public class CoinSelection : CommonBase {
 	 * Constructs a new CoinSelection given each field
 	 */
 	public static CoinSelection of(Utxo[] confirmed_utxos_arg, org.ldk.structs.Option_TxOutZ change_output_arg) {
-		long ret = bindings.CoinSelection_new(confirmed_utxos_arg != null ? InternalUtils.mapArray(confirmed_utxos_arg, confirmed_utxos_arg_conv_6 => confirmed_utxos_arg_conv_6 == null ? 0 : confirmed_utxos_arg_conv_6.ptr) : null, change_output_arg.ptr);
+		long ret = bindings.CoinSelection_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(confirmed_utxos_arg, confirmed_utxos_arg_conv_6 => confirmed_utxos_arg_conv_6 == null ? 0 : confirmed_utxos_arg_conv_6.ptr)), change_output_arg.ptr);
 		GC.KeepAlive(confirmed_utxos_arg);
 		GC.KeepAlive(change_output_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }

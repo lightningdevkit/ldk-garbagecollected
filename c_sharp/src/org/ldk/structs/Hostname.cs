@@ -69,16 +69,18 @@ public class Hostname : CommonBase {
 	 * Serialize the Hostname object into a byte array which can be read by Hostname_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.Hostname_write(this.ptr);
+		long ret = bindings.Hostname_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a Hostname from a byte array, created by Hostname_write
 	 */
 	public static Result_HostnameDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.Hostname_read(ser);
+		long ret = bindings.Hostname_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HostnameDecodeErrorZ ret_hu_conv = Result_HostnameDecodeErrorZ.constr_from_ptr(ret);

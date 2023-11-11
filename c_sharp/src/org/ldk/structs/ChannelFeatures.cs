@@ -83,6 +83,42 @@ public class ChannelFeatures : CommonBase {
 	}
 
 	/**
+	 * Sets a required feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Required bits are even. If an odd bit is given, then the corresponding even bit will
+	 * be set instead (i.e., `bit - 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_required_feature_bit(long bit) {
+		long ret = bindings.ChannelFeatures_set_required_feature_bit(this.ptr, bit);
+		GC.KeepAlive(this);
+		GC.KeepAlive(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets an optional feature bit. Errors if `bit` is outside the feature range as defined
+	 * by [BOLT 9].
+	 * 
+	 * Note: Optional bits are odd. If an even bit is given, then the corresponding odd bit will be
+	 * set instead (i.e., `bit + 1`).
+	 * 
+	 * [BOLT 9]: https://github.com/lightning/bolts/blob/master/09-features.md
+	 */
+	public Result_NoneNoneZ set_optional_feature_bit(long bit) {
+		long ret = bindings.ChannelFeatures_set_optional_feature_bit(this.ptr, bit);
+		GC.KeepAlive(this);
+		GC.KeepAlive(bit);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Sets a required custom feature bit. Errors if `bit` is outside the custom range as defined
 	 * by [bLIP 2] or if it is a known `T` feature.
 	 * 
@@ -122,16 +158,18 @@ public class ChannelFeatures : CommonBase {
 	 * Serialize the ChannelFeatures object into a byte array which can be read by ChannelFeatures_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.ChannelFeatures_write(this.ptr);
+		long ret = bindings.ChannelFeatures_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a ChannelFeatures from a byte array, created by ChannelFeatures_write
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ChannelFeatures_read(ser);
+		long ret = bindings.ChannelFeatures_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);

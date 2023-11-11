@@ -17,6 +17,8 @@ public class NetworkGraph : CommonBase {
 
 	/**
 	 * Handles any network updates originating from [`Event`]s.
+	 * Note that this will skip applying any [`NetworkUpdate::ChannelUpdateMessage`] to avoid
+	 * leaking possibly identifying information of the sender to the public network.
 	 * 
 	 * [`Event`]: crate::events::Event
 	 */
@@ -27,28 +29,32 @@ public class NetworkGraph : CommonBase {
 	}
 
 	/**
-	 * Gets the genesis hash for this network graph.
+	 * Gets the chain hash for this network graph.
 	 */
-	public byte[] get_genesis_hash() {
-		byte[] ret = bindings.NetworkGraph_get_genesis_hash(this.ptr);
+	public byte[] get_chain_hash() {
+		long ret = bindings.NetworkGraph_get_chain_hash(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Serialize the NetworkGraph object into a byte array which can be read by NetworkGraph_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.NetworkGraph_write(this.ptr);
+		long ret = bindings.NetworkGraph_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
 	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser, org.ldk.structs.Logger arg) {
-		long ret = bindings.NetworkGraph_read(ser, arg.ptr);
+		long ret = bindings.NetworkGraph_read(InternalUtils.encodeUint8Array(ser), arg.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -210,7 +216,7 @@ public class NetworkGraph : CommonBase {
 	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
 	 */
 	public Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, org.ldk.structs.ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
-		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr, InternalUtils.check_arr_len(node_id_1, 33), InternalUtils.check_arr_len(node_id_2, 33));
+		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features == null ? 0 : features.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id_1, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id_2, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(short_channel_id);
 		GC.KeepAlive(timestamp);
@@ -239,7 +245,7 @@ public class NetworkGraph : CommonBase {
 	 * from local storage.
 	 */
 	public void node_failed_permanent(byte[] node_id) {
-		bindings.NetworkGraph_node_failed_permanent(this.ptr, InternalUtils.check_arr_len(node_id, 33));
+		bindings.NetworkGraph_node_failed_permanent(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(node_id);
 	}
@@ -292,8 +298,8 @@ public class NetworkGraph : CommonBase {
 	 * For an already known (from announcement) channel, update info about one of the directions
 	 * of the channel.
 	 * 
-	 * You probably don't want to call this directly, instead relying on a P2PGossipSync's
-	 * RoutingMessageHandler implementation to call it indirectly. This may be useful to accept
+	 * You probably don't want to call this directly, instead relying on a [`P2PGossipSync`]'s
+	 * [`RoutingMessageHandler`] implementation to call it indirectly. This may be useful to accept
 	 * routing messages from a source using a protocol other than the lightning P2P protocol.
 	 * 
 	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
@@ -319,6 +325,24 @@ public class NetworkGraph : CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel_unsigned(org.ldk.structs.UnsignedChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * For an already known (from announcement) channel, verify the given [`ChannelUpdate`].
+	 * 
+	 * This checks whether the update currently is applicable by [`Self::update_channel`].
+	 * 
+	 * If built with `no-std`, any updates with a timestamp more than two weeks in the past or
+	 * materially in the future will be rejected.
+	 */
+	public Result_NoneLightningErrorZ verify_channel_update(org.ldk.structs.ChannelUpdate msg) {
+		long ret = bindings.NetworkGraph_verify_channel_update(this.ptr, msg == null ? 0 : msg.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

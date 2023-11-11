@@ -24,9 +24,11 @@ public class TrustedClosingTransaction : CommonBase {
 	 * The pre-built Bitcoin commitment transaction
 	 */
 	public byte[] built_transaction() {
-		byte[] ret = bindings.TrustedClosingTransaction_built_transaction(this.ptr);
+		long ret = bindings.TrustedClosingTransaction_built_transaction(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -35,11 +37,13 @@ public class TrustedClosingTransaction : CommonBase {
 	 * This can be used to verify a signature.
 	 */
 	public byte[] get_sighash_all(byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.TrustedClosingTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
+		long ret = bindings.TrustedClosingTransaction_get_sighash_all(this.ptr, InternalUtils.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
 		GC.KeepAlive(this);
 		GC.KeepAlive(funding_redeemscript);
 		GC.KeepAlive(channel_value_satoshis);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
@@ -47,12 +51,14 @@ public class TrustedClosingTransaction : CommonBase {
 	 * because we are about to broadcast a holder transaction.
 	 */
 	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.TrustedClosingTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
+		long ret = bindings.TrustedClosingTransaction_sign(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_key, 32)), InternalUtils.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
 		GC.KeepAlive(this);
 		GC.KeepAlive(funding_key);
 		GC.KeepAlive(funding_redeemscript);
 		GC.KeepAlive(channel_value_satoshis);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

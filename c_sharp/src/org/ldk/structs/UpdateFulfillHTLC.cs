@@ -21,16 +21,18 @@ public class UpdateFulfillHTLC : CommonBase {
 	 * The channel ID
 	 */
 	public byte[] get_channel_id() {
-		byte[] ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
+		long ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -57,16 +59,18 @@ public class UpdateFulfillHTLC : CommonBase {
 	 * The pre-image of the payment hash, allowing HTLC redemption
 	 */
 	public byte[] get_payment_preimage() {
-		byte[] ret = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
+		long ret = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * The pre-image of the payment hash, allowing HTLC redemption
 	 */
 	public void set_payment_preimage(byte[] val) {
-		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 32)));
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -75,7 +79,7 @@ public class UpdateFulfillHTLC : CommonBase {
 	 * Constructs a new UpdateFulfillHTLC given each field
 	 */
 	public static UpdateFulfillHTLC of(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
-		long ret = bindings.UpdateFulfillHTLC_new(InternalUtils.check_arr_len(channel_id_arg, 32), htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
+		long ret = bindings.UpdateFulfillHTLC_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), htlc_id_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_preimage_arg, 32)));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(htlc_id_arg);
 		GC.KeepAlive(payment_preimage_arg);
@@ -124,16 +128,18 @@ public class UpdateFulfillHTLC : CommonBase {
 	 * Serialize the UpdateFulfillHTLC object into a byte array which can be read by UpdateFulfillHTLC_read
 	 */
 	public byte[] write() {
-		byte[] ret = bindings.UpdateFulfillHTLC_write(this.ptr);
+		long ret = bindings.UpdateFulfillHTLC_write(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	/**
 	 * Read a UpdateFulfillHTLC from a byte array, created by UpdateFulfillHTLC_write
 	 */
 	public static Result_UpdateFulfillHTLCDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.UpdateFulfillHTLC_read(ser);
+		long ret = bindings.UpdateFulfillHTLC_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFulfillHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
