@@ -157,7 +157,7 @@ if [ "$2" = "c_sharp" ]; then
 		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
-			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
+			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version -Wl,--build-id=0x0000000000000000"
 		fi
 
 		# When building for Windows, a timestamp is included in the resulting dll,
