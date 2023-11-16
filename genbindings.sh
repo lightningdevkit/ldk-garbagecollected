@@ -169,8 +169,8 @@ if [ "$2" = "c_sharp" ]; then
 
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy resulting native binary for inclusion in release nuget zip
-			mkdir -p c_sharp/packaging_artifacts/lib/net3.0/
-			cp c_sharp/bin/Release/net6.0/csharpldk.dll c_sharp/packaging_artifacts/lib/net3.0/
+			mkdir -p c_sharp/packaging_artifacts/lib/net6.0/
+			cp c_sharp/bin/Release/net6.0/csharpldk.dll c_sharp/packaging_artifacts/lib/net6.0/
 
 			mkdir -p c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/
 			if [ "$IS_WIN" = "true" ]; then
