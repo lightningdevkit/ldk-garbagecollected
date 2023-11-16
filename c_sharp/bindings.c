@@ -72,11 +72,11 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 typedef bool jboolean;
 
 int64_t CS_LDK_allocate_buffer(int64_t len) {
-	return MALLOC(len, "C#-requested buffer");
+	return (int64_t)MALLOC(len, "C#-requested buffer");
 }
 
 void CS_LDK_free_buffer(int64_t buf) {
-	FREE(buf);
+	FREE((void*)buf);
 }
 
 jstring CS_LDK_get_ldk_c_bindings_version() {
@@ -87,21 +87,21 @@ jstring CS_LDK_get_ldk_version() {
 }
 #include "version.c"
 
-typedef int8_tArray (*invoker_l_l)(int obj_ptr, int fn_id, int64_t a);
+typedef int64_t (*invoker_l_l)(int obj_ptr, int fn_id, int64_t a);
 static invoker_l_l js_invoke_function_l_l;
 int CS_LDK_register_l_l_invoker(invoker_l_l invoker) {
 	js_invoke_function_l_l = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_ll)(int obj_ptr, int fn_id, int64_t a, ptrArray b);
+typedef int64_t (*invoker_l_ll)(int obj_ptr, int fn_id, int64_t a, int64_t b);
 static invoker_l_ll js_invoke_function_l_ll;
 int CS_LDK_register_l_ll_invoker(invoker_l_ll invoker) {
 	js_invoke_function_l_ll = invoker;
 	return 0;
 }
 
-typedef int8_tArray (*invoker_l_)(int obj_ptr, int fn_id);
+typedef int64_t (*invoker_l_)(int obj_ptr, int fn_id);
 static invoker_l_ js_invoke_function_l_;
 int CS_LDK_register_l__invoker(invoker_l_ invoker) {
 	js_invoke_function_l_ = invoker;
@@ -115,21 +115,21 @@ int CS_LDK_register_void_l_invoker(invoker_void_l invoker) {
 	return 0;
 }
 
-typedef int64_t (*invoker_l_llll)(int obj_ptr, int fn_id, int8_tArray a, int64_t b, int64_t c, int8_tArray d);
+typedef int64_t (*invoker_l_llll)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c, int64_t d);
 static invoker_l_llll js_invoke_function_l_llll;
 int CS_LDK_register_l_llll_invoker(invoker_l_llll invoker) {
 	js_invoke_function_l_llll = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_lllll)(int obj_ptr, int fn_id, int8_tArray a, int64_t b, int64_t c, int8_tArray d, int64_t e);
+typedef int64_t (*invoker_l_lllll)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c, int64_t d, int64_t e);
 static invoker_l_lllll js_invoke_function_l_lllll;
 int CS_LDK_register_l_lllll_invoker(invoker_l_lllll invoker) {
 	js_invoke_function_l_lllll = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_lll)(int obj_ptr, int fn_id, int8_tArray a, int64_t b, int64_t c);
+typedef int64_t (*invoker_l_lll)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c);
 static invoker_l_lll js_invoke_function_l_lll;
 int CS_LDK_register_l_lll_invoker(invoker_l_lll invoker) {
 	js_invoke_function_l_lll = invoker;
@@ -157,21 +157,21 @@ int CS_LDK_register_l_Recipient_invoker(invoker_l_Recipient invoker) {
 	return 0;
 }
 
-typedef int64_t (*invoker_l_Recipientll)(int obj_ptr, int fn_id, int32_t a, int8_tArray b, int64_t c);
+typedef int64_t (*invoker_l_Recipientll)(int obj_ptr, int fn_id, int32_t a, int64_t b, int64_t c);
 static invoker_l_Recipientll js_invoke_function_l_Recipientll;
 int CS_LDK_register_l_Recipientll_invoker(invoker_l_Recipientll invoker) {
 	js_invoke_function_l_Recipientll = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_llRecipient)(int obj_ptr, int fn_id, int8_tArray a, ptrArray b, int32_t c);
+typedef int64_t (*invoker_l_llRecipient)(int obj_ptr, int fn_id, int64_t a, int64_t b, int32_t c);
 static invoker_l_llRecipient js_invoke_function_l_llRecipient;
 int CS_LDK_register_l_llRecipient_invoker(invoker_l_llRecipient invoker) {
 	js_invoke_function_l_llRecipient = invoker;
 	return 0;
 }
 
-typedef int8_tArray (*invoker_l_bll)(int obj_ptr, int fn_id, jboolean a, int64_t b, int8_tArray c);
+typedef int64_t (*invoker_l_bll)(int obj_ptr, int fn_id, jboolean a, int64_t b, int64_t c);
 static invoker_l_bll js_invoke_function_l_bll;
 int CS_LDK_register_l_bll_invoker(invoker_l_bll invoker) {
 	js_invoke_function_l_bll = invoker;
@@ -185,7 +185,7 @@ int CS_LDK_register_i_ConfirmationTarget_invoker(invoker_i_ConfirmationTarget in
 	return 0;
 }
 
-typedef int64_t (*invoker_l_llllll)(int obj_ptr, int fn_id, int8_tArray a, int64_t b, int64_tArray c, int64_t d, int8_tArray e, int8_tArray f);
+typedef int64_t (*invoker_l_llllll)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c, int64_t d, int64_t e, int64_t f);
 static invoker_l_llllll js_invoke_function_l_llllll;
 int CS_LDK_register_l_llllll_invoker(invoker_l_llllll invoker) {
 	js_invoke_function_l_llllll = invoker;
@@ -199,7 +199,7 @@ int CS_LDK_register_s__invoker(invoker_s_ invoker) {
 	return 0;
 }
 
-typedef int64_t (*invoker_l_lllb)(int obj_ptr, int fn_id, jstring a, jstring b, jstring c, jboolean d);
+typedef int64_t (*invoker_l_lllb)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c, jboolean d);
 static invoker_l_lllb js_invoke_function_l_lllb;
 int CS_LDK_register_l_lllb_invoker(invoker_l_lllb invoker) {
 	js_invoke_function_l_lllb = invoker;
@@ -227,21 +227,21 @@ int CS_LDK_register_void__invoker(invoker_void_ invoker) {
 	return 0;
 }
 
-typedef void (*invoker_void_lli)(int obj_ptr, int fn_id, int8_tArray a, int64_tArray b, int32_t c);
+typedef void (*invoker_void_lli)(int obj_ptr, int fn_id, int64_t a, int64_t b, int32_t c);
 static invoker_void_lli js_invoke_function_void_lli;
 int CS_LDK_register_void_lli_invoker(invoker_void_lli invoker) {
 	js_invoke_function_void_lli = invoker;
 	return 0;
 }
 
-typedef void (*invoker_void_li)(int obj_ptr, int fn_id, int8_tArray a, int32_t b);
+typedef void (*invoker_void_li)(int obj_ptr, int fn_id, int64_t a, int32_t b);
 static invoker_void_li js_invoke_function_void_li;
 int CS_LDK_register_void_li_invoker(invoker_void_li invoker) {
 	js_invoke_function_void_li = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_llb)(int obj_ptr, int fn_id, int8_tArray a, int64_t b, jboolean c);
+typedef int64_t (*invoker_l_llb)(int obj_ptr, int fn_id, int64_t a, int64_t b, jboolean c);
 static invoker_l_llb js_invoke_function_l_llb;
 int CS_LDK_register_l_llb_invoker(invoker_l_llb invoker) {
 	js_invoke_function_l_llb = invoker;
@@ -255,14 +255,14 @@ int CS_LDK_register_b__invoker(invoker_b_ invoker) {
 	return 0;
 }
 
-typedef int64_t (*invoker_l_sl)(int obj_ptr, int fn_id, int16_t a, int8_tArray b);
+typedef int64_t (*invoker_l_sl)(int obj_ptr, int fn_id, int16_t a, int64_t b);
 static invoker_l_sl js_invoke_function_l_sl;
 int CS_LDK_register_l_sl_invoker(invoker_l_sl invoker) {
 	js_invoke_function_l_sl = invoker;
 	return 0;
 }
 
-typedef int64_t (*invoker_l_lb)(int obj_ptr, int fn_id, int8_tArray a, jboolean b);
+typedef int64_t (*invoker_l_lb)(int obj_ptr, int fn_id, int64_t a, jboolean b);
 static invoker_l_lb js_invoke_function_l_lb;
 int CS_LDK_register_l_lb_invoker(invoker_l_lb invoker) {
 	js_invoke_function_l_lb = invoker;
@@ -276,7 +276,7 @@ int CS_LDK_register_b_l_invoker(invoker_b_l invoker) {
 	return 0;
 }
 
-typedef int64_t (*invoker_l_llli)(int obj_ptr, int fn_id, int8_tArray a, int64_tArray b, int64_tArray c, int32_t d);
+typedef int64_t (*invoker_l_llli)(int obj_ptr, int fn_id, int64_t a, int64_t b, int64_t c, int32_t d);
 static invoker_l_llli js_invoke_function_l_llli;
 int CS_LDK_register_l_llli_invoker(invoker_l_llli invoker) {
 	js_invoke_function_l_llli = invoker;
@@ -12000,7 +12000,7 @@ LDKCResult_CVec_u8ZIOErrorZ read_LDKKVStore_jcall(const void* this_arg, LDKStr p
 	LDKStr key_str = key;
 	jstring key_conv = str_ref_to_cs(key_str.chars, key_str.len);
 	Str_free(key_str);
-	uint64_t ret = js_invoke_function_l_lll(j_calls->instance_ptr, 53, primary_namespace_conv, secondary_namespace_conv, key_conv);
+	uint64_t ret = js_invoke_function_l_lll(j_calls->instance_ptr, 53, (int64_t)primary_namespace_conv, (int64_t)secondary_namespace_conv, (int64_t)key_conv);
 	void* ret_ptr = untag_ptr(ret);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_CVec_u8ZIOErrorZ ret_conv = *(LDKCResult_CVec_u8ZIOErrorZ*)(ret_ptr);
@@ -12021,7 +12021,7 @@ LDKCResult_NoneIOErrorZ write_LDKKVStore_jcall(const void* this_arg, LDKStr prim
 	LDKu8slice buf_var = buf;
 	int8_tArray buf_arr = init_int8_tArray(buf_var.datalen, __LINE__);
 	memcpy(buf_arr->elems, buf_var.data, buf_var.datalen);
-	uint64_t ret = js_invoke_function_l_llll(j_calls->instance_ptr, 54, primary_namespace_conv, secondary_namespace_conv, key_conv, (int64_t)buf_arr);
+	uint64_t ret = js_invoke_function_l_llll(j_calls->instance_ptr, 54, (int64_t)primary_namespace_conv, (int64_t)secondary_namespace_conv, (int64_t)key_conv, (int64_t)buf_arr);
 	void* ret_ptr = untag_ptr(ret);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_NoneIOErrorZ ret_conv = *(LDKCResult_NoneIOErrorZ*)(ret_ptr);
@@ -12040,7 +12040,7 @@ LDKCResult_NoneIOErrorZ remove_LDKKVStore_jcall(const void* this_arg, LDKStr pri
 	jstring key_conv = str_ref_to_cs(key_str.chars, key_str.len);
 	Str_free(key_str);
 	jboolean lazy_conv = lazy;
-	uint64_t ret = js_invoke_function_l_lllb(j_calls->instance_ptr, 55, primary_namespace_conv, secondary_namespace_conv, key_conv, lazy_conv);
+	uint64_t ret = js_invoke_function_l_lllb(j_calls->instance_ptr, 55, (int64_t)primary_namespace_conv, (int64_t)secondary_namespace_conv, (int64_t)key_conv, lazy_conv);
 	void* ret_ptr = untag_ptr(ret);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_NoneIOErrorZ ret_conv = *(LDKCResult_NoneIOErrorZ*)(ret_ptr);
@@ -12055,7 +12055,7 @@ LDKCResult_CVec_StrZIOErrorZ list_LDKKVStore_jcall(const void* this_arg, LDKStr 
 	LDKStr secondary_namespace_str = secondary_namespace;
 	jstring secondary_namespace_conv = str_ref_to_cs(secondary_namespace_str.chars, secondary_namespace_str.len);
 	Str_free(secondary_namespace_str);
-	uint64_t ret = js_invoke_function_l_ll(j_calls->instance_ptr, 56, primary_namespace_conv, secondary_namespace_conv);
+	uint64_t ret = js_invoke_function_l_ll(j_calls->instance_ptr, 56, (int64_t)primary_namespace_conv, (int64_t)secondary_namespace_conv);
 	void* ret_ptr = untag_ptr(ret);
 	CHECK_ACCESS(ret_ptr);
 	LDKCResult_CVec_StrZIOErrorZ ret_conv = *(LDKCResult_CVec_StrZIOErrorZ*)(ret_ptr);
