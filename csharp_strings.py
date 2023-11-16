@@ -391,11 +391,11 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 typedef bool jboolean;
 
 int64_t CS_LDK_allocate_buffer(int64_t len) {
-	return MALLOC(len, "C#-requested buffer");
+	return (int64_t)MALLOC(len, "C#-requested buffer");
 }
 
 void CS_LDK_free_buffer(int64_t buf) {
-	FREE(buf);
+	FREE((void*)buf);
 }
 
 jstring CS_LDK_get_ldk_c_bindings_version() {
@@ -915,7 +915,10 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
                 for arg_info in fn_line.args_ty:
                     fn_suffix += ty_to_c(arg_info.java_ty, arg_info)
                     fn_java_callback_args += ", " + arg_info.java_ty + " " + chr(ord("a") + idx)
-                    fn_c_callback_args += ", " + arg_info.c_ty + " " + chr(ord("a") + idx)
+                    if arg_info.c_ty.endswith("Array") or arg_info.c_ty == "jstring":
+                        fn_c_callback_args += ", int64_t " + chr(ord("a") + idx)
+                    else:
+                        fn_c_callback_args += ", " + arg_info.c_ty + " " + chr(ord("a") + idx)
                     if idx != 0:
                         fn_callback_call_args += ", "
                     fn_callback_call_args += chr(ord("a") + idx)
@@ -933,13 +936,16 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
                     out_c += "\tuint64_t ret = js_invoke_function_" + fn_suffix + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
 
                 if fn_suffix not in self.function_ptrs:
-                    self.function_ptrs[fn_suffix] = {"args": [fn_java_callback_args, fn_c_callback_args], "ret": [fn_line.ret_ty_info.java_ty, fn_line.ret_ty_info.c_ty]}
+                    caller_ret_c_ty = fn_line.ret_ty_info.c_ty
+                    if fn_line.ret_ty_info.c_ty.endswith("Array") or fn_line.ret_ty_info.c_ty == "jstring":
+                        caller_ret_c_ty = "int64_t"
+                    self.function_ptrs[fn_suffix] = {"args": [fn_java_callback_args, fn_c_callback_args], "ret": [fn_line.ret_ty_info.java_ty, caller_ret_c_ty]}
                 self.function_ptrs[fn_suffix][self.function_ptr_counter] = (struct_name, fn_line.fn_name, fn_callback_call_args)
                 self.function_ptr_counter += 1
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        if arg_info.c_ty.endswith("Array"):
+                        if arg_info.c_ty.endswith("Array") or arg_info.c_ty == "jstring":
                             out_c += ", (int64_t)" + arg_info.ret_conv_name
                         else:
                             out_c += ", " + arg_info.ret_conv_name
