@@ -43,6 +43,11 @@ case "$TARGET_STRING" in
 		CS_PLATFORM_NAME="linux-x64"
 		LDK_JAR_TARGET=true
 		;;
+	"x86_64-redhat-linux"*)
+		LDK_TARGET_SUFFIX="_Linux-amd64"
+		CS_PLATFORM_NAME="linux-x64"
+		LDK_JAR_TARGET=true
+		;;
 	"x86_64-apple-darwin"*)
 		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
 		CS_PLATFORM_NAME="osx-x64"
