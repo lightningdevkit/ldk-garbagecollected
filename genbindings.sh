@@ -160,8 +160,10 @@ if [ "$2" = "c_sharp" ]; then
 			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
 		fi
 
-		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
-		$COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
+		# When building for Windows, a timestamp is included in the resulting dll,
+		# so we have to build with faketime.
+		faketime -f "2021-01-01 00:00:00" $COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
+		faketime -f "2021-01-01 00:00:00" $COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
