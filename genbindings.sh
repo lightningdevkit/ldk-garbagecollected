@@ -154,7 +154,7 @@ if [ "$2" = "c_sharp" ]; then
 		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
-		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -static-libgcc"
+		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -lntdll -static-libgcc"
 		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
