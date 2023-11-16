@@ -129,11 +129,12 @@ if [ "$2" = "c_sharp" ]; then
 	fi
 
 	# Compiling C# bindings with Mono
-	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
 	if [ "$3" = "true" ]; then
-		mono-csc -g $MONO_COMPILE
+		mono-csc -g -out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs
 	else
-		mono-csc -optimize+ $MONO_COMPILE
+		cd c_sharp
+		dotnet build --configuration Release
+		cd ..
 	fi
 
 	echo "Building C# bindings..."
@@ -169,7 +170,7 @@ if [ "$2" = "c_sharp" ]; then
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy resulting native binary for inclusion in release nuget zip
 			mkdir -p c_sharp/packaging_artifacts/lib/net3.0/
-			cp csharpldk.dll c_sharp/packaging_artifacts/lib/net3.0/
+			cp c_sharp/bin/Release/net6.0/csharpldk.dll c_sharp/packaging_artifacts/lib/net3.0/
 
 			mkdir -p c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/
 			if [ "$IS_WIN" = "true" ]; then
