@@ -13,7 +13,7 @@
     <tags>bitcoin lightning ldk sdk non-custodial</tags>
     <repository type="git" url="https://github.com/lightningdevkit/ldk-garbagecollected" />
     <dependencies>
-      <group targetFramework="net3.0" />
+      <group targetFramework="net6.0" />
     </dependencies>
   </metadata>
 </package>

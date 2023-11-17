@@ -162,28 +162,21 @@ jobs:
     runs-on: ubuntu-latest
     # Ubuntu's version of clang doesn't support....anything that should work.
     # Ubuntu is an utter trash OS and should generally never be used for anything.
-    # We also require at least rustc 1.51 (ie https://github.com/rust-lang/rust/pull/79998),
-    # so we use debian testing
-    container: debian:bookworm
+    # We also require dotnet so we use fedora
+    container: fedora:39
     strategy:
       fail-fast: false
     steps:
       - name: Install required dependencies
         run: |
-          apt-get update
-          apt-get -y dist-upgrade
-          apt-get -y install cargo libstd-rust-dev-windows lld llvm git g++ clang curl gcc-mingw-w64-x86-64-win32 python3 mono-devel zip faketime
+          dnf install -y mingw64-gcc git cargo dotnet clang llvm lld faketime rust-std-static-x86_64-pc-windows-gnu which diffutils
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Install cbindgen
         run: |
-          git clone https://github.com/eqrion/cbindgen
-          cd cbindgen/
-          git checkout v0.20.0
-          cargo update -p indexmap --precise "1.6.2" --verbose
-          cargo install --locked --path .
+          cargo install cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global safe.directory '*'
@@ -208,7 +201,7 @@ jobs:
       - name: Build Windows C# Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          LDK_TARGET=x86_64-pc-windows-gnu faketime -f "2021-01-01 00:00:00" ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+          LDK_TARGET=x86_64-pc-windows-gnu ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
       - name: Build Linux C# Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -217,6 +210,10 @@ jobs:
         run: |
           cd c_sharp
           ./build-release-nupkg.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: org.ldk.nupkg
+          path: c_sharp/org.ldk.nupkg
       - name: Check latest auto-generated code is in git
         run: |
           # Checkout files that get updated with version information
@@ -241,7 +238,7 @@ jobs:
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           if ! diff ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"org.ldk.nupkg c_sharp/org.ldk.nupkg; then
-            apt-get -y install diffoscope
+            dnf -y install diffoscope
             diffoscope ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"org.ldk.nupkg c_sharp/org.ldk.nupkg || echo
             exit 1
           fi

@@ -43,6 +43,11 @@ case "$TARGET_STRING" in
 		CS_PLATFORM_NAME="linux-x64"
 		LDK_JAR_TARGET=true
 		;;
+	"x86_64-redhat-linux"*)
+		LDK_TARGET_SUFFIX="_Linux-amd64"
+		CS_PLATFORM_NAME="linux-x64"
+		LDK_JAR_TARGET=true
+		;;
 	"x86_64-apple-darwin"*)
 		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
 		CS_PLATFORM_NAME="osx-x64"
@@ -129,11 +134,12 @@ if [ "$2" = "c_sharp" ]; then
 	fi
 
 	# Compiling C# bindings with Mono
-	MONO_COMPILE="-out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs"
 	if [ "$3" = "true" ]; then
-		mono-csc -g $MONO_COMPILE
+		mono-csc -g -out:csharpldk.dll -langversion:3 -t:library -unsafe c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/util/*.cs c_sharp/src/org/ldk/structs/*.cs
 	else
-		mono-csc -optimize+ $MONO_COMPILE
+		cd c_sharp
+		dotnet build --configuration Release
+		cd ..
 	fi
 
 	echo "Building C# bindings..."
@@ -153,21 +159,23 @@ if [ "$2" = "c_sharp" ]; then
 		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
-		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -static-libgcc"
+		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -lntdll -static-libgcc"
 		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
-			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
+			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version -Wl,--build-id=0x0000000000000000"
 		fi
 
-		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
-		$COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
+		# When building for Windows, a timestamp is included in the resulting dll,
+		# so we have to build with faketime.
+		faketime -f "2021-01-01 00:00:00" $COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
+		faketime -f "2021-01-01 00:00:00" $COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy resulting native binary for inclusion in release nuget zip
-			mkdir -p c_sharp/packaging_artifacts/lib/net3.0/
-			cp csharpldk.dll c_sharp/packaging_artifacts/lib/net3.0/
+			mkdir -p c_sharp/packaging_artifacts/lib/net6.0/
+			cp c_sharp/bin/Release/net6.0/csharpldk.dll c_sharp/packaging_artifacts/lib/net6.0/
 
 			mkdir -p c_sharp/packaging_artifacts/runtimes/"$CS_PLATFORM_NAME"/native/
 			if [ "$IS_WIN" = "true" ]; then
