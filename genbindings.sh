@@ -341,6 +341,21 @@ else
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 $2 bindings.o $LDK_LIB -lm
 		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+
+		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
+			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.\(2\|3\)\(\.\|)\)" | grep -v "GLIBC_2.\(3\.4\|14\|17\|18\|25\|28\|29\|32\|33\|34\|\))" || echo)"
+			if [ "$GLIBC_SYMBS" != "" ]; then
+				echo "Unexpected glibc version dependency! Some users need glibc 2.35 support, symbols for newer glibcs cannot be included."
+				echo "$GLIBC_SYMBS"
+				exit 1
+			fi
+			REALLOC_ARRAY_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep reallocarray || echo)"
+			if [ "$REALLOC_ARRAY_SYMBS" != "" ]; then
+				echo "Unexpected reallocarray dependency!"
+				exit 1
+			fi
+		fi
+
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy to JNI native directory for inclusion in JARs
 			mkdir -p src/main/resources/
