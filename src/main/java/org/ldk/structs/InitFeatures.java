@@ -56,6 +56,18 @@ public class InitFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the InitFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.InitFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static InitFeatures empty() {
@@ -540,6 +552,40 @@ public class InitFeatures extends CommonBase {
 	 */
 	public boolean requires_anchors_zero_fee_htlc_tx() {
 		boolean ret = bindings.InitFeatures_requires_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_route_blinding_optional() {
+		bindings.InitFeatures_set_route_blinding_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_route_blinding_required() {
+		bindings.InitFeatures_set_route_blinding_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_route_blinding() {
+		boolean ret = bindings.InitFeatures_supports_route_blinding(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_route_blinding() {
+		boolean ret = bindings.InitFeatures_requires_route_blinding(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

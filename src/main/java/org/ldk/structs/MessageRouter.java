@@ -41,6 +41,11 @@ public class MessageRouter extends CommonBase {
 		 * Returns a route for sending an [`OnionMessage`] to the given [`Destination`].
 		 */
 		Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination);
+		/**
+		 * Creates [`BlindedPath`]s to the `recipient` node. The nodes in `peers` are assumed to be
+		 * direct peers with the `recipient`.
+		 */
+		Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers);
 	}
 	private static class LDKMessageRouterHolder { MessageRouter held; }
 	public static MessageRouter new_impl(MessageRouterInterface arg) {
@@ -50,6 +55,12 @@ public class MessageRouter extends CommonBase {
 				org.ldk.structs.Destination destination_hu_conv = org.ldk.structs.Destination.constr_from_ptr(destination);
 				if (destination_hu_conv != null) { destination_hu_conv.ptrs_to.add(this); };
 				Result_OnionMessagePathNoneZ ret = arg.find_path(sender, peers, destination_hu_conv);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long create_blinded_paths(byte[] recipient, byte[][] peers) {
+				Result_CVec_BlindedPathZNoneZ ret = arg.create_blinded_paths(recipient, peers);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -69,6 +80,20 @@ public class MessageRouter extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OnionMessagePathNoneZ ret_hu_conv = Result_OnionMessagePathNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(destination); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates [`BlindedPath`]s to the `recipient` node. The nodes in `peers` are assumed to be
+	 * direct peers with the `recipient`.
+	 */
+	public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+		long ret = bindings.MessageRouter_create_blinded_paths(this.ptr, InternalUtils.check_arr_len(recipient, 33), peers != null ? Arrays.stream(peers).map(peers_conv_8 -> InternalUtils.check_arr_len(peers_conv_8, 33)).toArray(byte[][]::new) : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(recipient);
+		Reference.reachabilityFence(peers);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_BlindedPathZNoneZ ret_hu_conv = Result_CVec_BlindedPathZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

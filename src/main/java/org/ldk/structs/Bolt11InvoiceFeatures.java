@@ -56,6 +56,18 @@ public class Bolt11InvoiceFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the Bolt11InvoiceFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.Bolt11InvoiceFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static Bolt11InvoiceFeatures empty() {

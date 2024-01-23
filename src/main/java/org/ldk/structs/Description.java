@@ -85,12 +85,24 @@ public class Description extends CommonBase {
 	}
 
 	/**
-	 * Returns the underlying description [`String`]
+	 * Returns the underlying description [`UntrustedString`]
 	 */
-	public String into_inner() {
-		String ret = bindings.Description_into_inner(this.ptr);
+	public UntrustedString into_inner() {
+		long ret = bindings.Description_into_inner(this.ptr);
 		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.UntrustedString ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UntrustedString(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		if (this != null) { this.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Get the string representation of a Description object
+	 */
+	public String to_str() {
+		String ret = bindings.Description_to_str(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

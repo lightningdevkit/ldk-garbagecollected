@@ -52,15 +52,6 @@ public class DirectedChannelInfo extends CommonBase {
 	}
 
 	/**
-	 * Returns the maximum HTLC amount allowed over the channel in the direction.
-	 */
-	public long htlc_maximum_msat() {
-		long ret = bindings.DirectedChannelInfo_htlc_maximum_msat(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
 	 * Returns the [`EffectiveCapacity`] of the channel in the direction.
 	 * 
 	 * This is either the total capacity from the funding transaction, if known, or the

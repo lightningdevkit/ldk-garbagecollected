@@ -63,16 +63,48 @@ public class OnionMessagePath extends CommonBase {
 	}
 
 	/**
+	 * Addresses that may be used to connect to [`OnionMessagePath::first_node`].
+	 * 
+	 * Only needs to be set if a connection to the node is required. [`OnionMessenger`] may use
+	 * this to initiate such a connection.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public Option_CVec_SocketAddressZZ get_first_node_addresses() {
+		long ret = bindings.OnionMessagePath_get_first_node_addresses(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_SocketAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_SocketAddressZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Addresses that may be used to connect to [`OnionMessagePath::first_node`].
+	 * 
+	 * Only needs to be set if a connection to the node is required. [`OnionMessenger`] may use
+	 * this to initiate such a connection.
+	 */
+	public void set_first_node_addresses(org.ldk.structs.Option_CVec_SocketAddressZZ val) {
+		bindings.OnionMessagePath_set_first_node_addresses(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * Constructs a new OnionMessagePath given each field
 	 */
-	public static OnionMessagePath of(byte[][] intermediate_nodes_arg, org.ldk.structs.Destination destination_arg) {
-		long ret = bindings.OnionMessagePath_new(intermediate_nodes_arg != null ? Arrays.stream(intermediate_nodes_arg).map(intermediate_nodes_arg_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)).toArray(byte[][]::new) : null, destination_arg.ptr);
+	public static OnionMessagePath of(byte[][] intermediate_nodes_arg, org.ldk.structs.Destination destination_arg, org.ldk.structs.Option_CVec_SocketAddressZZ first_node_addresses_arg) {
+		long ret = bindings.OnionMessagePath_new(intermediate_nodes_arg != null ? Arrays.stream(intermediate_nodes_arg).map(intermediate_nodes_arg_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)).toArray(byte[][]::new) : null, destination_arg.ptr, first_node_addresses_arg.ptr);
 		Reference.reachabilityFence(intermediate_nodes_arg);
 		Reference.reachabilityFence(destination_arg);
+		Reference.reachabilityFence(first_node_addresses_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OnionMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessagePath(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(destination_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(first_node_addresses_arg); };
 		return ret_hu_conv;
 	}
 
@@ -92,6 +124,15 @@ public class OnionMessagePath extends CommonBase {
 		org.ldk.structs.OnionMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OnionMessagePath(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the first node in the path.
+	 */
+	public byte[] first_node() {
+		byte[] ret = bindings.OnionMessagePath_first_node(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

@@ -275,7 +275,9 @@ public class ChannelConfig extends CommonBase {
 	 * - The counterparty will get an [`HTLCIntercepted`] event upon payment forward, and call
 	 * [`forward_intercepted_htlc`] with less than the amount provided in
 	 * [`HTLCIntercepted::expected_outbound_amount_msat`]. The difference between the expected and
-	 * actual forward amounts is their fee.
+	 * actual forward amounts is their fee. See
+	 * <https://github.com/BitcoinAndLightningLayerSpecs/lsp/tree/main/LSPS2#flow-lsp-trusts-client-model>
+	 * for how this feature may be used in the LSP use case.
 	 * 
 	 * # Note
 	 * It's important for payee wallet software to verify that [`PaymentClaimable::amount_msat`] is
@@ -312,7 +314,9 @@ public class ChannelConfig extends CommonBase {
 	 * - The counterparty will get an [`HTLCIntercepted`] event upon payment forward, and call
 	 * [`forward_intercepted_htlc`] with less than the amount provided in
 	 * [`HTLCIntercepted::expected_outbound_amount_msat`]. The difference between the expected and
-	 * actual forward amounts is their fee.
+	 * actual forward amounts is their fee. See
+	 * <https://github.com/BitcoinAndLightningLayerSpecs/lsp/tree/main/LSPS2#flow-lsp-trusts-client-model>
+	 * for how this feature may be used in the LSP use case.
 	 * 
 	 * # Note
 	 * It's important for payee wallet software to verify that [`PaymentClaimable::amount_msat`] is

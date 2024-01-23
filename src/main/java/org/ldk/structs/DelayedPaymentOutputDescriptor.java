@@ -106,20 +106,24 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * The revocation point specific to the commitment transaction which was broadcast. Used to
 	 * derive the witnessScript for this output.
 	 */
-	public byte[] get_revocation_pubkey() {
-		byte[] ret = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
+	public RevocationKey get_revocation_pubkey() {
+		long ret = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.RevocationKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevocationKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * The revocation point specific to the commitment transaction which was broadcast. Used to
 	 * derive the witnessScript for this output.
 	 */
-	public void set_revocation_pubkey(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_revocation_pubkey(org.ldk.structs.RevocationKey val) {
+		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -163,8 +167,8 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	/**
 	 * Constructs a new DelayedPaymentOutputDescriptor given each field
 	 */
-	public static DelayedPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, org.ldk.structs.TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
-		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+	public static DelayedPaymentOutputDescriptor of(org.ldk.structs.OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, org.ldk.structs.TxOut output_arg, org.ldk.structs.RevocationKey revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
+		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg == null ? 0 : revocation_pubkey_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		Reference.reachabilityFence(outpoint_arg);
 		Reference.reachabilityFence(per_commitment_point_arg);
 		Reference.reachabilityFence(to_self_delay_arg);
@@ -176,6 +180,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 		org.ldk.structs.DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentOutputDescriptor(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(outpoint_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(revocation_pubkey_arg); };
 		return ret_hu_conv;
 	}
 

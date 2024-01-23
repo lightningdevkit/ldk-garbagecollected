@@ -80,7 +80,7 @@ public class MessageHandler extends CommonBase {
 	 * A message handler which handles onion messages. This should generally be an
 	 * [`OnionMessenger`], but can also be an [`IgnoringMessageHandler`].
 	 * 
-	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
+	 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 	 */
 	public OnionMessageHandler get_onion_message_handler() {
 		long ret = bindings.MessageHandler_get_onion_message_handler(this.ptr);
@@ -95,7 +95,7 @@ public class MessageHandler extends CommonBase {
 	 * A message handler which handles onion messages. This should generally be an
 	 * [`OnionMessenger`], but can also be an [`IgnoringMessageHandler`].
 	 * 
-	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
+	 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 	 */
 	public void set_onion_message_handler(org.ldk.structs.OnionMessageHandler val) {
 		bindings.MessageHandler_set_onion_message_handler(this.ptr, val.ptr);

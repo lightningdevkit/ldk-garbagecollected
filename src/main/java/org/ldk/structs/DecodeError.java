@@ -206,6 +206,18 @@ public class DecodeError extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the DecodeError.
+	 */
+	public long hash() {
+		long ret = bindings.DecodeError_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two DecodeErrors contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */

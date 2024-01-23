@@ -171,16 +171,41 @@ public class PaymentParameters extends CommonBase {
 	}
 
 	/**
+	 * A list of indices corresponding to blinded paths in [`Payee::Blinded::route_hints`] which this
+	 * payment was previously attempted over and which caused the payment to fail. Future attempts
+	 * for the same payment shouldn't be relayed through any of these blinded paths.
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public long[] get_previously_failed_blinded_path_idxs() {
+		long[] ret = bindings.PaymentParameters_get_previously_failed_blinded_path_idxs(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A list of indices corresponding to blinded paths in [`Payee::Blinded::route_hints`] which this
+	 * payment was previously attempted over and which caused the payment to fail. Future attempts
+	 * for the same payment shouldn't be relayed through any of these blinded paths.
+	 */
+	public void set_previously_failed_blinded_path_idxs(long[] val) {
+		bindings.PaymentParameters_set_previously_failed_blinded_path_idxs(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new PaymentParameters given each field
 	 */
-	public static PaymentParameters of(org.ldk.structs.Payee payee_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg) {
-		long ret = bindings.PaymentParameters_new(payee_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg);
+	public static PaymentParameters of(org.ldk.structs.Payee payee_arg, org.ldk.structs.Option_u64Z expiry_time_arg, int max_total_cltv_expiry_delta_arg, byte max_path_count_arg, byte max_channel_saturation_power_of_half_arg, long[] previously_failed_channels_arg, long[] previously_failed_blinded_path_idxs_arg) {
+		long ret = bindings.PaymentParameters_new(payee_arg.ptr, expiry_time_arg.ptr, max_total_cltv_expiry_delta_arg, max_path_count_arg, max_channel_saturation_power_of_half_arg, previously_failed_channels_arg, previously_failed_blinded_path_idxs_arg);
 		Reference.reachabilityFence(payee_arg);
 		Reference.reachabilityFence(expiry_time_arg);
 		Reference.reachabilityFence(max_total_cltv_expiry_delta_arg);
 		Reference.reachabilityFence(max_path_count_arg);
 		Reference.reachabilityFence(max_channel_saturation_power_of_half_arg);
 		Reference.reachabilityFence(previously_failed_channels_arg);
+		Reference.reachabilityFence(previously_failed_blinded_path_idxs_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

@@ -60,6 +60,15 @@ public class NodeId extends CommonBase {
 	}
 
 	/**
+	 * Get the public key as an array from this NodeId
+	 */
+	public byte[] as_array() {
+		byte[] ret = bindings.NodeId_as_array(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Get the public key from this NodeId
 	 */
 	public Result_PublicKeySecp256k1ErrorZ as_pubkey() {

@@ -102,15 +102,4 @@ public class ReceiveTlvs extends CommonBase {
 		return ret;
 	}
 
-	/**
-	 * Read a ReceiveTlvs from a byte array, created by ReceiveTlvs_write
-	 */
-	public static Result_ReceiveTlvsDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ReceiveTlvs_read(ser);
-		Reference.reachabilityFence(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ReceiveTlvsDecodeErrorZ ret_hu_conv = Result_ReceiveTlvsDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
 }

@@ -56,6 +56,18 @@ public class OfferFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the OfferFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.OfferFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static OfferFeatures empty() {
