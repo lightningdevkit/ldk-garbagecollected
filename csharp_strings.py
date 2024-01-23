@@ -350,6 +350,18 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
 
+// Int types across Windows/Linux are different, so make sure we're using the right headers.
+_Static_assert(sizeof(void*) == sizeof(uintptr_t), "stdints must be correct");
+_Static_assert(sizeof(void*) == sizeof(intptr_t), "stdints must be correct");
+_Static_assert(sizeof(uint64_t) == 8, "stdints must be correct");
+_Static_assert(sizeof(int64_t) == 8, "stdints must be correct");
+_Static_assert(sizeof(uint32_t) == 4, "stdints must be correct");
+_Static_assert(sizeof(int32_t) == 4, "stdints must be correct");
+_Static_assert(sizeof(uint16_t) == 2, "stdints must be correct");
+_Static_assert(sizeof(int16_t) == 2, "stdints must be correct");
+_Static_assert(sizeof(uint8_t) == 1, "stdints must be correct");
+_Static_assert(sizeof(int8_t) == 1, "stdints must be correct");
+
 #define DECL_ARR_TYPE(ty, name) \\
 	struct name##array { \\
 		uint64_t arr_len; /* uint32_t would suffice but we want to align uint64_ts as well */ \\
