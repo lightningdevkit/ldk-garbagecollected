@@ -1100,46 +1100,11 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.txout_defn)
                         out_java_struct.write(consts.hu_struct_file_suffix)
-                        fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_script_pubkey) \((.*)\)").match(fn_line), None, None, None)
-                        fn_line = "uint64_t TxOut_get_value (struct LDKTxOut* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn thing->value;")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_value) \((.*)\)").match(fn_line), None, None, None)
                 elif struct_name == "LDKTxIn":
                     with open(f"{sys.argv[3]}/structs/TxIn{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write(consts.txin_defn)
                         out_java_struct.write(consts.hu_struct_file_suffix)
-                        fn_line = "struct LDKWitness TxIn_get_witness (struct LDKTxIn* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn Witness_clone(&thing->witness);")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_witness) \((.*)\)").match(fn_line), None, None, None)
-                        fn_line = "struct LDKCVec_u8Z TxIn_get_script_sig (struct LDKTxIn* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn CVec_u8Z_clone(&thing->script_sig);")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_script_sig) \((.*)\)").match(fn_line), None, None, None)
-                        fn_line = "LDKThirtyTwoBytes TxIn_get_previous_txid (struct LDKTxIn* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn thing->previous_txid;")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_previous_txid) \((.*)\)").match(fn_line), None, None, None)
-                        fn_line = "uint32_t TxIn_get_previous_vout (struct LDKTxIn* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn thing->previous_vout;")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_previous_vout) \((.*)\)").match(fn_line), None, None, None)
-                        fn_line = "uint32_t TxIn_get_sequence (struct LDKTxIn* thing)"
-                        write_c(fn_line + " {")
-                        write_c("\treturn thing->sequence;")
-                        write_c("}")
-                        map_fn(fn_line + "\n", re.compile("(.*) (TxIn_get_sequence) \((.*)\)").match(fn_line), None, None, None)
                 elif struct_name == "LDKBigEndianScalar":
                     with open(f"{sys.argv[3]}/structs/BigEndianScalar{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
