@@ -655,7 +655,8 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             expected_struct in result_types or expected_struct in tuple_types) and not is_free
         impl_on_utils = not impl_on_struct and (not is_free and not method_name.endswith("_clone") and
             not method_name.startswith("TxOut") and not method_name.startswith("TxIn") and
-            not method_name.startswith("BigEndianScalar") and not method_name.startswith("_") and
+            not method_name.startswith("BigEndianScalar") and not method_name.startswith("WitnessProgram") and
+            not method_name.startswith("_") and
             method_name != "check_platform" and method_name != "Result_read" and
             not expected_struct in unitary_enums and
             ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
@@ -1159,6 +1160,11 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         fn_line = "static void BigEndianScalar_free (struct LDKBigEndianScalar thing)"
                         write_c(fn_line + " {}\n")
                         map_fn(fn_line + "\n", re.compile("static (.*) (BigEndianScalar_free) \((.*)\)").match(fn_line), None, None, None)
+                elif struct_name == "LDKWitnessProgram":
+                    with open(f"{sys.argv[3]}/structs/WitnessProgram{consts.file_ext}", "w") as out_java_struct:
+                        out_java_struct.write(consts.hu_struct_file_prefix)
+                        out_java_struct.write(consts.witness_program_defn)
+                        out_java_struct.write(consts.hu_struct_file_suffix)
                 else:
                     pass # Everything remaining is a byte[] of some form
                 cur_block_obj = None

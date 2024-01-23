@@ -517,7 +517,7 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".getVal()", ""))
 
-                assert ty_info.rust_obj == "LDKTxOut" or ty_info.rust_obj == "LDKTxIn" or ty_info.rust_obj == "LDKBigEndianScalar"
+                assert ty_info.rust_obj == "LDKWitnessProgram" or ty_info.rust_obj == "LDKTxOut" or ty_info.rust_obj == "LDKTxIn" or ty_info.rust_obj == "LDKBigEndianScalar"
                 if not ty_info.is_ptr and not holds_ref:
                     ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
                     ret_conv_name = "tag_ptr(" + ty_info.var_name + "_ref, true)"
