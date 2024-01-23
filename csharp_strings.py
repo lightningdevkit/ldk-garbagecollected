@@ -1442,10 +1442,11 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
 		}}
 	}}
 	public delegate {jret} {fn_suffix}_callback(int obj_ptr, int fn_id{jargs});
+	static {fn_suffix}_callback {fn_suffix}_callback_inst = c_callback_{fn_suffix};
 """)
                 bindings.write(self.native_meth_decl(f"register_{fn_suffix}_invoker", "int") + f"({fn_suffix}_callback callee);\n")
                 # Easiest way to get a static run is just define a variable, even if we dont care
-                bindings.write(f"\tstatic int _run_{fn_suffix}_registration = register_{fn_suffix}_invoker(c_callback_{fn_suffix});")
+                bindings.write(f"\tstatic int _run_{fn_suffix}_registration = register_{fn_suffix}_invoker({fn_suffix}_callback_inst);")
 
             bindings.write("""
 }
