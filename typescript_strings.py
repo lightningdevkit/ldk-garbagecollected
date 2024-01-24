@@ -129,7 +129,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 }
 
 const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu", "bbbbbu",
-	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uububu", "ububuu"];
+	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uubbuu", "uububu", "ububuu"];
 
 /* @internal */
 export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
