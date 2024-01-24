@@ -92,14 +92,14 @@ namespace tests {
 			public ChannelManager manager;
 
 			public Node(byte seed) {
-				chain_monitor = ChainMonitor.of(Option_FilterZ.none(), broadcaster, logger, estimator, persister);
-				graph = NetworkGraph.of(Network.LDKNetwork_Bitcoin, logger);
-				scorer = MultiThreadedLockableScore.of(ProbabilisticScorer.of(ProbabilisticScoringDecayParameters.with_default(), graph, logger).as_Score());
-				router = DefaultRouter.of(graph, logger, new byte[32], scorer.as_LockableScore(), ProbabilisticScoringFeeParameters.with_default());
-
 				byte[] seed_bytes = new byte[32];
 				for (int i = 0; i < 32; i++) seed_bytes[i] = seed;
 				keys = KeysManager.of(seed_bytes, 42, 43);
+
+				chain_monitor = ChainMonitor.of(Option_FilterZ.none(), broadcaster, logger, estimator, persister);
+				graph = NetworkGraph.of(Network.LDKNetwork_Bitcoin, logger);
+				scorer = MultiThreadedLockableScore.of(ProbabilisticScorer.of(ProbabilisticScoringDecayParameters.with_default(), graph, logger).as_Score());
+				router = DefaultRouter.of(graph, logger, keys.as_EntropySource(), scorer.as_LockableScore(), ProbabilisticScoringFeeParameters.with_default());
 
 				manager = ChannelManager.of(estimator, chain_monitor.as_Watch(), broadcaster, router.as_Router(), logger, keys.as_EntropySource(), keys.as_NodeSigner(), keys.as_SignerProvider(), UserConfig.with_default(), chain_params, 42);
 			}
@@ -114,7 +114,7 @@ namespace tests {
 			node_a.manager.as_ChannelMessageHandler().peer_connected(node_b.manager.get_our_node_id(), init_msg, false);
 			node_b.manager.as_ChannelMessageHandler().peer_connected(node_a.manager.get_our_node_id(), init_msg, false);
 
-			Result_ThirtyTwoBytesAPIErrorZ res = node_a.manager.create_channel(node_b.manager.get_our_node_id(), 100000, 42, new UInt128(43), UserConfig.with_default());
+			Result_ThirtyTwoBytesAPIErrorZ res = node_a.manager.create_channel(node_b.manager.get_our_node_id(), 100000, 42, new UInt128(43), Option_ThirtyTwoBytesZ.none(), null);
 			Assert(res.is_ok(), 4);
 
 			MessageSendEvent[] msgs = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
