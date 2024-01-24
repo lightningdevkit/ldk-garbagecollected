@@ -51,6 +51,18 @@ public class InitFeatures : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the InitFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.InitFeatures_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static InitFeatures empty() {
@@ -537,6 +549,40 @@ public class InitFeatures : CommonBase {
 	 */
 	public bool requires_anchors_zero_fee_htlc_tx() {
 		bool ret = bindings.InitFeatures_requires_anchors_zero_fee_htlc_tx(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_route_blinding_optional() {
+		bindings.InitFeatures_set_route_blinding_optional(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_route_blinding_required() {
+		bindings.InitFeatures_set_route_blinding_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public bool supports_route_blinding() {
+		bool ret = bindings.InitFeatures_supports_route_blinding(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public bool requires_route_blinding() {
+		bool ret = bindings.InitFeatures_requires_route_blinding(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}

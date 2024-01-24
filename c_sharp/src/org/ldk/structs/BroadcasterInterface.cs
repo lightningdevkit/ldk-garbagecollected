@@ -22,7 +22,7 @@ public interface BroadcasterInterfaceInterface {
 	 * be sure to manage both cases correctly.
 	 * 
 	 * Bitcoin transaction packages are defined in BIP 331 and here:
-	 * https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md
+	 * <https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md>
 	 */
 	void broadcast_transactions(byte[][] txs);
 }
@@ -83,7 +83,7 @@ public class BroadcasterInterface : CommonBase {
 	 * be sure to manage both cases correctly.
 	 * 
 	 * Bitcoin transaction packages are defined in BIP 331 and here:
-	 * https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md
+	 * <https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md>
 	 */
 	public void broadcast_transactions(byte[][] txs) {
 		bindings.BroadcasterInterface_broadcast_transactions(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(txs, txs_conv_8 => InternalUtils.encodeUint8Array(txs_conv_8))));

@@ -23,10 +23,11 @@ public class SendError : CommonBase {
 			case 1: return new SendError_TooBigPacket(ptr);
 			case 2: return new SendError_TooFewBlindedHops(ptr);
 			case 3: return new SendError_InvalidFirstHop(ptr);
-			case 4: return new SendError_InvalidMessage(ptr);
-			case 5: return new SendError_BufferFull(ptr);
-			case 6: return new SendError_GetNodeIdFailed(ptr);
-			case 7: return new SendError_BlindedPathAdvanceFailed(ptr);
+			case 4: return new SendError_PathNotFound(ptr);
+			case 5: return new SendError_InvalidMessage(ptr);
+			case 6: return new SendError_BufferFull(ptr);
+			case 7: return new SendError_GetNodeIdFailed(ptr);
+			case 8: return new SendError_BlindedPathAdvanceFailed(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -51,7 +52,16 @@ public class SendError : CommonBase {
 	}
 	/** A SendError of type InvalidFirstHop */
 	public class SendError_InvalidFirstHop : SendError {
+		public byte[] invalid_first_hop;
 		internal SendError_InvalidFirstHop(long ptr) : base(null, ptr) {
+			long invalid_first_hop = bindings.LDKSendError_InvalidFirstHop_get_invalid_first_hop(ptr);
+			byte[] invalid_first_hop_conv = InternalUtils.decodeUint8Array(invalid_first_hop);
+			this.invalid_first_hop = invalid_first_hop_conv;
+		}
+	}
+	/** A SendError of type PathNotFound */
+	public class SendError_PathNotFound : SendError {
+		internal SendError_PathNotFound(long ptr) : base(null, ptr) {
 		}
 	}
 	/** A SendError of type InvalidMessage */
@@ -129,8 +139,20 @@ public class SendError : CommonBase {
 	/**
 	 * Utility method to constructs a new InvalidFirstHop-variant SendError
 	 */
-	public static SendError invalid_first_hop() {
-		long ret = bindings.SendError_invalid_first_hop();
+	public static SendError invalid_first_hop(byte[] a) {
+		long ret = bindings.SendError_invalid_first_hop(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(a, 33)));
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PathNotFound-variant SendError
+	 */
+	public static SendError path_not_found() {
+		long ret = bindings.SendError_path_not_found();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

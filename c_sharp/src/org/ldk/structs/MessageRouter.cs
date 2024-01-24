@@ -13,6 +13,10 @@ public interface MessageRouterInterface {
 	/**Returns a route for sending an [`OnionMessage`] to the given [`Destination`].
 	 */
 	Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination);
+	/**Creates [`BlindedPath`]s to the `recipient` node. The nodes in `peers` are assumed to be
+	 * direct peers with the `recipient`.
+	 */
+	Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers);
 }
 
 /**
@@ -49,6 +53,21 @@ public class MessageRouter : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
+		public long create_blinded_paths(long _recipient, long _peers) {
+			byte[] _recipient_conv = InternalUtils.decodeUint8Array(_recipient);
+			int _peers_conv_8_len = InternalUtils.getArrayLength(_peers);
+			byte[][] _peers_conv_8_arr = new byte[_peers_conv_8_len][];
+			for (int i = 0; i < _peers_conv_8_len; i++) {
+				long _peers_conv_8 = InternalUtils.getU64ArrayElem(_peers, i);
+				byte[] _peers_conv_8_conv = InternalUtils.decodeUint8Array(_peers_conv_8);
+				_peers_conv_8_arr[i] = _peers_conv_8_conv;
+			}
+			bindings.free_buffer(_peers);
+			Result_CVec_BlindedPathZNoneZ ret = arg.create_blinded_paths(_recipient_conv, _peers_conv_8_arr);
+				GC.KeepAlive(arg);
+			long result = ret == null ? 0 : ret.clone_ptr();
+			return result;
+		}
 	}
 
 	/** Creates a new instance of MessageRouter from a given implementation */
@@ -75,6 +94,20 @@ public class MessageRouter : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OnionMessagePathNoneZ ret_hu_conv = Result_OnionMessagePathNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(destination); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates [`BlindedPath`]s to the `recipient` node. The nodes in `peers` are assumed to be
+	 * direct peers with the `recipient`.
+	 */
+	public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+		long ret = bindings.MessageRouter_create_blinded_paths(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(recipient, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(peers, peers_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(peers_conv_8, 33)))));
+		GC.KeepAlive(this);
+		GC.KeepAlive(recipient);
+		GC.KeepAlive(peers);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_BlindedPathZNoneZ ret_hu_conv = Result_CVec_BlindedPathZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

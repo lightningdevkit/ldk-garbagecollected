@@ -30,7 +30,7 @@ public class ProbabilisticScoringDecayParameters : CommonBase {
 	 * 
 	 * Default value: 14 days
 	 * 
-	 * [`historical_estimated_channel_liquidity_probabilities`]: ProbabilisticScorerUsingTime::historical_estimated_channel_liquidity_probabilities
+	 * [`historical_estimated_channel_liquidity_probabilities`]: ProbabilisticScorer::historical_estimated_channel_liquidity_probabilities
 	 */
 	public long get_historical_no_updates_half_life() {
 		long ret = bindings.ProbabilisticScoringDecayParameters_get_historical_no_updates_half_life(this.ptr);
@@ -49,7 +49,7 @@ public class ProbabilisticScoringDecayParameters : CommonBase {
 	 * 
 	 * Default value: 14 days
 	 * 
-	 * [`historical_estimated_channel_liquidity_probabilities`]: ProbabilisticScorerUsingTime::historical_estimated_channel_liquidity_probabilities
+	 * [`historical_estimated_channel_liquidity_probabilities`]: ProbabilisticScorer::historical_estimated_channel_liquidity_probabilities
 	 */
 	public void set_historical_no_updates_half_life(long val) {
 		bindings.ProbabilisticScoringDecayParameters_set_historical_no_updates_half_life(this.ptr, val);

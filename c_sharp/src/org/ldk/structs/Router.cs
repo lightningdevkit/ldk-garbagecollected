@@ -29,6 +29,11 @@ public interface RouterInterface {
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] _payment_hash, byte[] _payment_id);
+	/**Creates [`BlindedPath`]s for payment to the `recipient` node. The channels in `first_hops`
+	 * are assumed to be with the `recipient`'s peers. The payment secret and any constraints are
+	 * given in `tlvs`.
+	 */
+	Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats);
 }
 
 /**
@@ -92,17 +97,37 @@ public class Router : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
+		public long create_blinded_payment_paths(long _recipient, long _first_hops, long _tlvs, long _amount_msats) {
+			byte[] _recipient_conv = InternalUtils.decodeUint8Array(_recipient);
+			int _first_hops_conv_16_len = InternalUtils.getArrayLength(_first_hops);
+			ChannelDetails[] _first_hops_conv_16_arr = new ChannelDetails[_first_hops_conv_16_len];
+			for (int q = 0; q < _first_hops_conv_16_len; q++) {
+				long _first_hops_conv_16 = InternalUtils.getU64ArrayElem(_first_hops, q);
+				org.ldk.structs.ChannelDetails _first_hops_conv_16_hu_conv = null; if (_first_hops_conv_16 < 0 || _first_hops_conv_16 > 4096) { _first_hops_conv_16_hu_conv = new org.ldk.structs.ChannelDetails(null, _first_hops_conv_16); }
+				if (_first_hops_conv_16_hu_conv != null) { _first_hops_conv_16_hu_conv.ptrs_to.AddLast(this); };
+				_first_hops_conv_16_arr[q] = _first_hops_conv_16_hu_conv;
+			}
+			bindings.free_buffer(_first_hops);
+			org.ldk.structs.ReceiveTlvs _tlvs_hu_conv = null; if (_tlvs < 0 || _tlvs > 4096) { _tlvs_hu_conv = new org.ldk.structs.ReceiveTlvs(null, _tlvs); }
+			if (_tlvs_hu_conv != null) { _tlvs_hu_conv.ptrs_to.AddLast(this); };
+			Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ ret = arg.create_blinded_payment_paths(_recipient_conv, _first_hops_conv_16_arr, _tlvs_hu_conv, _amount_msats);
+				GC.KeepAlive(arg);
+			long result = ret == null ? 0 : ret.clone_ptr();
+			return result;
+		}
 	}
 
 	/** Creates a new instance of Router from a given implementation */
-	public static Router new_impl(RouterInterface arg) {
+	public static Router new_impl(RouterInterface arg, MessageRouterInterface messageRouter_impl) {
 		LDKRouterHolder impl_holder = new LDKRouterHolder();
 		LDKRouterImpl impl = new LDKRouterImpl(arg, impl_holder);
-		long[] ptr_idx = bindings.LDKRouter_new(impl);
+		MessageRouter messageRouter = MessageRouter.new_impl(messageRouter_impl);
+		long[] ptr_idx = bindings.LDKRouter_new(impl, messageRouter.instance_idx);
 
 		impl_holder.held = new Router(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = impl;
+		impl_holder.held.ptrs_to.AddLast(messageRouter);
 		return impl_holder.held;
 	}
 
@@ -154,6 +179,25 @@ public class Router : CommonBase {
 		if (this != null) { this.ptrs_to.AddLast(route_params); };
 		if (first_hops != null) { foreach (ChannelDetails first_hops_conv_16 in first_hops) { if (this != null) { this.ptrs_to.AddLast(first_hops_conv_16); }; } };
 		if (this != null) { this.ptrs_to.AddLast(inflight_htlcs); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates [`BlindedPath`]s for payment to the `recipient` node. The channels in `first_hops`
+	 * are assumed to be with the `recipient`'s peers. The payment secret and any constraints are
+	 * given in `tlvs`.
+	 */
+	public Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, org.ldk.structs.ReceiveTlvs tlvs, long amount_msats) {
+		long ret = bindings.Router_create_blinded_payment_paths(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(recipient, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(first_hops, first_hops_conv_16 => first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr)), tlvs == null ? 0 : tlvs.ptr, amount_msats);
+		GC.KeepAlive(this);
+		GC.KeepAlive(recipient);
+		GC.KeepAlive(first_hops);
+		GC.KeepAlive(tlvs);
+		GC.KeepAlive(amount_msats);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ ret_hu_conv = Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ.constr_from_ptr(ret);
+		foreach (ChannelDetails first_hops_conv_16 in first_hops) { if (this != null) { this.ptrs_to.AddLast(first_hops_conv_16); }; };
+		if (this != null) { this.ptrs_to.AddLast(tlvs); };
 		return ret_hu_conv;
 	}
 

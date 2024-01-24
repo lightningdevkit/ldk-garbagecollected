@@ -77,6 +77,18 @@ public class UntrustedString : CommonBase {
 		return this.eq((UntrustedString)o);
 	}
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the UntrustedString.
+	 */
+	public long hash() {
+		long ret = bindings.UntrustedString_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Serialize the UntrustedString object into a byte array which can be read by UntrustedString_read
 	 */
 	public byte[] write() {

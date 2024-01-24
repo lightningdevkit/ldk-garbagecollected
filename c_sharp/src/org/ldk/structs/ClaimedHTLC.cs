@@ -116,14 +116,39 @@ public class ClaimedHTLC : CommonBase {
 	}
 
 	/**
+	 * The extra fee our counterparty skimmed off the top of this HTLC, if any.
+	 * 
+	 * This value will always be 0 for [`ClaimedHTLC`]s serialized with LDK versions prior to
+	 * 0.0.119.
+	 */
+	public long get_counterparty_skimmed_fee_msat() {
+		long ret = bindings.ClaimedHTLC_get_counterparty_skimmed_fee_msat(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * The extra fee our counterparty skimmed off the top of this HTLC, if any.
+	 * 
+	 * This value will always be 0 for [`ClaimedHTLC`]s serialized with LDK versions prior to
+	 * 0.0.119.
+	 */
+	public void set_counterparty_skimmed_fee_msat(long val) {
+		bindings.ClaimedHTLC_set_counterparty_skimmed_fee_msat(this.ptr, val);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * Constructs a new ClaimedHTLC given each field
 	 */
-	public static ClaimedHTLC of(byte[] channel_id_arg, org.ldk.util.UInt128 user_channel_id_arg, int cltv_expiry_arg, long value_msat_arg) {
-		long ret = bindings.ClaimedHTLC_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(user_channel_id_arg.getLEBytes()), cltv_expiry_arg, value_msat_arg);
+	public static ClaimedHTLC of(byte[] channel_id_arg, org.ldk.util.UInt128 user_channel_id_arg, int cltv_expiry_arg, long value_msat_arg, long counterparty_skimmed_fee_msat_arg) {
+		long ret = bindings.ClaimedHTLC_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id_arg, 32)), InternalUtils.encodeUint8Array(user_channel_id_arg.getLEBytes()), cltv_expiry_arg, value_msat_arg, counterparty_skimmed_fee_msat_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(user_channel_id_arg);
 		GC.KeepAlive(cltv_expiry_arg);
 		GC.KeepAlive(value_msat_arg);
+		GC.KeepAlive(counterparty_skimmed_fee_msat_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClaimedHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ClaimedHTLC(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

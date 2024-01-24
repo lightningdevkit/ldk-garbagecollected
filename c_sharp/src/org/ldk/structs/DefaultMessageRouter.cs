@@ -16,13 +16,17 @@ public class DefaultMessageRouter : CommonBase {
 	}
 
 	/**
-	 * Constructs a new DefaultMessageRouter given each field
+	 * Creates a [`DefaultMessageRouter`] using the given [`NetworkGraph`].
 	 */
-	public static DefaultMessageRouter of() {
-		long ret = bindings.DefaultMessageRouter_new();
+	public static DefaultMessageRouter of(org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.DefaultMessageRouter_new(network_graph == null ? 0 : network_graph.ptr, entropy_source.ptr);
+		GC.KeepAlive(network_graph);
+		GC.KeepAlive(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.DefaultMessageRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DefaultMessageRouter(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
 		return ret_hu_conv;
 	}
 

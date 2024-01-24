@@ -128,6 +128,18 @@ public class PaymentPurpose : CommonBase {
 		return this.eq((PaymentPurpose)o);
 	}
 	/**
+	 * Returns the preimage for this payment, if it is known.
+	 */
+	public Option_ThirtyTwoBytesZ preimage() {
+		long ret = bindings.PaymentPurpose_preimage(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Serialize the PaymentPurpose object into a byte array which can be read by PaymentPurpose_read
 	 */
 	public byte[] write() {

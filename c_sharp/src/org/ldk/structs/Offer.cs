@@ -209,6 +209,16 @@ public class Offer : CommonBase {
 	}
 
 	/**
+	 * Whether the offer has expired given the duration since the Unix epoch.
+	 */
+	public bool is_expired_no_std(long duration_since_epoch) {
+		bool ret = bindings.Offer_is_expired_no_std(this.ptr, duration_since_epoch);
+		GC.KeepAlive(this);
+		GC.KeepAlive(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * Returns whether the given quantity is valid for the offer.
 	 */
 	public bool is_valid_quantity(long quantity) {

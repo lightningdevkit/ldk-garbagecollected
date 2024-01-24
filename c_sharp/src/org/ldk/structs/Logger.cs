@@ -10,13 +10,13 @@ namespace org { namespace ldk { namespace structs {
 
 /** An implementation of Logger */
 public interface LoggerInterface {
-	/**Logs the `Record`
+	/**Logs the [`Record`].
 	 */
 	void log(Record record);
 }
 
 /**
- * A trait encapsulating the operations required of a logger
+ * A trait encapsulating the operations required of a logger.
  */
 public class Logger : CommonBase {
 	internal bindings.LDKLogger bindings_instance;
@@ -34,6 +34,7 @@ public class Logger : CommonBase {
 		private LDKLoggerHolder impl_holder;
 		public void log(long _record) {
 			org.ldk.structs.Record _record_hu_conv = null; if (_record < 0 || _record > 4096) { _record_hu_conv = new org.ldk.structs.Record(null, _record); }
+			if (_record_hu_conv != null) { _record_hu_conv.ptrs_to.AddLast(this); };
 			arg.log(_record_hu_conv);
 				GC.KeepAlive(arg);
 		}

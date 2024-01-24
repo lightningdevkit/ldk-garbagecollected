@@ -50,12 +50,13 @@ public class TxCreationKeys : CommonBase {
 	 * transaction to provide their counterparty the ability to punish them if they broadcast
 	 * an old state.
 	 */
-	public byte[] get_revocation_key() {
+	public RevocationKey get_revocation_key() {
 		long ret = bindings.TxCreationKeys_get_revocation_key(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
+		org.ldk.structs.RevocationKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevocationKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -63,77 +64,84 @@ public class TxCreationKeys : CommonBase {
 	 * transaction to provide their counterparty the ability to punish them if they broadcast
 	 * an old state.
 	 */
-	public void set_revocation_key(byte[] val) {
-		bindings.TxCreationKeys_set_revocation_key(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+	public void set_revocation_key(org.ldk.structs.RevocationKey val) {
+		bindings.TxCreationKeys_set_revocation_key(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Broadcaster's HTLC Key
 	 */
-	public byte[] get_broadcaster_htlc_key() {
+	public HtlcKey get_broadcaster_htlc_key() {
 		long ret = bindings.TxCreationKeys_get_broadcaster_htlc_key(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
+		org.ldk.structs.HtlcKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.HtlcKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Broadcaster's HTLC Key
 	 */
-	public void set_broadcaster_htlc_key(byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_htlc_key(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+	public void set_broadcaster_htlc_key(org.ldk.structs.HtlcKey val) {
+		bindings.TxCreationKeys_set_broadcaster_htlc_key(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Countersignatory's HTLC Key
 	 */
-	public byte[] get_countersignatory_htlc_key() {
+	public HtlcKey get_countersignatory_htlc_key() {
 		long ret = bindings.TxCreationKeys_get_countersignatory_htlc_key(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
+		org.ldk.structs.HtlcKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.HtlcKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Countersignatory's HTLC Key
 	 */
-	public void set_countersignatory_htlc_key(byte[] val) {
-		bindings.TxCreationKeys_set_countersignatory_htlc_key(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+	public void set_countersignatory_htlc_key(org.ldk.structs.HtlcKey val) {
+		bindings.TxCreationKeys_set_countersignatory_htlc_key(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Broadcaster's Payment Key (which isn't allowed to be spent from for some delay)
 	 */
-	public byte[] get_broadcaster_delayed_payment_key() {
+	public DelayedPaymentKey get_broadcaster_delayed_payment_key() {
 		long ret = bindings.TxCreationKeys_get_broadcaster_delayed_payment_key(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
+		org.ldk.structs.DelayedPaymentKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Broadcaster's Payment Key (which isn't allowed to be spent from for some delay)
 	 */
-	public void set_broadcaster_delayed_payment_key(byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+	public void set_broadcaster_delayed_payment_key(org.ldk.structs.DelayedPaymentKey val) {
+		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
+		if (this != null) { this.ptrs_to.AddLast(val); };
 	}
 
 	/**
 	 * Constructs a new TxCreationKeys given each field
 	 */
-	public static TxCreationKeys of(byte[] per_commitment_point_arg, byte[] revocation_key_arg, byte[] broadcaster_htlc_key_arg, byte[] countersignatory_htlc_key_arg, byte[] broadcaster_delayed_payment_key_arg) {
-		long ret = bindings.TxCreationKeys_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(revocation_key_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_htlc_key_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(countersignatory_htlc_key_arg, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_delayed_payment_key_arg, 33)));
+	public static TxCreationKeys of(byte[] per_commitment_point_arg, org.ldk.structs.RevocationKey revocation_key_arg, org.ldk.structs.HtlcKey broadcaster_htlc_key_arg, org.ldk.structs.HtlcKey countersignatory_htlc_key_arg, org.ldk.structs.DelayedPaymentKey broadcaster_delayed_payment_key_arg) {
+		long ret = bindings.TxCreationKeys_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point_arg, 33)), revocation_key_arg == null ? 0 : revocation_key_arg.ptr, broadcaster_htlc_key_arg == null ? 0 : broadcaster_htlc_key_arg.ptr, countersignatory_htlc_key_arg == null ? 0 : countersignatory_htlc_key_arg.ptr, broadcaster_delayed_payment_key_arg == null ? 0 : broadcaster_delayed_payment_key_arg.ptr);
 		GC.KeepAlive(per_commitment_point_arg);
 		GC.KeepAlive(revocation_key_arg);
 		GC.KeepAlive(broadcaster_htlc_key_arg);
@@ -142,6 +150,10 @@ public class TxCreationKeys : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(revocation_key_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(broadcaster_htlc_key_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(countersignatory_htlc_key_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(broadcaster_delayed_payment_key_arg); };
 		return ret_hu_conv;
 	}
 
@@ -206,8 +218,8 @@ public class TxCreationKeys : CommonBase {
 	 * Create per-state keys from channel base points and the per-commitment point.
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
-	public static TxCreationKeys derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
-		long ret = bindings.TxCreationKeys_derive_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_delayed_payment_base, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_htlc_base, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(countersignatory_revocation_base, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(countersignatory_htlc_base, 33)));
+	public static TxCreationKeys derive_new(byte[] per_commitment_point, org.ldk.structs.DelayedPaymentBasepoint broadcaster_delayed_payment_base, org.ldk.structs.HtlcBasepoint broadcaster_htlc_base, org.ldk.structs.RevocationBasepoint countersignatory_revocation_base, org.ldk.structs.HtlcBasepoint countersignatory_htlc_base) {
+		long ret = bindings.TxCreationKeys_derive_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point, 33)), broadcaster_delayed_payment_base == null ? 0 : broadcaster_delayed_payment_base.ptr, broadcaster_htlc_base == null ? 0 : broadcaster_htlc_base.ptr, countersignatory_revocation_base == null ? 0 : countersignatory_revocation_base.ptr, countersignatory_htlc_base == null ? 0 : countersignatory_htlc_base.ptr);
 		GC.KeepAlive(per_commitment_point);
 		GC.KeepAlive(broadcaster_delayed_payment_base);
 		GC.KeepAlive(broadcaster_htlc_base);
@@ -216,6 +228,10 @@ public class TxCreationKeys : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TxCreationKeys(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(broadcaster_delayed_payment_base); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(broadcaster_htlc_base); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(countersignatory_revocation_base); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(countersignatory_htlc_base); };
 		return ret_hu_conv;
 	}
 

@@ -471,6 +471,18 @@ public class OpenChannel : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the OpenChannel.
+	 */
+	public long hash() {
+		long ret = bindings.OpenChannel_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two OpenChannels contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.

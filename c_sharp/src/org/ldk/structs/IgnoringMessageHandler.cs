@@ -28,6 +28,19 @@ public class IgnoringMessageHandler : CommonBase {
 	}
 
 	/**
+	 * Constructs a new EventsProvider which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EventsProvider must be freed before this_arg is
+	 */
+	public EventsProvider as_EventsProvider() {
+		long ret = bindings.IgnoringMessageHandler_as_EventsProvider(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new MessageSendEventsProvider which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
