@@ -399,6 +399,14 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ldk-java.jar
+          path: ldk-java.jar
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ldk-java-leaktracking.jar
+          path: ldk-java-leaktracking.jar
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -635,6 +643,10 @@ jobs:
           export ANDROID_TOOLCHAIN="$(pwd)/android-ndk-r22b/toolchains/llvm/prebuilt/linux-x86_64"
           export PATH="$PATH:$ANDROID_TOOLCHAIN/bin"
           ./android-build.sh ./rust-lightning ./ldk-c-bindings/ ./ldk-java-bins/android-artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: LDK-release.aar
+          path: LDK-release.aar
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
