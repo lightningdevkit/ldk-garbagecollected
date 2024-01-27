@@ -560,7 +560,7 @@ jobs:
   android:
     runs-on: ubuntu-latest
     # Frankly, I'm not really sure why debian and ubuntu differ in the results here, they really shouldn't
-    container: debian:bookworm
+    container: debian:bullseye
     strategy:
       fail-fast: false
     steps:
