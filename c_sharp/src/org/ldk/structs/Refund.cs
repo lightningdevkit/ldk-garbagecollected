@@ -77,6 +77,16 @@ public class Refund : CommonBase {
 	}
 
 	/**
+	 * Whether the refund has expired given the duration since the Unix epoch.
+	 */
+	public bool is_expired_no_std(long duration_since_epoch) {
+		bool ret = bindings.Refund_is_expired_no_std(this.ptr, duration_since_epoch);
+		GC.KeepAlive(this);
+		GC.KeepAlive(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * The issuer of the refund, possibly beginning with `user@domain` or `domain`. Intended to be
 	 * displayed to the user but with the caveat that it has not been verified in any way.
 	 * 

@@ -8,7 +8,7 @@ import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
- * A trait encapsulating the operations required of a logger
+ * A trait encapsulating the operations required of a logger.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Logger extends CommonBase {
@@ -38,7 +38,7 @@ public class Logger extends CommonBase {
 	}
 	public static interface LoggerInterface {
 		/**
-		 * Logs the `Record`
+		 * Logs the [`Record`].
 		 */
 		void log(Record record);
 	}
@@ -48,6 +48,7 @@ public class Logger extends CommonBase {
 		impl_holder.held = new Logger(new bindings.LDKLogger() {
 			@Override public void log(long record) {
 				org.ldk.structs.Record record_hu_conv = null; if (record < 0 || record > 4096) { record_hu_conv = new org.ldk.structs.Record(null, record); }
+				if (record_hu_conv != null) { record_hu_conv.ptrs_to.add(this); };
 				arg.log(record_hu_conv);
 				Reference.reachabilityFence(arg);
 			}

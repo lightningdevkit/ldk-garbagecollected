@@ -123,11 +123,13 @@ public class ChannelMonitor : CommonBase {
 	 * calling `chain::Filter::register_output` and `chain::Filter::register_tx` until all outputs
 	 * have been registered.
 	 */
-	public void load_outputs_to_watch(org.ldk.structs.Filter filter) {
-		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter.ptr);
+	public void load_outputs_to_watch(org.ldk.structs.Filter filter, org.ldk.structs.Logger logger) {
+		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter.ptr, logger.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(filter);
+		GC.KeepAlive(logger);
 		if (this != null) { this.ptrs_to.AddLast(filter); };
+		if (this != null) { this.ptrs_to.AddLast(logger); };
 	}
 
 	/**
@@ -253,7 +255,7 @@ public class ChannelMonitor : CommonBase {
 	 * to the commitment transaction being revoked, this will return a signed transaction, but
 	 * the signature will not be valid.
 	 * 
-	 * [`EcdsaChannelSigner::sign_justice_revoked_output`]: crate::sign::EcdsaChannelSigner::sign_justice_revoked_output
+	 * [`EcdsaChannelSigner::sign_justice_revoked_output`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_justice_revoked_output
 	 * [`Persist`]: crate::chain::chainmonitor::Persist
 	 */
 	public Result_TransactionNoneZ sign_to_local_justice_tx(byte[] justice_tx, long input_idx, long value, long commitment_number) {
@@ -462,20 +464,20 @@ public class ChannelMonitor : CommonBase {
 	/**
 	 * Returns the set of txids that should be monitored for re-organization out of the chain.
 	 */
-	public TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids() {
+	public ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] get_relevant_txids() {
 		long ret = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		int ret_conv_49_len = InternalUtils.getArrayLength(ret);
-		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[ret_conv_49_len];
-		for (int x = 0; x < ret_conv_49_len; x++) {
-			long ret_conv_49 = InternalUtils.getU64ArrayElem(ret, x);
-			TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ(null, ret_conv_49);
-			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.AddLast(this); };
-			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
+		int ret_conv_54_len = InternalUtils.getArrayLength(ret);
+		ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] ret_conv_54_arr = new ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[ret_conv_54_len];
+		for (int c = 0; c < ret_conv_54_len; c++) {
+			long ret_conv_54 = InternalUtils.getU64ArrayElem(ret, c);
+			ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ ret_conv_54_hu_conv = new ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ(null, ret_conv_54);
+			if (ret_conv_54_hu_conv != null) { ret_conv_54_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_54_arr[c] = ret_conv_54_hu_conv;
 		}
 		bindings.free_buffer(ret);
-		return ret_conv_49_arr;
+		return ret_conv_54_arr;
 	}
 
 	/**

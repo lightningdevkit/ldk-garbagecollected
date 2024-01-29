@@ -203,6 +203,16 @@ public class Offer extends CommonBase {
 	}
 
 	/**
+	 * Whether the offer has expired given the duration since the Unix epoch.
+	 */
+	public boolean is_expired_no_std(long duration_since_epoch) {
+		boolean ret = bindings.Offer_is_expired_no_std(this.ptr, duration_since_epoch);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * Returns whether the given quantity is valid for the offer.
 	 */
 	public boolean is_valid_quantity(long quantity) {

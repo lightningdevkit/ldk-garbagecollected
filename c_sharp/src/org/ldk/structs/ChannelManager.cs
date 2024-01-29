@@ -148,6 +148,9 @@ public class ChannelManager : CommonBase {
 	 * connection is available, the outbound `open_channel` message may fail to send, resulting in
 	 * the channel eventually being silently forgotten (dropped on reload).
 	 * 
+	 * If `temporary_channel_id` is specified, it will be used as the temporary channel ID of the
+	 * channel. Otherwise, a random one will be generated for you.
+	 * 
 	 * Returns the new Channel's temporary `channel_id`. This ID will appear as
 	 * [`Event::FundingGenerationReady::temporary_channel_id`] and in
 	 * [`ChannelDetails::channel_id`] until after
@@ -161,16 +164,18 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_ThirtyTwoBytesAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.UserConfig override_config) {
-		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_network_key, 33)), channel_value_satoshis, push_msat, InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()), override_config == null ? 0 : override_config.ptr);
+	public Result_ThirtyTwoBytesAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.Option_ThirtyTwoBytesZ temporary_channel_id, org.ldk.structs.UserConfig override_config) {
+		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_network_key, 33)), channel_value_satoshis, push_msat, InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()), temporary_channel_id.ptr, override_config == null ? 0 : override_config.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_network_key);
 		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(push_msat);
 		GC.KeepAlive(user_channel_id);
+		GC.KeepAlive(temporary_channel_id);
 		GC.KeepAlive(override_config);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ThirtyTwoBytesAPIErrorZ ret_hu_conv = Result_ThirtyTwoBytesAPIErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.AddLast(temporary_channel_id); };
 		if (this != null) { this.ptrs_to.AddLast(override_config); };
 		return ret_hu_conv;
 	}
@@ -688,7 +693,7 @@ public class ChannelManager : CommonBase {
 	 * Return values are identical to [`Self::funding_transaction_generated`], respective to
 	 * each individual channel and transaction output.
 	 * 
-	 * Do NOT broadcast the funding transaction yourself. This batch funding transcaction
+	 * Do NOT broadcast the funding transaction yourself. This batch funding transaction
 	 * will only be broadcast when we have safely received and persisted the counterparty's
 	 * signature for each channel.
 	 * 
@@ -1066,8 +1071,11 @@ public class ChannelManager : CommonBase {
 	 * 
 	 * # Errors
 	 * 
-	 * Errors if a duplicate `payment_id` is provided given the caveats in the aforementioned link
-	 * or if the provided parameters are invalid for the offer.
+	 * Errors if:
+	 * - a duplicate `payment_id` is provided given the caveats in the aforementioned link,
+	 * - the provided parameters are invalid for the offer,
+	 * - the parameterized [`Router`] is unable to create a blinded reply path for the invoice
+	 * request.
 	 * 
 	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
 	 * [`InvoiceRequest::quantity`]: crate::offers::invoice_request::InvoiceRequest::quantity
@@ -1112,6 +1120,11 @@ public class ChannelManager : CommonBase {
 	 * [`Refund::payer_id`], if empty. This request is best effort; an invoice will be sent to each
 	 * node meeting the aforementioned criteria, but there's no guarantee that they will be
 	 * received and no retries will be made.
+	 * 
+	 * # Errors
+	 * 
+	 * Errors if the parameterized [`Router`] is unable to create a blinded payment path or reply
+	 * path for the invoice.
 	 * 
 	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
 	 */

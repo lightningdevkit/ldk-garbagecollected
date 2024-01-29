@@ -72,8 +72,11 @@ public class CoinSelectionSource extends CommonBase {
 		/**
 		 * Signs and provides the full witness for all inputs within the transaction known to the
 		 * trait (i.e., any provided via [`CoinSelectionSource::select_confirmed_utxos`]).
+		 * 
+		 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+		 * unsigned transaction and then sign it with your wallet.
 		 */
-		Result_TransactionNoneZ sign_tx(byte[] tx);
+		Result_TransactionNoneZ sign_psbt(byte[] psbt);
 	}
 	private static class LDKCoinSelectionSourceHolder { CoinSelectionSource held; }
 	public static CoinSelectionSource new_impl(CoinSelectionSourceInterface arg) {
@@ -100,8 +103,8 @@ public class CoinSelectionSource extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long sign_tx(byte[] tx) {
-				Result_TransactionNoneZ ret = arg.sign_tx(tx);
+			@Override public long sign_psbt(byte[] psbt) {
+				Result_TransactionNoneZ ret = arg.sign_psbt(psbt);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -153,11 +156,14 @@ public class CoinSelectionSource extends CommonBase {
 	/**
 	 * Signs and provides the full witness for all inputs within the transaction known to the
 	 * trait (i.e., any provided via [`CoinSelectionSource::select_confirmed_utxos`]).
+	 * 
+	 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+	 * unsigned transaction and then sign it with your wallet.
 	 */
-	public Result_TransactionNoneZ sign_tx(byte[] tx) {
-		long ret = bindings.CoinSelectionSource_sign_tx(this.ptr, tx);
+	public Result_TransactionNoneZ sign_psbt(byte[] psbt) {
+		long ret = bindings.CoinSelectionSource_sign_psbt(this.ptr, psbt);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(tx);
+		Reference.reachabilityFence(psbt);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -51,6 +51,18 @@ public class Bolt12InvoiceFeatures : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the Bolt12InvoiceFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.Bolt12InvoiceFeatures_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static Bolt12InvoiceFeatures empty() {

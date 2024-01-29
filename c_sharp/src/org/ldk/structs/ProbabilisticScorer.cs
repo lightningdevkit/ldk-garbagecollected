@@ -17,7 +17,7 @@ namespace org { namespace ldk { namespace structs {
  * These bounds are then used to determine a success probability using the formula from
  * Optimally Reliable & Cheap Payment Flows on the Lightning Network* by Rene Pickhardt
  * and Stefan Richter [[1]] (i.e. `(upper_bound - payment_amount) / (upper_bound - lower_bound)`).
- * 6762, 1070
+ * 
  * This probability is combined with the [`liquidity_penalty_multiplier_msat`] and
  * [`liquidity_penalty_amount_multiplier_msat`] parameters to calculate a concrete penalty in
  * milli-satoshis. The penalties, when added across all hops, have the property of being linear in
@@ -31,11 +31,6 @@ namespace org { namespace ldk { namespace structs {
  * and [`historical_liquidity_penalty_amount_multiplier_msat`]) based on the same probability
  * formula, but using the history of a channel rather than our latest estimates for the liquidity
  * bounds.
- * 
- * # Note
- * 
- * Mixing the `no-std` feature between serialization and deserialization results in undefined
- * behavior.
  * 
  * [1]: https://arxiv.org/abs/2107.05322
  * [`liquidity_penalty_multiplier_msat`]: ProbabilisticScoringFeeParameters::liquidity_penalty_multiplier_msat
@@ -118,7 +113,7 @@ public class ProbabilisticScorer : CommonBase {
 	 * in the top and bottom bucket, and roughly with similar (recent) frequency.
 	 * 
 	 * Because the datapoints are decayed slowly over time, values will eventually return to
-	 * `Some(([1; 32], [1; 32]))` and then to `None` once no datapoints remain.
+	 * `Some(([0; 32], [0; 32]))` or `None` if no data remains for a channel.
 	 * 
 	 * In order to fetch a single success probability from the buckets provided here, as used in
 	 * the scoring model, see [`Self::historical_estimated_payment_success_probability`].

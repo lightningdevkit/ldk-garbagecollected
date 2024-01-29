@@ -111,17 +111,16 @@ public class ShutdownScript extends CommonBase {
 	 * 
 	 * This function may return an error if `program` is invalid for the segwit `version`.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(org.ldk.util.WitnessVersion version, byte[] program) {
-		long ret = bindings.ShutdownScript_new_witness_program(version.getVal(), program);
-		Reference.reachabilityFence(version);
-		Reference.reachabilityFence(program);
+	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(org.ldk.structs.WitnessProgram witness_program) {
+		long ret = bindings.ShutdownScript_new_witness_program(witness_program.ptr);
+		Reference.reachabilityFence(witness_program);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Converts the shutdown script into the underlying [`Script`].
+	 * Converts the shutdown script into the underlying [`ScriptBuf`].
 	 */
 	public byte[] into_inner() {
 		byte[] ret = bindings.ShutdownScript_into_inner(this.ptr);

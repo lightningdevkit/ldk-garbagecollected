@@ -226,6 +226,18 @@ public class SocketAddress extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the SocketAddress.
+	 */
+	public long hash() {
+		long ret = bindings.SocketAddress_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two SocketAddresss contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */

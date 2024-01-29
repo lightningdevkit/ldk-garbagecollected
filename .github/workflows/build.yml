@@ -40,11 +40,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings without STD
@@ -138,11 +138,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings with STD
@@ -185,11 +185,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
       - name: Rebuild C bindings with STD
         run: |
           cd ldk-c-bindings
@@ -275,11 +275,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
@@ -338,11 +338,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Pin proc-macro and quote to meet MSRV
@@ -399,11 +399,20 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-17-openjdk-amd64/include/ -I/usr/lib/jvm/java-17-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ldk-java.jar
+          path: ldk-java.jar
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ldk-java-leaktracking.jar
+          path: ldk-java-leaktracking.jar
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"org.ldk.nupkg ldk-java-bins/new/
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
           cp ldk-java-sources.jar ldk-java-bins/new/
           cp ldk-java.jar ldk-java-bins/new/
@@ -458,11 +467,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
       - name: Fetch MacOS SDK
         run: |
           curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
@@ -551,7 +560,7 @@ jobs:
   android:
     runs-on: ubuntu-latest
     # Frankly, I'm not really sure why debian and ubuntu differ in the results here, they really shouldn't
-    container: debian:bookworm
+    container: debian:bullseye
     strategy:
       fail-fast: false
     steps:
@@ -595,11 +604,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           . $HOME/.cargo/env
           cargo update -p memchr --precise "2.5.0" --verbose
@@ -635,6 +644,10 @@ jobs:
           export ANDROID_TOOLCHAIN="$(pwd)/android-ndk-r22b/toolchains/llvm/prebuilt/linux-x86_64"
           export PATH="$PATH:$ANDROID_TOOLCHAIN/bin"
           ./android-build.sh ./rust-lightning ./ldk-c-bindings/ ./ldk-java-bins/android-artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: LDK-release.aar
+          path: LDK-release.aar
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -671,11 +684,11 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/rghtningdevkit/ust-lightning
           cd rust-lightning
-          git checkout origin/0.0.118-bindings
+          git checkout origin/0.0.121-bindings
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.118
+          git checkout 0.0.121
           cd lightning-c-bindings
           cargo update -p memchr --precise "2.5.0" --verbose
       - name: Rebuild C bindings and check the sample app builds + links

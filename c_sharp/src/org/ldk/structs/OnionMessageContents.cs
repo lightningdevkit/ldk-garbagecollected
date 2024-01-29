@@ -16,6 +16,9 @@ public interface OnionMessageContentsInterface {
 	/**Serialize the object into a byte array
 	 */
 	byte[] write();
+	/**Return a human-readable "debug" string describing this object
+	 */
+	string debug_str();
 }
 
 /**
@@ -44,6 +47,12 @@ public class OnionMessageContents : CommonBase {
 			byte[] ret = arg.write();
 				GC.KeepAlive(arg);
 			long result = InternalUtils.encodeUint8Array(ret);
+			return result;
+		}
+		public long debug_str() {
+			string ret = arg.debug_str();
+				GC.KeepAlive(arg);
+			long result = InternalUtils.encodeString(ret);
 			return result;
 		}
 	}
@@ -77,6 +86,17 @@ public class OnionMessageContents : CommonBase {
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Return a human-readable "debug" string describing this object
+	 */
+	public string debug_str() {
+		long ret = bindings.OnionMessageContents_debug_str(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
 		return ret_conv;
 	}
 

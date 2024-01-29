@@ -212,5 +212,17 @@ public class ErrorAction : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Generates a non-cryptographic 64-bit hash of the ErrorAction.
+	 */
+	public long hash() {
+		long ret = bindings.ErrorAction_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
 }
 } } }

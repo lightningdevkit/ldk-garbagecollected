@@ -148,6 +148,33 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Peel one layer off an incoming onion, returning a [`PendingHTLCInfo`] that contains information
+	 * about the intended next-hop for the HTLC.
+	 * 
+	 * This does all the relevant context-free checks that LDK requires for payment relay or
+	 * acceptance. If the payment is to be received, and the amount matches the expected amount for
+	 * a given invoice, this indicates the [`msgs::UpdateAddHTLC`], once fully committed in the
+	 * channel, will generate an [`Event::PaymentClaimable`].
+	 * 
+	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 */
+	public static Result_PendingHTLCInfoInboundHTLCErrZ peel_payment_onion(org.ldk.structs.UpdateAddHTLC msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, int cur_height, bool accept_mpp_keysend, bool allow_skimmed_fees) {
+		long ret = bindings.peel_payment_onion(msg == null ? 0 : msg.ptr, node_signer.ptr, logger.ptr, cur_height, accept_mpp_keysend, allow_skimmed_fees);
+		GC.KeepAlive(msg);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(logger);
+		GC.KeepAlive(cur_height);
+		GC.KeepAlive(accept_mpp_keysend);
+		GC.KeepAlive(allow_skimmed_fees);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PendingHTLCInfoInboundHTLCErrZ ret_hu_conv = Result_PendingHTLCInfoInboundHTLCErrZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
 	 * [`ChannelManager`].
 	 */
@@ -339,20 +366,6 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Derives a per-commitment-transaction public key (eg an htlc key or a delayed_payment key)
-	 * from the base point and the per_commitment_key. This is the public equivalent of
-	 * derive_private_key - using only public keys to derive a public key instead of private keys.
-	 */
-	public static byte[] derive_public_key(byte[] per_commitment_point, byte[] base_point) {
-		long ret = bindings.derive_public_key(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(base_point, 33)));
-		GC.KeepAlive(per_commitment_point);
-		GC.KeepAlive(base_point);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
 	 * Derives a per-commitment-transaction revocation key from its constituent parts.
 	 * 
 	 * Only the cheating participant owns a valid witness to propagate a revoked
@@ -370,34 +383,12 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Derives a per-commitment-transaction revocation public key from its constituent parts. This is
-	 * the public equivalend of derive_private_revocation_key - using only public keys to derive a
-	 * public key instead of private keys.
-	 * 
-	 * Only the cheating participant owns a valid witness to propagate a revoked
-	 * commitment transaction, thus per_commitment_point always come from cheater
-	 * and revocation_base_point always come from punisher, which is the broadcaster
-	 * of the transaction spending with this key knowledge.
-	 * 
-	 * Note that this is infallible iff we trust that at least one of the two input keys are randomly
-	 * generated (ie our own).
-	 */
-	public static byte[] derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
-		long ret = bindings.derive_public_revocation_key(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33)));
-		GC.KeepAlive(per_commitment_point);
-		GC.KeepAlive(countersignatory_revocation_base_point);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
 	 * A script either spendable by the revocation
 	 * key or the broadcaster_delayed_payment_key and satisfying the relative-locktime OP_CSV constrain.
 	 * Encumbering a `to_holder` output on a commitment transaction or 2nd-stage HTLC transactions.
 	 */
-	public static byte[] get_revokeable_redeemscript(byte[] revocation_key, short contest_delay, byte[] broadcaster_delayed_payment_key) {
-		long ret = bindings.get_revokeable_redeemscript(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(revocation_key, 33)), contest_delay, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33)));
+	public static byte[] get_revokeable_redeemscript(org.ldk.structs.RevocationKey revocation_key, short contest_delay, org.ldk.structs.DelayedPaymentKey broadcaster_delayed_payment_key) {
+		long ret = bindings.get_revokeable_redeemscript(revocation_key == null ? 0 : revocation_key.ptr, contest_delay, broadcaster_delayed_payment_key == null ? 0 : broadcaster_delayed_payment_key.ptr);
 		GC.KeepAlive(revocation_key);
 		GC.KeepAlive(contest_delay);
 		GC.KeepAlive(broadcaster_delayed_payment_key);
@@ -455,8 +446,8 @@ public class UtilMethods {
 	 * Panics if htlc.transaction_output_index.is_none() (as such HTLCs do not appear in the
 	 * commitment transaction).
 	 */
-	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, org.ldk.structs.HTLCOutputInCommitment htlc, org.ldk.structs.ChannelTypeFeatures channel_type_features, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
-		long ret = bindings.build_htlc_transaction(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(commitment_txid, 32)), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr, channel_type_features == null ? 0 : channel_type_features.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(revocation_key, 33)));
+	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, org.ldk.structs.HTLCOutputInCommitment htlc, org.ldk.structs.ChannelTypeFeatures channel_type_features, org.ldk.structs.DelayedPaymentKey broadcaster_delayed_payment_key, org.ldk.structs.RevocationKey revocation_key) {
+		long ret = bindings.build_htlc_transaction(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(commitment_txid, 32)), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr, channel_type_features == null ? 0 : channel_type_features.ptr, broadcaster_delayed_payment_key == null ? 0 : broadcaster_delayed_payment_key.ptr, revocation_key == null ? 0 : revocation_key.ptr);
 		GC.KeepAlive(commitment_txid);
 		GC.KeepAlive(feerate_per_kw);
 		GC.KeepAlive(contest_delay);
@@ -668,7 +659,7 @@ public class UtilMethods {
 	 * 
 	 * We do not enforce that outputs meet the dust limit or that any output scripts are standard.
 	 */
-	public static Result_C2Tuple_CVec_u8ZusizeZNoneZ SpendableOutputDescriptor_create_spendable_outputs_psbt(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_u32Z locktime) {
+	public static Result_C2Tuple_CVec_u8Zu64ZNoneZ SpendableOutputDescriptor_create_spendable_outputs_psbt(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight, org.ldk.structs.Option_u32Z locktime) {
 		long ret = bindings.SpendableOutputDescriptor_create_spendable_outputs_psbt(InternalUtils.encodeUint64Array(InternalUtils.mapArray(descriptors, descriptors_conv_27 => descriptors_conv_27.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(outputs, outputs_conv_7 => outputs_conv_7.ptr)), InternalUtils.encodeUint8Array(change_destination_script), feerate_sat_per_1000_weight, locktime.ptr);
 		GC.KeepAlive(descriptors);
 		GC.KeepAlive(outputs);
@@ -676,7 +667,7 @@ public class UtilMethods {
 		GC.KeepAlive(feerate_sat_per_1000_weight);
 		GC.KeepAlive(locktime);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_CVec_u8ZusizeZNoneZ ret_hu_conv = Result_C2Tuple_CVec_u8ZusizeZNoneZ.constr_from_ptr(ret);
+		Result_C2Tuple_CVec_u8Zu64ZNoneZ ret_hu_conv = Result_C2Tuple_CVec_u8Zu64ZNoneZ.constr_from_ptr(ret);
 		foreach (SpendableOutputDescriptor descriptors_conv_27 in descriptors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(descriptors_conv_27); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(locktime); };
 		return ret_hu_conv;
@@ -686,11 +677,12 @@ public class UtilMethods {
 	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
 	 * `path`.
 	 * 
-	 * Returns both the node id of the peer to send the message to and the message itself.
+	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
+	 * need to connect to the first node.
 	 * 
 	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedPath reply_path) {
+	public static Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedPath reply_path) {
 		long ret = bindings.create_onion_message(entropy_source.ptr, node_signer.ptr, path == null ? 0 : path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
 		GC.KeepAlive(entropy_source);
 		GC.KeepAlive(node_signer);
@@ -698,7 +690,7 @@ public class UtilMethods {
 		GC.KeepAlive(contents);
 		GC.KeepAlive(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ ret_hu_conv = Result_C2Tuple_PublicKeyOnionMessageZSendErrorZ.constr_from_ptr(ret);
+		Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ ret_hu_conv = Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(path); };
@@ -753,6 +745,31 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Create a blinded path for a payment, to be forwarded along `intermediate_nodes`.
+	 * 
+	 * Errors if:
+	 * a provided node id is invalid
+	 * [`BlindedPayInfo`] calculation results in an integer overflow
+	 * any unknown features are required in the provided [`ForwardTlvs`]
+	 * 
+	 * [`ForwardTlvs`]: crate::blinded_path::payment::ForwardTlvs
+	 */
+	public static Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ BlindedPath_new_for_payment(ForwardNode[] intermediate_nodes, byte[] payee_node_id, org.ldk.structs.ReceiveTlvs payee_tlvs, long htlc_maximum_msat, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedPath_new_for_payment(InternalUtils.encodeUint64Array(InternalUtils.mapArray(intermediate_nodes, intermediate_nodes_conv_13 => intermediate_nodes_conv_13 == null ? 0 : intermediate_nodes_conv_13.ptr)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payee_node_id, 33)), payee_tlvs == null ? 0 : payee_tlvs.ptr, htlc_maximum_msat, entropy_source.ptr);
+		GC.KeepAlive(intermediate_nodes);
+		GC.KeepAlive(payee_node_id);
+		GC.KeepAlive(payee_tlvs);
+		GC.KeepAlive(htlc_maximum_msat);
+		GC.KeepAlive(entropy_source);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ ret_hu_conv = Result_C2Tuple_BlindedPayInfoBlindedPathZNoneZ.constr_from_ptr(ret);
+		foreach (ForwardNode intermediate_nodes_conv_13 in intermediate_nodes) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(intermediate_nodes_conv_13); }; };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(payee_tlvs); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Read a PathFailure from a byte array, created by PathFailure_write
 	 */
 	public static Result_COption_PathFailureZDecodeErrorZ PathFailure_read(byte[] ser) {
@@ -797,141 +814,48 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Pays the given [`Bolt11Invoice`], retrying if needed based on [`Retry`].
+	 * Builds the necessary parameters to pay or pre-flight probe the given zero-amount
+	 * [`Bolt11Invoice`] using [`ChannelManager::send_payment`] or
+	 * [`ChannelManager::send_preflight_probes`].
 	 * 
-	 * [`Bolt11Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
-	 * as the payment is still pending. If the payment succeeds, you must ensure that a second payment
-	 * with the same [`PaymentHash`] is never sent.
+	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
+	 * same [`PaymentHash`] has never been paid before.
 	 * 
-	 * If you wish to use a different payment idempotency token, see [`pay_invoice_with_id`].
+	 * Will always succeed unless the invoice has an amount specified, in which case
+	 * [`payment_parameters_from_invoice`] should be used.
+	 * 
+	 * [`ChannelManager::send_payment`]: lightning::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::send_preflight_probes`]: lightning::ln::channelmanager::ChannelManager::send_preflight_probes
 	 */
-	public static Result_ThirtyTwoBytesPaymentErrorZ pay_invoice(org.ldk.structs.Bolt11Invoice invoice, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
-		long ret = bindings.pay_invoice(invoice == null ? 0 : invoice.ptr, retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(retry_strategy);
-		GC.KeepAlive(channelmanager);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ThirtyTwoBytesPaymentErrorZ ret_hu_conv = Result_ThirtyTwoBytesPaymentErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(retry_strategy); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Pays the given [`Bolt11Invoice`] with a custom idempotency key, retrying if needed based on
-	 * [`Retry`].
-	 * 
-	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
-	 * payment completes or fails, no idempotency guarantees are made.
-	 * 
-	 * You should ensure that the [`Bolt11Invoice::payment_hash`] is unique and the same
-	 * [`PaymentHash`] has never been paid before.
-	 * 
-	 * See [`pay_invoice`] for a variant which uses the [`PaymentHash`] for the idempotency token.
-	 */
-	public static Result_NonePaymentErrorZ pay_invoice_with_id(org.ldk.structs.Bolt11Invoice invoice, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
-		long ret = bindings.pay_invoice_with_id(invoice == null ? 0 : invoice.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)), retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(payment_id);
-		GC.KeepAlive(retry_strategy);
-		GC.KeepAlive(channelmanager);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(retry_strategy); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Pays the given zero-value [`Bolt11Invoice`] using the given amount, retrying if needed based on
-	 * [`Retry`].
-	 * 
-	 * [`Bolt11Invoice::payment_hash`] is used as the [`PaymentId`], which ensures idempotency as long
-	 * as the payment is still pending. If the payment succeeds, you must ensure that a second payment
-	 * with the same [`PaymentHash`] is never sent.
-	 * 
-	 * If you wish to use a different payment idempotency token, see
-	 * [`pay_zero_value_invoice_with_id`].
-	 */
-	public static Result_ThirtyTwoBytesPaymentErrorZ pay_zero_value_invoice(org.ldk.structs.Bolt11Invoice invoice, long amount_msats, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
-		long ret = bindings.pay_zero_value_invoice(invoice == null ? 0 : invoice.ptr, amount_msats, retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(amount_msats);
-		GC.KeepAlive(retry_strategy);
-		GC.KeepAlive(channelmanager);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ThirtyTwoBytesPaymentErrorZ ret_hu_conv = Result_ThirtyTwoBytesPaymentErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(retry_strategy); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Pays the given zero-value [`Bolt11Invoice`] using the given amount and custom idempotency key,
-	 * retrying if needed based on [`Retry`].
-	 * 
-	 * Note that idempotency is only guaranteed as long as the payment is still pending. Once the
-	 * payment completes or fails, no idempotency guarantees are made.
-	 * 
-	 * You should ensure that the [`Bolt11Invoice::payment_hash`] is unique and the same
-	 * [`PaymentHash`] has never been paid before.
-	 * 
-	 * See [`pay_zero_value_invoice`] for a variant which uses the [`PaymentHash`] for the
-	 * idempotency token.
-	 */
-	public static Result_NonePaymentErrorZ pay_zero_value_invoice_with_id(org.ldk.structs.Bolt11Invoice invoice, long amount_msats, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.ChannelManager channelmanager) {
-		long ret = bindings.pay_zero_value_invoice_with_id(invoice == null ? 0 : invoice.ptr, amount_msats, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)), retry_strategy.ptr, channelmanager == null ? 0 : channelmanager.ptr);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(amount_msats);
-		GC.KeepAlive(payment_id);
-		GC.KeepAlive(retry_strategy);
-		GC.KeepAlive(channelmanager);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NonePaymentErrorZ ret_hu_conv = Result_NonePaymentErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(retry_strategy); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Sends payment probes over all paths of a route that would be used to pay the given invoice.
-	 * 
-	 * See [`ChannelManager::send_preflight_probes`] for more information.
-	 */
-	public static Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ preflight_probe_invoice(org.ldk.structs.Bolt11Invoice invoice, org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z liquidity_limit_multiplier) {
-		long ret = bindings.preflight_probe_invoice(invoice == null ? 0 : invoice.ptr, channelmanager == null ? 0 : channelmanager.ptr, liquidity_limit_multiplier.ptr);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(liquidity_limit_multiplier);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ ret_hu_conv = Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(liquidity_limit_multiplier); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Sends payment probes over all paths of a route that would be used to pay the given zero-value
-	 * invoice using the given amount.
-	 * 
-	 * See [`ChannelManager::send_preflight_probes`] for more information.
-	 */
-	public static Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ preflight_probe_zero_value_invoice(org.ldk.structs.Bolt11Invoice invoice, long amount_msat, org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z liquidity_limit_multiplier) {
-		long ret = bindings.preflight_probe_zero_value_invoice(invoice == null ? 0 : invoice.ptr, amount_msat, channelmanager == null ? 0 : channelmanager.ptr, liquidity_limit_multiplier.ptr);
+	public static Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_zero_amount_invoice(org.ldk.structs.Bolt11Invoice invoice, long amount_msat) {
+		long ret = bindings.payment_parameters_from_zero_amount_invoice(invoice == null ? 0 : invoice.ptr, amount_msat);
 		GC.KeepAlive(invoice);
 		GC.KeepAlive(amount_msat);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(liquidity_limit_multiplier);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ ret_hu_conv = Result_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ.constr_from_ptr(ret);
+		Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ ret_hu_conv = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(liquidity_limit_multiplier); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Builds the necessary parameters to pay or pre-flight probe the given [`Bolt11Invoice`] using
+	 * [`ChannelManager::send_payment`] or [`ChannelManager::send_preflight_probes`].
+	 * 
+	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
+	 * same [`PaymentHash`] has never been paid before.
+	 * 
+	 * Will always succeed unless the invoice has no amount specified, in which case
+	 * [`payment_parameters_from_zero_amount_invoice`] should be used.
+	 * 
+	 * [`ChannelManager::send_payment`]: lightning::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::send_preflight_probes`]: lightning::ln::channelmanager::ChannelManager::send_preflight_probes
+	 */
+	public static Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_invoice(org.ldk.structs.Bolt11Invoice invoice) {
+		long ret = bindings.payment_parameters_from_invoice(invoice == null ? 0 : invoice.ptr);
+		GC.KeepAlive(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ ret_hu_conv = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
 		return ret_hu_conv;
 	}
 

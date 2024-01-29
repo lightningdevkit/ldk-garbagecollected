@@ -25,32 +25,36 @@ public class MessageSendEvent : CommonBase {
 			case 3: return new MessageSendEvent_SendOpenChannelV2(ptr);
 			case 4: return new MessageSendEvent_SendFundingCreated(ptr);
 			case 5: return new MessageSendEvent_SendFundingSigned(ptr);
-			case 6: return new MessageSendEvent_SendTxAddInput(ptr);
-			case 7: return new MessageSendEvent_SendTxAddOutput(ptr);
-			case 8: return new MessageSendEvent_SendTxRemoveInput(ptr);
-			case 9: return new MessageSendEvent_SendTxRemoveOutput(ptr);
-			case 10: return new MessageSendEvent_SendTxComplete(ptr);
-			case 11: return new MessageSendEvent_SendTxSignatures(ptr);
-			case 12: return new MessageSendEvent_SendTxInitRbf(ptr);
-			case 13: return new MessageSendEvent_SendTxAckRbf(ptr);
-			case 14: return new MessageSendEvent_SendTxAbort(ptr);
-			case 15: return new MessageSendEvent_SendChannelReady(ptr);
-			case 16: return new MessageSendEvent_SendAnnouncementSignatures(ptr);
-			case 17: return new MessageSendEvent_UpdateHTLCs(ptr);
-			case 18: return new MessageSendEvent_SendRevokeAndACK(ptr);
-			case 19: return new MessageSendEvent_SendClosingSigned(ptr);
-			case 20: return new MessageSendEvent_SendShutdown(ptr);
-			case 21: return new MessageSendEvent_SendChannelReestablish(ptr);
-			case 22: return new MessageSendEvent_SendChannelAnnouncement(ptr);
-			case 23: return new MessageSendEvent_BroadcastChannelAnnouncement(ptr);
-			case 24: return new MessageSendEvent_BroadcastChannelUpdate(ptr);
-			case 25: return new MessageSendEvent_BroadcastNodeAnnouncement(ptr);
-			case 26: return new MessageSendEvent_SendChannelUpdate(ptr);
-			case 27: return new MessageSendEvent_HandleError(ptr);
-			case 28: return new MessageSendEvent_SendChannelRangeQuery(ptr);
-			case 29: return new MessageSendEvent_SendShortIdsQuery(ptr);
-			case 30: return new MessageSendEvent_SendReplyChannelRange(ptr);
-			case 31: return new MessageSendEvent_SendGossipTimestampFilter(ptr);
+			case 6: return new MessageSendEvent_SendStfu(ptr);
+			case 7: return new MessageSendEvent_SendSplice(ptr);
+			case 8: return new MessageSendEvent_SendSpliceAck(ptr);
+			case 9: return new MessageSendEvent_SendSpliceLocked(ptr);
+			case 10: return new MessageSendEvent_SendTxAddInput(ptr);
+			case 11: return new MessageSendEvent_SendTxAddOutput(ptr);
+			case 12: return new MessageSendEvent_SendTxRemoveInput(ptr);
+			case 13: return new MessageSendEvent_SendTxRemoveOutput(ptr);
+			case 14: return new MessageSendEvent_SendTxComplete(ptr);
+			case 15: return new MessageSendEvent_SendTxSignatures(ptr);
+			case 16: return new MessageSendEvent_SendTxInitRbf(ptr);
+			case 17: return new MessageSendEvent_SendTxAckRbf(ptr);
+			case 18: return new MessageSendEvent_SendTxAbort(ptr);
+			case 19: return new MessageSendEvent_SendChannelReady(ptr);
+			case 20: return new MessageSendEvent_SendAnnouncementSignatures(ptr);
+			case 21: return new MessageSendEvent_UpdateHTLCs(ptr);
+			case 22: return new MessageSendEvent_SendRevokeAndACK(ptr);
+			case 23: return new MessageSendEvent_SendClosingSigned(ptr);
+			case 24: return new MessageSendEvent_SendShutdown(ptr);
+			case 25: return new MessageSendEvent_SendChannelReestablish(ptr);
+			case 26: return new MessageSendEvent_SendChannelAnnouncement(ptr);
+			case 27: return new MessageSendEvent_BroadcastChannelAnnouncement(ptr);
+			case 28: return new MessageSendEvent_BroadcastChannelUpdate(ptr);
+			case 29: return new MessageSendEvent_BroadcastNodeAnnouncement(ptr);
+			case 30: return new MessageSendEvent_SendChannelUpdate(ptr);
+			case 31: return new MessageSendEvent_HandleError(ptr);
+			case 32: return new MessageSendEvent_SendChannelRangeQuery(ptr);
+			case 33: return new MessageSendEvent_SendShortIdsQuery(ptr);
+			case 34: return new MessageSendEvent_SendReplyChannelRange(ptr);
+			case 35: return new MessageSendEvent_SendGossipTimestampFilter(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -172,6 +176,86 @@ public class MessageSendEvent : CommonBase {
 			this.node_id = node_id_conv;
 			long msg = bindings.LDKMessageSendEvent_SendFundingSigned_get_msg(ptr);
 			org.ldk.structs.FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingSigned(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/** A MessageSendEvent of type SendStfu */
+	public class MessageSendEvent_SendStfu : MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		 */
+		public byte[] node_id;
+		/**
+		 * The message which should be sent.
+		 */
+		public Stfu msg;
+		internal MessageSendEvent_SendStfu(long ptr) : base(null, ptr) {
+			long node_id = bindings.LDKMessageSendEvent_SendStfu_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long msg = bindings.LDKMessageSendEvent_SendStfu_get_msg(ptr);
+			org.ldk.structs.Stfu msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Stfu(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/** A MessageSendEvent of type SendSplice */
+	public class MessageSendEvent_SendSplice : MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		 */
+		public byte[] node_id;
+		/**
+		 * The message which should be sent.
+		 */
+		public Splice msg;
+		internal MessageSendEvent_SendSplice(long ptr) : base(null, ptr) {
+			long node_id = bindings.LDKMessageSendEvent_SendSplice_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long msg = bindings.LDKMessageSendEvent_SendSplice_get_msg(ptr);
+			org.ldk.structs.Splice msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Splice(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/** A MessageSendEvent of type SendSpliceAck */
+	public class MessageSendEvent_SendSpliceAck : MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		 */
+		public byte[] node_id;
+		/**
+		 * The message which should be sent.
+		 */
+		public SpliceAck msg;
+		internal MessageSendEvent_SendSpliceAck(long ptr) : base(null, ptr) {
+			long node_id = bindings.LDKMessageSendEvent_SendSpliceAck_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long msg = bindings.LDKMessageSendEvent_SendSpliceAck_get_msg(ptr);
+			org.ldk.structs.SpliceAck msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceAck(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/** A MessageSendEvent of type SendSpliceLocked */
+	public class MessageSendEvent_SendSpliceLocked : MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		 */
+		public byte[] node_id;
+		/**
+		 * The message which should be sent.
+		 */
+		public SpliceLocked msg;
+		internal MessageSendEvent_SendSpliceLocked(long ptr) : base(null, ptr) {
+			long node_id = bindings.LDKMessageSendEvent_SendSpliceLocked_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long msg = bindings.LDKMessageSendEvent_SendSpliceLocked_get_msg(ptr);
+			org.ldk.structs.SpliceLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceLocked(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.AddLast(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -786,6 +870,62 @@ public class MessageSendEvent : CommonBase {
 	 */
 	public static MessageSendEvent send_funding_signed(byte[] node_id, org.ldk.structs.FundingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_funding_signed(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(node_id);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendStfu-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_stfu(byte[] node_id, org.ldk.structs.Stfu msg) {
+		long ret = bindings.MessageSendEvent_send_stfu(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(node_id);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSplice-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice(byte[] node_id, org.ldk.structs.Splice msg) {
+		long ret = bindings.MessageSendEvent_send_splice(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(node_id);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSpliceAck-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice_ack(byte[] node_id, org.ldk.structs.SpliceAck msg) {
+		long ret = bindings.MessageSendEvent_send_splice_ack(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(node_id);
+		GC.KeepAlive(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSpliceLocked-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice_locked(byte[] node_id, org.ldk.structs.SpliceLocked msg) {
+		long ret = bindings.MessageSendEvent_send_splice_locked(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), msg == null ? 0 : msg.ptr);
 		GC.KeepAlive(node_id);
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

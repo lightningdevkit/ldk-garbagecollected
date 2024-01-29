@@ -80,14 +80,26 @@ public class Description : CommonBase {
 	}
 
 	/**
-	 * Returns the underlying description [`String`]
+	 * Returns the underlying description [`UntrustedString`]
 	 */
-	public string into_inner() {
+	public UntrustedString into_inner() {
 		long ret = bindings.Description_into_inner(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		string ret_conv = InternalUtils.decodeString(ret);
+		org.ldk.structs.UntrustedString ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UntrustedString(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		if (this != null) { this.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Get the string representation of a Description object
+	 */
+	public string to_str() {
+		long ret = bindings.Description_to_str(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
 		return ret_conv;
 	}
 

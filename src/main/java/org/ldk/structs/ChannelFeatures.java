@@ -56,6 +56,18 @@ public class ChannelFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the ChannelFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.ChannelFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static ChannelFeatures empty() {

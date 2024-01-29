@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * An error occurring when converting from [`Script`] to [`ShutdownScript`].
+ * An error occurring when converting from [`ScriptBuf`] to [`ShutdownScript`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class InvalidShutdownScript extends CommonBase {

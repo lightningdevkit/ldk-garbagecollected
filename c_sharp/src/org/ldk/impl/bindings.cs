@@ -25,20 +25,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKBech32Error_ty_from_ptr")] public static extern long LDKBech32Error_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKBech32Error_InvalidChar_get_invalid_char")] public static extern int LDKBech32Error_InvalidChar_get_invalid_char(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKBech32Error_InvalidData_get_invalid_data")] public static extern byte LDKBech32Error_InvalidData_get_invalid_data(long ptr);
-	// struct LDKWitness TxIn_get_witness (struct LDKTxIn* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_witness")] public static extern long TxIn_get_witness(long _thing);
-	// struct LDKCVec_u8Z TxIn_get_script_sig (struct LDKTxIn* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_script_sig")] public static extern long TxIn_get_script_sig(long _thing);
-	// LDKThirtyTwoBytes TxIn_get_previous_txid (struct LDKTxIn* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_previous_txid")] public static extern long TxIn_get_previous_txid(long _thing);
-	// uint32_t TxIn_get_previous_vout (struct LDKTxIn* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_previous_vout")] public static extern int TxIn_get_previous_vout(long _thing);
-	// uint32_t TxIn_get_sequence (struct LDKTxIn* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_sequence")] public static extern int TxIn_get_sequence(long _thing);
-	// struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_get_script_pubkey")] public static extern long TxOut_get_script_pubkey(long _thing);
-	// uint64_t TxOut_get_value (struct LDKTxOut* thing)
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_get_value")] public static extern long TxOut_get_value(long _thing);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_u64Z_ty_from_ptr")] public static extern long LDKCOption_u64Z_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_u64Z_Some_get_some")] public static extern long LDKCOption_u64Z_Some_get_some(long ptr);
 	// struct LDKRefund CResult_RefundBolt12ParseErrorZ_get_ok(LDKCResult_RefundBolt12ParseErrorZ *NONNULL_PTR owner);
@@ -102,6 +88,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_ty_from_ptr")] public static extern long LDKSpendableOutputDescriptor_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_StaticOutput_get_outpoint")] public static extern long LDKSpendableOutputDescriptor_StaticOutput_get_outpoint(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_StaticOutput_get_output")] public static extern long LDKSpendableOutputDescriptor_StaticOutput_get_output(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_StaticOutput_get_channel_keys_id")] public static extern long LDKSpendableOutputDescriptor_StaticOutput_get_channel_keys_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_DelayedPaymentOutput_get_delayed_payment_output")] public static extern long LDKSpendableOutputDescriptor_DelayedPaymentOutput_get_delayed_payment_output(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSpendableOutputDescriptor_StaticPaymentOutput_get_static_payment_output")] public static extern long LDKSpendableOutputDescriptor_StaticPaymentOutput_get_static_payment_output(long ptr);
 	// struct LDKSpendableOutputDescriptor CResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(LDKCResult_SpendableOutputDescriptorDecodeErrorZ *NONNULL_PTR owner);
@@ -110,14 +97,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpendableOutputDescriptorDecodeErrorZ_get_err")] public static extern long CResult_SpendableOutputDescriptorDecodeErrorZ_get_err(long _owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_u32Z_ty_from_ptr")] public static extern long LDKCOption_u32Z_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_u32Z_Some_get_some")] public static extern int LDKCOption_u32Z_Some_get_some(long ptr);
-	// struct LDKCVec_u8Z C2Tuple_CVec_u8ZusizeZ_get_a(LDKC2Tuple_CVec_u8ZusizeZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_get_a")] public static extern long C2Tuple_CVec_u8ZusizeZ_get_a(long _owner);
-	// uintptr_t C2Tuple_CVec_u8ZusizeZ_get_b(LDKC2Tuple_CVec_u8ZusizeZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_get_b")] public static extern long C2Tuple_CVec_u8ZusizeZ_get_b(long _owner);
-	// struct LDKC2Tuple_CVec_u8ZusizeZ CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_ok(LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_ok")] public static extern long CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_ok(long _owner);
-	// void CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_err(LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_err")] public static extern void CResult_C2Tuple_CVec_u8ZusizeZNoneZ_get_err(long _owner);
+	// struct LDKCVec_u8Z C2Tuple_CVec_u8Zu64Z_get_a(LDKC2Tuple_CVec_u8Zu64Z *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_get_a")] public static extern long C2Tuple_CVec_u8Zu64Z_get_a(long _owner);
+	// uint64_t C2Tuple_CVec_u8Zu64Z_get_b(LDKC2Tuple_CVec_u8Zu64Z *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_get_b")] public static extern long C2Tuple_CVec_u8Zu64Z_get_b(long _owner);
+	// struct LDKC2Tuple_CVec_u8Zu64Z CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_ok(LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_ok")] public static extern long CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_ok(long _owner);
+	// void CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_err(LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_err")] public static extern void CResult_C2Tuple_CVec_u8Zu64ZNoneZ_get_err(long _owner);
 	// struct LDKChannelDerivationParameters CResult_ChannelDerivationParametersDecodeErrorZ_get_ok(LDKCResult_ChannelDerivationParametersDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelDerivationParametersDecodeErrorZ_get_ok")] public static extern long CResult_ChannelDerivationParametersDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_ChannelDerivationParametersDecodeErrorZ_get_err(LDKCResult_ChannelDerivationParametersDecodeErrorZ *NONNULL_PTR owner);
@@ -130,18 +117,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneNoneZ_get_ok")] public static extern void CResult_NoneNoneZ_get_ok(long _owner);
 	// void CResult_NoneNoneZ_get_err(LDKCResult_NoneNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneNoneZ_get_err")] public static extern void CResult_NoneNoneZ_get_err(long _owner);
-	// struct LDKECDSASignature C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a(long _owner);
-	// struct LDKCVec_ECDSASignatureZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b(long _owner);
-	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok(long _owner);
-	// void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err")] public static extern void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err(long _owner);
-	// struct LDKECDSASignature CResult_ECDSASignatureNoneZ_get_ok(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_get_ok")] public static extern long CResult_ECDSASignatureNoneZ_get_ok(long _owner);
-	// void CResult_ECDSASignatureNoneZ_get_err(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_get_err")] public static extern void CResult_ECDSASignatureNoneZ_get_err(long _owner);
 	// struct LDKPublicKey CResult_PublicKeyNoneZ_get_ok(LDKCResult_PublicKeyNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PublicKeyNoneZ_get_ok")] public static extern long CResult_PublicKeyNoneZ_get_ok(long _owner);
 	// void CResult_PublicKeyNoneZ_get_err(LDKCResult_PublicKeyNoneZ *NONNULL_PTR owner);
@@ -156,10 +131,23 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SchnorrSignatureNoneZ_get_ok")] public static extern long CResult_SchnorrSignatureNoneZ_get_ok(long _owner);
 	// void CResult_SchnorrSignatureNoneZ_get_err(LDKCResult_SchnorrSignatureNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SchnorrSignatureNoneZ_get_err")] public static extern void CResult_SchnorrSignatureNoneZ_get_err(long _owner);
+	// struct LDKECDSASignature CResult_ECDSASignatureNoneZ_get_ok(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_get_ok")] public static extern long CResult_ECDSASignatureNoneZ_get_ok(long _owner);
+	// void CResult_ECDSASignatureNoneZ_get_err(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_get_err")] public static extern void CResult_ECDSASignatureNoneZ_get_err(long _owner);
+	// struct LDKECDSASignature C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_a(long _owner);
+	// struct LDKCVec_ECDSASignatureZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_get_b(long _owner);
+	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_ok(long _owner);
+	// void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err")] public static extern void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_get_err(long _owner);
 	public interface LDKChannelSigner {
 		long get_per_commitment_point(long idx);
 		long release_commitment_secret(long idx);
-		long validate_holder_commitment(long holder_tx, long preimages);
+		long validate_holder_commitment(long holder_tx, long outbound_htlc_preimages);
+		long validate_counterparty_revocation(long idx, long secret);
 		long channel_keys_id();
 		void provide_channel_parameters(long channel_parameters);
 	}
@@ -184,8 +172,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_get_per_commitment_point")] public static extern long ChannelSigner_get_per_commitment_point(long _this_arg, long _idx);
 	// LDKThirtyTwoBytes ChannelSigner_release_commitment_secret LDKChannelSigner *NONNULL_PTR this_arg, uint64_t idx
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_release_commitment_secret")] public static extern long ChannelSigner_release_commitment_secret(long _this_arg, long _idx);
-	// LDKCResult_NoneNoneZ ChannelSigner_validate_holder_commitment LDKChannelSigner *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR holder_tx, struct LDKCVec_ThirtyTwoBytesZ preimages
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_validate_holder_commitment")] public static extern long ChannelSigner_validate_holder_commitment(long _this_arg, long _holder_tx, long _preimages);
+	// LDKCResult_NoneNoneZ ChannelSigner_validate_holder_commitment LDKChannelSigner *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR holder_tx, struct LDKCVec_ThirtyTwoBytesZ outbound_htlc_preimages
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_validate_holder_commitment")] public static extern long ChannelSigner_validate_holder_commitment(long _this_arg, long _holder_tx, long _outbound_htlc_preimages);
+	// LDKCResult_NoneNoneZ ChannelSigner_validate_counterparty_revocation LDKChannelSigner *NONNULL_PTR this_arg, uint64_t idx, const uint8_t (*secret)[32]
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_validate_counterparty_revocation")] public static extern long ChannelSigner_validate_counterparty_revocation(long _this_arg, long _idx, long _secret);
 	// LDKThirtyTwoBytes ChannelSigner_channel_keys_id LDKChannelSigner *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_channel_keys_id")] public static extern long ChannelSigner_channel_keys_id(long _this_arg);
 	// void ChannelSigner_provide_channel_parameters LDKChannelSigner *NONNULL_PTR this_arg, const struct LDKChannelTransactionParameters *NONNULL_PTR channel_parameters
@@ -193,8 +183,7 @@ internal class bindings {
 	// LDKChannelPublicKeys ChannelSigner_get_pubkeys LDKChannelSigner *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_get_pubkeys")] public static extern long ChannelSigner_get_pubkeys(long _this_arg);
 	public interface LDKEcdsaChannelSigner {
-		long sign_counterparty_commitment(long commitment_tx, long preimages);
-		long validate_counterparty_revocation(long idx, long secret);
+		long sign_counterparty_commitment(long commitment_tx, long inbound_htlc_preimages, long outbound_htlc_preimages);
 		long sign_holder_commitment(long commitment_tx);
 		long sign_justice_revoked_output(long justice_tx, long input, long amount, long per_commitment_key);
 		long sign_justice_revoked_htlc(long justice_tx, long input, long amount, long per_commitment_key, long htlc);
@@ -221,10 +210,8 @@ internal class bindings {
 		ret[1] = i;
 		return ret;
 	}
-	// LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ EcdsaChannelSigner_sign_counterparty_commitment LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx, struct LDKCVec_ThirtyTwoBytesZ preimages
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_sign_counterparty_commitment")] public static extern long EcdsaChannelSigner_sign_counterparty_commitment(long _this_arg, long _commitment_tx, long _preimages);
-	// LDKCResult_NoneNoneZ EcdsaChannelSigner_validate_counterparty_revocation LDKEcdsaChannelSigner *NONNULL_PTR this_arg, uint64_t idx, const uint8_t (*secret)[32]
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_validate_counterparty_revocation")] public static extern long EcdsaChannelSigner_validate_counterparty_revocation(long _this_arg, long _idx, long _secret);
+	// LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ EcdsaChannelSigner_sign_counterparty_commitment LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx, struct LDKCVec_ThirtyTwoBytesZ inbound_htlc_preimages, struct LDKCVec_ThirtyTwoBytesZ outbound_htlc_preimages
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_sign_counterparty_commitment")] public static extern long EcdsaChannelSigner_sign_counterparty_commitment(long _this_arg, long _commitment_tx, long _inbound_htlc_preimages, long _outbound_htlc_preimages);
 	// LDKCResult_ECDSASignatureNoneZ EcdsaChannelSigner_sign_holder_commitment LDKEcdsaChannelSigner *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR commitment_tx
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_sign_holder_commitment")] public static extern long EcdsaChannelSigner_sign_holder_commitment(long _this_arg, long _commitment_tx);
 	// LDKCResult_ECDSASignatureNoneZ EcdsaChannelSigner_sign_justice_revoked_output LDKEcdsaChannelSigner *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32]
@@ -279,10 +266,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_u16Z_Some_get_some")] public static extern short LDKCOption_u16Z_Some_get_some(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_boolZ_ty_from_ptr")] public static extern long LDKCOption_boolZ_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_boolZ_Some_get_some")] public static extern bool LDKCOption_boolZ_Some_get_some(long ptr);
-	// struct LDKCVec_CVec_u8ZZ CResult_CVec_CVec_u8ZZNoneZ_get_ok(LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_get_ok")] public static extern long CResult_CVec_CVec_u8ZZNoneZ_get_ok(long _owner);
-	// void CResult_CVec_CVec_u8ZZNoneZ_get_err(LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_get_err")] public static extern void CResult_CVec_CVec_u8ZZNoneZ_get_err(long _owner);
+	// struct LDKWitness CResult_WitnessNoneZ_get_ok(LDKCResult_WitnessNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_get_ok")] public static extern long CResult_WitnessNoneZ_get_ok(long _owner);
+	// void CResult_WitnessNoneZ_get_err(LDKCResult_WitnessNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_get_err")] public static extern void CResult_WitnessNoneZ_get_err(long _owner);
 	// struct LDKInMemorySigner CResult_InMemorySignerDecodeErrorZ_get_ok(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InMemorySignerDecodeErrorZ_get_ok")] public static extern long CResult_InMemorySignerDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_InMemorySignerDecodeErrorZ_get_err(LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR owner);
@@ -291,8 +278,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TransactionNoneZ_get_ok")] public static extern long CResult_TransactionNoneZ_get_ok(long _owner);
 	// void CResult_TransactionNoneZ_get_err(LDKCResult_TransactionNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TransactionNoneZ_get_err")] public static extern void CResult_TransactionNoneZ_get_err(long _owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_ty_from_ptr")] public static extern long LDKCandidateRouteHop_ty_from_ptr(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_FirstHop_get_first_hop")] public static extern long LDKCandidateRouteHop_FirstHop_get_first_hop(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_PublicHop_get_public_hop")] public static extern long LDKCandidateRouteHop_PublicHop_get_public_hop(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_PrivateHop_get_private_hop")] public static extern long LDKCandidateRouteHop_PrivateHop_get_private_hop(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_Blinded_get_blinded")] public static extern long LDKCandidateRouteHop_Blinded_get_blinded(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCandidateRouteHop_OneHopBlinded_get_one_hop_blinded")] public static extern long LDKCandidateRouteHop_OneHopBlinded_get_one_hop_blinded(long ptr);
 	public interface LDKScoreLookUp {
-		long channel_penalty_msat(long short_channel_id, long source, long target, long usage, long score_params);
+		long channel_penalty_msat(long candidate, long usage, long score_params);
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKScoreLookUp_new")] public static extern long LDKScoreLookUp_new_native(long impl_idx);
 	public static long[] LDKScoreLookUp_new(LDKScoreLookUp impl) {
@@ -311,13 +304,14 @@ internal class bindings {
 		ret[1] = i;
 		return ret;
 	}
-	// uint64_t ScoreLookUp_channel_penalty_msat LDKScoreLookUp *NONNULL_PTR this_arg, uint64_t short_channel_id, const struct LDKNodeId *NONNULL_PTR source, const struct LDKNodeId *NONNULL_PTR target, struct LDKChannelUsage usage, const struct LDKProbabilisticScoringFeeParameters *NONNULL_PTR score_params
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreLookUp_channel_penalty_msat")] public static extern long ScoreLookUp_channel_penalty_msat(long _this_arg, long _short_channel_id, long _source, long _target, long _usage, long _score_params);
+	// uint64_t ScoreLookUp_channel_penalty_msat LDKScoreLookUp *NONNULL_PTR this_arg, const struct LDKCandidateRouteHop *NONNULL_PTR candidate, struct LDKChannelUsage usage, const struct LDKProbabilisticScoringFeeParameters *NONNULL_PTR score_params
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreLookUp_channel_penalty_msat")] public static extern long ScoreLookUp_channel_penalty_msat(long _this_arg, long _candidate, long _usage, long _score_params);
 	public interface LDKScoreUpdate {
-		void payment_path_failed(long path, long short_channel_id);
-		void payment_path_successful(long path);
-		void probe_failed(long path, long short_channel_id);
-		void probe_successful(long path);
+		void payment_path_failed(long path, long short_channel_id, long duration_since_epoch);
+		void payment_path_successful(long path, long duration_since_epoch);
+		void probe_failed(long path, long short_channel_id, long duration_since_epoch);
+		void probe_successful(long path, long duration_since_epoch);
+		void time_passed(long duration_since_epoch);
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKScoreUpdate_new")] public static extern long LDKScoreUpdate_new_native(long impl_idx);
 	public static long[] LDKScoreUpdate_new(LDKScoreUpdate impl) {
@@ -336,14 +330,16 @@ internal class bindings {
 		ret[1] = i;
 		return ret;
 	}
-	// void ScoreUpdate_payment_path_failed LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t short_channel_id
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_payment_path_failed")] public static extern void ScoreUpdate_payment_path_failed(long _this_arg, long _path, long _short_channel_id);
-	// void ScoreUpdate_payment_path_successful LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_payment_path_successful")] public static extern void ScoreUpdate_payment_path_successful(long _this_arg, long _path);
-	// void ScoreUpdate_probe_failed LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t short_channel_id
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_probe_failed")] public static extern void ScoreUpdate_probe_failed(long _this_arg, long _path, long _short_channel_id);
-	// void ScoreUpdate_probe_successful LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_probe_successful")] public static extern void ScoreUpdate_probe_successful(long _this_arg, long _path);
+	// void ScoreUpdate_payment_path_failed LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t short_channel_id, uint64_t duration_since_epoch
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_payment_path_failed")] public static extern void ScoreUpdate_payment_path_failed(long _this_arg, long _path, long _short_channel_id, long _duration_since_epoch);
+	// void ScoreUpdate_payment_path_successful LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t duration_since_epoch
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_payment_path_successful")] public static extern void ScoreUpdate_payment_path_successful(long _this_arg, long _path, long _duration_since_epoch);
+	// void ScoreUpdate_probe_failed LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t short_channel_id, uint64_t duration_since_epoch
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_probe_failed")] public static extern void ScoreUpdate_probe_failed(long _this_arg, long _path, long _short_channel_id, long _duration_since_epoch);
+	// void ScoreUpdate_probe_successful LDKScoreUpdate *NONNULL_PTR this_arg, const struct LDKPath *NONNULL_PTR path, uint64_t duration_since_epoch
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_probe_successful")] public static extern void ScoreUpdate_probe_successful(long _this_arg, long _path, long _duration_since_epoch);
+	// void ScoreUpdate_time_passed LDKScoreUpdate *NONNULL_PTR this_arg, uint64_t duration_since_epoch
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ScoreUpdate_time_passed")] public static extern void ScoreUpdate_time_passed(long _this_arg, long _duration_since_epoch);
 	public interface LDKLockableScore {
 		long read_lock();
 		long write_lock();
@@ -401,6 +397,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteLightningErrorZ_get_ok")] public static extern long CResult_RouteLightningErrorZ_get_ok(long _owner);
 	// struct LDKLightningError CResult_RouteLightningErrorZ_get_err(LDKCResult_RouteLightningErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteLightningErrorZ_get_err")] public static extern long CResult_RouteLightningErrorZ_get_err(long _owner);
+	// struct LDKBlindedPayInfo C2Tuple_BlindedPayInfoBlindedPathZ_get_a(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_get_a")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_get_a(long _owner);
+	// struct LDKBlindedPath C2Tuple_BlindedPayInfoBlindedPathZ_get_b(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_get_b")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_get_b(long _owner);
+	// struct LDKCVec_C2Tuple_BlindedPayInfoBlindedPathZZ CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_ok(LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_ok")] public static extern long CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_ok(long _owner);
+	// void CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_err(LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_err")] public static extern void CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_get_err(long _owner);
+	// struct LDKOnionMessagePath CResult_OnionMessagePathNoneZ_get_ok(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_get_ok")] public static extern long CResult_OnionMessagePathNoneZ_get_ok(long _owner);
+	// void CResult_OnionMessagePathNoneZ_get_err(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_get_err")] public static extern void CResult_OnionMessagePathNoneZ_get_err(long _owner);
+	// struct LDKCVec_BlindedPathZ CResult_CVec_BlindedPathZNoneZ_get_ok(LDKCResult_CVec_BlindedPathZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_get_ok")] public static extern long CResult_CVec_BlindedPathZNoneZ_get_ok(long _owner);
+	// void CResult_CVec_BlindedPathZNoneZ_get_err(LDKCResult_CVec_BlindedPathZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_get_err")] public static extern void CResult_CVec_BlindedPathZNoneZ_get_err(long _owner);
 	// struct LDKInFlightHtlcs CResult_InFlightHtlcsDecodeErrorZ_get_ok(LDKCResult_InFlightHtlcsDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InFlightHtlcsDecodeErrorZ_get_ok")] public static extern long CResult_InFlightHtlcsDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_InFlightHtlcsDecodeErrorZ_get_err(LDKCResult_InFlightHtlcsDecodeErrorZ *NONNULL_PTR owner);
@@ -425,10 +437,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentParametersDecodeErrorZ_get_ok")] public static extern long CResult_PaymentParametersDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_PaymentParametersDecodeErrorZ_get_err(LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentParametersDecodeErrorZ_get_err")] public static extern long CResult_PaymentParametersDecodeErrorZ_get_err(long _owner);
-	// struct LDKBlindedPayInfo C2Tuple_BlindedPayInfoBlindedPathZ_get_a(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_get_a")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_get_a(long _owner);
-	// struct LDKBlindedPath C2Tuple_BlindedPayInfoBlindedPathZ_get_b(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_get_b")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_get_b(long _owner);
 	// struct LDKRouteHint CResult_RouteHintDecodeErrorZ_get_ok(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteHintDecodeErrorZ_get_ok")] public static extern long CResult_RouteHintDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_RouteHintDecodeErrorZ_get_err(LDKCResult_RouteHintDecodeErrorZ *NONNULL_PTR owner);
@@ -487,10 +495,12 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_usizeTransactionZ_get_a")] public static extern long C2Tuple_usizeTransactionZ_get_a(long _owner);
 	// struct LDKTransaction C2Tuple_usizeTransactionZ_get_b(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_usizeTransactionZ_get_b")] public static extern long C2Tuple_usizeTransactionZ_get_b(long _owner);
-	// struct LDKThirtyTwoBytes C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_a(LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_a")] public static extern long C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_a(long _owner);
-	// struct LDKCOption_ThirtyTwoBytesZ C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_b(LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_b")] public static extern long C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_get_b(long _owner);
+	// struct LDKThirtyTwoBytes C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_a(LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_a")] public static extern long C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_a(long _owner);
+	// uint32_t C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_b(LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_b")] public static extern int C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_b(long _owner);
+	// struct LDKCOption_ThirtyTwoBytesZ C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_c(LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_c")] public static extern long C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_get_c(long _owner);
 	// enum LDKChannelMonitorUpdateStatus CResult_ChannelMonitorUpdateStatusNoneZ_get_ok(LDKCResult_ChannelMonitorUpdateStatusNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelMonitorUpdateStatusNoneZ_get_ok")] public static extern ChannelMonitorUpdateStatus CResult_ChannelMonitorUpdateStatusNoneZ_get_ok(long _owner);
 	// void CResult_ChannelMonitorUpdateStatusNoneZ_get_err(LDKCResult_ChannelMonitorUpdateStatusNoneZ *NONNULL_PTR owner);
@@ -625,6 +635,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendFundingCreated_get_msg")] public static extern long LDKMessageSendEvent_SendFundingCreated_get_msg(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendFundingSigned_get_node_id")] public static extern long LDKMessageSendEvent_SendFundingSigned_get_node_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendFundingSigned_get_msg")] public static extern long LDKMessageSendEvent_SendFundingSigned_get_msg(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendStfu_get_node_id")] public static extern long LDKMessageSendEvent_SendStfu_get_node_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendStfu_get_msg")] public static extern long LDKMessageSendEvent_SendStfu_get_msg(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSplice_get_node_id")] public static extern long LDKMessageSendEvent_SendSplice_get_node_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSplice_get_msg")] public static extern long LDKMessageSendEvent_SendSplice_get_msg(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSpliceAck_get_node_id")] public static extern long LDKMessageSendEvent_SendSpliceAck_get_node_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSpliceAck_get_msg")] public static extern long LDKMessageSendEvent_SendSpliceAck_get_msg(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSpliceLocked_get_node_id")] public static extern long LDKMessageSendEvent_SendSpliceLocked_get_node_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendSpliceLocked_get_msg")] public static extern long LDKMessageSendEvent_SendSpliceLocked_get_msg(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendTxAddInput_get_node_id")] public static extern long LDKMessageSendEvent_SendTxAddInput_get_node_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendTxAddInput_get_msg")] public static extern long LDKMessageSendEvent_SendTxAddInput_get_msg(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageSendEvent_SendTxAddOutput_get_node_id")] public static extern long LDKMessageSendEvent_SendTxAddOutput_get_node_id(long ptr);
@@ -718,6 +736,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NetworkGraphDecodeErrorZ_get_err")] public static extern long CResult_NetworkGraphDecodeErrorZ_get_err(long _owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_CVec_SocketAddressZZ_ty_from_ptr")] public static extern long LDKCOption_CVec_SocketAddressZZ_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_CVec_SocketAddressZZ_Some_get_some")] public static extern long LDKCOption_CVec_SocketAddressZZ_Some_get_some(long ptr);
+	// struct LDKPendingHTLCInfo CResult_PendingHTLCInfoInboundHTLCErrZ_get_ok(LDKCResult_PendingHTLCInfoInboundHTLCErrZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_get_ok")] public static extern long CResult_PendingHTLCInfoInboundHTLCErrZ_get_ok(long _owner);
+	// struct LDKInboundHTLCErr CResult_PendingHTLCInfoInboundHTLCErrZ_get_err(LDKCResult_PendingHTLCInfoInboundHTLCErrZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_get_err")] public static extern long CResult_PendingHTLCInfoInboundHTLCErrZ_get_err(long _owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_TxOutZ_ty_from_ptr")] public static extern long LDKCOption_TxOutZ_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_TxOutZ_Some_get_some")] public static extern long LDKCOption_TxOutZ_Some_get_some(long ptr);
 	// struct LDKCoinSelection CResult_CoinSelectionNoneZ_get_ok(LDKCResult_CoinSelectionNoneZ *NONNULL_PTR owner);
@@ -831,6 +853,37 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PhantomRouteHintsDecodeErrorZ_get_ok")] public static extern long CResult_PhantomRouteHintsDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_PhantomRouteHintsDecodeErrorZ_get_err(LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PhantomRouteHintsDecodeErrorZ_get_err")] public static extern long CResult_PhantomRouteHintsDecodeErrorZ_get_err(long _owner);
+	// struct LDKBlindedForward CResult_BlindedForwardDecodeErrorZ_get_ok(LDKCResult_BlindedForwardDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_get_ok")] public static extern long CResult_BlindedForwardDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_BlindedForwardDecodeErrorZ_get_err(LDKCResult_BlindedForwardDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_get_err")] public static extern long CResult_BlindedForwardDecodeErrorZ_get_err(long _owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ty_from_ptr")] public static extern long LDKPendingHTLCRouting_ty_from_ptr(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Forward_get_onion_packet")] public static extern long LDKPendingHTLCRouting_Forward_get_onion_packet(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Forward_get_short_channel_id")] public static extern long LDKPendingHTLCRouting_Forward_get_short_channel_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Forward_get_blinded")] public static extern long LDKPendingHTLCRouting_Forward_get_blinded(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_payment_data")] public static extern long LDKPendingHTLCRouting_Receive_get_payment_data(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_payment_metadata")] public static extern long LDKPendingHTLCRouting_Receive_get_payment_metadata(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_incoming_cltv_expiry")] public static extern int LDKPendingHTLCRouting_Receive_get_incoming_cltv_expiry(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_phantom_shared_secret")] public static extern long LDKPendingHTLCRouting_Receive_get_phantom_shared_secret(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_custom_tlvs")] public static extern long LDKPendingHTLCRouting_Receive_get_custom_tlvs(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_Receive_get_requires_blinded_error")] public static extern bool LDKPendingHTLCRouting_Receive_get_requires_blinded_error(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ReceiveKeysend_get_payment_data")] public static extern long LDKPendingHTLCRouting_ReceiveKeysend_get_payment_data(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ReceiveKeysend_get_payment_preimage")] public static extern long LDKPendingHTLCRouting_ReceiveKeysend_get_payment_preimage(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ReceiveKeysend_get_payment_metadata")] public static extern long LDKPendingHTLCRouting_ReceiveKeysend_get_payment_metadata(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ReceiveKeysend_get_incoming_cltv_expiry")] public static extern int LDKPendingHTLCRouting_ReceiveKeysend_get_incoming_cltv_expiry(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPendingHTLCRouting_ReceiveKeysend_get_custom_tlvs")] public static extern long LDKPendingHTLCRouting_ReceiveKeysend_get_custom_tlvs(long ptr);
+	// struct LDKPendingHTLCRouting CResult_PendingHTLCRoutingDecodeErrorZ_get_ok(LDKCResult_PendingHTLCRoutingDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_get_ok")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_PendingHTLCRoutingDecodeErrorZ_get_err(LDKCResult_PendingHTLCRoutingDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_get_err")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_get_err(long _owner);
+	// struct LDKPendingHTLCInfo CResult_PendingHTLCInfoDecodeErrorZ_get_ok(LDKCResult_PendingHTLCInfoDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_get_ok")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_PendingHTLCInfoDecodeErrorZ_get_err(LDKCResult_PendingHTLCInfoDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_get_err")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_get_err(long _owner);
+	// enum LDKBlindedFailure CResult_BlindedFailureDecodeErrorZ_get_ok(LDKCResult_BlindedFailureDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_get_ok")] public static extern BlindedFailure CResult_BlindedFailureDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_BlindedFailureDecodeErrorZ_get_err(LDKCResult_BlindedFailureDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_get_err")] public static extern long CResult_BlindedFailureDecodeErrorZ_get_err(long _owner);
 	// enum LDKChannelShutdownState CResult_ChannelShutdownStateDecodeErrorZ_get_ok(LDKCResult_ChannelShutdownStateDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelShutdownStateDecodeErrorZ_get_ok")] public static extern ChannelShutdownState CResult_ChannelShutdownStateDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_ChannelShutdownStateDecodeErrorZ_get_err(LDKCResult_ChannelShutdownStateDecodeErrorZ *NONNULL_PTR owner);
@@ -955,7 +1008,7 @@ internal class bindings {
 		long generate_channel_keys_id(bool inbound, long channel_value_satoshis, long user_channel_id);
 		long derive_channel_signer(long channel_value_satoshis, long channel_keys_id);
 		long read_chan_signer(long reader);
-		long get_destination_script();
+		long get_destination_script(long channel_keys_id);
 		long get_shutdown_scriptpubkey();
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSignerProvider_new")] public static extern long LDKSignerProvider_new_native(long impl_idx);
@@ -981,8 +1034,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignerProvider_derive_channel_signer")] public static extern long SignerProvider_derive_channel_signer(long _this_arg, long _channel_value_satoshis, long _channel_keys_id);
 	// LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ SignerProvider_read_chan_signer LDKSignerProvider *NONNULL_PTR this_arg, struct LDKu8slice reader
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignerProvider_read_chan_signer")] public static extern long SignerProvider_read_chan_signer(long _this_arg, long _reader);
-	// LDKCResult_CVec_u8ZNoneZ SignerProvider_get_destination_script LDKSignerProvider *NONNULL_PTR this_arg
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignerProvider_get_destination_script")] public static extern long SignerProvider_get_destination_script(long _this_arg);
+	// LDKCResult_CVec_u8ZNoneZ SignerProvider_get_destination_script LDKSignerProvider *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes channel_keys_id
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignerProvider_get_destination_script")] public static extern long SignerProvider_get_destination_script(long _this_arg, long _channel_keys_id);
 	// LDKCResult_ShutdownScriptNoneZ SignerProvider_get_shutdown_scriptpubkey LDKSignerProvider *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignerProvider_get_shutdown_scriptpubkey")] public static extern long SignerProvider_get_shutdown_scriptpubkey(long _this_arg);
 	public interface LDKFeeEstimator {
@@ -1007,12 +1060,12 @@ internal class bindings {
 	}
 	// uint32_t FeeEstimator_get_est_sat_per_1000_weight LDKFeeEstimator *NONNULL_PTR this_arg, enum LDKConfirmationTarget confirmation_target
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FeeEstimator_get_est_sat_per_1000_weight")] public static extern int FeeEstimator_get_est_sat_per_1000_weight(long _this_arg, ConfirmationTarget _confirmation_target);
-	public interface LDKRouter {
-		long find_route(long payer, long route_params, long first_hops, long inflight_htlcs);
-		long find_route_with_id(long payer, long route_params, long first_hops, long inflight_htlcs, long _payment_hash, long _payment_id);
+	public interface LDKMessageRouter {
+		long find_path(long sender, long peers, long destination);
+		long create_blinded_paths(long recipient, long peers);
 	}
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKRouter_new")] public static extern long LDKRouter_new_native(long impl_idx);
-	public static long[] LDKRouter_new(LDKRouter impl) {
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageRouter_new")] public static extern long LDKMessageRouter_new_native(long impl_idx);
+	public static long[] LDKMessageRouter_new(LDKMessageRouter impl) {
 		long new_obj_idx = js_objs.Count;
 		int i = 0;
 		for (; i < js_objs.Count; i++) {
@@ -1024,7 +1077,33 @@ internal class bindings {
 			js_objs[i] = new WeakReference(impl);
 		}
 		long[] ret = new long[2];
-		ret[0] = LDKRouter_new_native(i);
+		ret[0] = LDKMessageRouter_new_native(i);
+		ret[1] = i;
+		return ret;
+	}
+	// LDKCResult_OnionMessagePathNoneZ MessageRouter_find_path LDKMessageRouter *NONNULL_PTR this_arg, struct LDKPublicKey sender, struct LDKCVec_PublicKeyZ peers, struct LDKDestination destination
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageRouter_find_path")] public static extern long MessageRouter_find_path(long _this_arg, long _sender, long _peers, long _destination);
+	// LDKCResult_CVec_BlindedPathZNoneZ MessageRouter_create_blinded_paths LDKMessageRouter *NONNULL_PTR this_arg, struct LDKPublicKey recipient, struct LDKCVec_PublicKeyZ peers
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageRouter_create_blinded_paths")] public static extern long MessageRouter_create_blinded_paths(long _this_arg, long _recipient, long _peers);
+	public interface LDKRouter {
+		long find_route(long payer, long route_params, long first_hops, long inflight_htlcs);
+		long find_route_with_id(long payer, long route_params, long first_hops, long inflight_htlcs, long _payment_hash, long _payment_id);
+		long create_blinded_payment_paths(long recipient, long first_hops, long tlvs, long amount_msats);
+	}
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKRouter_new")] public static extern long LDKRouter_new_native(long impl_idx, long MessageRouter);
+	public static long[] LDKRouter_new(LDKRouter impl, long MessageRouter) {
+		long new_obj_idx = js_objs.Count;
+		int i = 0;
+		for (; i < js_objs.Count; i++) {
+			if (js_objs[i] == null || !js_objs[i].IsAlive) { new_obj_idx = i; break; }
+		}
+		if (i == js_objs.Count) {
+			js_objs.Add(new WeakReference(impl));
+		} else {
+			js_objs[i] = new WeakReference(impl);
+		}
+		long[] ret = new long[2];
+		ret[0] = LDKRouter_new_native(i, MessageRouter);
 		ret[1] = i;
 		return ret;
 	}
@@ -1032,6 +1111,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Router_find_route")] public static extern long Router_find_route(long _this_arg, long _payer, long _route_params, long _first_hops, long _inflight_htlcs);
 	// LDKCResult_RouteLightningErrorZ Router_find_route_with_id LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey payer, const struct LDKRouteParameters *NONNULL_PTR route_params, struct LDKCVec_ChannelDetailsZ *first_hops, struct LDKInFlightHtlcs inflight_htlcs, struct LDKThirtyTwoBytes _payment_hash, struct LDKThirtyTwoBytes _payment_id
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Router_find_route_with_id")] public static extern long Router_find_route_with_id(long _this_arg, long _payer, long _route_params, long _first_hops, long _inflight_htlcs, long __payment_hash, long __payment_id);
+	// LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ Router_create_blinded_payment_paths LDKRouter *NONNULL_PTR this_arg, struct LDKPublicKey recipient, struct LDKCVec_ChannelDetailsZ first_hops, struct LDKReceiveTlvs tlvs, uint64_t amount_msats
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Router_create_blinded_payment_paths")] public static extern long Router_create_blinded_payment_paths(long _this_arg, long _recipient, long _first_hops, long _tlvs, long _amount_msats);
 	// struct LDKThirtyTwoBytes C2Tuple_ThirtyTwoBytesChannelManagerZ_get_a(LDKC2Tuple_ThirtyTwoBytesChannelManagerZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesChannelManagerZ_get_a")] public static extern long C2Tuple_ThirtyTwoBytesChannelManagerZ_get_a(long _owner);
 	// struct LDKChannelManager C2Tuple_ThirtyTwoBytesChannelManagerZ_get_b(LDKC2Tuple_ThirtyTwoBytesChannelManagerZ *NONNULL_PTR owner);
@@ -1148,9 +1229,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyTypeZ_get_a")] public static extern long C2Tuple_PublicKeyTypeZ_get_a(long _owner);
 	// struct LDKType C2Tuple_PublicKeyTypeZ_get_b(LDKC2Tuple_PublicKeyTypeZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyTypeZ_get_b")] public static extern long C2Tuple_PublicKeyTypeZ_get_b(long _owner);
+	// struct LDKPublicKey C2Tuple_PublicKeyCVec_SocketAddressZZ_get_a(LDKC2Tuple_PublicKeyCVec_SocketAddressZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_get_a")] public static extern long C2Tuple_PublicKeyCVec_SocketAddressZZ_get_a(long _owner);
+	// struct LDKCVec_SocketAddressZ C2Tuple_PublicKeyCVec_SocketAddressZZ_get_b(LDKC2Tuple_PublicKeyCVec_SocketAddressZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_get_b")] public static extern long C2Tuple_PublicKeyCVec_SocketAddressZZ_get_b(long _owner);
 	public interface LDKOnionMessageContents {
 		long tlv_type();
 		long write();
+		long debug_str();
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKOnionMessageContents_new")] public static extern long LDKOnionMessageContents_new_native(long impl_idx);
 	public static long[] LDKOnionMessageContents_new(LDKOnionMessageContents impl) {
@@ -1173,6 +1259,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageContents_tlv_type")] public static extern long OnionMessageContents_tlv_type(long _this_arg);
 	// LDKCVec_u8Z OnionMessageContents_write LDKOnionMessageContents *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageContents_write")] public static extern long OnionMessageContents_write(long _this_arg);
+	// LDKStr OnionMessageContents_debug_str LDKOnionMessageContents *NONNULL_PTR this_arg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageContents_debug_str")] public static extern long OnionMessageContents_debug_str(long _this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_OnionMessageContentsZ_ty_from_ptr")] public static extern long LDKCOption_OnionMessageContentsZ_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCOption_OnionMessageContentsZ_Some_get_some")] public static extern long LDKCOption_OnionMessageContentsZ_Some_get_some(long ptr);
 	// struct LDKCOption_OnionMessageContentsZ CResult_COption_OnionMessageContentsZDecodeErrorZ_get_ok(LDKCResult_COption_OnionMessageContentsZDecodeErrorZ *NONNULL_PTR owner);
@@ -1256,6 +1344,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_AcceptChannelV2DecodeErrorZ_get_ok")] public static extern long CResult_AcceptChannelV2DecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_AcceptChannelV2DecodeErrorZ_get_err(LDKCResult_AcceptChannelV2DecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_AcceptChannelV2DecodeErrorZ_get_err")] public static extern long CResult_AcceptChannelV2DecodeErrorZ_get_err(long _owner);
+	// struct LDKStfu CResult_StfuDecodeErrorZ_get_ok(LDKCResult_StfuDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_get_ok")] public static extern long CResult_StfuDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_StfuDecodeErrorZ_get_err(LDKCResult_StfuDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_get_err")] public static extern long CResult_StfuDecodeErrorZ_get_err(long _owner);
+	// struct LDKSplice CResult_SpliceDecodeErrorZ_get_ok(LDKCResult_SpliceDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_get_ok")] public static extern long CResult_SpliceDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_SpliceDecodeErrorZ_get_err(LDKCResult_SpliceDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_get_err")] public static extern long CResult_SpliceDecodeErrorZ_get_err(long _owner);
+	// struct LDKSpliceAck CResult_SpliceAckDecodeErrorZ_get_ok(LDKCResult_SpliceAckDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_get_ok")] public static extern long CResult_SpliceAckDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_SpliceAckDecodeErrorZ_get_err(LDKCResult_SpliceAckDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_get_err")] public static extern long CResult_SpliceAckDecodeErrorZ_get_err(long _owner);
+	// struct LDKSpliceLocked CResult_SpliceLockedDecodeErrorZ_get_ok(LDKCResult_SpliceLockedDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_get_ok")] public static extern long CResult_SpliceLockedDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_SpliceLockedDecodeErrorZ_get_err(LDKCResult_SpliceLockedDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_get_err")] public static extern long CResult_SpliceLockedDecodeErrorZ_get_err(long _owner);
 	// struct LDKTxAddInput CResult_TxAddInputDecodeErrorZ_get_ok(LDKCResult_TxAddInputDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TxAddInputDecodeErrorZ_get_ok")] public static extern long CResult_TxAddInputDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_TxAddInputDecodeErrorZ_get_err(LDKCResult_TxAddInputDecodeErrorZ *NONNULL_PTR owner);
@@ -1360,6 +1464,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok")] public static extern long CResult_UpdateFulfillHTLCDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_UpdateFulfillHTLCDecodeErrorZ_get_err(LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateFulfillHTLCDecodeErrorZ_get_err")] public static extern long CResult_UpdateFulfillHTLCDecodeErrorZ_get_err(long _owner);
+	// struct LDKOnionPacket CResult_OnionPacketDecodeErrorZ_get_ok(LDKCResult_OnionPacketDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_get_ok")] public static extern long CResult_OnionPacketDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_OnionPacketDecodeErrorZ_get_err(LDKCResult_OnionPacketDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_get_err")] public static extern long CResult_OnionPacketDecodeErrorZ_get_err(long _owner);
 	// struct LDKUpdateAddHTLC CResult_UpdateAddHTLCDecodeErrorZ_get_ok(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateAddHTLCDecodeErrorZ_get_ok")] public static extern long CResult_UpdateAddHTLCDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_UpdateAddHTLCDecodeErrorZ_get_err(LDKCResult_UpdateAddHTLCDecodeErrorZ *NONNULL_PTR owner);
@@ -1368,6 +1476,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessageDecodeErrorZ_get_ok")] public static extern long CResult_OnionMessageDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_OnionMessageDecodeErrorZ_get_err(LDKCResult_OnionMessageDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessageDecodeErrorZ_get_err")] public static extern long CResult_OnionMessageDecodeErrorZ_get_err(long _owner);
+	// struct LDKFinalOnionHopData CResult_FinalOnionHopDataDecodeErrorZ_get_ok(LDKCResult_FinalOnionHopDataDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_get_ok")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_FinalOnionHopDataDecodeErrorZ_get_err(LDKCResult_FinalOnionHopDataDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_get_err")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_get_err(long _owner);
 	// struct LDKPing CResult_PingDecodeErrorZ_get_ok(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PingDecodeErrorZ_get_ok")] public static extern long CResult_PingDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_PingDecodeErrorZ_get_err(LDKCResult_PingDecodeErrorZ *NONNULL_PTR owner);
@@ -1580,6 +1692,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_PaymentClaimed_get_purpose")] public static extern long LDKEvent_PaymentClaimed_get_purpose(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_PaymentClaimed_get_htlcs")] public static extern long LDKEvent_PaymentClaimed_get_htlcs(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_PaymentClaimed_get_sender_intended_total_msat")] public static extern long LDKEvent_PaymentClaimed_get_sender_intended_total_msat(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ConnectionNeeded_get_node_id")] public static extern long LDKEvent_ConnectionNeeded_get_node_id(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ConnectionNeeded_get_addresses")] public static extern long LDKEvent_ConnectionNeeded_get_addresses(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_InvoiceRequestFailed_get_payment_id")] public static extern long LDKEvent_InvoiceRequestFailed_get_payment_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_PaymentSent_get_payment_id")] public static extern long LDKEvent_PaymentSent_get_payment_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_PaymentSent_get_payment_preimage")] public static extern long LDKEvent_PaymentSent_get_payment_preimage(long ptr);
@@ -1631,6 +1745,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ChannelClosed_get_reason")] public static extern long LDKEvent_ChannelClosed_get_reason(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ChannelClosed_get_counterparty_node_id")] public static extern long LDKEvent_ChannelClosed_get_counterparty_node_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ChannelClosed_get_channel_capacity_sats")] public static extern long LDKEvent_ChannelClosed_get_channel_capacity_sats(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_ChannelClosed_get_channel_funding_txo")] public static extern long LDKEvent_ChannelClosed_get_channel_funding_txo(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_DiscardFunding_get_channel_id")] public static extern long LDKEvent_DiscardFunding_get_channel_id(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_DiscardFunding_get_transaction")] public static extern long LDKEvent_DiscardFunding_get_transaction(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKEvent_OpenChannelRequest_get_temporary_channel_id")] public static extern long LDKEvent_OpenChannelRequest_get_temporary_channel_id(long ptr);
@@ -1722,10 +1837,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UntrustedStringDecodeErrorZ_get_ok")] public static extern long CResult_UntrustedStringDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_UntrustedStringDecodeErrorZ_get_err(LDKCResult_UntrustedStringDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UntrustedStringDecodeErrorZ_get_err")] public static extern long CResult_UntrustedStringDecodeErrorZ_get_err(long _owner);
-	// struct LDKReceiveTlvs CResult_ReceiveTlvsDecodeErrorZ_get_ok(LDKCResult_ReceiveTlvsDecodeErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_get_ok")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_get_ok(long _owner);
-	// struct LDKDecodeError CResult_ReceiveTlvsDecodeErrorZ_get_err(LDKCResult_ReceiveTlvsDecodeErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_get_err")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_get_err(long _owner);
+	// struct LDKThirtyTwoBytes C2Tuple__u832u16Z_get_a(LDKC2Tuple__u832u16Z *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_get_a")] public static extern long C2Tuple__u832u16Z_get_a(long _owner);
+	// uint16_t C2Tuple__u832u16Z_get_b(LDKC2Tuple__u832u16Z *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_get_b")] public static extern short C2Tuple__u832u16Z_get_b(long _owner);
 	// struct LDKPaymentRelay CResult_PaymentRelayDecodeErrorZ_get_ok(LDKCResult_PaymentRelayDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentRelayDecodeErrorZ_get_ok")] public static extern long CResult_PaymentRelayDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_PaymentRelayDecodeErrorZ_get_err(LDKCResult_PaymentRelayDecodeErrorZ *NONNULL_PTR owner);
@@ -1734,42 +1849,33 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentConstraintsDecodeErrorZ_get_ok")] public static extern long CResult_PaymentConstraintsDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_PaymentConstraintsDecodeErrorZ_get_err(LDKCResult_PaymentConstraintsDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentConstraintsDecodeErrorZ_get_err")] public static extern long CResult_PaymentConstraintsDecodeErrorZ_get_err(long _owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPaymentError_ty_from_ptr")] public static extern long LDKPaymentError_ty_from_ptr(long ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPaymentError_Invoice_get_invoice")] public static extern long LDKPaymentError_Invoice_get_invoice(long ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKPaymentError_Sending_get_sending")] public static extern RetryableSendFailure LDKPaymentError_Sending_get_sending(long ptr);
-	// struct LDKThirtyTwoBytes CResult_ThirtyTwoBytesPaymentErrorZ_get_ok(LDKCResult_ThirtyTwoBytesPaymentErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_get_ok")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_get_ok(long _owner);
-	// struct LDKPaymentError CResult_ThirtyTwoBytesPaymentErrorZ_get_err(LDKCResult_ThirtyTwoBytesPaymentErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_get_err")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_get_err(long _owner);
-	// void CResult_NonePaymentErrorZ_get_ok(LDKCResult_NonePaymentErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_get_ok")] public static extern void CResult_NonePaymentErrorZ_get_ok(long _owner);
-	// struct LDKPaymentError CResult_NonePaymentErrorZ_get_err(LDKCResult_NonePaymentErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_get_err")] public static extern long CResult_NonePaymentErrorZ_get_err(long _owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKProbingError_ty_from_ptr")] public static extern long LDKProbingError_ty_from_ptr(long ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKProbingError_Invoice_get_invoice")] public static extern long LDKProbingError_Invoice_get_invoice(long ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKProbingError_Sending_get_sending")] public static extern long LDKProbingError_Sending_get_sending(long ptr);
-	// struct LDKCVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZ CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_ok(LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_ok")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_ok(long _owner);
-	// struct LDKProbingError CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_err(LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_err")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_get_err(long _owner);
+	// struct LDKThirtyTwoBytes C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_a(LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_a")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_a(long _owner);
+	// struct LDKRecipientOnionFields C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_b(LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_b")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_b(long _owner);
+	// struct LDKRouteParameters C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_c(LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_c")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_get_c(long _owner);
+	// struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_ok(LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_ok")] public static extern long CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_ok(long _owner);
+	// void CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_err(LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_err")] public static extern void CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_get_err(long _owner);
 	// struct LDKStr CResult_StrSecp256k1ErrorZ_get_ok(LDKCResult_StrSecp256k1ErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StrSecp256k1ErrorZ_get_ok")] public static extern long CResult_StrSecp256k1ErrorZ_get_ok(long _owner);
 	// enum LDKSecp256k1Error CResult_StrSecp256k1ErrorZ_get_err(LDKCResult_StrSecp256k1ErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StrSecp256k1ErrorZ_get_err")] public static extern Secp256k1Error CResult_StrSecp256k1ErrorZ_get_err(long _owner);
-	// struct LDKOnionMessagePath CResult_OnionMessagePathNoneZ_get_ok(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_get_ok")] public static extern long CResult_OnionMessagePathNoneZ_get_ok(long _owner);
-	// void CResult_OnionMessagePathNoneZ_get_err(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_get_err")] public static extern void CResult_OnionMessagePathNoneZ_get_err(long _owner);
-	// struct LDKPublicKey C2Tuple_PublicKeyOnionMessageZ_get_a(LDKC2Tuple_PublicKeyOnionMessageZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_get_a")] public static extern long C2Tuple_PublicKeyOnionMessageZ_get_a(long _owner);
-	// struct LDKOnionMessage C2Tuple_PublicKeyOnionMessageZ_get_b(LDKC2Tuple_PublicKeyOnionMessageZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_get_b")] public static extern long C2Tuple_PublicKeyOnionMessageZ_get_b(long _owner);
+	// struct LDKPublicKey C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_a(LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_a")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_a(long _owner);
+	// struct LDKOnionMessage C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_b(LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_b")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_b(long _owner);
+	// struct LDKCOption_CVec_SocketAddressZZ C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_c(LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_c")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_get_c(long _owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSendError_ty_from_ptr")] public static extern long LDKSendError_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSendError_Secp256k1_get_secp256k1")] public static extern Secp256k1Error LDKSendError_Secp256k1_get_secp256k1(long ptr);
-	// struct LDKC2Tuple_PublicKeyOnionMessageZ CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_ok(LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_ok")] public static extern long CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_ok(long _owner);
-	// struct LDKSendError CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_err(LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_err")] public static extern long CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_get_err(long _owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSendError_InvalidFirstHop_get_invalid_first_hop")] public static extern long LDKSendError_InvalidFirstHop_get_invalid_first_hop(long ptr);
+	// struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_ok(LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_ok")] public static extern long CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_ok(long _owner);
+	// struct LDKSendError CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_err(LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_err")] public static extern long CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_get_err(long _owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKParsedOnionMessageContents_ty_from_ptr")] public static extern long LDKParsedOnionMessageContents_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKParsedOnionMessageContents_Offers_get_offers")] public static extern long LDKParsedOnionMessageContents_Offers_get_offers(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKParsedOnionMessageContents_Custom_get_custom")] public static extern long LDKParsedOnionMessageContents_Custom_get_custom(long ptr);
@@ -1783,10 +1889,12 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PeeledOnionNoneZ_get_ok")] public static extern long CResult_PeeledOnionNoneZ_get_ok(long _owner);
 	// void CResult_PeeledOnionNoneZ_get_err(LDKCResult_PeeledOnionNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PeeledOnionNoneZ_get_err")] public static extern void CResult_PeeledOnionNoneZ_get_err(long _owner);
-	// void CResult_NoneSendErrorZ_get_ok(LDKCResult_NoneSendErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_get_ok")] public static extern void CResult_NoneSendErrorZ_get_ok(long _owner);
-	// struct LDKSendError CResult_NoneSendErrorZ_get_err(LDKCResult_NoneSendErrorZ *NONNULL_PTR owner);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_get_err")] public static extern long CResult_NoneSendErrorZ_get_err(long _owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSendSuccess_ty_from_ptr")] public static extern long LDKSendSuccess_ty_from_ptr(long ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKSendSuccess_BufferedAwaitingConnection_get_buffered_awaiting_connection")] public static extern long LDKSendSuccess_BufferedAwaitingConnection_get_buffered_awaiting_connection(long ptr);
+	// struct LDKSendSuccess CResult_SendSuccessSendErrorZ_get_ok(LDKCResult_SendSuccessSendErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_get_ok")] public static extern long CResult_SendSuccessSendErrorZ_get_ok(long _owner);
+	// struct LDKSendError CResult_SendSuccessSendErrorZ_get_err(LDKCResult_SendSuccessSendErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_get_err")] public static extern long CResult_SendSuccessSendErrorZ_get_err(long _owner);
 	// struct LDKBlindedPath CResult_BlindedPathNoneZ_get_ok(LDKCResult_BlindedPathNoneZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedPathNoneZ_get_ok")] public static extern long CResult_BlindedPathNoneZ_get_ok(long _owner);
 	// void CResult_BlindedPathNoneZ_get_err(LDKCResult_BlindedPathNoneZ *NONNULL_PTR owner);
@@ -1807,6 +1915,30 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InvoiceErrorDecodeErrorZ_get_ok")] public static extern long CResult_InvoiceErrorDecodeErrorZ_get_ok(long _owner);
 	// struct LDKDecodeError CResult_InvoiceErrorDecodeErrorZ_get_err(LDKCResult_InvoiceErrorDecodeErrorZ *NONNULL_PTR owner);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InvoiceErrorDecodeErrorZ_get_err")] public static extern long CResult_InvoiceErrorDecodeErrorZ_get_err(long _owner);
+	// struct LDKDelayedPaymentBasepoint CResult_DelayedPaymentBasepointDecodeErrorZ_get_ok(LDKCResult_DelayedPaymentBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_get_ok")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_DelayedPaymentBasepointDecodeErrorZ_get_err(LDKCResult_DelayedPaymentBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_get_err")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_get_err(long _owner);
+	// struct LDKDelayedPaymentKey CResult_DelayedPaymentKeyDecodeErrorZ_get_ok(LDKCResult_DelayedPaymentKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_get_ok")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_DelayedPaymentKeyDecodeErrorZ_get_err(LDKCResult_DelayedPaymentKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_get_err")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_get_err(long _owner);
+	// struct LDKHtlcBasepoint CResult_HtlcBasepointDecodeErrorZ_get_ok(LDKCResult_HtlcBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_get_ok")] public static extern long CResult_HtlcBasepointDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_HtlcBasepointDecodeErrorZ_get_err(LDKCResult_HtlcBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_get_err")] public static extern long CResult_HtlcBasepointDecodeErrorZ_get_err(long _owner);
+	// struct LDKHtlcKey CResult_HtlcKeyDecodeErrorZ_get_ok(LDKCResult_HtlcKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_get_ok")] public static extern long CResult_HtlcKeyDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_HtlcKeyDecodeErrorZ_get_err(LDKCResult_HtlcKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_get_err")] public static extern long CResult_HtlcKeyDecodeErrorZ_get_err(long _owner);
+	// struct LDKRevocationBasepoint CResult_RevocationBasepointDecodeErrorZ_get_ok(LDKCResult_RevocationBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_get_ok")] public static extern long CResult_RevocationBasepointDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_RevocationBasepointDecodeErrorZ_get_err(LDKCResult_RevocationBasepointDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_get_err")] public static extern long CResult_RevocationBasepointDecodeErrorZ_get_err(long _owner);
+	// struct LDKRevocationKey CResult_RevocationKeyDecodeErrorZ_get_ok(LDKCResult_RevocationKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_get_ok")] public static extern long CResult_RevocationKeyDecodeErrorZ_get_ok(long _owner);
+	// struct LDKDecodeError CResult_RevocationKeyDecodeErrorZ_get_err(LDKCResult_RevocationKeyDecodeErrorZ *NONNULL_PTR owner);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_get_err")] public static extern long CResult_RevocationKeyDecodeErrorZ_get_err(long _owner);
 	public interface LDKFilter {
 		void register_tx(long txid, long script_pubkey);
 		void register_output(long output);
@@ -2005,7 +2137,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Confirm_transaction_unconfirmed")] public static extern void Confirm_transaction_unconfirmed(long _this_arg, long _txid);
 	// void Confirm_best_block_updated LDKConfirm *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Confirm_best_block_updated")] public static extern void Confirm_best_block_updated(long _this_arg, long _header, int _height);
-	// LDKCVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ Confirm_get_relevant_txids LDKConfirm *NONNULL_PTR this_arg
+	// LDKCVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ Confirm_get_relevant_txids LDKConfirm *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Confirm_get_relevant_txids")] public static extern long Confirm_get_relevant_txids(long _this_arg);
 	public interface LDKEventHandler {
 		void handle_event(long _event);
@@ -2085,6 +2217,10 @@ internal class bindings {
 		void handle_channel_ready(long their_node_id, long msg);
 		void handle_shutdown(long their_node_id, long msg);
 		void handle_closing_signed(long their_node_id, long msg);
+		void handle_stfu(long their_node_id, long msg);
+		void handle_splice(long their_node_id, long msg);
+		void handle_splice_ack(long their_node_id, long msg);
+		void handle_splice_locked(long their_node_id, long msg);
 		void handle_tx_add_input(long their_node_id, long msg);
 		void handle_tx_add_output(long their_node_id, long msg);
 		void handle_tx_remove_input(long their_node_id, long msg);
@@ -2146,6 +2282,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_shutdown")] public static extern void ChannelMessageHandler_handle_shutdown(long _this_arg, long _their_node_id, long _msg);
 	// void ChannelMessageHandler_handle_closing_signed LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKClosingSigned *NONNULL_PTR msg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_closing_signed")] public static extern void ChannelMessageHandler_handle_closing_signed(long _this_arg, long _their_node_id, long _msg);
+	// void ChannelMessageHandler_handle_stfu LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKStfu *NONNULL_PTR msg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_stfu")] public static extern void ChannelMessageHandler_handle_stfu(long _this_arg, long _their_node_id, long _msg);
+	// void ChannelMessageHandler_handle_splice LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKSplice *NONNULL_PTR msg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_splice")] public static extern void ChannelMessageHandler_handle_splice(long _this_arg, long _their_node_id, long _msg);
+	// void ChannelMessageHandler_handle_splice_ack LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKSpliceAck *NONNULL_PTR msg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_splice_ack")] public static extern void ChannelMessageHandler_handle_splice_ack(long _this_arg, long _their_node_id, long _msg);
+	// void ChannelMessageHandler_handle_splice_locked LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKSpliceLocked *NONNULL_PTR msg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_splice_locked")] public static extern void ChannelMessageHandler_handle_splice_locked(long _this_arg, long _their_node_id, long _msg);
 	// void ChannelMessageHandler_handle_tx_add_input LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKTxAddInput *NONNULL_PTR msg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMessageHandler_handle_tx_add_input")] public static extern void ChannelMessageHandler_handle_tx_add_input(long _this_arg, long _their_node_id, long _msg);
 	// void ChannelMessageHandler_handle_tx_add_output LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKTxAddOutput *NONNULL_PTR msg
@@ -2280,10 +2424,12 @@ internal class bindings {
 	// LDKInitFeatures RoutingMessageHandler_provided_init_features LDKRoutingMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RoutingMessageHandler_provided_init_features")] public static extern long RoutingMessageHandler_provided_init_features(long _this_arg, long _their_node_id);
 	public interface LDKOnionMessageHandler {
+		long get_and_clear_connections_needed();
 		void handle_onion_message(long peer_node_id, long msg);
 		long next_onion_message_for_peer(long peer_node_id);
 		long peer_connected(long their_node_id, long init, bool inbound);
 		void peer_disconnected(long their_node_id);
+		void timer_tick_occurred();
 		long provided_node_features();
 		long provided_init_features(long their_node_id);
 	}
@@ -2304,6 +2450,8 @@ internal class bindings {
 		ret[1] = i;
 		return ret;
 	}
+	// LDKCVec_C2Tuple_PublicKeyCVec_SocketAddressZZZ OnionMessageHandler_get_and_clear_connections_needed LDKOnionMessageHandler *NONNULL_PTR this_arg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_get_and_clear_connections_needed")] public static extern long OnionMessageHandler_get_and_clear_connections_needed(long _this_arg);
 	// void OnionMessageHandler_handle_onion_message LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey peer_node_id, const struct LDKOnionMessage *NONNULL_PTR msg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_handle_onion_message")] public static extern void OnionMessageHandler_handle_onion_message(long _this_arg, long _peer_node_id, long _msg);
 	// LDKOnionMessage OnionMessageHandler_next_onion_message_for_peer LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey peer_node_id
@@ -2312,6 +2460,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_peer_connected")] public static extern long OnionMessageHandler_peer_connected(long _this_arg, long _their_node_id, long _init, bool _inbound);
 	// void OnionMessageHandler_peer_disconnected LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_peer_disconnected")] public static extern void OnionMessageHandler_peer_disconnected(long _this_arg, long _their_node_id);
+	// void OnionMessageHandler_timer_tick_occurred LDKOnionMessageHandler *NONNULL_PTR this_arg
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_timer_tick_occurred")] public static extern void OnionMessageHandler_timer_tick_occurred(long _this_arg);
 	// LDKNodeFeatures OnionMessageHandler_provided_node_features LDKOnionMessageHandler *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_provided_node_features")] public static extern long OnionMessageHandler_provided_node_features(long _this_arg);
 	// LDKInitFeatures OnionMessageHandler_provided_init_features LDKOnionMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id
@@ -2461,31 +2611,9 @@ internal class bindings {
 	}
 	// LDKCVec_u8Z Score_write LDKScore *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Score_write")] public static extern long Score_write(long _this_arg);
-	public interface LDKMessageRouter {
-		long find_path(long sender, long peers, long destination);
-	}
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKMessageRouter_new")] public static extern long LDKMessageRouter_new_native(long impl_idx);
-	public static long[] LDKMessageRouter_new(LDKMessageRouter impl) {
-		long new_obj_idx = js_objs.Count;
-		int i = 0;
-		for (; i < js_objs.Count; i++) {
-			if (js_objs[i] == null || !js_objs[i].IsAlive) { new_obj_idx = i; break; }
-		}
-		if (i == js_objs.Count) {
-			js_objs.Add(new WeakReference(impl));
-		} else {
-			js_objs[i] = new WeakReference(impl);
-		}
-		long[] ret = new long[2];
-		ret[0] = LDKMessageRouter_new_native(i);
-		ret[1] = i;
-		return ret;
-	}
-	// LDKCResult_OnionMessagePathNoneZ MessageRouter_find_path LDKMessageRouter *NONNULL_PTR this_arg, struct LDKPublicKey sender, struct LDKCVec_PublicKeyZ peers, struct LDKDestination destination
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageRouter_find_path")] public static extern long MessageRouter_find_path(long _this_arg, long _sender, long _peers, long _destination);
 	public interface LDKCoinSelectionSource {
 		long select_confirmed_utxos(long claim_id, long must_spend, long must_pay_to, int target_feerate_sat_per_1000_weight);
-		long sign_tx(long tx);
+		long sign_psbt(long psbt);
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKCoinSelectionSource_new")] public static extern long LDKCoinSelectionSource_new_native(long impl_idx);
 	public static long[] LDKCoinSelectionSource_new(LDKCoinSelectionSource impl) {
@@ -2506,12 +2634,12 @@ internal class bindings {
 	}
 	// LDKCResult_CoinSelectionNoneZ CoinSelectionSource_select_confirmed_utxos LDKCoinSelectionSource *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes claim_id, struct LDKCVec_InputZ must_spend, struct LDKCVec_TxOutZ must_pay_to, uint32_t target_feerate_sat_per_1000_weight
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CoinSelectionSource_select_confirmed_utxos")] public static extern long CoinSelectionSource_select_confirmed_utxos(long _this_arg, long _claim_id, long _must_spend, long _must_pay_to, int _target_feerate_sat_per_1000_weight);
-	// LDKCResult_TransactionNoneZ CoinSelectionSource_sign_tx LDKCoinSelectionSource *NONNULL_PTR this_arg, struct LDKTransaction tx
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CoinSelectionSource_sign_tx")] public static extern long CoinSelectionSource_sign_tx(long _this_arg, long _tx);
+	// LDKCResult_TransactionNoneZ CoinSelectionSource_sign_psbt LDKCoinSelectionSource *NONNULL_PTR this_arg, struct LDKCVec_u8Z psbt
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CoinSelectionSource_sign_psbt")] public static extern long CoinSelectionSource_sign_psbt(long _this_arg, long _psbt);
 	public interface LDKWalletSource {
 		long list_confirmed_utxos();
 		long get_change_script();
-		long sign_tx(long tx);
+		long sign_psbt(long psbt);
 	}
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKWalletSource_new")] public static extern long LDKWalletSource_new_native(long impl_idx);
 	public static long[] LDKWalletSource_new(LDKWalletSource impl) {
@@ -2534,8 +2662,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WalletSource_list_confirmed_utxos")] public static extern long WalletSource_list_confirmed_utxos(long _this_arg);
 	// LDKCResult_CVec_u8ZNoneZ WalletSource_get_change_script LDKWalletSource *NONNULL_PTR this_arg
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WalletSource_get_change_script")] public static extern long WalletSource_get_change_script(long _this_arg);
-	// LDKCResult_TransactionNoneZ WalletSource_sign_tx LDKWalletSource *NONNULL_PTR this_arg, struct LDKTransaction tx
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WalletSource_sign_tx")] public static extern long WalletSource_sign_tx(long _this_arg, long _tx);
+	// LDKCResult_TransactionNoneZ WalletSource_sign_psbt LDKWalletSource *NONNULL_PTR this_arg, struct LDKCVec_u8Z psbt
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WalletSource_sign_psbt")] public static extern long WalletSource_sign_psbt(long _this_arg, long _psbt);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKGossipSync_ty_from_ptr")] public static extern long LDKGossipSync_ty_from_ptr(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKGossipSync_P2P_get_p2p")] public static extern long LDKGossipSync_P2P_get_p2p(long ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LDKGossipSync_Rapid_get_rapid")] public static extern long LDKGossipSync_Rapid_get_rapid(long ptr);
@@ -2552,6 +2680,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_U128_le_bytes")] public static extern long U128_le_bytes(long _val);
 	// struct LDKU128 U128_new(struct LDKSixteenBytes le_bytes);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_U128_new")] public static extern long U128_new(long _le_bytes);
+	// struct LDKWitnessProgram WitnessProgram_new(struct LDKWitnessVersion version, struct LDKCVec_u8Z program);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_new")] public static extern long WitnessProgram_new(byte _version, long _program);
+	// struct LDKWitnessVersion WitnessProgram_get_version(const struct LDKWitnessProgram *NONNULL_PTR prog);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_get_version")] public static extern byte WitnessProgram_get_version(long _prog);
+	// struct LDKu8slice WitnessProgram_get_program(const struct LDKWitnessProgram *NONNULL_PTR prog);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_get_program")] public static extern long WitnessProgram_get_program(long _prog);
+	// uint64_t WitnessProgram_clone_ptr(LDKWitnessProgram *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_clone_ptr")] public static extern long WitnessProgram_clone_ptr(long _arg);
+	// struct LDKWitnessProgram WitnessProgram_clone(const struct LDKWitnessProgram *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_clone")] public static extern long WitnessProgram_clone(long _orig);
+	// void WitnessProgram_free(struct LDKWitnessProgram o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WitnessProgram_free")] public static extern void WitnessProgram_free(long _o);
 	// struct LDKBigEndianScalar BigEndianScalar_new(struct LDKThirtyTwoBytes big_endian_bytes);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BigEndianScalar_new")] public static extern long BigEndianScalar_new(long _big_endian_bytes);
 	// uint64_t Bech32Error_clone_ptr(LDKBech32Error *NONNULL_PTR arg);
@@ -2564,12 +2704,26 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Transaction_free")] public static extern void Transaction_free(long __res);
 	// void Witness_free(struct LDKWitness _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Witness_free")] public static extern void Witness_free(long __res);
-	// void TxIn_free(struct LDKTxIn _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_free")] public static extern void TxIn_free(long __res);
 	// struct LDKTxIn TxIn_new(struct LDKWitness witness, struct LDKCVec_u8Z script_sig, uint32_t sequence, struct LDKThirtyTwoBytes previous_txid, uint32_t previous_vout);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_new")] public static extern long TxIn_new(long _witness, long _script_sig, int _sequence, long _previous_txid, int _previous_vout);
+	// struct LDKWitness TxIn_get_witness(const struct LDKTxIn *NONNULL_PTR txin);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_witness")] public static extern long TxIn_get_witness(long _txin);
+	// struct LDKu8slice TxIn_get_script_sig(const struct LDKTxIn *NONNULL_PTR txin);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_script_sig")] public static extern long TxIn_get_script_sig(long _txin);
+	// uint32_t TxIn_get_sequence(const struct LDKTxIn *NONNULL_PTR txin);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_sequence")] public static extern int TxIn_get_sequence(long _txin);
+	// struct LDKThirtyTwoBytes TxIn_get_previous_txid(const struct LDKTxIn *NONNULL_PTR txin);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_previous_txid")] public static extern long TxIn_get_previous_txid(long _txin);
+	// uint32_t TxIn_get_previous_vout(const struct LDKTxIn *NONNULL_PTR txin);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_get_previous_vout")] public static extern int TxIn_get_previous_vout(long _txin);
+	// void TxIn_free(struct LDKTxIn _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxIn_free")] public static extern void TxIn_free(long __res);
 	// struct LDKTxOut TxOut_new(struct LDKCVec_u8Z script_pubkey, uint64_t value);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_new")] public static extern long TxOut_new(long _script_pubkey, long _value);
+	// struct LDKu8slice TxOut_get_script_pubkey(const struct LDKTxOut *NONNULL_PTR txout);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_get_script_pubkey")] public static extern long TxOut_get_script_pubkey(long _txout);
+	// uint64_t TxOut_get_value(const struct LDKTxOut *NONNULL_PTR txout);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_get_value")] public static extern long TxOut_get_value(long _txout);
 	// void TxOut_free(struct LDKTxOut _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxOut_free")] public static extern void TxOut_free(long __res);
 	// uint64_t TxOut_clone_ptr(LDKTxOut *NONNULL_PTR arg);
@@ -2772,26 +2926,26 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_u32Z_clone_ptr")] public static extern long COption_u32Z_clone_ptr(long _arg);
 	// struct LDKCOption_u32Z COption_u32Z_clone(const struct LDKCOption_u32Z *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_u32Z_clone")] public static extern long COption_u32Z_clone(long _orig);
-	// uint64_t C2Tuple_CVec_u8ZusizeZ_clone_ptr(LDKC2Tuple_CVec_u8ZusizeZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_clone_ptr")] public static extern long C2Tuple_CVec_u8ZusizeZ_clone_ptr(long _arg);
-	// struct LDKC2Tuple_CVec_u8ZusizeZ C2Tuple_CVec_u8ZusizeZ_clone(const struct LDKC2Tuple_CVec_u8ZusizeZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_clone")] public static extern long C2Tuple_CVec_u8ZusizeZ_clone(long _orig);
-	// struct LDKC2Tuple_CVec_u8ZusizeZ C2Tuple_CVec_u8ZusizeZ_new(struct LDKCVec_u8Z a, uintptr_t b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_new")] public static extern long C2Tuple_CVec_u8ZusizeZ_new(long _a, long _b);
-	// void C2Tuple_CVec_u8ZusizeZ_free(struct LDKC2Tuple_CVec_u8ZusizeZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8ZusizeZ_free")] public static extern void C2Tuple_CVec_u8ZusizeZ_free(long __res);
-	// struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ CResult_C2Tuple_CVec_u8ZusizeZNoneZ_ok(struct LDKC2Tuple_CVec_u8ZusizeZ o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_ok")] public static extern long CResult_C2Tuple_CVec_u8ZusizeZNoneZ_ok(long _o);
-	// struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ CResult_C2Tuple_CVec_u8ZusizeZNoneZ_err(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_err")] public static extern long CResult_C2Tuple_CVec_u8ZusizeZNoneZ_err();
-	// bool CResult_C2Tuple_CVec_u8ZusizeZNoneZ_is_ok(const struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_is_ok")] public static extern bool CResult_C2Tuple_CVec_u8ZusizeZNoneZ_is_ok(long _o);
-	// void CResult_C2Tuple_CVec_u8ZusizeZNoneZ_free(struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_free")] public static extern void CResult_C2Tuple_CVec_u8ZusizeZNoneZ_free(long __res);
-	// uint64_t CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone_ptr(LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone_ptr")] public static extern long CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone_ptr(long _arg);
-	// struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone(const struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone")] public static extern long CResult_C2Tuple_CVec_u8ZusizeZNoneZ_clone(long _orig);
+	// uint64_t C2Tuple_CVec_u8Zu64Z_clone_ptr(LDKC2Tuple_CVec_u8Zu64Z *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_clone_ptr")] public static extern long C2Tuple_CVec_u8Zu64Z_clone_ptr(long _arg);
+	// struct LDKC2Tuple_CVec_u8Zu64Z C2Tuple_CVec_u8Zu64Z_clone(const struct LDKC2Tuple_CVec_u8Zu64Z *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_clone")] public static extern long C2Tuple_CVec_u8Zu64Z_clone(long _orig);
+	// struct LDKC2Tuple_CVec_u8Zu64Z C2Tuple_CVec_u8Zu64Z_new(struct LDKCVec_u8Z a, uint64_t b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_new")] public static extern long C2Tuple_CVec_u8Zu64Z_new(long _a, long _b);
+	// void C2Tuple_CVec_u8Zu64Z_free(struct LDKC2Tuple_CVec_u8Zu64Z _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_CVec_u8Zu64Z_free")] public static extern void C2Tuple_CVec_u8Zu64Z_free(long __res);
+	// struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ CResult_C2Tuple_CVec_u8Zu64ZNoneZ_ok(struct LDKC2Tuple_CVec_u8Zu64Z o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_ok")] public static extern long CResult_C2Tuple_CVec_u8Zu64ZNoneZ_ok(long _o);
+	// struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ CResult_C2Tuple_CVec_u8Zu64ZNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_err")] public static extern long CResult_C2Tuple_CVec_u8Zu64ZNoneZ_err();
+	// bool CResult_C2Tuple_CVec_u8Zu64ZNoneZ_is_ok(const struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_is_ok")] public static extern bool CResult_C2Tuple_CVec_u8Zu64ZNoneZ_is_ok(long _o);
+	// void CResult_C2Tuple_CVec_u8Zu64ZNoneZ_free(struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_free")] public static extern void CResult_C2Tuple_CVec_u8Zu64ZNoneZ_free(long __res);
+	// uint64_t CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone_ptr(LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone_ptr")] public static extern long CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone(const struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone")] public static extern long CResult_C2Tuple_CVec_u8Zu64ZNoneZ_clone(long _orig);
 	// struct LDKCResult_ChannelDerivationParametersDecodeErrorZ CResult_ChannelDerivationParametersDecodeErrorZ_ok(struct LDKChannelDerivationParameters o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelDerivationParametersDecodeErrorZ_ok")] public static extern long CResult_ChannelDerivationParametersDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_ChannelDerivationParametersDecodeErrorZ CResult_ChannelDerivationParametersDecodeErrorZ_err(struct LDKDecodeError e);
@@ -2828,40 +2982,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneNoneZ_clone_ptr")] public static extern long CResult_NoneNoneZ_clone_ptr(long _arg);
 	// struct LDKCResult_NoneNoneZ CResult_NoneNoneZ_clone(const struct LDKCResult_NoneNoneZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneNoneZ_clone")] public static extern long CResult_NoneNoneZ_clone(long _orig);
-	// void CVec_ECDSASignatureZ_free(struct LDKCVec_ECDSASignatureZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_ECDSASignatureZ_free")] public static extern void CVec_ECDSASignatureZ_free(long __res);
-	// uint64_t C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr(long _arg);
-	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone(const struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone(long _orig);
-	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new(struct LDKECDSASignature a, struct LDKCVec_ECDSASignatureZ b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new(long _a, long _b);
-	// void C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free(struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free")] public static extern void C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free(long __res);
-	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok(struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok(long _o);
-	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err();
-	// bool CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok(const struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok")] public static extern bool CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok(long _o);
-	// void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free(struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free")] public static extern void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free(long __res);
-	// uint64_t CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr(long _arg);
-	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone(const struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone(long _orig);
-	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_ok(struct LDKECDSASignature o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_ok")] public static extern long CResult_ECDSASignatureNoneZ_ok(long _o);
-	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_err(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_err")] public static extern long CResult_ECDSASignatureNoneZ_err();
-	// bool CResult_ECDSASignatureNoneZ_is_ok(const struct LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_is_ok")] public static extern bool CResult_ECDSASignatureNoneZ_is_ok(long _o);
-	// void CResult_ECDSASignatureNoneZ_free(struct LDKCResult_ECDSASignatureNoneZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_free")] public static extern void CResult_ECDSASignatureNoneZ_free(long __res);
-	// uint64_t CResult_ECDSASignatureNoneZ_clone_ptr(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_clone_ptr")] public static extern long CResult_ECDSASignatureNoneZ_clone_ptr(long _arg);
-	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_clone(const struct LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_clone")] public static extern long CResult_ECDSASignatureNoneZ_clone(long _orig);
 	// struct LDKCResult_PublicKeyNoneZ CResult_PublicKeyNoneZ_ok(struct LDKPublicKey o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PublicKeyNoneZ_ok")] public static extern long CResult_PublicKeyNoneZ_ok(long _o);
 	// struct LDKCResult_PublicKeyNoneZ CResult_PublicKeyNoneZ_err(void);
@@ -2910,6 +3030,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SchnorrSignatureNoneZ_clone_ptr")] public static extern long CResult_SchnorrSignatureNoneZ_clone_ptr(long _arg);
 	// struct LDKCResult_SchnorrSignatureNoneZ CResult_SchnorrSignatureNoneZ_clone(const struct LDKCResult_SchnorrSignatureNoneZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SchnorrSignatureNoneZ_clone")] public static extern long CResult_SchnorrSignatureNoneZ_clone(long _orig);
+	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_ok(struct LDKECDSASignature o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_ok")] public static extern long CResult_ECDSASignatureNoneZ_ok(long _o);
+	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_err")] public static extern long CResult_ECDSASignatureNoneZ_err();
+	// bool CResult_ECDSASignatureNoneZ_is_ok(const struct LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_is_ok")] public static extern bool CResult_ECDSASignatureNoneZ_is_ok(long _o);
+	// void CResult_ECDSASignatureNoneZ_free(struct LDKCResult_ECDSASignatureNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_free")] public static extern void CResult_ECDSASignatureNoneZ_free(long __res);
+	// uint64_t CResult_ECDSASignatureNoneZ_clone_ptr(LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_clone_ptr")] public static extern long CResult_ECDSASignatureNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_ECDSASignatureNoneZ CResult_ECDSASignatureNoneZ_clone(const struct LDKCResult_ECDSASignatureNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ECDSASignatureNoneZ_clone")] public static extern long CResult_ECDSASignatureNoneZ_clone(long _orig);
 	// struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(struct LDKWriteableEcdsaChannelSigner o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok")] public static extern long CResult_WriteableEcdsaChannelSignerDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_WriteableEcdsaChannelSignerDecodeErrorZ CResult_WriteableEcdsaChannelSignerDecodeErrorZ_err(struct LDKDecodeError e);
@@ -2966,20 +3098,40 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_boolZ_clone_ptr")] public static extern long COption_boolZ_clone_ptr(long _arg);
 	// struct LDKCOption_boolZ COption_boolZ_clone(const struct LDKCOption_boolZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_boolZ_clone")] public static extern long COption_boolZ_clone(long _orig);
-	// void CVec_CVec_u8ZZ_free(struct LDKCVec_CVec_u8ZZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_CVec_u8ZZ_free")] public static extern void CVec_CVec_u8ZZ_free(long __res);
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_ok(struct LDKCVec_CVec_u8ZZ o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_ok")] public static extern long CResult_CVec_CVec_u8ZZNoneZ_ok(long _o);
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_err(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_err")] public static extern long CResult_CVec_CVec_u8ZZNoneZ_err();
-	// bool CResult_CVec_CVec_u8ZZNoneZ_is_ok(const struct LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_is_ok")] public static extern bool CResult_CVec_CVec_u8ZZNoneZ_is_ok(long _o);
-	// void CResult_CVec_CVec_u8ZZNoneZ_free(struct LDKCResult_CVec_CVec_u8ZZNoneZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_free")] public static extern void CResult_CVec_CVec_u8ZZNoneZ_free(long __res);
-	// uint64_t CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr")] public static extern long CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(long _arg);
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_clone(const struct LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_CVec_u8ZZNoneZ_clone")] public static extern long CResult_CVec_CVec_u8ZZNoneZ_clone(long _orig);
+	// struct LDKCResult_WitnessNoneZ CResult_WitnessNoneZ_ok(struct LDKWitness o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_ok")] public static extern long CResult_WitnessNoneZ_ok(long _o);
+	// struct LDKCResult_WitnessNoneZ CResult_WitnessNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_err")] public static extern long CResult_WitnessNoneZ_err();
+	// bool CResult_WitnessNoneZ_is_ok(const struct LDKCResult_WitnessNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_is_ok")] public static extern bool CResult_WitnessNoneZ_is_ok(long _o);
+	// void CResult_WitnessNoneZ_free(struct LDKCResult_WitnessNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_free")] public static extern void CResult_WitnessNoneZ_free(long __res);
+	// uint64_t CResult_WitnessNoneZ_clone_ptr(LDKCResult_WitnessNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_clone_ptr")] public static extern long CResult_WitnessNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_WitnessNoneZ CResult_WitnessNoneZ_clone(const struct LDKCResult_WitnessNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_WitnessNoneZ_clone")] public static extern long CResult_WitnessNoneZ_clone(long _orig);
+	// void CVec_ECDSASignatureZ_free(struct LDKCVec_ECDSASignatureZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_ECDSASignatureZ_free")] public static extern void CVec_ECDSASignatureZ_free(long __res);
+	// uint64_t C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr(LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone_ptr(long _arg);
+	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone(const struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_clone(long _orig);
+	// struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new(struct LDKECDSASignature a, struct LDKCVec_ECDSASignatureZ b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new")] public static extern long C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_new(long _a, long _b);
+	// void C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free(struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free")] public static extern void C2Tuple_ECDSASignatureCVec_ECDSASignatureZZ_free(long __res);
+	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok(struct LDKC2Tuple_ECDSASignatureCVec_ECDSASignatureZZ o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_ok(long _o);
+	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_err();
+	// bool CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok(const struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok")] public static extern bool CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_is_ok(long _o);
+	// void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free(struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free")] public static extern void CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_free(long __res);
+	// uint64_t CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr(LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone(const struct LDKCResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone")] public static extern long CResult_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ_clone(long _orig);
 	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_ok(struct LDKInMemorySigner o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InMemorySignerDecodeErrorZ_ok")] public static extern long CResult_InMemorySignerDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_err(struct LDKDecodeError e);
@@ -3036,6 +3188,54 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteLightningErrorZ_clone_ptr")] public static extern long CResult_RouteLightningErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_RouteLightningErrorZ CResult_RouteLightningErrorZ_clone(const struct LDKCResult_RouteLightningErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteLightningErrorZ_clone")] public static extern long CResult_RouteLightningErrorZ_clone(long _orig);
+	// uint64_t C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr(long _arg);
+	// struct LDKC2Tuple_BlindedPayInfoBlindedPathZ C2Tuple_BlindedPayInfoBlindedPathZ_clone(const struct LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_clone")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_clone(long _orig);
+	// struct LDKC2Tuple_BlindedPayInfoBlindedPathZ C2Tuple_BlindedPayInfoBlindedPathZ_new(struct LDKBlindedPayInfo a, struct LDKBlindedPath b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_new")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_new(long _a, long _b);
+	// void C2Tuple_BlindedPayInfoBlindedPathZ_free(struct LDKC2Tuple_BlindedPayInfoBlindedPathZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_free")] public static extern void C2Tuple_BlindedPayInfoBlindedPathZ_free(long __res);
+	// void CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free(struct LDKCVec_C2Tuple_BlindedPayInfoBlindedPathZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free")] public static extern void CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free(long __res);
+	// struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_ok(struct LDKCVec_C2Tuple_BlindedPayInfoBlindedPathZZ o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_ok")] public static extern long CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_ok(long _o);
+	// struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_err")] public static extern long CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_err();
+	// bool CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_is_ok(const struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_is_ok")] public static extern bool CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_is_ok(long _o);
+	// void CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_free(struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_free")] public static extern void CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_free(long __res);
+	// uint64_t CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone_ptr(LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone_ptr")] public static extern long CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone(const struct LDKCResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone")] public static extern long CResult_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ_clone(long _orig);
+	// void CVec_PublicKeyZ_free(struct LDKCVec_PublicKeyZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_PublicKeyZ_free")] public static extern void CVec_PublicKeyZ_free(long __res);
+	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_ok(struct LDKOnionMessagePath o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_ok")] public static extern long CResult_OnionMessagePathNoneZ_ok(long _o);
+	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_err")] public static extern long CResult_OnionMessagePathNoneZ_err();
+	// bool CResult_OnionMessagePathNoneZ_is_ok(const struct LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_is_ok")] public static extern bool CResult_OnionMessagePathNoneZ_is_ok(long _o);
+	// void CResult_OnionMessagePathNoneZ_free(struct LDKCResult_OnionMessagePathNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_free")] public static extern void CResult_OnionMessagePathNoneZ_free(long __res);
+	// uint64_t CResult_OnionMessagePathNoneZ_clone_ptr(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_clone_ptr")] public static extern long CResult_OnionMessagePathNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_clone(const struct LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_clone")] public static extern long CResult_OnionMessagePathNoneZ_clone(long _orig);
+	// struct LDKCResult_CVec_BlindedPathZNoneZ CResult_CVec_BlindedPathZNoneZ_ok(struct LDKCVec_BlindedPathZ o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_ok")] public static extern long CResult_CVec_BlindedPathZNoneZ_ok(long _o);
+	// struct LDKCResult_CVec_BlindedPathZNoneZ CResult_CVec_BlindedPathZNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_err")] public static extern long CResult_CVec_BlindedPathZNoneZ_err();
+	// bool CResult_CVec_BlindedPathZNoneZ_is_ok(const struct LDKCResult_CVec_BlindedPathZNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_is_ok")] public static extern bool CResult_CVec_BlindedPathZNoneZ_is_ok(long _o);
+	// void CResult_CVec_BlindedPathZNoneZ_free(struct LDKCResult_CVec_BlindedPathZNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_free")] public static extern void CResult_CVec_BlindedPathZNoneZ_free(long __res);
+	// uint64_t CResult_CVec_BlindedPathZNoneZ_clone_ptr(LDKCResult_CVec_BlindedPathZNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_clone_ptr")] public static extern long CResult_CVec_BlindedPathZNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_CVec_BlindedPathZNoneZ CResult_CVec_BlindedPathZNoneZ_clone(const struct LDKCResult_CVec_BlindedPathZNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_BlindedPathZNoneZ_clone")] public static extern long CResult_CVec_BlindedPathZNoneZ_clone(long _orig);
 	// struct LDKCResult_InFlightHtlcsDecodeErrorZ CResult_InFlightHtlcsDecodeErrorZ_ok(struct LDKInFlightHtlcs o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InFlightHtlcsDecodeErrorZ_ok")] public static extern long CResult_InFlightHtlcsDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_InFlightHtlcsDecodeErrorZ CResult_InFlightHtlcsDecodeErrorZ_err(struct LDKDecodeError e);
@@ -3116,16 +3316,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentParametersDecodeErrorZ_clone_ptr")] public static extern long CResult_PaymentParametersDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_PaymentParametersDecodeErrorZ CResult_PaymentParametersDecodeErrorZ_clone(const struct LDKCResult_PaymentParametersDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentParametersDecodeErrorZ_clone")] public static extern long CResult_PaymentParametersDecodeErrorZ_clone(long _orig);
-	// uint64_t C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr(LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_clone_ptr(long _arg);
-	// struct LDKC2Tuple_BlindedPayInfoBlindedPathZ C2Tuple_BlindedPayInfoBlindedPathZ_clone(const struct LDKC2Tuple_BlindedPayInfoBlindedPathZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_clone")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_clone(long _orig);
-	// struct LDKC2Tuple_BlindedPayInfoBlindedPathZ C2Tuple_BlindedPayInfoBlindedPathZ_new(struct LDKBlindedPayInfo a, struct LDKBlindedPath b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_new")] public static extern long C2Tuple_BlindedPayInfoBlindedPathZ_new(long _a, long _b);
-	// void C2Tuple_BlindedPayInfoBlindedPathZ_free(struct LDKC2Tuple_BlindedPayInfoBlindedPathZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_BlindedPayInfoBlindedPathZ_free")] public static extern void C2Tuple_BlindedPayInfoBlindedPathZ_free(long __res);
-	// void CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free(struct LDKCVec_C2Tuple_BlindedPayInfoBlindedPathZZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free")] public static extern void CVec_C2Tuple_BlindedPayInfoBlindedPathZZ_free(long __res);
 	// void CVec_RouteHintZ_free(struct LDKCVec_RouteHintZ _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_RouteHintZ_free")] public static extern void CVec_RouteHintZ_free(long __res);
 	// void CVec_RouteHintHopZ_free(struct LDKCVec_RouteHintHopZ _res);
@@ -3154,8 +3344,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteHintHopDecodeErrorZ_clone_ptr")] public static extern long CResult_RouteHintHopDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_RouteHintHopDecodeErrorZ CResult_RouteHintHopDecodeErrorZ_clone(const struct LDKCResult_RouteHintHopDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RouteHintHopDecodeErrorZ_clone")] public static extern long CResult_RouteHintHopDecodeErrorZ_clone(long _orig);
-	// void CVec_PublicKeyZ_free(struct LDKCVec_PublicKeyZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_PublicKeyZ_free")] public static extern void CVec_PublicKeyZ_free(long __res);
 	// struct LDKCResult_FixedPenaltyScorerDecodeErrorZ CResult_FixedPenaltyScorerDecodeErrorZ_ok(struct LDKFixedPenaltyScorer o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FixedPenaltyScorerDecodeErrorZ_ok")] public static extern long CResult_FixedPenaltyScorerDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_FixedPenaltyScorerDecodeErrorZ CResult_FixedPenaltyScorerDecodeErrorZ_err(struct LDKDecodeError e);
@@ -3230,16 +3418,16 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_usizeTransactionZ_free")] public static extern void C2Tuple_usizeTransactionZ_free(long __res);
 	// void CVec_C2Tuple_usizeTransactionZZ_free(struct LDKCVec_C2Tuple_usizeTransactionZZ _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_usizeTransactionZZ_free")] public static extern void CVec_C2Tuple_usizeTransactionZZ_free(long __res);
-	// uint64_t C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone_ptr(LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone_ptr")] public static extern long C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone_ptr(long _arg);
-	// struct LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone(const struct LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone")] public static extern long C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_clone(long _orig);
-	// struct LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_new(struct LDKThirtyTwoBytes a, struct LDKCOption_ThirtyTwoBytesZ b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_new")] public static extern long C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_new(long _a, long _b);
-	// void C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_free(struct LDKC2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_free")] public static extern void C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ_free(long __res);
-	// void CVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ_free(struct LDKCVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ_free")] public static extern void CVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ_free(long __res);
+	// uint64_t C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone_ptr(LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone_ptr")] public static extern long C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone_ptr(long _arg);
+	// struct LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone(const struct LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone")] public static extern long C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_clone(long _orig);
+	// struct LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_new(struct LDKThirtyTwoBytes a, uint32_t b, struct LDKCOption_ThirtyTwoBytesZ c);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_new")] public static extern long C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_new(long _a, int _b, long _c);
+	// void C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_free(struct LDKC3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_free")] public static extern void C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ_free(long __res);
+	// void CVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ_free(struct LDKCVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ_free")] public static extern void CVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ_free(long __res);
 	// struct LDKCResult_ChannelMonitorUpdateStatusNoneZ CResult_ChannelMonitorUpdateStatusNoneZ_ok(enum LDKChannelMonitorUpdateStatus o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelMonitorUpdateStatusNoneZ_ok")] public static extern long CResult_ChannelMonitorUpdateStatusNoneZ_ok(ChannelMonitorUpdateStatus _o);
 	// struct LDKCResult_ChannelMonitorUpdateStatusNoneZ CResult_ChannelMonitorUpdateStatusNoneZ_err(void);
@@ -3548,6 +3736,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_CVec_SocketAddressZZ_clone_ptr")] public static extern long COption_CVec_SocketAddressZZ_clone_ptr(long _arg);
 	// struct LDKCOption_CVec_SocketAddressZZ COption_CVec_SocketAddressZZ_clone(const struct LDKCOption_CVec_SocketAddressZZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_CVec_SocketAddressZZ_clone")] public static extern long COption_CVec_SocketAddressZZ_clone(long _orig);
+	// struct LDKCResult_PendingHTLCInfoInboundHTLCErrZ CResult_PendingHTLCInfoInboundHTLCErrZ_ok(struct LDKPendingHTLCInfo o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_ok")] public static extern long CResult_PendingHTLCInfoInboundHTLCErrZ_ok(long _o);
+	// struct LDKCResult_PendingHTLCInfoInboundHTLCErrZ CResult_PendingHTLCInfoInboundHTLCErrZ_err(struct LDKInboundHTLCErr e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_err")] public static extern long CResult_PendingHTLCInfoInboundHTLCErrZ_err(long _e);
+	// bool CResult_PendingHTLCInfoInboundHTLCErrZ_is_ok(const struct LDKCResult_PendingHTLCInfoInboundHTLCErrZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_is_ok")] public static extern bool CResult_PendingHTLCInfoInboundHTLCErrZ_is_ok(long _o);
+	// void CResult_PendingHTLCInfoInboundHTLCErrZ_free(struct LDKCResult_PendingHTLCInfoInboundHTLCErrZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoInboundHTLCErrZ_free")] public static extern void CResult_PendingHTLCInfoInboundHTLCErrZ_free(long __res);
 	// void CVec_HTLCOutputInCommitmentZ_free(struct LDKCVec_HTLCOutputInCommitmentZ _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_HTLCOutputInCommitmentZ_free")] public static extern void CVec_HTLCOutputInCommitmentZ_free(long __res);
 	// void CVec_HTLCDescriptorZ_free(struct LDKCVec_HTLCDescriptorZ _res);
@@ -3826,6 +4022,54 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr")] public static extern long CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_PhantomRouteHintsDecodeErrorZ CResult_PhantomRouteHintsDecodeErrorZ_clone(const struct LDKCResult_PhantomRouteHintsDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PhantomRouteHintsDecodeErrorZ_clone")] public static extern long CResult_PhantomRouteHintsDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_BlindedForwardDecodeErrorZ CResult_BlindedForwardDecodeErrorZ_ok(struct LDKBlindedForward o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_ok")] public static extern long CResult_BlindedForwardDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_BlindedForwardDecodeErrorZ CResult_BlindedForwardDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_err")] public static extern long CResult_BlindedForwardDecodeErrorZ_err(long _e);
+	// bool CResult_BlindedForwardDecodeErrorZ_is_ok(const struct LDKCResult_BlindedForwardDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_is_ok")] public static extern bool CResult_BlindedForwardDecodeErrorZ_is_ok(long _o);
+	// void CResult_BlindedForwardDecodeErrorZ_free(struct LDKCResult_BlindedForwardDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_free")] public static extern void CResult_BlindedForwardDecodeErrorZ_free(long __res);
+	// uint64_t CResult_BlindedForwardDecodeErrorZ_clone_ptr(LDKCResult_BlindedForwardDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_clone_ptr")] public static extern long CResult_BlindedForwardDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_BlindedForwardDecodeErrorZ CResult_BlindedForwardDecodeErrorZ_clone(const struct LDKCResult_BlindedForwardDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedForwardDecodeErrorZ_clone")] public static extern long CResult_BlindedForwardDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_PendingHTLCRoutingDecodeErrorZ CResult_PendingHTLCRoutingDecodeErrorZ_ok(struct LDKPendingHTLCRouting o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_ok")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_PendingHTLCRoutingDecodeErrorZ CResult_PendingHTLCRoutingDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_err")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_err(long _e);
+	// bool CResult_PendingHTLCRoutingDecodeErrorZ_is_ok(const struct LDKCResult_PendingHTLCRoutingDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_is_ok")] public static extern bool CResult_PendingHTLCRoutingDecodeErrorZ_is_ok(long _o);
+	// void CResult_PendingHTLCRoutingDecodeErrorZ_free(struct LDKCResult_PendingHTLCRoutingDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_free")] public static extern void CResult_PendingHTLCRoutingDecodeErrorZ_free(long __res);
+	// uint64_t CResult_PendingHTLCRoutingDecodeErrorZ_clone_ptr(LDKCResult_PendingHTLCRoutingDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_clone_ptr")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_PendingHTLCRoutingDecodeErrorZ CResult_PendingHTLCRoutingDecodeErrorZ_clone(const struct LDKCResult_PendingHTLCRoutingDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCRoutingDecodeErrorZ_clone")] public static extern long CResult_PendingHTLCRoutingDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_PendingHTLCInfoDecodeErrorZ CResult_PendingHTLCInfoDecodeErrorZ_ok(struct LDKPendingHTLCInfo o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_ok")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_PendingHTLCInfoDecodeErrorZ CResult_PendingHTLCInfoDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_err")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_err(long _e);
+	// bool CResult_PendingHTLCInfoDecodeErrorZ_is_ok(const struct LDKCResult_PendingHTLCInfoDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_is_ok")] public static extern bool CResult_PendingHTLCInfoDecodeErrorZ_is_ok(long _o);
+	// void CResult_PendingHTLCInfoDecodeErrorZ_free(struct LDKCResult_PendingHTLCInfoDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_free")] public static extern void CResult_PendingHTLCInfoDecodeErrorZ_free(long __res);
+	// uint64_t CResult_PendingHTLCInfoDecodeErrorZ_clone_ptr(LDKCResult_PendingHTLCInfoDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_clone_ptr")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_PendingHTLCInfoDecodeErrorZ CResult_PendingHTLCInfoDecodeErrorZ_clone(const struct LDKCResult_PendingHTLCInfoDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PendingHTLCInfoDecodeErrorZ_clone")] public static extern long CResult_PendingHTLCInfoDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_BlindedFailureDecodeErrorZ CResult_BlindedFailureDecodeErrorZ_ok(enum LDKBlindedFailure o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_ok")] public static extern long CResult_BlindedFailureDecodeErrorZ_ok(BlindedFailure _o);
+	// struct LDKCResult_BlindedFailureDecodeErrorZ CResult_BlindedFailureDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_err")] public static extern long CResult_BlindedFailureDecodeErrorZ_err(long _e);
+	// bool CResult_BlindedFailureDecodeErrorZ_is_ok(const struct LDKCResult_BlindedFailureDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_is_ok")] public static extern bool CResult_BlindedFailureDecodeErrorZ_is_ok(long _o);
+	// void CResult_BlindedFailureDecodeErrorZ_free(struct LDKCResult_BlindedFailureDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_free")] public static extern void CResult_BlindedFailureDecodeErrorZ_free(long __res);
+	// uint64_t CResult_BlindedFailureDecodeErrorZ_clone_ptr(LDKCResult_BlindedFailureDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_clone_ptr")] public static extern long CResult_BlindedFailureDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_BlindedFailureDecodeErrorZ CResult_BlindedFailureDecodeErrorZ_clone(const struct LDKCResult_BlindedFailureDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedFailureDecodeErrorZ_clone")] public static extern long CResult_BlindedFailureDecodeErrorZ_clone(long _orig);
 	// struct LDKCResult_ChannelShutdownStateDecodeErrorZ CResult_ChannelShutdownStateDecodeErrorZ_ok(enum LDKChannelShutdownState o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ChannelShutdownStateDecodeErrorZ_ok")] public static extern long CResult_ChannelShutdownStateDecodeErrorZ_ok(ChannelShutdownState _o);
 	// struct LDKCResult_ChannelShutdownStateDecodeErrorZ CResult_ChannelShutdownStateDecodeErrorZ_err(struct LDKDecodeError e);
@@ -4038,6 +4282,16 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyTypeZ_free")] public static extern void C2Tuple_PublicKeyTypeZ_free(long __res);
 	// void CVec_C2Tuple_PublicKeyTypeZZ_free(struct LDKCVec_C2Tuple_PublicKeyTypeZZ _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_PublicKeyTypeZZ_free")] public static extern void CVec_C2Tuple_PublicKeyTypeZZ_free(long __res);
+	// uint64_t C2Tuple_PublicKeyCVec_SocketAddressZZ_clone_ptr(LDKC2Tuple_PublicKeyCVec_SocketAddressZZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_clone_ptr")] public static extern long C2Tuple_PublicKeyCVec_SocketAddressZZ_clone_ptr(long _arg);
+	// struct LDKC2Tuple_PublicKeyCVec_SocketAddressZZ C2Tuple_PublicKeyCVec_SocketAddressZZ_clone(const struct LDKC2Tuple_PublicKeyCVec_SocketAddressZZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_clone")] public static extern long C2Tuple_PublicKeyCVec_SocketAddressZZ_clone(long _orig);
+	// struct LDKC2Tuple_PublicKeyCVec_SocketAddressZZ C2Tuple_PublicKeyCVec_SocketAddressZZ_new(struct LDKPublicKey a, struct LDKCVec_SocketAddressZ b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_new")] public static extern long C2Tuple_PublicKeyCVec_SocketAddressZZ_new(long _a, long _b);
+	// void C2Tuple_PublicKeyCVec_SocketAddressZZ_free(struct LDKC2Tuple_PublicKeyCVec_SocketAddressZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyCVec_SocketAddressZZ_free")] public static extern void C2Tuple_PublicKeyCVec_SocketAddressZZ_free(long __res);
+	// void CVec_C2Tuple_PublicKeyCVec_SocketAddressZZZ_free(struct LDKCVec_C2Tuple_PublicKeyCVec_SocketAddressZZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_C2Tuple_PublicKeyCVec_SocketAddressZZZ_free")] public static extern void CVec_C2Tuple_PublicKeyCVec_SocketAddressZZZ_free(long __res);
 	// struct LDKCOption_OnionMessageContentsZ COption_OnionMessageContentsZ_some(struct LDKOnionMessageContents o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_OnionMessageContentsZ_some")] public static extern long COption_OnionMessageContentsZ_some(long _o);
 	// struct LDKCOption_OnionMessageContentsZ COption_OnionMessageContentsZ_none(void);
@@ -4304,6 +4558,54 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_AcceptChannelV2DecodeErrorZ_clone_ptr")] public static extern long CResult_AcceptChannelV2DecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_AcceptChannelV2DecodeErrorZ CResult_AcceptChannelV2DecodeErrorZ_clone(const struct LDKCResult_AcceptChannelV2DecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_AcceptChannelV2DecodeErrorZ_clone")] public static extern long CResult_AcceptChannelV2DecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_StfuDecodeErrorZ CResult_StfuDecodeErrorZ_ok(struct LDKStfu o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_ok")] public static extern long CResult_StfuDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_StfuDecodeErrorZ CResult_StfuDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_err")] public static extern long CResult_StfuDecodeErrorZ_err(long _e);
+	// bool CResult_StfuDecodeErrorZ_is_ok(const struct LDKCResult_StfuDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_is_ok")] public static extern bool CResult_StfuDecodeErrorZ_is_ok(long _o);
+	// void CResult_StfuDecodeErrorZ_free(struct LDKCResult_StfuDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_free")] public static extern void CResult_StfuDecodeErrorZ_free(long __res);
+	// uint64_t CResult_StfuDecodeErrorZ_clone_ptr(LDKCResult_StfuDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_clone_ptr")] public static extern long CResult_StfuDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_StfuDecodeErrorZ CResult_StfuDecodeErrorZ_clone(const struct LDKCResult_StfuDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StfuDecodeErrorZ_clone")] public static extern long CResult_StfuDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_SpliceDecodeErrorZ CResult_SpliceDecodeErrorZ_ok(struct LDKSplice o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_ok")] public static extern long CResult_SpliceDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_SpliceDecodeErrorZ CResult_SpliceDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_err")] public static extern long CResult_SpliceDecodeErrorZ_err(long _e);
+	// bool CResult_SpliceDecodeErrorZ_is_ok(const struct LDKCResult_SpliceDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_is_ok")] public static extern bool CResult_SpliceDecodeErrorZ_is_ok(long _o);
+	// void CResult_SpliceDecodeErrorZ_free(struct LDKCResult_SpliceDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_free")] public static extern void CResult_SpliceDecodeErrorZ_free(long __res);
+	// uint64_t CResult_SpliceDecodeErrorZ_clone_ptr(LDKCResult_SpliceDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_clone_ptr")] public static extern long CResult_SpliceDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_SpliceDecodeErrorZ CResult_SpliceDecodeErrorZ_clone(const struct LDKCResult_SpliceDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceDecodeErrorZ_clone")] public static extern long CResult_SpliceDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_SpliceAckDecodeErrorZ CResult_SpliceAckDecodeErrorZ_ok(struct LDKSpliceAck o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_ok")] public static extern long CResult_SpliceAckDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_SpliceAckDecodeErrorZ CResult_SpliceAckDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_err")] public static extern long CResult_SpliceAckDecodeErrorZ_err(long _e);
+	// bool CResult_SpliceAckDecodeErrorZ_is_ok(const struct LDKCResult_SpliceAckDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_is_ok")] public static extern bool CResult_SpliceAckDecodeErrorZ_is_ok(long _o);
+	// void CResult_SpliceAckDecodeErrorZ_free(struct LDKCResult_SpliceAckDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_free")] public static extern void CResult_SpliceAckDecodeErrorZ_free(long __res);
+	// uint64_t CResult_SpliceAckDecodeErrorZ_clone_ptr(LDKCResult_SpliceAckDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_clone_ptr")] public static extern long CResult_SpliceAckDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_SpliceAckDecodeErrorZ CResult_SpliceAckDecodeErrorZ_clone(const struct LDKCResult_SpliceAckDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceAckDecodeErrorZ_clone")] public static extern long CResult_SpliceAckDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_SpliceLockedDecodeErrorZ CResult_SpliceLockedDecodeErrorZ_ok(struct LDKSpliceLocked o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_ok")] public static extern long CResult_SpliceLockedDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_SpliceLockedDecodeErrorZ CResult_SpliceLockedDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_err")] public static extern long CResult_SpliceLockedDecodeErrorZ_err(long _e);
+	// bool CResult_SpliceLockedDecodeErrorZ_is_ok(const struct LDKCResult_SpliceLockedDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_is_ok")] public static extern bool CResult_SpliceLockedDecodeErrorZ_is_ok(long _o);
+	// void CResult_SpliceLockedDecodeErrorZ_free(struct LDKCResult_SpliceLockedDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_free")] public static extern void CResult_SpliceLockedDecodeErrorZ_free(long __res);
+	// uint64_t CResult_SpliceLockedDecodeErrorZ_clone_ptr(LDKCResult_SpliceLockedDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_clone_ptr")] public static extern long CResult_SpliceLockedDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_SpliceLockedDecodeErrorZ CResult_SpliceLockedDecodeErrorZ_clone(const struct LDKCResult_SpliceLockedDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SpliceLockedDecodeErrorZ_clone")] public static extern long CResult_SpliceLockedDecodeErrorZ_clone(long _orig);
 	// struct LDKCResult_TxAddInputDecodeErrorZ CResult_TxAddInputDecodeErrorZ_ok(struct LDKTxAddInput o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TxAddInputDecodeErrorZ_ok")] public static extern long CResult_TxAddInputDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_TxAddInputDecodeErrorZ CResult_TxAddInputDecodeErrorZ_err(struct LDKDecodeError e);
@@ -4616,6 +4918,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr")] public static extern long CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_UpdateFulfillHTLCDecodeErrorZ CResult_UpdateFulfillHTLCDecodeErrorZ_clone(const struct LDKCResult_UpdateFulfillHTLCDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateFulfillHTLCDecodeErrorZ_clone")] public static extern long CResult_UpdateFulfillHTLCDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_OnionPacketDecodeErrorZ CResult_OnionPacketDecodeErrorZ_ok(struct LDKOnionPacket o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_ok")] public static extern long CResult_OnionPacketDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_OnionPacketDecodeErrorZ CResult_OnionPacketDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_err")] public static extern long CResult_OnionPacketDecodeErrorZ_err(long _e);
+	// bool CResult_OnionPacketDecodeErrorZ_is_ok(const struct LDKCResult_OnionPacketDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_is_ok")] public static extern bool CResult_OnionPacketDecodeErrorZ_is_ok(long _o);
+	// void CResult_OnionPacketDecodeErrorZ_free(struct LDKCResult_OnionPacketDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_free")] public static extern void CResult_OnionPacketDecodeErrorZ_free(long __res);
+	// uint64_t CResult_OnionPacketDecodeErrorZ_clone_ptr(LDKCResult_OnionPacketDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_clone_ptr")] public static extern long CResult_OnionPacketDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_OnionPacketDecodeErrorZ CResult_OnionPacketDecodeErrorZ_clone(const struct LDKCResult_OnionPacketDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionPacketDecodeErrorZ_clone")] public static extern long CResult_OnionPacketDecodeErrorZ_clone(long _orig);
 	// struct LDKCResult_UpdateAddHTLCDecodeErrorZ CResult_UpdateAddHTLCDecodeErrorZ_ok(struct LDKUpdateAddHTLC o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UpdateAddHTLCDecodeErrorZ_ok")] public static extern long CResult_UpdateAddHTLCDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_UpdateAddHTLCDecodeErrorZ CResult_UpdateAddHTLCDecodeErrorZ_err(struct LDKDecodeError e);
@@ -4640,6 +4954,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessageDecodeErrorZ_clone_ptr")] public static extern long CResult_OnionMessageDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_OnionMessageDecodeErrorZ CResult_OnionMessageDecodeErrorZ_clone(const struct LDKCResult_OnionMessageDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessageDecodeErrorZ_clone")] public static extern long CResult_OnionMessageDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_FinalOnionHopDataDecodeErrorZ CResult_FinalOnionHopDataDecodeErrorZ_ok(struct LDKFinalOnionHopData o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_ok")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_FinalOnionHopDataDecodeErrorZ CResult_FinalOnionHopDataDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_err")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_err(long _e);
+	// bool CResult_FinalOnionHopDataDecodeErrorZ_is_ok(const struct LDKCResult_FinalOnionHopDataDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_is_ok")] public static extern bool CResult_FinalOnionHopDataDecodeErrorZ_is_ok(long _o);
+	// void CResult_FinalOnionHopDataDecodeErrorZ_free(struct LDKCResult_FinalOnionHopDataDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_free")] public static extern void CResult_FinalOnionHopDataDecodeErrorZ_free(long __res);
+	// uint64_t CResult_FinalOnionHopDataDecodeErrorZ_clone_ptr(LDKCResult_FinalOnionHopDataDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_clone_ptr")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_FinalOnionHopDataDecodeErrorZ CResult_FinalOnionHopDataDecodeErrorZ_clone(const struct LDKCResult_FinalOnionHopDataDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_FinalOnionHopDataDecodeErrorZ_clone")] public static extern long CResult_FinalOnionHopDataDecodeErrorZ_clone(long _orig);
 	// struct LDKCResult_PingDecodeErrorZ CResult_PingDecodeErrorZ_ok(struct LDKPing o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PingDecodeErrorZ_ok")] public static extern long CResult_PingDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_PingDecodeErrorZ CResult_PingDecodeErrorZ_err(struct LDKDecodeError e);
@@ -5360,18 +5686,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UntrustedStringDecodeErrorZ_clone_ptr")] public static extern long CResult_UntrustedStringDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_UntrustedStringDecodeErrorZ CResult_UntrustedStringDecodeErrorZ_clone(const struct LDKCResult_UntrustedStringDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_UntrustedStringDecodeErrorZ_clone")] public static extern long CResult_UntrustedStringDecodeErrorZ_clone(long _orig);
-	// struct LDKCResult_ReceiveTlvsDecodeErrorZ CResult_ReceiveTlvsDecodeErrorZ_ok(struct LDKReceiveTlvs o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_ok")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_ok(long _o);
-	// struct LDKCResult_ReceiveTlvsDecodeErrorZ CResult_ReceiveTlvsDecodeErrorZ_err(struct LDKDecodeError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_err")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_err(long _e);
-	// bool CResult_ReceiveTlvsDecodeErrorZ_is_ok(const struct LDKCResult_ReceiveTlvsDecodeErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_is_ok")] public static extern bool CResult_ReceiveTlvsDecodeErrorZ_is_ok(long _o);
-	// void CResult_ReceiveTlvsDecodeErrorZ_free(struct LDKCResult_ReceiveTlvsDecodeErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_free")] public static extern void CResult_ReceiveTlvsDecodeErrorZ_free(long __res);
-	// uint64_t CResult_ReceiveTlvsDecodeErrorZ_clone_ptr(LDKCResult_ReceiveTlvsDecodeErrorZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_clone_ptr")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_clone_ptr(long _arg);
-	// struct LDKCResult_ReceiveTlvsDecodeErrorZ CResult_ReceiveTlvsDecodeErrorZ_clone(const struct LDKCResult_ReceiveTlvsDecodeErrorZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ReceiveTlvsDecodeErrorZ_clone")] public static extern long CResult_ReceiveTlvsDecodeErrorZ_clone(long _orig);
+	// uint64_t C2Tuple__u832u16Z_clone_ptr(LDKC2Tuple__u832u16Z *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_clone_ptr")] public static extern long C2Tuple__u832u16Z_clone_ptr(long _arg);
+	// struct LDKC2Tuple__u832u16Z C2Tuple__u832u16Z_clone(const struct LDKC2Tuple__u832u16Z *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_clone")] public static extern long C2Tuple__u832u16Z_clone(long _orig);
+	// struct LDKC2Tuple__u832u16Z C2Tuple__u832u16Z_new(struct LDKThirtyTwoBytes a, uint16_t b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_new")] public static extern long C2Tuple__u832u16Z_new(long _a, short _b);
+	// void C2Tuple__u832u16Z_free(struct LDKC2Tuple__u832u16Z _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple__u832u16Z_free")] public static extern void C2Tuple__u832u16Z_free(long __res);
 	// struct LDKCResult_PaymentRelayDecodeErrorZ CResult_PaymentRelayDecodeErrorZ_ok(struct LDKPaymentRelay o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentRelayDecodeErrorZ_ok")] public static extern long CResult_PaymentRelayDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_PaymentRelayDecodeErrorZ CResult_PaymentRelayDecodeErrorZ_err(struct LDKDecodeError e);
@@ -5396,42 +5718,26 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentConstraintsDecodeErrorZ_clone_ptr")] public static extern long CResult_PaymentConstraintsDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_PaymentConstraintsDecodeErrorZ CResult_PaymentConstraintsDecodeErrorZ_clone(const struct LDKCResult_PaymentConstraintsDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PaymentConstraintsDecodeErrorZ_clone")] public static extern long CResult_PaymentConstraintsDecodeErrorZ_clone(long _orig);
-	// struct LDKCResult_ThirtyTwoBytesPaymentErrorZ CResult_ThirtyTwoBytesPaymentErrorZ_ok(struct LDKThirtyTwoBytes o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_ok")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_ok(long _o);
-	// struct LDKCResult_ThirtyTwoBytesPaymentErrorZ CResult_ThirtyTwoBytesPaymentErrorZ_err(struct LDKPaymentError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_err")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_err(long _e);
-	// bool CResult_ThirtyTwoBytesPaymentErrorZ_is_ok(const struct LDKCResult_ThirtyTwoBytesPaymentErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_is_ok")] public static extern bool CResult_ThirtyTwoBytesPaymentErrorZ_is_ok(long _o);
-	// void CResult_ThirtyTwoBytesPaymentErrorZ_free(struct LDKCResult_ThirtyTwoBytesPaymentErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_free")] public static extern void CResult_ThirtyTwoBytesPaymentErrorZ_free(long __res);
-	// uint64_t CResult_ThirtyTwoBytesPaymentErrorZ_clone_ptr(LDKCResult_ThirtyTwoBytesPaymentErrorZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_clone_ptr")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_clone_ptr(long _arg);
-	// struct LDKCResult_ThirtyTwoBytesPaymentErrorZ CResult_ThirtyTwoBytesPaymentErrorZ_clone(const struct LDKCResult_ThirtyTwoBytesPaymentErrorZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_ThirtyTwoBytesPaymentErrorZ_clone")] public static extern long CResult_ThirtyTwoBytesPaymentErrorZ_clone(long _orig);
-	// struct LDKCResult_NonePaymentErrorZ CResult_NonePaymentErrorZ_ok(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_ok")] public static extern long CResult_NonePaymentErrorZ_ok();
-	// struct LDKCResult_NonePaymentErrorZ CResult_NonePaymentErrorZ_err(struct LDKPaymentError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_err")] public static extern long CResult_NonePaymentErrorZ_err(long _e);
-	// bool CResult_NonePaymentErrorZ_is_ok(const struct LDKCResult_NonePaymentErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_is_ok")] public static extern bool CResult_NonePaymentErrorZ_is_ok(long _o);
-	// void CResult_NonePaymentErrorZ_free(struct LDKCResult_NonePaymentErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_free")] public static extern void CResult_NonePaymentErrorZ_free(long __res);
-	// uint64_t CResult_NonePaymentErrorZ_clone_ptr(LDKCResult_NonePaymentErrorZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_clone_ptr")] public static extern long CResult_NonePaymentErrorZ_clone_ptr(long _arg);
-	// struct LDKCResult_NonePaymentErrorZ CResult_NonePaymentErrorZ_clone(const struct LDKCResult_NonePaymentErrorZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NonePaymentErrorZ_clone")] public static extern long CResult_NonePaymentErrorZ_clone(long _orig);
-	// struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_ok(struct LDKCVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZ o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_ok")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_ok(long _o);
-	// struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_err(struct LDKProbingError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_err")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_err(long _e);
-	// bool CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_is_ok(const struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_is_ok")] public static extern bool CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_is_ok(long _o);
-	// void CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_free(struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_free")] public static extern void CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_free(long __res);
-	// uint64_t CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone_ptr(LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone_ptr")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone_ptr(long _arg);
-	// struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone(const struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone")] public static extern long CResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ_clone(long _orig);
+	// uint64_t C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone_ptr(LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone_ptr")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone_ptr(long _arg);
+	// struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone(const struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_clone(long _orig);
+	// struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_new(struct LDKThirtyTwoBytes a, struct LDKRecipientOnionFields b, struct LDKRouteParameters c);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_new")] public static extern long C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_new(long _a, long _b, long _c);
+	// void C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_free(struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_free")] public static extern void C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ_free(long __res);
+	// struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_ok(struct LDKC3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_ok")] public static extern long CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_ok(long _o);
+	// struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_err(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_err")] public static extern long CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_err();
+	// bool CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_is_ok(const struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_is_ok")] public static extern bool CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_is_ok(long _o);
+	// void CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_free(struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_free")] public static extern void CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_free(long __res);
+	// uint64_t CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone_ptr(LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone_ptr")] public static extern long CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone_ptr(long _arg);
+	// struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone(const struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone")] public static extern long CResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_clone(long _orig);
 	// struct LDKCResult_StrSecp256k1ErrorZ CResult_StrSecp256k1ErrorZ_ok(struct LDKStr o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_StrSecp256k1ErrorZ_ok")] public static extern long CResult_StrSecp256k1ErrorZ_ok(long _o);
 	// struct LDKCResult_StrSecp256k1ErrorZ CResult_StrSecp256k1ErrorZ_err(enum LDKSecp256k1Error e);
@@ -5456,34 +5762,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TxOutUtxoLookupErrorZ_clone_ptr")] public static extern long CResult_TxOutUtxoLookupErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_TxOutUtxoLookupErrorZ CResult_TxOutUtxoLookupErrorZ_clone(const struct LDKCResult_TxOutUtxoLookupErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_TxOutUtxoLookupErrorZ_clone")] public static extern long CResult_TxOutUtxoLookupErrorZ_clone(long _orig);
-	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_ok(struct LDKOnionMessagePath o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_ok")] public static extern long CResult_OnionMessagePathNoneZ_ok(long _o);
-	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_err(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_err")] public static extern long CResult_OnionMessagePathNoneZ_err();
-	// bool CResult_OnionMessagePathNoneZ_is_ok(const struct LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_is_ok")] public static extern bool CResult_OnionMessagePathNoneZ_is_ok(long _o);
-	// void CResult_OnionMessagePathNoneZ_free(struct LDKCResult_OnionMessagePathNoneZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_free")] public static extern void CResult_OnionMessagePathNoneZ_free(long __res);
-	// uint64_t CResult_OnionMessagePathNoneZ_clone_ptr(LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_clone_ptr")] public static extern long CResult_OnionMessagePathNoneZ_clone_ptr(long _arg);
-	// struct LDKCResult_OnionMessagePathNoneZ CResult_OnionMessagePathNoneZ_clone(const struct LDKCResult_OnionMessagePathNoneZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_OnionMessagePathNoneZ_clone")] public static extern long CResult_OnionMessagePathNoneZ_clone(long _orig);
-	// uint64_t C2Tuple_PublicKeyOnionMessageZ_clone_ptr(LDKC2Tuple_PublicKeyOnionMessageZ *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_clone_ptr")] public static extern long C2Tuple_PublicKeyOnionMessageZ_clone_ptr(long _arg);
-	// struct LDKC2Tuple_PublicKeyOnionMessageZ C2Tuple_PublicKeyOnionMessageZ_clone(const struct LDKC2Tuple_PublicKeyOnionMessageZ *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_clone")] public static extern long C2Tuple_PublicKeyOnionMessageZ_clone(long _orig);
-	// struct LDKC2Tuple_PublicKeyOnionMessageZ C2Tuple_PublicKeyOnionMessageZ_new(struct LDKPublicKey a, struct LDKOnionMessage b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_new")] public static extern long C2Tuple_PublicKeyOnionMessageZ_new(long _a, long _b);
-	// void C2Tuple_PublicKeyOnionMessageZ_free(struct LDKC2Tuple_PublicKeyOnionMessageZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_PublicKeyOnionMessageZ_free")] public static extern void C2Tuple_PublicKeyOnionMessageZ_free(long __res);
-	// struct LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_ok(struct LDKC2Tuple_PublicKeyOnionMessageZ o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_ok")] public static extern long CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_ok(long _o);
-	// struct LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_err(struct LDKSendError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_err")] public static extern long CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_err(long _e);
-	// bool CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_is_ok(const struct LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_is_ok")] public static extern bool CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_is_ok(long _o);
-	// void CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_free(struct LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_free")] public static extern void CResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ_free(long __res);
+	// uint64_t C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone_ptr(LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone_ptr")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone_ptr(long _arg);
+	// struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone(const struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_clone(long _orig);
+	// struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_new(struct LDKPublicKey a, struct LDKOnionMessage b, struct LDKCOption_CVec_SocketAddressZZ c);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_new")] public static extern long C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_new(long _a, long _b, long _c);
+	// void C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_free(struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_free")] public static extern void C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ_free(long __res);
+	// struct LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_ok(struct LDKC3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_ok")] public static extern long CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_ok(long _o);
+	// struct LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_err(struct LDKSendError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_err")] public static extern long CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_err(long _e);
+	// bool CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_is_ok(const struct LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_is_ok")] public static extern bool CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_is_ok(long _o);
+	// void CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_free(struct LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_free")] public static extern void CResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ_free(long __res);
 	// struct LDKCResult_PeeledOnionNoneZ CResult_PeeledOnionNoneZ_ok(struct LDKPeeledOnion o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PeeledOnionNoneZ_ok")] public static extern long CResult_PeeledOnionNoneZ_ok(long _o);
 	// struct LDKCResult_PeeledOnionNoneZ CResult_PeeledOnionNoneZ_err(void);
@@ -5492,14 +5786,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PeeledOnionNoneZ_is_ok")] public static extern bool CResult_PeeledOnionNoneZ_is_ok(long _o);
 	// void CResult_PeeledOnionNoneZ_free(struct LDKCResult_PeeledOnionNoneZ _res);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_PeeledOnionNoneZ_free")] public static extern void CResult_PeeledOnionNoneZ_free(long __res);
-	// struct LDKCResult_NoneSendErrorZ CResult_NoneSendErrorZ_ok(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_ok")] public static extern long CResult_NoneSendErrorZ_ok();
-	// struct LDKCResult_NoneSendErrorZ CResult_NoneSendErrorZ_err(struct LDKSendError e);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_err")] public static extern long CResult_NoneSendErrorZ_err(long _e);
-	// bool CResult_NoneSendErrorZ_is_ok(const struct LDKCResult_NoneSendErrorZ *NONNULL_PTR o);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_is_ok")] public static extern bool CResult_NoneSendErrorZ_is_ok(long _o);
-	// void CResult_NoneSendErrorZ_free(struct LDKCResult_NoneSendErrorZ _res);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_NoneSendErrorZ_free")] public static extern void CResult_NoneSendErrorZ_free(long __res);
+	// struct LDKCResult_SendSuccessSendErrorZ CResult_SendSuccessSendErrorZ_ok(struct LDKSendSuccess o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_ok")] public static extern long CResult_SendSuccessSendErrorZ_ok(long _o);
+	// struct LDKCResult_SendSuccessSendErrorZ CResult_SendSuccessSendErrorZ_err(struct LDKSendError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_err")] public static extern long CResult_SendSuccessSendErrorZ_err(long _e);
+	// bool CResult_SendSuccessSendErrorZ_is_ok(const struct LDKCResult_SendSuccessSendErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_is_ok")] public static extern bool CResult_SendSuccessSendErrorZ_is_ok(long _o);
+	// void CResult_SendSuccessSendErrorZ_free(struct LDKCResult_SendSuccessSendErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_SendSuccessSendErrorZ_free")] public static extern void CResult_SendSuccessSendErrorZ_free(long __res);
 	// struct LDKCResult_BlindedPathNoneZ CResult_BlindedPathNoneZ_ok(struct LDKBlindedPath o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedPathNoneZ_ok")] public static extern long CResult_BlindedPathNoneZ_ok(long _o);
 	// struct LDKCResult_BlindedPathNoneZ CResult_BlindedPathNoneZ_err(void);
@@ -5524,6 +5818,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ_clone_ptr")] public static extern long CResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ_clone_ptr(long _arg);
 	// struct LDKCResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ CResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ_clone(const struct LDKCResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ_clone")] public static extern long CResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ_clone(long _orig);
+	// void CVec_ForwardNodeZ_free(struct LDKCVec_ForwardNodeZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CVec_ForwardNodeZ_free")] public static extern void CVec_ForwardNodeZ_free(long __res);
 	// struct LDKCResult_BlindedPathDecodeErrorZ CResult_BlindedPathDecodeErrorZ_ok(struct LDKBlindedPath o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_BlindedPathDecodeErrorZ_ok")] public static extern long CResult_BlindedPathDecodeErrorZ_ok(long _o);
 	// struct LDKCResult_BlindedPathDecodeErrorZ CResult_BlindedPathDecodeErrorZ_err(struct LDKDecodeError e);
@@ -5560,6 +5856,78 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InvoiceErrorDecodeErrorZ_clone_ptr")] public static extern long CResult_InvoiceErrorDecodeErrorZ_clone_ptr(long _arg);
 	// struct LDKCResult_InvoiceErrorDecodeErrorZ CResult_InvoiceErrorDecodeErrorZ_clone(const struct LDKCResult_InvoiceErrorDecodeErrorZ *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_InvoiceErrorDecodeErrorZ_clone")] public static extern long CResult_InvoiceErrorDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ CResult_DelayedPaymentBasepointDecodeErrorZ_ok(struct LDKDelayedPaymentBasepoint o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_ok")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ CResult_DelayedPaymentBasepointDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_err")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_err(long _e);
+	// bool CResult_DelayedPaymentBasepointDecodeErrorZ_is_ok(const struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_is_ok")] public static extern bool CResult_DelayedPaymentBasepointDecodeErrorZ_is_ok(long _o);
+	// void CResult_DelayedPaymentBasepointDecodeErrorZ_free(struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_free")] public static extern void CResult_DelayedPaymentBasepointDecodeErrorZ_free(long __res);
+	// uint64_t CResult_DelayedPaymentBasepointDecodeErrorZ_clone_ptr(LDKCResult_DelayedPaymentBasepointDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_clone_ptr")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ CResult_DelayedPaymentBasepointDecodeErrorZ_clone(const struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentBasepointDecodeErrorZ_clone")] public static extern long CResult_DelayedPaymentBasepointDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_DelayedPaymentKeyDecodeErrorZ CResult_DelayedPaymentKeyDecodeErrorZ_ok(struct LDKDelayedPaymentKey o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_ok")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_DelayedPaymentKeyDecodeErrorZ CResult_DelayedPaymentKeyDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_err")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_err(long _e);
+	// bool CResult_DelayedPaymentKeyDecodeErrorZ_is_ok(const struct LDKCResult_DelayedPaymentKeyDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_is_ok")] public static extern bool CResult_DelayedPaymentKeyDecodeErrorZ_is_ok(long _o);
+	// void CResult_DelayedPaymentKeyDecodeErrorZ_free(struct LDKCResult_DelayedPaymentKeyDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_free")] public static extern void CResult_DelayedPaymentKeyDecodeErrorZ_free(long __res);
+	// uint64_t CResult_DelayedPaymentKeyDecodeErrorZ_clone_ptr(LDKCResult_DelayedPaymentKeyDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_clone_ptr")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_DelayedPaymentKeyDecodeErrorZ CResult_DelayedPaymentKeyDecodeErrorZ_clone(const struct LDKCResult_DelayedPaymentKeyDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_DelayedPaymentKeyDecodeErrorZ_clone")] public static extern long CResult_DelayedPaymentKeyDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_HtlcBasepointDecodeErrorZ CResult_HtlcBasepointDecodeErrorZ_ok(struct LDKHtlcBasepoint o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_ok")] public static extern long CResult_HtlcBasepointDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_HtlcBasepointDecodeErrorZ CResult_HtlcBasepointDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_err")] public static extern long CResult_HtlcBasepointDecodeErrorZ_err(long _e);
+	// bool CResult_HtlcBasepointDecodeErrorZ_is_ok(const struct LDKCResult_HtlcBasepointDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_is_ok")] public static extern bool CResult_HtlcBasepointDecodeErrorZ_is_ok(long _o);
+	// void CResult_HtlcBasepointDecodeErrorZ_free(struct LDKCResult_HtlcBasepointDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_free")] public static extern void CResult_HtlcBasepointDecodeErrorZ_free(long __res);
+	// uint64_t CResult_HtlcBasepointDecodeErrorZ_clone_ptr(LDKCResult_HtlcBasepointDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_clone_ptr")] public static extern long CResult_HtlcBasepointDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_HtlcBasepointDecodeErrorZ CResult_HtlcBasepointDecodeErrorZ_clone(const struct LDKCResult_HtlcBasepointDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcBasepointDecodeErrorZ_clone")] public static extern long CResult_HtlcBasepointDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_HtlcKeyDecodeErrorZ CResult_HtlcKeyDecodeErrorZ_ok(struct LDKHtlcKey o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_ok")] public static extern long CResult_HtlcKeyDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_HtlcKeyDecodeErrorZ CResult_HtlcKeyDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_err")] public static extern long CResult_HtlcKeyDecodeErrorZ_err(long _e);
+	// bool CResult_HtlcKeyDecodeErrorZ_is_ok(const struct LDKCResult_HtlcKeyDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_is_ok")] public static extern bool CResult_HtlcKeyDecodeErrorZ_is_ok(long _o);
+	// void CResult_HtlcKeyDecodeErrorZ_free(struct LDKCResult_HtlcKeyDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_free")] public static extern void CResult_HtlcKeyDecodeErrorZ_free(long __res);
+	// uint64_t CResult_HtlcKeyDecodeErrorZ_clone_ptr(LDKCResult_HtlcKeyDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_clone_ptr")] public static extern long CResult_HtlcKeyDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_HtlcKeyDecodeErrorZ CResult_HtlcKeyDecodeErrorZ_clone(const struct LDKCResult_HtlcKeyDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_HtlcKeyDecodeErrorZ_clone")] public static extern long CResult_HtlcKeyDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_RevocationBasepointDecodeErrorZ CResult_RevocationBasepointDecodeErrorZ_ok(struct LDKRevocationBasepoint o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_ok")] public static extern long CResult_RevocationBasepointDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_RevocationBasepointDecodeErrorZ CResult_RevocationBasepointDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_err")] public static extern long CResult_RevocationBasepointDecodeErrorZ_err(long _e);
+	// bool CResult_RevocationBasepointDecodeErrorZ_is_ok(const struct LDKCResult_RevocationBasepointDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_is_ok")] public static extern bool CResult_RevocationBasepointDecodeErrorZ_is_ok(long _o);
+	// void CResult_RevocationBasepointDecodeErrorZ_free(struct LDKCResult_RevocationBasepointDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_free")] public static extern void CResult_RevocationBasepointDecodeErrorZ_free(long __res);
+	// uint64_t CResult_RevocationBasepointDecodeErrorZ_clone_ptr(LDKCResult_RevocationBasepointDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_clone_ptr")] public static extern long CResult_RevocationBasepointDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_RevocationBasepointDecodeErrorZ CResult_RevocationBasepointDecodeErrorZ_clone(const struct LDKCResult_RevocationBasepointDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationBasepointDecodeErrorZ_clone")] public static extern long CResult_RevocationBasepointDecodeErrorZ_clone(long _orig);
+	// struct LDKCResult_RevocationKeyDecodeErrorZ CResult_RevocationKeyDecodeErrorZ_ok(struct LDKRevocationKey o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_ok")] public static extern long CResult_RevocationKeyDecodeErrorZ_ok(long _o);
+	// struct LDKCResult_RevocationKeyDecodeErrorZ CResult_RevocationKeyDecodeErrorZ_err(struct LDKDecodeError e);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_err")] public static extern long CResult_RevocationKeyDecodeErrorZ_err(long _e);
+	// bool CResult_RevocationKeyDecodeErrorZ_is_ok(const struct LDKCResult_RevocationKeyDecodeErrorZ *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_is_ok")] public static extern bool CResult_RevocationKeyDecodeErrorZ_is_ok(long _o);
+	// void CResult_RevocationKeyDecodeErrorZ_free(struct LDKCResult_RevocationKeyDecodeErrorZ _res);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_free")] public static extern void CResult_RevocationKeyDecodeErrorZ_free(long __res);
+	// uint64_t CResult_RevocationKeyDecodeErrorZ_clone_ptr(LDKCResult_RevocationKeyDecodeErrorZ *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_clone_ptr")] public static extern long CResult_RevocationKeyDecodeErrorZ_clone_ptr(long _arg);
+	// struct LDKCResult_RevocationKeyDecodeErrorZ CResult_RevocationKeyDecodeErrorZ_clone(const struct LDKCResult_RevocationKeyDecodeErrorZ *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CResult_RevocationKeyDecodeErrorZ_clone")] public static extern long CResult_RevocationKeyDecodeErrorZ_clone(long _orig);
 	// struct LDKCOption_FilterZ COption_FilterZ_some(struct LDKFilter o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_COption_FilterZ_some")] public static extern long COption_FilterZ_some(long _o);
 	// struct LDKCOption_FilterZ COption_FilterZ_none(void);
@@ -5638,6 +6006,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Hostname_clone_ptr")] public static extern long Hostname_clone_ptr(long _arg);
 	// struct LDKHostname Hostname_clone(const struct LDKHostname *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Hostname_clone")] public static extern long Hostname_clone(long _orig);
+	// uint64_t Hostname_hash(const struct LDKHostname *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Hostname_hash")] public static extern long Hostname_hash(long _o);
 	// bool Hostname_eq(const struct LDKHostname *NONNULL_PTR a, const struct LDKHostname *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Hostname_eq")] public static extern bool Hostname_eq(long _a, long _b);
 	// MUST_USE_RES uint8_t Hostname_len(const struct LDKHostname *NONNULL_PTR this_arg);
@@ -5652,6 +6022,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TransactionU16LenLimited_clone_ptr")] public static extern long TransactionU16LenLimited_clone_ptr(long _arg);
 	// struct LDKTransactionU16LenLimited TransactionU16LenLimited_clone(const struct LDKTransactionU16LenLimited *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TransactionU16LenLimited_clone")] public static extern long TransactionU16LenLimited_clone(long _orig);
+	// uint64_t TransactionU16LenLimited_hash(const struct LDKTransactionU16LenLimited *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TransactionU16LenLimited_hash")] public static extern long TransactionU16LenLimited_hash(long _o);
 	// bool TransactionU16LenLimited_eq(const struct LDKTransactionU16LenLimited *NONNULL_PTR a, const struct LDKTransactionU16LenLimited *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TransactionU16LenLimited_eq")] public static extern bool TransactionU16LenLimited_eq(long _a, long _b);
 	// MUST_USE_RES struct LDKCResult_TransactionU16LenLimitedNoneZ TransactionU16LenLimited_new(struct LDKTransaction transaction);
@@ -5702,6 +6074,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UntrustedString_clone")] public static extern long UntrustedString_clone(long _orig);
 	// bool UntrustedString_eq(const struct LDKUntrustedString *NONNULL_PTR a, const struct LDKUntrustedString *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UntrustedString_eq")] public static extern bool UntrustedString_eq(long _a, long _b);
+	// uint64_t UntrustedString_hash(const struct LDKUntrustedString *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UntrustedString_hash")] public static extern long UntrustedString_hash(long _o);
 	// struct LDKCVec_u8Z UntrustedString_write(const struct LDKUntrustedString *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UntrustedString_write")] public static extern long UntrustedString_write(long _obj);
 	// struct LDKCResult_UntrustedStringDecodeErrorZ UntrustedString_read(struct LDKu8slice ser);
@@ -5766,6 +6140,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_get_level")] public static extern Level Record_get_level(long _this_ptr);
 	// void Record_set_level(struct LDKRecord *NONNULL_PTR this_ptr, enum LDKLevel val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_set_level")] public static extern void Record_set_level(long _this_ptr, Level _val);
+	// struct LDKPublicKey Record_get_peer_id(const struct LDKRecord *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_get_peer_id")] public static extern long Record_get_peer_id(long _this_ptr);
+	// void Record_set_peer_id(struct LDKRecord *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_set_peer_id")] public static extern void Record_set_peer_id(long _this_ptr, long _val);
+	// struct LDKCOption_ThirtyTwoBytesZ Record_get_channel_id(const struct LDKRecord *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_get_channel_id")] public static extern long Record_get_channel_id(long _this_ptr);
+	// void Record_set_channel_id(struct LDKRecord *NONNULL_PTR this_ptr, struct LDKCOption_ThirtyTwoBytesZ val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_set_channel_id")] public static extern void Record_set_channel_id(long _this_ptr, long _val);
 	// struct LDKStr Record_get_args(const struct LDKRecord *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_get_args")] public static extern long Record_get_args(long _this_ptr);
 	// void Record_set_args(struct LDKRecord *NONNULL_PTR this_ptr, struct LDKStr val);
@@ -5782,6 +6164,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_get_line")] public static extern int Record_get_line(long _this_ptr);
 	// void Record_set_line(struct LDKRecord *NONNULL_PTR this_ptr, uint32_t val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_set_line")] public static extern void Record_set_line(long _this_ptr, int _val);
+	// MUST_USE_RES struct LDKRecord Record_new(enum LDKLevel level_arg, struct LDKPublicKey peer_id_arg, struct LDKCOption_ThirtyTwoBytesZ channel_id_arg, struct LDKStr args_arg, struct LDKStr module_path_arg, struct LDKStr file_arg, uint32_t line_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_new")] public static extern long Record_new(Level _level_arg, long _peer_id_arg, long _channel_id_arg, long _args_arg, long _module_path_arg, long _file_arg, int _line_arg);
 	// uint64_t Record_clone_ptr(LDKRecord *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Record_clone_ptr")] public static extern long Record_clone_ptr(long _arg);
 	// struct LDKRecord Record_clone(const struct LDKRecord *NONNULL_PTR orig);
@@ -6058,7 +6442,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WatchedOutput_get_outpoint")] public static extern long WatchedOutput_get_outpoint(long _this_ptr);
 	// void WatchedOutput_set_outpoint(struct LDKWatchedOutput *NONNULL_PTR this_ptr, struct LDKOutPoint val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WatchedOutput_set_outpoint")] public static extern void WatchedOutput_set_outpoint(long _this_ptr, long _val);
-	// struct LDKu8slice WatchedOutput_get_script_pubkey(const struct LDKWatchedOutput *NONNULL_PTR this_ptr);
+	// struct LDKCVec_u8Z WatchedOutput_get_script_pubkey(const struct LDKWatchedOutput *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WatchedOutput_get_script_pubkey")] public static extern long WatchedOutput_get_script_pubkey(long _this_ptr);
 	// void WatchedOutput_set_script_pubkey(struct LDKWatchedOutput *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WatchedOutput_set_script_pubkey")] public static extern void WatchedOutput_set_script_pubkey(long _this_ptr, long _val);
@@ -6078,8 +6462,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ConfirmationTarget_clone")] public static extern ConfirmationTarget ConfirmationTarget_clone(long _orig);
 	// enum LDKConfirmationTarget ConfirmationTarget_on_chain_sweep(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ConfirmationTarget_on_chain_sweep")] public static extern ConfirmationTarget ConfirmationTarget_on_chain_sweep();
-	// enum LDKConfirmationTarget ConfirmationTarget_max_allowed_non_anchor_channel_remote_fee(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ConfirmationTarget_max_allowed_non_anchor_channel_remote_fee")] public static extern ConfirmationTarget ConfirmationTarget_max_allowed_non_anchor_channel_remote_fee();
 	// enum LDKConfirmationTarget ConfirmationTarget_min_allowed_anchor_channel_remote_fee(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ConfirmationTarget_min_allowed_anchor_channel_remote_fee")] public static extern ConfirmationTarget ConfirmationTarget_min_allowed_anchor_channel_remote_fee();
 	// enum LDKConfirmationTarget ConfirmationTarget_min_allowed_non_anchor_channel_remote_fee(void);
@@ -6220,8 +6602,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_funding_txo")] public static extern long ChannelMonitor_get_funding_txo(long _this_arg);
 	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZZ ChannelMonitor_get_outputs_to_watch(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_outputs_to_watch")] public static extern long ChannelMonitor_get_outputs_to_watch(long _this_arg);
-	// void ChannelMonitor_load_outputs_to_watch(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const struct LDKFilter *NONNULL_PTR filter);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_load_outputs_to_watch")] public static extern void ChannelMonitor_load_outputs_to_watch(long _this_arg, long _filter);
+	// void ChannelMonitor_load_outputs_to_watch(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const struct LDKFilter *NONNULL_PTR filter, const struct LDKLogger *NONNULL_PTR logger);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_load_outputs_to_watch")] public static extern void ChannelMonitor_load_outputs_to_watch(long _this_arg, long _filter, long _logger);
 	// MUST_USE_RES struct LDKCVec_MonitorEventZ ChannelMonitor_get_and_clear_pending_monitor_events(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_and_clear_pending_monitor_events")] public static extern long ChannelMonitor_get_and_clear_pending_monitor_events(long _this_arg);
 	// void ChannelMonitor_process_pending_events(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const struct LDKEventHandler *NONNULL_PTR handler);
@@ -6236,21 +6618,21 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_counterparty_node_id")] public static extern long ChannelMonitor_get_counterparty_node_id(long _this_arg);
 	// MUST_USE_RES struct LDKCVec_TransactionZ ChannelMonitor_get_latest_holder_commitment_txn(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_latest_holder_commitment_txn")] public static extern long ChannelMonitor_get_latest_holder_commitment_txn(long _this_arg, long _logger);
-	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_block_connected(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_block_connected(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_block_connected")] public static extern long ChannelMonitor_block_connected(long _this_arg, long _header, long _txdata, int _height, long _broadcaster, long _fee_estimator, long _logger);
-	// void ChannelMonitor_block_disconnected(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// void ChannelMonitor_block_disconnected(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_block_disconnected")] public static extern void ChannelMonitor_block_disconnected(long _this_arg, long _header, int _height, long _broadcaster, long _fee_estimator, long _logger);
-	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_transactions_confirmed(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_transactions_confirmed(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_transactions_confirmed")] public static extern long ChannelMonitor_transactions_confirmed(long _this_arg, long _header, long _txdata, int _height, long _broadcaster, long _fee_estimator, long _logger);
-	// void ChannelMonitor_transaction_unconfirmed(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*txid)[32], struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// void ChannelMonitor_transaction_unconfirmed(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*txid)[32], struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_transaction_unconfirmed")] public static extern void ChannelMonitor_transaction_unconfirmed(long _this_arg, long _txid, long _broadcaster, long _fee_estimator, long _logger);
-	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_best_block_updated(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_best_block_updated(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_best_block_updated")] public static extern long ChannelMonitor_best_block_updated(long _this_arg, long _header, int _height, long _broadcaster, long _fee_estimator, long _logger);
-	// MUST_USE_RES struct LDKCVec_C2Tuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZZ ChannelMonitor_get_relevant_txids(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
+	// MUST_USE_RES struct LDKCVec_C3Tuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZZ ChannelMonitor_get_relevant_txids(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_relevant_txids")] public static extern long ChannelMonitor_get_relevant_txids(long _this_arg);
 	// MUST_USE_RES struct LDKBestBlock ChannelMonitor_current_best_block(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_current_best_block")] public static extern long ChannelMonitor_current_best_block(long _this_arg);
-	// void ChannelMonitor_rebroadcast_pending_claims(const struct LDKChannelMonitor *NONNULL_PTR this_arg, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	// void ChannelMonitor_rebroadcast_pending_claims(const struct LDKChannelMonitor *NONNULL_PTR this_arg, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, const struct LDKLogger *NONNULL_PTR logger);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_rebroadcast_pending_claims")] public static extern void ChannelMonitor_rebroadcast_pending_claims(long _this_arg, long _broadcaster, long _fee_estimator, long _logger);
 	// MUST_USE_RES struct LDKCVec_SpendableOutputDescriptorZ ChannelMonitor_get_spendable_outputs(const struct LDKChannelMonitor *NONNULL_PTR this_arg, struct LDKTransaction tx, uint32_t confirmation_height);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelMonitor_get_spendable_outputs")] public static extern long ChannelMonitor_get_spendable_outputs(long _this_arg, long _tx, int _confirmation_height);
@@ -6284,6 +6666,102 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OutPoint_write")] public static extern long OutPoint_write(long _obj);
 	// struct LDKCResult_OutPointDecodeErrorZ OutPoint_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OutPoint_read")] public static extern long OutPoint_read(long _ser);
+	// void InboundHTLCErr_free(struct LDKInboundHTLCErr this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_free")] public static extern void InboundHTLCErr_free(long _this_obj);
+	// uint16_t InboundHTLCErr_get_err_code(const struct LDKInboundHTLCErr *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_get_err_code")] public static extern short InboundHTLCErr_get_err_code(long _this_ptr);
+	// void InboundHTLCErr_set_err_code(struct LDKInboundHTLCErr *NONNULL_PTR this_ptr, uint16_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_set_err_code")] public static extern void InboundHTLCErr_set_err_code(long _this_ptr, short _val);
+	// struct LDKCVec_u8Z InboundHTLCErr_get_err_data(const struct LDKInboundHTLCErr *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_get_err_data")] public static extern long InboundHTLCErr_get_err_data(long _this_ptr);
+	// void InboundHTLCErr_set_err_data(struct LDKInboundHTLCErr *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_set_err_data")] public static extern void InboundHTLCErr_set_err_data(long _this_ptr, long _val);
+	// struct LDKStr InboundHTLCErr_get_msg(const struct LDKInboundHTLCErr *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_get_msg")] public static extern long InboundHTLCErr_get_msg(long _this_ptr);
+	// void InboundHTLCErr_set_msg(struct LDKInboundHTLCErr *NONNULL_PTR this_ptr, struct LDKStr val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_set_msg")] public static extern void InboundHTLCErr_set_msg(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKInboundHTLCErr InboundHTLCErr_new(uint16_t err_code_arg, struct LDKCVec_u8Z err_data_arg, struct LDKStr msg_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InboundHTLCErr_new")] public static extern long InboundHTLCErr_new(short _err_code_arg, long _err_data_arg, long _msg_arg);
+	// struct LDKCResult_PendingHTLCInfoInboundHTLCErrZ peel_payment_onion(const struct LDKUpdateAddHTLC *NONNULL_PTR msg, const struct LDKNodeSigner *NONNULL_PTR node_signer, const struct LDKLogger *NONNULL_PTR logger, uint32_t cur_height, bool accept_mpp_keysend, bool allow_skimmed_fees);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_peel_payment_onion")] public static extern long peel_payment_onion(long _msg, long _node_signer, long _logger, int _cur_height, bool _accept_mpp_keysend, bool _allow_skimmed_fees);
+	// void PendingHTLCRouting_free(struct LDKPendingHTLCRouting this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_free")] public static extern void PendingHTLCRouting_free(long _this_ptr);
+	// uint64_t PendingHTLCRouting_clone_ptr(LDKPendingHTLCRouting *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_clone_ptr")] public static extern long PendingHTLCRouting_clone_ptr(long _arg);
+	// struct LDKPendingHTLCRouting PendingHTLCRouting_clone(const struct LDKPendingHTLCRouting *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_clone")] public static extern long PendingHTLCRouting_clone(long _orig);
+	// struct LDKPendingHTLCRouting PendingHTLCRouting_forward(struct LDKOnionPacket onion_packet, uint64_t short_channel_id, struct LDKBlindedForward blinded);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_forward")] public static extern long PendingHTLCRouting_forward(long _onion_packet, long _short_channel_id, long _blinded);
+	// struct LDKPendingHTLCRouting PendingHTLCRouting_receive(struct LDKFinalOnionHopData payment_data, struct LDKCOption_CVec_u8ZZ payment_metadata, uint32_t incoming_cltv_expiry, struct LDKThirtyTwoBytes phantom_shared_secret, struct LDKCVec_C2Tuple_u64CVec_u8ZZZ custom_tlvs, bool requires_blinded_error);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_receive")] public static extern long PendingHTLCRouting_receive(long _payment_data, long _payment_metadata, int _incoming_cltv_expiry, long _phantom_shared_secret, long _custom_tlvs, bool _requires_blinded_error);
+	// struct LDKPendingHTLCRouting PendingHTLCRouting_receive_keysend(struct LDKFinalOnionHopData payment_data, struct LDKThirtyTwoBytes payment_preimage, struct LDKCOption_CVec_u8ZZ payment_metadata, uint32_t incoming_cltv_expiry, struct LDKCVec_C2Tuple_u64CVec_u8ZZZ custom_tlvs);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_receive_keysend")] public static extern long PendingHTLCRouting_receive_keysend(long _payment_data, long _payment_preimage, long _payment_metadata, int _incoming_cltv_expiry, long _custom_tlvs);
+	// void BlindedForward_free(struct LDKBlindedForward this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_free")] public static extern void BlindedForward_free(long _this_obj);
+	// struct LDKPublicKey BlindedForward_get_inbound_blinding_point(const struct LDKBlindedForward *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_get_inbound_blinding_point")] public static extern long BlindedForward_get_inbound_blinding_point(long _this_ptr);
+	// void BlindedForward_set_inbound_blinding_point(struct LDKBlindedForward *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_set_inbound_blinding_point")] public static extern void BlindedForward_set_inbound_blinding_point(long _this_ptr, long _val);
+	// enum LDKBlindedFailure BlindedForward_get_failure(const struct LDKBlindedForward *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_get_failure")] public static extern BlindedFailure BlindedForward_get_failure(long _this_ptr);
+	// void BlindedForward_set_failure(struct LDKBlindedForward *NONNULL_PTR this_ptr, enum LDKBlindedFailure val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_set_failure")] public static extern void BlindedForward_set_failure(long _this_ptr, BlindedFailure _val);
+	// MUST_USE_RES struct LDKBlindedForward BlindedForward_new(struct LDKPublicKey inbound_blinding_point_arg, enum LDKBlindedFailure failure_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_new")] public static extern long BlindedForward_new(long _inbound_blinding_point_arg, BlindedFailure _failure_arg);
+	// uint64_t BlindedForward_clone_ptr(LDKBlindedForward *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_clone_ptr")] public static extern long BlindedForward_clone_ptr(long _arg);
+	// struct LDKBlindedForward BlindedForward_clone(const struct LDKBlindedForward *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_clone")] public static extern long BlindedForward_clone(long _orig);
+	// uint64_t BlindedForward_hash(const struct LDKBlindedForward *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_hash")] public static extern long BlindedForward_hash(long _o);
+	// bool BlindedForward_eq(const struct LDKBlindedForward *NONNULL_PTR a, const struct LDKBlindedForward *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_eq")] public static extern bool BlindedForward_eq(long _a, long _b);
+	// void PendingHTLCInfo_free(struct LDKPendingHTLCInfo this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_free")] public static extern void PendingHTLCInfo_free(long _this_obj);
+	// struct LDKPendingHTLCRouting PendingHTLCInfo_get_routing(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_routing")] public static extern long PendingHTLCInfo_get_routing(long _this_ptr);
+	// void PendingHTLCInfo_set_routing(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, struct LDKPendingHTLCRouting val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_routing")] public static extern void PendingHTLCInfo_set_routing(long _this_ptr, long _val);
+	// const uint8_t (*PendingHTLCInfo_get_incoming_shared_secret(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_incoming_shared_secret")] public static extern long PendingHTLCInfo_get_incoming_shared_secret(long _this_ptr);
+	// void PendingHTLCInfo_set_incoming_shared_secret(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_incoming_shared_secret")] public static extern void PendingHTLCInfo_set_incoming_shared_secret(long _this_ptr, long _val);
+	// const uint8_t (*PendingHTLCInfo_get_payment_hash(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_payment_hash")] public static extern long PendingHTLCInfo_get_payment_hash(long _this_ptr);
+	// void PendingHTLCInfo_set_payment_hash(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_payment_hash")] public static extern void PendingHTLCInfo_set_payment_hash(long _this_ptr, long _val);
+	// struct LDKCOption_u64Z PendingHTLCInfo_get_incoming_amt_msat(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_incoming_amt_msat")] public static extern long PendingHTLCInfo_get_incoming_amt_msat(long _this_ptr);
+	// void PendingHTLCInfo_set_incoming_amt_msat(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_incoming_amt_msat")] public static extern void PendingHTLCInfo_set_incoming_amt_msat(long _this_ptr, long _val);
+	// uint64_t PendingHTLCInfo_get_outgoing_amt_msat(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_outgoing_amt_msat")] public static extern long PendingHTLCInfo_get_outgoing_amt_msat(long _this_ptr);
+	// void PendingHTLCInfo_set_outgoing_amt_msat(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, uint64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_outgoing_amt_msat")] public static extern void PendingHTLCInfo_set_outgoing_amt_msat(long _this_ptr, long _val);
+	// uint32_t PendingHTLCInfo_get_outgoing_cltv_value(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_outgoing_cltv_value")] public static extern int PendingHTLCInfo_get_outgoing_cltv_value(long _this_ptr);
+	// void PendingHTLCInfo_set_outgoing_cltv_value(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, uint32_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_outgoing_cltv_value")] public static extern void PendingHTLCInfo_set_outgoing_cltv_value(long _this_ptr, int _val);
+	// struct LDKCOption_u64Z PendingHTLCInfo_get_skimmed_fee_msat(const struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_get_skimmed_fee_msat")] public static extern long PendingHTLCInfo_get_skimmed_fee_msat(long _this_ptr);
+	// void PendingHTLCInfo_set_skimmed_fee_msat(struct LDKPendingHTLCInfo *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_set_skimmed_fee_msat")] public static extern void PendingHTLCInfo_set_skimmed_fee_msat(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKPendingHTLCInfo PendingHTLCInfo_new(struct LDKPendingHTLCRouting routing_arg, struct LDKThirtyTwoBytes incoming_shared_secret_arg, struct LDKThirtyTwoBytes payment_hash_arg, struct LDKCOption_u64Z incoming_amt_msat_arg, uint64_t outgoing_amt_msat_arg, uint32_t outgoing_cltv_value_arg, struct LDKCOption_u64Z skimmed_fee_msat_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_new")] public static extern long PendingHTLCInfo_new(long _routing_arg, long _incoming_shared_secret_arg, long _payment_hash_arg, long _incoming_amt_msat_arg, long _outgoing_amt_msat_arg, int _outgoing_cltv_value_arg, long _skimmed_fee_msat_arg);
+	// uint64_t PendingHTLCInfo_clone_ptr(LDKPendingHTLCInfo *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_clone_ptr")] public static extern long PendingHTLCInfo_clone_ptr(long _arg);
+	// struct LDKPendingHTLCInfo PendingHTLCInfo_clone(const struct LDKPendingHTLCInfo *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_clone")] public static extern long PendingHTLCInfo_clone(long _orig);
+	// enum LDKBlindedFailure BlindedFailure_clone(const enum LDKBlindedFailure *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_clone")] public static extern BlindedFailure BlindedFailure_clone(long _orig);
+	// enum LDKBlindedFailure BlindedFailure_from_introduction_node(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_from_introduction_node")] public static extern BlindedFailure BlindedFailure_from_introduction_node();
+	// enum LDKBlindedFailure BlindedFailure_from_blinded_node(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_from_blinded_node")] public static extern BlindedFailure BlindedFailure_from_blinded_node();
+	// uint64_t BlindedFailure_hash(const enum LDKBlindedFailure *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_hash")] public static extern long BlindedFailure_hash(long _o);
+	// bool BlindedFailure_eq(const enum LDKBlindedFailure *NONNULL_PTR a, const enum LDKBlindedFailure *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_eq")] public static extern bool BlindedFailure_eq(long _a, long _b);
 	// void FailureCode_free(struct LDKFailureCode this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FailureCode_free")] public static extern void FailureCode_free(long _this_ptr);
 	// uint64_t FailureCode_clone_ptr(LDKFailureCode *NONNULL_PTR arg);
@@ -6540,8 +7018,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_new")] public static extern long ChannelManager_new(long _fee_est, long _chain_monitor, long _tx_broadcaster, long _router, long _logger, long _entropy_source, long _node_signer, long _signer_provider, long _config, long _params, int _current_timestamp);
 	// MUST_USE_RES struct LDKUserConfig ChannelManager_get_current_default_configuration(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_get_current_default_configuration")] public static extern long ChannelManager_get_current_default_configuration(long _this_arg);
-	// MUST_USE_RES struct LDKCResult_ThirtyTwoBytesAPIErrorZ ChannelManager_create_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, struct LDKU128 user_channel_id, struct LDKUserConfig override_config);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_create_channel")] public static extern long ChannelManager_create_channel(long _this_arg, long _their_network_key, long _channel_value_satoshis, long _push_msat, long _user_channel_id, long _override_config);
+	// MUST_USE_RES struct LDKCResult_ThirtyTwoBytesAPIErrorZ ChannelManager_create_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, struct LDKU128 user_channel_id, struct LDKCOption_ThirtyTwoBytesZ temporary_channel_id, struct LDKUserConfig override_config);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_create_channel")] public static extern long ChannelManager_create_channel(long _this_arg, long _their_network_key, long _channel_value_satoshis, long _push_msat, long _user_channel_id, long _temporary_channel_id, long _override_config);
 	// MUST_USE_RES struct LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_list_channels")] public static extern long ChannelManager_list_channels(long _this_arg);
 	// MUST_USE_RES struct LDKCVec_ChannelDetailsZ ChannelManager_list_usable_channels(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -6670,6 +7148,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PhantomRouteHints_write")] public static extern long PhantomRouteHints_write(long _obj);
 	// struct LDKCResult_PhantomRouteHintsDecodeErrorZ PhantomRouteHints_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PhantomRouteHints_read")] public static extern long PhantomRouteHints_read(long _ser);
+	// struct LDKCVec_u8Z BlindedForward_write(const struct LDKBlindedForward *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_write")] public static extern long BlindedForward_write(long _obj);
+	// struct LDKCResult_BlindedForwardDecodeErrorZ BlindedForward_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedForward_read")] public static extern long BlindedForward_read(long _ser);
+	// struct LDKCVec_u8Z PendingHTLCRouting_write(const struct LDKPendingHTLCRouting *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_write")] public static extern long PendingHTLCRouting_write(long _obj);
+	// struct LDKCResult_PendingHTLCRoutingDecodeErrorZ PendingHTLCRouting_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCRouting_read")] public static extern long PendingHTLCRouting_read(long _ser);
+	// struct LDKCVec_u8Z PendingHTLCInfo_write(const struct LDKPendingHTLCInfo *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_write")] public static extern long PendingHTLCInfo_write(long _obj);
+	// struct LDKCResult_PendingHTLCInfoDecodeErrorZ PendingHTLCInfo_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PendingHTLCInfo_read")] public static extern long PendingHTLCInfo_read(long _ser);
+	// struct LDKCVec_u8Z BlindedFailure_write(const enum LDKBlindedFailure *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_write")] public static extern long BlindedFailure_write(long _obj);
+	// struct LDKCResult_BlindedFailureDecodeErrorZ BlindedFailure_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedFailure_read")] public static extern long BlindedFailure_read(long _ser);
 	// struct LDKCVec_u8Z ChannelManager_write(const struct LDKChannelManager *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManager_write")] public static extern long ChannelManager_write(long _obj);
 	// struct LDKCVec_u8Z ChannelShutdownState_write(const enum LDKChannelShutdownState *NONNULL_PTR obj);
@@ -6718,6 +7212,144 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelManagerReadArgs_new")] public static extern long ChannelManagerReadArgs_new(long _entropy_source, long _node_signer, long _signer_provider, long _fee_estimator, long _chain_monitor, long _tx_broadcaster, long _router, long _logger, long _default_config, long _channel_monitors);
 	// struct LDKCResult_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ C2Tuple_ThirtyTwoBytesChannelManagerZ_read(struct LDKu8slice ser, struct LDKChannelManagerReadArgs arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_C2Tuple_ThirtyTwoBytesChannelManagerZ_read")] public static extern long C2Tuple_ThirtyTwoBytesChannelManagerZ_read(long _ser, long _arg);
+	// void DelayedPaymentBasepoint_free(struct LDKDelayedPaymentBasepoint this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_free")] public static extern void DelayedPaymentBasepoint_free(long _this_obj);
+	// struct LDKPublicKey DelayedPaymentBasepoint_get_a(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_get_a")] public static extern long DelayedPaymentBasepoint_get_a(long _this_ptr);
+	// void DelayedPaymentBasepoint_set_a(struct LDKDelayedPaymentBasepoint *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_set_a")] public static extern void DelayedPaymentBasepoint_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKDelayedPaymentBasepoint DelayedPaymentBasepoint_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_new")] public static extern long DelayedPaymentBasepoint_new(long _a_arg);
+	// bool DelayedPaymentBasepoint_eq(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR a, const struct LDKDelayedPaymentBasepoint *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_eq")] public static extern bool DelayedPaymentBasepoint_eq(long _a, long _b);
+	// uint64_t DelayedPaymentBasepoint_clone_ptr(LDKDelayedPaymentBasepoint *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_clone_ptr")] public static extern long DelayedPaymentBasepoint_clone_ptr(long _arg);
+	// struct LDKDelayedPaymentBasepoint DelayedPaymentBasepoint_clone(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_clone")] public static extern long DelayedPaymentBasepoint_clone(long _orig);
+	// uint64_t DelayedPaymentBasepoint_hash(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_hash")] public static extern long DelayedPaymentBasepoint_hash(long _o);
+	// MUST_USE_RES struct LDKPublicKey DelayedPaymentBasepoint_to_public_key(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_to_public_key")] public static extern long DelayedPaymentBasepoint_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z DelayedPaymentBasepoint_write(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_write")] public static extern long DelayedPaymentBasepoint_write(long _obj);
+	// struct LDKCResult_DelayedPaymentBasepointDecodeErrorZ DelayedPaymentBasepoint_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentBasepoint_read")] public static extern long DelayedPaymentBasepoint_read(long _ser);
+	// void DelayedPaymentKey_free(struct LDKDelayedPaymentKey this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_free")] public static extern void DelayedPaymentKey_free(long _this_obj);
+	// struct LDKPublicKey DelayedPaymentKey_get_a(const struct LDKDelayedPaymentKey *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_get_a")] public static extern long DelayedPaymentKey_get_a(long _this_ptr);
+	// void DelayedPaymentKey_set_a(struct LDKDelayedPaymentKey *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_set_a")] public static extern void DelayedPaymentKey_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKDelayedPaymentKey DelayedPaymentKey_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_new")] public static extern long DelayedPaymentKey_new(long _a_arg);
+	// bool DelayedPaymentKey_eq(const struct LDKDelayedPaymentKey *NONNULL_PTR a, const struct LDKDelayedPaymentKey *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_eq")] public static extern bool DelayedPaymentKey_eq(long _a, long _b);
+	// uint64_t DelayedPaymentKey_clone_ptr(LDKDelayedPaymentKey *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_clone_ptr")] public static extern long DelayedPaymentKey_clone_ptr(long _arg);
+	// struct LDKDelayedPaymentKey DelayedPaymentKey_clone(const struct LDKDelayedPaymentKey *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_clone")] public static extern long DelayedPaymentKey_clone(long _orig);
+	// MUST_USE_RES struct LDKDelayedPaymentKey DelayedPaymentKey_from_basepoint(const struct LDKDelayedPaymentBasepoint *NONNULL_PTR countersignatory_basepoint, struct LDKPublicKey per_commitment_point);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_from_basepoint")] public static extern long DelayedPaymentKey_from_basepoint(long _countersignatory_basepoint, long _per_commitment_point);
+	// MUST_USE_RES struct LDKDelayedPaymentKey DelayedPaymentKey_from_secret_key(const uint8_t (*sk)[32]);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_from_secret_key")] public static extern long DelayedPaymentKey_from_secret_key(long _sk);
+	// MUST_USE_RES struct LDKPublicKey DelayedPaymentKey_to_public_key(const struct LDKDelayedPaymentKey *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_to_public_key")] public static extern long DelayedPaymentKey_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z DelayedPaymentKey_write(const struct LDKDelayedPaymentKey *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_write")] public static extern long DelayedPaymentKey_write(long _obj);
+	// struct LDKCResult_DelayedPaymentKeyDecodeErrorZ DelayedPaymentKey_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentKey_read")] public static extern long DelayedPaymentKey_read(long _ser);
+	// void HtlcBasepoint_free(struct LDKHtlcBasepoint this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_free")] public static extern void HtlcBasepoint_free(long _this_obj);
+	// struct LDKPublicKey HtlcBasepoint_get_a(const struct LDKHtlcBasepoint *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_get_a")] public static extern long HtlcBasepoint_get_a(long _this_ptr);
+	// void HtlcBasepoint_set_a(struct LDKHtlcBasepoint *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_set_a")] public static extern void HtlcBasepoint_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKHtlcBasepoint HtlcBasepoint_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_new")] public static extern long HtlcBasepoint_new(long _a_arg);
+	// bool HtlcBasepoint_eq(const struct LDKHtlcBasepoint *NONNULL_PTR a, const struct LDKHtlcBasepoint *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_eq")] public static extern bool HtlcBasepoint_eq(long _a, long _b);
+	// uint64_t HtlcBasepoint_clone_ptr(LDKHtlcBasepoint *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_clone_ptr")] public static extern long HtlcBasepoint_clone_ptr(long _arg);
+	// struct LDKHtlcBasepoint HtlcBasepoint_clone(const struct LDKHtlcBasepoint *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_clone")] public static extern long HtlcBasepoint_clone(long _orig);
+	// uint64_t HtlcBasepoint_hash(const struct LDKHtlcBasepoint *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_hash")] public static extern long HtlcBasepoint_hash(long _o);
+	// MUST_USE_RES struct LDKPublicKey HtlcBasepoint_to_public_key(const struct LDKHtlcBasepoint *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_to_public_key")] public static extern long HtlcBasepoint_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z HtlcBasepoint_write(const struct LDKHtlcBasepoint *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_write")] public static extern long HtlcBasepoint_write(long _obj);
+	// struct LDKCResult_HtlcBasepointDecodeErrorZ HtlcBasepoint_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcBasepoint_read")] public static extern long HtlcBasepoint_read(long _ser);
+	// void HtlcKey_free(struct LDKHtlcKey this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_free")] public static extern void HtlcKey_free(long _this_obj);
+	// struct LDKPublicKey HtlcKey_get_a(const struct LDKHtlcKey *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_get_a")] public static extern long HtlcKey_get_a(long _this_ptr);
+	// void HtlcKey_set_a(struct LDKHtlcKey *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_set_a")] public static extern void HtlcKey_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKHtlcKey HtlcKey_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_new")] public static extern long HtlcKey_new(long _a_arg);
+	// bool HtlcKey_eq(const struct LDKHtlcKey *NONNULL_PTR a, const struct LDKHtlcKey *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_eq")] public static extern bool HtlcKey_eq(long _a, long _b);
+	// uint64_t HtlcKey_clone_ptr(LDKHtlcKey *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_clone_ptr")] public static extern long HtlcKey_clone_ptr(long _arg);
+	// struct LDKHtlcKey HtlcKey_clone(const struct LDKHtlcKey *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_clone")] public static extern long HtlcKey_clone(long _orig);
+	// MUST_USE_RES struct LDKHtlcKey HtlcKey_from_basepoint(const struct LDKHtlcBasepoint *NONNULL_PTR countersignatory_basepoint, struct LDKPublicKey per_commitment_point);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_from_basepoint")] public static extern long HtlcKey_from_basepoint(long _countersignatory_basepoint, long _per_commitment_point);
+	// MUST_USE_RES struct LDKHtlcKey HtlcKey_from_secret_key(const uint8_t (*sk)[32]);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_from_secret_key")] public static extern long HtlcKey_from_secret_key(long _sk);
+	// MUST_USE_RES struct LDKPublicKey HtlcKey_to_public_key(const struct LDKHtlcKey *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_to_public_key")] public static extern long HtlcKey_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z HtlcKey_write(const struct LDKHtlcKey *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_write")] public static extern long HtlcKey_write(long _obj);
+	// struct LDKCResult_HtlcKeyDecodeErrorZ HtlcKey_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HtlcKey_read")] public static extern long HtlcKey_read(long _ser);
+	// void RevocationBasepoint_free(struct LDKRevocationBasepoint this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_free")] public static extern void RevocationBasepoint_free(long _this_obj);
+	// struct LDKPublicKey RevocationBasepoint_get_a(const struct LDKRevocationBasepoint *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_get_a")] public static extern long RevocationBasepoint_get_a(long _this_ptr);
+	// void RevocationBasepoint_set_a(struct LDKRevocationBasepoint *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_set_a")] public static extern void RevocationBasepoint_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKRevocationBasepoint RevocationBasepoint_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_new")] public static extern long RevocationBasepoint_new(long _a_arg);
+	// bool RevocationBasepoint_eq(const struct LDKRevocationBasepoint *NONNULL_PTR a, const struct LDKRevocationBasepoint *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_eq")] public static extern bool RevocationBasepoint_eq(long _a, long _b);
+	// uint64_t RevocationBasepoint_clone_ptr(LDKRevocationBasepoint *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_clone_ptr")] public static extern long RevocationBasepoint_clone_ptr(long _arg);
+	// struct LDKRevocationBasepoint RevocationBasepoint_clone(const struct LDKRevocationBasepoint *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_clone")] public static extern long RevocationBasepoint_clone(long _orig);
+	// uint64_t RevocationBasepoint_hash(const struct LDKRevocationBasepoint *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_hash")] public static extern long RevocationBasepoint_hash(long _o);
+	// MUST_USE_RES struct LDKPublicKey RevocationBasepoint_to_public_key(const struct LDKRevocationBasepoint *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_to_public_key")] public static extern long RevocationBasepoint_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z RevocationBasepoint_write(const struct LDKRevocationBasepoint *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_write")] public static extern long RevocationBasepoint_write(long _obj);
+	// struct LDKCResult_RevocationBasepointDecodeErrorZ RevocationBasepoint_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationBasepoint_read")] public static extern long RevocationBasepoint_read(long _ser);
+	// void RevocationKey_free(struct LDKRevocationKey this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_free")] public static extern void RevocationKey_free(long _this_obj);
+	// struct LDKPublicKey RevocationKey_get_a(const struct LDKRevocationKey *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_get_a")] public static extern long RevocationKey_get_a(long _this_ptr);
+	// void RevocationKey_set_a(struct LDKRevocationKey *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_set_a")] public static extern void RevocationKey_set_a(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKRevocationKey RevocationKey_new(struct LDKPublicKey a_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_new")] public static extern long RevocationKey_new(long _a_arg);
+	// bool RevocationKey_eq(const struct LDKRevocationKey *NONNULL_PTR a, const struct LDKRevocationKey *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_eq")] public static extern bool RevocationKey_eq(long _a, long _b);
+	// uint64_t RevocationKey_clone_ptr(LDKRevocationKey *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_clone_ptr")] public static extern long RevocationKey_clone_ptr(long _arg);
+	// struct LDKRevocationKey RevocationKey_clone(const struct LDKRevocationKey *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_clone")] public static extern long RevocationKey_clone(long _orig);
+	// uint64_t RevocationKey_hash(const struct LDKRevocationKey *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_hash")] public static extern long RevocationKey_hash(long _o);
+	// MUST_USE_RES struct LDKRevocationKey RevocationKey_from_basepoint(const struct LDKRevocationBasepoint *NONNULL_PTR countersignatory_basepoint, struct LDKPublicKey per_commitment_point);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_from_basepoint")] public static extern long RevocationKey_from_basepoint(long _countersignatory_basepoint, long _per_commitment_point);
+	// MUST_USE_RES struct LDKPublicKey RevocationKey_to_public_key(const struct LDKRevocationKey *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_to_public_key")] public static extern long RevocationKey_to_public_key(long _this_arg);
+	// struct LDKCVec_u8Z RevocationKey_write(const struct LDKRevocationKey *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_write")] public static extern long RevocationKey_write(long _obj);
+	// struct LDKCResult_RevocationKeyDecodeErrorZ RevocationKey_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevocationKey_read")] public static extern long RevocationKey_read(long _ser);
 	// void ExpandedKey_free(struct LDKExpandedKey this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ExpandedKey_free")] public static extern void ExpandedKey_free(long _this_obj);
 	// MUST_USE_RES struct LDKExpandedKey ExpandedKey_new(const uint8_t (*key_material)[32]);
@@ -6746,6 +7378,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DecodeError_io")] public static extern long DecodeError_io(IOError _a);
 	// struct LDKDecodeError DecodeError_unsupported_compression(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DecodeError_unsupported_compression")] public static extern long DecodeError_unsupported_compression();
+	// uint64_t DecodeError_hash(const struct LDKDecodeError *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DecodeError_hash")] public static extern long DecodeError_hash(long _o);
 	// bool DecodeError_eq(const struct LDKDecodeError *NONNULL_PTR a, const struct LDKDecodeError *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DecodeError_eq")] public static extern bool DecodeError_eq(long _a, long _b);
 	// void Init_free(struct LDKInit this_obj);
@@ -6768,6 +7402,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Init_clone_ptr")] public static extern long Init_clone_ptr(long _arg);
 	// struct LDKInit Init_clone(const struct LDKInit *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Init_clone")] public static extern long Init_clone(long _orig);
+	// uint64_t Init_hash(const struct LDKInit *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Init_hash")] public static extern long Init_hash(long _o);
 	// bool Init_eq(const struct LDKInit *NONNULL_PTR a, const struct LDKInit *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Init_eq")] public static extern bool Init_eq(long _a, long _b);
 	// void ErrorMessage_free(struct LDKErrorMessage this_obj);
@@ -6786,6 +7422,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorMessage_clone_ptr")] public static extern long ErrorMessage_clone_ptr(long _arg);
 	// struct LDKErrorMessage ErrorMessage_clone(const struct LDKErrorMessage *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorMessage_clone")] public static extern long ErrorMessage_clone(long _orig);
+	// uint64_t ErrorMessage_hash(const struct LDKErrorMessage *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorMessage_hash")] public static extern long ErrorMessage_hash(long _o);
 	// bool ErrorMessage_eq(const struct LDKErrorMessage *NONNULL_PTR a, const struct LDKErrorMessage *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorMessage_eq")] public static extern bool ErrorMessage_eq(long _a, long _b);
 	// void WarningMessage_free(struct LDKWarningMessage this_obj);
@@ -6804,6 +7442,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WarningMessage_clone_ptr")] public static extern long WarningMessage_clone_ptr(long _arg);
 	// struct LDKWarningMessage WarningMessage_clone(const struct LDKWarningMessage *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WarningMessage_clone")] public static extern long WarningMessage_clone(long _orig);
+	// uint64_t WarningMessage_hash(const struct LDKWarningMessage *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WarningMessage_hash")] public static extern long WarningMessage_hash(long _o);
 	// bool WarningMessage_eq(const struct LDKWarningMessage *NONNULL_PTR a, const struct LDKWarningMessage *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WarningMessage_eq")] public static extern bool WarningMessage_eq(long _a, long _b);
 	// void Ping_free(struct LDKPing this_obj);
@@ -6822,6 +7462,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Ping_clone_ptr")] public static extern long Ping_clone_ptr(long _arg);
 	// struct LDKPing Ping_clone(const struct LDKPing *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Ping_clone")] public static extern long Ping_clone(long _orig);
+	// uint64_t Ping_hash(const struct LDKPing *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Ping_hash")] public static extern long Ping_hash(long _o);
 	// bool Ping_eq(const struct LDKPing *NONNULL_PTR a, const struct LDKPing *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Ping_eq")] public static extern bool Ping_eq(long _a, long _b);
 	// void Pong_free(struct LDKPong this_obj);
@@ -6836,6 +7478,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Pong_clone_ptr")] public static extern long Pong_clone_ptr(long _arg);
 	// struct LDKPong Pong_clone(const struct LDKPong *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Pong_clone")] public static extern long Pong_clone(long _orig);
+	// uint64_t Pong_hash(const struct LDKPong *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Pong_hash")] public static extern long Pong_hash(long _o);
 	// bool Pong_eq(const struct LDKPong *NONNULL_PTR a, const struct LDKPong *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Pong_eq")] public static extern bool Pong_eq(long _a, long _b);
 	// void OpenChannel_free(struct LDKOpenChannel this_obj);
@@ -6926,6 +7570,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannel_clone_ptr")] public static extern long OpenChannel_clone_ptr(long _arg);
 	// struct LDKOpenChannel OpenChannel_clone(const struct LDKOpenChannel *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannel_clone")] public static extern long OpenChannel_clone(long _orig);
+	// uint64_t OpenChannel_hash(const struct LDKOpenChannel *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannel_hash")] public static extern long OpenChannel_hash(long _o);
 	// bool OpenChannel_eq(const struct LDKOpenChannel *NONNULL_PTR a, const struct LDKOpenChannel *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannel_eq")] public static extern bool OpenChannel_eq(long _a, long _b);
 	// void OpenChannelV2_free(struct LDKOpenChannelV2 this_obj);
@@ -7024,6 +7670,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannelV2_clone_ptr")] public static extern long OpenChannelV2_clone_ptr(long _arg);
 	// struct LDKOpenChannelV2 OpenChannelV2_clone(const struct LDKOpenChannelV2 *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannelV2_clone")] public static extern long OpenChannelV2_clone(long _orig);
+	// uint64_t OpenChannelV2_hash(const struct LDKOpenChannelV2 *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannelV2_hash")] public static extern long OpenChannelV2_hash(long _o);
 	// bool OpenChannelV2_eq(const struct LDKOpenChannelV2 *NONNULL_PTR a, const struct LDKOpenChannelV2 *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OpenChannelV2_eq")] public static extern bool OpenChannelV2_eq(long _a, long _b);
 	// void AcceptChannel_free(struct LDKAcceptChannel this_obj);
@@ -7098,6 +7746,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannel_clone_ptr")] public static extern long AcceptChannel_clone_ptr(long _arg);
 	// struct LDKAcceptChannel AcceptChannel_clone(const struct LDKAcceptChannel *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannel_clone")] public static extern long AcceptChannel_clone(long _orig);
+	// uint64_t AcceptChannel_hash(const struct LDKAcceptChannel *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannel_hash")] public static extern long AcceptChannel_hash(long _o);
 	// bool AcceptChannel_eq(const struct LDKAcceptChannel *NONNULL_PTR a, const struct LDKAcceptChannel *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannel_eq")] public static extern bool AcceptChannel_eq(long _a, long _b);
 	// void AcceptChannelV2_free(struct LDKAcceptChannelV2 this_obj);
@@ -7180,6 +7830,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_clone_ptr")] public static extern long AcceptChannelV2_clone_ptr(long _arg);
 	// struct LDKAcceptChannelV2 AcceptChannelV2_clone(const struct LDKAcceptChannelV2 *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_clone")] public static extern long AcceptChannelV2_clone(long _orig);
+	// uint64_t AcceptChannelV2_hash(const struct LDKAcceptChannelV2 *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_hash")] public static extern long AcceptChannelV2_hash(long _o);
 	// bool AcceptChannelV2_eq(const struct LDKAcceptChannelV2 *NONNULL_PTR a, const struct LDKAcceptChannelV2 *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_eq")] public static extern bool AcceptChannelV2_eq(long _a, long _b);
 	// void FundingCreated_free(struct LDKFundingCreated this_obj);
@@ -7206,6 +7858,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingCreated_clone_ptr")] public static extern long FundingCreated_clone_ptr(long _arg);
 	// struct LDKFundingCreated FundingCreated_clone(const struct LDKFundingCreated *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingCreated_clone")] public static extern long FundingCreated_clone(long _orig);
+	// uint64_t FundingCreated_hash(const struct LDKFundingCreated *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingCreated_hash")] public static extern long FundingCreated_hash(long _o);
 	// bool FundingCreated_eq(const struct LDKFundingCreated *NONNULL_PTR a, const struct LDKFundingCreated *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingCreated_eq")] public static extern bool FundingCreated_eq(long _a, long _b);
 	// void FundingSigned_free(struct LDKFundingSigned this_obj);
@@ -7224,6 +7878,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingSigned_clone_ptr")] public static extern long FundingSigned_clone_ptr(long _arg);
 	// struct LDKFundingSigned FundingSigned_clone(const struct LDKFundingSigned *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingSigned_clone")] public static extern long FundingSigned_clone(long _orig);
+	// uint64_t FundingSigned_hash(const struct LDKFundingSigned *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingSigned_hash")] public static extern long FundingSigned_hash(long _o);
 	// bool FundingSigned_eq(const struct LDKFundingSigned *NONNULL_PTR a, const struct LDKFundingSigned *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FundingSigned_eq")] public static extern bool FundingSigned_eq(long _a, long _b);
 	// void ChannelReady_free(struct LDKChannelReady this_obj);
@@ -7246,8 +7902,102 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReady_clone_ptr")] public static extern long ChannelReady_clone_ptr(long _arg);
 	// struct LDKChannelReady ChannelReady_clone(const struct LDKChannelReady *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReady_clone")] public static extern long ChannelReady_clone(long _orig);
+	// uint64_t ChannelReady_hash(const struct LDKChannelReady *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReady_hash")] public static extern long ChannelReady_hash(long _o);
 	// bool ChannelReady_eq(const struct LDKChannelReady *NONNULL_PTR a, const struct LDKChannelReady *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReady_eq")] public static extern bool ChannelReady_eq(long _a, long _b);
+	// void Stfu_free(struct LDKStfu this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_free")] public static extern void Stfu_free(long _this_obj);
+	// const uint8_t (*Stfu_get_channel_id(const struct LDKStfu *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_get_channel_id")] public static extern long Stfu_get_channel_id(long _this_ptr);
+	// void Stfu_set_channel_id(struct LDKStfu *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_set_channel_id")] public static extern void Stfu_set_channel_id(long _this_ptr, long _val);
+	// uint8_t Stfu_get_initiator(const struct LDKStfu *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_get_initiator")] public static extern byte Stfu_get_initiator(long _this_ptr);
+	// void Stfu_set_initiator(struct LDKStfu *NONNULL_PTR this_ptr, uint8_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_set_initiator")] public static extern void Stfu_set_initiator(long _this_ptr, byte _val);
+	// MUST_USE_RES struct LDKStfu Stfu_new(struct LDKThirtyTwoBytes channel_id_arg, uint8_t initiator_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_new")] public static extern long Stfu_new(long _channel_id_arg, byte _initiator_arg);
+	// uint64_t Stfu_clone_ptr(LDKStfu *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_clone_ptr")] public static extern long Stfu_clone_ptr(long _arg);
+	// struct LDKStfu Stfu_clone(const struct LDKStfu *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_clone")] public static extern long Stfu_clone(long _orig);
+	// bool Stfu_eq(const struct LDKStfu *NONNULL_PTR a, const struct LDKStfu *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_eq")] public static extern bool Stfu_eq(long _a, long _b);
+	// void Splice_free(struct LDKSplice this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_free")] public static extern void Splice_free(long _this_obj);
+	// const uint8_t (*Splice_get_channel_id(const struct LDKSplice *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_channel_id")] public static extern long Splice_get_channel_id(long _this_ptr);
+	// void Splice_set_channel_id(struct LDKSplice *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_channel_id")] public static extern void Splice_set_channel_id(long _this_ptr, long _val);
+	// const uint8_t (*Splice_get_chain_hash(const struct LDKSplice *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_chain_hash")] public static extern long Splice_get_chain_hash(long _this_ptr);
+	// void Splice_set_chain_hash(struct LDKSplice *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_chain_hash")] public static extern void Splice_set_chain_hash(long _this_ptr, long _val);
+	// int64_t Splice_get_relative_satoshis(const struct LDKSplice *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_relative_satoshis")] public static extern long Splice_get_relative_satoshis(long _this_ptr);
+	// void Splice_set_relative_satoshis(struct LDKSplice *NONNULL_PTR this_ptr, int64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_relative_satoshis")] public static extern void Splice_set_relative_satoshis(long _this_ptr, long _val);
+	// uint32_t Splice_get_funding_feerate_perkw(const struct LDKSplice *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_funding_feerate_perkw")] public static extern int Splice_get_funding_feerate_perkw(long _this_ptr);
+	// void Splice_set_funding_feerate_perkw(struct LDKSplice *NONNULL_PTR this_ptr, uint32_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_funding_feerate_perkw")] public static extern void Splice_set_funding_feerate_perkw(long _this_ptr, int _val);
+	// uint32_t Splice_get_locktime(const struct LDKSplice *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_locktime")] public static extern int Splice_get_locktime(long _this_ptr);
+	// void Splice_set_locktime(struct LDKSplice *NONNULL_PTR this_ptr, uint32_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_locktime")] public static extern void Splice_set_locktime(long _this_ptr, int _val);
+	// struct LDKPublicKey Splice_get_funding_pubkey(const struct LDKSplice *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_get_funding_pubkey")] public static extern long Splice_get_funding_pubkey(long _this_ptr);
+	// void Splice_set_funding_pubkey(struct LDKSplice *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_set_funding_pubkey")] public static extern void Splice_set_funding_pubkey(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKSplice Splice_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKThirtyTwoBytes chain_hash_arg, int64_t relative_satoshis_arg, uint32_t funding_feerate_perkw_arg, uint32_t locktime_arg, struct LDKPublicKey funding_pubkey_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_new")] public static extern long Splice_new(long _channel_id_arg, long _chain_hash_arg, long _relative_satoshis_arg, int _funding_feerate_perkw_arg, int _locktime_arg, long _funding_pubkey_arg);
+	// uint64_t Splice_clone_ptr(LDKSplice *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_clone_ptr")] public static extern long Splice_clone_ptr(long _arg);
+	// struct LDKSplice Splice_clone(const struct LDKSplice *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_clone")] public static extern long Splice_clone(long _orig);
+	// bool Splice_eq(const struct LDKSplice *NONNULL_PTR a, const struct LDKSplice *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_eq")] public static extern bool Splice_eq(long _a, long _b);
+	// void SpliceAck_free(struct LDKSpliceAck this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_free")] public static extern void SpliceAck_free(long _this_obj);
+	// const uint8_t (*SpliceAck_get_channel_id(const struct LDKSpliceAck *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_get_channel_id")] public static extern long SpliceAck_get_channel_id(long _this_ptr);
+	// void SpliceAck_set_channel_id(struct LDKSpliceAck *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_set_channel_id")] public static extern void SpliceAck_set_channel_id(long _this_ptr, long _val);
+	// const uint8_t (*SpliceAck_get_chain_hash(const struct LDKSpliceAck *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_get_chain_hash")] public static extern long SpliceAck_get_chain_hash(long _this_ptr);
+	// void SpliceAck_set_chain_hash(struct LDKSpliceAck *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_set_chain_hash")] public static extern void SpliceAck_set_chain_hash(long _this_ptr, long _val);
+	// int64_t SpliceAck_get_relative_satoshis(const struct LDKSpliceAck *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_get_relative_satoshis")] public static extern long SpliceAck_get_relative_satoshis(long _this_ptr);
+	// void SpliceAck_set_relative_satoshis(struct LDKSpliceAck *NONNULL_PTR this_ptr, int64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_set_relative_satoshis")] public static extern void SpliceAck_set_relative_satoshis(long _this_ptr, long _val);
+	// struct LDKPublicKey SpliceAck_get_funding_pubkey(const struct LDKSpliceAck *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_get_funding_pubkey")] public static extern long SpliceAck_get_funding_pubkey(long _this_ptr);
+	// void SpliceAck_set_funding_pubkey(struct LDKSpliceAck *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_set_funding_pubkey")] public static extern void SpliceAck_set_funding_pubkey(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKSpliceAck SpliceAck_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKThirtyTwoBytes chain_hash_arg, int64_t relative_satoshis_arg, struct LDKPublicKey funding_pubkey_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_new")] public static extern long SpliceAck_new(long _channel_id_arg, long _chain_hash_arg, long _relative_satoshis_arg, long _funding_pubkey_arg);
+	// uint64_t SpliceAck_clone_ptr(LDKSpliceAck *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_clone_ptr")] public static extern long SpliceAck_clone_ptr(long _arg);
+	// struct LDKSpliceAck SpliceAck_clone(const struct LDKSpliceAck *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_clone")] public static extern long SpliceAck_clone(long _orig);
+	// bool SpliceAck_eq(const struct LDKSpliceAck *NONNULL_PTR a, const struct LDKSpliceAck *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_eq")] public static extern bool SpliceAck_eq(long _a, long _b);
+	// void SpliceLocked_free(struct LDKSpliceLocked this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_free")] public static extern void SpliceLocked_free(long _this_obj);
+	// const uint8_t (*SpliceLocked_get_channel_id(const struct LDKSpliceLocked *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_get_channel_id")] public static extern long SpliceLocked_get_channel_id(long _this_ptr);
+	// void SpliceLocked_set_channel_id(struct LDKSpliceLocked *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_set_channel_id")] public static extern void SpliceLocked_set_channel_id(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKSpliceLocked SpliceLocked_new(struct LDKThirtyTwoBytes channel_id_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_new")] public static extern long SpliceLocked_new(long _channel_id_arg);
+	// uint64_t SpliceLocked_clone_ptr(LDKSpliceLocked *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_clone_ptr")] public static extern long SpliceLocked_clone_ptr(long _arg);
+	// struct LDKSpliceLocked SpliceLocked_clone(const struct LDKSpliceLocked *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_clone")] public static extern long SpliceLocked_clone(long _orig);
+	// bool SpliceLocked_eq(const struct LDKSpliceLocked *NONNULL_PTR a, const struct LDKSpliceLocked *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_eq")] public static extern bool SpliceLocked_eq(long _a, long _b);
 	// void TxAddInput_free(struct LDKTxAddInput this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_free")] public static extern void TxAddInput_free(long _this_obj);
 	// const uint8_t (*TxAddInput_get_channel_id(const struct LDKTxAddInput *NONNULL_PTR this_ptr))[32];
@@ -7276,6 +8026,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_clone_ptr")] public static extern long TxAddInput_clone_ptr(long _arg);
 	// struct LDKTxAddInput TxAddInput_clone(const struct LDKTxAddInput *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_clone")] public static extern long TxAddInput_clone(long _orig);
+	// uint64_t TxAddInput_hash(const struct LDKTxAddInput *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_hash")] public static extern long TxAddInput_hash(long _o);
 	// bool TxAddInput_eq(const struct LDKTxAddInput *NONNULL_PTR a, const struct LDKTxAddInput *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_eq")] public static extern bool TxAddInput_eq(long _a, long _b);
 	// void TxAddOutput_free(struct LDKTxAddOutput this_obj);
@@ -7292,7 +8044,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_get_sats")] public static extern long TxAddOutput_get_sats(long _this_ptr);
 	// void TxAddOutput_set_sats(struct LDKTxAddOutput *NONNULL_PTR this_ptr, uint64_t val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_set_sats")] public static extern void TxAddOutput_set_sats(long _this_ptr, long _val);
-	// struct LDKu8slice TxAddOutput_get_script(const struct LDKTxAddOutput *NONNULL_PTR this_ptr);
+	// struct LDKCVec_u8Z TxAddOutput_get_script(const struct LDKTxAddOutput *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_get_script")] public static extern long TxAddOutput_get_script(long _this_ptr);
 	// void TxAddOutput_set_script(struct LDKTxAddOutput *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_set_script")] public static extern void TxAddOutput_set_script(long _this_ptr, long _val);
@@ -7302,6 +8054,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_clone_ptr")] public static extern long TxAddOutput_clone_ptr(long _arg);
 	// struct LDKTxAddOutput TxAddOutput_clone(const struct LDKTxAddOutput *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_clone")] public static extern long TxAddOutput_clone(long _orig);
+	// uint64_t TxAddOutput_hash(const struct LDKTxAddOutput *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_hash")] public static extern long TxAddOutput_hash(long _o);
 	// bool TxAddOutput_eq(const struct LDKTxAddOutput *NONNULL_PTR a, const struct LDKTxAddOutput *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddOutput_eq")] public static extern bool TxAddOutput_eq(long _a, long _b);
 	// void TxRemoveInput_free(struct LDKTxRemoveInput this_obj);
@@ -7320,6 +8074,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveInput_clone_ptr")] public static extern long TxRemoveInput_clone_ptr(long _arg);
 	// struct LDKTxRemoveInput TxRemoveInput_clone(const struct LDKTxRemoveInput *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveInput_clone")] public static extern long TxRemoveInput_clone(long _orig);
+	// uint64_t TxRemoveInput_hash(const struct LDKTxRemoveInput *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveInput_hash")] public static extern long TxRemoveInput_hash(long _o);
 	// bool TxRemoveInput_eq(const struct LDKTxRemoveInput *NONNULL_PTR a, const struct LDKTxRemoveInput *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveInput_eq")] public static extern bool TxRemoveInput_eq(long _a, long _b);
 	// void TxRemoveOutput_free(struct LDKTxRemoveOutput this_obj);
@@ -7338,6 +8094,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveOutput_clone_ptr")] public static extern long TxRemoveOutput_clone_ptr(long _arg);
 	// struct LDKTxRemoveOutput TxRemoveOutput_clone(const struct LDKTxRemoveOutput *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveOutput_clone")] public static extern long TxRemoveOutput_clone(long _orig);
+	// uint64_t TxRemoveOutput_hash(const struct LDKTxRemoveOutput *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveOutput_hash")] public static extern long TxRemoveOutput_hash(long _o);
 	// bool TxRemoveOutput_eq(const struct LDKTxRemoveOutput *NONNULL_PTR a, const struct LDKTxRemoveOutput *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxRemoveOutput_eq")] public static extern bool TxRemoveOutput_eq(long _a, long _b);
 	// void TxComplete_free(struct LDKTxComplete this_obj);
@@ -7352,6 +8110,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxComplete_clone_ptr")] public static extern long TxComplete_clone_ptr(long _arg);
 	// struct LDKTxComplete TxComplete_clone(const struct LDKTxComplete *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxComplete_clone")] public static extern long TxComplete_clone(long _orig);
+	// uint64_t TxComplete_hash(const struct LDKTxComplete *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxComplete_hash")] public static extern long TxComplete_hash(long _o);
 	// bool TxComplete_eq(const struct LDKTxComplete *NONNULL_PTR a, const struct LDKTxComplete *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxComplete_eq")] public static extern bool TxComplete_eq(long _a, long _b);
 	// void TxSignatures_free(struct LDKTxSignatures this_obj);
@@ -7374,6 +8134,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxSignatures_clone_ptr")] public static extern long TxSignatures_clone_ptr(long _arg);
 	// struct LDKTxSignatures TxSignatures_clone(const struct LDKTxSignatures *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxSignatures_clone")] public static extern long TxSignatures_clone(long _orig);
+	// uint64_t TxSignatures_hash(const struct LDKTxSignatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxSignatures_hash")] public static extern long TxSignatures_hash(long _o);
 	// bool TxSignatures_eq(const struct LDKTxSignatures *NONNULL_PTR a, const struct LDKTxSignatures *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxSignatures_eq")] public static extern bool TxSignatures_eq(long _a, long _b);
 	// void TxInitRbf_free(struct LDKTxInitRbf this_obj);
@@ -7400,6 +8162,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxInitRbf_clone_ptr")] public static extern long TxInitRbf_clone_ptr(long _arg);
 	// struct LDKTxInitRbf TxInitRbf_clone(const struct LDKTxInitRbf *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxInitRbf_clone")] public static extern long TxInitRbf_clone(long _orig);
+	// uint64_t TxInitRbf_hash(const struct LDKTxInitRbf *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxInitRbf_hash")] public static extern long TxInitRbf_hash(long _o);
 	// bool TxInitRbf_eq(const struct LDKTxInitRbf *NONNULL_PTR a, const struct LDKTxInitRbf *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxInitRbf_eq")] public static extern bool TxInitRbf_eq(long _a, long _b);
 	// void TxAckRbf_free(struct LDKTxAckRbf this_obj);
@@ -7418,6 +8182,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAckRbf_clone_ptr")] public static extern long TxAckRbf_clone_ptr(long _arg);
 	// struct LDKTxAckRbf TxAckRbf_clone(const struct LDKTxAckRbf *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAckRbf_clone")] public static extern long TxAckRbf_clone(long _orig);
+	// uint64_t TxAckRbf_hash(const struct LDKTxAckRbf *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAckRbf_hash")] public static extern long TxAckRbf_hash(long _o);
 	// bool TxAckRbf_eq(const struct LDKTxAckRbf *NONNULL_PTR a, const struct LDKTxAckRbf *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAckRbf_eq")] public static extern bool TxAckRbf_eq(long _a, long _b);
 	// void TxAbort_free(struct LDKTxAbort this_obj);
@@ -7436,6 +8202,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAbort_clone_ptr")] public static extern long TxAbort_clone_ptr(long _arg);
 	// struct LDKTxAbort TxAbort_clone(const struct LDKTxAbort *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAbort_clone")] public static extern long TxAbort_clone(long _orig);
+	// uint64_t TxAbort_hash(const struct LDKTxAbort *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAbort_hash")] public static extern long TxAbort_hash(long _o);
 	// bool TxAbort_eq(const struct LDKTxAbort *NONNULL_PTR a, const struct LDKTxAbort *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAbort_eq")] public static extern bool TxAbort_eq(long _a, long _b);
 	// void Shutdown_free(struct LDKShutdown this_obj);
@@ -7444,7 +8212,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_get_channel_id")] public static extern long Shutdown_get_channel_id(long _this_ptr);
 	// void Shutdown_set_channel_id(struct LDKShutdown *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_set_channel_id")] public static extern void Shutdown_set_channel_id(long _this_ptr, long _val);
-	// struct LDKu8slice Shutdown_get_scriptpubkey(const struct LDKShutdown *NONNULL_PTR this_ptr);
+	// struct LDKCVec_u8Z Shutdown_get_scriptpubkey(const struct LDKShutdown *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_get_scriptpubkey")] public static extern long Shutdown_get_scriptpubkey(long _this_ptr);
 	// void Shutdown_set_scriptpubkey(struct LDKShutdown *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_set_scriptpubkey")] public static extern void Shutdown_set_scriptpubkey(long _this_ptr, long _val);
@@ -7454,6 +8222,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_clone_ptr")] public static extern long Shutdown_clone_ptr(long _arg);
 	// struct LDKShutdown Shutdown_clone(const struct LDKShutdown *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_clone")] public static extern long Shutdown_clone(long _orig);
+	// uint64_t Shutdown_hash(const struct LDKShutdown *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_hash")] public static extern long Shutdown_hash(long _o);
 	// bool Shutdown_eq(const struct LDKShutdown *NONNULL_PTR a, const struct LDKShutdown *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Shutdown_eq")] public static extern bool Shutdown_eq(long _a, long _b);
 	// void ClosingSignedFeeRange_free(struct LDKClosingSignedFeeRange this_obj);
@@ -7472,6 +8242,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSignedFeeRange_clone_ptr")] public static extern long ClosingSignedFeeRange_clone_ptr(long _arg);
 	// struct LDKClosingSignedFeeRange ClosingSignedFeeRange_clone(const struct LDKClosingSignedFeeRange *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSignedFeeRange_clone")] public static extern long ClosingSignedFeeRange_clone(long _orig);
+	// uint64_t ClosingSignedFeeRange_hash(const struct LDKClosingSignedFeeRange *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSignedFeeRange_hash")] public static extern long ClosingSignedFeeRange_hash(long _o);
 	// bool ClosingSignedFeeRange_eq(const struct LDKClosingSignedFeeRange *NONNULL_PTR a, const struct LDKClosingSignedFeeRange *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSignedFeeRange_eq")] public static extern bool ClosingSignedFeeRange_eq(long _a, long _b);
 	// void ClosingSigned_free(struct LDKClosingSigned this_obj);
@@ -7498,6 +8270,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSigned_clone_ptr")] public static extern long ClosingSigned_clone_ptr(long _arg);
 	// struct LDKClosingSigned ClosingSigned_clone(const struct LDKClosingSigned *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSigned_clone")] public static extern long ClosingSigned_clone(long _orig);
+	// uint64_t ClosingSigned_hash(const struct LDKClosingSigned *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSigned_hash")] public static extern long ClosingSigned_hash(long _o);
 	// bool ClosingSigned_eq(const struct LDKClosingSigned *NONNULL_PTR a, const struct LDKClosingSigned *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClosingSigned_eq")] public static extern bool ClosingSigned_eq(long _a, long _b);
 	// void UpdateAddHTLC_free(struct LDKUpdateAddHTLC this_obj);
@@ -7526,10 +8300,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_get_skimmed_fee_msat")] public static extern long UpdateAddHTLC_get_skimmed_fee_msat(long _this_ptr);
 	// void UpdateAddHTLC_set_skimmed_fee_msat(struct LDKUpdateAddHTLC *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_set_skimmed_fee_msat")] public static extern void UpdateAddHTLC_set_skimmed_fee_msat(long _this_ptr, long _val);
+	// struct LDKOnionPacket UpdateAddHTLC_get_onion_routing_packet(const struct LDKUpdateAddHTLC *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_get_onion_routing_packet")] public static extern long UpdateAddHTLC_get_onion_routing_packet(long _this_ptr);
+	// void UpdateAddHTLC_set_onion_routing_packet(struct LDKUpdateAddHTLC *NONNULL_PTR this_ptr, struct LDKOnionPacket val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_set_onion_routing_packet")] public static extern void UpdateAddHTLC_set_onion_routing_packet(long _this_ptr, long _val);
+	// struct LDKPublicKey UpdateAddHTLC_get_blinding_point(const struct LDKUpdateAddHTLC *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_get_blinding_point")] public static extern long UpdateAddHTLC_get_blinding_point(long _this_ptr);
+	// void UpdateAddHTLC_set_blinding_point(struct LDKUpdateAddHTLC *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_set_blinding_point")] public static extern void UpdateAddHTLC_set_blinding_point(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKUpdateAddHTLC UpdateAddHTLC_new(struct LDKThirtyTwoBytes channel_id_arg, uint64_t htlc_id_arg, uint64_t amount_msat_arg, struct LDKThirtyTwoBytes payment_hash_arg, uint32_t cltv_expiry_arg, struct LDKCOption_u64Z skimmed_fee_msat_arg, struct LDKOnionPacket onion_routing_packet_arg, struct LDKPublicKey blinding_point_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_new")] public static extern long UpdateAddHTLC_new(long _channel_id_arg, long _htlc_id_arg, long _amount_msat_arg, long _payment_hash_arg, int _cltv_expiry_arg, long _skimmed_fee_msat_arg, long _onion_routing_packet_arg, long _blinding_point_arg);
 	// uint64_t UpdateAddHTLC_clone_ptr(LDKUpdateAddHTLC *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_clone_ptr")] public static extern long UpdateAddHTLC_clone_ptr(long _arg);
 	// struct LDKUpdateAddHTLC UpdateAddHTLC_clone(const struct LDKUpdateAddHTLC *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_clone")] public static extern long UpdateAddHTLC_clone(long _orig);
+	// uint64_t UpdateAddHTLC_hash(const struct LDKUpdateAddHTLC *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_hash")] public static extern long UpdateAddHTLC_hash(long _o);
 	// bool UpdateAddHTLC_eq(const struct LDKUpdateAddHTLC *NONNULL_PTR a, const struct LDKUpdateAddHTLC *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_eq")] public static extern bool UpdateAddHTLC_eq(long _a, long _b);
 	// void OnionMessage_free(struct LDKOnionMessage this_obj);
@@ -7548,6 +8334,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_clone_ptr")] public static extern long OnionMessage_clone_ptr(long _arg);
 	// struct LDKOnionMessage OnionMessage_clone(const struct LDKOnionMessage *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_clone")] public static extern long OnionMessage_clone(long _orig);
+	// uint64_t OnionMessage_hash(const struct LDKOnionMessage *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_hash")] public static extern long OnionMessage_hash(long _o);
 	// bool OnionMessage_eq(const struct LDKOnionMessage *NONNULL_PTR a, const struct LDKOnionMessage *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_eq")] public static extern bool OnionMessage_eq(long _a, long _b);
 	// void UpdateFulfillHTLC_free(struct LDKUpdateFulfillHTLC this_obj);
@@ -7570,6 +8358,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_clone_ptr")] public static extern long UpdateFulfillHTLC_clone_ptr(long _arg);
 	// struct LDKUpdateFulfillHTLC UpdateFulfillHTLC_clone(const struct LDKUpdateFulfillHTLC *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_clone")] public static extern long UpdateFulfillHTLC_clone(long _orig);
+	// uint64_t UpdateFulfillHTLC_hash(const struct LDKUpdateFulfillHTLC *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_hash")] public static extern long UpdateFulfillHTLC_hash(long _o);
 	// bool UpdateFulfillHTLC_eq(const struct LDKUpdateFulfillHTLC *NONNULL_PTR a, const struct LDKUpdateFulfillHTLC *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_eq")] public static extern bool UpdateFulfillHTLC_eq(long _a, long _b);
 	// void UpdateFailHTLC_free(struct LDKUpdateFailHTLC this_obj);
@@ -7586,6 +8376,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailHTLC_clone_ptr")] public static extern long UpdateFailHTLC_clone_ptr(long _arg);
 	// struct LDKUpdateFailHTLC UpdateFailHTLC_clone(const struct LDKUpdateFailHTLC *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailHTLC_clone")] public static extern long UpdateFailHTLC_clone(long _orig);
+	// uint64_t UpdateFailHTLC_hash(const struct LDKUpdateFailHTLC *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailHTLC_hash")] public static extern long UpdateFailHTLC_hash(long _o);
 	// bool UpdateFailHTLC_eq(const struct LDKUpdateFailHTLC *NONNULL_PTR a, const struct LDKUpdateFailHTLC *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailHTLC_eq")] public static extern bool UpdateFailHTLC_eq(long _a, long _b);
 	// void UpdateFailMalformedHTLC_free(struct LDKUpdateFailMalformedHTLC this_obj);
@@ -7606,6 +8398,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailMalformedHTLC_clone_ptr")] public static extern long UpdateFailMalformedHTLC_clone_ptr(long _arg);
 	// struct LDKUpdateFailMalformedHTLC UpdateFailMalformedHTLC_clone(const struct LDKUpdateFailMalformedHTLC *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailMalformedHTLC_clone")] public static extern long UpdateFailMalformedHTLC_clone(long _orig);
+	// uint64_t UpdateFailMalformedHTLC_hash(const struct LDKUpdateFailMalformedHTLC *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailMalformedHTLC_hash")] public static extern long UpdateFailMalformedHTLC_hash(long _o);
 	// bool UpdateFailMalformedHTLC_eq(const struct LDKUpdateFailMalformedHTLC *NONNULL_PTR a, const struct LDKUpdateFailMalformedHTLC *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFailMalformedHTLC_eq")] public static extern bool UpdateFailMalformedHTLC_eq(long _a, long _b);
 	// void CommitmentSigned_free(struct LDKCommitmentSigned this_obj);
@@ -7628,6 +8422,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentSigned_clone_ptr")] public static extern long CommitmentSigned_clone_ptr(long _arg);
 	// struct LDKCommitmentSigned CommitmentSigned_clone(const struct LDKCommitmentSigned *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentSigned_clone")] public static extern long CommitmentSigned_clone(long _orig);
+	// uint64_t CommitmentSigned_hash(const struct LDKCommitmentSigned *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentSigned_hash")] public static extern long CommitmentSigned_hash(long _o);
 	// bool CommitmentSigned_eq(const struct LDKCommitmentSigned *NONNULL_PTR a, const struct LDKCommitmentSigned *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentSigned_eq")] public static extern bool CommitmentSigned_eq(long _a, long _b);
 	// void RevokeAndACK_free(struct LDKRevokeAndACK this_obj);
@@ -7650,6 +8446,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevokeAndACK_clone_ptr")] public static extern long RevokeAndACK_clone_ptr(long _arg);
 	// struct LDKRevokeAndACK RevokeAndACK_clone(const struct LDKRevokeAndACK *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevokeAndACK_clone")] public static extern long RevokeAndACK_clone(long _orig);
+	// uint64_t RevokeAndACK_hash(const struct LDKRevokeAndACK *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevokeAndACK_hash")] public static extern long RevokeAndACK_hash(long _o);
 	// bool RevokeAndACK_eq(const struct LDKRevokeAndACK *NONNULL_PTR a, const struct LDKRevokeAndACK *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RevokeAndACK_eq")] public static extern bool RevokeAndACK_eq(long _a, long _b);
 	// void UpdateFee_free(struct LDKUpdateFee this_obj);
@@ -7668,6 +8466,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFee_clone_ptr")] public static extern long UpdateFee_clone_ptr(long _arg);
 	// struct LDKUpdateFee UpdateFee_clone(const struct LDKUpdateFee *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFee_clone")] public static extern long UpdateFee_clone(long _orig);
+	// uint64_t UpdateFee_hash(const struct LDKUpdateFee *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFee_hash")] public static extern long UpdateFee_hash(long _o);
 	// bool UpdateFee_eq(const struct LDKUpdateFee *NONNULL_PTR a, const struct LDKUpdateFee *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFee_eq")] public static extern bool UpdateFee_eq(long _a, long _b);
 	// void ChannelReestablish_free(struct LDKChannelReestablish this_obj);
@@ -7702,6 +8502,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReestablish_clone_ptr")] public static extern long ChannelReestablish_clone_ptr(long _arg);
 	// struct LDKChannelReestablish ChannelReestablish_clone(const struct LDKChannelReestablish *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReestablish_clone")] public static extern long ChannelReestablish_clone(long _orig);
+	// uint64_t ChannelReestablish_hash(const struct LDKChannelReestablish *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReestablish_hash")] public static extern long ChannelReestablish_hash(long _o);
 	// bool ChannelReestablish_eq(const struct LDKChannelReestablish *NONNULL_PTR a, const struct LDKChannelReestablish *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelReestablish_eq")] public static extern bool ChannelReestablish_eq(long _a, long _b);
 	// void AnnouncementSignatures_free(struct LDKAnnouncementSignatures this_obj);
@@ -7728,6 +8530,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AnnouncementSignatures_clone_ptr")] public static extern long AnnouncementSignatures_clone_ptr(long _arg);
 	// struct LDKAnnouncementSignatures AnnouncementSignatures_clone(const struct LDKAnnouncementSignatures *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AnnouncementSignatures_clone")] public static extern long AnnouncementSignatures_clone(long _orig);
+	// uint64_t AnnouncementSignatures_hash(const struct LDKAnnouncementSignatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AnnouncementSignatures_hash")] public static extern long AnnouncementSignatures_hash(long _o);
 	// bool AnnouncementSignatures_eq(const struct LDKAnnouncementSignatures *NONNULL_PTR a, const struct LDKAnnouncementSignatures *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AnnouncementSignatures_eq")] public static extern bool AnnouncementSignatures_eq(long _a, long _b);
 	// void SocketAddress_free(struct LDKSocketAddress this_ptr);
@@ -7746,6 +8550,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddress_onion_v3")] public static extern long SocketAddress_onion_v3(long _ed25519_pubkey, short _checksum, byte _version, short _port);
 	// struct LDKSocketAddress SocketAddress_hostname(struct LDKHostname hostname, uint16_t port);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddress_hostname")] public static extern long SocketAddress_hostname(long _hostname, short _port);
+	// uint64_t SocketAddress_hash(const struct LDKSocketAddress *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddress_hash")] public static extern long SocketAddress_hash(long _o);
 	// bool SocketAddress_eq(const struct LDKSocketAddress *NONNULL_PTR a, const struct LDKSocketAddress *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddress_eq")] public static extern bool SocketAddress_eq(long _a, long _b);
 	// struct LDKCVec_u8Z SocketAddress_write(const struct LDKSocketAddress *NONNULL_PTR obj);
@@ -7762,6 +8568,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddressParseError_invalid_port")] public static extern SocketAddressParseError SocketAddressParseError_invalid_port();
 	// enum LDKSocketAddressParseError SocketAddressParseError_invalid_onion_v3(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddressParseError_invalid_onion_v3")] public static extern SocketAddressParseError SocketAddressParseError_invalid_onion_v3();
+	// uint64_t SocketAddressParseError_hash(const enum LDKSocketAddressParseError *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddressParseError_hash")] public static extern long SocketAddressParseError_hash(long _o);
 	// bool SocketAddressParseError_eq(const enum LDKSocketAddressParseError *NONNULL_PTR a, const enum LDKSocketAddressParseError *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SocketAddressParseError_eq")] public static extern bool SocketAddressParseError_eq(long _a, long _b);
 	// struct LDKCResult_SocketAddressSocketAddressParseErrorZ parse_onion_address(struct LDKStr host, uint16_t port);
@@ -7814,6 +8622,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedNodeAnnouncement_clone_ptr")] public static extern long UnsignedNodeAnnouncement_clone_ptr(long _arg);
 	// struct LDKUnsignedNodeAnnouncement UnsignedNodeAnnouncement_clone(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedNodeAnnouncement_clone")] public static extern long UnsignedNodeAnnouncement_clone(long _orig);
+	// uint64_t UnsignedNodeAnnouncement_hash(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedNodeAnnouncement_hash")] public static extern long UnsignedNodeAnnouncement_hash(long _o);
 	// bool UnsignedNodeAnnouncement_eq(const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR a, const struct LDKUnsignedNodeAnnouncement *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedNodeAnnouncement_eq")] public static extern bool UnsignedNodeAnnouncement_eq(long _a, long _b);
 	// void NodeAnnouncement_free(struct LDKNodeAnnouncement this_obj);
@@ -7832,6 +8642,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAnnouncement_clone_ptr")] public static extern long NodeAnnouncement_clone_ptr(long _arg);
 	// struct LDKNodeAnnouncement NodeAnnouncement_clone(const struct LDKNodeAnnouncement *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAnnouncement_clone")] public static extern long NodeAnnouncement_clone(long _orig);
+	// uint64_t NodeAnnouncement_hash(const struct LDKNodeAnnouncement *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAnnouncement_hash")] public static extern long NodeAnnouncement_hash(long _o);
 	// bool NodeAnnouncement_eq(const struct LDKNodeAnnouncement *NONNULL_PTR a, const struct LDKNodeAnnouncement *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAnnouncement_eq")] public static extern bool NodeAnnouncement_eq(long _a, long _b);
 	// void UnsignedChannelAnnouncement_free(struct LDKUnsignedChannelAnnouncement this_obj);
@@ -7874,6 +8686,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelAnnouncement_clone_ptr")] public static extern long UnsignedChannelAnnouncement_clone_ptr(long _arg);
 	// struct LDKUnsignedChannelAnnouncement UnsignedChannelAnnouncement_clone(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelAnnouncement_clone")] public static extern long UnsignedChannelAnnouncement_clone(long _orig);
+	// uint64_t UnsignedChannelAnnouncement_hash(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelAnnouncement_hash")] public static extern long UnsignedChannelAnnouncement_hash(long _o);
 	// bool UnsignedChannelAnnouncement_eq(const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR a, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelAnnouncement_eq")] public static extern bool UnsignedChannelAnnouncement_eq(long _a, long _b);
 	// void ChannelAnnouncement_free(struct LDKChannelAnnouncement this_obj);
@@ -7904,6 +8718,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelAnnouncement_clone_ptr")] public static extern long ChannelAnnouncement_clone_ptr(long _arg);
 	// struct LDKChannelAnnouncement ChannelAnnouncement_clone(const struct LDKChannelAnnouncement *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelAnnouncement_clone")] public static extern long ChannelAnnouncement_clone(long _orig);
+	// uint64_t ChannelAnnouncement_hash(const struct LDKChannelAnnouncement *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelAnnouncement_hash")] public static extern long ChannelAnnouncement_hash(long _o);
 	// bool ChannelAnnouncement_eq(const struct LDKChannelAnnouncement *NONNULL_PTR a, const struct LDKChannelAnnouncement *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelAnnouncement_eq")] public static extern bool ChannelAnnouncement_eq(long _a, long _b);
 	// void UnsignedChannelUpdate_free(struct LDKUnsignedChannelUpdate this_obj);
@@ -7954,6 +8770,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelUpdate_clone_ptr")] public static extern long UnsignedChannelUpdate_clone_ptr(long _arg);
 	// struct LDKUnsignedChannelUpdate UnsignedChannelUpdate_clone(const struct LDKUnsignedChannelUpdate *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelUpdate_clone")] public static extern long UnsignedChannelUpdate_clone(long _orig);
+	// uint64_t UnsignedChannelUpdate_hash(const struct LDKUnsignedChannelUpdate *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelUpdate_hash")] public static extern long UnsignedChannelUpdate_hash(long _o);
 	// bool UnsignedChannelUpdate_eq(const struct LDKUnsignedChannelUpdate *NONNULL_PTR a, const struct LDKUnsignedChannelUpdate *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedChannelUpdate_eq")] public static extern bool UnsignedChannelUpdate_eq(long _a, long _b);
 	// void ChannelUpdate_free(struct LDKChannelUpdate this_obj);
@@ -7972,6 +8790,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelUpdate_clone_ptr")] public static extern long ChannelUpdate_clone_ptr(long _arg);
 	// struct LDKChannelUpdate ChannelUpdate_clone(const struct LDKChannelUpdate *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelUpdate_clone")] public static extern long ChannelUpdate_clone(long _orig);
+	// uint64_t ChannelUpdate_hash(const struct LDKChannelUpdate *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelUpdate_hash")] public static extern long ChannelUpdate_hash(long _o);
 	// bool ChannelUpdate_eq(const struct LDKChannelUpdate *NONNULL_PTR a, const struct LDKChannelUpdate *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelUpdate_eq")] public static extern bool ChannelUpdate_eq(long _a, long _b);
 	// void QueryChannelRange_free(struct LDKQueryChannelRange this_obj);
@@ -7994,6 +8814,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryChannelRange_clone_ptr")] public static extern long QueryChannelRange_clone_ptr(long _arg);
 	// struct LDKQueryChannelRange QueryChannelRange_clone(const struct LDKQueryChannelRange *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryChannelRange_clone")] public static extern long QueryChannelRange_clone(long _orig);
+	// uint64_t QueryChannelRange_hash(const struct LDKQueryChannelRange *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryChannelRange_hash")] public static extern long QueryChannelRange_hash(long _o);
 	// bool QueryChannelRange_eq(const struct LDKQueryChannelRange *NONNULL_PTR a, const struct LDKQueryChannelRange *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryChannelRange_eq")] public static extern bool QueryChannelRange_eq(long _a, long _b);
 	// void ReplyChannelRange_free(struct LDKReplyChannelRange this_obj);
@@ -8024,6 +8846,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyChannelRange_clone_ptr")] public static extern long ReplyChannelRange_clone_ptr(long _arg);
 	// struct LDKReplyChannelRange ReplyChannelRange_clone(const struct LDKReplyChannelRange *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyChannelRange_clone")] public static extern long ReplyChannelRange_clone(long _orig);
+	// uint64_t ReplyChannelRange_hash(const struct LDKReplyChannelRange *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyChannelRange_hash")] public static extern long ReplyChannelRange_hash(long _o);
 	// bool ReplyChannelRange_eq(const struct LDKReplyChannelRange *NONNULL_PTR a, const struct LDKReplyChannelRange *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyChannelRange_eq")] public static extern bool ReplyChannelRange_eq(long _a, long _b);
 	// void QueryShortChannelIds_free(struct LDKQueryShortChannelIds this_obj);
@@ -8042,6 +8866,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryShortChannelIds_clone_ptr")] public static extern long QueryShortChannelIds_clone_ptr(long _arg);
 	// struct LDKQueryShortChannelIds QueryShortChannelIds_clone(const struct LDKQueryShortChannelIds *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryShortChannelIds_clone")] public static extern long QueryShortChannelIds_clone(long _orig);
+	// uint64_t QueryShortChannelIds_hash(const struct LDKQueryShortChannelIds *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryShortChannelIds_hash")] public static extern long QueryShortChannelIds_hash(long _o);
 	// bool QueryShortChannelIds_eq(const struct LDKQueryShortChannelIds *NONNULL_PTR a, const struct LDKQueryShortChannelIds *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_QueryShortChannelIds_eq")] public static extern bool QueryShortChannelIds_eq(long _a, long _b);
 	// void ReplyShortChannelIdsEnd_free(struct LDKReplyShortChannelIdsEnd this_obj);
@@ -8060,6 +8886,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyShortChannelIdsEnd_clone_ptr")] public static extern long ReplyShortChannelIdsEnd_clone_ptr(long _arg);
 	// struct LDKReplyShortChannelIdsEnd ReplyShortChannelIdsEnd_clone(const struct LDKReplyShortChannelIdsEnd *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyShortChannelIdsEnd_clone")] public static extern long ReplyShortChannelIdsEnd_clone(long _orig);
+	// uint64_t ReplyShortChannelIdsEnd_hash(const struct LDKReplyShortChannelIdsEnd *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyShortChannelIdsEnd_hash")] public static extern long ReplyShortChannelIdsEnd_hash(long _o);
 	// bool ReplyShortChannelIdsEnd_eq(const struct LDKReplyShortChannelIdsEnd *NONNULL_PTR a, const struct LDKReplyShortChannelIdsEnd *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReplyShortChannelIdsEnd_eq")] public static extern bool ReplyShortChannelIdsEnd_eq(long _a, long _b);
 	// void GossipTimestampFilter_free(struct LDKGossipTimestampFilter this_obj);
@@ -8082,6 +8910,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GossipTimestampFilter_clone_ptr")] public static extern long GossipTimestampFilter_clone_ptr(long _arg);
 	// struct LDKGossipTimestampFilter GossipTimestampFilter_clone(const struct LDKGossipTimestampFilter *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GossipTimestampFilter_clone")] public static extern long GossipTimestampFilter_clone(long _orig);
+	// uint64_t GossipTimestampFilter_hash(const struct LDKGossipTimestampFilter *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GossipTimestampFilter_hash")] public static extern long GossipTimestampFilter_hash(long _o);
 	// bool GossipTimestampFilter_eq(const struct LDKGossipTimestampFilter *NONNULL_PTR a, const struct LDKGossipTimestampFilter *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GossipTimestampFilter_eq")] public static extern bool GossipTimestampFilter_eq(long _a, long _b);
 	// void ErrorAction_free(struct LDKErrorAction this_ptr);
@@ -8104,6 +8934,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorAction_send_error_message")] public static extern long ErrorAction_send_error_message(long _msg);
 	// struct LDKErrorAction ErrorAction_send_warning_message(struct LDKWarningMessage msg, enum LDKLevel log_level);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorAction_send_warning_message")] public static extern long ErrorAction_send_warning_message(long _msg, Level _log_level);
+	// uint64_t ErrorAction_hash(const struct LDKErrorAction *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ErrorAction_hash")] public static extern long ErrorAction_hash(long _o);
 	// void LightningError_free(struct LDKLightningError this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_LightningError_free")] public static extern void LightningError_free(long _this_obj);
 	// struct LDKStr LightningError_get_err(const struct LDKLightningError *NONNULL_PTR this_ptr);
@@ -8152,6 +8984,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentUpdate_clone_ptr")] public static extern long CommitmentUpdate_clone_ptr(long _arg);
 	// struct LDKCommitmentUpdate CommitmentUpdate_clone(const struct LDKCommitmentUpdate *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentUpdate_clone")] public static extern long CommitmentUpdate_clone(long _orig);
+	// uint64_t CommitmentUpdate_hash(const struct LDKCommitmentUpdate *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentUpdate_hash")] public static extern long CommitmentUpdate_hash(long _o);
 	// bool CommitmentUpdate_eq(const struct LDKCommitmentUpdate *NONNULL_PTR a, const struct LDKCommitmentUpdate *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CommitmentUpdate_eq")] public static extern bool CommitmentUpdate_eq(long _a, long _b);
 	// void ChannelMessageHandler_free(struct LDKChannelMessageHandler this_ptr);
@@ -8160,6 +8994,44 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RoutingMessageHandler_free")] public static extern void RoutingMessageHandler_free(long _this_ptr);
 	// void OnionMessageHandler_free(struct LDKOnionMessageHandler this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessageHandler_free")] public static extern void OnionMessageHandler_free(long _this_ptr);
+	// void FinalOnionHopData_free(struct LDKFinalOnionHopData this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_free")] public static extern void FinalOnionHopData_free(long _this_obj);
+	// const uint8_t (*FinalOnionHopData_get_payment_secret(const struct LDKFinalOnionHopData *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_get_payment_secret")] public static extern long FinalOnionHopData_get_payment_secret(long _this_ptr);
+	// void FinalOnionHopData_set_payment_secret(struct LDKFinalOnionHopData *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_set_payment_secret")] public static extern void FinalOnionHopData_set_payment_secret(long _this_ptr, long _val);
+	// uint64_t FinalOnionHopData_get_total_msat(const struct LDKFinalOnionHopData *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_get_total_msat")] public static extern long FinalOnionHopData_get_total_msat(long _this_ptr);
+	// void FinalOnionHopData_set_total_msat(struct LDKFinalOnionHopData *NONNULL_PTR this_ptr, uint64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_set_total_msat")] public static extern void FinalOnionHopData_set_total_msat(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKFinalOnionHopData FinalOnionHopData_new(struct LDKThirtyTwoBytes payment_secret_arg, uint64_t total_msat_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_new")] public static extern long FinalOnionHopData_new(long _payment_secret_arg, long _total_msat_arg);
+	// uint64_t FinalOnionHopData_clone_ptr(LDKFinalOnionHopData *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_clone_ptr")] public static extern long FinalOnionHopData_clone_ptr(long _arg);
+	// struct LDKFinalOnionHopData FinalOnionHopData_clone(const struct LDKFinalOnionHopData *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_clone")] public static extern long FinalOnionHopData_clone(long _orig);
+	// void OnionPacket_free(struct LDKOnionPacket this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_free")] public static extern void OnionPacket_free(long _this_obj);
+	// uint8_t OnionPacket_get_version(const struct LDKOnionPacket *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_get_version")] public static extern byte OnionPacket_get_version(long _this_ptr);
+	// void OnionPacket_set_version(struct LDKOnionPacket *NONNULL_PTR this_ptr, uint8_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_set_version")] public static extern void OnionPacket_set_version(long _this_ptr, byte _val);
+	// struct LDKCResult_PublicKeySecp256k1ErrorZ OnionPacket_get_public_key(const struct LDKOnionPacket *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_get_public_key")] public static extern long OnionPacket_get_public_key(long _this_ptr);
+	// void OnionPacket_set_public_key(struct LDKOnionPacket *NONNULL_PTR this_ptr, struct LDKCResult_PublicKeySecp256k1ErrorZ val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_set_public_key")] public static extern void OnionPacket_set_public_key(long _this_ptr, long _val);
+	// const uint8_t (*OnionPacket_get_hmac(const struct LDKOnionPacket *NONNULL_PTR this_ptr))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_get_hmac")] public static extern long OnionPacket_get_hmac(long _this_ptr);
+	// void OnionPacket_set_hmac(struct LDKOnionPacket *NONNULL_PTR this_ptr, struct LDKThirtyTwoBytes val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_set_hmac")] public static extern void OnionPacket_set_hmac(long _this_ptr, long _val);
+	// uint64_t OnionPacket_clone_ptr(LDKOnionPacket *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_clone_ptr")] public static extern long OnionPacket_clone_ptr(long _arg);
+	// struct LDKOnionPacket OnionPacket_clone(const struct LDKOnionPacket *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_clone")] public static extern long OnionPacket_clone(long _orig);
+	// uint64_t OnionPacket_hash(const struct LDKOnionPacket *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_hash")] public static extern long OnionPacket_hash(long _o);
+	// bool OnionPacket_eq(const struct LDKOnionPacket *NONNULL_PTR a, const struct LDKOnionPacket *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_eq")] public static extern bool OnionPacket_eq(long _a, long _b);
 	// struct LDKCVec_u8Z AcceptChannel_write(const struct LDKAcceptChannel *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannel_write")] public static extern long AcceptChannel_write(long _obj);
 	// struct LDKCResult_AcceptChannelDecodeErrorZ AcceptChannel_read(struct LDKu8slice ser);
@@ -8168,6 +9040,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_write")] public static extern long AcceptChannelV2_write(long _obj);
 	// struct LDKCResult_AcceptChannelV2DecodeErrorZ AcceptChannelV2_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_AcceptChannelV2_read")] public static extern long AcceptChannelV2_read(long _ser);
+	// struct LDKCVec_u8Z Stfu_write(const struct LDKStfu *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_write")] public static extern long Stfu_write(long _obj);
+	// struct LDKCResult_StfuDecodeErrorZ Stfu_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Stfu_read")] public static extern long Stfu_read(long _ser);
+	// struct LDKCVec_u8Z Splice_write(const struct LDKSplice *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_write")] public static extern long Splice_write(long _obj);
+	// struct LDKCResult_SpliceDecodeErrorZ Splice_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Splice_read")] public static extern long Splice_read(long _ser);
+	// struct LDKCVec_u8Z SpliceAck_write(const struct LDKSpliceAck *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_write")] public static extern long SpliceAck_write(long _obj);
+	// struct LDKCResult_SpliceAckDecodeErrorZ SpliceAck_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceAck_read")] public static extern long SpliceAck_read(long _ser);
+	// struct LDKCVec_u8Z SpliceLocked_write(const struct LDKSpliceLocked *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_write")] public static extern long SpliceLocked_write(long _obj);
+	// struct LDKCResult_SpliceLockedDecodeErrorZ SpliceLocked_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpliceLocked_read")] public static extern long SpliceLocked_read(long _ser);
 	// struct LDKCVec_u8Z TxAddInput_write(const struct LDKTxAddInput *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxAddInput_write")] public static extern long TxAddInput_write(long _obj);
 	// struct LDKCResult_TxAddInputDecodeErrorZ TxAddInput_read(struct LDKu8slice ser);
@@ -8272,6 +9160,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_write")] public static extern long UpdateFulfillHTLC_write(long _obj);
 	// struct LDKCResult_UpdateFulfillHTLCDecodeErrorZ UpdateFulfillHTLC_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateFulfillHTLC_read")] public static extern long UpdateFulfillHTLC_read(long _ser);
+	// struct LDKCVec_u8Z OnionPacket_write(const struct LDKOnionPacket *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_write")] public static extern long OnionPacket_write(long _obj);
+	// struct LDKCResult_OnionPacketDecodeErrorZ OnionPacket_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionPacket_read")] public static extern long OnionPacket_read(long _ser);
 	// struct LDKCVec_u8Z UpdateAddHTLC_write(const struct LDKUpdateAddHTLC *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UpdateAddHTLC_write")] public static extern long UpdateAddHTLC_write(long _obj);
 	// struct LDKCResult_UpdateAddHTLCDecodeErrorZ UpdateAddHTLC_read(struct LDKu8slice ser);
@@ -8280,6 +9172,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_read")] public static extern long OnionMessage_read(long _ser);
 	// struct LDKCVec_u8Z OnionMessage_write(const struct LDKOnionMessage *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessage_write")] public static extern long OnionMessage_write(long _obj);
+	// struct LDKCVec_u8Z FinalOnionHopData_write(const struct LDKFinalOnionHopData *NONNULL_PTR obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_write")] public static extern long FinalOnionHopData_write(long _obj);
+	// struct LDKCResult_FinalOnionHopDataDecodeErrorZ FinalOnionHopData_read(struct LDKu8slice ser);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FinalOnionHopData_read")] public static extern long FinalOnionHopData_read(long _ser);
 	// struct LDKCVec_u8Z Ping_write(const struct LDKPing *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Ping_write")] public static extern long Ping_write(long _obj);
 	// struct LDKCResult_PingDecodeErrorZ Ping_read(struct LDKu8slice ser);
@@ -8348,6 +9244,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_IgnoringMessageHandler_free")] public static extern void IgnoringMessageHandler_free(long _this_obj);
 	// MUST_USE_RES struct LDKIgnoringMessageHandler IgnoringMessageHandler_new(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_IgnoringMessageHandler_new")] public static extern long IgnoringMessageHandler_new();
+	// struct LDKEventsProvider IgnoringMessageHandler_as_EventsProvider(const struct LDKIgnoringMessageHandler *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_IgnoringMessageHandler_as_EventsProvider")] public static extern long IgnoringMessageHandler_as_EventsProvider(long _this_arg);
 	// struct LDKMessageSendEventsProvider IgnoringMessageHandler_as_MessageSendEventsProvider(const struct LDKIgnoringMessageHandler *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_IgnoringMessageHandler_as_MessageSendEventsProvider")] public static extern long IgnoringMessageHandler_as_MessageSendEventsProvider(long _this_arg);
 	// struct LDKRoutingMessageHandler IgnoringMessageHandler_as_RoutingMessageHandler(const struct LDKIgnoringMessageHandler *NONNULL_PTR this_arg);
@@ -8474,35 +9372,31 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CounterpartyCommitmentSecrets_read")] public static extern long CounterpartyCommitmentSecrets_read(long _ser);
 	// struct LDKSecretKey derive_private_key(struct LDKPublicKey per_commitment_point, const uint8_t (*base_secret)[32]);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_derive_private_key")] public static extern long derive_private_key(long _per_commitment_point, long _base_secret);
-	// struct LDKPublicKey derive_public_key(struct LDKPublicKey per_commitment_point, struct LDKPublicKey base_point);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_derive_public_key")] public static extern long derive_public_key(long _per_commitment_point, long _base_point);
 	// struct LDKSecretKey derive_private_revocation_key(const uint8_t (*per_commitment_secret)[32], const uint8_t (*countersignatory_revocation_base_secret)[32]);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_derive_private_revocation_key")] public static extern long derive_private_revocation_key(long _per_commitment_secret, long _countersignatory_revocation_base_secret);
-	// struct LDKPublicKey derive_public_revocation_key(struct LDKPublicKey per_commitment_point, struct LDKPublicKey countersignatory_revocation_base_point);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_derive_public_revocation_key")] public static extern long derive_public_revocation_key(long _per_commitment_point, long _countersignatory_revocation_base_point);
 	// void TxCreationKeys_free(struct LDKTxCreationKeys this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_free")] public static extern void TxCreationKeys_free(long _this_obj);
 	// struct LDKPublicKey TxCreationKeys_get_per_commitment_point(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_get_per_commitment_point")] public static extern long TxCreationKeys_get_per_commitment_point(long _this_ptr);
 	// void TxCreationKeys_set_per_commitment_point(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_set_per_commitment_point")] public static extern void TxCreationKeys_set_per_commitment_point(long _this_ptr, long _val);
-	// struct LDKPublicKey TxCreationKeys_get_revocation_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
+	// struct LDKRevocationKey TxCreationKeys_get_revocation_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_get_revocation_key")] public static extern long TxCreationKeys_get_revocation_key(long _this_ptr);
-	// void TxCreationKeys_set_revocation_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void TxCreationKeys_set_revocation_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKRevocationKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_set_revocation_key")] public static extern void TxCreationKeys_set_revocation_key(long _this_ptr, long _val);
-	// struct LDKPublicKey TxCreationKeys_get_broadcaster_htlc_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
+	// struct LDKHtlcKey TxCreationKeys_get_broadcaster_htlc_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_get_broadcaster_htlc_key")] public static extern long TxCreationKeys_get_broadcaster_htlc_key(long _this_ptr);
-	// void TxCreationKeys_set_broadcaster_htlc_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void TxCreationKeys_set_broadcaster_htlc_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKHtlcKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_set_broadcaster_htlc_key")] public static extern void TxCreationKeys_set_broadcaster_htlc_key(long _this_ptr, long _val);
-	// struct LDKPublicKey TxCreationKeys_get_countersignatory_htlc_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
+	// struct LDKHtlcKey TxCreationKeys_get_countersignatory_htlc_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_get_countersignatory_htlc_key")] public static extern long TxCreationKeys_get_countersignatory_htlc_key(long _this_ptr);
-	// void TxCreationKeys_set_countersignatory_htlc_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void TxCreationKeys_set_countersignatory_htlc_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKHtlcKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_set_countersignatory_htlc_key")] public static extern void TxCreationKeys_set_countersignatory_htlc_key(long _this_ptr, long _val);
-	// struct LDKPublicKey TxCreationKeys_get_broadcaster_delayed_payment_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
+	// struct LDKDelayedPaymentKey TxCreationKeys_get_broadcaster_delayed_payment_key(const struct LDKTxCreationKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_get_broadcaster_delayed_payment_key")] public static extern long TxCreationKeys_get_broadcaster_delayed_payment_key(long _this_ptr);
-	// void TxCreationKeys_set_broadcaster_delayed_payment_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void TxCreationKeys_set_broadcaster_delayed_payment_key(struct LDKTxCreationKeys *NONNULL_PTR this_ptr, struct LDKDelayedPaymentKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_set_broadcaster_delayed_payment_key")] public static extern void TxCreationKeys_set_broadcaster_delayed_payment_key(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKTxCreationKeys TxCreationKeys_new(struct LDKPublicKey per_commitment_point_arg, struct LDKPublicKey revocation_key_arg, struct LDKPublicKey broadcaster_htlc_key_arg, struct LDKPublicKey countersignatory_htlc_key_arg, struct LDKPublicKey broadcaster_delayed_payment_key_arg);
+	// MUST_USE_RES struct LDKTxCreationKeys TxCreationKeys_new(struct LDKPublicKey per_commitment_point_arg, struct LDKRevocationKey revocation_key_arg, struct LDKHtlcKey broadcaster_htlc_key_arg, struct LDKHtlcKey countersignatory_htlc_key_arg, struct LDKDelayedPaymentKey broadcaster_delayed_payment_key_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_new")] public static extern long TxCreationKeys_new(long _per_commitment_point_arg, long _revocation_key_arg, long _broadcaster_htlc_key_arg, long _countersignatory_htlc_key_arg, long _broadcaster_delayed_payment_key_arg);
 	// bool TxCreationKeys_eq(const struct LDKTxCreationKeys *NONNULL_PTR a, const struct LDKTxCreationKeys *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_eq")] public static extern bool TxCreationKeys_eq(long _a, long _b);
@@ -8520,23 +9414,23 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_get_funding_pubkey")] public static extern long ChannelPublicKeys_get_funding_pubkey(long _this_ptr);
 	// void ChannelPublicKeys_set_funding_pubkey(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_set_funding_pubkey")] public static extern void ChannelPublicKeys_set_funding_pubkey(long _this_ptr, long _val);
-	// struct LDKPublicKey ChannelPublicKeys_get_revocation_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
+	// struct LDKRevocationBasepoint ChannelPublicKeys_get_revocation_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_get_revocation_basepoint")] public static extern long ChannelPublicKeys_get_revocation_basepoint(long _this_ptr);
-	// void ChannelPublicKeys_set_revocation_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void ChannelPublicKeys_set_revocation_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKRevocationBasepoint val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_set_revocation_basepoint")] public static extern void ChannelPublicKeys_set_revocation_basepoint(long _this_ptr, long _val);
 	// struct LDKPublicKey ChannelPublicKeys_get_payment_point(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_get_payment_point")] public static extern long ChannelPublicKeys_get_payment_point(long _this_ptr);
 	// void ChannelPublicKeys_set_payment_point(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_set_payment_point")] public static extern void ChannelPublicKeys_set_payment_point(long _this_ptr, long _val);
-	// struct LDKPublicKey ChannelPublicKeys_get_delayed_payment_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
+	// struct LDKDelayedPaymentBasepoint ChannelPublicKeys_get_delayed_payment_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_get_delayed_payment_basepoint")] public static extern long ChannelPublicKeys_get_delayed_payment_basepoint(long _this_ptr);
-	// void ChannelPublicKeys_set_delayed_payment_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void ChannelPublicKeys_set_delayed_payment_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKDelayedPaymentBasepoint val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_set_delayed_payment_basepoint")] public static extern void ChannelPublicKeys_set_delayed_payment_basepoint(long _this_ptr, long _val);
-	// struct LDKPublicKey ChannelPublicKeys_get_htlc_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
+	// struct LDKHtlcBasepoint ChannelPublicKeys_get_htlc_basepoint(const struct LDKChannelPublicKeys *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_get_htlc_basepoint")] public static extern long ChannelPublicKeys_get_htlc_basepoint(long _this_ptr);
-	// void ChannelPublicKeys_set_htlc_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void ChannelPublicKeys_set_htlc_basepoint(struct LDKChannelPublicKeys *NONNULL_PTR this_ptr, struct LDKHtlcBasepoint val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_set_htlc_basepoint")] public static extern void ChannelPublicKeys_set_htlc_basepoint(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKChannelPublicKeys ChannelPublicKeys_new(struct LDKPublicKey funding_pubkey_arg, struct LDKPublicKey revocation_basepoint_arg, struct LDKPublicKey payment_point_arg, struct LDKPublicKey delayed_payment_basepoint_arg, struct LDKPublicKey htlc_basepoint_arg);
+	// MUST_USE_RES struct LDKChannelPublicKeys ChannelPublicKeys_new(struct LDKPublicKey funding_pubkey_arg, struct LDKRevocationBasepoint revocation_basepoint_arg, struct LDKPublicKey payment_point_arg, struct LDKDelayedPaymentBasepoint delayed_payment_basepoint_arg, struct LDKHtlcBasepoint htlc_basepoint_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_new")] public static extern long ChannelPublicKeys_new(long _funding_pubkey_arg, long _revocation_basepoint_arg, long _payment_point_arg, long _delayed_payment_basepoint_arg, long _htlc_basepoint_arg);
 	// uint64_t ChannelPublicKeys_clone_ptr(LDKChannelPublicKeys *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_clone_ptr")] public static extern long ChannelPublicKeys_clone_ptr(long _arg);
@@ -8550,11 +9444,11 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_write")] public static extern long ChannelPublicKeys_write(long _obj);
 	// struct LDKCResult_ChannelPublicKeysDecodeErrorZ ChannelPublicKeys_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelPublicKeys_read")] public static extern long ChannelPublicKeys_read(long _ser);
-	// MUST_USE_RES struct LDKTxCreationKeys TxCreationKeys_derive_new(struct LDKPublicKey per_commitment_point, struct LDKPublicKey broadcaster_delayed_payment_base, struct LDKPublicKey broadcaster_htlc_base, struct LDKPublicKey countersignatory_revocation_base, struct LDKPublicKey countersignatory_htlc_base);
+	// MUST_USE_RES struct LDKTxCreationKeys TxCreationKeys_derive_new(struct LDKPublicKey per_commitment_point, const struct LDKDelayedPaymentBasepoint *NONNULL_PTR broadcaster_delayed_payment_base, const struct LDKHtlcBasepoint *NONNULL_PTR broadcaster_htlc_base, const struct LDKRevocationBasepoint *NONNULL_PTR countersignatory_revocation_base, const struct LDKHtlcBasepoint *NONNULL_PTR countersignatory_htlc_base);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_derive_new")] public static extern long TxCreationKeys_derive_new(long _per_commitment_point, long _broadcaster_delayed_payment_base, long _broadcaster_htlc_base, long _countersignatory_revocation_base, long _countersignatory_htlc_base);
 	// MUST_USE_RES struct LDKTxCreationKeys TxCreationKeys_from_channel_static_keys(struct LDKPublicKey per_commitment_point, const struct LDKChannelPublicKeys *NONNULL_PTR broadcaster_keys, const struct LDKChannelPublicKeys *NONNULL_PTR countersignatory_keys);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TxCreationKeys_from_channel_static_keys")] public static extern long TxCreationKeys_from_channel_static_keys(long _per_commitment_point, long _broadcaster_keys, long _countersignatory_keys);
-	// struct LDKCVec_u8Z get_revokeable_redeemscript(struct LDKPublicKey revocation_key, uint16_t contest_delay, struct LDKPublicKey broadcaster_delayed_payment_key);
+	// struct LDKCVec_u8Z get_revokeable_redeemscript(const struct LDKRevocationKey *NONNULL_PTR revocation_key, uint16_t contest_delay, const struct LDKDelayedPaymentKey *NONNULL_PTR broadcaster_delayed_payment_key);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_get_revokeable_redeemscript")] public static extern long get_revokeable_redeemscript(long _revocation_key, short _contest_delay, long _broadcaster_delayed_payment_key);
 	// struct LDKCVec_u8Z get_counterparty_payment_script(const struct LDKChannelTypeFeatures *NONNULL_PTR channel_type_features, struct LDKPublicKey payment_key);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_get_counterparty_payment_script")] public static extern long get_counterparty_payment_script(long _channel_type_features, long _payment_key);
@@ -8596,7 +9490,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_get_htlc_redeemscript")] public static extern long get_htlc_redeemscript(long _htlc, long _channel_type_features, long _keys);
 	// struct LDKCVec_u8Z make_funding_redeemscript(struct LDKPublicKey broadcaster, struct LDKPublicKey countersignatory);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_make_funding_redeemscript")] public static extern long make_funding_redeemscript(long _broadcaster, long _countersignatory);
-	// struct LDKTransaction build_htlc_transaction(const uint8_t (*commitment_txid)[32], uint32_t feerate_per_kw, uint16_t contest_delay, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc, const struct LDKChannelTypeFeatures *NONNULL_PTR channel_type_features, struct LDKPublicKey broadcaster_delayed_payment_key, struct LDKPublicKey revocation_key);
+	// struct LDKTransaction build_htlc_transaction(const uint8_t (*commitment_txid)[32], uint32_t feerate_per_kw, uint16_t contest_delay, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc, const struct LDKChannelTypeFeatures *NONNULL_PTR channel_type_features, const struct LDKDelayedPaymentKey *NONNULL_PTR broadcaster_delayed_payment_key, const struct LDKRevocationKey *NONNULL_PTR revocation_key);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_build_htlc_transaction")] public static extern long build_htlc_transaction(long _commitment_txid, int _feerate_per_kw, short _contest_delay, long _htlc, long _channel_type_features, long _broadcaster_delayed_payment_key, long _revocation_key);
 	// struct LDKWitness build_htlc_input_witness(struct LDKECDSASignature local_sig, struct LDKECDSASignature remote_sig, struct LDKCOption_ThirtyTwoBytesZ preimage, struct LDKu8slice redeem_script, const struct LDKChannelTypeFeatures *NONNULL_PTR channel_type_features);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_build_htlc_input_witness")] public static extern long build_htlc_input_witness(long _local_sig, long _remote_sig, long _preimage, long _redeem_script, long _channel_type_features);
@@ -8864,6 +9758,24 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelTypeFeatures_clone_ptr")] public static extern long ChannelTypeFeatures_clone_ptr(long _arg);
 	// struct LDKChannelTypeFeatures ChannelTypeFeatures_clone(const struct LDKChannelTypeFeatures *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelTypeFeatures_clone")] public static extern long ChannelTypeFeatures_clone(long _orig);
+	// uint64_t InitFeatures_hash(const struct LDKInitFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_hash")] public static extern long InitFeatures_hash(long _o);
+	// uint64_t NodeFeatures_hash(const struct LDKNodeFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_hash")] public static extern long NodeFeatures_hash(long _o);
+	// uint64_t ChannelFeatures_hash(const struct LDKChannelFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelFeatures_hash")] public static extern long ChannelFeatures_hash(long _o);
+	// uint64_t Bolt11InvoiceFeatures_hash(const struct LDKBolt11InvoiceFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Bolt11InvoiceFeatures_hash")] public static extern long Bolt11InvoiceFeatures_hash(long _o);
+	// uint64_t OfferFeatures_hash(const struct LDKOfferFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OfferFeatures_hash")] public static extern long OfferFeatures_hash(long _o);
+	// uint64_t InvoiceRequestFeatures_hash(const struct LDKInvoiceRequestFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InvoiceRequestFeatures_hash")] public static extern long InvoiceRequestFeatures_hash(long _o);
+	// uint64_t Bolt12InvoiceFeatures_hash(const struct LDKBolt12InvoiceFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Bolt12InvoiceFeatures_hash")] public static extern long Bolt12InvoiceFeatures_hash(long _o);
+	// uint64_t BlindedHopFeatures_hash(const struct LDKBlindedHopFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedHopFeatures_hash")] public static extern long BlindedHopFeatures_hash(long _o);
+	// uint64_t ChannelTypeFeatures_hash(const struct LDKChannelTypeFeatures *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelTypeFeatures_hash")] public static extern long ChannelTypeFeatures_hash(long _o);
 	// void InitFeatures_free(struct LDKInitFeatures this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_free")] public static extern void InitFeatures_free(long _this_obj);
 	// void NodeFeatures_free(struct LDKNodeFeatures this_obj);
@@ -9258,6 +10170,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_requires_anchors_zero_fee_htlc_tx")] public static extern bool NodeFeatures_requires_anchors_zero_fee_htlc_tx(long _this_arg);
 	// MUST_USE_RES bool ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx")] public static extern bool ChannelTypeFeatures_requires_anchors_zero_fee_htlc_tx(long _this_arg);
+	// void InitFeatures_set_route_blinding_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_set_route_blinding_optional")] public static extern void InitFeatures_set_route_blinding_optional(long _this_arg);
+	// void InitFeatures_set_route_blinding_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_set_route_blinding_required")] public static extern void InitFeatures_set_route_blinding_required(long _this_arg);
+	// MUST_USE_RES bool InitFeatures_supports_route_blinding(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_supports_route_blinding")] public static extern bool InitFeatures_supports_route_blinding(long _this_arg);
+	// void NodeFeatures_set_route_blinding_optional(struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_set_route_blinding_optional")] public static extern void NodeFeatures_set_route_blinding_optional(long _this_arg);
+	// void NodeFeatures_set_route_blinding_required(struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_set_route_blinding_required")] public static extern void NodeFeatures_set_route_blinding_required(long _this_arg);
+	// MUST_USE_RES bool NodeFeatures_supports_route_blinding(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_supports_route_blinding")] public static extern bool NodeFeatures_supports_route_blinding(long _this_arg);
+	// MUST_USE_RES bool InitFeatures_requires_route_blinding(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_requires_route_blinding")] public static extern bool InitFeatures_requires_route_blinding(long _this_arg);
+	// MUST_USE_RES bool NodeFeatures_requires_route_blinding(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeFeatures_requires_route_blinding")] public static extern bool NodeFeatures_requires_route_blinding(long _this_arg);
 	// void InitFeatures_set_shutdown_any_segwit_optional(struct LDKInitFeatures *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InitFeatures_set_shutdown_any_segwit_optional")] public static extern void InitFeatures_set_shutdown_any_segwit_optional(long _this_arg);
 	// void InitFeatures_set_shutdown_any_segwit_required(struct LDKInitFeatures *NONNULL_PTR this_arg);
@@ -9404,7 +10332,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_eq")] public static extern bool ShutdownScript_eq(long _a, long _b);
 	// void InvalidShutdownScript_free(struct LDKInvalidShutdownScript this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InvalidShutdownScript_free")] public static extern void InvalidShutdownScript_free(long _this_obj);
-	// struct LDKu8slice InvalidShutdownScript_get_script(const struct LDKInvalidShutdownScript *NONNULL_PTR this_ptr);
+	// struct LDKCVec_u8Z InvalidShutdownScript_get_script(const struct LDKInvalidShutdownScript *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InvalidShutdownScript_get_script")] public static extern long InvalidShutdownScript_get_script(long _this_ptr);
 	// void InvalidShutdownScript_set_script(struct LDKInvalidShutdownScript *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InvalidShutdownScript_set_script")] public static extern void InvalidShutdownScript_set_script(long _this_ptr, long _val);
@@ -9422,8 +10350,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_new_p2wpkh")] public static extern long ShutdownScript_new_p2wpkh(long _pubkey_hash);
 	// MUST_USE_RES struct LDKShutdownScript ShutdownScript_new_p2wsh(const uint8_t (*script_hash)[32]);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_new_p2wsh")] public static extern long ShutdownScript_new_p2wsh(long _script_hash);
-	// MUST_USE_RES struct LDKCResult_ShutdownScriptInvalidShutdownScriptZ ShutdownScript_new_witness_program(struct LDKWitnessVersion version, struct LDKu8slice program);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_new_witness_program")] public static extern long ShutdownScript_new_witness_program(byte _version, long _program);
+	// MUST_USE_RES struct LDKCResult_ShutdownScriptInvalidShutdownScriptZ ShutdownScript_new_witness_program(struct LDKWitnessProgram witness_program);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_new_witness_program")] public static extern long ShutdownScript_new_witness_program(long _witness_program);
 	// MUST_USE_RES struct LDKCVec_u8Z ShutdownScript_into_inner(struct LDKShutdownScript this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ShutdownScript_into_inner")] public static extern long ShutdownScript_into_inner(long _this_arg);
 	// MUST_USE_RES struct LDKPublicKey ShutdownScript_as_legacy_pubkey(const struct LDKShutdownScript *NONNULL_PTR this_arg);
@@ -9554,6 +10482,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Offer_supports_chain")] public static extern bool Offer_supports_chain(long _this_arg, long _chain);
 	// MUST_USE_RES bool Offer_is_expired(const struct LDKOffer *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Offer_is_expired")] public static extern bool Offer_is_expired(long _this_arg);
+	// MUST_USE_RES bool Offer_is_expired_no_std(const struct LDKOffer *NONNULL_PTR this_arg, uint64_t duration_since_epoch);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Offer_is_expired_no_std")] public static extern bool Offer_is_expired_no_std(long _this_arg, long _duration_since_epoch);
 	// MUST_USE_RES bool Offer_is_valid_quantity(const struct LDKOffer *NONNULL_PTR this_arg, uint64_t quantity);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Offer_is_valid_quantity")] public static extern bool Offer_is_valid_quantity(long _this_arg, long _quantity);
 	// MUST_USE_RES bool Offer_expects_quantity(const struct LDKOffer *NONNULL_PTR this_arg);
@@ -9892,6 +10822,16 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InvoiceRequest_write")] public static extern long InvoiceRequest_write(long _obj);
 	// void TaggedHash_free(struct LDKTaggedHash this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_free")] public static extern void TaggedHash_free(long _this_obj);
+	// uint64_t TaggedHash_clone_ptr(LDKTaggedHash *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_clone_ptr")] public static extern long TaggedHash_clone_ptr(long _arg);
+	// struct LDKTaggedHash TaggedHash_clone(const struct LDKTaggedHash *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_clone")] public static extern long TaggedHash_clone(long _orig);
+	// MUST_USE_RES const uint8_t (*TaggedHash_as_digest(const struct LDKTaggedHash *NONNULL_PTR this_arg))[32];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_as_digest")] public static extern long TaggedHash_as_digest(long _this_arg);
+	// MUST_USE_RES struct LDKStr TaggedHash_tag(const struct LDKTaggedHash *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_tag")] public static extern long TaggedHash_tag(long _this_arg);
+	// MUST_USE_RES struct LDKThirtyTwoBytes TaggedHash_merkle_root(const struct LDKTaggedHash *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_TaggedHash_merkle_root")] public static extern long TaggedHash_merkle_root(long _this_arg);
 	// void Bolt12ParseError_free(struct LDKBolt12ParseError this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Bolt12ParseError_free")] public static extern void Bolt12ParseError_free(long _this_obj);
 	// uint64_t Bolt12ParseError_clone_ptr(LDKBolt12ParseError *NONNULL_PTR arg);
@@ -9966,6 +10906,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Refund_absolute_expiry")] public static extern long Refund_absolute_expiry(long _this_arg);
 	// MUST_USE_RES bool Refund_is_expired(const struct LDKRefund *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Refund_is_expired")] public static extern bool Refund_is_expired(long _this_arg);
+	// MUST_USE_RES bool Refund_is_expired_no_std(const struct LDKRefund *NONNULL_PTR this_arg, uint64_t duration_since_epoch);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Refund_is_expired_no_std")] public static extern bool Refund_is_expired_no_std(long _this_arg, long _duration_since_epoch);
 	// MUST_USE_RES struct LDKPrintableString Refund_issuer(const struct LDKRefund *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Refund_issuer")] public static extern long Refund_issuer(long _this_arg);
 	// MUST_USE_RES struct LDKCVec_BlindedPathZ Refund_paths(const struct LDKRefund *NONNULL_PTR this_arg);
@@ -10028,6 +10970,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeId_from_pubkey")] public static extern long NodeId_from_pubkey(long _pubkey);
 	// MUST_USE_RES struct LDKu8slice NodeId_as_slice(const struct LDKNodeId *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeId_as_slice")] public static extern long NodeId_as_slice(long _this_arg);
+	// MUST_USE_RES const uint8_t (*NodeId_as_array(const struct LDKNodeId *NONNULL_PTR this_arg))[33];
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeId_as_array")] public static extern long NodeId_as_array(long _this_arg);
 	// MUST_USE_RES struct LDKCResult_PublicKeySecp256k1ErrorZ NodeId_as_pubkey(const struct LDKNodeId *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeId_as_pubkey")] public static extern long NodeId_as_pubkey(long _this_arg);
 	// uint64_t NodeId_hash(const struct LDKNodeId *NONNULL_PTR o);
@@ -10168,8 +11112,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DirectedChannelInfo_clone")] public static extern long DirectedChannelInfo_clone(long _orig);
 	// MUST_USE_RES struct LDKChannelInfo DirectedChannelInfo_channel(const struct LDKDirectedChannelInfo *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DirectedChannelInfo_channel")] public static extern long DirectedChannelInfo_channel(long _this_arg);
-	// MUST_USE_RES uint64_t DirectedChannelInfo_htlc_maximum_msat(const struct LDKDirectedChannelInfo *NONNULL_PTR this_arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DirectedChannelInfo_htlc_maximum_msat")] public static extern long DirectedChannelInfo_htlc_maximum_msat(long _this_arg);
 	// MUST_USE_RES struct LDKEffectiveCapacity DirectedChannelInfo_effective_capacity(const struct LDKDirectedChannelInfo *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DirectedChannelInfo_effective_capacity")] public static extern long DirectedChannelInfo_effective_capacity(long _this_arg);
 	// void EffectiveCapacity_free(struct LDKEffectiveCapacity this_ptr);
@@ -10264,6 +11206,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAlias_clone_ptr")] public static extern long NodeAlias_clone_ptr(long _arg);
 	// struct LDKNodeAlias NodeAlias_clone(const struct LDKNodeAlias *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAlias_clone")] public static extern long NodeAlias_clone(long _orig);
+	// uint64_t NodeAlias_hash(const struct LDKNodeAlias *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAlias_hash")] public static extern long NodeAlias_hash(long _o);
 	// bool NodeAlias_eq(const struct LDKNodeAlias *NONNULL_PTR a, const struct LDKNodeAlias *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_NodeAlias_eq")] public static extern bool NodeAlias_eq(long _a, long _b);
 	// struct LDKCVec_u8Z NodeAlias_write(const struct LDKNodeAlias *NONNULL_PTR obj);
@@ -10342,10 +11286,12 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReadOnlyNetworkGraph_get_addresses")] public static extern long ReadOnlyNetworkGraph_get_addresses(long _this_arg, long _pubkey);
 	// void DefaultRouter_free(struct LDKDefaultRouter this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultRouter_free")] public static extern void DefaultRouter_free(long _this_obj);
-	// MUST_USE_RES struct LDKDefaultRouter DefaultRouter_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKLogger logger, struct LDKThirtyTwoBytes random_seed_bytes, struct LDKLockableScore scorer, struct LDKProbabilisticScoringFeeParameters score_params);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultRouter_new")] public static extern long DefaultRouter_new(long _network_graph, long _logger, long _random_seed_bytes, long _scorer, long _score_params);
+	// MUST_USE_RES struct LDKDefaultRouter DefaultRouter_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKLogger logger, struct LDKEntropySource entropy_source, struct LDKLockableScore scorer, struct LDKProbabilisticScoringFeeParameters score_params);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultRouter_new")] public static extern long DefaultRouter_new(long _network_graph, long _logger, long _entropy_source, long _scorer, long _score_params);
 	// struct LDKRouter DefaultRouter_as_Router(const struct LDKDefaultRouter *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultRouter_as_Router")] public static extern long DefaultRouter_as_Router(long _this_arg);
+	// struct LDKMessageRouter DefaultRouter_as_MessageRouter(const struct LDKDefaultRouter *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultRouter_as_MessageRouter")] public static extern long DefaultRouter_as_MessageRouter(long _this_arg);
 	// void Router_free(struct LDKRouter this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Router_free")] public static extern void Router_free(long _this_ptr);
 	// void ScorerAccountingForInFlightHtlcs_free(struct LDKScorerAccountingForInFlightHtlcs this_obj);
@@ -10558,8 +11504,12 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_get_previously_failed_channels")] public static extern long PaymentParameters_get_previously_failed_channels(long _this_ptr);
 	// void PaymentParameters_set_previously_failed_channels(struct LDKPaymentParameters *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_set_previously_failed_channels")] public static extern void PaymentParameters_set_previously_failed_channels(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_new(struct LDKPayee payee_arg, struct LDKCOption_u64Z expiry_time_arg, uint32_t max_total_cltv_expiry_delta_arg, uint8_t max_path_count_arg, uint8_t max_channel_saturation_power_of_half_arg, struct LDKCVec_u64Z previously_failed_channels_arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_new")] public static extern long PaymentParameters_new(long _payee_arg, long _expiry_time_arg, int _max_total_cltv_expiry_delta_arg, byte _max_path_count_arg, byte _max_channel_saturation_power_of_half_arg, long _previously_failed_channels_arg);
+	// struct LDKCVec_u64Z PaymentParameters_get_previously_failed_blinded_path_idxs(const struct LDKPaymentParameters *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_get_previously_failed_blinded_path_idxs")] public static extern long PaymentParameters_get_previously_failed_blinded_path_idxs(long _this_ptr);
+	// void PaymentParameters_set_previously_failed_blinded_path_idxs(struct LDKPaymentParameters *NONNULL_PTR this_ptr, struct LDKCVec_u64Z val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_set_previously_failed_blinded_path_idxs")] public static extern void PaymentParameters_set_previously_failed_blinded_path_idxs(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKPaymentParameters PaymentParameters_new(struct LDKPayee payee_arg, struct LDKCOption_u64Z expiry_time_arg, uint32_t max_total_cltv_expiry_delta_arg, uint8_t max_path_count_arg, uint8_t max_channel_saturation_power_of_half_arg, struct LDKCVec_u64Z previously_failed_channels_arg, struct LDKCVec_u64Z previously_failed_blinded_path_idxs_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_new")] public static extern long PaymentParameters_new(long _payee_arg, long _expiry_time_arg, int _max_total_cltv_expiry_delta_arg, byte _max_path_count_arg, byte _max_channel_saturation_power_of_half_arg, long _previously_failed_channels_arg, long _previously_failed_blinded_path_idxs_arg);
 	// uint64_t PaymentParameters_clone_ptr(LDKPaymentParameters *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentParameters_clone_ptr")] public static extern long PaymentParameters_clone_ptr(long _arg);
 	// struct LDKPaymentParameters PaymentParameters_clone(const struct LDKPaymentParameters *NONNULL_PTR orig);
@@ -10654,6 +11604,68 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RouteHintHop_write")] public static extern long RouteHintHop_write(long _obj);
 	// struct LDKCResult_RouteHintHopDecodeErrorZ RouteHintHop_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RouteHintHop_read")] public static extern long RouteHintHop_read(long _ser);
+	// void FirstHopCandidate_free(struct LDKFirstHopCandidate this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FirstHopCandidate_free")] public static extern void FirstHopCandidate_free(long _this_obj);
+	// uint64_t FirstHopCandidate_clone_ptr(LDKFirstHopCandidate *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FirstHopCandidate_clone_ptr")] public static extern long FirstHopCandidate_clone_ptr(long _arg);
+	// struct LDKFirstHopCandidate FirstHopCandidate_clone(const struct LDKFirstHopCandidate *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_FirstHopCandidate_clone")] public static extern long FirstHopCandidate_clone(long _orig);
+	// void PublicHopCandidate_free(struct LDKPublicHopCandidate this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PublicHopCandidate_free")] public static extern void PublicHopCandidate_free(long _this_obj);
+	// uint64_t PublicHopCandidate_get_short_channel_id(const struct LDKPublicHopCandidate *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PublicHopCandidate_get_short_channel_id")] public static extern long PublicHopCandidate_get_short_channel_id(long _this_ptr);
+	// void PublicHopCandidate_set_short_channel_id(struct LDKPublicHopCandidate *NONNULL_PTR this_ptr, uint64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PublicHopCandidate_set_short_channel_id")] public static extern void PublicHopCandidate_set_short_channel_id(long _this_ptr, long _val);
+	// uint64_t PublicHopCandidate_clone_ptr(LDKPublicHopCandidate *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PublicHopCandidate_clone_ptr")] public static extern long PublicHopCandidate_clone_ptr(long _arg);
+	// struct LDKPublicHopCandidate PublicHopCandidate_clone(const struct LDKPublicHopCandidate *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PublicHopCandidate_clone")] public static extern long PublicHopCandidate_clone(long _orig);
+	// void PrivateHopCandidate_free(struct LDKPrivateHopCandidate this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PrivateHopCandidate_free")] public static extern void PrivateHopCandidate_free(long _this_obj);
+	// uint64_t PrivateHopCandidate_clone_ptr(LDKPrivateHopCandidate *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PrivateHopCandidate_clone_ptr")] public static extern long PrivateHopCandidate_clone_ptr(long _arg);
+	// struct LDKPrivateHopCandidate PrivateHopCandidate_clone(const struct LDKPrivateHopCandidate *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PrivateHopCandidate_clone")] public static extern long PrivateHopCandidate_clone(long _orig);
+	// void BlindedPathCandidate_free(struct LDKBlindedPathCandidate this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPathCandidate_free")] public static extern void BlindedPathCandidate_free(long _this_obj);
+	// uint64_t BlindedPathCandidate_clone_ptr(LDKBlindedPathCandidate *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPathCandidate_clone_ptr")] public static extern long BlindedPathCandidate_clone_ptr(long _arg);
+	// struct LDKBlindedPathCandidate BlindedPathCandidate_clone(const struct LDKBlindedPathCandidate *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPathCandidate_clone")] public static extern long BlindedPathCandidate_clone(long _orig);
+	// void OneHopBlindedPathCandidate_free(struct LDKOneHopBlindedPathCandidate this_obj);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OneHopBlindedPathCandidate_free")] public static extern void OneHopBlindedPathCandidate_free(long _this_obj);
+	// uint64_t OneHopBlindedPathCandidate_clone_ptr(LDKOneHopBlindedPathCandidate *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OneHopBlindedPathCandidate_clone_ptr")] public static extern long OneHopBlindedPathCandidate_clone_ptr(long _arg);
+	// struct LDKOneHopBlindedPathCandidate OneHopBlindedPathCandidate_clone(const struct LDKOneHopBlindedPathCandidate *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OneHopBlindedPathCandidate_clone")] public static extern long OneHopBlindedPathCandidate_clone(long _orig);
+	// void CandidateRouteHop_free(struct LDKCandidateRouteHop this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_free")] public static extern void CandidateRouteHop_free(long _this_ptr);
+	// uint64_t CandidateRouteHop_clone_ptr(LDKCandidateRouteHop *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_clone_ptr")] public static extern long CandidateRouteHop_clone_ptr(long _arg);
+	// struct LDKCandidateRouteHop CandidateRouteHop_clone(const struct LDKCandidateRouteHop *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_clone")] public static extern long CandidateRouteHop_clone(long _orig);
+	// struct LDKCandidateRouteHop CandidateRouteHop_first_hop(struct LDKFirstHopCandidate a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_first_hop")] public static extern long CandidateRouteHop_first_hop(long _a);
+	// struct LDKCandidateRouteHop CandidateRouteHop_public_hop(struct LDKPublicHopCandidate a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_public_hop")] public static extern long CandidateRouteHop_public_hop(long _a);
+	// struct LDKCandidateRouteHop CandidateRouteHop_private_hop(struct LDKPrivateHopCandidate a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_private_hop")] public static extern long CandidateRouteHop_private_hop(long _a);
+	// struct LDKCandidateRouteHop CandidateRouteHop_blinded(struct LDKBlindedPathCandidate a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_blinded")] public static extern long CandidateRouteHop_blinded(long _a);
+	// struct LDKCandidateRouteHop CandidateRouteHop_one_hop_blinded(struct LDKOneHopBlindedPathCandidate a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_one_hop_blinded")] public static extern long CandidateRouteHop_one_hop_blinded(long _a);
+	// MUST_USE_RES struct LDKCOption_u64Z CandidateRouteHop_globally_unique_short_channel_id(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_globally_unique_short_channel_id")] public static extern long CandidateRouteHop_globally_unique_short_channel_id(long _this_arg);
+	// MUST_USE_RES uint32_t CandidateRouteHop_cltv_expiry_delta(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_cltv_expiry_delta")] public static extern int CandidateRouteHop_cltv_expiry_delta(long _this_arg);
+	// MUST_USE_RES uint64_t CandidateRouteHop_htlc_minimum_msat(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_htlc_minimum_msat")] public static extern long CandidateRouteHop_htlc_minimum_msat(long _this_arg);
+	// MUST_USE_RES struct LDKRoutingFees CandidateRouteHop_fees(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_fees")] public static extern long CandidateRouteHop_fees(long _this_arg);
+	// MUST_USE_RES struct LDKNodeId CandidateRouteHop_source(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_source")] public static extern long CandidateRouteHop_source(long _this_arg);
+	// MUST_USE_RES struct LDKNodeId CandidateRouteHop_target(const struct LDKCandidateRouteHop *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_CandidateRouteHop_target")] public static extern long CandidateRouteHop_target(long _this_arg);
 	// struct LDKCResult_RouteLightningErrorZ find_route(struct LDKPublicKey our_node_pubkey, const struct LDKRouteParameters *NONNULL_PTR route_params, const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKCVec_ChannelDetailsZ *first_hops, struct LDKLogger logger, const struct LDKScoreLookUp *NONNULL_PTR scorer, const struct LDKProbabilisticScoringFeeParameters *NONNULL_PTR score_params, const uint8_t (*random_seed_bytes)[32]);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_find_route")] public static extern long find_route(long _our_node_pubkey, long _route_params, long _network_graph, long _first_hops, long _logger, long _scorer, long _score_params, long _random_seed_bytes);
 	// struct LDKCResult_RouteLightningErrorZ build_route_from_hops(struct LDKPublicKey our_node_pubkey, struct LDKCVec_PublicKeyZ hops, const struct LDKRouteParameters *NONNULL_PTR route_params, const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKLogger logger, const uint8_t (*random_seed_bytes)[32]);
@@ -10838,9 +11850,9 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_get_output")] public static extern long DelayedPaymentOutputDescriptor_get_output(long _this_ptr);
 	// void DelayedPaymentOutputDescriptor_set_output(struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr, struct LDKTxOut val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_set_output")] public static extern void DelayedPaymentOutputDescriptor_set_output(long _this_ptr, long _val);
-	// struct LDKPublicKey DelayedPaymentOutputDescriptor_get_revocation_pubkey(const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr);
+	// struct LDKRevocationKey DelayedPaymentOutputDescriptor_get_revocation_pubkey(const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_get_revocation_pubkey")] public static extern long DelayedPaymentOutputDescriptor_get_revocation_pubkey(long _this_ptr);
-	// void DelayedPaymentOutputDescriptor_set_revocation_pubkey(struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	// void DelayedPaymentOutputDescriptor_set_revocation_pubkey(struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr, struct LDKRevocationKey val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_set_revocation_pubkey")] public static extern void DelayedPaymentOutputDescriptor_set_revocation_pubkey(long _this_ptr, long _val);
 	// const uint8_t (*DelayedPaymentOutputDescriptor_get_channel_keys_id(const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr))[32];
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_get_channel_keys_id")] public static extern long DelayedPaymentOutputDescriptor_get_channel_keys_id(long _this_ptr);
@@ -10850,7 +11862,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_get_channel_value_satoshis")] public static extern long DelayedPaymentOutputDescriptor_get_channel_value_satoshis(long _this_ptr);
 	// void DelayedPaymentOutputDescriptor_set_channel_value_satoshis(struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR this_ptr, uint64_t val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_set_channel_value_satoshis")] public static extern void DelayedPaymentOutputDescriptor_set_channel_value_satoshis(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKDelayedPaymentOutputDescriptor DelayedPaymentOutputDescriptor_new(struct LDKOutPoint outpoint_arg, struct LDKPublicKey per_commitment_point_arg, uint16_t to_self_delay_arg, struct LDKTxOut output_arg, struct LDKPublicKey revocation_pubkey_arg, struct LDKThirtyTwoBytes channel_keys_id_arg, uint64_t channel_value_satoshis_arg);
+	// MUST_USE_RES struct LDKDelayedPaymentOutputDescriptor DelayedPaymentOutputDescriptor_new(struct LDKOutPoint outpoint_arg, struct LDKPublicKey per_commitment_point_arg, uint16_t to_self_delay_arg, struct LDKTxOut output_arg, struct LDKRevocationKey revocation_pubkey_arg, struct LDKThirtyTwoBytes channel_keys_id_arg, uint64_t channel_value_satoshis_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_new")] public static extern long DelayedPaymentOutputDescriptor_new(long _outpoint_arg, long _per_commitment_point_arg, short _to_self_delay_arg, long _output_arg, long _revocation_pubkey_arg, long _channel_keys_id_arg, long _channel_value_satoshis_arg);
 	// uint64_t DelayedPaymentOutputDescriptor_clone_ptr(LDKDelayedPaymentOutputDescriptor *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DelayedPaymentOutputDescriptor_clone_ptr")] public static extern long DelayedPaymentOutputDescriptor_clone_ptr(long _arg);
@@ -10898,7 +11910,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_StaticPaymentOutputDescriptor_eq")] public static extern bool StaticPaymentOutputDescriptor_eq(long _a, long _b);
 	// MUST_USE_RES struct LDKCOption_CVec_u8ZZ StaticPaymentOutputDescriptor_witness_script(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_StaticPaymentOutputDescriptor_witness_script")] public static extern long StaticPaymentOutputDescriptor_witness_script(long _this_arg);
-	// MUST_USE_RES uintptr_t StaticPaymentOutputDescriptor_max_witness_length(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR this_arg);
+	// MUST_USE_RES uint64_t StaticPaymentOutputDescriptor_max_witness_length(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_StaticPaymentOutputDescriptor_max_witness_length")] public static extern long StaticPaymentOutputDescriptor_max_witness_length(long _this_arg);
 	// struct LDKCVec_u8Z StaticPaymentOutputDescriptor_write(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_StaticPaymentOutputDescriptor_write")] public static extern long StaticPaymentOutputDescriptor_write(long _obj);
@@ -10910,8 +11922,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_clone_ptr")] public static extern long SpendableOutputDescriptor_clone_ptr(long _arg);
 	// struct LDKSpendableOutputDescriptor SpendableOutputDescriptor_clone(const struct LDKSpendableOutputDescriptor *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_clone")] public static extern long SpendableOutputDescriptor_clone(long _orig);
-	// struct LDKSpendableOutputDescriptor SpendableOutputDescriptor_static_output(struct LDKOutPoint outpoint, struct LDKTxOut output);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_static_output")] public static extern long SpendableOutputDescriptor_static_output(long _outpoint, long _output);
+	// struct LDKSpendableOutputDescriptor SpendableOutputDescriptor_static_output(struct LDKOutPoint outpoint, struct LDKTxOut output, struct LDKThirtyTwoBytes channel_keys_id);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_static_output")] public static extern long SpendableOutputDescriptor_static_output(long _outpoint, long _output, long _channel_keys_id);
 	// struct LDKSpendableOutputDescriptor SpendableOutputDescriptor_delayed_payment_output(struct LDKDelayedPaymentOutputDescriptor a);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_delayed_payment_output")] public static extern long SpendableOutputDescriptor_delayed_payment_output(long _a);
 	// struct LDKSpendableOutputDescriptor SpendableOutputDescriptor_static_payment_output(struct LDKStaticPaymentOutputDescriptor a);
@@ -10924,7 +11936,7 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_write")] public static extern long SpendableOutputDescriptor_write(long _obj);
 	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ SpendableOutputDescriptor_read(struct LDKu8slice ser);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_read")] public static extern long SpendableOutputDescriptor_read(long _ser);
-	// MUST_USE_RES struct LDKCResult_C2Tuple_CVec_u8ZusizeZNoneZ SpendableOutputDescriptor_create_spendable_outputs_psbt(struct LDKCVec_SpendableOutputDescriptorZ descriptors, struct LDKCVec_TxOutZ outputs, struct LDKCVec_u8Z change_destination_script, uint32_t feerate_sat_per_1000_weight, struct LDKCOption_u32Z locktime);
+	// MUST_USE_RES struct LDKCResult_C2Tuple_CVec_u8Zu64ZNoneZ SpendableOutputDescriptor_create_spendable_outputs_psbt(struct LDKCVec_SpendableOutputDescriptorZ descriptors, struct LDKCVec_TxOutZ outputs, struct LDKCVec_u8Z change_destination_script, uint32_t feerate_sat_per_1000_weight, struct LDKCOption_u32Z locktime);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SpendableOutputDescriptor_create_spendable_outputs_psbt")] public static extern long SpendableOutputDescriptor_create_spendable_outputs_psbt(long _descriptors, long _outputs, long _change_destination_script, int _feerate_sat_per_1000_weight, long _locktime);
 	// void ChannelDerivationParameters_free(struct LDKChannelDerivationParameters this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelDerivationParameters_free")] public static extern void ChannelDerivationParameters_free(long _this_obj);
@@ -11008,14 +12020,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_HTLCDescriptor_derive_channel_signer")] public static extern long HTLCDescriptor_derive_channel_signer(long _this_arg, long _signer_provider);
 	// void ChannelSigner_free(struct LDKChannelSigner this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ChannelSigner_free")] public static extern void ChannelSigner_free(long _this_ptr);
-	// void EcdsaChannelSigner_free(struct LDKEcdsaChannelSigner this_ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_free")] public static extern void EcdsaChannelSigner_free(long _this_ptr);
-	// uint64_t WriteableEcdsaChannelSigner_clone_ptr(LDKWriteableEcdsaChannelSigner *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_clone_ptr")] public static extern long WriteableEcdsaChannelSigner_clone_ptr(long _arg);
-	// struct LDKWriteableEcdsaChannelSigner WriteableEcdsaChannelSigner_clone(const struct LDKWriteableEcdsaChannelSigner *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_clone")] public static extern long WriteableEcdsaChannelSigner_clone(long _orig);
-	// void WriteableEcdsaChannelSigner_free(struct LDKWriteableEcdsaChannelSigner this_ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_free")] public static extern void WriteableEcdsaChannelSigner_free(long _this_ptr);
 	// enum LDKRecipient Recipient_clone(const enum LDKRecipient *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Recipient_clone")] public static extern Recipient Recipient_clone(long _orig);
 	// enum LDKRecipient Recipient_node(void);
@@ -11074,9 +12078,9 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InMemorySigner_get_channel_parameters")] public static extern long InMemorySigner_get_channel_parameters(long _this_arg);
 	// MUST_USE_RES struct LDKChannelTypeFeatures InMemorySigner_channel_type_features(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InMemorySigner_channel_type_features")] public static extern long InMemorySigner_channel_type_features(long _this_arg);
-	// MUST_USE_RES struct LDKCResult_CVec_CVec_u8ZZNoneZ InMemorySigner_sign_counterparty_payment_input(const struct LDKInMemorySigner *NONNULL_PTR this_arg, struct LDKTransaction spend_tx, uintptr_t input_idx, const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR descriptor);
+	// MUST_USE_RES struct LDKCResult_WitnessNoneZ InMemorySigner_sign_counterparty_payment_input(const struct LDKInMemorySigner *NONNULL_PTR this_arg, struct LDKTransaction spend_tx, uintptr_t input_idx, const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR descriptor);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InMemorySigner_sign_counterparty_payment_input")] public static extern long InMemorySigner_sign_counterparty_payment_input(long _this_arg, long _spend_tx, long _input_idx, long _descriptor);
-	// MUST_USE_RES struct LDKCResult_CVec_CVec_u8ZZNoneZ InMemorySigner_sign_dynamic_p2wsh_input(const struct LDKInMemorySigner *NONNULL_PTR this_arg, struct LDKTransaction spend_tx, uintptr_t input_idx, const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR descriptor);
+	// MUST_USE_RES struct LDKCResult_WitnessNoneZ InMemorySigner_sign_dynamic_p2wsh_input(const struct LDKInMemorySigner *NONNULL_PTR this_arg, struct LDKTransaction spend_tx, uintptr_t input_idx, const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR descriptor);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InMemorySigner_sign_dynamic_p2wsh_input")] public static extern long InMemorySigner_sign_dynamic_p2wsh_input(long _this_arg, long _spend_tx, long _input_idx, long _descriptor);
 	// struct LDKEntropySource InMemorySigner_as_EntropySource(const struct LDKInMemorySigner *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_InMemorySigner_as_EntropySource")] public static extern long InMemorySigner_as_EntropySource(long _this_arg);
@@ -11126,14 +12130,22 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PhantomKeysManager_get_node_secret_key")] public static extern long PhantomKeysManager_get_node_secret_key(long _this_arg);
 	// MUST_USE_RES struct LDKSecretKey PhantomKeysManager_get_phantom_node_secret_key(const struct LDKPhantomKeysManager *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PhantomKeysManager_get_phantom_node_secret_key")] public static extern long PhantomKeysManager_get_phantom_node_secret_key(long _this_arg);
+	// void EcdsaChannelSigner_free(struct LDKEcdsaChannelSigner this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_EcdsaChannelSigner_free")] public static extern void EcdsaChannelSigner_free(long _this_ptr);
+	// uint64_t WriteableEcdsaChannelSigner_clone_ptr(LDKWriteableEcdsaChannelSigner *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_clone_ptr")] public static extern long WriteableEcdsaChannelSigner_clone_ptr(long _arg);
+	// struct LDKWriteableEcdsaChannelSigner WriteableEcdsaChannelSigner_clone(const struct LDKWriteableEcdsaChannelSigner *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_clone")] public static extern long WriteableEcdsaChannelSigner_clone(long _orig);
+	// void WriteableEcdsaChannelSigner_free(struct LDKWriteableEcdsaChannelSigner this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_WriteableEcdsaChannelSigner_free")] public static extern void WriteableEcdsaChannelSigner_free(long _this_ptr);
 	// void OnionMessenger_free(struct LDKOnionMessenger this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessenger_free")] public static extern void OnionMessenger_free(long _this_obj);
 	// void MessageRouter_free(struct LDKMessageRouter this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageRouter_free")] public static extern void MessageRouter_free(long _this_ptr);
 	// void DefaultMessageRouter_free(struct LDKDefaultMessageRouter this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultMessageRouter_free")] public static extern void DefaultMessageRouter_free(long _this_obj);
-	// MUST_USE_RES struct LDKDefaultMessageRouter DefaultMessageRouter_new(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultMessageRouter_new")] public static extern long DefaultMessageRouter_new();
+	// MUST_USE_RES struct LDKDefaultMessageRouter DefaultMessageRouter_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKEntropySource entropy_source);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultMessageRouter_new")] public static extern long DefaultMessageRouter_new(long _network_graph, long _entropy_source);
 	// struct LDKMessageRouter DefaultMessageRouter_as_MessageRouter(const struct LDKDefaultMessageRouter *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_DefaultMessageRouter_as_MessageRouter")] public static extern long DefaultMessageRouter_as_MessageRouter(long _this_arg);
 	// void OnionMessagePath_free(struct LDKOnionMessagePath this_obj);
@@ -11146,12 +12158,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_get_destination")] public static extern long OnionMessagePath_get_destination(long _this_ptr);
 	// void OnionMessagePath_set_destination(struct LDKOnionMessagePath *NONNULL_PTR this_ptr, struct LDKDestination val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_set_destination")] public static extern void OnionMessagePath_set_destination(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKOnionMessagePath OnionMessagePath_new(struct LDKCVec_PublicKeyZ intermediate_nodes_arg, struct LDKDestination destination_arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_new")] public static extern long OnionMessagePath_new(long _intermediate_nodes_arg, long _destination_arg);
+	// struct LDKCOption_CVec_SocketAddressZZ OnionMessagePath_get_first_node_addresses(const struct LDKOnionMessagePath *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_get_first_node_addresses")] public static extern long OnionMessagePath_get_first_node_addresses(long _this_ptr);
+	// void OnionMessagePath_set_first_node_addresses(struct LDKOnionMessagePath *NONNULL_PTR this_ptr, struct LDKCOption_CVec_SocketAddressZZ val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_set_first_node_addresses")] public static extern void OnionMessagePath_set_first_node_addresses(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKOnionMessagePath OnionMessagePath_new(struct LDKCVec_PublicKeyZ intermediate_nodes_arg, struct LDKDestination destination_arg, struct LDKCOption_CVec_SocketAddressZZ first_node_addresses_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_new")] public static extern long OnionMessagePath_new(long _intermediate_nodes_arg, long _destination_arg, long _first_node_addresses_arg);
 	// uint64_t OnionMessagePath_clone_ptr(LDKOnionMessagePath *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_clone_ptr")] public static extern long OnionMessagePath_clone_ptr(long _arg);
 	// struct LDKOnionMessagePath OnionMessagePath_clone(const struct LDKOnionMessagePath *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_clone")] public static extern long OnionMessagePath_clone(long _orig);
+	// MUST_USE_RES struct LDKPublicKey OnionMessagePath_first_node(const struct LDKOnionMessagePath *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessagePath_first_node")] public static extern long OnionMessagePath_first_node(long _this_arg);
 	// void Destination_free(struct LDKDestination this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Destination_free")] public static extern void Destination_free(long _this_ptr);
 	// uint64_t Destination_clone_ptr(LDKDestination *NONNULL_PTR arg);
@@ -11162,6 +12180,18 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Destination_node")] public static extern long Destination_node(long _a);
 	// struct LDKDestination Destination_blinded_path(struct LDKBlindedPath a);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Destination_blinded_path")] public static extern long Destination_blinded_path(long _a);
+	// void SendSuccess_free(struct LDKSendSuccess this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_free")] public static extern void SendSuccess_free(long _this_ptr);
+	// uint64_t SendSuccess_clone_ptr(LDKSendSuccess *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_clone_ptr")] public static extern long SendSuccess_clone_ptr(long _arg);
+	// struct LDKSendSuccess SendSuccess_clone(const struct LDKSendSuccess *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_clone")] public static extern long SendSuccess_clone(long _orig);
+	// struct LDKSendSuccess SendSuccess_buffered(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_buffered")] public static extern long SendSuccess_buffered();
+	// struct LDKSendSuccess SendSuccess_buffered_awaiting_connection(struct LDKPublicKey a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_buffered_awaiting_connection")] public static extern long SendSuccess_buffered_awaiting_connection(long _a);
+	// bool SendSuccess_eq(const struct LDKSendSuccess *NONNULL_PTR a, const struct LDKSendSuccess *NONNULL_PTR b);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendSuccess_eq")] public static extern bool SendSuccess_eq(long _a, long _b);
 	// void SendError_free(struct LDKSendError this_ptr);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_free")] public static extern void SendError_free(long _this_ptr);
 	// uint64_t SendError_clone_ptr(LDKSendError *NONNULL_PTR arg);
@@ -11174,8 +12204,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_too_big_packet")] public static extern long SendError_too_big_packet();
 	// struct LDKSendError SendError_too_few_blinded_hops(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_too_few_blinded_hops")] public static extern long SendError_too_few_blinded_hops();
-	// struct LDKSendError SendError_invalid_first_hop(void);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_invalid_first_hop")] public static extern long SendError_invalid_first_hop();
+	// struct LDKSendError SendError_invalid_first_hop(struct LDKPublicKey a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_invalid_first_hop")] public static extern long SendError_invalid_first_hop(long _a);
+	// struct LDKSendError SendError_path_not_found(void);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_path_not_found")] public static extern long SendError_path_not_found();
 	// struct LDKSendError SendError_invalid_message(void);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SendError_invalid_message")] public static extern long SendError_invalid_message();
 	// struct LDKSendError SendError_buffer_full(void);
@@ -11198,14 +12230,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PeeledOnion_forward")] public static extern long PeeledOnion_forward(long _a, long _b);
 	// struct LDKPeeledOnion PeeledOnion_receive(struct LDKParsedOnionMessageContents a, struct LDKThirtyTwoBytes b, struct LDKBlindedPath c);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PeeledOnion_receive")] public static extern long PeeledOnion_receive(long _a, long _b, long _c);
-	// struct LDKCResult_C2Tuple_PublicKeyOnionMessageZSendErrorZ create_onion_message(const struct LDKEntropySource *NONNULL_PTR entropy_source, const struct LDKNodeSigner *NONNULL_PTR node_signer, struct LDKOnionMessagePath path, struct LDKOnionMessageContents contents, struct LDKBlindedPath reply_path);
+	// struct LDKCResult_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ create_onion_message(const struct LDKEntropySource *NONNULL_PTR entropy_source, const struct LDKNodeSigner *NONNULL_PTR node_signer, struct LDKOnionMessagePath path, struct LDKOnionMessageContents contents, struct LDKBlindedPath reply_path);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_create_onion_message")] public static extern long create_onion_message(long _entropy_source, long _node_signer, long _path, long _contents, long _reply_path);
 	// struct LDKCResult_PeeledOnionNoneZ peel_onion_message(const struct LDKOnionMessage *NONNULL_PTR msg, struct LDKNodeSigner node_signer, struct LDKLogger logger, struct LDKCustomOnionMessageHandler custom_handler);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_peel_onion_message")] public static extern long peel_onion_message(long _msg, long _node_signer, long _logger, long _custom_handler);
 	// MUST_USE_RES struct LDKOnionMessenger OnionMessenger_new(struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, struct LDKMessageRouter message_router, struct LDKOffersMessageHandler offers_handler, struct LDKCustomOnionMessageHandler custom_handler);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessenger_new")] public static extern long OnionMessenger_new(long _entropy_source, long _node_signer, long _logger, long _message_router, long _offers_handler, long _custom_handler);
-	// MUST_USE_RES struct LDKCResult_NoneSendErrorZ OnionMessenger_send_onion_message(const struct LDKOnionMessenger *NONNULL_PTR this_arg, struct LDKOnionMessagePath path, struct LDKOnionMessageContents contents, struct LDKBlindedPath reply_path);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessenger_send_onion_message")] public static extern long OnionMessenger_send_onion_message(long _this_arg, long _path, long _contents, long _reply_path);
+	// MUST_USE_RES struct LDKCResult_SendSuccessSendErrorZ OnionMessenger_send_onion_message(const struct LDKOnionMessenger *NONNULL_PTR this_arg, struct LDKOnionMessageContents contents, struct LDKDestination destination, struct LDKBlindedPath reply_path);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessenger_send_onion_message")] public static extern long OnionMessenger_send_onion_message(long _this_arg, long _contents, long _destination, long _reply_path);
 	// struct LDKOnionMessageHandler OnionMessenger_as_OnionMessageHandler(const struct LDKOnionMessenger *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OnionMessenger_as_OnionMessageHandler")] public static extern long OnionMessenger_as_OnionMessageHandler(long _this_arg);
 	// void OffersMessageHandler_free(struct LDKOffersMessageHandler this_ptr);
@@ -11224,6 +12256,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OffersMessage_invoice_error")] public static extern long OffersMessage_invoice_error(long _a);
 	// MUST_USE_RES bool OffersMessage_is_known_type(uint64_t tlv_type);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OffersMessage_is_known_type")] public static extern bool OffersMessage_is_known_type(long _tlv_type);
+	// struct LDKOnionMessageContents OffersMessage_as_OnionMessageContents(const struct LDKOffersMessage *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OffersMessage_as_OnionMessageContents")] public static extern long OffersMessage_as_OnionMessageContents(long _this_arg);
 	// struct LDKCVec_u8Z OffersMessage_write(const struct LDKOffersMessage *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_OffersMessage_write")] public static extern long OffersMessage_write(long _obj);
 	// struct LDKCResult_OffersMessageDecodeErrorZ OffersMessage_read(struct LDKu8slice ser, uint64_t arg_a, const struct LDKLogger *NONNULL_PTR arg_b);
@@ -11252,6 +12286,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Packet_clone_ptr")] public static extern long Packet_clone_ptr(long _arg);
 	// struct LDKPacket Packet_clone(const struct LDKPacket *NONNULL_PTR orig);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Packet_clone")] public static extern long Packet_clone(long _orig);
+	// uint64_t Packet_hash(const struct LDKPacket *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Packet_hash")] public static extern long Packet_hash(long _o);
 	// bool Packet_eq(const struct LDKPacket *NONNULL_PTR a, const struct LDKPacket *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Packet_eq")] public static extern bool Packet_eq(long _a, long _b);
 	// struct LDKCVec_u8Z Packet_write(const struct LDKPacket *NONNULL_PTR obj);
@@ -11326,6 +12362,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPath_new_for_message")] public static extern long BlindedPath_new_for_message(long _node_pks, long _entropy_source);
 	// MUST_USE_RES struct LDKCResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ BlindedPath_one_hop_for_payment(struct LDKPublicKey payee_node_id, struct LDKReceiveTlvs payee_tlvs, const struct LDKEntropySource *NONNULL_PTR entropy_source);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPath_one_hop_for_payment")] public static extern long BlindedPath_one_hop_for_payment(long _payee_node_id, long _payee_tlvs, long _entropy_source);
+	// MUST_USE_RES struct LDKCResult_C2Tuple_BlindedPayInfoBlindedPathZNoneZ BlindedPath_new_for_payment(struct LDKCVec_ForwardNodeZ intermediate_nodes, struct LDKPublicKey payee_node_id, struct LDKReceiveTlvs payee_tlvs, uint64_t htlc_maximum_msat, const struct LDKEntropySource *NONNULL_PTR entropy_source);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPath_new_for_payment")] public static extern long BlindedPath_new_for_payment(long _intermediate_nodes, long _payee_node_id, long _payee_tlvs, long _htlc_maximum_msat, long _entropy_source);
 	// struct LDKCVec_u8Z BlindedPath_write(const struct LDKBlindedPath *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_BlindedPath_write")] public static extern long BlindedPath_write(long _obj);
 	// struct LDKCResult_BlindedPathDecodeErrorZ BlindedPath_read(struct LDKu8slice ser);
@@ -11434,8 +12472,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ForwardTlvs_write")] public static extern long ForwardTlvs_write(long _obj);
 	// struct LDKCVec_u8Z ReceiveTlvs_write(const struct LDKReceiveTlvs *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReceiveTlvs_write")] public static extern long ReceiveTlvs_write(long _obj);
-	// struct LDKCResult_ReceiveTlvsDecodeErrorZ ReceiveTlvs_read(struct LDKu8slice ser);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ReceiveTlvs_read")] public static extern long ReceiveTlvs_read(long _ser);
 	// struct LDKCVec_u8Z PaymentRelay_write(const struct LDKPaymentRelay *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentRelay_write")] public static extern long PaymentRelay_write(long _obj);
 	// struct LDKCResult_PaymentRelayDecodeErrorZ PaymentRelay_read(struct LDKu8slice ser);
@@ -11456,6 +12492,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentPurpose_spontaneous_payment")] public static extern long PaymentPurpose_spontaneous_payment(long _a);
 	// bool PaymentPurpose_eq(const struct LDKPaymentPurpose *NONNULL_PTR a, const struct LDKPaymentPurpose *NONNULL_PTR b);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentPurpose_eq")] public static extern bool PaymentPurpose_eq(long _a, long _b);
+	// MUST_USE_RES struct LDKCOption_ThirtyTwoBytesZ PaymentPurpose_preimage(const struct LDKPaymentPurpose *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentPurpose_preimage")] public static extern long PaymentPurpose_preimage(long _this_arg);
 	// struct LDKCVec_u8Z PaymentPurpose_write(const struct LDKPaymentPurpose *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentPurpose_write")] public static extern long PaymentPurpose_write(long _obj);
 	// struct LDKCResult_PaymentPurposeDecodeErrorZ PaymentPurpose_read(struct LDKu8slice ser);
@@ -11478,8 +12516,12 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_get_value_msat")] public static extern long ClaimedHTLC_get_value_msat(long _this_ptr);
 	// void ClaimedHTLC_set_value_msat(struct LDKClaimedHTLC *NONNULL_PTR this_ptr, uint64_t val);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_set_value_msat")] public static extern void ClaimedHTLC_set_value_msat(long _this_ptr, long _val);
-	// MUST_USE_RES struct LDKClaimedHTLC ClaimedHTLC_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKU128 user_channel_id_arg, uint32_t cltv_expiry_arg, uint64_t value_msat_arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_new")] public static extern long ClaimedHTLC_new(long _channel_id_arg, long _user_channel_id_arg, int _cltv_expiry_arg, long _value_msat_arg);
+	// uint64_t ClaimedHTLC_get_counterparty_skimmed_fee_msat(const struct LDKClaimedHTLC *NONNULL_PTR this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_get_counterparty_skimmed_fee_msat")] public static extern long ClaimedHTLC_get_counterparty_skimmed_fee_msat(long _this_ptr);
+	// void ClaimedHTLC_set_counterparty_skimmed_fee_msat(struct LDKClaimedHTLC *NONNULL_PTR this_ptr, uint64_t val);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_set_counterparty_skimmed_fee_msat")] public static extern void ClaimedHTLC_set_counterparty_skimmed_fee_msat(long _this_ptr, long _val);
+	// MUST_USE_RES struct LDKClaimedHTLC ClaimedHTLC_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKU128 user_channel_id_arg, uint32_t cltv_expiry_arg, uint64_t value_msat_arg, uint64_t counterparty_skimmed_fee_msat_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_new")] public static extern long ClaimedHTLC_new(long _channel_id_arg, long _user_channel_id_arg, int _cltv_expiry_arg, long _value_msat_arg, long _counterparty_skimmed_fee_msat_arg);
 	// uint64_t ClaimedHTLC_clone_ptr(LDKClaimedHTLC *NONNULL_PTR arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ClaimedHTLC_clone_ptr")] public static extern long ClaimedHTLC_clone_ptr(long _arg);
 	// struct LDKClaimedHTLC ClaimedHTLC_clone(const struct LDKClaimedHTLC *NONNULL_PTR orig);
@@ -11590,6 +12632,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_payment_claimable")] public static extern long Event_payment_claimable(long _receiver_node_id, long _payment_hash, long _onion_fields, long _amount_msat, long _counterparty_skimmed_fee_msat, long _purpose, long _via_channel_id, long _via_user_channel_id, long _claim_deadline);
 	// struct LDKEvent Event_payment_claimed(struct LDKPublicKey receiver_node_id, struct LDKThirtyTwoBytes payment_hash, uint64_t amount_msat, struct LDKPaymentPurpose purpose, struct LDKCVec_ClaimedHTLCZ htlcs, struct LDKCOption_u64Z sender_intended_total_msat);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_payment_claimed")] public static extern long Event_payment_claimed(long _receiver_node_id, long _payment_hash, long _amount_msat, long _purpose, long _htlcs, long _sender_intended_total_msat);
+	// struct LDKEvent Event_connection_needed(struct LDKPublicKey node_id, struct LDKCVec_SocketAddressZ addresses);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_connection_needed")] public static extern long Event_connection_needed(long _node_id, long _addresses);
 	// struct LDKEvent Event_invoice_request_failed(struct LDKThirtyTwoBytes payment_id);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_invoice_request_failed")] public static extern long Event_invoice_request_failed(long _payment_id);
 	// struct LDKEvent Event_payment_sent(struct LDKCOption_ThirtyTwoBytesZ payment_id, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u64Z fee_paid_msat);
@@ -11616,8 +12660,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_channel_pending")] public static extern long Event_channel_pending(long _channel_id, long _user_channel_id, long _former_temporary_channel_id, long _counterparty_node_id, long _funding_txo);
 	// struct LDKEvent Event_channel_ready(struct LDKThirtyTwoBytes channel_id, struct LDKU128 user_channel_id, struct LDKPublicKey counterparty_node_id, struct LDKChannelTypeFeatures channel_type);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_channel_ready")] public static extern long Event_channel_ready(long _channel_id, long _user_channel_id, long _counterparty_node_id, long _channel_type);
-	// struct LDKEvent Event_channel_closed(struct LDKThirtyTwoBytes channel_id, struct LDKU128 user_channel_id, struct LDKClosureReason reason, struct LDKPublicKey counterparty_node_id, struct LDKCOption_u64Z channel_capacity_sats);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_channel_closed")] public static extern long Event_channel_closed(long _channel_id, long _user_channel_id, long _reason, long _counterparty_node_id, long _channel_capacity_sats);
+	// struct LDKEvent Event_channel_closed(struct LDKThirtyTwoBytes channel_id, struct LDKU128 user_channel_id, struct LDKClosureReason reason, struct LDKPublicKey counterparty_node_id, struct LDKCOption_u64Z channel_capacity_sats, struct LDKOutPoint channel_funding_txo);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_channel_closed")] public static extern long Event_channel_closed(long _channel_id, long _user_channel_id, long _reason, long _counterparty_node_id, long _channel_capacity_sats, long _channel_funding_txo);
 	// struct LDKEvent Event_discard_funding(struct LDKThirtyTwoBytes channel_id, struct LDKTransaction transaction);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Event_discard_funding")] public static extern long Event_discard_funding(long _channel_id, long _transaction);
 	// struct LDKEvent Event_open_channel_request(struct LDKThirtyTwoBytes temporary_channel_id, struct LDKPublicKey counterparty_node_id, uint64_t funding_satoshis, uint64_t push_msat, struct LDKChannelTypeFeatures channel_type);
@@ -11650,6 +12694,14 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_funding_created")] public static extern long MessageSendEvent_send_funding_created(long _node_id, long _msg);
 	// struct LDKMessageSendEvent MessageSendEvent_send_funding_signed(struct LDKPublicKey node_id, struct LDKFundingSigned msg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_funding_signed")] public static extern long MessageSendEvent_send_funding_signed(long _node_id, long _msg);
+	// struct LDKMessageSendEvent MessageSendEvent_send_stfu(struct LDKPublicKey node_id, struct LDKStfu msg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_stfu")] public static extern long MessageSendEvent_send_stfu(long _node_id, long _msg);
+	// struct LDKMessageSendEvent MessageSendEvent_send_splice(struct LDKPublicKey node_id, struct LDKSplice msg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_splice")] public static extern long MessageSendEvent_send_splice(long _node_id, long _msg);
+	// struct LDKMessageSendEvent MessageSendEvent_send_splice_ack(struct LDKPublicKey node_id, struct LDKSpliceAck msg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_splice_ack")] public static extern long MessageSendEvent_send_splice_ack(long _node_id, long _msg);
+	// struct LDKMessageSendEvent MessageSendEvent_send_splice_locked(struct LDKPublicKey node_id, struct LDKSpliceLocked msg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_splice_locked")] public static extern long MessageSendEvent_send_splice_locked(long _node_id, long _msg);
 	// struct LDKMessageSendEvent MessageSendEvent_send_tx_add_input(struct LDKPublicKey node_id, struct LDKTxAddInput msg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_MessageSendEvent_send_tx_add_input")] public static extern long MessageSendEvent_send_tx_add_input(long _node_id, long _msg);
 	// struct LDKMessageSendEvent MessageSendEvent_send_tx_add_output(struct LDKPublicKey node_id, struct LDKTxAddOutput msg);
@@ -12200,8 +13252,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Bolt11Invoice_amount_milli_satoshis")] public static extern long Bolt11Invoice_amount_milli_satoshis(long _this_arg);
 	// MUST_USE_RES struct LDKCResult_DescriptionCreationErrorZ Description_new(struct LDKStr description);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Description_new")] public static extern long Description_new(long _description);
-	// MUST_USE_RES struct LDKStr Description_into_inner(struct LDKDescription this_arg);
+	// MUST_USE_RES struct LDKUntrustedString Description_into_inner(struct LDKDescription this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Description_into_inner")] public static extern long Description_into_inner(long _this_arg);
+	// struct LDKStr Description_to_str(const struct LDKDescription *NONNULL_PTR o);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Description_to_str")] public static extern long Description_to_str(long _o);
 	// MUST_USE_RES struct LDKExpiryTime ExpiryTime_from_seconds(uint64_t seconds);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ExpiryTime_from_seconds")] public static extern long ExpiryTime_from_seconds(long _seconds);
 	// MUST_USE_RES struct LDKExpiryTime ExpiryTime_from_duration(uint64_t duration);
@@ -12272,42 +13326,10 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignOrCreationError_eq")] public static extern bool SignOrCreationError_eq(long _a, long _b);
 	// struct LDKStr SignOrCreationError_to_str(const struct LDKSignOrCreationError *NONNULL_PTR o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SignOrCreationError_to_str")] public static extern long SignOrCreationError_to_str(long _o);
-	// struct LDKCResult_ThirtyTwoBytesPaymentErrorZ pay_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_pay_invoice")] public static extern long pay_invoice(long _invoice, long _retry_strategy, long _channelmanager);
-	// struct LDKCResult_NonePaymentErrorZ pay_invoice_with_id(const struct LDKBolt11Invoice *NONNULL_PTR invoice, struct LDKThirtyTwoBytes payment_id, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_pay_invoice_with_id")] public static extern long pay_invoice_with_id(long _invoice, long _payment_id, long _retry_strategy, long _channelmanager);
-	// struct LDKCResult_ThirtyTwoBytesPaymentErrorZ pay_zero_value_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice, uint64_t amount_msats, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_pay_zero_value_invoice")] public static extern long pay_zero_value_invoice(long _invoice, long _amount_msats, long _retry_strategy, long _channelmanager);
-	// struct LDKCResult_NonePaymentErrorZ pay_zero_value_invoice_with_id(const struct LDKBolt11Invoice *NONNULL_PTR invoice, uint64_t amount_msats, struct LDKThirtyTwoBytes payment_id, struct LDKRetry retry_strategy, const struct LDKChannelManager *NONNULL_PTR channelmanager);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_pay_zero_value_invoice_with_id")] public static extern long pay_zero_value_invoice_with_id(long _invoice, long _amount_msats, long _payment_id, long _retry_strategy, long _channelmanager);
-	// struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ preflight_probe_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice, const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKCOption_u64Z liquidity_limit_multiplier);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_preflight_probe_invoice")] public static extern long preflight_probe_invoice(long _invoice, long _channelmanager, long _liquidity_limit_multiplier);
-	// struct LDKCResult_CVec_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZZProbingErrorZ preflight_probe_zero_value_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice, uint64_t amount_msat, const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKCOption_u64Z liquidity_limit_multiplier);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_preflight_probe_zero_value_invoice")] public static extern long preflight_probe_zero_value_invoice(long _invoice, long _amount_msat, long _channelmanager, long _liquidity_limit_multiplier);
-	// void PaymentError_free(struct LDKPaymentError this_ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_free")] public static extern void PaymentError_free(long _this_ptr);
-	// uint64_t PaymentError_clone_ptr(LDKPaymentError *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_clone_ptr")] public static extern long PaymentError_clone_ptr(long _arg);
-	// struct LDKPaymentError PaymentError_clone(const struct LDKPaymentError *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_clone")] public static extern long PaymentError_clone(long _orig);
-	// struct LDKPaymentError PaymentError_invoice(struct LDKStr a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_invoice")] public static extern long PaymentError_invoice(long _a);
-	// struct LDKPaymentError PaymentError_sending(enum LDKRetryableSendFailure a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_sending")] public static extern long PaymentError_sending(RetryableSendFailure _a);
-	// bool PaymentError_eq(const struct LDKPaymentError *NONNULL_PTR a, const struct LDKPaymentError *NONNULL_PTR b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_PaymentError_eq")] public static extern bool PaymentError_eq(long _a, long _b);
-	// void ProbingError_free(struct LDKProbingError this_ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_free")] public static extern void ProbingError_free(long _this_ptr);
-	// uint64_t ProbingError_clone_ptr(LDKProbingError *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_clone_ptr")] public static extern long ProbingError_clone_ptr(long _arg);
-	// struct LDKProbingError ProbingError_clone(const struct LDKProbingError *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_clone")] public static extern long ProbingError_clone(long _orig);
-	// struct LDKProbingError ProbingError_invoice(struct LDKStr a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_invoice")] public static extern long ProbingError_invoice(long _a);
-	// struct LDKProbingError ProbingError_sending(struct LDKProbeSendFailure a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_sending")] public static extern long ProbingError_sending(long _a);
-	// bool ProbingError_eq(const struct LDKProbingError *NONNULL_PTR a, const struct LDKProbingError *NONNULL_PTR b);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_ProbingError_eq")] public static extern bool ProbingError_eq(long _a, long _b);
+	// struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_zero_amount_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice, uint64_t amount_msat);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_payment_parameters_from_zero_amount_invoice")] public static extern long payment_parameters_from_zero_amount_invoice(long _invoice, long _amount_msat);
+	// struct LDKCResult_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_invoice(const struct LDKBolt11Invoice *NONNULL_PTR invoice);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_payment_parameters_from_invoice")] public static extern long payment_parameters_from_invoice(long _invoice);
 	// struct LDKCResult_Bolt11InvoiceSignOrCreationErrorZ create_phantom_invoice(struct LDKCOption_u64Z amt_msat, struct LDKCOption_ThirtyTwoBytesZ payment_hash, struct LDKStr description, uint32_t invoice_expiry_delta_secs, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u16Z min_final_cltv_expiry_delta, uint64_t duration_since_epoch);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_create_phantom_invoice")] public static extern long create_phantom_invoice(long _amt_msat, long _payment_hash, long _description, int _invoice_expiry_delta_secs, long _phantom_route_hints, long _entropy_source, long _node_signer, long _logger, Currency _network, long _min_final_cltv_expiry_delta, long _duration_since_epoch);
 	// struct LDKCResult_Bolt11InvoiceSignOrCreationErrorZ create_phantom_invoice_with_description_hash(struct LDKCOption_u64Z amt_msat, struct LDKCOption_ThirtyTwoBytesZ payment_hash, uint32_t invoice_expiry_delta_secs, struct LDKSha256 description_hash, struct LDKCVec_PhantomRouteHintsZ phantom_route_hints, struct LDKEntropySource entropy_source, struct LDKNodeSigner node_signer, struct LDKLogger logger, enum LDKCurrency network, struct LDKCOption_u16Z min_final_cltv_expiry_delta, uint64_t duration_since_epoch);
@@ -12340,6 +13362,16 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_Currency_to_str")] public static extern long Currency_to_str(long _o);
 	// struct LDKStr SiPrefix_to_str(const enum LDKSiPrefix *NONNULL_PTR o);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_SiPrefix_to_str")] public static extern long SiPrefix_to_str(long _o);
+	// void GraphSyncError_free(struct LDKGraphSyncError this_ptr);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_free")] public static extern void GraphSyncError_free(long _this_ptr);
+	// uint64_t GraphSyncError_clone_ptr(LDKGraphSyncError *NONNULL_PTR arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_clone_ptr")] public static extern long GraphSyncError_clone_ptr(long _arg);
+	// struct LDKGraphSyncError GraphSyncError_clone(const struct LDKGraphSyncError *NONNULL_PTR orig);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_clone")] public static extern long GraphSyncError_clone(long _orig);
+	// struct LDKGraphSyncError GraphSyncError_decode_error(struct LDKDecodeError a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_decode_error")] public static extern long GraphSyncError_decode_error(long _a);
+	// struct LDKGraphSyncError GraphSyncError_lightning_error(struct LDKLightningError a);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_lightning_error")] public static extern long GraphSyncError_lightning_error(long _a);
 	// void RapidGossipSync_free(struct LDKRapidGossipSync this_obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RapidGossipSync_free")] public static extern void RapidGossipSync_free(long _this_obj);
 	// MUST_USE_RES struct LDKRapidGossipSync RapidGossipSync_new(const struct LDKNetworkGraph *NONNULL_PTR network_graph, struct LDKLogger logger);
@@ -12352,16 +13384,6 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RapidGossipSync_update_network_graph_no_std")] public static extern long RapidGossipSync_update_network_graph_no_std(long _this_arg, long _update_data, long _current_time_unix);
 	// MUST_USE_RES bool RapidGossipSync_is_initial_sync_complete(const struct LDKRapidGossipSync *NONNULL_PTR this_arg);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_RapidGossipSync_is_initial_sync_complete")] public static extern bool RapidGossipSync_is_initial_sync_complete(long _this_arg);
-	// void GraphSyncError_free(struct LDKGraphSyncError this_ptr);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_free")] public static extern void GraphSyncError_free(long _this_ptr);
-	// uint64_t GraphSyncError_clone_ptr(LDKGraphSyncError *NONNULL_PTR arg);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_clone_ptr")] public static extern long GraphSyncError_clone_ptr(long _arg);
-	// struct LDKGraphSyncError GraphSyncError_clone(const struct LDKGraphSyncError *NONNULL_PTR orig);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_clone")] public static extern long GraphSyncError_clone(long _orig);
-	// struct LDKGraphSyncError GraphSyncError_decode_error(struct LDKDecodeError a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_decode_error")] public static extern long GraphSyncError_decode_error(long _a);
-	// struct LDKGraphSyncError GraphSyncError_lightning_error(struct LDKLightningError a);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_GraphSyncError_lightning_error")] public static extern long GraphSyncError_lightning_error(long _a);
 
 	static long c_callback_l_l(int obj_ptr, int fn_id, long a) {
 		if (obj_ptr >= js_objs.Count) {
@@ -12411,153 +13433,160 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKEcdsaChannelSigner)obj).sign_channel_announcement_with_funding_key(a);
-			case 35:
-				if (!(obj is LDKNodeSigner)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_l");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKNodeSigner)obj).sign_bolt12_invoice_request(a);
 			case 36:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKNodeSigner)obj).sign_bolt12_invoice(a);
+				return ((LDKNodeSigner)obj).sign_bolt12_invoice_request(a);
 			case 37:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
+				return ((LDKNodeSigner)obj).sign_bolt12_invoice(a);
+			case 38:
+				if (!(obj is LDKNodeSigner)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_l");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
 				return ((LDKNodeSigner)obj).sign_gossip_message(a);
-			case 40:
+			case 41:
 				if (!(obj is LDKSignerProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKSignerProvider)obj).read_chan_signer(a);
-			case 57:
+			case 42:
+				if (!(obj is LDKSignerProvider)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_l");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKSignerProvider)obj).get_destination_script(a);
+			case 62:
 				if (!(obj is LDKPersister)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKPersister in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKPersister)obj).persist_manager(a);
-			case 58:
+			case 63:
 				if (!(obj is LDKPersister)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKPersister in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKPersister)obj).persist_graph(a);
-			case 59:
+			case 64:
 				if (!(obj is LDKPersister)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKPersister in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKPersister)obj).persist_scorer(a);
-			case 105:
+			case 114:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKChannelMessageHandler)obj).provided_init_features(a);
-			case 107:
+			case 116:
 				if (!(obj is LDKOffersMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOffersMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOffersMessageHandler)obj).handle_message(a);
-			case 109:
+			case 118:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_node_announcement(a);
-			case 110:
+			case 119:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_channel_announcement(a);
-			case 111:
+			case 120:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_channel_update(a);
-			case 112:
-				if (!(obj is LDKRoutingMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKRoutingMessageHandler)obj).get_next_channel_announcement(a);
-			case 113:
-				if (!(obj is LDKRoutingMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKRoutingMessageHandler)obj).get_next_node_announcement(a);
 			case 121:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
+				return ((LDKRoutingMessageHandler)obj).get_next_channel_announcement(a);
+			case 122:
+				if (!(obj is LDKRoutingMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKRoutingMessageHandler)obj).get_next_node_announcement(a);
+			case 130:
+				if (!(obj is LDKRoutingMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_l");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
 				return ((LDKRoutingMessageHandler)obj).provided_init_features(a);
-			case 123:
+			case 133:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOnionMessageHandler)obj).next_onion_message_for_peer(a);
-			case 127:
+			case 138:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOnionMessageHandler)obj).provided_init_features(a);
-			case 132:
+			case 143:
 				if (!(obj is LDKCustomMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomMessageHandler)obj).provided_init_features(a);
-			case 133:
+			case 144:
 				if (!(obj is LDKCustomOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomOnionMessageHandler in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomOnionMessageHandler)obj).handle_custom_message(a);
-			case 143:
+			case 153:
 				if (!(obj is LDKCoinSelectionSource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCoinSelectionSource in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKCoinSelectionSource)obj).sign_tx(a);
-			case 146:
+				return ((LDKCoinSelectionSource)obj).sign_psbt(a);
+			case 156:
 				if (!(obj is LDKWalletSource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWalletSource in l_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKWalletSource)obj).sign_tx(a);
+				return ((LDKWalletSource)obj).sign_psbt(a);
 			default:
 				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in l_l");
 				Console.Error.Flush();
@@ -12566,8 +13595,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_l_callback(int obj_ptr, int fn_id, long a);
+	static l_l_callback l_l_callback_inst = c_callback_l_l;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_l_invoker")] public static extern int register_l_l_invoker(l_l_callback callee);
-	static int _run_l_l_registration = register_l_l_invoker(c_callback_l_l);
+	static int _run_l_l_registration = register_l_l_invoker(l_l_callback_inst);
 	static long c_callback_l_ll(int obj_ptr, int fn_id, long a, long b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_ll");
@@ -12588,20 +13618,13 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKChannelSigner)obj).validate_holder_commitment(a, b);
-			case 5:
-				if (!(obj is LDKEcdsaChannelSigner)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_ll");
+			case 3:
+				if (!(obj is LDKChannelSigner)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelSigner in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKEcdsaChannelSigner)obj).sign_counterparty_commitment(a, b);
-			case 6:
-				if (!(obj is LDKEcdsaChannelSigner)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKEcdsaChannelSigner)obj).validate_counterparty_revocation(a, b);
+				return ((LDKChannelSigner)obj).validate_counterparty_revocation(a, b);
 			case 13:
 				if (!(obj is LDKEcdsaChannelSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_ll");
@@ -12609,70 +13632,77 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKEcdsaChannelSigner)obj).sign_holder_anchor_input(a, b);
-			case 25:
+			case 26:
 				if (!(obj is LDKUtxoLookup)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKUtxoLookup in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKUtxoLookup)obj).get_utxo(a, b);
-			case 26:
+			case 27:
 				if (!(obj is LDKWatch)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWatch in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKWatch)obj).watch_channel(a, b);
-			case 39:
+			case 40:
 				if (!(obj is LDKSignerProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKSignerProvider)obj).derive_channel_signer(a, b);
-			case 56:
+			case 46:
+				if (!(obj is LDKMessageRouter)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKMessageRouter in l_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKMessageRouter)obj).create_blinded_paths(a, b);
+			case 61:
 				if (!(obj is LDKKVStore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKKVStore in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKKVStore)obj).list(a, b);
-			case 115:
+			case 124:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_reply_channel_range(a, b);
-			case 116:
+			case 125:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_reply_short_channel_ids_end(a, b);
-			case 117:
+			case 126:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_query_channel_range(a, b);
-			case 118:
+			case 127:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).handle_query_short_channel_ids(a, b);
-			case 129:
+			case 140:
 				if (!(obj is LDKCustomMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomMessageHandler in l_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomMessageHandler)obj).handle_custom_message(a, b);
-			case 134:
+			case 145:
 				if (!(obj is LDKCustomOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomOnionMessageHandler in l_ll");
 					Console.Error.Flush();
@@ -12687,8 +13717,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_ll_callback(int obj_ptr, int fn_id, long a, long b);
+	static l_ll_callback l_ll_callback_inst = c_callback_l_ll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_ll_invoker")] public static extern int register_l_ll_invoker(l_ll_callback callee);
-	static int _run_l_ll_registration = register_l_ll_invoker(c_callback_l_ll);
+	static int _run_l_ll_registration = register_l_ll_invoker(l_ll_callback_inst);
 	static long c_callback_l_(int obj_ptr, int fn_id) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_");
@@ -12702,7 +13733,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 3:
+			case 4:
 				if (!(obj is LDKChannelSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelSigner in l_");
 					Console.Error.Flush();
@@ -12716,182 +13747,189 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKWriteableEcdsaChannelSigner)obj).write();
-			case 21:
-				if (!(obj is LDKLockableScore)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKLockableScore in l_");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKLockableScore)obj).read_lock();
 			case 22:
 				if (!(obj is LDKLockableScore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKLockableScore in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKLockableScore)obj).write_lock();
+				return ((LDKLockableScore)obj).read_lock();
 			case 23:
+				if (!(obj is LDKLockableScore)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKLockableScore in l_");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKLockableScore)obj).write_lock();
+			case 24:
 				if (!(obj is LDKWriteableScore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWriteableScore in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKWriteableScore)obj).write();
-			case 28:
+			case 29:
 				if (!(obj is LDKWatch)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWatch in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKWatch)obj).release_pending_monitor_events();
-			case 30:
+			case 31:
 				if (!(obj is LDKEntropySource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKEntropySource in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKEntropySource)obj).get_secure_random_bytes();
-			case 31:
+			case 32:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKNodeSigner)obj).get_inbound_payment_key_material();
-			case 41:
-				if (!(obj is LDKSignerProvider)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKSignerProvider)obj).get_destination_script();
-			case 42:
+			case 43:
 				if (!(obj is LDKSignerProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKSignerProvider)obj).get_shutdown_scriptpubkey();
-			case 47:
+			case 51:
 				if (!(obj is LDKType)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKType in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKType)obj).debug_str();
-			case 48:
+			case 52:
 				if (!(obj is LDKType)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKType in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKType)obj).write();
-			case 49:
+			case 53:
 				if (!(obj is LDKOnionMessageContents)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageContents in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOnionMessageContents)obj).tlv_type();
-			case 50:
+			case 54:
 				if (!(obj is LDKOnionMessageContents)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageContents in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOnionMessageContents)obj).write();
-			case 69:
+			case 55:
+				if (!(obj is LDKOnionMessageContents)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageContents in l_");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKOnionMessageContents)obj).debug_str();
+			case 74:
 				if (!(obj is LDKConfirm)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKConfirm in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKConfirm)obj).get_relevant_txids();
-			case 72:
+			case 77:
 				if (!(obj is LDKMessageSendEventsProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKMessageSendEventsProvider in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKMessageSendEventsProvider)obj).get_and_clear_pending_msg_events();
-			case 104:
+			case 113:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKChannelMessageHandler)obj).provided_node_features();
-			case 106:
+			case 115:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKChannelMessageHandler)obj).get_chain_hashes();
-			case 108:
+			case 117:
 				if (!(obj is LDKOffersMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOffersMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOffersMessageHandler)obj).release_pending_messages();
-			case 120:
+			case 129:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).provided_node_features();
-			case 126:
+			case 131:
+				if (!(obj is LDKOnionMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in l_");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKOnionMessageHandler)obj).get_and_clear_connections_needed();
+			case 137:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKOnionMessageHandler)obj).provided_node_features();
-			case 130:
+			case 141:
 				if (!(obj is LDKCustomMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomMessageHandler)obj).get_and_clear_pending_msg();
-			case 131:
+			case 142:
 				if (!(obj is LDKCustomMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomMessageHandler)obj).provided_node_features();
-			case 135:
+			case 146:
 				if (!(obj is LDKCustomOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomOnionMessageHandler in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKCustomOnionMessageHandler)obj).release_pending_custom_messages();
-			case 139:
+			case 150:
 				if (!(obj is LDKSocketDescriptor)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSocketDescriptor in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKSocketDescriptor)obj).hash();
-			case 140:
+			case 151:
 				if (!(obj is LDKScore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKScore in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKScore)obj).write();
-			case 144:
+			case 154:
 				if (!(obj is LDKWalletSource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWalletSource in l_");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKWalletSource)obj).list_confirmed_utxos();
-			case 145:
+			case 155:
 				if (!(obj is LDKWalletSource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWalletSource in l_");
 					Console.Error.Flush();
@@ -12906,8 +13944,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l__callback(int obj_ptr, int fn_id);
+	static l__callback l__callback_inst = c_callback_l_;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l__invoker")] public static extern int register_l__invoker(l__callback callee);
-	static int _run_l__registration = register_l__invoker(c_callback_l_);
+	static int _run_l__registration = register_l__invoker(l__callback_inst);
 	static void c_callback_void_l(int obj_ptr, int fn_id, long a) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_l");
@@ -12921,7 +13960,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 4:
+			case 5:
 				if (!(obj is LDKChannelSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelSigner in void_l");
 					Console.Error.Flush();
@@ -12929,23 +13968,15 @@ internal class bindings {
 				}
 				((LDKChannelSigner)obj).provide_channel_parameters(a);
 				return;
-			case 18:
+			case 21:
 				if (!(obj is LDKScoreUpdate)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_l");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKScoreUpdate)obj).payment_path_successful(a);
+				((LDKScoreUpdate)obj).time_passed(a);
 				return;
-			case 20:
-				if (!(obj is LDKScoreUpdate)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_l");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKScoreUpdate)obj).probe_successful(a);
-				return;
-			case 24:
+			case 25:
 				if (!(obj is LDKLogger)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKLogger in void_l");
 					Console.Error.Flush();
@@ -12953,7 +13984,7 @@ internal class bindings {
 				}
 				((LDKLogger)obj).log(a);
 				return;
-			case 29:
+			case 30:
 				if (!(obj is LDKBroadcasterInterface)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKBroadcasterInterface in void_l");
 					Console.Error.Flush();
@@ -12961,7 +13992,7 @@ internal class bindings {
 				}
 				((LDKBroadcasterInterface)obj).broadcast_transactions(a);
 				return;
-			case 52:
+			case 57:
 				if (!(obj is LDKFilter)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKFilter in void_l");
 					Console.Error.Flush();
@@ -12969,7 +14000,7 @@ internal class bindings {
 				}
 				((LDKFilter)obj).register_output(a);
 				return;
-			case 67:
+			case 72:
 				if (!(obj is LDKConfirm)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKConfirm in void_l");
 					Console.Error.Flush();
@@ -12977,7 +14008,7 @@ internal class bindings {
 				}
 				((LDKConfirm)obj).transaction_unconfirmed(a);
 				return;
-			case 70:
+			case 75:
 				if (!(obj is LDKEventHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKEventHandler in void_l");
 					Console.Error.Flush();
@@ -12985,7 +14016,7 @@ internal class bindings {
 				}
 				((LDKEventHandler)obj).handle_event(a);
 				return;
-			case 71:
+			case 76:
 				if (!(obj is LDKEventsProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKEventsProvider in void_l");
 					Console.Error.Flush();
@@ -12993,7 +14024,7 @@ internal class bindings {
 				}
 				((LDKEventsProvider)obj).process_pending_events(a);
 				return;
-			case 99:
+			case 108:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_l");
 					Console.Error.Flush();
@@ -13001,7 +14032,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).peer_disconnected(a);
 				return;
-			case 125:
+			case 135:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in void_l");
 					Console.Error.Flush();
@@ -13017,8 +14048,68 @@ internal class bindings {
 		}
 	}
 	public delegate void void_l_callback(int obj_ptr, int fn_id, long a);
+	static void_l_callback void_l_callback_inst = c_callback_void_l;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void_l_invoker")] public static extern int register_void_l_invoker(void_l_callback callee);
-	static int _run_void_l_registration = register_void_l_invoker(c_callback_void_l);
+	static int _run_void_l_registration = register_void_l_invoker(void_l_callback_inst);
+	static long c_callback_l_lll(int obj_ptr, int fn_id, long a, long b, long c) {
+		if (obj_ptr >= js_objs.Count) {
+			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_lll");
+			Console.Error.Flush();
+			Environment.Exit(42);
+		}
+		object obj = js_objs[obj_ptr].Target;
+		if (obj == null) {
+			Console.Error.WriteLine("Got function call on GC'd JS object in l_lll");
+			Console.Error.Flush();
+			Environment.Exit(43);
+		}
+		switch (fn_id) {
+			case 6:
+				if (!(obj is LDKEcdsaChannelSigner)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_lll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKEcdsaChannelSigner)obj).sign_counterparty_commitment(a, b, c);
+			case 10:
+				if (!(obj is LDKEcdsaChannelSigner)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_lll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKEcdsaChannelSigner)obj).sign_holder_htlc_transaction(a, b, c);
+			case 16:
+				if (!(obj is LDKScoreLookUp)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreLookUp in l_lll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKScoreLookUp)obj).channel_penalty_msat(a, b, c);
+			case 45:
+				if (!(obj is LDKMessageRouter)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKMessageRouter in l_lll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKMessageRouter)obj).find_path(a, b, c);
+			case 58:
+				if (!(obj is LDKKVStore)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKKVStore in l_lll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKKVStore)obj).read(a, b, c);
+			default:
+				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in l_lll");
+				Console.Error.Flush();
+				Environment.Exit(45);
+				return 0;
+		}
+	}
+	public delegate long l_lll_callback(int obj_ptr, int fn_id, long a, long b, long c);
+	static l_lll_callback l_lll_callback_inst = c_callback_l_lll;
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_lll_invoker")] public static extern int register_l_lll_invoker(l_lll_callback callee);
+	static int _run_l_lll_registration = register_l_lll_invoker(l_lll_callback_inst);
 	static long c_callback_l_llll(int obj_ptr, int fn_id, long a, long b, long c, long d) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_llll");
@@ -13039,14 +14130,21 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKEcdsaChannelSigner)obj).sign_justice_revoked_output(a, b, c, d);
-			case 44:
+			case 47:
 				if (!(obj is LDKRouter)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRouter in l_llll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRouter)obj).find_route(a, b, c, d);
-			case 54:
+			case 49:
+				if (!(obj is LDKRouter)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKRouter in l_llll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				return ((LDKRouter)obj).create_blinded_payment_paths(a, b, c, d);
+			case 59:
 				if (!(obj is LDKKVStore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKKVStore in l_llll");
 					Console.Error.Flush();
@@ -13061,8 +14159,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_llll_callback(int obj_ptr, int fn_id, long a, long b, long c, long d);
+	static l_llll_callback l_llll_callback_inst = c_callback_l_llll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_llll_invoker")] public static extern int register_l_llll_invoker(l_llll_callback callee);
-	static int _run_l_llll_registration = register_l_llll_invoker(c_callback_l_llll);
+	static int _run_l_llll_registration = register_l_llll_invoker(l_llll_callback_inst);
 	static long c_callback_l_lllll(int obj_ptr, int fn_id, long a, long b, long c, long d, long e) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_lllll");
@@ -13090,13 +14189,6 @@ internal class bindings {
 					Environment.Exit(44);
 				}
 				return ((LDKEcdsaChannelSigner)obj).sign_counterparty_htlc_transaction(a, b, c, d, e);
-			case 16:
-				if (!(obj is LDKScoreLookUp)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreLookUp in l_lllll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKScoreLookUp)obj).channel_penalty_msat(a, b, c, d, e);
 			default:
 				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in l_lllll");
 				Console.Error.Flush();
@@ -13105,52 +14197,49 @@ internal class bindings {
 		}
 	}
 	public delegate long l_lllll_callback(int obj_ptr, int fn_id, long a, long b, long c, long d, long e);
+	static l_lllll_callback l_lllll_callback_inst = c_callback_l_lllll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_lllll_invoker")] public static extern int register_l_lllll_invoker(l_lllll_callback callee);
-	static int _run_l_lllll_registration = register_l_lllll_invoker(c_callback_l_lllll);
-	static long c_callback_l_lll(int obj_ptr, int fn_id, long a, long b, long c) {
+	static int _run_l_lllll_registration = register_l_lllll_invoker(l_lllll_callback_inst);
+	static void c_callback_void_lll(int obj_ptr, int fn_id, long a, long b, long c) {
 		if (obj_ptr >= js_objs.Count) {
-			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_lll");
+			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_lll");
 			Console.Error.Flush();
 			Environment.Exit(42);
 		}
 		object obj = js_objs[obj_ptr].Target;
 		if (obj == null) {
-			Console.Error.WriteLine("Got function call on GC'd JS object in l_lll");
+			Console.Error.WriteLine("Got function call on GC'd JS object in void_lll");
 			Console.Error.Flush();
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 10:
-				if (!(obj is LDKEcdsaChannelSigner)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKEcdsaChannelSigner in l_lll");
+			case 17:
+				if (!(obj is LDKScoreUpdate)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_lll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKEcdsaChannelSigner)obj).sign_holder_htlc_transaction(a, b, c);
-			case 53:
-				if (!(obj is LDKKVStore)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKKVStore in l_lll");
+				((LDKScoreUpdate)obj).payment_path_failed(a, b, c);
+				return;
+			case 19:
+				if (!(obj is LDKScoreUpdate)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_lll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				return ((LDKKVStore)obj).read(a, b, c);
-			case 141:
-				if (!(obj is LDKMessageRouter)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKMessageRouter in l_lll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				return ((LDKMessageRouter)obj).find_path(a, b, c);
+				((LDKScoreUpdate)obj).probe_failed(a, b, c);
+				return;
 			default:
-				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in l_lll");
+				Console.Error.WriteLine("Got unknown function call with id " + fn_id + " from C in void_lll");
 				Console.Error.Flush();
 				Environment.Exit(45);
-				return 0;
+				return;
 		}
 	}
-	public delegate long l_lll_callback(int obj_ptr, int fn_id, long a, long b, long c);
-	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_lll_invoker")] public static extern int register_l_lll_invoker(l_lll_callback callee);
-	static int _run_l_lll_registration = register_l_lll_invoker(c_callback_l_lll);
+	public delegate void void_lll_callback(int obj_ptr, int fn_id, long a, long b, long c);
+	static void_lll_callback void_lll_callback_inst = c_callback_void_lll;
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void_lll_invoker")] public static extern int register_void_lll_invoker(void_lll_callback callee);
+	static int _run_void_lll_registration = register_void_lll_invoker(void_lll_callback_inst);
 	static void c_callback_void_ll(int obj_ptr, int fn_id, long a, long b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_ll");
@@ -13164,23 +14253,23 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 17:
+			case 18:
 				if (!(obj is LDKScoreUpdate)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKScoreUpdate)obj).payment_path_failed(a, b);
+				((LDKScoreUpdate)obj).payment_path_successful(a, b);
 				return;
-			case 19:
+			case 20:
 				if (!(obj is LDKScoreUpdate)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKScoreUpdate in void_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKScoreUpdate)obj).probe_failed(a, b);
+				((LDKScoreUpdate)obj).probe_successful(a, b);
 				return;
-			case 51:
+			case 56:
 				if (!(obj is LDKFilter)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKFilter in void_ll");
 					Console.Error.Flush();
@@ -13188,7 +14277,7 @@ internal class bindings {
 				}
 				((LDKFilter)obj).register_tx(a, b);
 				return;
-			case 73:
+			case 78:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13196,7 +14285,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_open_channel(a, b);
 				return;
-			case 74:
+			case 79:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13204,7 +14293,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_open_channel_v2(a, b);
 				return;
-			case 75:
+			case 80:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13212,7 +14301,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_accept_channel(a, b);
 				return;
-			case 76:
+			case 81:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13220,7 +14309,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_accept_channel_v2(a, b);
 				return;
-			case 77:
+			case 82:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13228,7 +14317,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_funding_created(a, b);
 				return;
-			case 78:
+			case 83:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13236,7 +14325,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_funding_signed(a, b);
 				return;
-			case 79:
+			case 84:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13244,7 +14333,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_channel_ready(a, b);
 				return;
-			case 80:
+			case 85:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13252,7 +14341,7 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_shutdown(a, b);
 				return;
-			case 81:
+			case 86:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13260,53 +14349,13 @@ internal class bindings {
 				}
 				((LDKChannelMessageHandler)obj).handle_closing_signed(a, b);
 				return;
-			case 82:
-				if (!(obj is LDKChannelMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKChannelMessageHandler)obj).handle_tx_add_input(a, b);
-				return;
-			case 83:
-				if (!(obj is LDKChannelMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKChannelMessageHandler)obj).handle_tx_add_output(a, b);
-				return;
-			case 84:
-				if (!(obj is LDKChannelMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKChannelMessageHandler)obj).handle_tx_remove_input(a, b);
-				return;
-			case 85:
-				if (!(obj is LDKChannelMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKChannelMessageHandler)obj).handle_tx_remove_output(a, b);
-				return;
-			case 86:
-				if (!(obj is LDKChannelMessageHandler)) {
-					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
-					Console.Error.Flush();
-					Environment.Exit(44);
-				}
-				((LDKChannelMessageHandler)obj).handle_tx_complete(a, b);
-				return;
 			case 87:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_tx_signatures(a, b);
+				((LDKChannelMessageHandler)obj).handle_stfu(a, b);
 				return;
 			case 88:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13314,7 +14363,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_tx_init_rbf(a, b);
+				((LDKChannelMessageHandler)obj).handle_splice(a, b);
 				return;
 			case 89:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13322,7 +14371,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_tx_ack_rbf(a, b);
+				((LDKChannelMessageHandler)obj).handle_splice_ack(a, b);
 				return;
 			case 90:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13330,7 +14379,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_tx_abort(a, b);
+				((LDKChannelMessageHandler)obj).handle_splice_locked(a, b);
 				return;
 			case 91:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13338,7 +14387,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_update_add_htlc(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_add_input(a, b);
 				return;
 			case 92:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13346,7 +14395,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_update_fulfill_htlc(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_add_output(a, b);
 				return;
 			case 93:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13354,7 +14403,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_update_fail_htlc(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_remove_input(a, b);
 				return;
 			case 94:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13362,7 +14411,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_update_fail_malformed_htlc(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_remove_output(a, b);
 				return;
 			case 95:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13370,7 +14419,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_commitment_signed(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_complete(a, b);
 				return;
 			case 96:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13378,7 +14427,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_revoke_and_ack(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_signatures(a, b);
 				return;
 			case 97:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13386,7 +14435,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_update_fee(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_init_rbf(a, b);
 				return;
 			case 98:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13394,7 +14443,23 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_announcement_signatures(a, b);
+				((LDKChannelMessageHandler)obj).handle_tx_ack_rbf(a, b);
+				return;
+			case 99:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_tx_abort(a, b);
+				return;
+			case 100:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_update_add_htlc(a, b);
 				return;
 			case 101:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13402,7 +14467,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_channel_reestablish(a, b);
+				((LDKChannelMessageHandler)obj).handle_update_fulfill_htlc(a, b);
 				return;
 			case 102:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13410,7 +14475,7 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
-				((LDKChannelMessageHandler)obj).handle_channel_update(a, b);
+				((LDKChannelMessageHandler)obj).handle_update_fail_htlc(a, b);
 				return;
 			case 103:
 				if (!(obj is LDKChannelMessageHandler)) {
@@ -13418,9 +14483,65 @@ internal class bindings {
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
+				((LDKChannelMessageHandler)obj).handle_update_fail_malformed_htlc(a, b);
+				return;
+			case 104:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_commitment_signed(a, b);
+				return;
+			case 105:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_revoke_and_ack(a, b);
+				return;
+			case 106:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_update_fee(a, b);
+				return;
+			case 107:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_announcement_signatures(a, b);
+				return;
+			case 110:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_channel_reestablish(a, b);
+				return;
+			case 111:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKChannelMessageHandler)obj).handle_channel_update(a, b);
+				return;
+			case 112:
+				if (!(obj is LDKChannelMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in void_ll");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
 				((LDKChannelMessageHandler)obj).handle_error(a, b);
 				return;
-			case 122:
+			case 132:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in void_ll");
 					Console.Error.Flush();
@@ -13436,8 +14557,9 @@ internal class bindings {
 		}
 	}
 	public delegate void void_ll_callback(int obj_ptr, int fn_id, long a, long b);
+	static void_ll_callback void_ll_callback_inst = c_callback_void_ll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void_ll_invoker")] public static extern int register_void_ll_invoker(void_ll_callback callee);
-	static int _run_void_ll_registration = register_void_ll_invoker(c_callback_void_ll);
+	static int _run_void_ll_registration = register_void_ll_invoker(void_ll_callback_inst);
 	static ChannelMonitorUpdateStatus c_callback_ChannelMonitorUpdateStatus_ll(int obj_ptr, int fn_id, long a, long b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in ChannelMonitorUpdateStatus_ll");
@@ -13451,7 +14573,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 27:
+			case 28:
 				if (!(obj is LDKWatch)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKWatch in ChannelMonitorUpdateStatus_ll");
 					Console.Error.Flush();
@@ -13466,8 +14588,9 @@ internal class bindings {
 		}
 	}
 	public delegate ChannelMonitorUpdateStatus ChannelMonitorUpdateStatus_ll_callback(int obj_ptr, int fn_id, long a, long b);
+	static ChannelMonitorUpdateStatus_ll_callback ChannelMonitorUpdateStatus_ll_callback_inst = c_callback_ChannelMonitorUpdateStatus_ll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_ChannelMonitorUpdateStatus_ll_invoker")] public static extern int register_ChannelMonitorUpdateStatus_ll_invoker(ChannelMonitorUpdateStatus_ll_callback callee);
-	static int _run_ChannelMonitorUpdateStatus_ll_registration = register_ChannelMonitorUpdateStatus_ll_invoker(c_callback_ChannelMonitorUpdateStatus_ll);
+	static int _run_ChannelMonitorUpdateStatus_ll_registration = register_ChannelMonitorUpdateStatus_ll_invoker(ChannelMonitorUpdateStatus_ll_callback_inst);
 	static long c_callback_l_Recipient(int obj_ptr, int fn_id, Recipient a) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_Recipient");
@@ -13481,7 +14604,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 32:
+			case 33:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_Recipient");
 					Console.Error.Flush();
@@ -13496,8 +14619,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_Recipient_callback(int obj_ptr, int fn_id, Recipient a);
+	static l_Recipient_callback l_Recipient_callback_inst = c_callback_l_Recipient;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_Recipient_invoker")] public static extern int register_l_Recipient_invoker(l_Recipient_callback callee);
-	static int _run_l_Recipient_registration = register_l_Recipient_invoker(c_callback_l_Recipient);
+	static int _run_l_Recipient_registration = register_l_Recipient_invoker(l_Recipient_callback_inst);
 	static long c_callback_l_Recipientll(int obj_ptr, int fn_id, Recipient a, long b, long c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_Recipientll");
@@ -13511,7 +14635,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 33:
+			case 34:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_Recipientll");
 					Console.Error.Flush();
@@ -13526,8 +14650,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_Recipientll_callback(int obj_ptr, int fn_id, Recipient a, long b, long c);
+	static l_Recipientll_callback l_Recipientll_callback_inst = c_callback_l_Recipientll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_Recipientll_invoker")] public static extern int register_l_Recipientll_invoker(l_Recipientll_callback callee);
-	static int _run_l_Recipientll_registration = register_l_Recipientll_invoker(c_callback_l_Recipientll);
+	static int _run_l_Recipientll_registration = register_l_Recipientll_invoker(l_Recipientll_callback_inst);
 	static long c_callback_l_llRecipient(int obj_ptr, int fn_id, long a, long b, Recipient c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_llRecipient");
@@ -13541,7 +14666,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 34:
+			case 35:
 				if (!(obj is LDKNodeSigner)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKNodeSigner in l_llRecipient");
 					Console.Error.Flush();
@@ -13556,8 +14681,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_llRecipient_callback(int obj_ptr, int fn_id, long a, long b, Recipient c);
+	static l_llRecipient_callback l_llRecipient_callback_inst = c_callback_l_llRecipient;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_llRecipient_invoker")] public static extern int register_l_llRecipient_invoker(l_llRecipient_callback callee);
-	static int _run_l_llRecipient_registration = register_l_llRecipient_invoker(c_callback_l_llRecipient);
+	static int _run_l_llRecipient_registration = register_l_llRecipient_invoker(l_llRecipient_callback_inst);
 	static long c_callback_l_bll(int obj_ptr, int fn_id, bool a, long b, long c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_bll");
@@ -13571,7 +14697,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 38:
+			case 39:
 				if (!(obj is LDKSignerProvider)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSignerProvider in l_bll");
 					Console.Error.Flush();
@@ -13586,8 +14712,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_bll_callback(int obj_ptr, int fn_id, bool a, long b, long c);
+	static l_bll_callback l_bll_callback_inst = c_callback_l_bll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_bll_invoker")] public static extern int register_l_bll_invoker(l_bll_callback callee);
-	static int _run_l_bll_registration = register_l_bll_invoker(c_callback_l_bll);
+	static int _run_l_bll_registration = register_l_bll_invoker(l_bll_callback_inst);
 	static int c_callback_i_ConfirmationTarget(int obj_ptr, int fn_id, ConfirmationTarget a) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in i_ConfirmationTarget");
@@ -13601,7 +14728,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 43:
+			case 44:
 				if (!(obj is LDKFeeEstimator)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKFeeEstimator in i_ConfirmationTarget");
 					Console.Error.Flush();
@@ -13616,8 +14743,9 @@ internal class bindings {
 		}
 	}
 	public delegate int i_ConfirmationTarget_callback(int obj_ptr, int fn_id, ConfirmationTarget a);
+	static i_ConfirmationTarget_callback i_ConfirmationTarget_callback_inst = c_callback_i_ConfirmationTarget;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_i_ConfirmationTarget_invoker")] public static extern int register_i_ConfirmationTarget_invoker(i_ConfirmationTarget_callback callee);
-	static int _run_i_ConfirmationTarget_registration = register_i_ConfirmationTarget_invoker(c_callback_i_ConfirmationTarget);
+	static int _run_i_ConfirmationTarget_registration = register_i_ConfirmationTarget_invoker(i_ConfirmationTarget_callback_inst);
 	static long c_callback_l_llllll(int obj_ptr, int fn_id, long a, long b, long c, long d, long e, long f) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_llllll");
@@ -13631,7 +14759,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 45:
+			case 48:
 				if (!(obj is LDKRouter)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRouter in l_llllll");
 					Console.Error.Flush();
@@ -13646,8 +14774,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_llllll_callback(int obj_ptr, int fn_id, long a, long b, long c, long d, long e, long f);
+	static l_llllll_callback l_llllll_callback_inst = c_callback_l_llllll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_llllll_invoker")] public static extern int register_l_llllll_invoker(l_llllll_callback callee);
-	static int _run_l_llllll_registration = register_l_llllll_invoker(c_callback_l_llllll);
+	static int _run_l_llllll_registration = register_l_llllll_invoker(l_llllll_callback_inst);
 	static short c_callback_s_(int obj_ptr, int fn_id) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in s_");
@@ -13661,7 +14790,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 46:
+			case 50:
 				if (!(obj is LDKType)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKType in s_");
 					Console.Error.Flush();
@@ -13676,8 +14805,9 @@ internal class bindings {
 		}
 	}
 	public delegate short s__callback(int obj_ptr, int fn_id);
+	static s__callback s__callback_inst = c_callback_s_;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_s__invoker")] public static extern int register_s__invoker(s__callback callee);
-	static int _run_s__registration = register_s__invoker(c_callback_s_);
+	static int _run_s__registration = register_s__invoker(s__callback_inst);
 	static long c_callback_l_lllb(int obj_ptr, int fn_id, long a, long b, long c, bool d) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_lllb");
@@ -13691,7 +14821,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 55:
+			case 60:
 				if (!(obj is LDKKVStore)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKKVStore in l_lllb");
 					Console.Error.Flush();
@@ -13706,8 +14836,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_lllb_callback(int obj_ptr, int fn_id, long a, long b, long c, bool d);
+	static l_lllb_callback l_lllb_callback_inst = c_callback_l_lllb;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_lllb_invoker")] public static extern int register_l_lllb_invoker(l_lllb_callback callee);
-	static int _run_l_lllb_registration = register_l_lllb_invoker(c_callback_l_lllb);
+	static int _run_l_lllb_registration = register_l_lllb_invoker(l_lllb_callback_inst);
 	static ChannelMonitorUpdateStatus c_callback_ChannelMonitorUpdateStatus_lll(int obj_ptr, int fn_id, long a, long b, long c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in ChannelMonitorUpdateStatus_lll");
@@ -13721,7 +14852,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 60:
+			case 65:
 				if (!(obj is LDKPersist)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKPersist in ChannelMonitorUpdateStatus_lll");
 					Console.Error.Flush();
@@ -13736,8 +14867,9 @@ internal class bindings {
 		}
 	}
 	public delegate ChannelMonitorUpdateStatus ChannelMonitorUpdateStatus_lll_callback(int obj_ptr, int fn_id, long a, long b, long c);
+	static ChannelMonitorUpdateStatus_lll_callback ChannelMonitorUpdateStatus_lll_callback_inst = c_callback_ChannelMonitorUpdateStatus_lll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_ChannelMonitorUpdateStatus_lll_invoker")] public static extern int register_ChannelMonitorUpdateStatus_lll_invoker(ChannelMonitorUpdateStatus_lll_callback callee);
-	static int _run_ChannelMonitorUpdateStatus_lll_registration = register_ChannelMonitorUpdateStatus_lll_invoker(c_callback_ChannelMonitorUpdateStatus_lll);
+	static int _run_ChannelMonitorUpdateStatus_lll_registration = register_ChannelMonitorUpdateStatus_lll_invoker(ChannelMonitorUpdateStatus_lll_callback_inst);
 	static ChannelMonitorUpdateStatus c_callback_ChannelMonitorUpdateStatus_llll(int obj_ptr, int fn_id, long a, long b, long c, long d) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in ChannelMonitorUpdateStatus_llll");
@@ -13751,7 +14883,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 61:
+			case 66:
 				if (!(obj is LDKPersist)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKPersist in ChannelMonitorUpdateStatus_llll");
 					Console.Error.Flush();
@@ -13766,8 +14898,9 @@ internal class bindings {
 		}
 	}
 	public delegate ChannelMonitorUpdateStatus ChannelMonitorUpdateStatus_llll_callback(int obj_ptr, int fn_id, long a, long b, long c, long d);
+	static ChannelMonitorUpdateStatus_llll_callback ChannelMonitorUpdateStatus_llll_callback_inst = c_callback_ChannelMonitorUpdateStatus_llll;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_ChannelMonitorUpdateStatus_llll_invoker")] public static extern int register_ChannelMonitorUpdateStatus_llll_invoker(ChannelMonitorUpdateStatus_llll_callback callee);
-	static int _run_ChannelMonitorUpdateStatus_llll_registration = register_ChannelMonitorUpdateStatus_llll_invoker(c_callback_ChannelMonitorUpdateStatus_llll);
+	static int _run_ChannelMonitorUpdateStatus_llll_registration = register_ChannelMonitorUpdateStatus_llll_invoker(ChannelMonitorUpdateStatus_llll_callback_inst);
 	static void c_callback_void_(int obj_ptr, int fn_id) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_");
@@ -13781,7 +14914,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 62:
+			case 67:
 				if (!(obj is LDKFutureCallback)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKFutureCallback in void_");
 					Console.Error.Flush();
@@ -13789,7 +14922,15 @@ internal class bindings {
 				}
 				((LDKFutureCallback)obj).call();
 				return;
-			case 137:
+			case 136:
+				if (!(obj is LDKOnionMessageHandler)) {
+					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in void_");
+					Console.Error.Flush();
+					Environment.Exit(44);
+				}
+				((LDKOnionMessageHandler)obj).timer_tick_occurred();
+				return;
+			case 148:
 				if (!(obj is LDKSocketDescriptor)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSocketDescriptor in void_");
 					Console.Error.Flush();
@@ -13805,8 +14946,9 @@ internal class bindings {
 		}
 	}
 	public delegate void void__callback(int obj_ptr, int fn_id);
+	static void__callback void__callback_inst = c_callback_void_;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void__invoker")] public static extern int register_void__invoker(void__callback callee);
-	static int _run_void__registration = register_void__invoker(c_callback_void_);
+	static int _run_void__registration = register_void__invoker(void__callback_inst);
 	static void c_callback_void_lli(int obj_ptr, int fn_id, long a, long b, int c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_lli");
@@ -13820,7 +14962,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 63:
+			case 68:
 				if (!(obj is LDKListen)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKListen in void_lli");
 					Console.Error.Flush();
@@ -13828,7 +14970,7 @@ internal class bindings {
 				}
 				((LDKListen)obj).filtered_block_connected(a, b, c);
 				return;
-			case 66:
+			case 71:
 				if (!(obj is LDKConfirm)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKConfirm in void_lli");
 					Console.Error.Flush();
@@ -13844,8 +14986,9 @@ internal class bindings {
 		}
 	}
 	public delegate void void_lli_callback(int obj_ptr, int fn_id, long a, long b, int c);
+	static void_lli_callback void_lli_callback_inst = c_callback_void_lli;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void_lli_invoker")] public static extern int register_void_lli_invoker(void_lli_callback callee);
-	static int _run_void_lli_registration = register_void_lli_invoker(c_callback_void_lli);
+	static int _run_void_lli_registration = register_void_lli_invoker(void_lli_callback_inst);
 	static void c_callback_void_li(int obj_ptr, int fn_id, long a, int b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in void_li");
@@ -13859,7 +15002,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 64:
+			case 69:
 				if (!(obj is LDKListen)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKListen in void_li");
 					Console.Error.Flush();
@@ -13867,7 +15010,7 @@ internal class bindings {
 				}
 				((LDKListen)obj).block_connected(a, b);
 				return;
-			case 65:
+			case 70:
 				if (!(obj is LDKListen)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKListen in void_li");
 					Console.Error.Flush();
@@ -13875,7 +15018,7 @@ internal class bindings {
 				}
 				((LDKListen)obj).block_disconnected(a, b);
 				return;
-			case 68:
+			case 73:
 				if (!(obj is LDKConfirm)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKConfirm in void_li");
 					Console.Error.Flush();
@@ -13891,8 +15034,9 @@ internal class bindings {
 		}
 	}
 	public delegate void void_li_callback(int obj_ptr, int fn_id, long a, int b);
+	static void_li_callback void_li_callback_inst = c_callback_void_li;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_void_li_invoker")] public static extern int register_void_li_invoker(void_li_callback callee);
-	static int _run_void_li_registration = register_void_li_invoker(c_callback_void_li);
+	static int _run_void_li_registration = register_void_li_invoker(void_li_callback_inst);
 	static long c_callback_l_llb(int obj_ptr, int fn_id, long a, long b, bool c) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_llb");
@@ -13906,21 +15050,21 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 100:
+			case 109:
 				if (!(obj is LDKChannelMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKChannelMessageHandler in l_llb");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKChannelMessageHandler)obj).peer_connected(a, b, c);
-			case 114:
+			case 123:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in l_llb");
 					Console.Error.Flush();
 					Environment.Exit(44);
 				}
 				return ((LDKRoutingMessageHandler)obj).peer_connected(a, b, c);
-			case 124:
+			case 134:
 				if (!(obj is LDKOnionMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKOnionMessageHandler in l_llb");
 					Console.Error.Flush();
@@ -13935,8 +15079,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_llb_callback(int obj_ptr, int fn_id, long a, long b, bool c);
+	static l_llb_callback l_llb_callback_inst = c_callback_l_llb;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_llb_invoker")] public static extern int register_l_llb_invoker(l_llb_callback callee);
-	static int _run_l_llb_registration = register_l_llb_invoker(c_callback_l_llb);
+	static int _run_l_llb_registration = register_l_llb_invoker(l_llb_callback_inst);
 	static bool c_callback_b_(int obj_ptr, int fn_id) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in b_");
@@ -13950,7 +15095,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 119:
+			case 128:
 				if (!(obj is LDKRoutingMessageHandler)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKRoutingMessageHandler in b_");
 					Console.Error.Flush();
@@ -13965,8 +15110,9 @@ internal class bindings {
 		}
 	}
 	public delegate bool b__callback(int obj_ptr, int fn_id);
+	static b__callback b__callback_inst = c_callback_b_;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_b__invoker")] public static extern int register_b__invoker(b__callback callee);
-	static int _run_b__registration = register_b__invoker(c_callback_b_);
+	static int _run_b__registration = register_b__invoker(b__callback_inst);
 	static long c_callback_l_sl(int obj_ptr, int fn_id, short a, long b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_sl");
@@ -13980,7 +15126,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 128:
+			case 139:
 				if (!(obj is LDKCustomMessageReader)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCustomMessageReader in l_sl");
 					Console.Error.Flush();
@@ -13995,8 +15141,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_sl_callback(int obj_ptr, int fn_id, short a, long b);
+	static l_sl_callback l_sl_callback_inst = c_callback_l_sl;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_sl_invoker")] public static extern int register_l_sl_invoker(l_sl_callback callee);
-	static int _run_l_sl_registration = register_l_sl_invoker(c_callback_l_sl);
+	static int _run_l_sl_registration = register_l_sl_invoker(l_sl_callback_inst);
 	static long c_callback_l_lb(int obj_ptr, int fn_id, long a, bool b) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_lb");
@@ -14010,7 +15157,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 136:
+			case 147:
 				if (!(obj is LDKSocketDescriptor)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSocketDescriptor in l_lb");
 					Console.Error.Flush();
@@ -14025,8 +15172,9 @@ internal class bindings {
 		}
 	}
 	public delegate long l_lb_callback(int obj_ptr, int fn_id, long a, bool b);
+	static l_lb_callback l_lb_callback_inst = c_callback_l_lb;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_lb_invoker")] public static extern int register_l_lb_invoker(l_lb_callback callee);
-	static int _run_l_lb_registration = register_l_lb_invoker(c_callback_l_lb);
+	static int _run_l_lb_registration = register_l_lb_invoker(l_lb_callback_inst);
 	static bool c_callback_b_l(int obj_ptr, int fn_id, long a) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in b_l");
@@ -14040,7 +15188,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 138:
+			case 149:
 				if (!(obj is LDKSocketDescriptor)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKSocketDescriptor in b_l");
 					Console.Error.Flush();
@@ -14055,8 +15203,9 @@ internal class bindings {
 		}
 	}
 	public delegate bool b_l_callback(int obj_ptr, int fn_id, long a);
+	static b_l_callback b_l_callback_inst = c_callback_b_l;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_b_l_invoker")] public static extern int register_b_l_invoker(b_l_callback callee);
-	static int _run_b_l_registration = register_b_l_invoker(c_callback_b_l);
+	static int _run_b_l_registration = register_b_l_invoker(b_l_callback_inst);
 	static long c_callback_l_llli(int obj_ptr, int fn_id, long a, long b, long c, int d) {
 		if (obj_ptr >= js_objs.Count) {
 			Console.Error.WriteLine("Got function call on unknown/free'd JS object in l_llli");
@@ -14070,7 +15219,7 @@ internal class bindings {
 			Environment.Exit(43);
 		}
 		switch (fn_id) {
-			case 142:
+			case 152:
 				if (!(obj is LDKCoinSelectionSource)) {
 					Console.Error.WriteLine("Got function call to object that wasn't a LDKCoinSelectionSource in l_llli");
 					Console.Error.Flush();
@@ -14085,7 +15234,8 @@ internal class bindings {
 		}
 	}
 	public delegate long l_llli_callback(int obj_ptr, int fn_id, long a, long b, long c, int d);
+	static l_llli_callback l_llli_callback_inst = c_callback_l_llli;
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_register_l_llli_invoker")] public static extern int register_l_llli_invoker(l_llli_callback callee);
-	static int _run_l_llli_registration = register_l_llli_invoker(c_callback_l_llli);
+	static int _run_l_llli_registration = register_l_llli_invoker(l_llli_callback_inst);
 }
 } } }

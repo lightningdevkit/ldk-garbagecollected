@@ -41,6 +41,18 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendFundingSigned.class) {
 			return new SendFundingSigned(ptr, (bindings.LDKMessageSendEvent.SendFundingSigned)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendStfu.class) {
+			return new SendStfu(ptr, (bindings.LDKMessageSendEvent.SendStfu)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendSplice.class) {
+			return new SendSplice(ptr, (bindings.LDKMessageSendEvent.SendSplice)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendSpliceAck.class) {
+			return new SendSpliceAck(ptr, (bindings.LDKMessageSendEvent.SendSpliceAck)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendSpliceLocked.class) {
+			return new SendSpliceLocked(ptr, (bindings.LDKMessageSendEvent.SendSpliceLocked)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendTxAddInput.class) {
 			return new SendTxAddInput(ptr, (bindings.LDKMessageSendEvent.SendTxAddInput)raw_val);
 		}
@@ -248,6 +260,90 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			org.ldk.structs.FundingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.FundingSigned(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a stfu message should be sent to the peer with the given node id.
+	 */
+	public final static class SendStfu extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.Stfu msg;
+		private SendStfu(long ptr, bindings.LDKMessageSendEvent.SendStfu obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.Stfu msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Stfu(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a splice message should be sent to the peer with the given node id.
+	 */
+	public final static class SendSplice extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.Splice msg;
+		private SendSplice(long ptr, bindings.LDKMessageSendEvent.SendSplice obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.Splice msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Splice(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a splice_ack message should be sent to the peer with the given node id.
+	 */
+	public final static class SendSpliceAck extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.SpliceAck msg;
+		private SendSpliceAck(long ptr, bindings.LDKMessageSendEvent.SendSpliceAck obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.SpliceAck msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceAck(null, msg); }
+			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Used to indicate that a splice_locked message should be sent to the peer with the given node id.
+	 */
+	public final static class SendSpliceLocked extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
+		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
+		public final org.ldk.structs.SpliceLocked msg;
+		private SendSpliceLocked(long ptr, bindings.LDKMessageSendEvent.SendSpliceLocked obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			org.ldk.structs.SpliceLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceLocked(null, msg); }
 			if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 			this.msg = msg_hu_conv;
 		}
@@ -910,6 +1006,62 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_funding_signed(byte[] node_id, org.ldk.structs.FundingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_funding_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendStfu-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_stfu(byte[] node_id, org.ldk.structs.Stfu msg) {
+		long ret = bindings.MessageSendEvent_send_stfu(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSplice-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice(byte[] node_id, org.ldk.structs.Splice msg) {
+		long ret = bindings.MessageSendEvent_send_splice(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSpliceAck-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice_ack(byte[] node_id, org.ldk.structs.SpliceAck msg) {
+		long ret = bindings.MessageSendEvent_send_splice_ack(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(msg); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendSpliceLocked-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_splice_locked(byte[] node_id, org.ldk.structs.SpliceLocked msg) {
+		long ret = bindings.MessageSendEvent_send_splice_locked(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -10,7 +10,7 @@ namespace org { namespace ldk { namespace structs {
 
 /** An implementation of SignerProvider */
 public interface SignerProviderInterface {
-	/**Generates a unique `channel_keys_id` that can be used to obtain a [`Self::Signer`] through
+	/**Generates a unique `channel_keys_id` that can be used to obtain a [`Self::EcdsaSigner`] through
 	 * [`SignerProvider::derive_channel_signer`]. The `user_channel_id` is provided to allow
 	 * implementations of [`SignerProvider`] to maintain a mapping between itself and the generated
 	 * `channel_keys_id`.
@@ -36,7 +36,7 @@ public interface SignerProviderInterface {
 	 * This method is slowly being phased out -- it will only be called when reading objects
 	 * written by LDK versions prior to 0.0.113.
 	 * 
-	 * [`Signer`]: Self::Signer
+	 * [`Signer`]: Self::EcdsaSigner
 	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
@@ -46,9 +46,10 @@ public interface SignerProviderInterface {
 	 * If this function returns an error, this will result in a channel failing to open.
 	 * 
 	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
+	 * on-chain funds across channels as controlled to the same user. `channel_keys_id` may be
+	 * used to derive a unique value for each channel.
 	 */
-	Result_CVec_u8ZNoneZ get_destination_script();
+	Result_CVec_u8ZNoneZ get_destination_script(byte[] channel_keys_id);
 	/**Get a script pubkey which we will send funds to when closing a channel.
 	 * 
 	 * If this function returns an error, this will result in a channel failing to open or close.
@@ -100,8 +101,9 @@ public class SignerProvider : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public long get_destination_script() {
-			Result_CVec_u8ZNoneZ ret = arg.get_destination_script();
+		public long get_destination_script(long _channel_keys_id) {
+			byte[] _channel_keys_id_conv = InternalUtils.decodeUint8Array(_channel_keys_id);
+			Result_CVec_u8ZNoneZ ret = arg.get_destination_script(_channel_keys_id_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
@@ -127,7 +129,7 @@ public class SignerProvider : CommonBase {
 	}
 
 	/**
-	 * Generates a unique `channel_keys_id` that can be used to obtain a [`Self::Signer`] through
+	 * Generates a unique `channel_keys_id` that can be used to obtain a [`Self::EcdsaSigner`] through
 	 * [`SignerProvider::derive_channel_signer`]. The `user_channel_id` is provided to allow
 	 * implementations of [`SignerProvider`] to maintain a mapping between itself and the generated
 	 * `channel_keys_id`.
@@ -175,7 +177,7 @@ public class SignerProvider : CommonBase {
 	 * This method is slowly being phased out -- it will only be called when reading objects
 	 * written by LDK versions prior to 0.0.113.
 	 * 
-	 * [`Signer`]: Self::Signer
+	 * [`Signer`]: Self::EcdsaSigner
 	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
@@ -194,11 +196,13 @@ public class SignerProvider : CommonBase {
 	 * If this function returns an error, this will result in a channel failing to open.
 	 * 
 	 * This method should return a different value each time it is called, to avoid linking
-	 * on-chain funds across channels as controlled to the same user.
+	 * on-chain funds across channels as controlled to the same user. `channel_keys_id` may be
+	 * used to derive a unique value for each channel.
 	 */
-	public Result_CVec_u8ZNoneZ get_destination_script() {
-		long ret = bindings.SignerProvider_get_destination_script(this.ptr);
+	public Result_CVec_u8ZNoneZ get_destination_script(byte[] channel_keys_id) {
+		long ret = bindings.SignerProvider_get_destination_script(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_keys_id, 32)));
 		GC.KeepAlive(this);
+		GC.KeepAlive(channel_keys_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZNoneZ ret_hu_conv = Result_CVec_u8ZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

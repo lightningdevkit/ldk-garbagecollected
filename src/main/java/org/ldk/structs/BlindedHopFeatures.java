@@ -56,6 +56,18 @@ public class BlindedHopFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the BlindedHopFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.BlindedHopFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static BlindedHopFeatures empty() {

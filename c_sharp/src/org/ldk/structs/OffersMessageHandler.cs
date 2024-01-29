@@ -15,7 +15,7 @@ public interface OffersMessageHandlerInterface {
 	 * 
 	 * The returned [`OffersMessage`], if any, is enqueued to be sent by [`OnionMessenger`].
 	 * 
-	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
+	 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 	 */
 	Option_OffersMessageZ handle_message(OffersMessage message);
 	/**Releases any [`OffersMessage`]s that need to be sent.
@@ -80,7 +80,7 @@ public class OffersMessageHandler : CommonBase {
 	 * 
 	 * The returned [`OffersMessage`], if any, is enqueued to be sent by [`OnionMessenger`].
 	 * 
-	 * [`OnionMessenger`]: crate::onion_message::OnionMessenger
+	 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 	 */
 	public Option_OffersMessageZ handle_message(org.ldk.structs.OffersMessage message) {
 		long ret = bindings.OffersMessageHandler_handle_message(this.ptr, message.ptr);

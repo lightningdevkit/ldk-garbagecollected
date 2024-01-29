@@ -24,24 +24,25 @@ public class Event : CommonBase {
 			case 0: return new Event_FundingGenerationReady(ptr);
 			case 1: return new Event_PaymentClaimable(ptr);
 			case 2: return new Event_PaymentClaimed(ptr);
-			case 3: return new Event_InvoiceRequestFailed(ptr);
-			case 4: return new Event_PaymentSent(ptr);
-			case 5: return new Event_PaymentFailed(ptr);
-			case 6: return new Event_PaymentPathSuccessful(ptr);
-			case 7: return new Event_PaymentPathFailed(ptr);
-			case 8: return new Event_ProbeSuccessful(ptr);
-			case 9: return new Event_ProbeFailed(ptr);
-			case 10: return new Event_PendingHTLCsForwardable(ptr);
-			case 11: return new Event_HTLCIntercepted(ptr);
-			case 12: return new Event_SpendableOutputs(ptr);
-			case 13: return new Event_PaymentForwarded(ptr);
-			case 14: return new Event_ChannelPending(ptr);
-			case 15: return new Event_ChannelReady(ptr);
-			case 16: return new Event_ChannelClosed(ptr);
-			case 17: return new Event_DiscardFunding(ptr);
-			case 18: return new Event_OpenChannelRequest(ptr);
-			case 19: return new Event_HTLCHandlingFailed(ptr);
-			case 20: return new Event_BumpTransaction(ptr);
+			case 3: return new Event_ConnectionNeeded(ptr);
+			case 4: return new Event_InvoiceRequestFailed(ptr);
+			case 5: return new Event_PaymentSent(ptr);
+			case 6: return new Event_PaymentFailed(ptr);
+			case 7: return new Event_PaymentPathSuccessful(ptr);
+			case 8: return new Event_PaymentPathFailed(ptr);
+			case 9: return new Event_ProbeSuccessful(ptr);
+			case 10: return new Event_ProbeFailed(ptr);
+			case 11: return new Event_PendingHTLCsForwardable(ptr);
+			case 12: return new Event_HTLCIntercepted(ptr);
+			case 13: return new Event_SpendableOutputs(ptr);
+			case 14: return new Event_PaymentForwarded(ptr);
+			case 15: return new Event_ChannelPending(ptr);
+			case 16: return new Event_ChannelReady(ptr);
+			case 17: return new Event_ChannelClosed(ptr);
+			case 18: return new Event_DiscardFunding(ptr);
+			case 19: return new Event_OpenChannelRequest(ptr);
+			case 20: return new Event_HTLCHandlingFailed(ptr);
+			case 21: return new Event_BumpTransaction(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -268,6 +269,33 @@ public class Event : CommonBase {
 			org.ldk.structs.Option_u64Z sender_intended_total_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(sender_intended_total_msat);
 			if (sender_intended_total_msat_hu_conv != null) { sender_intended_total_msat_hu_conv.ptrs_to.AddLast(this); };
 			this.sender_intended_total_msat = sender_intended_total_msat_hu_conv;
+		}
+	}
+	/** A Event of type ConnectionNeeded */
+	public class Event_ConnectionNeeded : Event {
+		/**
+		 * The node id for the node needing a connection.
+		 */
+		public byte[] node_id;
+		/**
+		 * Sockets for connecting to the node.
+		 */
+		public SocketAddress[] addresses;
+		internal Event_ConnectionNeeded(long ptr) : base(null, ptr) {
+			long node_id = bindings.LDKEvent_ConnectionNeeded_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long addresses = bindings.LDKEvent_ConnectionNeeded_get_addresses(ptr);
+			int addresses_conv_15_len = InternalUtils.getArrayLength(addresses);
+			SocketAddress[] addresses_conv_15_arr = new SocketAddress[addresses_conv_15_len];
+			for (int p = 0; p < addresses_conv_15_len; p++) {
+				long addresses_conv_15 = InternalUtils.getU64ArrayElem(addresses, p);
+				org.ldk.structs.SocketAddress addresses_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(addresses_conv_15);
+				if (addresses_conv_15_hu_conv != null) { addresses_conv_15_hu_conv.ptrs_to.AddLast(this); };
+				addresses_conv_15_arr[p] = addresses_conv_15_hu_conv;
+			}
+			bindings.free_buffer(addresses);
+			this.addresses = addresses_conv_15_arr;
 		}
 	}
 	/** A Event of type InvoiceRequestFailed */
@@ -816,6 +844,14 @@ public class Event : CommonBase {
 		 * This field will be `None` for objects serialized prior to LDK 0.0.117.
 		 */
 		public Option_u64Z channel_capacity_sats;
+		/**
+		 * The original channel funding TXO; this helps checking for the existence and confirmation
+		 * status of the closing tx.
+		 * Note that for instances serialized in v0.0.119 or prior this will be missing (None).
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		public OutPoint channel_funding_txo;
 		internal Event_ChannelClosed(long ptr) : base(null, ptr) {
 			long channel_id = bindings.LDKEvent_ChannelClosed_get_channel_id(ptr);
 			byte[] channel_id_conv = InternalUtils.decodeUint8Array(channel_id);
@@ -834,6 +870,10 @@ public class Event : CommonBase {
 			org.ldk.structs.Option_u64Z channel_capacity_sats_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(channel_capacity_sats);
 			if (channel_capacity_sats_hu_conv != null) { channel_capacity_sats_hu_conv.ptrs_to.AddLast(this); };
 			this.channel_capacity_sats = channel_capacity_sats_hu_conv;
+			long channel_funding_txo = bindings.LDKEvent_ChannelClosed_get_channel_funding_txo(ptr);
+			org.ldk.structs.OutPoint channel_funding_txo_hu_conv = null; if (channel_funding_txo < 0 || channel_funding_txo > 4096) { channel_funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, channel_funding_txo); }
+			if (channel_funding_txo_hu_conv != null) { channel_funding_txo_hu_conv.ptrs_to.AddLast(this); };
+			this.channel_funding_txo = channel_funding_txo_hu_conv;
 		}
 	}
 	/** A Event of type DiscardFunding */
@@ -1027,6 +1067,20 @@ public class Event : CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(purpose); };
 		foreach (ClaimedHTLC htlcs_conv_13 in htlcs) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(htlcs_conv_13); }; };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(sender_intended_total_msat); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ConnectionNeeded-variant Event
+	 */
+	public static Event connection_needed(byte[] node_id, SocketAddress[] addresses) {
+		long ret = bindings.Event_connection_needed(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(addresses, addresses_conv_15 => addresses_conv_15.ptr)));
+		GC.KeepAlive(node_id);
+		GC.KeepAlive(addresses);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		foreach (SocketAddress addresses_conv_15 in addresses) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(addresses_conv_15); }; };
 		return ret_hu_conv;
 	}
 
@@ -1243,18 +1297,20 @@ public class Event : CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelClosed-variant Event
 	 */
-	public static Event channel_closed(byte[] channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ClosureReason reason, byte[] counterparty_node_id, org.ldk.structs.Option_u64Z channel_capacity_sats) {
-		long ret = bindings.Event_channel_closed(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id, 32)), InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()), reason.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(counterparty_node_id, 33)), channel_capacity_sats.ptr);
+	public static Event channel_closed(byte[] channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ClosureReason reason, byte[] counterparty_node_id, org.ldk.structs.Option_u64Z channel_capacity_sats, org.ldk.structs.OutPoint channel_funding_txo) {
+		long ret = bindings.Event_channel_closed(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_id, 32)), InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()), reason.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(counterparty_node_id, 33)), channel_capacity_sats.ptr, channel_funding_txo == null ? 0 : channel_funding_txo.ptr);
 		GC.KeepAlive(channel_id);
 		GC.KeepAlive(user_channel_id);
 		GC.KeepAlive(reason);
 		GC.KeepAlive(counterparty_node_id);
 		GC.KeepAlive(channel_capacity_sats);
+		GC.KeepAlive(channel_funding_txo);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(reason); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_capacity_sats); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_funding_txo); };
 		return ret_hu_conv;
 	}
 

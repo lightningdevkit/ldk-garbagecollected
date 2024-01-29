@@ -80,9 +80,10 @@ namespace org { namespace ldk { namespace structs {
  * 
  * # Pruning stale channel updates
  * 
- * Stale updates are pruned when a full monitor is written. The old monitor is first read, and if
- * that succeeds, updates in the range between the old and new monitors are deleted. The `lazy`
- * flag is used on the [`KVStore::remove`] method, so there are no guarantees that the deletions
+ * Stale updates are pruned when the consolidation threshold is reached according to `maximum_pending_updates`.
+ * Monitor updates in the range between the latest `update_id` and `update_id - maximum_pending_updates`
+ * are deleted.
+ * The `lazy` flag is used on the [`KVStore::remove`] method, so there are no guarantees that the deletions
  * will complete. However, stale updates are not a problem for data integrity, since updates are
  * only read that are higher than the stored [`ChannelMonitor`]'s `update_id`.
  * 

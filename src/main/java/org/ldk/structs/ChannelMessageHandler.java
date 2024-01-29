@@ -78,6 +78,22 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_closing_signed(byte[] their_node_id, ClosingSigned msg);
 		/**
+		 * Handle an incoming `stfu` message from the given peer.
+		 */
+		void handle_stfu(byte[] their_node_id, Stfu msg);
+		/**
+		 * Handle an incoming `splice` message from the given peer.
+		 */
+		void handle_splice(byte[] their_node_id, Splice msg);
+		/**
+		 * Handle an incoming `splice_ack` message from the given peer.
+		 */
+		void handle_splice_ack(byte[] their_node_id, SpliceAck msg);
+		/**
+		 * Handle an incoming `splice_locked` message from the given peer.
+		 */
+		void handle_splice_locked(byte[] their_node_id, SpliceLocked msg);
+		/**
 		 * Handle an incoming `tx_add_input message` from the given peer.
 		 */
 		void handle_tx_add_input(byte[] their_node_id, TxAddInput msg);
@@ -238,6 +254,26 @@ public class ChannelMessageHandler extends CommonBase {
 			@Override public void handle_closing_signed(byte[] their_node_id, long msg) {
 				org.ldk.structs.ClosingSigned msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ClosingSigned(null, msg); }
 				arg.handle_closing_signed(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_stfu(byte[] their_node_id, long msg) {
+				org.ldk.structs.Stfu msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Stfu(null, msg); }
+				arg.handle_stfu(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice(byte[] their_node_id, long msg) {
+				org.ldk.structs.Splice msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Splice(null, msg); }
+				arg.handle_splice(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice_ack(byte[] their_node_id, long msg) {
+				org.ldk.structs.SpliceAck msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceAck(null, msg); }
+				arg.handle_splice_ack(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice_locked(byte[] their_node_id, long msg) {
+				org.ldk.structs.SpliceLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceLocked(null, msg); }
+				arg.handle_splice_locked(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_tx_add_input(byte[] their_node_id, long msg) {
@@ -476,6 +512,50 @@ public class ChannelMessageHandler extends CommonBase {
 	 */
 	public void handle_closing_signed(byte[] their_node_id, org.ldk.structs.ClosingSigned msg) {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `stfu` message from the given peer.
+	 */
+	public void handle_stfu(byte[] their_node_id, org.ldk.structs.Stfu msg) {
+		bindings.ChannelMessageHandler_handle_stfu(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice` message from the given peer.
+	 */
+	public void handle_splice(byte[] their_node_id, org.ldk.structs.Splice msg) {
+		bindings.ChannelMessageHandler_handle_splice(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_ack` message from the given peer.
+	 */
+	public void handle_splice_ack(byte[] their_node_id, org.ldk.structs.SpliceAck msg) {
+		bindings.ChannelMessageHandler_handle_splice_ack(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_locked` message from the given peer.
+	 */
+	public void handle_splice_locked(byte[] their_node_id, org.ldk.structs.SpliceLocked msg) {
+		bindings.ChannelMessageHandler_handle_splice_locked(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);

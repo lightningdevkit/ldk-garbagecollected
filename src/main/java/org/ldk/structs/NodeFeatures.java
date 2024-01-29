@@ -56,6 +56,18 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the NodeFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.NodeFeatures_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static NodeFeatures empty() {
@@ -515,6 +527,40 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public boolean requires_anchors_zero_fee_htlc_tx() {
 		boolean ret = bindings.NodeFeatures_requires_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_route_blinding_optional() {
+		bindings.NodeFeatures_set_route_blinding_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_route_blinding_required() {
+		bindings.NodeFeatures_set_route_blinding_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_route_blinding() {
+		boolean ret = bindings.NodeFeatures_supports_route_blinding(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_route_blinding() {
+		boolean ret = bindings.NodeFeatures_requires_route_blinding(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

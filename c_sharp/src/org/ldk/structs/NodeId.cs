@@ -57,6 +57,17 @@ public class NodeId : CommonBase {
 	}
 
 	/**
+	 * Get the public key as an array from this NodeId
+	 */
+	public byte[] as_array() {
+		long ret = bindings.NodeId_as_array(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
 	 * Get the public key from this NodeId
 	 */
 	public Result_PublicKeySecp256k1ErrorZ as_pubkey() {

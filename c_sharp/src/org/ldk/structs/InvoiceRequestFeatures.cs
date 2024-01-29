@@ -51,6 +51,18 @@ public class InvoiceRequestFeatures : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the InvoiceRequestFeatures.
+	 */
+	public long hash() {
+		long ret = bindings.InvoiceRequestFeatures_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static InvoiceRequestFeatures empty() {

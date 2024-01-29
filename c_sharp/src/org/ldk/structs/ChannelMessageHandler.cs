@@ -37,6 +37,18 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `closing_signed` message from the given peer.
 	 */
 	void handle_closing_signed(byte[] their_node_id, ClosingSigned msg);
+	/**Handle an incoming `stfu` message from the given peer.
+	 */
+	void handle_stfu(byte[] their_node_id, Stfu msg);
+	/**Handle an incoming `splice` message from the given peer.
+	 */
+	void handle_splice(byte[] their_node_id, Splice msg);
+	/**Handle an incoming `splice_ack` message from the given peer.
+	 */
+	void handle_splice_ack(byte[] their_node_id, SpliceAck msg);
+	/**Handle an incoming `splice_locked` message from the given peer.
+	 */
+	void handle_splice_locked(byte[] their_node_id, SpliceLocked msg);
 	/**Handle an incoming `tx_add_input message` from the given peer.
 	 */
 	void handle_tx_add_input(byte[] their_node_id, TxAddInput msg);
@@ -199,6 +211,30 @@ public class ChannelMessageHandler : CommonBase {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.ClosingSigned _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.ClosingSigned(null, _msg); }
 			arg.handle_closing_signed(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_stfu(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.Stfu _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.Stfu(null, _msg); }
+			arg.handle_stfu(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.Splice _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.Splice(null, _msg); }
+			arg.handle_splice(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice_ack(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.SpliceAck _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.SpliceAck(null, _msg); }
+			arg.handle_splice_ack(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice_locked(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.SpliceLocked _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.SpliceLocked(null, _msg); }
+			arg.handle_splice_locked(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
 		public void handle_tx_add_input(long _their_node_id, long _msg) {
@@ -463,6 +499,50 @@ public class ChannelMessageHandler : CommonBase {
 	 */
 	public void handle_closing_signed(byte[] their_node_id, org.ldk.structs.ClosingSigned msg) {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `stfu` message from the given peer.
+	 */
+	public void handle_stfu(byte[] their_node_id, org.ldk.structs.Stfu msg) {
+		bindings.ChannelMessageHandler_handle_stfu(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice` message from the given peer.
+	 */
+	public void handle_splice(byte[] their_node_id, org.ldk.structs.Splice msg) {
+		bindings.ChannelMessageHandler_handle_splice(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_ack` message from the given peer.
+	 */
+	public void handle_splice_ack(byte[] their_node_id, org.ldk.structs.SpliceAck msg) {
+		bindings.ChannelMessageHandler_handle_splice_ack(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg == null ? 0 : msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_locked` message from the given peer.
+	 */
+	public void handle_splice_locked(byte[] their_node_id, org.ldk.structs.SpliceLocked msg) {
+		bindings.ChannelMessageHandler_handle_splice_locked(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg == null ? 0 : msg.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);

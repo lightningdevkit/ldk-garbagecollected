@@ -45,6 +45,10 @@ public class OnionMessageContents extends CommonBase {
 		 * Serialize the object into a byte array
 		 */
 		byte[] write();
+		/**
+		 * Return a human-readable "debug" string describing this object
+		 */
+		String debug_str();
 	}
 	private static class LDKOnionMessageContentsHolder { OnionMessageContents held; }
 	public static OnionMessageContents new_impl(OnionMessageContentsInterface arg) {
@@ -57,6 +61,11 @@ public class OnionMessageContents extends CommonBase {
 			}
 			@Override public byte[] write() {
 				byte[] ret = arg.write();
+				Reference.reachabilityFence(arg);
+				return ret;
+			}
+			@Override public String debug_str() {
+				String ret = arg.debug_str();
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
@@ -77,6 +86,15 @@ public class OnionMessageContents extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.OnionMessageContents_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Return a human-readable "debug" string describing this object
+	 */
+	public String debug_str() {
+		String ret = bindings.OnionMessageContents_debug_str(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

@@ -224,6 +224,18 @@ public class CommitmentUpdate : CommonBase {
 	}
 
 	/**
+	 * Generates a non-cryptographic 64-bit hash of the CommitmentUpdate.
+	 */
+	public long hash() {
+		long ret = bindings.CommitmentUpdate_hash(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	public override int GetHashCode() {
+		return (int)this.hash();
+	}
+	/**
 	 * Checks if two CommitmentUpdates contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 * Two objects with NULL inner values will be considered "equal" here.

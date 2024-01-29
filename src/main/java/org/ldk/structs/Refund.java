@@ -82,6 +82,16 @@ public class Refund extends CommonBase {
 	}
 
 	/**
+	 * Whether the refund has expired given the duration since the Unix epoch.
+	 */
+	public boolean is_expired_no_std(long duration_since_epoch) {
+		boolean ret = bindings.Refund_is_expired_no_std(this.ptr, duration_since_epoch);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * The issuer of the refund, possibly beginning with `user@domain` or `domain`. Intended to be
 	 * displayed to the user but with the caveat that it has not been verified in any way.
 	 * 

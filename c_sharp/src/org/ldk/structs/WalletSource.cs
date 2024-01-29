@@ -20,8 +20,11 @@ public interface WalletSourceInterface {
 	/**Signs and provides the full [`TxIn::script_sig`] and [`TxIn::witness`] for all inputs within
 	 * the transaction known to the wallet (i.e., any provided via
 	 * [`WalletSource::list_confirmed_utxos`]).
+	 * 
+	 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+	 * unsigned transaction and then sign it with your wallet.
 	 */
-	Result_TransactionNoneZ sign_tx(byte[] tx);
+	Result_TransactionNoneZ sign_psbt(byte[] psbt);
 }
 
 /**
@@ -54,9 +57,9 @@ public class WalletSource : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public long sign_tx(long _tx) {
-			byte[] _tx_conv = InternalUtils.decodeUint8Array(_tx);
-			Result_TransactionNoneZ ret = arg.sign_tx(_tx_conv);
+		public long sign_psbt(long _psbt) {
+			byte[] _psbt_conv = InternalUtils.decodeUint8Array(_psbt);
+			Result_TransactionNoneZ ret = arg.sign_psbt(_psbt_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
@@ -102,11 +105,14 @@ public class WalletSource : CommonBase {
 	 * Signs and provides the full [`TxIn::script_sig`] and [`TxIn::witness`] for all inputs within
 	 * the transaction known to the wallet (i.e., any provided via
 	 * [`WalletSource::list_confirmed_utxos`]).
+	 * 
+	 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+	 * unsigned transaction and then sign it with your wallet.
 	 */
-	public Result_TransactionNoneZ sign_tx(byte[] tx) {
-		long ret = bindings.WalletSource_sign_tx(this.ptr, InternalUtils.encodeUint8Array(tx));
+	public Result_TransactionNoneZ sign_psbt(byte[] psbt) {
+		long ret = bindings.WalletSource_sign_psbt(this.ptr, InternalUtils.encodeUint8Array(psbt));
 		GC.KeepAlive(this);
-		GC.KeepAlive(tx);
+		GC.KeepAlive(psbt);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -109,7 +109,7 @@ public class Confirm extends CommonBase {
 		void best_block_updated(byte[] header, int height);
 		/**
 		 * Returns transactions that must be monitored for reorganization out of the chain along
-		 * with the hash of the block as part of which it had been previously confirmed.
+		 * with the height and the hash of the block as part of which it had been previously confirmed.
 		 * 
 		 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
 		 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
@@ -124,13 +124,13 @@ public class Confirm extends CommonBase {
 		 * given to [`transaction_unconfirmed`].
 		 * 
 		 * If any of the returned transactions are confirmed in a block other than the one with the
-		 * given hash, they need to be unconfirmed and reconfirmed via [`transaction_unconfirmed`] and
-		 * [`transactions_confirmed`], respectively.
+		 * given hash at the given height, they need to be unconfirmed and reconfirmed via
+		 * [`transaction_unconfirmed`] and [`transactions_confirmed`], respectively.
 		 * 
 		 * [`transactions_confirmed`]: Self::transactions_confirmed
 		 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 		 */
-		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids();
+		ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] get_relevant_txids();
 	}
 	private static class LDKConfirmHolder { Confirm held; }
 	public static Confirm new_impl(ConfirmInterface arg) {
@@ -157,9 +157,9 @@ public class Confirm extends CommonBase {
 				Reference.reachabilityFence(arg);
 			}
 			@Override public long[] get_relevant_txids() {
-				TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret = arg.get_relevant_txids();
+				ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] ret = arg.get_relevant_txids();
 				Reference.reachabilityFence(arg);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_49 -> ret_conv_49 == null ? 0 : ret_conv_49.clone_ptr()).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_54 -> ret_conv_54 == null ? 0 : ret_conv_54.clone_ptr()).toArray() : null;
 				return result;
 			}
 		});
@@ -220,7 +220,7 @@ public class Confirm extends CommonBase {
 
 	/**
 	 * Returns transactions that must be monitored for reorganization out of the chain along
-	 * with the hash of the block as part of which it had been previously confirmed.
+	 * with the height and the hash of the block as part of which it had been previously confirmed.
 	 * 
 	 * Note that the returned `Option<BlockHash>` might be `None` for channels created with LDK
 	 * 0.0.112 and prior, in which case you need to manually track previous confirmations.
@@ -235,24 +235,24 @@ public class Confirm extends CommonBase {
 	 * given to [`transaction_unconfirmed`].
 	 * 
 	 * If any of the returned transactions are confirmed in a block other than the one with the
-	 * given hash, they need to be unconfirmed and reconfirmed via [`transaction_unconfirmed`] and
-	 * [`transactions_confirmed`], respectively.
+	 * given hash at the given height, they need to be unconfirmed and reconfirmed via
+	 * [`transaction_unconfirmed`] and [`transactions_confirmed`], respectively.
 	 * 
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
 	 */
-	public TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] get_relevant_txids() {
+	public ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] get_relevant_txids() {
 		long[] ret = bindings.Confirm_get_relevant_txids(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_49_len = ret.length;
-		TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[] ret_conv_49_arr = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ[ret_conv_49_len];
-		for (int x = 0; x < ret_conv_49_len; x++) {
-			long ret_conv_49 = ret[x];
-			TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ ret_conv_49_hu_conv = new TwoTuple_ThirtyTwoBytesCOption_ThirtyTwoBytesZZ(null, ret_conv_49);
-			if (ret_conv_49_hu_conv != null) { ret_conv_49_hu_conv.ptrs_to.add(this); };
-			ret_conv_49_arr[x] = ret_conv_49_hu_conv;
+		int ret_conv_54_len = ret.length;
+		ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[] ret_conv_54_arr = new ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ[ret_conv_54_len];
+		for (int c = 0; c < ret_conv_54_len; c++) {
+			long ret_conv_54 = ret[c];
+			ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ ret_conv_54_hu_conv = new ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ(null, ret_conv_54);
+			if (ret_conv_54_hu_conv != null) { ret_conv_54_hu_conv.ptrs_to.add(this); };
+			ret_conv_54_arr[c] = ret_conv_54_hu_conv;
 		}
-		return ret_conv_49_arr;
+		return ret_conv_54_arr;
 	}
 
 }

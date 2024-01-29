@@ -67,8 +67,8 @@ public class BumpTransactionEvent extends CommonBase {
 	 * an empty `pending_htlcs`), confirmation of the commitment transaction can be considered to
 	 * be not urgent.
 	 * 
-	 * [`EcdsaChannelSigner`]: crate::sign::EcdsaChannelSigner
-	 * [`EcdsaChannelSigner::sign_holder_anchor_input`]: crate::sign::EcdsaChannelSigner::sign_holder_anchor_input
+	 * [`EcdsaChannelSigner`]: crate::sign::ecdsa::EcdsaChannelSigner
+	 * [`EcdsaChannelSigner::sign_holder_anchor_input`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_holder_anchor_input
 	 * [`build_anchor_input_witness`]: crate::ln::chan_utils::build_anchor_input_witness
 	 */
 	public final static class ChannelClose extends BumpTransactionEvent {
@@ -156,8 +156,8 @@ public class BumpTransactionEvent extends CommonBase {
 	 * longer able to commit external confirmed funds to the HTLC transaction or the fee committed
 	 * to the HTLC transaction is greater in value than the HTLCs being claimed.
 	 * 
-	 * [`EcdsaChannelSigner`]: crate::sign::EcdsaChannelSigner
-	 * [`EcdsaChannelSigner::sign_holder_htlc_transaction`]: crate::sign::EcdsaChannelSigner::sign_holder_htlc_transaction
+	 * [`EcdsaChannelSigner`]: crate::sign::ecdsa::EcdsaChannelSigner
+	 * [`EcdsaChannelSigner::sign_holder_htlc_transaction`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_holder_htlc_transaction
 	 */
 	public final static class HTLCResolution extends BumpTransactionEvent {
 		/**

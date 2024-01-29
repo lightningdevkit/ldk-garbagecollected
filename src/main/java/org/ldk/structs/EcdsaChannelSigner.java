@@ -52,21 +52,15 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * Policy checks should be implemented in this function, including checking the amount
 		 * sent to us and checking the HTLCs.
 		 * 
-		 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
-		 * A validating signer should ensure that an HTLC output is removed only when the matching
-		 * preimage is provided, or when the value to holder is restored.
+		 * The preimages of outbound and inbound HTLCs that were fulfilled since the last commitment
+		 * are provided. A validating signer should ensure that an outbound HTLC output is removed
+		 * only when the matching preimage is provided and after the corresponding inbound HTLC has
+		 * been removed for forwarded payments.
 		 * 
 		 * Note that all the relevant preimages will be provided, but there may also be additional
 		 * irrelevant or duplicate preimages.
 		 */
-		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages);
-		/**
-		 * Validate the counterparty's revocation.
-		 * 
-		 * This is required in order for the signer to make sure that the state has moved
-		 * forward and it is safe to sign the next counterparty commitment.
-		 */
-		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
+		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] inbound_htlc_preimages, byte[][] outbound_htlc_preimages);
 		/**
 		 * Creates a signature for a holder's commitment transaction.
 		 * 
@@ -126,7 +120,7 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
 		 * broadcasts it before receiving the update for the latest commitment transaction.
 		 * 
-		 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+		 * [`EcdsaSighashType::All`]: bitcoin::sighash::EcdsaSighashType::All
 		 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 		 */
 		Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, HTLCDescriptor htlc_descriptor);
@@ -172,6 +166,8 @@ public class EcdsaChannelSigner extends CommonBase {
 		 * Note that if this fails or is rejected, the channel will not be publicly announced and
 		 * our counterparty may (though likely will not) close the channel on us for violating the
 		 * protocol.
+		 * 
+		 * [`NodeSigner::sign_gossip_message`]: crate::sign::NodeSigner::sign_gossip_message
 		 */
 		Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(UnsignedChannelAnnouncement msg);
 	}
@@ -179,15 +175,9 @@ public class EcdsaChannelSigner extends CommonBase {
 	public static EcdsaChannelSigner new_impl(EcdsaChannelSignerInterface arg, ChannelSigner.ChannelSignerInterface ChannelSigner_impl, ChannelPublicKeys pubkeys) {
 		final LDKEcdsaChannelSignerHolder impl_holder = new LDKEcdsaChannelSignerHolder();
 		impl_holder.held = new EcdsaChannelSigner(new bindings.LDKEcdsaChannelSigner() {
-			@Override public long sign_counterparty_commitment(long commitment_tx, byte[][] preimages) {
+			@Override public long sign_counterparty_commitment(long commitment_tx, byte[][] inbound_htlc_preimages, byte[][] outbound_htlc_preimages) {
 				org.ldk.structs.CommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new org.ldk.structs.CommitmentTransaction(null, commitment_tx); }
-				Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv, preimages);
-				Reference.reachabilityFence(arg);
-				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
-			}
-			@Override public long validate_counterparty_revocation(long idx, byte[] secret) {
-				Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
+				Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv, inbound_htlc_preimages, outbound_htlc_preimages);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -267,37 +257,23 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
 	 * 
-	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
-	 * A validating signer should ensure that an HTLC output is removed only when the matching
-	 * preimage is provided, or when the value to holder is restored.
+	 * The preimages of outbound and inbound HTLCs that were fulfilled since the last commitment
+	 * are provided. A validating signer should ensure that an outbound HTLC output is removed
+	 * only when the matching preimage is provided and after the corresponding inbound HTLC has
+	 * been removed for forwarded payments.
 	 * 
 	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(org.ldk.structs.CommitmentTransaction commitment_tx, byte[][] preimages) {
-		long ret = bindings.EcdsaChannelSigner_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
+	public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(org.ldk.structs.CommitmentTransaction commitment_tx, byte[][] inbound_htlc_preimages, byte[][] outbound_htlc_preimages) {
+		long ret = bindings.EcdsaChannelSigner_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr, inbound_htlc_preimages != null ? Arrays.stream(inbound_htlc_preimages).map(inbound_htlc_preimages_conv_8 -> InternalUtils.check_arr_len(inbound_htlc_preimages_conv_8, 32)).toArray(byte[][]::new) : null, outbound_htlc_preimages != null ? Arrays.stream(outbound_htlc_preimages).map(outbound_htlc_preimages_conv_8 -> InternalUtils.check_arr_len(outbound_htlc_preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
-		Reference.reachabilityFence(preimages);
+		Reference.reachabilityFence(inbound_htlc_preimages);
+		Reference.reachabilityFence(outbound_htlc_preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ ret_hu_conv = Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(commitment_tx); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Validate the counterparty's revocation.
-	 * 
-	 * This is required in order for the signer to make sure that the state has moved
-	 * forward and it is safe to sign the next counterparty commitment.
-	 */
-	public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
-		long ret = bindings.EcdsaChannelSigner_validate_counterparty_revocation(this.ptr, idx, InternalUtils.check_arr_len(secret, 32));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(idx);
-		Reference.reachabilityFence(secret);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -393,7 +369,7 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * [`ChannelMonitor`] [replica](https://github.com/lightningdevkit/rust-lightning/blob/main/GLOSSARY.md#monitor-replicas)
 	 * broadcasts it before receiving the update for the latest commitment transaction.
 	 * 
-	 * [`EcdsaSighashType::All`]: bitcoin::blockdata::transaction::EcdsaSighashType::All
+	 * [`EcdsaSighashType::All`]: bitcoin::sighash::EcdsaSighashType::All
 	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
 	public Result_ECDSASignatureNoneZ sign_holder_htlc_transaction(byte[] htlc_tx, long input, org.ldk.structs.HTLCDescriptor htlc_descriptor) {
@@ -481,6 +457,8 @@ public class EcdsaChannelSigner extends CommonBase {
 	 * Note that if this fails or is rejected, the channel will not be publicly announced and
 	 * our counterparty may (though likely will not) close the channel on us for violating the
 	 * protocol.
+	 * 
+	 * [`NodeSigner::sign_gossip_message`]: crate::sign::NodeSigner::sign_gossip_message
 	 */
 	public Result_ECDSASignatureNoneZ sign_channel_announcement_with_funding_key(org.ldk.structs.UnsignedChannelAnnouncement msg) {
 		long ret = bindings.EcdsaChannelSigner_sign_channel_announcement_with_funding_key(this.ptr, msg == null ? 0 : msg.ptr);

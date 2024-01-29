@@ -32,14 +32,20 @@ public interface ChannelSignerInterface {
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
 	 * 
-	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+	 * The preimages of outbound HTLCs that were fulfilled since the last commitment are provided.
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
 	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages);
+	Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] outbound_htlc_preimages);
+	/**Validate the counterparty's revocation.
+	 * 
+	 * This is required in order for the signer to make sure that the state has moved
+	 * forward and it is safe to sign the next counterparty commitment.
+	 */
+	Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 	/**Returns an arbitrary identifier describing the set of keys which are provided back to you in
 	 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
 	 * [`EcdsaChannelSigner`] object uniquely and lookup or re-derive its keys.
@@ -88,17 +94,24 @@ public class ChannelSigner : CommonBase {
 			long result = InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(ret, 32));
 			return result;
 		}
-		public long validate_holder_commitment(long _holder_tx, long _preimages) {
+		public long validate_holder_commitment(long _holder_tx, long _outbound_htlc_preimages) {
 			org.ldk.structs.HolderCommitmentTransaction _holder_tx_hu_conv = null; if (_holder_tx < 0 || _holder_tx > 4096) { _holder_tx_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, _holder_tx); }
-			int _preimages_conv_8_len = InternalUtils.getArrayLength(_preimages);
-			byte[][] _preimages_conv_8_arr = new byte[_preimages_conv_8_len][];
-			for (int i = 0; i < _preimages_conv_8_len; i++) {
-				long _preimages_conv_8 = InternalUtils.getU64ArrayElem(_preimages, i);
-				byte[] _preimages_conv_8_conv = InternalUtils.decodeUint8Array(_preimages_conv_8);
-				_preimages_conv_8_arr[i] = _preimages_conv_8_conv;
+			int _outbound_htlc_preimages_conv_8_len = InternalUtils.getArrayLength(_outbound_htlc_preimages);
+			byte[][] _outbound_htlc_preimages_conv_8_arr = new byte[_outbound_htlc_preimages_conv_8_len][];
+			for (int i = 0; i < _outbound_htlc_preimages_conv_8_len; i++) {
+				long _outbound_htlc_preimages_conv_8 = InternalUtils.getU64ArrayElem(_outbound_htlc_preimages, i);
+				byte[] _outbound_htlc_preimages_conv_8_conv = InternalUtils.decodeUint8Array(_outbound_htlc_preimages_conv_8);
+				_outbound_htlc_preimages_conv_8_arr[i] = _outbound_htlc_preimages_conv_8_conv;
 			}
-			bindings.free_buffer(_preimages);
-			Result_NoneNoneZ ret = arg.validate_holder_commitment(_holder_tx_hu_conv, _preimages_conv_8_arr);
+			bindings.free_buffer(_outbound_htlc_preimages);
+			Result_NoneNoneZ ret = arg.validate_holder_commitment(_holder_tx_hu_conv, _outbound_htlc_preimages_conv_8_arr);
+				GC.KeepAlive(arg);
+			long result = ret == null ? 0 : ret.clone_ptr();
+			return result;
+		}
+		public long validate_counterparty_revocation(long _idx, long _secret) {
+			byte[] _secret_conv = InternalUtils.decodeUint8Array(_secret);
+			Result_NoneNoneZ ret = arg.validate_counterparty_revocation(_idx, _secret_conv);
 				GC.KeepAlive(arg);
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
@@ -169,21 +182,37 @@ public class ChannelSigner : CommonBase {
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
 	 * 
-	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+	 * The preimages of outbound HTLCs that were fulfilled since the last commitment are provided.
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
 	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_NoneNoneZ validate_holder_commitment(org.ldk.structs.HolderCommitmentTransaction holder_tx, byte[][] preimages) {
-		long ret = bindings.ChannelSigner_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(preimages, preimages_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(preimages_conv_8, 32)))));
+	public Result_NoneNoneZ validate_holder_commitment(org.ldk.structs.HolderCommitmentTransaction holder_tx, byte[][] outbound_htlc_preimages) {
+		long ret = bindings.ChannelSigner_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(outbound_htlc_preimages, outbound_htlc_preimages_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(outbound_htlc_preimages_conv_8, 32)))));
 		GC.KeepAlive(this);
 		GC.KeepAlive(holder_tx);
-		GC.KeepAlive(preimages);
+		GC.KeepAlive(outbound_htlc_preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(holder_tx); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Validate the counterparty's revocation.
+	 * 
+	 * This is required in order for the signer to make sure that the state has moved
+	 * forward and it is safe to sign the next counterparty commitment.
+	 */
+	public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+		long ret = bindings.ChannelSigner_validate_counterparty_revocation(this.ptr, idx, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(secret, 32)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(idx);
+		GC.KeepAlive(secret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

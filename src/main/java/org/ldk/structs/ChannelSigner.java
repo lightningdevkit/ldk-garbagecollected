@@ -63,14 +63,21 @@ public class ChannelSigner extends CommonBase {
 		 * Policy checks should be implemented in this function, including checking the amount
 		 * sent to us and checking the HTLCs.
 		 * 
-		 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+		 * The preimages of outbound HTLCs that were fulfilled since the last commitment are provided.
 		 * A validating signer should ensure that an HTLC output is removed only when the matching
 		 * preimage is provided, or when the value to holder is restored.
 		 * 
 		 * Note that all the relevant preimages will be provided, but there may also be additional
 		 * irrelevant or duplicate preimages.
 		 */
-		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages);
+		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] outbound_htlc_preimages);
+		/**
+		 * Validate the counterparty's revocation.
+		 * 
+		 * This is required in order for the signer to make sure that the state has moved
+		 * forward and it is safe to sign the next counterparty commitment.
+		 */
+		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 		/**
 		 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
 		 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
@@ -106,9 +113,15 @@ public class ChannelSigner extends CommonBase {
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
-			@Override public long validate_holder_commitment(long holder_tx, byte[][] preimages) {
+			@Override public long validate_holder_commitment(long holder_tx, byte[][] outbound_htlc_preimages) {
 				org.ldk.structs.HolderCommitmentTransaction holder_tx_hu_conv = null; if (holder_tx < 0 || holder_tx > 4096) { holder_tx_hu_conv = new org.ldk.structs.HolderCommitmentTransaction(null, holder_tx); }
-				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv, preimages);
+				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv, outbound_htlc_preimages);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
+			@Override public long validate_counterparty_revocation(long idx, byte[] secret) {
+				Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -164,21 +177,37 @@ public class ChannelSigner extends CommonBase {
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
 	 * 
-	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+	 * The preimages of outbound HTLCs that were fulfilled since the last commitment are provided.
 	 * A validating signer should ensure that an HTLC output is removed only when the matching
 	 * preimage is provided, or when the value to holder is restored.
 	 * 
 	 * Note that all the relevant preimages will be provided, but there may also be additional
 	 * irrelevant or duplicate preimages.
 	 */
-	public Result_NoneNoneZ validate_holder_commitment(org.ldk.structs.HolderCommitmentTransaction holder_tx, byte[][] preimages) {
-		long ret = bindings.ChannelSigner_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
+	public Result_NoneNoneZ validate_holder_commitment(org.ldk.structs.HolderCommitmentTransaction holder_tx, byte[][] outbound_htlc_preimages) {
+		long ret = bindings.ChannelSigner_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr, outbound_htlc_preimages != null ? Arrays.stream(outbound_htlc_preimages).map(outbound_htlc_preimages_conv_8 -> InternalUtils.check_arr_len(outbound_htlc_preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(holder_tx);
-		Reference.reachabilityFence(preimages);
+		Reference.reachabilityFence(outbound_htlc_preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(holder_tx); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Validate the counterparty's revocation.
+	 * 
+	 * This is required in order for the signer to make sure that the state has moved
+	 * forward and it is safe to sign the next counterparty commitment.
+	 */
+	public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+		long ret = bindings.ChannelSigner_validate_counterparty_revocation(this.ptr, idx, InternalUtils.check_arr_len(secret, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(idx);
+		Reference.reachabilityFence(secret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -7,7 +7,7 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An error occurring when converting from [`Script`] to [`ShutdownScript`].
+ * An error occurring when converting from [`ScriptBuf`] to [`ShutdownScript`].
  */
 public class InvalidShutdownScript : CommonBase {
 	internal InvalidShutdownScript(object _dummy, long ptr) : base(ptr) { }

@@ -40,42 +40,53 @@ public class ScoreUpdate extends CommonBase {
 		/**
 		 * Handles updating channel penalties after failing to route through a channel.
 		 */
-		void payment_path_failed(Path path, long short_channel_id);
+		void payment_path_failed(Path path, long short_channel_id, long duration_since_epoch);
 		/**
 		 * Handles updating channel penalties after successfully routing along a path.
 		 */
-		void payment_path_successful(Path path);
+		void payment_path_successful(Path path, long duration_since_epoch);
 		/**
 		 * Handles updating channel penalties after a probe over the given path failed.
 		 */
-		void probe_failed(Path path, long short_channel_id);
+		void probe_failed(Path path, long short_channel_id, long duration_since_epoch);
 		/**
 		 * Handles updating channel penalties after a probe over the given path succeeded.
 		 */
-		void probe_successful(Path path);
+		void probe_successful(Path path, long duration_since_epoch);
+		/**
+		 * Scorers may wish to reduce their certainty of channel liquidity information over time.
+		 * Thus, this method is provided to allow scorers to observe the passage of time - the holder
+		 * of this object should call this method regularly (generally via the
+		 * `lightning-background-processor` crate).
+		 */
+		void time_passed(long duration_since_epoch);
 	}
 	private static class LDKScoreUpdateHolder { ScoreUpdate held; }
 	public static ScoreUpdate new_impl(ScoreUpdateInterface arg) {
 		final LDKScoreUpdateHolder impl_holder = new LDKScoreUpdateHolder();
 		impl_holder.held = new ScoreUpdate(new bindings.LDKScoreUpdate() {
-			@Override public void payment_path_failed(long path, long short_channel_id) {
+			@Override public void payment_path_failed(long path, long short_channel_id, long duration_since_epoch) {
 				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.payment_path_failed(path_hu_conv, short_channel_id);
+				arg.payment_path_failed(path_hu_conv, short_channel_id, duration_since_epoch);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void payment_path_successful(long path) {
+			@Override public void payment_path_successful(long path, long duration_since_epoch) {
 				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.payment_path_successful(path_hu_conv);
+				arg.payment_path_successful(path_hu_conv, duration_since_epoch);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void probe_failed(long path, long short_channel_id) {
+			@Override public void probe_failed(long path, long short_channel_id, long duration_since_epoch) {
 				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.probe_failed(path_hu_conv, short_channel_id);
+				arg.probe_failed(path_hu_conv, short_channel_id, duration_since_epoch);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void probe_successful(long path) {
+			@Override public void probe_successful(long path, long duration_since_epoch) {
 				org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
-				arg.probe_successful(path_hu_conv);
+				arg.probe_successful(path_hu_conv, duration_since_epoch);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void time_passed(long duration_since_epoch) {
+				arg.time_passed(duration_since_epoch);
 				Reference.reachabilityFence(arg);
 			}
 		});
@@ -84,43 +95,59 @@ public class ScoreUpdate extends CommonBase {
 	/**
 	 * Handles updating channel penalties after failing to route through a channel.
 	 */
-	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.ScoreUpdate_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
+	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id, long duration_since_epoch) {
+		bindings.ScoreUpdate_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id, duration_since_epoch);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after successfully routing along a path.
 	 */
-	public void payment_path_successful(org.ldk.structs.Path path) {
-		bindings.ScoreUpdate_payment_path_successful(this.ptr, path == null ? 0 : path.ptr);
+	public void payment_path_successful(org.ldk.structs.Path path, long duration_since_epoch) {
+		bindings.ScoreUpdate_payment_path_successful(this.ptr, path == null ? 0 : path.ptr, duration_since_epoch);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path failed.
 	 */
-	public void probe_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.ScoreUpdate_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
+	public void probe_failed(org.ldk.structs.Path path, long short_channel_id, long duration_since_epoch) {
+		bindings.ScoreUpdate_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id, duration_since_epoch);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path succeeded.
 	 */
-	public void probe_successful(org.ldk.structs.Path path) {
-		bindings.ScoreUpdate_probe_successful(this.ptr, path == null ? 0 : path.ptr);
+	public void probe_successful(org.ldk.structs.Path path, long duration_since_epoch) {
+		bindings.ScoreUpdate_probe_successful(this.ptr, path == null ? 0 : path.ptr, duration_since_epoch);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (this != null) { this.ptrs_to.add(path); };
+	}
+
+	/**
+	 * Scorers may wish to reduce their certainty of channel liquidity information over time.
+	 * Thus, this method is provided to allow scorers to observe the passage of time - the holder
+	 * of this object should call this method regularly (generally via the
+	 * `lightning-background-processor` crate).
+	 */
+	public void time_passed(long duration_since_epoch) {
+		bindings.ScoreUpdate_time_passed(this.ptr, duration_since_epoch);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(duration_since_epoch);
 	}
 
 }

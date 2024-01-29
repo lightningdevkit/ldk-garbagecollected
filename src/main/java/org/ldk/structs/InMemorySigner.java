@@ -304,14 +304,14 @@ public class InMemorySigner extends CommonBase {
 	 * 
 	 * [`descriptor.outpoint`]: StaticPaymentOutputDescriptor::outpoint
 	 */
-	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, org.ldk.structs.StaticPaymentOutputDescriptor descriptor) {
+	public Result_WitnessNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, org.ldk.structs.StaticPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);
 		Reference.reachabilityFence(input_idx);
 		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
+		Result_WitnessNoneZ ret_hu_conv = Result_WitnessNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}
@@ -328,14 +328,14 @@ public class InMemorySigner extends CommonBase {
 	 * [`descriptor.outpoint`]: DelayedPaymentOutputDescriptor::outpoint
 	 * [`descriptor.to_self_delay`]: DelayedPaymentOutputDescriptor::to_self_delay
 	 */
-	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, org.ldk.structs.DelayedPaymentOutputDescriptor descriptor) {
+	public Result_WitnessNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, org.ldk.structs.DelayedPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(spend_tx);
 		Reference.reachabilityFence(input_idx);
 		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
+		Result_WitnessNoneZ ret_hu_conv = Result_WitnessNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}

@@ -24,4 +24,49 @@ public class TaggedHash extends CommonBase {
 		if (ptr != 0) { bindings.TaggedHash_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.TaggedHash_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the TaggedHash
+	 */
+	public TaggedHash clone() {
+		long ret = bindings.TaggedHash_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.TaggedHash ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TaggedHash(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the digest to sign.
+	 */
+	public byte[] as_digest() {
+		byte[] ret = bindings.TaggedHash_as_digest(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the tag used in the tagged hash.
+	 */
+	public String tag() {
+		String ret = bindings.TaggedHash_tag(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the merkle root used in the tagged hash.
+	 */
+	public byte[] merkle_root() {
+		byte[] ret = bindings.TaggedHash_merkle_root(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
 }

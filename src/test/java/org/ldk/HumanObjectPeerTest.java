@@ -78,7 +78,7 @@ class HumanObjectPeerTestInstance {
             SignerProvider underlying_sp = underlying_km.as_SignerProvider();
             must_free_objs.add(new WeakReference<>(underlying_sp));
             return SignerProvider.new_impl(new SignerProvider.SignerProviderInterface() {
-                @Override public Result_CVec_u8ZNoneZ get_destination_script() { return underlying_sp.get_destination_script(); }
+                @Override public Result_CVec_u8ZNoneZ get_destination_script(byte[] channel_keys_id) { return underlying_sp.get_destination_script(channel_keys_id); }
                 @Override public Result_ShutdownScriptNoneZ get_shutdown_scriptpubkey() { return underlying_sp.get_shutdown_scriptpubkey(); }
                 @Override public byte[] generate_channel_keys_id(boolean inbound, long channel_value_satoshis, UInt128 user_channel_id) {
                     return underlying_sp.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id);
@@ -99,17 +99,17 @@ class HumanObjectPeerTestInstance {
                             @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
                                 return underlying_cs.validate_holder_commitment(holder_tx, preimages);
                             }
+                            @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+                                return underlying_cs.validate_counterparty_revocation(idx, secret);
+                            }
                             @Override public byte[] channel_keys_id() { return underlying_cs.channel_keys_id(); }
                             @Override public void provide_channel_parameters(ChannelTransactionParameters channel_parameters) {
                                 underlying_cs.provide_channel_parameters(channel_parameters);
                             }
                         };
                         EcdsaChannelSigner.EcdsaChannelSignerInterface ecsi = new EcdsaChannelSigner.EcdsaChannelSignerInterface() {
-                            @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
-                                return underlying_ecs.sign_counterparty_commitment(commitment_tx, preimages);
-                            }
-                            @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
-                                return underlying_ecs.validate_counterparty_revocation(idx, secret);
+                            @Override public Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] inbound_htlc_preimages, byte[][] outbound_htlc_preimages) {
+                                return underlying_ecs.sign_counterparty_commitment(commitment_tx, inbound_htlc_preimages, outbound_htlc_preimages);
                             }
                             @Override public Result_ECDSASignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx) {
                                 return underlying_ecs.sign_holder_commitment(commitment_tx);
@@ -439,6 +439,11 @@ class HumanObjectPeerTestInstance {
                     }
 
                     @Override
+                    public Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                        return Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ.err();
+                    }
+
+                    @Override
                     public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                         while (true) {
                             try (ReadOnlyNetworkGraph graph = net_graph.read_only()) {
@@ -457,9 +462,16 @@ class HumanObjectPeerTestInstance {
                                 break;
                             }
                         }
-                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, ScoreLookUp.new_impl(new ScoreLookUp.ScoreLookUpInterface() {
-                            @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage, ProbabilisticScoringFeeParameters params) { return 0; }
-                        }), ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
+                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger,
+                                ScoreLookUp.new_impl((candidate, usage, params1) -> candidate.source().as_slice()[1]),
+                                ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
+                    }
+                }, new MessageRouter.MessageRouterInterface() {
+                    @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                        return Result_OnionMessagePathNoneZ.err();
+                    }
+                    @Override public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+                        return Result_CVec_BlindedPathZNoneZ.err();
                     }
                 });
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
@@ -544,6 +556,11 @@ class HumanObjectPeerTestInstance {
                     }
 
                     @Override
+                    public Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                        return Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ.err();
+                    }
+
+                    @Override
                     public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                         while (true) {
                             try (ReadOnlyNetworkGraph graph = net_graph.read_only()) {
@@ -562,9 +579,16 @@ class HumanObjectPeerTestInstance {
                                 break;
                             }
                         }
-                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, ScoreLookUp.new_impl(new ScoreLookUp.ScoreLookUpInterface() {
-                            @Override public long channel_penalty_msat(long short_channel_id, NodeId source, NodeId target, ChannelUsage usage, ProbabilisticScoringFeeParameters params) { return 0; }
-                        }), ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
+                        return UtilMethods.find_route(payer, params, net_graph, first_hops, logger,
+                                ScoreLookUp.new_impl((candidate, usage, params1) -> candidate.source().as_slice()[0]),
+                                ProbabilisticScoringFeeParameters.with_default(), new byte[32]);
+                    }
+                }, new MessageRouter.MessageRouterInterface() {
+                    @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                        return Result_OnionMessagePathNoneZ.err();
+                    }
+                    @Override public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+                        return Result_CVec_BlindedPathZNoneZ.err();
                     }
                 });
                 this.setup_route_handler();
@@ -847,7 +871,7 @@ class HumanObjectPeerTestInstance {
 
         UInt128 user_id = new UInt128(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-        Result_ThirtyTwoBytesAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, user_id, null);
+        Result_ThirtyTwoBytesAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, user_id, Option_ThirtyTwoBytesZ.none(), null);
         assert cc_res instanceof Result_ThirtyTwoBytesAPIErrorZ.Result_ThirtyTwoBytesAPIErrorZ_OK;
 
         // Previously, this was a SEGFAULT instead of get_funding_txo() returning null.
@@ -948,7 +972,7 @@ if (parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_B
         RawBolt11Invoice raw_invoice = signed_raw.raw_invoice();
         byte[] desc_hash = raw_invoice.signable_hash();
         Description raw_invoice_description = raw_invoice.description();
-        String description_string = raw_invoice_description.into_inner();
+        String description_string = raw_invoice_description.into_inner().get_a();
         boolean has_null = false;
         for (byte db : invoice_description.getBytes())
             if (db == 0)
@@ -981,7 +1005,7 @@ if (parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_B
             RouteHint[] route_hints = ((Result_Bolt11InvoiceSignOrCreationErrorZ.Result_Bolt11InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
             Payee payee = Payee.clear(peer2.node_id, route_hints, invoice_features, 42);
-            PaymentParameters pay_params = PaymentParameters.of(payee, Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0]);
+            PaymentParameters pay_params = PaymentParameters.of(payee, Option_u64Z.none(), 6*24*14, (byte)1, (byte)2, new long[0], new long[0]);
             RouteParameters route_params = RouteParameters.from_payment_params_and_value(pay_params, 10000000);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.net_graph,
@@ -1011,8 +1035,13 @@ if (parsed_invoice instanceof Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_B
             payment_res = peer1.chan_manager.send_payment_with_route(r2, payment_hash, RecipientOnionFields.secret_only(payment_secret), payment_id);
             assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
         } else {
-            Result_ThirtyTwoBytesPaymentErrorZ send_res = UtilMethods.pay_invoice(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res, Retry.attempts(0), peer1.chan_manager);
-            assert send_res instanceof Result_ThirtyTwoBytesPaymentErrorZ.Result_ThirtyTwoBytesPaymentErrorZ_OK;
+            Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ pay_params_res =
+                UtilMethods.payment_parameters_from_invoice(((Result_Bolt11InvoiceParseOrSemanticErrorZ.Result_Bolt11InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res);
+            assert pay_params_res.is_ok();
+            Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_OK pay_params =
+                (Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ_OK)pay_params_res;
+            Result_NoneRetryableSendFailureZ pay_res = peer1.chan_manager.send_payment(pay_params.res.get_a(), pay_params.res.get_b(), new byte[32], pay_params.res.get_c(), Retry.attempts(0));
+            assert pay_res.is_ok();
         }
 
         if (reload_peers) {

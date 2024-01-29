@@ -46,10 +46,13 @@ public class ChannelPublicKeys extends CommonBase {
 	 * counterparty to create a secret which the counterparty can reveal to revoke previous
 	 * states.
 	 */
-	public byte[] get_revocation_basepoint() {
-		byte[] ret = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
+	public RevocationBasepoint get_revocation_basepoint() {
+		long ret = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.RevocationBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevocationBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -58,10 +61,11 @@ public class ChannelPublicKeys extends CommonBase {
 	 * counterparty to create a secret which the counterparty can reveal to revoke previous
 	 * states.
 	 */
-	public void set_revocation_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_revocation_basepoint(org.ldk.structs.RevocationBasepoint val) {
+		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
@@ -91,10 +95,13 @@ public class ChannelPublicKeys extends CommonBase {
 	 * public key which receives non-HTLC-encumbered funds which are only available for spending
 	 * after some delay (or can be claimed via the revocation path).
 	 */
-	public byte[] get_delayed_payment_basepoint() {
-		byte[] ret = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
+	public DelayedPaymentBasepoint get_delayed_payment_basepoint() {
+		long ret = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.DelayedPaymentBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -102,37 +109,42 @@ public class ChannelPublicKeys extends CommonBase {
 	 * public key which receives non-HTLC-encumbered funds which are only available for spending
 	 * after some delay (or can be claimed via the revocation path).
 	 */
-	public void set_delayed_payment_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_delayed_payment_basepoint(org.ldk.structs.DelayedPaymentBasepoint val) {
+		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
 	 * The base point which is used (with derive_public_key) to derive a per-commitment public key
 	 * which is used to encumber HTLC-in-flight outputs.
 	 */
-	public byte[] get_htlc_basepoint() {
-		byte[] ret = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
+	public HtlcBasepoint get_htlc_basepoint() {
+		long ret = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.HtlcBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.HtlcBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * The base point which is used (with derive_public_key) to derive a per-commitment public key
 	 * which is used to encumber HTLC-in-flight outputs.
 	 */
-	public void set_htlc_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+	public void set_htlc_basepoint(org.ldk.structs.HtlcBasepoint val) {
+		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, val == null ? 0 : val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
 	}
 
 	/**
 	 * Constructs a new ChannelPublicKeys given each field
 	 */
-	public static ChannelPublicKeys of(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
-		long ret = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33));
+	public static ChannelPublicKeys of(byte[] funding_pubkey_arg, org.ldk.structs.RevocationBasepoint revocation_basepoint_arg, byte[] payment_point_arg, org.ldk.structs.DelayedPaymentBasepoint delayed_payment_basepoint_arg, org.ldk.structs.HtlcBasepoint htlc_basepoint_arg) {
+		long ret = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), revocation_basepoint_arg == null ? 0 : revocation_basepoint_arg.ptr, InternalUtils.check_arr_len(payment_point_arg, 33), delayed_payment_basepoint_arg == null ? 0 : delayed_payment_basepoint_arg.ptr, htlc_basepoint_arg == null ? 0 : htlc_basepoint_arg.ptr);
 		Reference.reachabilityFence(funding_pubkey_arg);
 		Reference.reachabilityFence(revocation_basepoint_arg);
 		Reference.reachabilityFence(payment_point_arg);
@@ -141,6 +153,9 @@ public class ChannelPublicKeys extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelPublicKeys(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(revocation_basepoint_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(delayed_payment_basepoint_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(htlc_basepoint_arg); };
 		return ret_hu_conv;
 	}
 

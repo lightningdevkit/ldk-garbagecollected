@@ -51,8 +51,11 @@ public class WalletSource extends CommonBase {
 		 * Signs and provides the full [`TxIn::script_sig`] and [`TxIn::witness`] for all inputs within
 		 * the transaction known to the wallet (i.e., any provided via
 		 * [`WalletSource::list_confirmed_utxos`]).
+		 * 
+		 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+		 * unsigned transaction and then sign it with your wallet.
 		 */
-		Result_TransactionNoneZ sign_tx(byte[] tx);
+		Result_TransactionNoneZ sign_psbt(byte[] psbt);
 	}
 	private static class LDKWalletSourceHolder { WalletSource held; }
 	public static WalletSource new_impl(WalletSourceInterface arg) {
@@ -70,8 +73,8 @@ public class WalletSource extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long sign_tx(byte[] tx) {
-				Result_TransactionNoneZ ret = arg.sign_tx(tx);
+			@Override public long sign_psbt(byte[] psbt) {
+				Result_TransactionNoneZ ret = arg.sign_psbt(psbt);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
@@ -106,11 +109,14 @@ public class WalletSource extends CommonBase {
 	 * Signs and provides the full [`TxIn::script_sig`] and [`TxIn::witness`] for all inputs within
 	 * the transaction known to the wallet (i.e., any provided via
 	 * [`WalletSource::list_confirmed_utxos`]).
+	 * 
+	 * If your wallet does not support signing PSBTs you can call `psbt.extract_tx()` to get the
+	 * unsigned transaction and then sign it with your wallet.
 	 */
-	public Result_TransactionNoneZ sign_tx(byte[] tx) {
-		long ret = bindings.WalletSource_sign_tx(this.ptr, tx);
+	public Result_TransactionNoneZ sign_psbt(byte[] psbt) {
+		long ret = bindings.WalletSource_sign_psbt(this.ptr, psbt);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(tx);
+		Reference.reachabilityFence(psbt);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

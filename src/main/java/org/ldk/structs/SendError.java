@@ -35,6 +35,9 @@ public class SendError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKSendError.InvalidFirstHop.class) {
 			return new InvalidFirstHop(ptr, (bindings.LDKSendError.InvalidFirstHop)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKSendError.PathNotFound.class) {
+			return new PathNotFound(ptr, (bindings.LDKSendError.PathNotFound)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKSendError.InvalidMessage.class) {
 			return new InvalidMessage(ptr, (bindings.LDKSendError.InvalidMessage)raw_val);
 		}
@@ -79,10 +82,20 @@ public class SendError extends CommonBase {
 		}
 	}
 	/**
-	 * Our next-hop peer was offline or does not support onion message forwarding.
+	 * The first hop is not a peer and doesn't have a known [`SocketAddress`].
 	 */
 	public final static class InvalidFirstHop extends SendError {
+		public final byte[] invalid_first_hop;
 		private InvalidFirstHop(long ptr, bindings.LDKSendError.InvalidFirstHop obj) {
+			super(null, ptr);
+			this.invalid_first_hop = obj.invalid_first_hop;
+		}
+	}
+	/**
+	 * A path from the sender to the destination could not be found by the [`MessageRouter`].
+	 */
+	public final static class PathNotFound extends SendError {
+		private PathNotFound(long ptr, bindings.LDKSendError.PathNotFound obj) {
 			super(null, ptr);
 		}
 	}
@@ -178,8 +191,20 @@ public class SendError extends CommonBase {
 	/**
 	 * Utility method to constructs a new InvalidFirstHop-variant SendError
 	 */
-	public static SendError invalid_first_hop() {
-		long ret = bindings.SendError_invalid_first_hop();
+	public static SendError invalid_first_hop(byte[] a) {
+		long ret = bindings.SendError_invalid_first_hop(InternalUtils.check_arr_len(a, 33));
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PathNotFound-variant SendError
+	 */
+	public static SendError path_not_found() {
+		long ret = bindings.SendError_path_not_found();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SendError ret_hu_conv = org.ldk.structs.SendError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

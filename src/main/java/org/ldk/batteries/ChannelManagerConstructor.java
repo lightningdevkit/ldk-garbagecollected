@@ -80,6 +80,7 @@ public class ChannelManagerConstructor {
     private final Logger logger;
     private final EntropySource entropy_source;
     private final NodeSigner node_signer;
+    private final Router router;
 
     /**
      * Exposes the `ProbabilisticScorer` wrapped inside a lock. Don't forget to `close` this lock when you're done with
@@ -158,15 +159,29 @@ public class ChannelManagerConstructor {
         this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
 
         assert(scoring_fee_params != null);
-        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore(), scoring_fee_params);
-        Router router;
+        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source, scorer.as_LockableScore(), scoring_fee_params);
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
-                @Override public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                @Override
+                public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, null, null, default_router);
                 }
-                @Override public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
+
+                @Override
+                public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router);
+                }
+
+                @Override
+                public Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                    return default_router.as_Router().create_blinded_payment_paths(recipient, first_hops, tlvs, amount_msats);
+                }
+            }, new MessageRouter.MessageRouterInterface() {
+                @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                    return default_router.as_MessageRouter().find_path(sender, peers, destination);
+                }
+                @Override public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+                    return default_router.as_MessageRouter().create_blinded_paths(recipient, peers);
                 }
             });
         } else {
@@ -200,7 +215,7 @@ public class ChannelManagerConstructor {
         this.logger = logger;
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
-                monitor.load_outputs_to_watch(filter);
+                monitor.load_outputs_to_watch(filter, logger);
             }
         }
     }
@@ -225,8 +240,7 @@ public class ChannelManagerConstructor {
         this.scorer = MultiThreadedLockableScore.of(this.prob_scorer.as_Score());
 
         assert(scoring_fee_params != null);
-        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source.get_secure_random_bytes(), scorer.as_LockableScore(), scoring_fee_params);
-        Router router;
+        DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source, scorer.as_LockableScore(), scoring_fee_params);
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
                 @Override public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
@@ -234,6 +248,18 @@ public class ChannelManagerConstructor {
                 }
                 @Override public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router);
+                }
+
+                @Override
+                public Result_CVec_C2Tuple_BlindedPayInfoBlindedPathZZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                    return default_router.as_Router().create_blinded_payment_paths(recipient, first_hops, tlvs, amount_msats);
+                }
+            }, new MessageRouter.MessageRouterInterface() {
+                @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                    return default_router.as_MessageRouter().find_path(sender, peers, destination);
+                }
+                @Override public Result_CVec_BlindedPathZNoneZ create_blinded_paths(byte[] recipient, byte[][] peers) {
+                    return default_router.as_MessageRouter().create_blinded_paths(recipient, peers);
                 }
             });
         } else {
@@ -288,7 +314,7 @@ public class ChannelManagerConstructor {
             routing_msg_handler = graph_msg_handler.as_RoutingMessageHandler();
         else
             routing_msg_handler = ignoring_handler.as_RoutingMessageHandler();
-        OnionMessenger messenger = OnionMessenger.of(this.entropy_source, this.node_signer, this.logger, DefaultMessageRouter.of().as_MessageRouter(), channel_manager.as_OffersMessageHandler(), IgnoringMessageHandler.of().as_CustomOnionMessageHandler());
+        OnionMessenger messenger = OnionMessenger.of(this.entropy_source, this.node_signer, this.logger, this.router.get_message_router(), channel_manager.as_OffersMessageHandler(), IgnoringMessageHandler.of().as_CustomOnionMessageHandler());
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                 routing_msg_handler, messenger.as_OnionMessageHandler(),
                 ignoring_handler.as_CustomMessageHandler(), (int)(System.currentTimeMillis() / 1000),

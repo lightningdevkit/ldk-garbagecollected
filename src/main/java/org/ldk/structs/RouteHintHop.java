@@ -10,6 +10,10 @@ import javax.annotation.Nullable;
 
 /**
  * A channel descriptor for a hop along a payment path.
+ * 
+ * While this generally comes from BOLT 11's `r` field, this struct includes more fields than are
+ * available in BOLT 11. Thus, encoding and decoding this via `lightning-invoice` is lossy, as
+ * fields not supported in BOLT 11 will be stripped.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RouteHintHop extends CommonBase {

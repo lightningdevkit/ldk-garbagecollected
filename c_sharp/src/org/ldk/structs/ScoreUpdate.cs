@@ -12,16 +12,22 @@ namespace org { namespace ldk { namespace structs {
 public interface ScoreUpdateInterface {
 	/**Handles updating channel penalties after failing to route through a channel.
 	 */
-	void payment_path_failed(Path path, long short_channel_id);
+	void payment_path_failed(Path path, long short_channel_id, long duration_since_epoch);
 	/**Handles updating channel penalties after successfully routing along a path.
 	 */
-	void payment_path_successful(Path path);
+	void payment_path_successful(Path path, long duration_since_epoch);
 	/**Handles updating channel penalties after a probe over the given path failed.
 	 */
-	void probe_failed(Path path, long short_channel_id);
+	void probe_failed(Path path, long short_channel_id, long duration_since_epoch);
 	/**Handles updating channel penalties after a probe over the given path succeeded.
 	 */
-	void probe_successful(Path path);
+	void probe_successful(Path path, long duration_since_epoch);
+	/**Scorers may wish to reduce their certainty of channel liquidity information over time.
+	 * Thus, this method is provided to allow scorers to observe the passage of time - the holder
+	 * of this object should call this method regularly (generally via the
+	 * `lightning-background-processor` crate).
+	 */
+	void time_passed(long duration_since_epoch);
 }
 
 /**
@@ -41,24 +47,28 @@ public class ScoreUpdate : CommonBase {
 		internal LDKScoreUpdateImpl(ScoreUpdateInterface arg, LDKScoreUpdateHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private ScoreUpdateInterface arg;
 		private LDKScoreUpdateHolder impl_holder;
-		public void payment_path_failed(long _path, long _short_channel_id) {
+		public void payment_path_failed(long _path, long _short_channel_id, long _duration_since_epoch) {
 			org.ldk.structs.Path _path_hu_conv = null; if (_path < 0 || _path > 4096) { _path_hu_conv = new org.ldk.structs.Path(null, _path); }
-			arg.payment_path_failed(_path_hu_conv, _short_channel_id);
+			arg.payment_path_failed(_path_hu_conv, _short_channel_id, _duration_since_epoch);
 				GC.KeepAlive(arg);
 		}
-		public void payment_path_successful(long _path) {
+		public void payment_path_successful(long _path, long _duration_since_epoch) {
 			org.ldk.structs.Path _path_hu_conv = null; if (_path < 0 || _path > 4096) { _path_hu_conv = new org.ldk.structs.Path(null, _path); }
-			arg.payment_path_successful(_path_hu_conv);
+			arg.payment_path_successful(_path_hu_conv, _duration_since_epoch);
 				GC.KeepAlive(arg);
 		}
-		public void probe_failed(long _path, long _short_channel_id) {
+		public void probe_failed(long _path, long _short_channel_id, long _duration_since_epoch) {
 			org.ldk.structs.Path _path_hu_conv = null; if (_path < 0 || _path > 4096) { _path_hu_conv = new org.ldk.structs.Path(null, _path); }
-			arg.probe_failed(_path_hu_conv, _short_channel_id);
+			arg.probe_failed(_path_hu_conv, _short_channel_id, _duration_since_epoch);
 				GC.KeepAlive(arg);
 		}
-		public void probe_successful(long _path) {
+		public void probe_successful(long _path, long _duration_since_epoch) {
 			org.ldk.structs.Path _path_hu_conv = null; if (_path < 0 || _path > 4096) { _path_hu_conv = new org.ldk.structs.Path(null, _path); }
-			arg.probe_successful(_path_hu_conv);
+			arg.probe_successful(_path_hu_conv, _duration_since_epoch);
+				GC.KeepAlive(arg);
+		}
+		public void time_passed(long _duration_since_epoch) {
+			arg.time_passed(_duration_since_epoch);
 				GC.KeepAlive(arg);
 		}
 	}
@@ -78,43 +88,59 @@ public class ScoreUpdate : CommonBase {
 	/**
 	 * Handles updating channel penalties after failing to route through a channel.
 	 */
-	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.ScoreUpdate_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
+	public void payment_path_failed(org.ldk.structs.Path path, long short_channel_id, long duration_since_epoch) {
+		bindings.ScoreUpdate_payment_path_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id, duration_since_epoch);
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(short_channel_id);
+		GC.KeepAlive(duration_since_epoch);
 		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after successfully routing along a path.
 	 */
-	public void payment_path_successful(org.ldk.structs.Path path) {
-		bindings.ScoreUpdate_payment_path_successful(this.ptr, path == null ? 0 : path.ptr);
+	public void payment_path_successful(org.ldk.structs.Path path, long duration_since_epoch) {
+		bindings.ScoreUpdate_payment_path_successful(this.ptr, path == null ? 0 : path.ptr, duration_since_epoch);
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
+		GC.KeepAlive(duration_since_epoch);
 		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path failed.
 	 */
-	public void probe_failed(org.ldk.structs.Path path, long short_channel_id) {
-		bindings.ScoreUpdate_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id);
+	public void probe_failed(org.ldk.structs.Path path, long short_channel_id, long duration_since_epoch) {
+		bindings.ScoreUpdate_probe_failed(this.ptr, path == null ? 0 : path.ptr, short_channel_id, duration_since_epoch);
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(short_channel_id);
+		GC.KeepAlive(duration_since_epoch);
 		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
 	 * Handles updating channel penalties after a probe over the given path succeeded.
 	 */
-	public void probe_successful(org.ldk.structs.Path path) {
-		bindings.ScoreUpdate_probe_successful(this.ptr, path == null ? 0 : path.ptr);
+	public void probe_successful(org.ldk.structs.Path path, long duration_since_epoch) {
+		bindings.ScoreUpdate_probe_successful(this.ptr, path == null ? 0 : path.ptr, duration_since_epoch);
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
+		GC.KeepAlive(duration_since_epoch);
 		if (this != null) { this.ptrs_to.AddLast(path); };
+	}
+
+	/**
+	 * Scorers may wish to reduce their certainty of channel liquidity information over time.
+	 * Thus, this method is provided to allow scorers to observe the passage of time - the holder
+	 * of this object should call this method regularly (generally via the
+	 * `lightning-background-processor` crate).
+	 */
+	public void time_passed(long duration_since_epoch) {
+		bindings.ScoreUpdate_time_passed(this.ptr, duration_since_epoch);
+		GC.KeepAlive(this);
+		GC.KeepAlive(duration_since_epoch);
 	}
 
 }

@@ -47,7 +47,8 @@ public class MonitorEvent extends CommonBase {
 		}
 	}
 	/**
-	 * A monitor event that the Channel's commitment transaction was confirmed.
+	 * Indicates we broadcasted the channel's latest commitment transaction and thus closed the
+	 * channel.
 	 */
 	public final static class HolderForceClosed extends MonitorEvent {
 		public final org.ldk.structs.OutPoint holder_force_closed;

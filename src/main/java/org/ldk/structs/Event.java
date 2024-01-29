@@ -34,6 +34,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentClaimed.class) {
 			return new PaymentClaimed(ptr, (bindings.LDKEvent.PaymentClaimed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.ConnectionNeeded.class) {
+			return new ConnectionNeeded(ptr, (bindings.LDKEvent.ConnectionNeeded)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKEvent.InvoiceRequestFailed.class) {
 			return new InvoiceRequestFailed(ptr, (bindings.LDKEvent.InvoiceRequestFailed)raw_val);
 		}
@@ -359,6 +362,45 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u64Z sender_intended_total_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(sender_intended_total_msat);
 			if (sender_intended_total_msat_hu_conv != null) { sender_intended_total_msat_hu_conv.ptrs_to.add(this); };
 			this.sender_intended_total_msat = sender_intended_total_msat_hu_conv;
+		}
+	}
+	/**
+	 * Indicates that a peer connection with a node is needed in order to send an [`OnionMessage`].
+	 * 
+	 * Typically, this happens when a [`MessageRouter`] is unable to find a complete path to a
+	 * [`Destination`]. Once a connection is established, any messages buffered by an
+	 * [`OnionMessageHandler`] may be sent.
+	 * 
+	 * This event will not be generated for onion message forwards; only for sends including
+	 * replies. Handlers should connect to the node otherwise any buffered messages may be lost.
+	 * 
+	 * [`OnionMessage`]: msgs::OnionMessage
+	 * [`MessageRouter`]: crate::onion_message::messenger::MessageRouter
+	 * [`Destination`]: crate::onion_message::messenger::Destination
+	 * [`OnionMessageHandler`]: crate::ln::msgs::OnionMessageHandler
+	 */
+	public final static class ConnectionNeeded extends Event {
+		/**
+		 * The node id for the node needing a connection.
+		*/
+		public final byte[] node_id;
+		/**
+		 * Sockets for connecting to the node.
+		*/
+		public final SocketAddress[] addresses;
+		private ConnectionNeeded(long ptr, bindings.LDKEvent.ConnectionNeeded obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long[] addresses = obj.addresses;
+			int addresses_conv_15_len = addresses.length;
+			SocketAddress[] addresses_conv_15_arr = new SocketAddress[addresses_conv_15_len];
+			for (int p = 0; p < addresses_conv_15_len; p++) {
+				long addresses_conv_15 = addresses[p];
+				org.ldk.structs.SocketAddress addresses_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(addresses_conv_15);
+				if (addresses_conv_15_hu_conv != null) { addresses_conv_15_hu_conv.ptrs_to.add(this); };
+				addresses_conv_15_arr[p] = addresses_conv_15_hu_conv;
+			}
+			this.addresses = addresses_conv_15_arr;
 		}
 	}
 	/**
@@ -984,6 +1026,14 @@ public class Event extends CommonBase {
 		 * This field will be `None` for objects serialized prior to LDK 0.0.117.
 		*/
 		public final org.ldk.structs.Option_u64Z channel_capacity_sats;
+		/**
+		 * The original channel funding TXO; this helps checking for the existence and confirmation
+		 * status of the closing tx.
+		 * Note that for instances serialized in v0.0.119 or prior this will be missing (None).
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final org.ldk.structs.OutPoint channel_funding_txo;
 		private ChannelClosed(long ptr, bindings.LDKEvent.ChannelClosed obj) {
 			super(null, ptr);
 			this.channel_id = obj.channel_id;
@@ -999,6 +1049,10 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u64Z channel_capacity_sats_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(channel_capacity_sats);
 			if (channel_capacity_sats_hu_conv != null) { channel_capacity_sats_hu_conv.ptrs_to.add(this); };
 			this.channel_capacity_sats = channel_capacity_sats_hu_conv;
+			long channel_funding_txo = obj.channel_funding_txo;
+			org.ldk.structs.OutPoint channel_funding_txo_hu_conv = null; if (channel_funding_txo < 0 || channel_funding_txo > 4096) { channel_funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, channel_funding_txo); }
+			if (channel_funding_txo_hu_conv != null) { channel_funding_txo_hu_conv.ptrs_to.add(this); };
+			this.channel_funding_txo = channel_funding_txo_hu_conv;
 		}
 	}
 	/**
@@ -1230,6 +1284,20 @@ public class Event extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new ConnectionNeeded-variant Event
+	 */
+	public static Event connection_needed(byte[] node_id, SocketAddress[] addresses) {
+		long ret = bindings.Event_connection_needed(InternalUtils.check_arr_len(node_id, 33), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_15 -> addresses_conv_15.ptr).toArray() : null);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(addresses);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		for (SocketAddress addresses_conv_15: addresses) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(addresses_conv_15); }; };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new InvoiceRequestFailed-variant Event
 	 */
 	public static Event invoice_request_failed(byte[] payment_id) {
@@ -1442,18 +1510,20 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelClosed-variant Event
 	 */
-	public static Event channel_closed(byte[] channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ClosureReason reason, byte[] counterparty_node_id, org.ldk.structs.Option_u64Z channel_capacity_sats) {
-		long ret = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id.getLEBytes(), reason.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_capacity_sats.ptr);
+	public static Event channel_closed(byte[] channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ClosureReason reason, byte[] counterparty_node_id, org.ldk.structs.Option_u64Z channel_capacity_sats, org.ldk.structs.OutPoint channel_funding_txo) {
+		long ret = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id.getLEBytes(), reason.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), channel_capacity_sats.ptr, channel_funding_txo == null ? 0 : channel_funding_txo.ptr);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(user_channel_id);
 		Reference.reachabilityFence(reason);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(channel_capacity_sats);
+		Reference.reachabilityFence(channel_funding_txo);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(reason); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_capacity_sats); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_funding_txo); };
 		return ret_hu_conv;
 	}
 

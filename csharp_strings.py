@@ -150,6 +150,28 @@ public class CommonBase {
 	}
 }"""
 
+        self.witness_program_defn = """public class WitnessProgram : CommonBase {
+	/** The witness program bytes themselves */
+	public readonly byte[] program;
+	/** The witness version */
+	public readonly WitnessVersion version;
+
+	internal WitnessProgram(object _dummy, long ptr) : base(ptr) {
+		this.program = InternalUtils.decodeUint8Array(bindings.WitnessProgram_get_program(ptr));
+		this.version = new WitnessVersion(bindings.WitnessProgram_get_version(ptr));
+	}
+	static private long check_args(byte[] program, WitnessVersion version) {
+		if (program.Length < 2 || program.Length > 40) throw new ArgumentException();
+		if (version.getVal() == 0 && program.Length != 20 && program.Length != 32) throw new ArgumentException();
+		return InternalUtils.encodeUint8Array(program);
+	}
+	public WitnessProgram(byte[] program, WitnessVersion version) :
+		this(null, bindings.WitnessProgram_new(version.getVal(), check_args(program, version))) {}
+
+	~WitnessProgram() {
+		if (ptr != 0) { bindings.WitnessProgram_free(ptr); }
+	}
+}"""
 
         self.c_file_pfx = """
 // On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
@@ -349,6 +371,18 @@ _Static_assert(offsetof(LDKCVec_u8Z, data) == offsetof(LDKu8slice, data), "Vec<u
 _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), "Vec<u8> and [u8] need to have been mapped identically");
 
 _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
+
+// Int types across Windows/Linux are different, so make sure we're using the right headers.
+_Static_assert(sizeof(void*) == sizeof(uintptr_t), "stdints must be correct");
+_Static_assert(sizeof(void*) == sizeof(intptr_t), "stdints must be correct");
+_Static_assert(sizeof(uint64_t) == 8, "stdints must be correct");
+_Static_assert(sizeof(int64_t) == 8, "stdints must be correct");
+_Static_assert(sizeof(uint32_t) == 4, "stdints must be correct");
+_Static_assert(sizeof(int32_t) == 4, "stdints must be correct");
+_Static_assert(sizeof(uint16_t) == 2, "stdints must be correct");
+_Static_assert(sizeof(int16_t) == 2, "stdints must be correct");
+_Static_assert(sizeof(uint8_t) == 1, "stdints must be correct");
+_Static_assert(sizeof(int8_t) == 1, "stdints must be correct");
 
 #define DECL_ARR_TYPE(ty, name) \\
 	struct name##array { \\
@@ -1430,10 +1464,11 @@ public class {struct_name.replace("LDK","")} : CommonBase {{
 		}}
 	}}
 	public delegate {jret} {fn_suffix}_callback(int obj_ptr, int fn_id{jargs});
+	static {fn_suffix}_callback {fn_suffix}_callback_inst = c_callback_{fn_suffix};
 """)
                 bindings.write(self.native_meth_decl(f"register_{fn_suffix}_invoker", "int") + f"({fn_suffix}_callback callee);\n")
                 # Easiest way to get a static run is just define a variable, even if we dont care
-                bindings.write(f"\tstatic int _run_{fn_suffix}_registration = register_{fn_suffix}_invoker(c_callback_{fn_suffix});")
+                bindings.write(f"\tstatic int _run_{fn_suffix}_registration = register_{fn_suffix}_invoker({fn_suffix}_callback_inst);")
 
             bindings.write("""
 }

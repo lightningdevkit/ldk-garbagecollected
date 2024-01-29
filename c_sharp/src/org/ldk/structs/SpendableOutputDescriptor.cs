@@ -43,6 +43,19 @@ public class SpendableOutputDescriptor : CommonBase {
 		 * The output which is referenced by the given outpoint.
 		 */
 		public TxOut output;
+		/**
+		 * The `channel_keys_id` for the channel which this output came from.
+		 * 
+		 * For channels which were generated on LDK 0.0.119 or later, this is the value which was
+		 * passed to the [`SignerProvider::get_destination_script`] call which provided this
+		 * output script.
+		 * 
+		 * For channels which were generated prior to LDK 0.0.119, no such argument existed,
+		 * however this field may still be filled in if such data is available.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		public byte[] channel_keys_id;
 		internal SpendableOutputDescriptor_StaticOutput(long ptr) : base(null, ptr) {
 			long outpoint = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_outpoint(ptr);
 			org.ldk.structs.OutPoint outpoint_hu_conv = null; if (outpoint < 0 || outpoint > 4096) { outpoint_hu_conv = new org.ldk.structs.OutPoint(null, outpoint); }
@@ -51,6 +64,9 @@ public class SpendableOutputDescriptor : CommonBase {
 			long output = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_output(ptr);
 			TxOut output_conv = new TxOut(null, output);
 			this.output = output_conv;
+			long channel_keys_id = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_channel_keys_id(ptr);
+			byte[] channel_keys_id_conv = InternalUtils.decodeUint8Array(channel_keys_id);
+			this.channel_keys_id = channel_keys_id_conv;
 		}
 	}
 	/** A SpendableOutputDescriptor of type DelayedPaymentOutput */
@@ -94,10 +110,11 @@ public class SpendableOutputDescriptor : CommonBase {
 	/**
 	 * Utility method to constructs a new StaticOutput-variant SpendableOutputDescriptor
 	 */
-	public static SpendableOutputDescriptor static_output(org.ldk.structs.OutPoint outpoint, org.ldk.structs.TxOut output) {
-		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr, output.ptr);
+	public static SpendableOutputDescriptor static_output(org.ldk.structs.OutPoint outpoint, org.ldk.structs.TxOut output, byte[] channel_keys_id) {
+		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr, output.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_keys_id, 32)));
 		GC.KeepAlive(outpoint);
 		GC.KeepAlive(output);
+		GC.KeepAlive(channel_keys_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
