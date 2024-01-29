@@ -335,7 +335,7 @@ else
 		[ "$IS_WIN" = "true" ] && LINK="$LINK -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
-			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version"
+			LINK="$LINK -Wl,--version-script=libcode.version"
 		fi
 
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
