@@ -175,7 +175,7 @@ if [ "$2" = "c_sharp" ]; then
 		# so we have to build with faketime.
 		faketime -f "2021-01-01 00:00:00" $COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
 		faketime -f "2021-01-01 00:00:00" $COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd libldkcsharp_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy resulting native binary for inclusion in release nuget zip
@@ -229,7 +229,7 @@ elif [ "$2" = "python" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningpython_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=python/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd liblightningpython_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "wasm" ]; then
 	echo "Creating TS bindings..."
@@ -345,7 +345,7 @@ else
 
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 $2 bindings.o $LDK_LIB -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd liblightningjni_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.\(2\|3\)\(\.\|)\)" | grep -v "GLIBC_2.\(3\.4\|14\|17\|18\|25\|28\|29\|32\|33\|34\|\))" || echo)"
