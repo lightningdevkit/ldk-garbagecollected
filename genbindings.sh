@@ -75,7 +75,9 @@ if [ "$LDK_TARGET_CPU" = "" ]; then
 fi
 
 COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
-[ "$IS_MAC" = "true" -a "$2" != "wasm" ] && COMMON_COMPILE="$COMMON_COMPILE --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
+COMMON_CC=""
+[ "$IS_MAC" = "true" -a "$2" != "wasm" ] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
+[ "$IS_MAC" = "false" -a "$2" != "wasm" ] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
 
 DEBUG_ARG="$3"
 if [ "$3" = "leaks" ]; then
@@ -146,16 +148,16 @@ if [ "$2" = "c_sharp" ]; then
 	fi
 
 	echo "Building C# bindings..."
-	COMPILE="$COMMON_COMPILE -pthread -fPIC"
-	LINK="-shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -pthread -fPIC"
+	LINK="$COMMON_CC -shared"
 	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 	[ "$IS_MAC" = "false" -a "$3" != "false" ] && LINK="$LINK -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
-	[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -lbcrypt -lntdll -static-libgcc"
-	[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ -I/usr/x86_64-w64-mingw32/include/"
+	[ "$IS_WIN" = "true" ] && LINK="$LINK -lbcrypt -lntdll -static-libgcc"
+	[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ -I/usr/x86_64-w64-mingw32/include/"
 
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o libldkcsharp_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
@@ -213,8 +215,8 @@ elif [ "$2" = "python" ]; then
 	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	echo "Building Python bindings..."
-	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-ldl -shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -Isrc/main/jni -pthread -fPIC"
+	LINK="$COMMON_CC -ldl -shared"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
@@ -253,7 +255,7 @@ elif [ "$2" = "wasm" ]; then
 	cat ts/bindings.c.body >> ts/bindings.c
 
 	echo "Building TS bindings..."
-	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
@@ -320,8 +322,8 @@ else
 	rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 	echo "Building Java bindings..."
-	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -Isrc/main/jni -pthread -fPIC"
+	LINK="$COMMON_CC -shared"
 	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
