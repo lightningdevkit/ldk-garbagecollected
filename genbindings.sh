@@ -106,7 +106,10 @@ if [ "$2" = "c_sharp" ]; then
 	echo "Creating C# bindings..."
 	mkdir -p c_sharp/src/org/ldk/{enums,structs,impl}
 	rm -f c_sharp/src/org/ldk/{enums,structs,impl}/*.cs
-	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4 $TARGET_STRING
+	GEN_PLAT="c_sharp-linux"
+	[ "$IS_WIN" = "true" ] && GEN_PLAT="c_sharp-win"
+	[ "$IS_MAC" = "true" ] && GEN_PLAT="c_sharp-darwin"
+	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG $GEN_PLAT $4 $TARGET_STRING
 	rm -f c_sharp/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > c_sharp/bindings.c
@@ -151,6 +154,8 @@ if [ "$2" = "c_sharp" ]; then
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 	[ "$IS_MAC" = "false" -a "$3" != "false" ] && LINK="$LINK -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
+	[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -lbcrypt -lntdll -static-libgcc"
+	[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ -I/usr/x86_64-w64-mingw32/include/"
 
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o libldkcsharp_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
@@ -159,8 +164,6 @@ if [ "$2" = "c_sharp" ]; then
 		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
-		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -lntdll -static-libgcc"
-		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version -Wl,--build-id=0x0000000000000000"

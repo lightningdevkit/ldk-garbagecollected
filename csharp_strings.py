@@ -3,7 +3,9 @@ from enum import Enum
 import sys
 
 class Target(Enum):
-    CSHARP = 1,
+    WINDOWS = 1,
+    LINUX = 2,
+    PTHREAD = 3,
 
 def first_to_lower(string: str) -> str:
     first = string[0]
@@ -188,7 +190,25 @@ public class CommonBase {
 
         self.c_file_pfx = self.c_file_pfx + "#include <stdio.h>\n#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)\n"
 
-        if not DEBUG or sys.platform == "darwin":
+        if self.target == Target.WINDOWS:
+            self.c_file_pfx = self.c_file_pfx + """#include <heapapi.h>
+static HANDLE process_heap = NULL;
+static inline void* init_heap() {
+	if (UNLIKELY(process_heap == NULL)) {
+		// Assume pointer writes wont tear, which is true where we need it.
+		process_heap = GetProcessHeap();
+	}
+}
+static inline void* MALLOC(size_t a, const char* _) {
+	init_heap();
+	return HeapAlloc(process_heap, HEAP_ZERO_MEMORY, a);
+}
+#define do_MALLOC(a, b, _c) MALLOC(a, b)
+#define FREE(p) if ((uint64_t)(p) > 4096) { init_heap(); HeapFree(process_heap, 0, p); }
+#define CHECK_ACCESS(p)
+#define CHECK_INNER_FIELD_ACCESS_OR_NULL(v)
+"""
+        elif not DEBUG or self.target != Target.LINUX:
             self.c_file_pfx = self.c_file_pfx + """#define do_MALLOC(a, _b, _c) malloc(a)
 #define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((uint64_t)(p) > 4096) { free(p); }
@@ -214,7 +234,7 @@ void __attribute__((constructor)) debug_log_version() {
 }
 """
 
-            if sys.platform != "darwin":
+            if self.target == Target.LINUX:
                 self.c_file_pfx += """
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap
