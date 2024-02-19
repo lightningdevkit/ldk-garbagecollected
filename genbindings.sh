@@ -273,10 +273,7 @@ else
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 	else
-		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined -flto -Wl,-O3 -Wl,--lto-O3"
-		[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -flto"
-		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -flto -Wl,-O3 -Wl,--lto-O3"
-		[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
+		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=libcode.version -fuse-ld=lld"
