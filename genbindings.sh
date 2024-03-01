@@ -78,6 +78,7 @@ COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qu
 COMMON_CC=""
 [ "$IS_MAC" = "true" -a "$2" != "wasm" ] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
 [ "$IS_MAC" = "false" -a "$2" != "wasm" ] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
+[ "$IS_MAC" = "true" -a "$MACOS_SDK" != "" ] && COMMON_COMPILE="$COMMON_COMPILE -isysroot $MACOS_SDK"
 
 DEBUG_ARG="$3"
 if [ "$3" = "leaks" ]; then
