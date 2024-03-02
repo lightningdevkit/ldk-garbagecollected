@@ -125,11 +125,6 @@ if [ "$2" = "c_sharp" ]; then
 	cat header.c >> c_sharp/bindings.c
 	cat c_sharp/bindings.c.body >> c_sharp/bindings.c
 
-	IS_MAC=false
-	[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
-	IS_APPLE_CLANG=false
-	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
-
 	if is_gnu_sed; then
 		sed -i "s/<version>.*<\/version>/<version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" c_sharp/packaging_artifacts/org.ldk.nuspec
 		sed -i "s/<version>.*<\/version>/<version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" c_sharp/packaging_artifacts/package/services/metadata/core-properties/ldk.psmdcp
