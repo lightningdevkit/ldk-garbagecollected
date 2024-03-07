@@ -169,7 +169,7 @@ jobs:
     steps:
       - name: Install required dependencies
         run: |
-          dnf install -y mingw64-gcc git cargo dotnet clang llvm lld faketime rust-std-static-x86_64-pc-windows-gnu which diffutils
+          dnf install -y mingw64-gcc git cargo dotnet clang llvm lld faketime rust-std-static-x86_64-pc-windows-gnu which diffutils rust-src
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -190,8 +190,13 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.121
+      - name: Fetch MacOS SDK
+        run: |
+          curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
+          tar xvvf Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
       - name: Rebuild C bindings with STD
         run: |
+          export MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
           cd ldk-c-bindings
           export LDK_C_BINDINGS_EXTRA_TARGETS=x86_64-pc-windows-gnu
           export LDK_C_BINDINGS_EXTRA_TARGET_CCS=`pwd`/deterministic-build-wrappers/clang-x86_64-windows
@@ -207,6 +212,16 @@ jobs:
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+      - name: Build macOS x86-64 C# Bindings
+        run: |
+          export MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=x86_64-apple-darwin LDK_TARGET_CPU=sandybridge ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+      - name: Build macOS aarch64 C# Bindings
+        run: |
+          export MACOS_SDK="$PWD/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers"
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          CC=clang LDK_TARGET=aarch64-apple-darwin LDK_TARGET_CPU=apple-a14 ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
       - name: Build Release NUPKG
         run: |
           cd c_sharp
