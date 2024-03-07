@@ -75,7 +75,10 @@ if [ "$LDK_TARGET_CPU" = "" ]; then
 fi
 
 COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
-[ "$IS_MAC" = "true" -a "$2" != "wasm" ] && COMMON_COMPILE="$COMMON_COMPILE --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
+COMMON_CC=""
+[[ "$TARGET_STRING" != "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
+[[ "$TARGET_STRING" = "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
+[ "$IS_MAC" = "true" -a "$MACOS_SDK" != "" ] && COMMON_COMPILE="$COMMON_COMPILE -isysroot $MACOS_SDK"
 
 DEBUG_ARG="$3"
 if [ "$3" = "leaks" ]; then
@@ -106,7 +109,10 @@ if [ "$2" = "c_sharp" ]; then
 	echo "Creating C# bindings..."
 	mkdir -p c_sharp/src/org/ldk/{enums,structs,impl}
 	rm -f c_sharp/src/org/ldk/{enums,structs,impl}/*.cs
-	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG c_sharp $4 $TARGET_STRING
+	GEN_PLAT="c_sharp-linux"
+	[ "$IS_WIN" = "true" ] && GEN_PLAT="c_sharp-win"
+	[ "$IS_MAC" = "true" ] && GEN_PLAT="c_sharp-darwin"
+	./genbindings.py "./lightning.h" c_sharp/src/org/ldk/impl c_sharp/src/org/ldk c_sharp/ $DEBUG_ARG $GEN_PLAT $4 $TARGET_STRING
 	rm -f c_sharp/bindings.c
 	if [ "$3" = "true" ]; then
 		echo "#define LDK_DEBUG_BUILD" > c_sharp/bindings.c
@@ -118,11 +124,6 @@ if [ "$2" = "c_sharp" ]; then
 	cat header.c >> c_sharp/bindings.c
 	cat header.c >> c_sharp/bindings.c
 	cat c_sharp/bindings.c.body >> c_sharp/bindings.c
-
-	IS_MAC=false
-	[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
-	IS_APPLE_CLANG=false
-	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	if is_gnu_sed; then
 		sed -i "s/<version>.*<\/version>/<version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" c_sharp/packaging_artifacts/org.ldk.nuspec
@@ -143,14 +144,16 @@ if [ "$2" = "c_sharp" ]; then
 	fi
 
 	echo "Building C# bindings..."
-	COMPILE="$COMMON_COMPILE -pthread -fPIC"
-	LINK="-shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -pthread -fPIC"
+	LINK="$COMMON_CC -shared"
 	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 	[ "$IS_MAC" = "false" -a "$3" != "false" ] && LINK="$LINK -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
+	[ "$IS_WIN" = "true" ] && LINK="$LINK -lbcrypt -lntdll -static-libgcc"
+	[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ -I/usr/x86_64-w64-mingw32/include/"
 
 	if [ "$3" = "true" ]; then
 		$COMPILE $LINK -o libldkcsharp_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
@@ -159,8 +162,6 @@ if [ "$2" = "c_sharp" ]; then
 		[ "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -flto"
 		[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 		[ "$IS_WIN" = "false" ] && LINK="$LINK -Wl,--lto-O3"
-		[ "$IS_WIN" = "true" ] && LINK="$LINK --target=x86_64-pc-windows-gnu -L/usr/lib/gcc/x86_64-w64-mingw32/12-win32/ -lbcrypt -lntdll -static-libgcc"
-		[ "$IS_WIN" = "true" ] && COMPILE="$COMPILE --target=x86_64-pc-windows-gnu"
 		LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 		if [ "$IS_MAC" = "false" -a "$IS_WIN" = "false" -a "$4" = "false" ]; then
 			LINK="$LINK -Wl,--version-script=c_sharp/libcode.version -Wl,--build-id=0x0000000000000000"
@@ -170,7 +171,7 @@ if [ "$2" = "c_sharp" ]; then
 		# so we have to build with faketime.
 		faketime -f "2021-01-01 00:00:00" $COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ c_sharp/bindings.c
 		faketime -f "2021-01-01 00:00:00" $COMPILE $LINK -o libldkcsharp_release$LDK_TARGET_SUFFIX.so -O3 bindings.o $LDK_LIB -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip libldkcsharp_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd libldkcsharp_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$LDK_JAR_TARGET" = "true" ]; then
 			# Copy resulting native binary for inclusion in release nuget zip
@@ -210,8 +211,8 @@ elif [ "$2" = "python" ]; then
 	[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 	echo "Building Python bindings..."
-	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-ldl -shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -Isrc/main/jni -pthread -fPIC"
+	LINK="$COMMON_CC -ldl -shared"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 	[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && LINK="$LINK -fuse-ld=lld"
@@ -224,7 +225,7 @@ elif [ "$2" = "python" ]; then
 	else
 		$COMPILE -o bindings.o -c -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 c_sharp/bindings.c
 		$COMPILE $LINK -o liblightningpython_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=python/libcode.version -flto -O3 -Wl,--lto-O3 -Wl,-O3 -I"$1"/lightning-c-bindings/include/ $2 bindings.o "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningpython_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd liblightningpython_release$LDK_TARGET_SUFFIX.so
 	fi
 elif [ "$2" = "wasm" ]; then
 	echo "Creating TS bindings..."
@@ -250,7 +251,7 @@ elif [ "$2" = "wasm" ]; then
 	cat ts/bindings.c.body >> ts/bindings.c
 
 	echo "Building TS bindings..."
-	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
@@ -317,8 +318,8 @@ else
 	rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 	echo "Building Java bindings..."
-	COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -fPIC"
-	LINK="-shared"
+	COMPILE="$COMMON_COMPILE $COMMON_CC -Isrc/main/jni -pthread -fPIC"
+	LINK="$COMMON_CC -shared"
 	[ "$IS_WIN" = "false" ] && LINK="$LINK -ldl"
 	[ "$IS_MAC" = "false" ] && LINK="$LINK -Wl,--no-undefined"
 	[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
@@ -340,7 +341,7 @@ else
 
 		$COMPILE -o bindings.o -c -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c
 		$COMPILE $LINK -o liblightningjni_release$LDK_TARGET_SUFFIX.so -O3 $2 bindings.o $LDK_LIB -lm
-		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip liblightningjni_release$LDK_TARGET_SUFFIX.so
+		[ "$IS_APPLE_CLANG" != "true" ] && llvm-strip -R .llvmbc -R .llvmcmd liblightningjni_release$LDK_TARGET_SUFFIX.so
 
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.\(2\|3\)\(\.\|)\)" | grep -v "GLIBC_2.\(3\.4\|14\|17\|18\|25\|28\|29\|32\|33\|34\|\))" || echo)"

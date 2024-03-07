@@ -28,10 +28,17 @@ elif sys.argv[6] == "typescript":
     target = typescript_strings.Target.NODEJS
     if len(sys.argv) == 8 and sys.argv[7] == 'browser':
         target = typescript_strings.Target.BROWSER
-elif sys.argv[6] == "c_sharp":
+elif sys.argv[6].startswith("c_sharp"):
     import csharp_strings
     from csharp_strings import Consts
-    target = csharp_strings.Target.CSHARP
+    if sys.argv[6] == "c_sharp-win":
+        target = csharp_strings.Target.WINDOWS
+    elif sys.argv[6] == "c_sharp-darwin":
+        target = csharp_strings.Target.PTHREAD
+    elif sys.argv[6] == "c_sharp-linux":
+        target = csharp_strings.Target.LINUX
+    else:
+        assert False
 elif sys.argv[6] == "python":
     import python_strings
     from python_strings import Consts

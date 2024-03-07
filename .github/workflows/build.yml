@@ -195,13 +195,14 @@ jobs:
           cd ldk-c-bindings
           export LDK_C_BINDINGS_EXTRA_TARGETS=x86_64-pc-windows-gnu
           export LDK_C_BINDINGS_EXTRA_TARGET_CCS=`pwd`/deterministic-build-wrappers/clang-x86_64-windows
+          export LDK_C_BINDINGS_EXTRA_TARGET_LINK_LTO=true
           ./genbindings.sh ../rust-lightning true
       - name: Remove checked-in source to ensure its correctly checked-in
         run: rm c_sharp/src/org/ldk/enums/*.cs c_sharp/src/org/ldk/impl/*.cs c_sharp/src/org/ldk/structs/*.cs
       - name: Build Windows C# Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          LDK_TARGET=x86_64-pc-windows-gnu ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
+          LDK_TARGET=x86_64-pc-windows-gnu LDK_TARGET_CPU=sandybridge ./genbindings.sh ./ldk-c-bindings/ c_sharp false false
       - name: Build Linux C# Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
