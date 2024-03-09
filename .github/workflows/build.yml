@@ -259,7 +259,6 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           mkdir ldk-java-bins/new/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
           cp ldk-java-sources.jar ldk-java-bins/new/
           cp ldk-java.jar ldk-java-bins/new/
