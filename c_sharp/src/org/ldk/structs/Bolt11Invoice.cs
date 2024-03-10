@@ -307,7 +307,7 @@ public class Bolt11Invoice : CommonBase {
 		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
 		string[] ret_conv_8_arr = new string[ret_conv_8_len];
 		for (int i = 0; i < ret_conv_8_len; i++) {
-			long ret_conv_8 = InternalUtils.getU32ArrayElem(ret, i);
+			long ret_conv_8 = InternalUtils.getU64ArrayElem(ret, i);
 			string ret_conv_8_conv = InternalUtils.decodeString(ret_conv_8);
 			ret_conv_8_arr[i] = ret_conv_8_conv;
 		}

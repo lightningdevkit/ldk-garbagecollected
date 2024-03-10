@@ -581,7 +581,7 @@ int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
         elif elem_ty.rust_obj == "LDKU5":
             return "InternalUtils.getU8ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.rust_obj == "LDKStr":
-            return "InternalUtils.getU32ArrayElem(" + arr_name + ", " + idx + ")"
+            return "InternalUtils.getU64ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False
 
