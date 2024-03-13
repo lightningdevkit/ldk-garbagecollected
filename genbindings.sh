@@ -81,7 +81,7 @@ fi
 
 COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 COMMON_CC=""
-if [[ "$TARGET_STRING != *"android" ]]; then
+if [[ "$TARGET_STRING" != *"android" ]]; then
 	[[ "$TARGET_STRING" != "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
 	[[ "$TARGET_STRING" = "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
 fi
