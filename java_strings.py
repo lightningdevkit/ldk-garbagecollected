@@ -72,6 +72,7 @@ public class bindings {
 		// Fetching the LDK versions from C also checks that the header and binaries match
 		System.err.println("Loaded LDK-Java Bindings " + version.get_ldk_java_bindings_version() + " with LDK " + get_ldk_version() + " and LDK-C-Bindings " + get_ldk_c_bindings_version());
 	}
+	public static void run_statics() { /* Useful to force the statics to run */ }
 	static native void init(java.lang.Class c);
 	static native void init_class_cache();
 	static native String get_lib_version_string();
@@ -861,7 +862,7 @@ import javax.annotation.Nullable;
             out_c = out_c + "\t\tcase %d: return %s;\n" % (ord_v, var)
             ord_v = ord_v + 1
         out_java_enum = out_java_enum + "\t; static native void init();\n"
-        out_java_enum = out_java_enum + "\tstatic { init(); }\n"
+        out_java_enum = out_java_enum + "\tstatic { org.ldk.impl.bindings.run_statics(); init(); }\n"
         out_java_enum = out_java_enum + "}"
         out_java = out_java + "\tstatic { " + struct_name + ".values(); /* Force enum statics to run */ }\n"
         out_c += "\t}\n"
