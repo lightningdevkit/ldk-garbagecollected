@@ -576,12 +576,12 @@ int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
         return "InternalUtils.getArrayLength(" + arr_name + ")"
 
     def get_java_arr_elem(self, elem_ty, arr_name, idx):
-        if elem_ty.c_ty == "int64_t" or elem_ty.c_ty == "uint64_t" or elem_ty.c_ty.endswith("Array") or elem_ty.c_ty == "uintptr_t":
+        if elem_ty.c_ty == "int64_t" or elem_ty.c_ty == "uint64_t":
+            return "InternalUtils.getU64ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.c_ty.endswith("Array") or elem_ty.c_ty == "uintptr_t" or elem_ty.rust_obj == "LDKStr":
             return "InternalUtils.getU64ArrayElem(" + arr_name + ", " + idx + ")"
         elif elem_ty.rust_obj == "LDKU5":
             return "InternalUtils.getU8ArrayElem(" + arr_name + ", " + idx + ")"
-        elif elem_ty.rust_obj == "LDKStr":
-            return "InternalUtils.getU64ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False
 
