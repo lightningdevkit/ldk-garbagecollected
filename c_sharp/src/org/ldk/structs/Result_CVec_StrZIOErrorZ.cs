@@ -25,7 +25,7 @@ public class Result_CVec_StrZIOErrorZ : CommonBase {
 			int res_conv_8_len = InternalUtils.getArrayLength(res);
 			string[] res_conv_8_arr = new string[res_conv_8_len];
 			for (int i = 0; i < res_conv_8_len; i++) {
-				long res_conv_8 = InternalUtils.getU32ArrayElem(res, i);
+				long res_conv_8 = InternalUtils.getU64ArrayElem(res, i);
 				string res_conv_8_conv = InternalUtils.decodeString(res_conv_8);
 				res_conv_8_arr[i] = res_conv_8_conv;
 			}
