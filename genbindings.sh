@@ -81,10 +81,12 @@ fi
 
 COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 COMMON_CC=""
-if [[ "$TARGET_STRING" != *"android" ]]; then
-	[[ "$TARGET_STRING" != "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -mcpu=$LDK_TARGET_CPU"
-	[[ "$TARGET_STRING" = "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
+if [[ "$TARGET_STRING" != *"android" && "$TARGET_STRING" != *"androideabi" ]]; then
+	[[ "$TARGET_STRING" != "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING"
+	[[ "$TARGET_STRING" = "x86"* ]] && COMMON_CC="$COMMON_CC --target=$TARGET_STRING"
 fi
+[[ "$TARGET_STRING" != "x86"* ]] && COMMON_CC="$COMMON_CC -mcpu=$LDK_TARGET_CPU"
+[[ "$TARGET_STRING" = "x86"* ]] && COMMON_CC="$COMMON_CC -march=$LDK_TARGET_CPU -mtune=$LDK_TARGET_CPU"
 [ "$IS_MAC" = "true" -a "$MACOS_SDK" != "" ] && COMMON_COMPILE="$COMMON_COMPILE -isysroot $MACOS_SDK"
 
 DEBUG_ARG="$3"
