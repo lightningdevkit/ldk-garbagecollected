@@ -29,5 +29,5 @@ public enum Level {
 	 */
 	LDKLevel_Error,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

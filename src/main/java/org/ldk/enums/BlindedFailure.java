@@ -16,5 +16,5 @@ public enum BlindedFailure {
 	 */
 	LDKBlindedFailure_FromBlindedNode,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

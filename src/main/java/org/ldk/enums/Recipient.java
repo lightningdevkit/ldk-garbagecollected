@@ -19,5 +19,5 @@ public enum Recipient {
 	 */
 	LDKRecipient_PhantomNode,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

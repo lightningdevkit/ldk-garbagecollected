@@ -49,5 +49,5 @@ public enum Secp256k1Error {
 	 */
 	LDKSecp256k1Error_InvalidParityValue,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

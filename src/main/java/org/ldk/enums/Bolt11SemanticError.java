@@ -47,5 +47,5 @@ public enum Bolt11SemanticError {
 	 */
 	LDKBolt11SemanticError_ImpreciseAmount,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }
