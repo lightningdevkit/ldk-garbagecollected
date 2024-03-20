@@ -21,5 +21,5 @@ public enum SiPrefix {
 	 */
 	LDKSiPrefix_Pico,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

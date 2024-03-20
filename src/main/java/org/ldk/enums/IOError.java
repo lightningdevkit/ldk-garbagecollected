@@ -23,5 +23,5 @@ public enum IOError {
 	LDKIOError_Other,
 	LDKIOError_UnexpectedEof,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }

@@ -13,5 +13,5 @@ public enum COption_NoneZ {
 	 */
 	LDKCOption_NoneZ_None,
 	; static native void init();
-	static { init(); }
+	static { org.ldk.impl.bindings.run_statics(); init(); }
 }
