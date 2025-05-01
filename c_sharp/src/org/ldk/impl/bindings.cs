@@ -12427,6 +12427,8 @@ internal class bindings {
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_VerifiedInvoiceRequest_respond_using_derived_keys")] public static extern long VerifiedInvoiceRequest_respond_using_derived_keys(long _this_arg, long _payment_paths, long _payment_hash);
 	// MUST_USE_RES struct LDKCResult_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ VerifiedInvoiceRequest_respond_using_derived_keys_no_std(const struct LDKVerifiedInvoiceRequest *NONNULL_PTR this_arg, struct LDKCVec_BlindedPaymentPathZ payment_paths, struct LDKThirtyTwoBytes payment_hash, uint64_t created_at);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_VerifiedInvoiceRequest_respond_using_derived_keys_no_std")] public static extern long VerifiedInvoiceRequest_respond_using_derived_keys_no_std(long _this_arg, long _payment_paths, long _payment_hash, long _created_at);
+	// MUST_USE_RES struct LDKInvoiceRequestFields VerifiedInvoiceRequest_fields(const struct LDKVerifiedInvoiceRequest *NONNULL_PTR this_arg);
+	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_VerifiedInvoiceRequest_fields")] public static extern long VerifiedInvoiceRequest_fields(long _this_arg);
 	// struct LDKCVec_u8Z UnsignedInvoiceRequest_write(const struct LDKUnsignedInvoiceRequest *NONNULL_PTR obj);
 	[DllImport ("ldkcsharp", EntryPoint="CS_LDK_UnsignedInvoiceRequest_write")] public static extern long UnsignedInvoiceRequest_write(long _obj);
 	// struct LDKCVec_u8Z InvoiceRequest_write(const struct LDKInvoiceRequest *NONNULL_PTR obj);

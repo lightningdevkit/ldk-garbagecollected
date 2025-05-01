@@ -71590,6 +71590,19 @@ int64_t  CS_LDK_VerifiedInvoiceRequest_respond_using_derived_keys_no_std(int64_t
 	return tag_ptr(ret_conv, true);
 }
 
+int64_t  CS_LDK_VerifiedInvoiceRequest_fields(int64_t this_arg) {
+	LDKVerifiedInvoiceRequest this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	LDKInvoiceRequestFields ret_var = VerifiedInvoiceRequest_fields(&this_arg_conv);
+	int64_t ret_ref = 0;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
+	return ret_ref;
+}
+
 uint8_tArray  CS_LDK_UnsignedInvoiceRequest_write(int64_t obj) {
 	LDKUnsignedInvoiceRequest obj_conv;
 	obj_conv.inner = untag_ptr(obj);
