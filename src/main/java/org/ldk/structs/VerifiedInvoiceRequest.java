@@ -417,4 +417,22 @@ public class VerifiedInvoiceRequest extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Fetch the [`InvoiceRequestFields`] for this verified invoice.
+	 * 
+	 * These are fields which we expect to be useful when receiving a payment for this invoice
+	 * request, and include the returned [`InvoiceRequestFields`] in the
+	 * [`PaymentContext::Bolt12Offer`].
+	 * 
+	 * [`PaymentContext::Bolt12Offer`]: crate::blinded_path::payment::PaymentContext::Bolt12Offer
+	 */
+	public InvoiceRequestFields fields() {
+		long ret = bindings.VerifiedInvoiceRequest_fields(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InvoiceRequestFields ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceRequestFields(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
 }
