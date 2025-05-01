@@ -44065,6 +44065,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_VerifiedInvoiceRequest_1respo
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    VerifiedInvoiceRequest_fields
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_VerifiedInvoiceRequest_1fields
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    UnsignedInvoiceRequest_write
  * Signature: (J)[B
  */

@@ -13534,6 +13534,8 @@ public class bindings {
 	public static native long VerifiedInvoiceRequest_respond_using_derived_keys(long this_arg, long[] payment_paths, byte[] payment_hash);
 	// MUST_USE_RES struct LDKCResult_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ VerifiedInvoiceRequest_respond_using_derived_keys_no_std(const struct LDKVerifiedInvoiceRequest *NONNULL_PTR this_arg, struct LDKCVec_BlindedPaymentPathZ payment_paths, struct LDKThirtyTwoBytes payment_hash, uint64_t created_at);
 	public static native long VerifiedInvoiceRequest_respond_using_derived_keys_no_std(long this_arg, long[] payment_paths, byte[] payment_hash, long created_at);
+	// MUST_USE_RES struct LDKInvoiceRequestFields VerifiedInvoiceRequest_fields(const struct LDKVerifiedInvoiceRequest *NONNULL_PTR this_arg);
+	public static native long VerifiedInvoiceRequest_fields(long this_arg);
 	// struct LDKCVec_u8Z UnsignedInvoiceRequest_write(const struct LDKUnsignedInvoiceRequest *NONNULL_PTR obj);
 	public static native byte[] UnsignedInvoiceRequest_write(long obj);
 	// struct LDKCVec_u8Z InvoiceRequest_write(const struct LDKInvoiceRequest *NONNULL_PTR obj);

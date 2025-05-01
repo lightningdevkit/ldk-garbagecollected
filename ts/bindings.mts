@@ -55819,6 +55819,15 @@ export function VerifiedInvoiceRequest_respond_using_derived_keys_no_std(this_ar
 	const nativeResponseValue = wasm.TS_VerifiedInvoiceRequest_respond_using_derived_keys_no_std(this_arg, payment_paths, payment_hash, created_at);
 	return nativeResponseValue;
 }
+	// MUST_USE_RES struct LDKInvoiceRequestFields VerifiedInvoiceRequest_fields(const struct LDKVerifiedInvoiceRequest *NONNULL_PTR this_arg);
+/* @internal */
+export function VerifiedInvoiceRequest_fields(this_arg: bigint): bigint {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_VerifiedInvoiceRequest_fields(this_arg);
+	return nativeResponseValue;
+}
 	// struct LDKCVec_u8Z UnsignedInvoiceRequest_write(const struct LDKUnsignedInvoiceRequest *NONNULL_PTR obj);
 /* @internal */
 export function UnsignedInvoiceRequest_write(obj: bigint): number {

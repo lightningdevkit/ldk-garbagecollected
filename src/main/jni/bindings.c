@@ -77669,6 +77669,19 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_VerifiedInvoiceRequest_1res
 	return tag_ptr(ret_conv, true);
 }
 
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_VerifiedInvoiceRequest_1fields(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKVerifiedInvoiceRequest this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	LDKInvoiceRequestFields ret_var = VerifiedInvoiceRequest_fields(&this_arg_conv);
+	int64_t ret_ref = 0;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = tag_ptr(ret_var.inner, ret_var.is_owned);
+	return ret_ref;
+}
+
 JNIEXPORT uint8_tArray JNICALL Java_org_ldk_impl_bindings_UnsignedInvoiceRequest_1write(JNIEnv *env, jclass clz, int64_t obj) {
 	LDKUnsignedInvoiceRequest obj_conv;
 	obj_conv.inner = untag_ptr(obj);

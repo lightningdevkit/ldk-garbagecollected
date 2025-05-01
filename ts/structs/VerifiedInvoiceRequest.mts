@@ -1126,4 +1126,20 @@ export class VerifiedInvoiceRequest extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Fetch the [`InvoiceRequestFields`] for this verified invoice.
+	 * 
+	 * These are fields which we expect to be useful when receiving a payment for this invoice
+	 * request, and include the returned [`InvoiceRequestFields`] in the
+	 * [`PaymentContext::Bolt12Offer`].
+	 * 
+	 * [`PaymentContext::Bolt12Offer`]: crate::blinded_path::payment::PaymentContext::Bolt12Offer
+	 */
+	public fields(): InvoiceRequestFields {
+		const ret: bigint = bindings.VerifiedInvoiceRequest_fields(this.ptr);
+		const ret_hu_conv: InvoiceRequestFields = new InvoiceRequestFields(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
 }
