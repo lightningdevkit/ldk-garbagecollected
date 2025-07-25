@@ -1339,16 +1339,18 @@ static inline LDKNetwork LDKNetwork_from_java(JNIEnv *env, jclass clz) {
 	}
 	switch (ord) {
 		case 0: return LDKNetwork_Bitcoin;
-		case 1: return LDKNetwork_Testnet;
-		case 2: return LDKNetwork_Regtest;
-		case 3: return LDKNetwork_Signet;
+		case 1: return LDKNetwork_Testnet3;
+		case 2: return LDKNetwork_Testnet4;
+		case 3: return LDKNetwork_Regtest;
+		case 4: return LDKNetwork_Signet;
 	}
 	(*env)->FatalError(env, "A call to Network.ordinal() from rust returned an invalid value.");
 	abort(); // Unreachable, but will let the compiler know we don't return here
 }
 static jclass Network_class = NULL;
 static jfieldID Network_LDKNetwork_Bitcoin = NULL;
-static jfieldID Network_LDKNetwork_Testnet = NULL;
+static jfieldID Network_LDKNetwork_Testnet3 = NULL;
+static jfieldID Network_LDKNetwork_Testnet4 = NULL;
 static jfieldID Network_LDKNetwork_Regtest = NULL;
 static jfieldID Network_LDKNetwork_Signet = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_enums_Network_init (JNIEnv *env, jclass clz) {
@@ -1356,8 +1358,10 @@ JNIEXPORT void JNICALL Java_org_ldk_enums_Network_init (JNIEnv *env, jclass clz)
 	CHECK(Network_class != NULL);
 	Network_LDKNetwork_Bitcoin = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Bitcoin", "Lorg/ldk/enums/Network;");
 	CHECK(Network_LDKNetwork_Bitcoin != NULL);
-	Network_LDKNetwork_Testnet = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet", "Lorg/ldk/enums/Network;");
-	CHECK(Network_LDKNetwork_Testnet != NULL);
+	Network_LDKNetwork_Testnet3 = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet3", "Lorg/ldk/enums/Network;");
+	CHECK(Network_LDKNetwork_Testnet3 != NULL);
+	Network_LDKNetwork_Testnet4 = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet4", "Lorg/ldk/enums/Network;");
+	CHECK(Network_LDKNetwork_Testnet4 != NULL);
 	Network_LDKNetwork_Regtest = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Regtest", "Lorg/ldk/enums/Network;");
 	CHECK(Network_LDKNetwork_Regtest != NULL);
 	Network_LDKNetwork_Signet = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Signet", "Lorg/ldk/enums/Network;");
@@ -1367,8 +1371,10 @@ static inline jclass LDKNetwork_to_java(JNIEnv *env, LDKNetwork val) {
 	switch (val) {
 		case LDKNetwork_Bitcoin:
 			return (*env)->GetStaticObjectField(env, Network_class, Network_LDKNetwork_Bitcoin);
-		case LDKNetwork_Testnet:
-			return (*env)->GetStaticObjectField(env, Network_class, Network_LDKNetwork_Testnet);
+		case LDKNetwork_Testnet3:
+			return (*env)->GetStaticObjectField(env, Network_class, Network_LDKNetwork_Testnet3);
+		case LDKNetwork_Testnet4:
+			return (*env)->GetStaticObjectField(env, Network_class, Network_LDKNetwork_Testnet4);
 		case LDKNetwork_Regtest:
 			return (*env)->GetStaticObjectField(env, Network_class, Network_LDKNetwork_Regtest);
 		case LDKNetwork_Signet:
