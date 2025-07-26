@@ -11,7 +11,11 @@ public enum Network {
 	/**
 	 * The testnet3 blockchain.
 	 */
-	LDKNetwork_Testnet,
+	LDKNetwork_Testnet3,
+	/**
+	 * The testnet4 blockchain.
+	 */
+	LDKNetwork_Testnet4,
 	/**
 	 * A local test blockchain.
 	 */

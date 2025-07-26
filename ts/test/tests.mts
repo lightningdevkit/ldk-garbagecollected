@@ -106,14 +106,14 @@ function get_chanman(): Node {
 	seed_counter++;
 	const keys_manager = ldk.KeysManager.constructor_new(seed, BigInt(42), 42);
 
-	const net_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet, logger);
+	const net_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet4, logger);
 	const scorer = ldk.ProbabilisticScorer.constructor_new(ldk.ProbabilisticScoringDecayParameters.constructor_default(), net_graph, logger);
 	const lockable_score = ldk.MultiThreadedLockableScore.constructor_new(scorer.as_Score());
 	const router = ldk.DefaultRouter.constructor_new(net_graph, logger, keys_manager.as_EntropySource(), lockable_score.as_LockableScore(), ldk.ProbabilisticScoringFeeParameters.constructor_default());
 	const msg_router = ldk.DefaultMessageRouter.constructor_new(net_graph, keys_manager.as_EntropySource());
 
 	const config = ldk.UserConfig.constructor_default();
-	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet, ldk.BestBlock.constructor_from_network(ldk.Network.LDKNetwork_Testnet));
+	const params = ldk.ChainParameters.constructor_new(ldk.Network.LDKNetwork_Testnet4, ldk.BestBlock.constructor_from_network(ldk.Network.LDKNetwork_Testnet4));
 	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, router.as_Router(),
 		msg_router.as_MessageRouter(), logger, keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(),
 		keys_manager.as_SignerProvider(), config, params, 42);
@@ -489,7 +489,7 @@ tests.push(async () => {
 				console.log(record.get_module_path() + ": " + record.get_args());
 		}
 	} as ldk.LoggerInterface);
-	const network_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet, logger);
+	const network_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet4, logger);
 	const graph_lock_1 = network_graph.read_only();
 	graph_lock_1.free();
 	const graph_lock_2 = network_graph.read_only();

@@ -769,18 +769,20 @@ static inline int32_t LDKLevel_to_cs(LDKLevel val) {
 static inline LDKNetwork LDKNetwork_from_cs(int32_t ord) {
 	switch (ord) {
 		case 0: return LDKNetwork_Bitcoin;
-		case 1: return LDKNetwork_Testnet;
-		case 2: return LDKNetwork_Regtest;
-		case 3: return LDKNetwork_Signet;
+		case 1: return LDKNetwork_Testnet3;
+		case 2: return LDKNetwork_Testnet4;
+		case 3: return LDKNetwork_Regtest;
+		case 4: return LDKNetwork_Signet;
 		default: abort();
 	}
 }
 static inline int32_t LDKNetwork_to_cs(LDKNetwork val) {
 	switch (val) {
 		case LDKNetwork_Bitcoin: return 0;
-		case LDKNetwork_Testnet: return 1;
-		case LDKNetwork_Regtest: return 2;
-		case LDKNetwork_Signet: return 3;
+		case LDKNetwork_Testnet3: return 1;
+		case LDKNetwork_Testnet4: return 2;
+		case LDKNetwork_Regtest: return 3;
+		case LDKNetwork_Signet: return 4;
 		default: abort();
 	}
 }
