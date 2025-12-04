@@ -519,6 +519,8 @@ typedef jbyteArray int8_tArray;
 typedef jbyteArray uint8_tArray;
 typedef jshortArray int16_tArray;
 typedef jshortArray uint16_tArray;
+typedef jintArray int32_tArray;
+typedef jintArray uint32_tArray;
 
 static inline jstring str_ref_to_java(JNIEnv *env, const unsigned char* chars, size_t len) {
 	// Java uses "Modified UTF-8" rather than UTF-8. This requires special
