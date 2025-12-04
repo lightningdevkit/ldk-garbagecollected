@@ -14,23 +14,23 @@ class TypeMappingGenerator:
         self.result_types = result_types
         self.tuple_types = tuple_types
 
-    def map_type(self, fn_arg, print_void, ret_arr_len, is_free, holds_ref):
+    def map_type(self, fn_arg, print_void, ret_arr_len, is_free, holds_ref, opportunistic_clone):
         ty_info = self.java_c_types(fn_arg, ret_arr_len)
-        mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, False)
+        mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, False, opportunistic_clone)
         return mapped_info
 
-    def map_nullable_type(self, fn_arg, print_void, ret_arr_len, is_free, holds_ref):
+    def map_nullable_type(self, fn_arg, print_void, ret_arr_len, is_free, holds_ref, opportunistic_clone):
         ty_info = self.java_c_types(fn_arg, ret_arr_len)
-        mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, True)
+        mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, True, opportunistic_clone)
         return mapped_info
 
-    def map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable):
-        mapped_info = self._do_map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable)
+    def map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable, opportunistic_clone):
+        mapped_info = self._do_map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable, opportunistic_clone)
         if is_nullable:
             mapped_info.nullable = True
         return mapped_info
 
-    def _do_map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable):
+    def _do_map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable, opportunistic_clone):
         if ty_info.c_ty == "void":
             if not print_void:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -114,7 +114,7 @@ class TypeMappingGenerator:
                     # function itself, resulting in a segfault. Thus, we manually check and ensure we don't clone for
                     # ChannelMonitors inside of vecs.
                     ty_info.subty.requires_clone = False
-                subty = self.map_type_with_info(ty_info.subty, False, None, is_free, holds_ref, False)
+                subty = self.map_type_with_info(ty_info.subty, False, None, is_free, holds_ref, False, opportunistic_clone)
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_constr;\n"
                 pf = ""
                 if ty_info.is_ptr:
@@ -309,9 +309,11 @@ class TypeMappingGenerator:
                 opaque_arg_conv += ty_info.var_name + "_conv.inner = untag_ptr(" + ty_info.var_name + ");\n"
                 opaque_arg_conv += ty_info.var_name + "_conv.is_owned = ptr_is_owned(" + ty_info.var_name + ");\n"
                 opaque_arg_conv += "CHECK_INNER_FIELD_ACCESS_OR_NULL(" + ty_info.var_name + "_conv);"
+                arg_conv_cleanup = None
 
+                clonable = (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns
                 if not is_free and (not ty_info.is_ptr or not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
-                    if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
+                    if clonable:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
                         # arg_conv is used when converting a function argument from java normally (with holds_ref set),
                         # and when converting a java value being returned from a trait method (with holds_ref unset).
@@ -336,6 +338,10 @@ class TypeMappingGenerator:
                             "// However, in some cases (eg here), there is no way to clone an object, and thus\n" +
                             "// we actually have to pass full ownership to Rust.\n" +
                             "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + self.consts.set_null_skip_free(ty_info.var_name))
+                elif not is_free and clonable and opportunistic_clone and ty_info.requires_clone != False and ty_info.pass_by_ref:
+                    opaque_arg_conv += "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
+                    arg_conv_cleanup = ty_info.rust_obj.replace("LDK", "") + "_free(" + ty_info.var_name + "_conv);"
+                    from_hu_conv = (from_hu_conv[0], "")
                 elif not is_free:
                     opaque_arg_conv += "\n" + ty_info.var_name + "_conv.is_owned = false;"
 
@@ -358,7 +364,8 @@ class TypeMappingGenerator:
                 qualified_hu_ty = self.consts.fully_qualified_hu_ty_path(ty_info)
                 if ty_info.is_ptr:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                        arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv",
+                        arg_conv_cleanup = arg_conv_cleanup,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = *", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', qualified_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
@@ -366,7 +373,8 @@ class TypeMappingGenerator:
                         from_hu_conv = from_hu_conv)
                 else:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                        arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv",
+                        arg_conv_cleanup = arg_conv_cleanup,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', qualified_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,

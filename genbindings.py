@@ -605,9 +605,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
 
         (params_nullable, ret_nullable) = doc_to_params_ret_nullable(doc_comment)
         if ret_nullable:
-            return_type_info = type_mapping_generator.map_nullable_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
+            return_type_info = type_mapping_generator.map_nullable_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref, False)
         else:
-            return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
+            return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref, False)
 
         if method_name.endswith("_clone") and expected_struct not in unitary_enums:
             # LDKWitness is mapped as an array, so no need to implement clone
@@ -630,12 +630,12 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             arg_ty = type_mapping_generator.java_c_types(argument, None)
             argument_conversion_info = None
             if argument_index == 0 and arg_ty.java_hu_ty == struct_meth:
-                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, False)
+                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, False, False)
                 takes_self = True
                 if argument_conversion_info.ty_info.is_ptr:
                     takes_self_ptr = True
             elif arg_ty.var_name in params_nullable:
-                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, True)
+                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, True, True)
                 if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                     arg_ty_info = java_c_types(argument, None)
                     print("WARNING: Remapping argument " + arg_ty_info.var_name + " of function " + method_name + " to a reference")
@@ -649,17 +649,17 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     print("    It may or may not actually be a reference, but its the simplest mapping option")
                     print("    and also the only use of this code today.")
                     arg_ty_info.requires_clone = False
-                    argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty_info, False, None, is_free, True, True)
+                    argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty_info, False, None, is_free, True, True, False)
                     assert argument_conversion_info.nullable
                     assert argument_conversion_info.arg_conv is not None and "WARNING" not in argument_conversion_info.arg_conv
             else:
-                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, False)
+                argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, False, True)
 
             if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
                     for explode_idx, explode_arg in enumerate(constructor_fns[argument_conversion_info.rust_obj].split(',')):
-                        explode_arg_conv = type_mapping_generator.map_type(explode_arg, False, None, False, True)
+                        explode_arg_conv = type_mapping_generator.map_type(explode_arg, False, None, False, True, False)
                         if explode_idx == 0 and explode_arg_conv.c_ty == "void":
                             continue # (void) is C lingo for "no arguments)
                         if explode_arg_conv.c_ty == "void":
@@ -779,9 +779,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             field_ty = type_mapping_generator.java_c_types(field.strip(' ;'), None)
                             contains_trait |= field_ty.contains_trait
                             if field_docs is not None and doc_to_field_nullable(field_docs):
-                                field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, True)
+                                field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, True, False)
                             else:
-                                field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, False)
+                                field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, False, False)
                             fields.append((field_conv, field_docs))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
@@ -791,9 +791,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     variant_ty_text = variant_info + " " + camel_to_snake(variant_name)
                     variant_ty_info = type_mapping_generator.java_c_types(variant_ty_text, None)
                     if variant_field_docs is not None and doc_to_field_nullable(variant_field_docs):
-                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, True)
+                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, True, False)
                     else:
-                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, False)
+                        mapped = type_mapping_generator.map_type_with_info(variant_ty_info, False, None, False, True, False, False)
                     contains_trait |= mapped.ty_info.contains_trait
                     fields.append((mapped, None))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
@@ -825,7 +825,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                                 path = var_line.group(2) + "." + field_var[2]
                             flattened_field_var_convs.append((field_var[0], field_var[1], path))
                 else:
-                    mapped = type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False)
+                    mapped = type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False, False)
                     field_var_convs.append(mapped)
                     flattened_field_var_convs.append(mapped)
             trait_structs[struct_name] = flattened_field_var_convs
@@ -833,15 +833,15 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
                 if fn_line == "cloned":
-                    ret_ty_info = type_mapping_generator.map_type("void", True, None, False, False)
+                    ret_ty_info = type_mapping_generator.map_type("void", True, None, False, False, False)
                     field_fns.append(TraitMethInfo("cloned", False, ret_ty_info, [], fn_docs))
                 else:
                     (nullable_params, ret_nullable) = doc_to_params_ret_nullable(fn_docs)
                     if ret_nullable:
-                        ret_ty_info = type_mapping_generator.map_nullable_type(fn_line.group(2).strip() + " ret", True, None, False, False)
+                        ret_ty_info = type_mapping_generator.map_nullable_type(fn_line.group(2).strip() + " ret", True, None, False, False, False)
                         ret_ty_info.nullable = True
                     else:
-                        ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
+                        ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False, False)
                     is_const = fn_line.group(4) is not None
 
                     arg_tys = []
@@ -851,9 +851,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         arg_ty_info = type_mapping_generator.java_c_types(arg, None)
                         if arg_ty_info.var_name in nullable_params:
                             # Types that are actually null instead of all-0s aren't yet handled on the Java side:
-                            arg_conv_info = type_mapping_generator.map_type_with_info(arg_ty_info, True, None, False, False, True)
+                            arg_conv_info = type_mapping_generator.map_type_with_info(arg_ty_info, True, None, False, False, True, False)
                         else:
-                            arg_conv_info = type_mapping_generator.map_type_with_info(arg_ty_info, True, None, False, False, False)
+                            arg_conv_info = type_mapping_generator.map_type_with_info(arg_ty_info, True, None, False, False, False, False)
                         arg_tys.append(arg_conv_info)
                     field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 
@@ -883,8 +883,8 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
         human_ty = struct_name.replace("LDKCResult", "Result")
-        res_map = type_mapping_generator.map_type(res_ty + " res", True, None, False, True)
-        err_map = type_mapping_generator.map_type(err_ty + " err", True, None, False, True)
+        res_map = type_mapping_generator.map_type(res_ty + " res", True, None, False, True, False)
+        err_map = type_mapping_generator.map_type(err_ty + " err", True, None, False, True, False)
         java_hu_struct = consts.map_result(struct_name, res_map, err_map)
         create_getter(struct_name, res_ty, "ok", ("*", "->contents.result"), ("", "->result_ok"))
         create_getter(struct_name, err_ty, "err", ("*", "->contents.err"), ("!", "->result_ok"))
@@ -1071,7 +1071,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif is_tuple:
                     map_tuple(struct_name, field_lines)
                 elif vec_ty is not None:
-                    ty_info = type_mapping_generator.map_type(vec_ty + " arr_elem", False, None, False, False)
+                    ty_info = type_mapping_generator.map_type(vec_ty + " arr_elem", False, None, False, False, False)
                     if ty_info.is_native_primitive:
                         clone_fns.add(struct_name.replace("LDK", "") + "_clone")
                         write_c("static inline " + struct_name + " " + struct_name.replace("LDK", "") + "_clone(const " + struct_name + " *orig) {\n")
