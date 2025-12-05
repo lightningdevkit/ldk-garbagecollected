@@ -61,8 +61,8 @@ var seed_counter = 0;
 class Node {
 	node_id: Uint8Array;
 	constructor(public chan_man: ldk.ChannelManager, public tx_broadcasted: Promise<Uint8Array>,
-		public logger: ldk.Logger, public keys_manager: ldk.KeysManager,
-		public net_graph: ldk.NetworkGraph
+		public chain_monitor: ldk.ChainMonitor, public logger: ldk.Logger,
+		public keys_manager: ldk.KeysManager, public net_graph: ldk.NetworkGraph
 	) {
 		this.node_id = chan_man.get_our_node_id();
 	}
@@ -95,16 +95,19 @@ function get_chanman(): Node {
 		},
 		update_persisted_channel(_channel_id: ldk.OutPoint, _update: ldk.ChannelMonitorUpdate, _data: ldk.ChannelMonitor): ldk.ChannelMonitorUpdateStatus {
 			return ldk.ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
+		},
+		get_and_clear_completed_updates(): ldk.TwoTuple_ChannelIdu64Z[] {
+			return [];
 		}
 	} as ldk.PersistInterface);
-
-	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster!, logger, fee_est, persister);
-	const chain_watch: ldk.Watch = chain_monitor.as_Watch();
 
 	const seed = new Uint8Array(32);
 	seed.fill(seed_counter);
 	seed_counter++;
-	const keys_manager = ldk.KeysManager.constructor_new(seed, BigInt(42), 42);
+	const keys_manager = ldk.KeysManager.constructor_new(seed, BigInt(42), 42, true);
+
+	const chain_monitor = ldk.ChainMonitor.constructor_new(ldk.Option_FilterZ.constructor_none(), tx_broadcaster!, logger, fee_est, persister, keys_manager.as_EntropySource(), keys_manager.as_NodeSigner().get_peer_storage_key());
+	const chain_watch: ldk.Watch = chain_monitor.as_Watch();
 
 	const net_graph = ldk.NetworkGraph.constructor_new(ldk.Network.LDKNetwork_Testnet4, logger);
 	const scorer = ldk.ProbabilisticScorer.constructor_new(ldk.ProbabilisticScoringDecayParameters.constructor_default(), net_graph, logger);
@@ -117,14 +120,14 @@ function get_chanman(): Node {
 	const chan_man = ldk.ChannelManager.constructor_new(fee_est, chain_watch, tx_broadcaster!, router.as_Router(),
 		msg_router.as_MessageRouter(), logger, keys_manager.as_EntropySource(), keys_manager.as_NodeSigner(),
 		keys_manager.as_SignerProvider(), config, params, 42);
-	return new Node(chan_man, tx_broadcasted, logger, keys_manager, net_graph);
+	return new Node(chan_man, tx_broadcasted, chain_monitor, logger, keys_manager, net_graph);
 }
 
 function exchange_messages(a: ldk.ChannelManager, b: ldk.ChannelManager) {
 	var found_msgs = true;
 	while (found_msgs) {
-		const as_msgs = a.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
-		const bs_msgs = b.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+		const as_msgs = a.as_BaseMessageHandler().get_and_clear_pending_msg_events();
+		const bs_msgs = b.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 		found_msgs = as_msgs.length != 0 || bs_msgs.length != 0;
 		for (var i = 0; i < 2; i++) {
 			var to: ldk.ChannelManager; var from: ldk.ChannelManager; var msgs: ldk.MessageSendEvent[];
@@ -181,10 +184,10 @@ tests.push(async () => {
 	const a = get_chanman();
 	const b = get_chanman();
 
-	const features = a.chan_man.as_ChannelMessageHandler().provided_init_features(b.chan_man.get_our_node_id());
+	const features = a.chan_man.as_BaseMessageHandler().provided_init_features(b.chan_man.get_our_node_id());
 
-	a.chan_man.as_ChannelMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), false);
-	b.chan_man.as_ChannelMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), true);
+	a.chan_man.as_BaseMessageHandler().peer_connected(b.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), false);
+	b.chan_man.as_BaseMessageHandler().peer_connected(a.chan_man.get_our_node_id(), ldk.Init.constructor_new(features, ldk.Option_CVec_ThirtyTwoBytesZZ.constructor_none(), ldk.Option_SocketAddressZ.constructor_none()), true);
 
 	const chan_create_err = a.chan_man.create_channel(b.chan_man.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), null, null);
 	if (chan_create_err.is_ok()) return false;
@@ -232,16 +235,16 @@ tests.push(async () => {
 
 	const ignorer = ldk.IgnoringMessageHandler.constructor_new();
 	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
-		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(),
+		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(), a.chain_monitor.as_SendOnlyMessageHandler(),
 		0xdeadbeef, a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, a.keys_manager.as_NodeSigner());
 	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
-		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(),
+		ignorer.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(), b.chain_monitor.as_SendOnlyMessageHandler(),
 		0xdeadbeef, b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, b.keys_manager.as_NodeSigner());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 			assert(resume_read);
 			return data.length;
 		},
@@ -257,7 +260,7 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 			assert(resume_read);
 			return data.length;
 		},
@@ -283,7 +286,7 @@ tests.push(async () => {
 	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_SocketAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_SocketAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 
 	assert(pm_a.list_peers().length == 0);
 	assert(pm_b.list_peers().length == 0);
@@ -348,22 +351,27 @@ tests.push(async () => {
 		handle_onion_message(peer_node_id: Uint8Array, msg: ldk.OnionMessage) {
 			underlying_om_a.as_OnionMessageHandler().handle_onion_message(peer_node_id, msg);
 		},
-		peer_connected(their_node_id: Uint8Array, init: ldk.Init, inbound: boolean): ldk.Result_NoneNoneZ {
-			return underlying_om_a.as_OnionMessageHandler().peer_connected(their_node_id, init, inbound)
-		},
-		peer_disconnected(their_node_id: Uint8Array) {
-			underlying_om_a.as_OnionMessageHandler().peer_disconnected(their_node_id);
-		},
-		provided_node_features(): ldk.NodeFeatures {
-			return underlying_om_a.as_OnionMessageHandler().provided_node_features();
-		},
-		provided_init_features(their_node_id: Uint8Array): ldk.InitFeatures {
-			return underlying_om_a.as_OnionMessageHandler().provided_init_features(their_node_id);
-		},
 		next_onion_message_for_peer(peer_node_id: Uint8Array): ldk.OnionMessage {
 			return underlying_om_a.as_OnionMessageHandler().next_onion_message_for_peer(peer_node_id);
 		},
-	} as ldk.OnionMessageHandlerInterface);
+		timer_tick_occurred() {},
+	} as ldk.OnionMessageHandlerInterface, {
+		peer_connected(their_node_id: Uint8Array, init: ldk.Init, inbound: boolean): ldk.Result_NoneNoneZ {
+			return underlying_om_a.as_BaseMessageHandler().peer_connected(their_node_id, init, inbound)
+		},
+		peer_disconnected(their_node_id: Uint8Array) {
+			underlying_om_a.as_BaseMessageHandler().peer_disconnected(their_node_id);
+		},
+		provided_node_features(): ldk.NodeFeatures {
+			return underlying_om_a.as_BaseMessageHandler().provided_node_features();
+		},
+		provided_init_features(their_node_id: Uint8Array): ldk.InitFeatures {
+			return underlying_om_a.as_BaseMessageHandler().provided_init_features(their_node_id);
+		},
+		get_and_clear_pending_msg_events(): ldk.MessageSendEvent[] {
+			return [];
+		},
+	} as ldk.BaseMessageHandlerInterface);
 
 	var b_handled_msg = false;
 	const om_handler_b = ldk.CustomOnionMessageHandler.new_impl({
@@ -394,16 +402,16 @@ tests.push(async () => {
 		b.chan_man.as_DNSResolverMessageHandler(), om_handler_b);
 
 	const pm_a = ldk.PeerManager.constructor_new(a.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
-		om_a, ignorer.as_CustomMessageHandler(), 0xdeadbeef,
+		om_a, ignorer.as_CustomMessageHandler(), a.chain_monitor.as_SendOnlyMessageHandler(), 0xdeadbeef,
 		a.keys_manager.as_EntropySource().get_secure_random_bytes(), a.logger, a.keys_manager.as_NodeSigner());
 	const pm_b = ldk.PeerManager.constructor_new(b.chan_man.as_ChannelMessageHandler(), ignorer.as_RoutingMessageHandler(),
-		om_b.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(), 0xdeadbeef,
-		b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, b.keys_manager.as_NodeSigner());
+		om_b.as_OnionMessageHandler(), ignorer.as_CustomMessageHandler(), b.chain_monitor.as_SendOnlyMessageHandler(),
+		0xdeadbeef, b.keys_manager.as_EntropySource().get_secure_random_bytes(), b.logger, b.keys_manager.as_NodeSigner());
 
 	var sock_b: ldk.SocketDescriptor;
 	const sock_a = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_b.read_event(sock_b, data) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 			assert(resume_read);
 			return data.length;
 		},
@@ -419,7 +427,7 @@ tests.push(async () => {
 	} as ldk.SocketDescriptorInterface);
 	sock_b = ldk.SocketDescriptor.new_impl({
 		send_data(data: Uint8Array, resume_read: boolean): number {
-			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+			assert(pm_a.read_event(sock_a, data) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 			assert(resume_read);
 			return data.length;
 		},
@@ -438,7 +446,7 @@ tests.push(async () => {
 	assert(pm_b.new_inbound_connection(sock_b, ldk.Option_SocketAddressZ.constructor_some(v4_netaddr)) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 	const init_bytes = pm_a.new_outbound_connection(b.node_id, sock_a, ldk.Option_SocketAddressZ.constructor_none());
 	if (!(init_bytes instanceof ldk.Result_CVec_u8ZPeerHandleErrorZ_OK)) return false;
-	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_boolPeerHandleErrorZ_OK);
+	assert(pm_b.read_event(sock_b, init_bytes.res) instanceof ldk.Result_NonePeerHandleErrorZ_OK);
 
 	assert(pm_a.list_peers().length == 0);
 	assert(pm_b.list_peers().length == 0);
