@@ -49,12 +49,12 @@ public class NioPeerHandler {
         }
     }
 
-    static private Method ResultBoolPeerHandleError_Free;
+    static private Method ResultNonePeerHandleError_Free;
     static {
         try {
-            Class c = Result_boolPeerHandleErrorZ.class;
-            ResultBoolPeerHandleError_Free = c.getDeclaredMethod("force_free");
-            ResultBoolPeerHandleError_Free.setAccessible(true);
+            Class c = Result_NonePeerHandleErrorZ.class;
+            ResultNonePeerHandleError_Free = c.getDeclaredMethod("force_free");
+            ResultNonePeerHandleError_Free.setAccessible(true);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(
                     "We currently use reflection to access protected fields as Java has no reasonable access controls", e);
@@ -78,13 +78,19 @@ public class NioPeerHandler {
             public long send_data(byte[] data, boolean resume_read) {
                 try {
                     long written = chan.write(ByteBuffer.wrap(data));
+                    int ops = peer.key.interestOps();
                     if (written != data.length) {
-                        do_selector_action(() -> peer.key.interestOps(
-							(peer.key.interestOps() | SelectionKey.OP_WRITE) & (~SelectionKey.OP_READ)));
-                    } else if (resume_read) {
-                        do_selector_action(() -> peer.key.interestOps(
-							(peer.key.interestOps() | SelectionKey.OP_READ) & (~SelectionKey.OP_WRITE)));
+                        ops |= SelectionKey.OP_WRITE;
+                    } else {
+                        ops &= ~SelectionKey.OP_WRITE;
+                    }
+                    if (!resume_read) {
+                        ops &= ~SelectionKey.OP_READ;
+                    } else {
+                        ops |= SelectionKey.OP_READ;
 					}
+                    final int new_ops = ops;
+                    do_selector_action(() -> peer.key.interestOps(new_ops));
                     return written;
                 } catch (IOException|CancelledKeyException ignored) {
                     // Most likely the socket is disconnected, let the background thread handle it.
@@ -210,17 +216,14 @@ public class NioPeerHandler {
                                         read_bytes = new byte[read];
                                     }
                                     buf.get(read_bytes, 0, read);
-                                    Result_boolPeerHandleErrorZ read_res = this.peer_manager.read_event(peer.descriptor, read_bytes);
-                                    if (read_res instanceof Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK) {
-                                        if (((Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK) read_res).res) {
-                                            key.interestOps(key.interestOps() & (~SelectionKey.OP_READ));
-                                        }
+                                    Result_NonePeerHandleErrorZ read_res = this.peer_manager.read_event(peer.descriptor, read_bytes);
+                                    if (read_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK) {
                                         // Force the read_res to drop its native memory early (before finalize()) as this is
                                         // pretty hot and we don't want to bloat native memory too long.
                                         // Note that we only do this in the Ok case as its more trivially safe, the Err
                                         // case has nested structs which will also free and may be confused if their pointer
                                         // is dropped out from under them.
-                                        try { ResultBoolPeerHandleError_Free.invoke(read_res); } catch (Exception ignored) {}
+                                        try { ResultNonePeerHandleError_Free.invoke(read_res); } catch (Exception ignored) {}
                                     } else {
                                         key.cancel();
                                         key.channel().close();
