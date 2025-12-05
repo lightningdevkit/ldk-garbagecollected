@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  * 
  * # Overview
  * 
- * The main benefit this provides over the [`KVStore`]'s [`Persist`] implementation is decreased
+ * The main benefit this provides over the [`KVStoreSync`]'s [`Persist`] implementation is decreased
  * I/O bandwidth and storage churn, at the expense of more IOPS (including listing, reading, and
  * deleting) and complexity. This is because it writes channel monitor differential updates,
  * whereas the other (default) implementation rewrites the entire monitor on each update. For
@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
  * of megabytes (or more). Updates can be as small as a few hundred bytes.
  * 
  * Note that monitors written with `MonitorUpdatingPersister` are _not_ backward-compatible with
- * the default [`KVStore`]'s [`Persist`] implementation. They have a prepended byte sequence,
+ * the default [`KVStoreSync`]'s [`Persist`] implementation. They have a prepended byte sequence,
  * [`MONITOR_UPDATING_PERSISTER_PREPEND_SENTINEL`], applied to prevent deserialization with other
  * persisters. This is because monitors written by this struct _may_ have unapplied updates. In
  * order to downgrade, you must ensure that all updates are applied to the monitor, and remove the
@@ -36,12 +36,13 @@ import javax.annotation.Nullable;
  * - [`Persist::update_persisted_channel`], which persists only a [`ChannelMonitorUpdate`]
  * 
  * Whole [`ChannelMonitor`]s are stored in the [`CHANNEL_MONITOR_PERSISTENCE_PRIMARY_NAMESPACE`],
- * using the familiar encoding of an [`OutPoint`] (for example, `[SOME-64-CHAR-HEX-STRING]_1`).
+ * using the familiar encoding of an [`OutPoint`] (e.g., `[SOME-64-CHAR-HEX-STRING]_1`) for v1
+ * channels or a [`ChannelId`] (e.g., `[SOME-64-CHAR-HEX-STRING]`) for v2 channels.
  * 
  * Each [`ChannelMonitorUpdate`] is stored in a dynamic secondary namespace, as follows:
  * 
  * - primary namespace: [`CHANNEL_MONITOR_UPDATE_PERSISTENCE_PRIMARY_NAMESPACE`]
- * - secondary namespace: [the monitor's encoded outpoint name]
+ * - secondary namespace: [the monitor's encoded outpoint or channel id name]
  * 
  * Under that secondary namespace, each update is stored with a number string, like `21`, which
  * represents its `update_id` value.
@@ -73,7 +74,7 @@ import javax.annotation.Nullable;
  * 
  * ## EXTREMELY IMPORTANT
  * 
- * It is extremely important that your [`KVStore::read`] implementation uses the
+ * It is extremely important that your [`KVStoreSync::read`] implementation uses the
  * [`io::ErrorKind::NotFound`] variant correctly: that is, when a file is not found, and _only_ in
  * that circumstance (not when there is really a permissions error, for example). This is because
  * neither channel monitor reading function lists updates. Instead, either reads the monitor, and
@@ -85,7 +86,7 @@ import javax.annotation.Nullable;
  * Stale updates are pruned when the consolidation threshold is reached according to `maximum_pending_updates`.
  * Monitor updates in the range between the latest `update_id` and `update_id - maximum_pending_updates`
  * are deleted.
- * The `lazy` flag is used on the [`KVStore::remove`] method, so there are no guarantees that the deletions
+ * The `lazy` flag is used on the [`KVStoreSync::remove`] method, so there are no guarantees that the deletions
  * will complete. However, stale updates are not a problem for data integrity, since updates are
  * only read that are higher than the stored [`ChannelMonitor`]'s `update_id`.
  * 
@@ -119,8 +120,12 @@ public class MonitorUpdatingPersister extends CommonBase {
 	 * less frequent \"waves.\"
 	 * - [`MonitorUpdatingPersister`] will potentially have more listing to do if you need to run
 	 * [`MonitorUpdatingPersister::cleanup_stale_updates`].
+	 * 
+	 * Note that you can disable the update-writing entirely by setting `maximum_pending_updates`
+	 * to zero, causing this [`Persist`] implementation to behave like the blanket [`Persist`]
+	 * implementation for all [`KVStoreSync`]s.
 	 */
-	public static MonitorUpdatingPersister of(org.ldk.structs.KVStore kv_store, org.ldk.structs.Logger logger, long maximum_pending_updates, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator) {
+	public static MonitorUpdatingPersister of(org.ldk.structs.KVStoreSync kv_store, org.ldk.structs.Logger logger, long maximum_pending_updates, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator) {
 		long ret = bindings.MonitorUpdatingPersister_new(kv_store.ptr, logger.ptr, maximum_pending_updates, entropy_source.ptr, signer_provider.ptr, broadcaster.ptr, fee_estimator.ptr);
 		Reference.reachabilityFence(kv_store);
 		Reference.reachabilityFence(logger);
@@ -144,7 +149,7 @@ public class MonitorUpdatingPersister extends CommonBase {
 	/**
 	 * Reads all stored channel monitors, along with any stored updates for them.
 	 * 
-	 * It is extremely important that your [`KVStore::read`] implementation uses the
+	 * It is extremely important that your [`KVStoreSync::read`] implementation uses the
 	 * [`io::ErrorKind::NotFound`] variant correctly. For more information, please see the
 	 * documentation for [`MonitorUpdatingPersister`].
 	 */
@@ -159,18 +164,20 @@ public class MonitorUpdatingPersister extends CommonBase {
 	/**
 	 * Read a single channel monitor, along with any stored updates for it.
 	 * 
-	 * It is extremely important that your [`KVStore::read`] implementation uses the
+	 * It is extremely important that your [`KVStoreSync::read`] implementation uses the
 	 * [`io::ErrorKind::NotFound`] variant correctly. For more information, please see the
 	 * documentation for [`MonitorUpdatingPersister`].
 	 * 
-	 * For `monitor_key`, channel storage keys be the channel's transaction ID and index, or
-	 * [`OutPoint`], with an underscore `_` between them. For example, given:
+	 * For `monitor_key`, channel storage keys can be the channel's funding [`OutPoint`], with an
+	 * underscore `_` between txid and index for v1 channels. For example, given:
 	 * 
 	 * - Transaction ID: `deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef`
 	 * - Index: `1`
 	 * 
 	 * The correct `monitor_key` would be:
 	 * `deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef_1`
+	 * 
+	 * For v2 channels, the hex-encoded [`ChannelId`] is used directly for `monitor_key` instead.
 	 * 
 	 * Loading a large number of monitors will be faster if done in parallel. You can use this
 	 * function to accomplish this. Take care to limit the number of parallel readers.
@@ -190,7 +197,7 @@ public class MonitorUpdatingPersister extends CommonBase {
 	 * This function works by first listing all monitors, and then for each of them, listing all
 	 * updates. The updates that have an `update_id` less than or equal to than the stored monitor
 	 * are deleted. The deletion can either be lazy or non-lazy based on the `lazy` flag; this will
-	 * be passed to [`KVStore::remove`].
+	 * be passed to [`KVStoreSync::remove`].
 	 */
 	public Result_NoneIOErrorZ cleanup_stale_updates(boolean lazy) {
 		long ret = bindings.MonitorUpdatingPersister_cleanup_stale_updates(this.ptr, lazy);

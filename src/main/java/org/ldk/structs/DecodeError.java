@@ -271,4 +271,16 @@ public class DecodeError extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Build a DecodeError from a IOError
+	 */
+	public static DecodeError from_IOError(org.ldk.enums.IOError f) {
+		long ret = bindings.DecodeError_from_IOError(f);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.DecodeError ret_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }

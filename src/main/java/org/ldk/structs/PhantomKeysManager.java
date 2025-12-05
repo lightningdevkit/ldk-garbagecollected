@@ -91,20 +91,21 @@ public class PhantomKeysManager extends CommonBase {
 	 * that is shared across all nodes that intend to participate in [phantom node payments]
 	 * together.
 	 * 
-	 * See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`, and
-	 * `starting_time_nanos`.
+	 * See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`,
+	 * `starting_time_nanos`, and `v2_remote_key_derivation`.
 	 * 
 	 * `cross_node_seed` must be the same across all phantom payment-receiving nodes and also the
 	 * same across restarts, or else inbound payments may fail.
 	 * 
 	 * [phantom node payments]: PhantomKeysManager
 	 */
-	public static PhantomKeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed) {
-		long ret = bindings.PhantomKeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos, InternalUtils.check_arr_len(cross_node_seed, 32));
+	public static PhantomKeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed, boolean v2_remote_key_derivation) {
+		long ret = bindings.PhantomKeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos, InternalUtils.check_arr_len(cross_node_seed, 32), v2_remote_key_derivation);
 		Reference.reachabilityFence(seed);
 		Reference.reachabilityFence(starting_time_secs);
 		Reference.reachabilityFence(starting_time_nanos);
 		Reference.reachabilityFence(cross_node_seed);
+		Reference.reachabilityFence(v2_remote_key_derivation);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PhantomKeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomKeysManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -114,10 +115,9 @@ public class PhantomKeysManager extends CommonBase {
 	/**
 	 * See [`KeysManager::derive_channel_keys`] for documentation on this method.
 	 */
-	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] params) {
-		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
+	public InMemorySigner derive_channel_keys(byte[] params) {
+		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, InternalUtils.check_arr_len(params, 32));
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_value_satoshis);
 		Reference.reachabilityFence(params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }

@@ -102,8 +102,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The necessary channel parameters that need to be provided to the re-derived signer through
-	 * [`ChannelSigner::provide_channel_parameters`].
+	 * The necessary channel parameters that need to be provided to the signer.
 	 * 
 	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.117 or later.
 	 * 
@@ -120,8 +119,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	/**
-	 * The necessary channel parameters that need to be provided to the re-derived signer through
-	 * [`ChannelSigner::provide_channel_parameters`].
+	 * The necessary channel parameters that need to be provided to the signer.
 	 * 
 	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.117 or later.
 	 * 
@@ -190,7 +188,6 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 		boolean ret = bindings.StaticPaymentOutputDescriptor_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -215,11 +212,22 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 
 	/**
 	 * The maximum length a well-formed witness spending one of these should have.
-	 * Note: If you have the grind_signatures feature enabled, this will be at least 1 byte
+	 * 
+	 * Note: If you have the `grind_signatures` feature enabled, this will be at least 1 byte
 	 * shorter.
 	 */
 	public long max_witness_length() {
 		long ret = bindings.StaticPaymentOutputDescriptor_max_witness_length(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns true if spending this output requires a transaction with a CheckSequenceVerify
+	 * value of at least 1.
+	 */
+	public boolean needs_csv_1_for_spend() {
+		boolean ret = bindings.StaticPaymentOutputDescriptor_needs_csv_1_for_spend(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

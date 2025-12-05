@@ -60,7 +60,6 @@ public class Bolt12RefundContext extends CommonBase {
 		boolean ret = bindings.Bolt12RefundContext_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

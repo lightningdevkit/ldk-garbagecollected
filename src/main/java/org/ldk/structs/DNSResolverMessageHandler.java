@@ -51,7 +51,12 @@ public class DNSResolverMessageHandler extends CommonBase {
 		/**
 		 * Handle a [`DNSSECProof`] message (in response to a [`DNSSECQuery`] we presumably sent).
 		 * 
+		 * The provided [`DNSResolverContext`] was authenticated by the [`OnionMessenger`] as coming from
+		 * a blinded path that we created.
+		 * 
 		 * With this, we should be able to validate the DNS record we requested.
+		 * 
+		 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 		 */
 		void handle_dnssec_proof(DNSSECProof message, DNSResolverContext context);
 		/**
@@ -124,7 +129,12 @@ public class DNSResolverMessageHandler extends CommonBase {
 	/**
 	 * Handle a [`DNSSECProof`] message (in response to a [`DNSSECQuery`] we presumably sent).
 	 * 
+	 * The provided [`DNSResolverContext`] was authenticated by the [`OnionMessenger`] as coming from
+	 * a blinded path that we created.
+	 * 
 	 * With this, we should be able to validate the DNS record we requested.
+	 * 
+	 * [`OnionMessenger`]: crate::onion_message::messenger::OnionMessenger
 	 */
 	public void handle_dnssec_proof(org.ldk.structs.DNSSECProof message, org.ldk.structs.DNSResolverContext context) {
 		bindings.DNSResolverMessageHandler_handle_dnssec_proof(this.ptr, message.ptr, context.ptr);

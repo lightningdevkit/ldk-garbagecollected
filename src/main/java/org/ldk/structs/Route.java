@@ -139,7 +139,6 @@ public class Route extends CommonBase {
 		boolean ret = bindings.Route_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

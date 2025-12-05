@@ -49,6 +49,9 @@ public class CustomOnionMessageHandler extends CommonBase {
 		/**
 		 * Called with the custom message that was received, returning a response to send, if any.
 		 * 
+		 * If the provided `context` is `Some`, then the message was sent to a blinded path that we
+		 * created and was authenticated as such by the [`OnionMessenger`].
+		 * 
 		 * The returned [`Self::CustomMessage`], if any, is enqueued to be sent by [`OnionMessenger`].
 		 * 
 		 * Note that responder (or a relevant inner pointer) may be NULL or all-0s to represent None
@@ -100,6 +103,9 @@ public class CustomOnionMessageHandler extends CommonBase {
 	}
 	/**
 	 * Called with the custom message that was received, returning a response to send, if any.
+	 * 
+	 * If the provided `context` is `Some`, then the message was sent to a blinded path that we
+	 * created and was authenticated as such by the [`OnionMessenger`].
 	 * 
 	 * The returned [`Self::CustomMessage`], if any, is enqueued to be sent by [`OnionMessenger`].
 	 * 

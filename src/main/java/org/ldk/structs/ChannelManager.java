@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * 
  * Additionally, it implements the following traits:
  * - [`ChannelMessageHandler`] to handle off-chain channel activity from peers
- * - [`MessageSendEventsProvider`] to similarly send such messages to peers
+ * - [`BaseMessageHandler`] to handle peer dis/connection and send messages to peers
  * - [`OffersMessageHandler`] for BOLT 12 message handling and sending
  * - [`EventsProvider`] to generate user-actionable [`Event`]s
  * - [`chain::Listen`] and [`chain::Confirm`] for notification of on-chain activity
@@ -98,17 +98,17 @@ import javax.annotation.Nullable;
  * network: Network::Bitcoin,
  * best_block,
  * };
- * let default_config = UserConfig::default();
+ * let config = UserConfig::default();
  * let channel_manager = ChannelManager::new(
  * fee_estimator, chain_monitor, tx_broadcaster, router, message_router, logger,
- * entropy_source, node_signer, signer_provider, default_config, params, current_timestamp,
+ * entropy_source, node_signer, signer_provider, config.clone(), params, current_timestamp,
  * );
  * 
  * Restart from deserialized data
  * let mut channel_monitors = read_channel_monitors();
  * let args = ChannelManagerReadArgs::new(
  * entropy_source, node_signer, signer_provider, fee_estimator, chain_monitor, tx_broadcaster,
- * router, message_router, logger, default_config, channel_monitors.iter().collect(),
+ * router, message_router, logger, config, channel_monitors.iter().collect(),
  * );
  * let (block_hash, channel_manager) =
  * <(BlockHash, ChannelManager<_, _, _, _, _, _, _, _, _>)>::read(&mut reader, args)?;
@@ -118,7 +118,7 @@ import javax.annotation.Nullable;
  * 
  * Move the monitors to the ChannelManager's chain::Watch parameter
  * for monitor in channel_monitors {
- * chain_monitor.watch_channel(monitor.get_funding_txo().0, monitor);
+ * chain_monitor.watch_channel(monitor.channel_id(), monitor);
  * }
  * # Ok(())
  * # }
@@ -129,14 +129,14 @@ import javax.annotation.Nullable;
  * The following is required for [`ChannelManager`] to function properly:
  * - Handle messages from peers using its [`ChannelMessageHandler`] implementation (typically
  * called by [`PeerManager::read_event`] when processing network I/O)
- * - Send messages to peers obtained via its [`MessageSendEventsProvider`] implementation
- * (typically initiated when [`PeerManager::process_events`] is called)
+ * - Process peer connections and send messages to peers obtained via its [`BaseMessageHandler`]
+ * implementation (typically initiated when [`PeerManager::process_events`] is called)
  * - Feed on-chain activity using either its [`chain::Listen`] or [`chain::Confirm`] implementation
  * as documented by those traits
  * - Perform any periodic channel and payment checks by calling [`timer_tick_occurred`] roughly
  * every minute
  * - Persist to disk whenever [`get_and_clear_needs_persistence`] returns `true` using a
- * [`Persister`] such as a [`KVStore`] implementation
+ * [`KVStoreSync`] implementation
  * - Handle [`Event`]s obtained via its [`EventsProvider`] implementation
  * 
  * The [`Future`] returned by [`get_event_or_persistence_needed_future`] is useful in determining
@@ -257,7 +257,7 @@ import javax.annotation.Nullable;
  * match event {
  * Event::OpenChannelRequest { temporary_channel_id, counterparty_node_id, ..  } => {
  * if !is_trusted(counterparty_node_id) {
- * match channel_manager.force_close_without_broadcasting_txn(
+ * match channel_manager.force_close_broadcasting_latest_txn(
  * &temporary_channel_id, &counterparty_node_id, error_message.to_string()
  * ) {
  * Ok(()) => println!(\"Rejecting channel {}\", temporary_channel_id),
@@ -268,7 +268,7 @@ import javax.annotation.Nullable;
  * 
  * let user_channel_id = 43;
  * match channel_manager.accept_inbound_channel(
- * &temporary_channel_id, &counterparty_node_id, user_channel_id
+ * &temporary_channel_id, &counterparty_node_id, user_channel_id, None
  * ) {
  * Ok(()) => println!(\"Accepting channel {}\", temporary_channel_id),
  * Err(e) => println!(\"Error accepting channel {}: {:?}\", temporary_channel_id, e),
@@ -398,26 +398,24 @@ import javax.annotation.Nullable;
  * # }
  * ```
  * 
- * For paying an invoice, see the [`bolt11_payment`] module with convenience functions for use with
- * [`send_payment`].
- * 
  * ```
+ * # use bitcoin::hashes::Hash;
  * # use lightning::events::{Event, EventsProvider};
  * # use lightning::types::payment::PaymentHash;
  * # use lightning::ln::channelmanager::{AChannelManager, PaymentId, RecentPaymentDetails};
- * # use lightning::ln::outbound_payment::{RecipientOnionFields, Retry};
- * # use lightning::routing::router::RouteParameters;
+ * # use lightning::ln::outbound_payment::Retry;
+ * # use lightning::routing::router::RouteParametersConfig;
+ * # use lightning_invoice::Bolt11Invoice;
  * #
  * # fn example<T: AChannelManager>(
- * #     channel_manager: T, payment_hash: PaymentHash, recipient_onion: RecipientOnionFields,
- * #     route_params: RouteParameters, retry: Retry
+ * #     channel_manager: T, invoice: &Bolt11Invoice, route_params_config: RouteParametersConfig,
+ * #     retry: Retry
  * # ) {
  * # let channel_manager = channel_manager.get_cm();
- * let (payment_hash, recipient_onion, route_params) =
- * payment::payment_parameters_from_invoice(&invoice);
- * let payment_id = PaymentId([42; 32]);
- * match channel_manager.send_payment(
- * payment_hash, recipient_onion, payment_id, route_params, retry
+ * # let payment_id = PaymentId([42; 32]);
+ * # let payment_hash = PaymentHash((*invoice.payment_hash()).to_byte_array());
+ * match channel_manager.pay_for_bolt11_invoice(
+ * invoice, payment_id, None, route_params_config, retry
  * ) {
  * Ok(()) => println!(\"Sending payment with hash {}\", payment_hash),
  * Err(e) => println!(\"Failed sending payment with hash {}: {:?}\", payment_hash, e),
@@ -463,12 +461,12 @@ import javax.annotation.Nullable;
  * # use lightning::events::{Event, EventsProvider, PaymentPurpose};
  * # use lightning::ln::channelmanager::AChannelManager;
  * # use lightning::offers::parse::Bolt12SemanticError;
+ * # use lightning::routing::router::RouteParametersConfig;
  * #
  * # fn example<T: AChannelManager>(channel_manager: T) -> Result<(), Bolt12SemanticError> {
  * # let channel_manager = channel_manager.get_cm();
- * # let absolute_expiry = None;
  * let offer = channel_manager
- * .create_offer_builder(absolute_expiry)?
+ * .create_offer_builder()?
  * # ;
  * # // Needed for compiling for c_bindings
  * # let builder: lightning::offers::offer::OfferBuilder<_, _> = offer.into();
@@ -509,17 +507,15 @@ import javax.annotation.Nullable;
  * ```
  * # use lightning::events::{Event, EventsProvider};
  * # use lightning::ln::channelmanager::{AChannelManager, PaymentId, RecentPaymentDetails};
- * # use lightning::ln::outbound_payment::Retry;
  * # use lightning::offers::offer::Offer;
  * #
  * # fn example<T: AChannelManager>(
- * #     channel_manager: T, offer: &Offer, quantity: Option<u64>, amount_msats: Option<u64>,
- * #     payer_note: Option<String>, retry: Retry, max_total_routing_fee_msat: Option<u64>
+ * #     channel_manager: T, offer: &Offer, amount_msats: Option<u64>,
  * # ) {
  * # let channel_manager = channel_manager.get_cm();
  * let payment_id = PaymentId([42; 32]);
  * match channel_manager.pay_for_offer(
- * offer, quantity, amount_msats, payer_note, payment_id, retry, max_total_routing_fee_msat
+ * offer, amount_msats, payment_id, Default::default(),
  * ) {
  * Ok(()) => println!(\"Requesting invoice for offer\"),
  * Err(e) => println!(\"Unable to request invoice for offer: {:?}\", e),
@@ -568,16 +564,17 @@ import javax.annotation.Nullable;
  * # use lightning::ln::channelmanager::{AChannelManager, PaymentId, RecentPaymentDetails};
  * # use lightning::ln::outbound_payment::Retry;
  * # use lightning::offers::parse::Bolt12SemanticError;
+ * # use lightning::routing::router::RouteParametersConfig;
  * #
  * # fn example<T: AChannelManager>(
  * #     channel_manager: T, amount_msats: u64, absolute_expiry: Duration, retry: Retry,
- * #     max_total_routing_fee_msat: Option<u64>
+ * #     route_params_config: RouteParametersConfig
  * # ) -> Result<(), Bolt12SemanticError> {
  * # let channel_manager = channel_manager.get_cm();
  * let payment_id = PaymentId([42; 32]);
  * let refund = channel_manager
  * .create_refund_builder(
- * amount_msats, absolute_expiry, payment_id, retry, max_total_routing_fee_msat
+ * amount_msats, absolute_expiry, payment_id, retry, route_params_config
  * )?
  * # ;
  * # // Needed for compiling for c_bindings
@@ -720,12 +717,11 @@ import javax.annotation.Nullable;
  * [`PeerManager::process_events`]: crate::ln::peer_handler::PeerManager::process_events
  * [`timer_tick_occurred`]: Self::timer_tick_occurred
  * [`get_and_clear_needs_persistence`]: Self::get_and_clear_needs_persistence
- * [`Persister`]: crate::util::persist::Persister
- * [`KVStore`]: crate::util::persist::KVStore
+ * [`KVStoreSync`]: crate::util::persist::KVStoreSync
  * [`get_event_or_persistence_needed_future`]: Self::get_event_or_persistence_needed_future
  * [`lightning-block-sync`]: https://docs.rs/lightning_block_sync/latest/lightning_block_sync
  * [`lightning-transaction-sync`]: https://docs.rs/lightning_transaction_sync/latest/lightning_transaction_sync
- * [`lightning-background-processor`]: https://docs.rs/lightning_background_processor/lightning_background_processor
+ * [`lightning-background-processor`]: https://docs.rs/lightning-background-processor/latest/lightning_background_processor
  * [`list_channels`]: Self::list_channels
  * [`list_usable_channels`]: Self::list_usable_channels
  * [`create_channel`]: Self::create_channel
@@ -739,7 +735,6 @@ import javax.annotation.Nullable;
  * [`create_bolt11_invoice`]: Self::create_bolt11_invoice
  * [`create_inbound_payment`]: Self::create_inbound_payment
  * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
- * [`bolt11_payment`]: crate::ln::bolt11_payment
  * [`claim_funds`]: Self::claim_funds
  * [`send_payment`]: Self::send_payment
  * [`offers`]: crate::offers
@@ -748,7 +743,7 @@ import javax.annotation.Nullable;
  * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
  * [`create_refund_builder`]: Self::create_refund_builder
  * [`request_refund_payment`]: Self::request_refund_payment
- * [`peer_disconnected`]: msgs::ChannelMessageHandler::peer_disconnected
+ * [`peer_disconnected`]: msgs::BaseMessageHandler::peer_disconnected
  * [`funding_created`]: msgs::FundingCreated
  * [`funding_transaction_generated`]: Self::funding_transaction_generated
  * [`BlockHash`]: bitcoin::hash_types::BlockHash
@@ -776,12 +771,12 @@ public class ChannelManager extends CommonBase {
 	 * Non-proportional fees are fixed according to our risk using the provided fee estimator.
 	 * 
 	 * Users need to notify the new `ChannelManager` when a new block is connected or
-	 * disconnected using its [`block_connected`] and [`block_disconnected`] methods, starting
+	 * disconnected using its [`block_connected`] and [`blocks_disconnected`] methods, starting
 	 * from after [`params.best_block.block_hash`]. See [`chain::Listen`] and [`chain::Confirm`] for
 	 * more details.
 	 * 
 	 * [`block_connected`]: chain::Listen::block_connected
-	 * [`block_disconnected`]: chain::Listen::block_disconnected
+	 * [`blocks_disconnected`]: chain::Listen::blocks_disconnected
 	 * [`params.best_block.block_hash`]: chain::BestBlock::block_hash
 	 */
 	public static ChannelManager of(org.ldk.structs.FeeEstimator fee_est, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.MessageRouter message_router, org.ldk.structs.Logger logger, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.UserConfig config, org.ldk.structs.ChainParameters params, int current_timestamp) {
@@ -814,15 +809,26 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Gets the current configuration applied to all new channels.
+	 * Gets the current [`UserConfig`] which controls some global behavior and includes the
+	 * default configuration applied to all new channels.
 	 */
-	public UserConfig get_current_default_configuration() {
-		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
+	public UserConfig get_current_config() {
+		long ret = bindings.ChannelManager_get_current_config(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Updates the current [`UserConfig`] which controls some global behavior and includes the
+	 * default configuration applied to all new channels.
+	 */
+	public void set_current_config(org.ldk.structs.UserConfig new_config) {
+		bindings.ChannelManager_set_current_config(this.ptr, new_config.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(new_config);
 	}
 
 	/**
@@ -981,7 +987,7 @@ public class ChannelManager extends CommonBase {
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`ChannelCloseMinimum`]: crate::chain::chaininterface::ConfirmationTarget::ChannelCloseMinimum
 	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
-	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
+	 * [`SendShutdown`]: MessageSendEvent::SendShutdown
 	 */
 	public Result_NoneAPIErrorZ close_channel(org.ldk.structs.ChannelId channel_id, byte[] counterparty_node_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33));
@@ -990,7 +996,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(counterparty_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1011,7 +1016,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * The `shutdown_script` provided  will be used as the `scriptPubKey` for the closing transaction.
 	 * Will fail if a shutdown script has already been set for this channel by
-	 * ['ChannelHandshakeConfig::commit_upfront_shutdown_pubkey`]. The given shutdown script must
+	 * [`ChannelHandshakeConfig::commit_upfront_shutdown_pubkey`]. The given shutdown script must
 	 * also be compatible with our and the counterparty's features.
 	 * 
 	 * May generate a [`SendShutdown`] message event on success, which should be relayed.
@@ -1023,7 +1028,8 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
 	 * [`NonAnchorChannelFee`]: crate::chain::chaininterface::ConfirmationTarget::NonAnchorChannelFee
-	 * [`SendShutdown`]: crate::events::MessageSendEvent::SendShutdown
+	 * [`ChannelHandshakeConfig::commit_upfront_shutdown_pubkey`]: crate::util::config::ChannelHandshakeConfig::commit_upfront_shutdown_pubkey
+	 * [`SendShutdown`]: MessageSendEvent::SendShutdown
 	 * 
 	 * Note that shutdown_script (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -1036,7 +1042,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(shutdown_script);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1058,31 +1063,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(error_message);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(channel_id); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Force closes a channel, rejecting new HTLCs on the given channel but skips broadcasting
-	 * the latest local transaction(s).
-	 * 
-	 * The provided `error_message` is sent to connected peers for closing channels and should
-	 * be a human-readable description of what went wrong.
-	 * 
-	 * Fails if `channel_id` is unknown to the manager, or if the
-	 * `counterparty_node_id` isn't the counterparty of the corresponding channel.
-	 * You can always broadcast the latest local transaction(s) via
-	 * [`ChannelMonitor::broadcast_latest_holder_commitment_txn`].
-	 */
-	public Result_NoneAPIErrorZ force_close_without_broadcasting_txn(org.ldk.structs.ChannelId channel_id, byte[] counterparty_node_id, java.lang.String error_message) {
-		long ret = bindings.ChannelManager_force_close_without_broadcasting_txn(this.ptr, channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), error_message);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_id);
-		Reference.reachabilityFence(counterparty_node_id);
-		Reference.reachabilityFence(error_message);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1100,16 +1080,48 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Force close all channels rejecting new HTLCs on each but without broadcasting the latest
-	 * local transaction(s).
+	 * Initiate a splice in order to add value to (splice-in) or remove value from (splice-out)
+	 * the channel. This will spend the channel's funding transaction output, effectively replacing
+	 * it with a new one.
 	 * 
-	 * The provided `error_message` is sent to connected peers for closing channels and
-	 * should be a human-readable description of what went wrong.
+	 * # Arguments
+	 * 
+	 * Provide a `contribution` to determine if value is spliced in or out. The splice initiator is
+	 * responsible for paying fees for common fields, shared inputs, and shared outputs along with
+	 * any contributed inputs and outputs. Fees are determined using `funding_feerate_per_kw` and
+	 * must be covered by the supplied inputs for splice-in or the channel balance for splice-out.
+	 * 
+	 * An optional `locktime` for the funding transaction may be specified. If not given, the
+	 * current best block height is used.
+	 * 
+	 * # Events
+	 * 
+	 * Once the funding transaction has been constructed, an [`Event::SplicePending`] will be
+	 * emitted. At this point, any inputs contributed to the splice can only be re-spent if an
+	 * [`Event::DiscardFunding`] is seen.
+	 * 
+	 * After initial signatures have been exchanged, [`Event::FundingTransactionReadyForSigning`]
+	 * will be generated and [`ChannelManager::funding_transaction_signed`] should be called.
+	 * 
+	 * If any failures occur while negotiating the funding transaction, an [`Event::SpliceFailed`]
+	 * will be emitted. Any contributed inputs no longer used will be included here and thus can
+	 * be re-spent.
+	 * 
+	 * Once the splice has been locked by both counterparties, an [`Event::ChannelReady`] will be
+	 * emitted with the new funding output. At this point, a new splice can be negotiated by
+	 * calling `splice_channel` again on this channel.
 	 */
-	public void force_close_all_channels_without_broadcasting_txn(java.lang.String error_message) {
-		bindings.ChannelManager_force_close_all_channels_without_broadcasting_txn(this.ptr, error_message);
+	public Result_NoneAPIErrorZ splice_channel(org.ldk.structs.ChannelId channel_id, byte[] counterparty_node_id, org.ldk.structs.SpliceContribution contribution, int funding_feerate_per_kw, org.ldk.structs.Option_u32Z locktime) {
+		long ret = bindings.ChannelManager_splice_channel(this.ptr, channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), contribution.ptr, funding_feerate_per_kw, locktime.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(error_message);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(contribution);
+		Reference.reachabilityFence(funding_feerate_per_kw);
+		Reference.reachabilityFence(locktime);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -1133,6 +1145,9 @@ public class ChannelManager extends CommonBase {
 	/**
 	 * Sends a payment to the route found using the provided [`RouteParameters`], retrying failed
 	 * payment paths based on the provided `Retry`.
+	 * 
+	 * You should likely prefer [`Self::pay_for_bolt11_invoice`] or [`Self::pay_for_offer`] in
+	 * general, however this method may allow for slightly more customization.
 	 * 
 	 * May generate [`UpdateHTLCs`] message(s) event on success, which should be relayed (e.g. via
 	 * [`PeerManager::process_events`]).
@@ -1162,7 +1177,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`Event::PaymentSent`]: events::Event::PaymentSent
 	 * [`Event::PaymentFailed`]: events::Event::PaymentFailed
-	 * [`UpdateHTLCs`]: events::MessageSendEvent::UpdateHTLCs
+	 * [`UpdateHTLCs`]: MessageSendEvent::UpdateHTLCs
 	 * [`PeerManager::process_events`]: crate::ln::peer_handler::PeerManager::process_events
 	 * [`ChannelMonitorUpdateStatus::InProgress`]: crate::chain::ChannelMonitorUpdateStatus::InProgress
 	 */
@@ -1176,6 +1191,37 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(retry_strategy);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneRetryableSendFailureZ ret_hu_conv = Result_NoneRetryableSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays a [`Bolt11Invoice`] associated with the `payment_id`. See [`Self::send_payment`] for more info.
+	 * 
+	 * # Payment Id
+	 * The invoice's `payment_hash().0` serves as a reliable choice for the `payment_id`.
+	 * 
+	 * # Handling Invoice Amounts
+	 * Some invoices include a specific amount, while others require you to specify one.
+	 * - If the invoice **includes** an amount, user may provide an amount greater or equal to it
+	 * to allow for overpayments.
+	 * - If the invoice **doesn't include** an amount, you'll need to specify `amount_msats`.
+	 * 
+	 * If these conditions aren’t met, the function will return [`Bolt11PaymentError::InvalidAmount`].
+	 * 
+	 * # Custom Routing Parameters
+	 * Users can customize routing parameters via [`RouteParametersConfig`].
+	 * To use default settings, call the function with [`RouteParametersConfig::default`].
+	 */
+	public Result_NoneBolt11PaymentErrorZ pay_for_bolt11_invoice(org.ldk.structs.Bolt11Invoice invoice, byte[] payment_id, org.ldk.structs.Option_u64Z amount_msats, org.ldk.structs.RouteParametersConfig route_params_config, org.ldk.structs.Retry retry_strategy) {
+		long ret = bindings.ChannelManager_pay_for_bolt11_invoice(this.ptr, invoice.ptr, InternalUtils.check_arr_len(payment_id, 32), amount_msats.ptr, route_params_config.ptr, retry_strategy.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(route_params_config);
+		Reference.reachabilityFence(retry_strategy);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneBolt11PaymentErrorZ ret_hu_conv = Result_NoneBolt11PaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -1208,7 +1254,34 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(context);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneBolt12PaymentErrorZ ret_hu_conv = Result_NoneBolt12PaymentErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(invoice); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Should be called after handling an [`Event::PersistStaticInvoice`], where the `Responder`
+	 * comes from [`Event::PersistStaticInvoice::invoice_persisted_path`].
+	 */
+	public void static_invoice_persisted(org.ldk.structs.Responder invoice_persisted_path) {
+		bindings.ChannelManager_static_invoice_persisted(this.ptr, invoice_persisted_path.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice_persisted_path);
+	}
+
+	/**
+	 * Forwards a [`StaticInvoice`] to a payer in response to an
+	 * [`Event::StaticInvoiceRequested`]. Also forwards the payer's [`InvoiceRequest`] to the
+	 * async recipient, in case the recipient is online to provide the payer with a fresh
+	 * [`Bolt12Invoice`].
+	 */
+	public Result_NoneBolt12SemanticErrorZ respond_to_static_invoice_request(org.ldk.structs.StaticInvoice invoice, org.ldk.structs.Responder responder, org.ldk.structs.InvoiceRequest invoice_request, org.ldk.structs.BlindedMessagePath invoice_request_path) {
+		long ret = bindings.ChannelManager_respond_to_static_invoice_request(this.ptr, invoice.ptr, responder.ptr, invoice_request.ptr, invoice_request_path.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(responder);
+		Reference.reachabilityFence(invoice_request);
+		Reference.reachabilityFence(invoice_request_path);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneBolt12SemanticErrorZ ret_hu_conv = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -1419,6 +1492,45 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Call this upon creation of a funding transaction for the given channel.
+	 * 
+	 * This method executes the same checks as [`ChannelManager::funding_transaction_generated`],
+	 * but it does not automatically broadcast the funding transaction.
+	 * 
+	 * Call this in response to a [`Event::FundingGenerationReady`] event, only in a context where you want to manually
+	 * control the broadcast of the funding transaction.
+	 * 
+	 * The associated [`ChannelMonitor`] likewise avoids broadcasting holder commitment or CPFP
+	 * transactions until the funding has been observed on chain. This
+	 * prevents attempting to broadcast unconfirmable commitment transactions before the channel's
+	 * funding exists in a block.
+	 * 
+	 * If HTLCs would otherwise approach timeout while the funding transaction has not yet appeared
+	 * on chain, the monitor avoids broadcasting force-close transactions in manual-broadcast
+	 * mode until the funding is seen. It may still close the channel off-chain (emitting a
+	 * `ChannelClosed` event) to avoid accepting further updates. Ensure your application either
+	 * broadcasts the funding transaction in a timely manner or avoids forwarding HTLCs that could
+	 * approach timeout during this interim state.
+	 * 
+	 * See also [`ChannelMonitor::broadcast_latest_holder_commitment_txn`]. For channels using
+	 * manual-broadcast, calling that method has no effect until the funding has been observed
+	 * on-chain.
+	 * 
+	 * [`ChannelManager::funding_transaction_generated`]: crate::ln::channelmanager::ChannelManager::funding_transaction_generated
+	 * [`Event::FundingGenerationReady`]: crate::events::Event::FundingGenerationReady
+	 */
+	public Result_NoneAPIErrorZ funding_transaction_generated_manual_broadcast(org.ldk.structs.ChannelId temporary_channel_id, byte[] counterparty_node_id, byte[] funding_transaction) {
+		long ret = bindings.ChannelManager_funding_transaction_generated_manual_broadcast(this.ptr, temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), funding_transaction);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(funding_transaction);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Call this upon creation of a batch funding transaction for the given channels.
 	 * 
 	 * Return values are identical to [`Self::funding_transaction_generated`], respective to
@@ -1435,6 +1547,57 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channels);
 		Reference.reachabilityFence(funding_transaction);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Handles a signed funding transaction generated by interactive transaction construction and
+	 * provided by the client. Should only be called in response to a [`FundingTransactionReadyForSigning`]
+	 * event.
+	 * 
+	 * Do NOT broadcast the funding transaction yourself. When we have safely received our
+	 * counterparty's signature(s) the funding transaction will automatically be broadcast via the
+	 * [`BroadcasterInterface`] provided when this `ChannelManager` was constructed.
+	 * 
+	 * `SIGHASH_ALL` MUST be used for all signatures when providing signatures, otherwise your
+	 * funds can be held hostage!
+	 * 
+	 * LDK checks the following:
+	 * Each input spends an output that is one of P2WPKH, P2WSH, or P2TR.
+	 * These were already checked by LDK when the inputs to be contributed were provided.
+	 * All signatures use the `SIGHASH_ALL` sighash type.
+	 * P2WPKH and P2TR key path spends are valid (verifies signatures)
+	 * 
+	 * NOTE:
+	 * When checking P2WSH spends, LDK tries to decode 70-72 byte witness elements as ECDSA
+	 * signatures with a sighash flag. If the internal DER-decoding fails, then LDK just
+	 * assumes it wasn't a signature and carries with checks. If the element can be decoded
+	 * as an ECDSA signature, the the sighash flag must be `SIGHASH_ALL`.
+	 * When checking P2TR script-path spends, LDK assumes all elements of exactly 65 bytes
+	 * with the last byte matching any valid sighash flag byte are schnorr signatures and checks
+	 * that the sighash type is `SIGHASH_ALL`. If the last byte is not any valid sighash flag, the
+	 * element is assumed not to be a signature and is ignored. Elements of 64 bytes are not
+	 * checked because if they were schnorr signatures then they would implicitly be `SIGHASH_DEFAULT`
+	 * which is an alias of `SIGHASH_ALL`.
+	 * 
+	 * Returns [`ChannelUnavailable`] when a channel is not found or an incorrect
+	 * `counterparty_node_id` is provided.
+	 * 
+	 * Returns [`APIMisuseError`] when a channel is not in a state where it is expecting funding
+	 * signatures or if any of the checks described above fail.
+	 * 
+	 * [`FundingTransactionReadyForSigning`]: events::Event::FundingTransactionReadyForSigning
+	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
+	 * [`APIMisuseError`]: APIError::APIMisuseError
+	 */
+	public Result_NoneAPIErrorZ funding_transaction_signed(org.ldk.structs.ChannelId channel_id, byte[] counterparty_node_id, byte[] transaction) {
+		long ret = bindings.ChannelManager_funding_transaction_signed(this.ptr, channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), transaction);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -1459,7 +1622,7 @@ public class ChannelManager extends CommonBase {
 	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
 	 * [`forwarding_fee_base_msat`]: ChannelConfig::forwarding_fee_base_msat
 	 * [`cltv_expiry_delta`]: ChannelConfig::cltv_expiry_delta
-	 * [`BroadcastChannelUpdate`]: events::MessageSendEvent::BroadcastChannelUpdate
+	 * [`BroadcastChannelUpdate`]: MessageSendEvent::BroadcastChannelUpdate
 	 * [`ChannelUpdate`]: msgs::ChannelUpdate
 	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
 	 * [`APIMisuseError`]: APIError::APIMisuseError
@@ -1472,7 +1635,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(config_update);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(config_update); };
 		return ret_hu_conv;
 	}
 
@@ -1495,7 +1657,7 @@ public class ChannelManager extends CommonBase {
 	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
 	 * [`forwarding_fee_base_msat`]: ChannelConfig::forwarding_fee_base_msat
 	 * [`cltv_expiry_delta`]: ChannelConfig::cltv_expiry_delta
-	 * [`BroadcastChannelUpdate`]: events::MessageSendEvent::BroadcastChannelUpdate
+	 * [`BroadcastChannelUpdate`]: MessageSendEvent::BroadcastChannelUpdate
 	 * [`ChannelUpdate`]: msgs::ChannelUpdate
 	 * [`ChannelUnavailable`]: APIError::ChannelUnavailable
 	 * [`APIMisuseError`]: APIError::APIMisuseError
@@ -1508,7 +1670,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(config);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(config); };
 		return ret_hu_conv;
 	}
 
@@ -1546,7 +1707,6 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(amt_to_forward_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(next_hop_channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1569,10 +1729,22 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Returns whether we have pending HTLC forwards that need to be processed via
+	 * [`Self::process_pending_htlc_forwards`].
+	 */
+	public boolean needs_pending_htlc_processing() {
+		boolean ret = bindings.ChannelManager_needs_pending_htlc_processing(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
 	 * Processes HTLCs which are pending waiting on random forward delay.
 	 * 
-	 * Should only really ever be called in response to a PendingHTLCsForwardable event.
-	 * Will likely generate further events.
+	 * Will be regularly called by LDK's background processor.
+	 * 
+	 * Users implementing their own background processing logic should call this in irregular,
+	 * randomly-distributed intervals.
 	 */
 	public void process_pending_htlc_forwards() {
 		bindings.ChannelManager_process_pending_htlc_forwards(this.ptr);
@@ -1720,16 +1892,18 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
 	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
+	 * 
+	 * Note that config_overrides (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneAPIErrorZ accept_inbound_channel(org.ldk.structs.ChannelId temporary_channel_id, byte[] counterparty_node_id, org.ldk.util.UInt128 user_channel_id) {
-		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id.getLEBytes());
+	public Result_NoneAPIErrorZ accept_inbound_channel(org.ldk.structs.ChannelId temporary_channel_id, byte[] counterparty_node_id, org.ldk.util.UInt128 user_channel_id, @Nullable org.ldk.structs.ChannelConfigOverrides config_overrides) {
+		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id.getLEBytes(), config_overrides == null ? 0 : config_overrides.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(config_overrides);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(temporary_channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1752,16 +1926,18 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
 	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
+	 * 
+	 * Note that config_overrides (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneAPIErrorZ accept_inbound_channel_from_trusted_peer_0conf(org.ldk.structs.ChannelId temporary_channel_id, byte[] counterparty_node_id, org.ldk.util.UInt128 user_channel_id) {
-		long ret = bindings.ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(this.ptr, temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id.getLEBytes());
+	public Result_NoneAPIErrorZ accept_inbound_channel_from_trusted_peer_0conf(org.ldk.structs.ChannelId temporary_channel_id, byte[] counterparty_node_id, org.ldk.util.UInt128 user_channel_id, @Nullable org.ldk.structs.ChannelConfigOverrides config_overrides) {
+		long ret = bindings.ChannelManager_accept_inbound_channel_from_trusted_peer_0conf(this.ptr, temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id.getLEBytes(), config_overrides == null ? 0 : config_overrides.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(config_overrides);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(temporary_channel_id); };
 		return ret_hu_conv;
 	}
 
@@ -1811,31 +1987,52 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * # Privacy
 	 * 
-	 * Uses [`MessageRouter`] to construct a [`BlindedMessagePath`] for the offer based on the given
-	 * `absolute_expiry` according to [`MAX_SHORT_LIVED_RELATIVE_EXPIRY`]. See those docs for
-	 * privacy implications as well as those of the parameterized [`Router`], which implements
-	 * [`MessageRouter`].
+	 * Uses [`MessageRouter`] provided at construction to construct a [`BlindedMessagePath`] for
+	 * the offer. See the documentation of the selected [`MessageRouter`] for details on how it
+	 * selects blinded paths including privacy implications and reliability tradeoffs.
 	 * 
 	 * Also, uses a derived signing pubkey in the offer for recipient privacy.
 	 * 
 	 * # Limitations
 	 * 
-	 * Requires a direct connection to the introduction node in the responding [`InvoiceRequest`]'s
-	 * reply path.
+	 * See [`OffersMessageFlow::create_offer_builder`] for limitations on the offer builder.
 	 * 
 	 * # Errors
 	 * 
-	 * Errors if the parameterized [`Router`] is unable to create a blinded path for the offer.
+	 * Errors if the parameterized [`MessageRouter`] is unable to create a blinded path for the offer.
 	 * 
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
 	 * [`Offer`]: crate::offers::offer::Offer
 	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
 	 */
-	public Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ create_offer_builder(org.ldk.structs.Option_u64Z absolute_expiry) {
-		long ret = bindings.ChannelManager_create_offer_builder(this.ptr, absolute_expiry.ptr);
+	public Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ create_offer_builder() {
+		long ret = bindings.ChannelManager_create_offer_builder(this.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(absolute_expiry);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ ret_hu_conv = Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Same as [`Self::create_offer_builder`], but allows specifying a custom [`MessageRouter`]
+	 * instead of using the [`MessageRouter`] provided to the [`ChannelManager`] at construction.
+	 * 
+	 * This gives users full control over how the [`BlindedMessagePath`] is constructed,
+	 * including the option to omit it entirely.
+	 * 
+	 * See [`Self::create_offer_builder`] for more details on usage.
+	 * 
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
+	 * [`Offer`]: crate::offers::offer::Offer
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 */
+	public Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ create_offer_builder_using_router(org.ldk.structs.MessageRouter router) {
+		long ret = bindings.ChannelManager_create_offer_builder_using_router(this.ptr, router.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(router);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ ret_hu_conv = Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(router); };
 		return ret_hu_conv;
 	}
 
@@ -1862,17 +2059,11 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * # Privacy
 	 * 
-	 * Uses [`MessageRouter`] to construct a [`BlindedMessagePath`] for the refund based on the given
-	 * `absolute_expiry` according to [`MAX_SHORT_LIVED_RELATIVE_EXPIRY`]. See those docs for
-	 * privacy implications as well as those of the parameterized [`Router`], which implements
-	 * [`MessageRouter`].
+	 * Uses [`MessageRouter`] provided at construction to construct a [`BlindedMessagePath`] for
+	 * the refund. See the documentation of the selected [`MessageRouter`] for details on how it
+	 * selects blinded paths including privacy implications and reliability tradeoffs.
 	 * 
 	 * Also, uses a derived payer id in the refund for payer privacy.
-	 * 
-	 * # Limitations
-	 * 
-	 * Requires a direct connection to an introduction node in the responding
-	 * [`Bolt12Invoice::payment_paths`].
 	 * 
 	 * # Errors
 	 * 
@@ -1884,18 +2075,86 @@ public class ChannelManager extends CommonBase {
 	 * [`Refund`]: crate::offers::refund::Refund
 	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
 	 * [`Bolt12Invoice::payment_paths`]: crate::offers::invoice::Bolt12Invoice::payment_paths
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
 	 * [Avoiding Duplicate Payments]: #avoiding-duplicate-payments
 	 */
-	public Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ create_refund_builder(long amount_msats, long absolute_expiry, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.Option_u64Z max_total_routing_fee_msat) {
-		long ret = bindings.ChannelManager_create_refund_builder(this.ptr, amount_msats, absolute_expiry, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, max_total_routing_fee_msat.ptr);
+	public Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ create_refund_builder(long amount_msats, long absolute_expiry, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.RouteParametersConfig route_params_config) {
+		long ret = bindings.ChannelManager_create_refund_builder(this.ptr, amount_msats, absolute_expiry, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, route_params_config.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(amount_msats);
 		Reference.reachabilityFence(absolute_expiry);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(retry_strategy);
-		Reference.reachabilityFence(max_total_routing_fee_msat);
+		Reference.reachabilityFence(route_params_config);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ ret_hu_conv = Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Same as [`Self::create_refund_builder`], but allows specifying a custom [`MessageRouter`]
+	 * instead of using the one provided during [`ChannelManager`] construction for
+	 * [`BlindedMessagePath`] creation.
+	 * 
+	 * This gives users full control over how the [`BlindedMessagePath`] is constructed for the
+	 * refund, including the option to omit it entirely. This is useful for testing or when
+	 * alternative privacy strategies are needed.
+	 * 
+	 * See [`Self::create_refund_builder`] for more details on usage.
+	 * 
+	 * # Errors
+	 * 
+	 * In addition to the errors in [`Self::create_refund_builder`], this returns an error if
+	 * the provided [`MessageRouter`] fails to construct a valid [`BlindedMessagePath`] for the refund.
+	 * 
+	 * [`Refund`]: crate::offers::refund::Refund
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 */
+	public Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ create_refund_builder_using_router(org.ldk.structs.MessageRouter router, long amount_msats, long absolute_expiry, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.RouteParametersConfig route_params_config) {
+		long ret = bindings.ChannelManager_create_refund_builder_using_router(this.ptr, router.ptr, amount_msats, absolute_expiry, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, route_params_config.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(router);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(absolute_expiry);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(retry_strategy);
+		Reference.reachabilityFence(route_params_config);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ ret_hu_conv = Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
+		if (this != null) { this.ptrs_to.add(router); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Retrieve an [`Offer`] for receiving async payments as an often-offline recipient. Will only
+	 * return an offer if [`Self::set_paths_to_static_invoice_server`] was called and we succeeded in
+	 * interactively building a [`StaticInvoice`] with the static invoice server.
+	 * 
+	 * Useful for posting offers to receive payments later, such as posting an offer on a website.
+	 */
+	public Result_OfferNoneZ get_async_receive_offer() {
+		long ret = bindings.ChannelManager_get_async_receive_offer(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_OfferNoneZ ret_hu_conv = Result_OfferNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sets the [`BlindedMessagePath`]s that we will use as an async recipient to interactively build
+	 * [`Offer`]s with a static invoice server, so the server can serve [`StaticInvoice`]s to payers
+	 * on our behalf when we're offline.
+	 * 
+	 * This method only needs to be called once when the server first takes on the recipient as a
+	 * client, or when the paths change, e.g. if the paths are set to expire at a particular time.
+	 */
+	public Result_NoneNoneZ set_paths_to_static_invoice_server(BlindedMessagePath[] paths_to_static_invoice_server) {
+		long ret = bindings.ChannelManager_set_paths_to_static_invoice_server(this.ptr, paths_to_static_invoice_server != null ? Arrays.stream(paths_to_static_invoice_server).mapToLong(paths_to_static_invoice_server_conv_20 -> paths_to_static_invoice_server_conv_20.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(paths_to_static_invoice_server);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -1906,14 +2165,12 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Uses [`InvoiceRequestBuilder`] such that the [`InvoiceRequest`] it builds is recognized by
 	 * the [`ChannelManager`] when handling a [`Bolt12Invoice`] message in response to the request.
-	 * The optional parameters are used in the builder, if `Some`:
-	 * - `quantity` for [`InvoiceRequest::quantity`] which must be set if
-	 * [`Offer::expects_quantity`] is `true`.
-	 * - `amount_msats` if overpaying what is required for the given `quantity` is desired, and
-	 * - `payer_note` for [`InvoiceRequest::payer_note`].
 	 * 
-	 * If `max_total_routing_fee_msat` is not specified, The default from
-	 * [`RouteParameters::from_payment_params_and_value`] is applied.
+	 * `amount_msats` allows you to overpay what is required to satisfy the offer, or may be
+	 * required if the offer does not require a specific amount.
+	 * 
+	 * If the [`Offer`] was built from a human readable name resolved using BIP 353, you *must*
+	 * instead call [`Self::pay_for_offer_from_hrn`].
 	 * 
 	 * # Payment
 	 * 
@@ -1928,14 +2185,16 @@ public class ChannelManager extends CommonBase {
 	 * # Privacy
 	 * 
 	 * For payer privacy, uses a derived payer id and uses [`MessageRouter::create_blinded_paths`]
-	 * to construct a [`BlindedMessagePath`] for the reply path. For further privacy implications, see the
-	 * docs of the parameterized [`Router`], which implements [`MessageRouter`].
+	 * to construct a [`BlindedMessagePath`] for the reply path.
 	 * 
-	 * # Limitations
+	 * # Note
 	 * 
-	 * Requires a direct connection to an introduction node in [`Offer::paths`] or to
-	 * [`Offer::issuer_signing_pubkey`], if empty. A similar restriction applies to the responding
-	 * [`Bolt12Invoice::payment_paths`].
+	 * If the offer resolves to an async payment, and the HTLC is neither claimed nor failed by
+	 * our next-hop peer, we will not force-close the channel to resolve the payment for 4
+	 * weeks. This avoids an issue for often-offline nodes where channels are force-closed on
+	 * startup during chain sync prior to connecting to peers. If you want to resolve such a
+	 * timed-out payment more urgently, you can manually force-close the channel which will,
+	 * after some transaction confirmation(s), result in an [`Event::PaymentFailed`].
 	 * 
 	 * # Errors
 	 * 
@@ -1947,26 +2206,83 @@ public class ChannelManager extends CommonBase {
 	 * request.
 	 * 
 	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
-	 * [`InvoiceRequest::quantity`]: crate::offers::invoice_request::InvoiceRequest::quantity
-	 * [`InvoiceRequest::payer_note`]: crate::offers::invoice_request::InvoiceRequest::payer_note
 	 * [`InvoiceRequestBuilder`]: crate::offers::invoice_request::InvoiceRequestBuilder
 	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
 	 * [`Bolt12Invoice::payment_paths`]: crate::offers::invoice::Bolt12Invoice::payment_paths
 	 * [Avoiding Duplicate Payments]: #avoiding-duplicate-payments
 	 */
-	public Result_NoneBolt12SemanticErrorZ pay_for_offer(org.ldk.structs.Offer offer, org.ldk.structs.Option_u64Z quantity, org.ldk.structs.Option_u64Z amount_msats, org.ldk.structs.Option_StrZ payer_note, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.Option_u64Z max_total_routing_fee_msat) {
-		long ret = bindings.ChannelManager_pay_for_offer(this.ptr, offer.ptr, quantity.ptr, amount_msats.ptr, payer_note.ptr, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, max_total_routing_fee_msat.ptr);
+	public Result_NoneBolt12SemanticErrorZ pay_for_offer(org.ldk.structs.Offer offer, org.ldk.structs.Option_u64Z amount_msats, byte[] payment_id, Option_StrZ optional_params_payer_note_arg, RouteParametersConfig optional_params_route_params_config_arg, Retry optional_params_retry_strategy_arg) {
+		long ret = bindings.ChannelManager_pay_for_offer(this.ptr, offer.ptr, amount_msats.ptr, InternalUtils.check_arr_len(payment_id, 32), bindings.OptionalOfferPaymentParams_new(optional_params_payer_note_arg.ptr, optional_params_route_params_config_arg.ptr, optional_params_retry_strategy_arg.ptr));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(offer);
-		Reference.reachabilityFence(quantity);
 		Reference.reachabilityFence(amount_msats);
-		Reference.reachabilityFence(payer_note);
 		Reference.reachabilityFence(payment_id);
-		Reference.reachabilityFence(retry_strategy);
-		Reference.reachabilityFence(max_total_routing_fee_msat);
+		Reference.reachabilityFence(optional_params_payer_note_arg);
+		Reference.reachabilityFence(optional_params_route_params_config_arg);
+		Reference.reachabilityFence(optional_params_retry_strategy_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneBolt12SemanticErrorZ ret_hu_conv = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
+		;
+		;
+		;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays for an [`Offer`] which was built by resolving a human readable name. It is otherwise
+	 * identical to [`Self::pay_for_offer`].
+	 */
+	public Result_NoneBolt12SemanticErrorZ pay_for_offer_from_hrn(org.ldk.structs.OfferFromHrn offer, long amount_msats, byte[] payment_id, Option_StrZ optional_params_payer_note_arg, RouteParametersConfig optional_params_route_params_config_arg, Retry optional_params_retry_strategy_arg) {
+		long ret = bindings.ChannelManager_pay_for_offer_from_hrn(this.ptr, offer.ptr, amount_msats, InternalUtils.check_arr_len(payment_id, 32), bindings.OptionalOfferPaymentParams_new(optional_params_payer_note_arg.ptr, optional_params_route_params_config_arg.ptr, optional_params_retry_strategy_arg.ptr));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(offer);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(optional_params_payer_note_arg);
+		Reference.reachabilityFence(optional_params_route_params_config_arg);
+		Reference.reachabilityFence(optional_params_retry_strategy_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneBolt12SemanticErrorZ ret_hu_conv = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(offer); };
+		;
+		;
+		;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Pays for an [`Offer`] using the given parameters, including a `quantity`, by creating an
+	 * [`InvoiceRequest`] and enqueuing it to be sent via an onion message. [`ChannelManager`] will
+	 * pay the actual [`Bolt12Invoice`] once it is received.
+	 * 
+	 * This method is identical to [`Self::pay_for_offer`] with the one exception that it allows
+	 * you to specify the [`InvoiceRequest::quantity`]. We expect this to be rather seldomly used,
+	 * as the \"quantity\" feature of offers doesn't line up with common payment flows today.
+	 * 
+	 * This method is otherwise identical to [`Self::pay_for_offer`] but will additionally fail if
+	 * the provided `quantity` does not meet the requirements described by
+	 * [`Offer::supported_quantity`].
+	 * 
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
+	 * [`InvoiceRequest::quantity`]: crate::offers::invoice_request::InvoiceRequest::quantity
+	 */
+	public Result_NoneBolt12SemanticErrorZ pay_for_offer_with_quantity(org.ldk.structs.Offer offer, org.ldk.structs.Option_u64Z amount_msats, byte[] payment_id, Option_StrZ optional_params_payer_note_arg, RouteParametersConfig optional_params_route_params_config_arg, Retry optional_params_retry_strategy_arg, long quantity) {
+		long ret = bindings.ChannelManager_pay_for_offer_with_quantity(this.ptr, offer.ptr, amount_msats.ptr, InternalUtils.check_arr_len(payment_id, 32), bindings.OptionalOfferPaymentParams_new(optional_params_payer_note_arg.ptr, optional_params_route_params_config_arg.ptr, optional_params_retry_strategy_arg.ptr), quantity);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(offer);
+		Reference.reachabilityFence(amount_msats);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(optional_params_payer_note_arg);
+		Reference.reachabilityFence(optional_params_route_params_config_arg);
+		Reference.reachabilityFence(optional_params_retry_strategy_arg);
+		Reference.reachabilityFence(quantity);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneBolt12SemanticErrorZ ret_hu_conv = Result_NoneBolt12SemanticErrorZ.constr_from_ptr(ret);
+		;
+		;
+		;
 		return ret_hu_conv;
 	}
 
@@ -1992,6 +2308,7 @@ public class ChannelManager extends CommonBase {
 	 * - the parameterized [`Router`] is unable to create a blinded payment path or reply path for
 	 * the invoice.
 	 * 
+	 * [`BlindedPaymentPath`]: crate::blinded_path::payment::BlindedPaymentPath
 	 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
 	 */
 	public Result_Bolt12InvoiceBolt12SemanticErrorZ request_refund_payment(org.ldk.structs.Refund refund) {
@@ -2000,21 +2317,17 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(refund);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_Bolt12InvoiceBolt12SemanticErrorZ ret_hu_conv = Result_Bolt12InvoiceBolt12SemanticErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(refund); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Pays for an [`Offer`] looked up using [BIP 353] Human Readable Names resolved by the DNS
-	 * resolver(s) at `dns_resolvers` which resolve names according to bLIP 32.
+	 * resolver(s) at `dns_resolvers` which resolve names according to [bLIP 32].
 	 * 
-	 * If the wallet supports paying on-chain schemes, you should instead use
-	 * [`OMNameResolver::resolve_name`] and [`OMNameResolver::handle_dnssec_proof_for_uri`] (by
-	 * implementing [`DNSResolverMessageHandler`]) directly to look up a URI and then delegate to
-	 * your normal URI handling.
-	 * 
-	 * If `max_total_routing_fee_msat` is not specified, the default from
-	 * [`RouteParameters::from_payment_params_and_value`] is applied.
+	 * Because most wallets support on-chain or other payment schemes beyond only offers, this is
+	 * deprecated in favor of the [`bitcoin-payment-instructions`] crate, which can be used to
+	 * build an [`OfferFromHrn`] and call [`Self::pay_for_offer_from_hrn`]. Thus, this method is
+	 * deprecated.
 	 * 
 	 * # Payment
 	 * 
@@ -2024,39 +2337,43 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * To revoke the request, use [`ChannelManager::abandon_payment`] prior to receiving the
 	 * invoice. If abandoned, or an invoice isn't received in a reasonable amount of time, the
-	 * payment will fail with an [`Event::InvoiceRequestFailed`].
+	 * payment will fail with an [`PaymentFailureReason::UserAbandoned`] or
+	 * [`PaymentFailureReason::InvoiceRequestExpired`], respectively.
 	 * 
 	 * # Privacy
 	 * 
 	 * For payer privacy, uses a derived payer id and uses [`MessageRouter::create_blinded_paths`]
-	 * to construct a [`BlindedPath`] for the reply path. For further privacy implications, see the
-	 * docs of the parameterized [`Router`], which implements [`MessageRouter`].
-	 * 
-	 * # Limitations
-	 * 
-	 * Requires a direct connection to the given [`Destination`] as well as an introduction node in
-	 * [`Offer::paths`] or to [`Offer::signing_pubkey`], if empty. A similar restriction applies to
-	 * the responding [`Bolt12Invoice::payment_paths`].
+	 * to construct a [`BlindedMessagePath`] for the reply path.
 	 * 
 	 * # Errors
 	 * 
-	 * Errors if:
-	 * - a duplicate `payment_id` is provided given the caveats in the aforementioned link,
+	 * Errors if a duplicate `payment_id` is provided given the caveats in the aforementioned link.
 	 * 
-	 * [`Bolt12Invoice::payment_paths`]: crate::offers::invoice::Bolt12Invoice::payment_paths
+	 * [BIP 353]: https://github.com/bitcoin/bips/blob/master/bip-0353.mediawiki
+	 * [bLIP 32]: https://github.com/lightning/blips/blob/master/blip-0032.md
+	 * [`OMNameResolver::resolve_name`]: crate::onion_message::dns_resolution::OMNameResolver::resolve_name
+	 * [`OMNameResolver::handle_dnssec_proof_for_uri`]: crate::onion_message::dns_resolution::OMNameResolver::handle_dnssec_proof_for_uri
+	 * [`bitcoin-payment-instructions`]: https://docs.rs/bitcoin-payment-instructions/
 	 * [Avoiding Duplicate Payments]: #avoiding-duplicate-payments
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
+	 * [`PaymentFailureReason::UserAbandoned`]: crate::events::PaymentFailureReason::UserAbandoned
+	 * [`PaymentFailureReason::InvoiceRequestRejected`]: crate::events::PaymentFailureReason::InvoiceRequestRejected
 	 */
-	public Result_NoneNoneZ pay_for_offer_from_human_readable_name(org.ldk.structs.HumanReadableName name, long amount_msats, byte[] payment_id, org.ldk.structs.Retry retry_strategy, org.ldk.structs.Option_u64Z max_total_routing_fee_msat, Destination[] dns_resolvers) {
-		long ret = bindings.ChannelManager_pay_for_offer_from_human_readable_name(this.ptr, name.ptr, amount_msats, InternalUtils.check_arr_len(payment_id, 32), retry_strategy.ptr, max_total_routing_fee_msat.ptr, dns_resolvers != null ? Arrays.stream(dns_resolvers).mapToLong(dns_resolvers_conv_13 -> dns_resolvers_conv_13.ptr).toArray() : null);
+	public Result_NoneNoneZ pay_for_offer_from_human_readable_name(org.ldk.structs.HumanReadableName name, long amount_msats, byte[] payment_id, Option_StrZ optional_params_payer_note_arg, RouteParametersConfig optional_params_route_params_config_arg, Retry optional_params_retry_strategy_arg, Destination[] dns_resolvers) {
+		long ret = bindings.ChannelManager_pay_for_offer_from_human_readable_name(this.ptr, name.ptr, amount_msats, InternalUtils.check_arr_len(payment_id, 32), bindings.OptionalOfferPaymentParams_new(optional_params_payer_note_arg.ptr, optional_params_route_params_config_arg.ptr, optional_params_retry_strategy_arg.ptr), dns_resolvers != null ? Arrays.stream(dns_resolvers).mapToLong(dns_resolvers_conv_13 -> dns_resolvers_conv_13.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(name);
 		Reference.reachabilityFence(amount_msats);
 		Reference.reachabilityFence(payment_id);
-		Reference.reachabilityFence(retry_strategy);
-		Reference.reachabilityFence(max_total_routing_fee_msat);
+		Reference.reachabilityFence(optional_params_payer_note_arg);
+		Reference.reachabilityFence(optional_params_route_params_config_arg);
+		Reference.reachabilityFence(optional_params_retry_strategy_arg);
 		Reference.reachabilityFence(dns_resolvers);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		;
+		;
+		;
 		return ret_hu_conv;
 	}
 
@@ -2180,6 +2497,38 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * [`BlindedMessagePath`]s for an async recipient to communicate with this node and interactively
+	 * build [`Offer`]s and [`StaticInvoice`]s for receiving async payments.
+	 * 
+	 * ## Usage
+	 * 1. Static invoice server calls [`Self::blinded_paths_for_async_recipient`]
+	 * 2. Static invoice server communicates the resulting paths out-of-band to the async recipient,
+	 * who calls [`Self::set_paths_to_static_invoice_server`] to configure themselves with these
+	 * paths
+	 * 3. Async recipient automatically sends [`OfferPathsRequest`]s over the configured paths, and
+	 * uses the resulting paths from the server's [`OfferPaths`] response to build their async
+	 * receive offer
+	 * 
+	 * If `relative_expiry` is unset, the [`BlindedMessagePath`]s will never expire.
+	 * 
+	 * Returns the paths that the recipient should be configured with via
+	 * [`Self::set_paths_to_static_invoice_server`].
+	 * 
+	 * The provided `recipient_id` must uniquely identify the recipient, and will be surfaced later
+	 * when the recipient provides us with a static invoice to persist and serve to payers on their
+	 * behalf.
+	 */
+	public Result_CVec_BlindedMessagePathZNoneZ blinded_paths_for_async_recipient(byte[] recipient_id, org.ldk.structs.Option_u64Z relative_expiry) {
+		long ret = bindings.ChannelManager_blinded_paths_for_async_recipient(this.ptr, recipient_id, relative_expiry.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(recipient_id);
+		Reference.reachabilityFence(relative_expiry);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CVec_BlindedMessagePathZNoneZ ret_hu_conv = Result_CVec_BlindedMessagePathZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets a fake short channel id for use in receiving [phantom node payments]. These fake scids
 	 * are used when constructing the phantom invoice's route hints.
 	 * 
@@ -2233,14 +2582,14 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new MessageSendEventsProvider which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
+	 * Constructs a new BaseMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseMessageHandler must be freed before this_arg is
 	 */
-	public MessageSendEventsProvider as_MessageSendEventsProvider() {
-		long ret = bindings.ChannelManager_as_MessageSendEventsProvider(this.ptr);
+	public BaseMessageHandler as_BaseMessageHandler() {
+		long ret = bindings.ChannelManager_as_BaseMessageHandler(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
+		BaseMessageHandler ret_hu_conv = new BaseMessageHandler(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

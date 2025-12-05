@@ -20,10 +20,10 @@ import javax.annotation.Nullable;
 public class RoutingMessageHandler extends CommonBase {
 	final bindings.LDKRoutingMessageHandler bindings_instance;
 	RoutingMessageHandler(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private RoutingMessageHandler(bindings.LDKRoutingMessageHandler arg, bindings.LDKMessageSendEventsProvider MessageSendEventsProvider) {
-		super(bindings.LDKRoutingMessageHandler_new(arg, MessageSendEventsProvider));
+	private RoutingMessageHandler(bindings.LDKRoutingMessageHandler arg, bindings.LDKBaseMessageHandler BaseMessageHandler) {
+		super(bindings.LDKRoutingMessageHandler_new(arg, BaseMessageHandler));
 		this.ptrs_to.add(arg);
-		this.ptrs_to.add(MessageSendEventsProvider);
+		this.ptrs_to.add(BaseMessageHandler);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
@@ -88,16 +88,6 @@ public class RoutingMessageHandler extends CommonBase {
 		 */
 		NodeAnnouncement get_next_node_announcement(NodeId starting_point);
 		/**
-		 * Called when a connection is established with a peer. This can be used to
-		 * perform routing table synchronization using a strategy defined by the
-		 * implementor.
-		 * 
-		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-		 * with us. Implementors should be somewhat conservative about doing so, however, as other
-		 * message handlers may still wish to communicate with this peer.
-		 */
-		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init init, boolean inbound);
-		/**
 		 * Handles the reply of a query we initiated to learn about channels
 		 * for a given range of blocks. We can expect to receive one or more
 		 * replies to a single query.
@@ -127,23 +117,9 @@ public class RoutingMessageHandler extends CommonBase {
 		 * [`ChannelAnnouncement`]s.
 		 */
 		boolean processing_queue_high();
-		/**
-		 * Gets the node feature flags which this handler itself supports. All available handlers are
-		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-		 * which are broadcasted in our [`NodeAnnouncement`] message.
-		 */
-		NodeFeatures provided_node_features();
-		/**
-		 * Gets the init feature flags which should be sent to the given peer. All available handlers
-		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-		 * which are sent in our [`Init`] message.
-		 * 
-		 * Note that this method is called before [`Self::peer_connected`].
-		 */
-		InitFeatures provided_init_features(byte[] their_node_id);
 	}
 	private static class LDKRoutingMessageHandlerHolder { RoutingMessageHandler held; }
-	public static RoutingMessageHandler new_impl(RoutingMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
+	public static RoutingMessageHandler new_impl(RoutingMessageHandlerInterface arg, BaseMessageHandler.BaseMessageHandlerInterface BaseMessageHandler_impl) {
 		final LDKRoutingMessageHandlerHolder impl_holder = new LDKRoutingMessageHandlerHolder();
 		impl_holder.held = new RoutingMessageHandler(new bindings.LDKRoutingMessageHandler() {
 			@Override public long handle_node_announcement(byte[] their_node_id, long msg) {
@@ -179,13 +155,6 @@ public class RoutingMessageHandler extends CommonBase {
 				NodeAnnouncement ret = arg.get_next_node_announcement(starting_point_hu_conv);
 				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
-				return result;
-			}
-			@Override public long peer_connected(byte[] their_node_id, long init, boolean inbound) {
-				org.ldk.structs.Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new org.ldk.structs.Init(null, init); }
-				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, init_hu_conv, inbound);
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
@@ -225,27 +194,15 @@ public class RoutingMessageHandler extends CommonBase {
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
-			@Override public long provided_node_features() {
-				NodeFeatures ret = arg.provided_node_features();
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
-			}
-			@Override public long provided_init_features(byte[] their_node_id) {
-				InitFeatures ret = arg.provided_init_features(their_node_id);
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
-			}
-		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
+		}, BaseMessageHandler.new_impl(BaseMessageHandler_impl).bindings_instance);
 		return impl_holder.held;
 	}
 
 	/**
-	 * Gets the underlying MessageSendEventsProvider.
+	 * Gets the underlying BaseMessageHandler.
 	 */
-	public MessageSendEventsProvider get_message_send_events_provider() {
-		MessageSendEventsProvider res = new MessageSendEventsProvider(null, bindings.LDKRoutingMessageHandler_get_MessageSendEventsProvider(this.ptr));
+	public BaseMessageHandler get_base_message_handler() {
+		BaseMessageHandler res = new BaseMessageHandler(null, bindings.LDKRoutingMessageHandler_get_BaseMessageHandler(this.ptr));
 		res.ptrs_to.add(this);
 		return res;
 	}
@@ -265,7 +222,6 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -284,7 +240,6 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -303,7 +258,6 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 
@@ -339,27 +293,6 @@ public class RoutingMessageHandler extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Called when a connection is established with a peer. This can be used to
-	 * perform routing table synchronization using a strategy defined by the
-	 * implementor.
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, boolean inbound) {
-		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init.ptr, inbound);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(their_node_id);
-		Reference.reachabilityFence(init);
-		Reference.reachabilityFence(inbound);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(init); };
 		return ret_hu_conv;
 	}
 
@@ -432,37 +365,6 @@ public class RoutingMessageHandler extends CommonBase {
 		boolean ret = bindings.RoutingMessageHandler_processing_queue_high(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
-	}
-
-	/**
-	 * Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	public NodeFeatures provided_node_features() {
-		long ret = bindings.RoutingMessageHandler_provided_node_features(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	public InitFeatures provided_init_features(byte[] their_node_id) {
-		long ret = bindings.RoutingMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(their_node_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
 	}
 
 }

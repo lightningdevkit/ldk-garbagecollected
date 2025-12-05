@@ -107,6 +107,16 @@ public class UnsignedBolt12Invoice extends CommonBase {
 	}
 
 	/**
+	 * Whether the invoice has expired given the current time as duration since the Unix epoch.
+	 */
+	public boolean is_expired_no_std(long duration_since_epoch) {
+		boolean ret = bindings.UnsignedBolt12Invoice_is_expired_no_std(this.ptr, duration_since_epoch);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * Fallback addresses for paying the invoice on-chain, in order of most-preferred to
 	 * least-preferred.
 	 */

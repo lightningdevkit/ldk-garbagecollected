@@ -57,7 +57,6 @@ public class DelayedPaymentBasepoint extends CommonBase {
 		boolean ret = bindings.DelayedPaymentBasepoint_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -112,6 +111,18 @@ public class DelayedPaymentBasepoint extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(per_commitment_point);
 		return ret;
+	}
+
+	/**
+	 * Build a DelayedPaymentBasepoint from a PublicKey
+	 */
+	public static DelayedPaymentBasepoint from_PublicKey(byte[] f) {
+		long ret = bindings.DelayedPaymentBasepoint_from_PublicKey(InternalUtils.check_arr_len(f, 33));
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.DelayedPaymentBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 	/**

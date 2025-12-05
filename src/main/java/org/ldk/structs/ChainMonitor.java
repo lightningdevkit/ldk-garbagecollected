@@ -43,14 +43,28 @@ public class ChainMonitor extends CommonBase {
 	 * pre-filter blocks or only fetch blocks matching a compact filter. Otherwise, clients may
 	 * always need to fetch full blocks absent another means for determining which blocks contain
 	 * transactions relevant to the watched channels.
+	 * 
+	 * # Note
+	 * `our_peerstorage_encryption_key` must be obtained from [`NodeSigner::get_peer_storage_key`].
+	 * This key is used to encrypt peer storage backups.
+	 * 
+	 * Important**: This key should not be set arbitrarily or changed after initialization. The same key
+	 * is obtained by the [`ChannelManager`] through [`NodeSigner`] to decrypt peer backups.
+	 * Using an inconsistent or incorrect key will result in the inability to decrypt previously encrypted backups.
+	 * 
+	 * [`NodeSigner`]: crate::sign::NodeSigner
+	 * [`NodeSigner::get_peer_storage_key`]: crate::sign::NodeSigner::get_peer_storage_key
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
-	public static ChainMonitor of(org.ldk.structs.Option_FilterZ chain_source, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.FeeEstimator feeest, org.ldk.structs.Persist persister) {
-		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster.ptr, logger.ptr, feeest.ptr, persister.ptr);
+	public static ChainMonitor of(org.ldk.structs.Option_FilterZ chain_source, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.Logger logger, org.ldk.structs.FeeEstimator feeest, org.ldk.structs.Persist persister, org.ldk.structs.EntropySource _entropy_source, org.ldk.structs.PeerStorageKey _our_peerstorage_encryption_key) {
+		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster.ptr, logger.ptr, feeest.ptr, persister.ptr, _entropy_source.ptr, _our_peerstorage_encryption_key.ptr);
 		Reference.reachabilityFence(chain_source);
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(feeest);
 		Reference.reachabilityFence(persister);
+		Reference.reachabilityFence(_entropy_source);
+		Reference.reachabilityFence(_our_peerstorage_encryption_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChainMonitor(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -59,6 +73,7 @@ public class ChainMonitor extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(feeest); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(persister); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(_entropy_source); };
 		return ret_hu_conv;
 	}
 
@@ -94,10 +109,10 @@ public class ChainMonitor extends CommonBase {
 	 * Note that the result holds a mutex over our monitor set, and should not be held
 	 * indefinitely.
 	 */
-	public Result_LockedChannelMonitorNoneZ get_monitor(org.ldk.structs.OutPoint funding_txo) {
-		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo.ptr);
+	public Result_LockedChannelMonitorNoneZ get_monitor(org.ldk.structs.ChannelId channel_id) {
+		long ret = bindings.ChainMonitor_get_monitor(this.ptr, channel_id.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -109,38 +124,38 @@ public class ChainMonitor extends CommonBase {
 	 * Note that [`ChannelMonitor`]s are not removed when a channel is closed as they are always
 	 * monitoring for on-chain state resolutions.
 	 */
-	public TwoTuple_OutPointChannelIdZ[] list_monitors() {
+	public ChannelId[] list_monitors() {
 		long[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_29_len = ret.length;
-		TwoTuple_OutPointChannelIdZ[] ret_conv_29_arr = new TwoTuple_OutPointChannelIdZ[ret_conv_29_len];
-		for (int d = 0; d < ret_conv_29_len; d++) {
-			long ret_conv_29 = ret[d];
-			TwoTuple_OutPointChannelIdZ ret_conv_29_hu_conv = new TwoTuple_OutPointChannelIdZ(null, ret_conv_29);
-			if (ret_conv_29_hu_conv != null) { ret_conv_29_hu_conv.ptrs_to.add(this); };
-			ret_conv_29_arr[d] = ret_conv_29_hu_conv;
+		int ret_conv_11_len = ret.length;
+		ChannelId[] ret_conv_11_arr = new ChannelId[ret_conv_11_len];
+		for (int l = 0; l < ret_conv_11_len; l++) {
+			long ret_conv_11 = ret[l];
+			org.ldk.structs.ChannelId ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new org.ldk.structs.ChannelId(null, ret_conv_11); }
+			if (ret_conv_11_hu_conv != null) { ret_conv_11_hu_conv.ptrs_to.add(this); };
+			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
 		}
-		return ret_conv_29_arr;
+		return ret_conv_11_arr;
 	}
 
 	/**
-	 * Lists the pending updates for each [`ChannelMonitor`] (by `OutPoint` being monitored).
+	 * Lists the pending updates for each [`ChannelMonitor`] (by `ChannelId` being monitored).
 	 * Each `Vec<u64>` contains `update_id`s from [`ChannelMonitor::get_latest_update_id`] for updates
 	 * that have not yet been fully persisted. Note that if a full monitor is persisted all the pending
 	 * monitor updates must be individually marked completed by calling [`ChainMonitor::channel_monitor_updated`].
 	 */
-	public TwoTuple_OutPointCVec_u64ZZ[] list_pending_monitor_updates() {
+	public TwoTuple_ChannelIdCVec_u64ZZ[] list_pending_monitor_updates() {
 		long[] ret = bindings.ChainMonitor_list_pending_monitor_updates(this.ptr);
 		Reference.reachabilityFence(this);
-		int ret_conv_29_len = ret.length;
-		TwoTuple_OutPointCVec_u64ZZ[] ret_conv_29_arr = new TwoTuple_OutPointCVec_u64ZZ[ret_conv_29_len];
-		for (int d = 0; d < ret_conv_29_len; d++) {
-			long ret_conv_29 = ret[d];
-			TwoTuple_OutPointCVec_u64ZZ ret_conv_29_hu_conv = new TwoTuple_OutPointCVec_u64ZZ(null, ret_conv_29);
-			if (ret_conv_29_hu_conv != null) { ret_conv_29_hu_conv.ptrs_to.add(this); };
-			ret_conv_29_arr[d] = ret_conv_29_hu_conv;
+		int ret_conv_30_len = ret.length;
+		TwoTuple_ChannelIdCVec_u64ZZ[] ret_conv_30_arr = new TwoTuple_ChannelIdCVec_u64ZZ[ret_conv_30_len];
+		for (int e = 0; e < ret_conv_30_len; e++) {
+			long ret_conv_30 = ret[e];
+			TwoTuple_ChannelIdCVec_u64ZZ ret_conv_30_hu_conv = new TwoTuple_ChannelIdCVec_u64ZZ(null, ret_conv_30);
+			if (ret_conv_30_hu_conv != null) { ret_conv_30_hu_conv.ptrs_to.add(this); };
+			ret_conv_30_arr[e] = ret_conv_30_hu_conv;
 		}
-		return ret_conv_29_arr;
+		return ret_conv_30_arr;
 	}
 
 	/**
@@ -165,10 +180,10 @@ public class ChainMonitor extends CommonBase {
 	 * Returns an [`APIError::APIMisuseError`] if `funding_txo` does not match any currently
 	 * registered [`ChannelMonitor`]s.
 	 */
-	public Result_NoneAPIErrorZ channel_monitor_updated(org.ldk.structs.OutPoint funding_txo, long completed_update_id) {
-		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo.ptr, completed_update_id);
+	public Result_NoneAPIErrorZ channel_monitor_updated(org.ldk.structs.ChannelId channel_id, long completed_update_id) {
+		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, channel_id.ptr, completed_update_id);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(completed_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
@@ -214,7 +229,7 @@ public class ChainMonitor extends CommonBase {
 	 * 
 	 * Note that monitor_opt (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void signer_unblocked(@Nullable org.ldk.structs.OutPoint monitor_opt) {
+	public void signer_unblocked(@Nullable org.ldk.structs.ChannelId monitor_opt) {
 		bindings.ChainMonitor_signer_unblocked(this.ptr, monitor_opt == null ? 0 : monitor_opt.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(monitor_opt);
@@ -234,6 +249,62 @@ public class ChainMonitor extends CommonBase {
 	public void archive_fully_resolved_channel_monitors() {
 		bindings.ChainMonitor_archive_fully_resolved_channel_monitors(this.ptr);
 		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Loads a [`ChannelMonitor`] which already exists on disk after startup.
+	 * 
+	 * Using this over [`chain::Watch::watch_channel`] avoids re-persisting a [`ChannelMonitor`]
+	 * that hasn't changed, slowing down startup.
+	 * 
+	 * Note that this method *can* be used if additional blocks were replayed against the
+	 * [`ChannelMonitor`] or if a [`ChannelMonitorUpdate`] loaded from disk was replayed such that
+	 * it will replayed on startup, and in general can only *not* be used if you directly accessed
+	 * the [`ChannelMonitor`] and changed its state in some way that will not be replayed again on
+	 * a restart. Such direct access should generally never occur for most LDK-based nodes.
+	 * 
+	 * For [`ChannelMonitor`]s which were last serialized by an LDK version prior to 0.1 this will
+	 * fall back to calling [`chain::Watch::watch_channel`] and persisting the [`ChannelMonitor`].
+	 * See the release notes for LDK 0.1 for more information on this requirement.
+	 * 
+	 * [`ChannelMonitor`]s which do not need to be persisted (i.e. were last written by LDK 0.1 or
+	 * later) will be loaded without persistence and this method will return
+	 * [`ChannelMonitorUpdateStatus::Completed`].
+	 */
+	public Result_ChannelMonitorUpdateStatusNoneZ load_existing_monitor(org.ldk.structs.ChannelId channel_id, org.ldk.structs.ChannelMonitor monitor) {
+		long ret = bindings.ChainMonitor_load_existing_monitor(this.ptr, channel_id.ptr, monitor.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(monitor);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelMonitorUpdateStatusNoneZ ret_hu_conv = Result_ChannelMonitorUpdateStatusNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new BaseMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseMessageHandler must be freed before this_arg is
+	 */
+	public BaseMessageHandler as_BaseMessageHandler() {
+		long ret = bindings.ChainMonitor_as_BaseMessageHandler(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BaseMessageHandler ret_hu_conv = new BaseMessageHandler(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new SendOnlyMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned SendOnlyMessageHandler must be freed before this_arg is
+	 */
+	public SendOnlyMessageHandler as_SendOnlyMessageHandler() {
+		long ret = bindings.ChainMonitor_as_SendOnlyMessageHandler(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		SendOnlyMessageHandler ret_hu_conv = new SendOnlyMessageHandler(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**

@@ -40,23 +40,6 @@ public class BlindedHopFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two BlindedHopFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(org.ldk.structs.BlindedHopFeatures b) {
-		boolean ret = bindings.BlindedHopFeatures_eq(this.ptr, b.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
-		return ret;
-	}
-
-	@Override public boolean equals(Object o) {
-		if (!(o instanceof BlindedHopFeatures)) return false;
-		return this.eq((BlindedHopFeatures)o);
-	}
 	long clone_ptr() {
 		long ret = bindings.BlindedHopFeatures_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -124,7 +107,6 @@ public class BlindedHopFeatures extends CommonBase {
 		boolean ret = bindings.BlindedHopFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -135,7 +117,6 @@ public class BlindedHopFeatures extends CommonBase {
 		long[] ret = bindings.BlindedHopFeatures_required_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 

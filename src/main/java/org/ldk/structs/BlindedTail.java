@@ -24,6 +24,40 @@ public class BlindedTail extends CommonBase {
 	}
 
 	/**
+	 * The list of unblinded Trampoline hops. When using Trampoline, must contain at least one hop.
+	 * 
+	 * Note that the first [`TrampolineHop`] node must also be present as the last [`RouteHop`] node,
+	 * where the [`RouteHop`]'s fee_msat is the fee paid for use of the entire blinded path, including
+	 * any Trampoline hops.
+	 */
+	public TrampolineHop[] get_trampoline_hops() {
+		long[] ret = bindings.BlindedTail_get_trampoline_hops(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_15_len = ret.length;
+		TrampolineHop[] ret_conv_15_arr = new TrampolineHop[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = ret[p];
+			org.ldk.structs.TrampolineHop ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new org.ldk.structs.TrampolineHop(null, ret_conv_15); }
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.add(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
+		}
+		return ret_conv_15_arr;
+	}
+
+	/**
+	 * The list of unblinded Trampoline hops. When using Trampoline, must contain at least one hop.
+	 * 
+	 * Note that the first [`TrampolineHop`] node must also be present as the last [`RouteHop`] node,
+	 * where the [`RouteHop`]'s fee_msat is the fee paid for use of the entire blinded path, including
+	 * any Trampoline hops.
+	 */
+	public void set_trampoline_hops(TrampolineHop[] val) {
+		bindings.BlindedTail_set_trampoline_hops(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * The hops of the [`BlindedPaymentPath`] provided by the recipient.
 	 */
 	public BlindedHop[] get_hops() {
@@ -108,8 +142,9 @@ public class BlindedTail extends CommonBase {
 	/**
 	 * Constructs a new BlindedTail given each field
 	 */
-	public static BlindedTail of(BlindedHop[] hops_arg, byte[] blinding_point_arg, int excess_final_cltv_expiry_delta_arg, long final_value_msat_arg) {
-		long ret = bindings.BlindedTail_new(hops_arg != null ? Arrays.stream(hops_arg).mapToLong(hops_arg_conv_12 -> hops_arg_conv_12.ptr).toArray() : null, InternalUtils.check_arr_len(blinding_point_arg, 33), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
+	public static BlindedTail of(TrampolineHop[] trampoline_hops_arg, BlindedHop[] hops_arg, byte[] blinding_point_arg, int excess_final_cltv_expiry_delta_arg, long final_value_msat_arg) {
+		long ret = bindings.BlindedTail_new(trampoline_hops_arg != null ? Arrays.stream(trampoline_hops_arg).mapToLong(trampoline_hops_arg_conv_15 -> trampoline_hops_arg_conv_15.ptr).toArray() : null, hops_arg != null ? Arrays.stream(hops_arg).mapToLong(hops_arg_conv_12 -> hops_arg_conv_12.ptr).toArray() : null, InternalUtils.check_arr_len(blinding_point_arg, 33), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
+		Reference.reachabilityFence(trampoline_hops_arg);
 		Reference.reachabilityFence(hops_arg);
 		Reference.reachabilityFence(blinding_point_arg);
 		Reference.reachabilityFence(excess_final_cltv_expiry_delta_arg);
@@ -159,7 +194,6 @@ public class BlindedTail extends CommonBase {
 		boolean ret = bindings.BlindedTail_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

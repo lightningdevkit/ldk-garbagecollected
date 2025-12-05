@@ -97,6 +97,16 @@ public class Bolt12Invoice extends CommonBase {
 	}
 
 	/**
+	 * Whether the invoice has expired given the current time as duration since the Unix epoch.
+	 */
+	public boolean is_expired_no_std(long duration_since_epoch) {
+		boolean ret = bindings.Bolt12Invoice_is_expired_no_std(this.ptr, duration_since_epoch);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(duration_since_epoch);
+		return ret;
+	}
+
+	/**
 	 * Fallback addresses for paying the invoice on-chain, in order of most-preferred to
 	 * least-preferred.
 	 */
@@ -448,6 +458,23 @@ public class Bolt12Invoice extends CommonBase {
 	}
 
 	/**
+	 * Returns the [`OfferId`] if this invoice corresponds to an [`Offer`].
+	 * 
+	 * [`Offer`]: crate::offers::offer::Offer
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public OfferId offer_id() {
+		long ret = bindings.Bolt12Invoice_offer_id(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OfferId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OfferId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Verifies that the invoice was for a request or refund created using the given key by
 	 * checking the payer metadata from the invoice request.
 	 * 
@@ -459,7 +486,6 @@ public class Bolt12Invoice extends CommonBase {
 		Reference.reachabilityFence(key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(key); };
 		return ret_hu_conv;
 	}
 
@@ -476,7 +502,18 @@ public class Bolt12Invoice extends CommonBase {
 		Reference.reachabilityFence(key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(key); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the [`TaggedHash`] of the invoice that was signed.
+	 */
+	public TaggedHash tagged_hash() {
+		long ret = bindings.Bolt12Invoice_tagged_hash(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.TaggedHash ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TaggedHash(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

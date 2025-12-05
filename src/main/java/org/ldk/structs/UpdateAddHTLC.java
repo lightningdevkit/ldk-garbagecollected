@@ -189,12 +189,36 @@ public class UpdateAddHTLC extends CommonBase {
 	}
 
 	/**
+	 * Set to `Some` if the sender wants the receiver of this message to hold onto this HTLC until
+	 * receipt of a [`ReleaseHeldHtlc`] onion message from the payment recipient.
+	 * 
+	 * [`ReleaseHeldHtlc`]: crate::onion_message::async_payments::ReleaseHeldHtlc
+	 */
+	public COption_NoneZ get_hold_htlc() {
+		COption_NoneZ ret = bindings.UpdateAddHTLC_get_hold_htlc(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set to `Some` if the sender wants the receiver of this message to hold onto this HTLC until
+	 * receipt of a [`ReleaseHeldHtlc`] onion message from the payment recipient.
+	 * 
+	 * [`ReleaseHeldHtlc`]: crate::onion_message::async_payments::ReleaseHeldHtlc
+	 */
+	public void set_hold_htlc(org.ldk.enums.COption_NoneZ val) {
+		bindings.UpdateAddHTLC_set_hold_htlc(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new UpdateAddHTLC given each field
 	 * 
 	 * Note that blinding_point_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static UpdateAddHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, long amount_msat_arg, byte[] payment_hash_arg, int cltv_expiry_arg, org.ldk.structs.Option_u64Z skimmed_fee_msat_arg, org.ldk.structs.OnionPacket onion_routing_packet_arg, @Nullable byte[] blinding_point_arg) {
-		long ret = bindings.UpdateAddHTLC_new(channel_id_arg.ptr, htlc_id_arg, amount_msat_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), cltv_expiry_arg, skimmed_fee_msat_arg.ptr, onion_routing_packet_arg.ptr, InternalUtils.check_arr_len(blinding_point_arg, 33));
+	public static UpdateAddHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, long amount_msat_arg, byte[] payment_hash_arg, int cltv_expiry_arg, org.ldk.structs.Option_u64Z skimmed_fee_msat_arg, org.ldk.structs.OnionPacket onion_routing_packet_arg, @Nullable byte[] blinding_point_arg, org.ldk.enums.COption_NoneZ hold_htlc_arg) {
+		long ret = bindings.UpdateAddHTLC_new(channel_id_arg.ptr, htlc_id_arg, amount_msat_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), cltv_expiry_arg, skimmed_fee_msat_arg.ptr, onion_routing_packet_arg.ptr, InternalUtils.check_arr_len(blinding_point_arg, 33), hold_htlc_arg);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(htlc_id_arg);
 		Reference.reachabilityFence(amount_msat_arg);
@@ -203,6 +227,7 @@ public class UpdateAddHTLC extends CommonBase {
 		Reference.reachabilityFence(skimmed_fee_msat_arg);
 		Reference.reachabilityFence(onion_routing_packet_arg);
 		Reference.reachabilityFence(blinding_point_arg);
+		Reference.reachabilityFence(hold_htlc_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UpdateAddHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateAddHTLC(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -248,7 +273,6 @@ public class UpdateAddHTLC extends CommonBase {
 		boolean ret = bindings.UpdateAddHTLC_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

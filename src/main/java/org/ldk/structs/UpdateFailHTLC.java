@@ -61,6 +61,32 @@ public class UpdateFailHTLC extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * Optional field for the attribution data that allows the sender to pinpoint the failing node under all conditions
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public AttributionData get_attribution_data() {
+		long ret = bindings.UpdateFailHTLC_get_attribution_data(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AttributionData ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AttributionData(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Optional field for the attribution data that allows the sender to pinpoint the failing node under all conditions
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_attribution_data(@Nullable org.ldk.structs.AttributionData val) {
+		bindings.UpdateFailHTLC_set_attribution_data(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
 	long clone_ptr() {
 		long ret = bindings.UpdateFailHTLC_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -100,7 +126,6 @@ public class UpdateFailHTLC extends CommonBase {
 		boolean ret = bindings.UpdateFailHTLC_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

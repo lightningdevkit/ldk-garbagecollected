@@ -19,6 +19,24 @@ import javax.annotation.Nullable;
  * By using [`Listen::filtered_block_connected`] this interface supports clients fetching the
  * entire header chain and only blocks with matching transaction data using BIP 157 filters or
  * other similar filtering.
+ * 
+ * # Requirements
+ * 
+ * Each block must be connected in chain order with one call to either
+ * [`Listen::block_connected`] or [`Listen::filtered_block_connected`]. If a call to the
+ * [`Filter`] interface was made during block processing and further transaction(s) from the same
+ * block now match the filter, a second call to [`Listen::filtered_block_connected`] should be
+ * made immediately for the same block (prior to any other calls to the [`Listen`] interface).
+ * 
+ * In case of a reorg, you must call [`Listen::blocks_disconnected`] once with information on the
+ * \"fork point\" block, i.e. the highest block that is in both forks. You may call
+ * [`Listen::blocks_disconnected`] multiple times as you walk the chain backwards, but each must
+ * include a fork point block that is before the last.
+ * 
+ * # Object Birthday
+ * 
+ * Note that most implementations take a [`BestBlock`] on construction and blocks only need to be
+ * applied starting from that point.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Listen extends CommonBase {
@@ -57,9 +75,14 @@ public class Listen extends CommonBase {
 		 */
 		void block_connected(byte[] block, int height);
 		/**
-		 * Notifies the listener that a block was removed at the given height.
+		 * Notifies the listener that one or more blocks were removed in anticipation of a reorg.
+		 * 
+		 * The provided [`BestBlock`] is the new best block after disconnecting blocks in the reorg
+		 * but before connecting new ones (i.e. the \"fork point\" block). For backwards compatibility,
+		 * you may instead walk the chain backwards, calling `blocks_disconnected` for each block
+		 * that is disconnected in a reorg.
 		 */
-		void block_disconnected(byte[] header, int height);
+		void blocks_disconnected(BestBlock fork_point_block);
 	}
 	private static class LDKListenHolder { Listen held; }
 	public static Listen new_impl(ListenInterface arg) {
@@ -81,8 +104,10 @@ public class Listen extends CommonBase {
 				arg.block_connected(block, height);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public void block_disconnected(byte[] header, int height) {
-				arg.block_disconnected(header, height);
+			@Override public void blocks_disconnected(long fork_point_block) {
+				org.ldk.structs.BestBlock fork_point_block_hu_conv = null; if (fork_point_block < 0 || fork_point_block > 4096) { fork_point_block_hu_conv = new org.ldk.structs.BestBlock(null, fork_point_block); }
+				if (fork_point_block_hu_conv != null) { fork_point_block_hu_conv.ptrs_to.add(this); };
+				arg.blocks_disconnected(fork_point_block_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 		});
@@ -111,13 +136,17 @@ public class Listen extends CommonBase {
 	}
 
 	/**
-	 * Notifies the listener that a block was removed at the given height.
+	 * Notifies the listener that one or more blocks were removed in anticipation of a reorg.
+	 * 
+	 * The provided [`BestBlock`] is the new best block after disconnecting blocks in the reorg
+	 * but before connecting new ones (i.e. the \"fork point\" block). For backwards compatibility,
+	 * you may instead walk the chain backwards, calling `blocks_disconnected` for each block
+	 * that is disconnected in a reorg.
 	 */
-	public void block_disconnected(byte[] header, int height) {
-		bindings.Listen_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height);
+	public void blocks_disconnected(org.ldk.structs.BestBlock fork_point_block) {
+		bindings.Listen_blocks_disconnected(this.ptr, fork_point_block.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(header);
-		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(fork_point_block);
 	}
 
 }

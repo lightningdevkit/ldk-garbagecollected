@@ -33,7 +33,6 @@ public class SignedRawBolt11Invoice extends CommonBase {
 		boolean ret = bindings.SignedRawBolt11Invoice_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -133,7 +132,7 @@ public class SignedRawBolt11Invoice extends CommonBase {
 
 	/**
 	 * Checks if the signature is valid for the included payee public key or if none exists if it's
-	 * valid for the recovered signature (which should always be true?).
+	 * possible to recover the public key from the signature.
 	 */
 	public boolean check_signature() {
 		boolean ret = bindings.SignedRawBolt11Invoice_check_signature(this.ptr);

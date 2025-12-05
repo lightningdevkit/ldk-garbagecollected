@@ -64,6 +64,29 @@ public class CommitmentTransaction extends CommonBase {
 	}
 
 	/**
+	 * Constructs a new `CommitmentTransaction` from the list of HTLCs and the direct balances.
+	 * 
+	 * All HTLCs MUST be above the dust limit for the channel.
+	 * The broadcaster and countersignatory amounts MUST be either 0 or above dust. If the amount
+	 * is 0, the corresponding output will be omitted from the transaction.
+	 */
+	public static CommitmentTransaction of(long commitment_number, byte[] per_commitment_point, long to_broadcaster_value_sat, long to_countersignatory_value_sat, int feerate_per_kw, HTLCOutputInCommitment[] nondust_htlcs, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
+		long ret = bindings.CommitmentTransaction_new(commitment_number, InternalUtils.check_arr_len(per_commitment_point, 33), to_broadcaster_value_sat, to_countersignatory_value_sat, feerate_per_kw, nondust_htlcs != null ? Arrays.stream(nondust_htlcs).mapToLong(nondust_htlcs_conv_24 -> nondust_htlcs_conv_24.ptr).toArray() : null, channel_parameters.ptr);
+		Reference.reachabilityFence(commitment_number);
+		Reference.reachabilityFence(per_commitment_point);
+		Reference.reachabilityFence(to_broadcaster_value_sat);
+		Reference.reachabilityFence(to_countersignatory_value_sat);
+		Reference.reachabilityFence(feerate_per_kw);
+		Reference.reachabilityFence(nondust_htlcs);
+		Reference.reachabilityFence(channel_parameters);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.CommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentTransaction(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(channel_parameters); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * The backwards-counting commitment number
 	 */
 	public long commitment_number() {
@@ -100,10 +123,13 @@ public class CommitmentTransaction extends CommonBase {
 	}
 
 	/**
-	 * The feerate paid per 1000-weight-unit in this commitment transaction.
+	 * The feerate paid per 1000-weight-unit we negotiated with our
+	 * peer for this commitment transaction. Note that the actual
+	 * feerate of the commitment transaction may be higher than the
+	 * negotiated feerate.
 	 */
-	public int feerate_per_kw() {
-		int ret = bindings.CommitmentTransaction_feerate_per_kw(this.ptr);
+	public int negotiated_feerate_per_kw() {
+		int ret = bindings.CommitmentTransaction_negotiated_feerate_per_kw(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -133,17 +159,13 @@ public class CommitmentTransaction extends CommonBase {
 	 * An external validating signer must call this method before signing
 	 * or using the built transaction.
 	 */
-	public Result_TrustedCommitmentTransactionNoneZ verify(org.ldk.structs.DirectedChannelTransactionParameters channel_parameters, org.ldk.structs.ChannelPublicKeys broadcaster_keys, org.ldk.structs.ChannelPublicKeys countersignatory_keys) {
-		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters.ptr, broadcaster_keys.ptr, countersignatory_keys.ptr);
+	public Result_TrustedCommitmentTransactionNoneZ verify(org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
+		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(channel_parameters);
-		Reference.reachabilityFence(broadcaster_keys);
-		Reference.reachabilityFence(countersignatory_keys);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(channel_parameters); };
-		if (this != null) { this.ptrs_to.add(broadcaster_keys); };
-		if (this != null) { this.ptrs_to.add(countersignatory_keys); };
 		return ret_hu_conv;
 	}
 

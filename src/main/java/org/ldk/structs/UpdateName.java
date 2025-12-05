@@ -97,4 +97,16 @@ public class UpdateName extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Build a UpdateName from a u64
+	 */
+	public static UpdateName from_u64(long f) {
+		long ret = bindings.UpdateName_from_u64(f);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.UpdateName ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateName(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }

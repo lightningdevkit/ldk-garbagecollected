@@ -64,9 +64,11 @@ public class CustomMessageHandler extends CommonBase {
 		/**
 		 * Handle a peer connecting.
 		 * 
-		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-		 * with us. Implementors should be somewhat conservative about doing so, however, as other
-		 * message handlers may still wish to communicate with this peer.
+		 * May return an `Err(())` to indicate that we should immediately disconnect from the peer
+		 * (e.g. because the features they support are not sufficient to communicate with us).
+		 * 
+		 * Note, of course, that other message handlers may wish to communicate with the peer, which
+		 * disconnecting them will prevent.
 		 * 
 		 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
 		 */
@@ -189,9 +191,11 @@ public class CustomMessageHandler extends CommonBase {
 	/**
 	 * Handle a peer connecting.
 	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
+	 * May return an `Err(())` to indicate that we should immediately disconnect from the peer
+	 * (e.g. because the features they support are not sufficient to communicate with us).
+	 * 
+	 * Note, of course, that other message handlers may wish to communicate with the peer, which
+	 * disconnecting them will prevent.
 	 * 
 	 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
 	 */
@@ -203,7 +207,6 @@ public class CustomMessageHandler extends CommonBase {
 		Reference.reachabilityFence(inbound);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
 		return ret_hu_conv;
 	}
 

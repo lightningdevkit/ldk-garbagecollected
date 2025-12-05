@@ -57,8 +57,7 @@ public class ChannelDerivationParameters extends CommonBase {
 	}
 
 	/**
-	 * The necessary channel parameters that need to be provided to the re-derived signer through
-	 * [`ChannelSigner::provide_channel_parameters`].
+	 * The necessary channel parameters that need to be provided to the signer.
 	 */
 	public ChannelTransactionParameters get_transaction_parameters() {
 		long ret = bindings.ChannelDerivationParameters_get_transaction_parameters(this.ptr);
@@ -70,8 +69,7 @@ public class ChannelDerivationParameters extends CommonBase {
 	}
 
 	/**
-	 * The necessary channel parameters that need to be provided to the re-derived signer through
-	 * [`ChannelSigner::provide_channel_parameters`].
+	 * The necessary channel parameters that need to be provided to the signer.
 	 */
 	public void set_transaction_parameters(org.ldk.structs.ChannelTransactionParameters val) {
 		bindings.ChannelDerivationParameters_set_transaction_parameters(this.ptr, val.ptr);
@@ -120,7 +118,6 @@ public class ChannelDerivationParameters extends CommonBase {
 		boolean ret = bindings.ChannelDerivationParameters_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

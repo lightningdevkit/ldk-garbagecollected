@@ -23,6 +23,18 @@ public class AsyncPaymentsMessage extends CommonBase {
 	}
 	static AsyncPaymentsMessage constr_from_ptr(long ptr) {
 		bindings.LDKAsyncPaymentsMessage raw_val = bindings.LDKAsyncPaymentsMessage_ref_from_ptr(ptr);
+		if (raw_val.getClass() == bindings.LDKAsyncPaymentsMessage.OfferPathsRequest.class) {
+			return new OfferPathsRequest(ptr, (bindings.LDKAsyncPaymentsMessage.OfferPathsRequest)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKAsyncPaymentsMessage.OfferPaths.class) {
+			return new OfferPaths(ptr, (bindings.LDKAsyncPaymentsMessage.OfferPaths)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKAsyncPaymentsMessage.ServeStaticInvoice.class) {
+			return new ServeStaticInvoice(ptr, (bindings.LDKAsyncPaymentsMessage.ServeStaticInvoice)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKAsyncPaymentsMessage.StaticInvoicePersisted.class) {
+			return new StaticInvoicePersisted(ptr, (bindings.LDKAsyncPaymentsMessage.StaticInvoicePersisted)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKAsyncPaymentsMessage.HeldHtlcAvailable.class) {
 			return new HeldHtlcAvailable(ptr, (bindings.LDKAsyncPaymentsMessage.HeldHtlcAvailable)raw_val);
 		}
@@ -32,6 +44,69 @@ public class AsyncPaymentsMessage extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * A request from an async recipient for [`BlindedMessagePath`]s, sent to a static invoice
+	 * server.
+	 */
+	public final static class OfferPathsRequest extends AsyncPaymentsMessage {
+		public final org.ldk.structs.OfferPathsRequest offer_paths_request;
+		private OfferPathsRequest(long ptr, bindings.LDKAsyncPaymentsMessage.OfferPathsRequest obj) {
+			super(null, ptr);
+			long offer_paths_request = obj.offer_paths_request;
+			org.ldk.structs.OfferPathsRequest offer_paths_request_hu_conv = null; if (offer_paths_request < 0 || offer_paths_request > 4096) { offer_paths_request_hu_conv = new org.ldk.structs.OfferPathsRequest(null, offer_paths_request); }
+			if (offer_paths_request_hu_conv != null) { offer_paths_request_hu_conv.ptrs_to.add(this); };
+			this.offer_paths_request = offer_paths_request_hu_conv;
+		}
+	}
+	/**
+	 * [`BlindedMessagePath`]s to be included in an async recipient's [`Offer::paths`], sent by a
+	 * static invoice server in response to an [`OfferPathsRequest`].
+	 * 
+	 * [`Offer::paths`]: crate::offers::offer::Offer::paths
+	 */
+	public final static class OfferPaths extends AsyncPaymentsMessage {
+		public final org.ldk.structs.OfferPaths offer_paths;
+		private OfferPaths(long ptr, bindings.LDKAsyncPaymentsMessage.OfferPaths obj) {
+			super(null, ptr);
+			long offer_paths = obj.offer_paths;
+			org.ldk.structs.OfferPaths offer_paths_hu_conv = null; if (offer_paths < 0 || offer_paths > 4096) { offer_paths_hu_conv = new org.ldk.structs.OfferPaths(null, offer_paths); }
+			if (offer_paths_hu_conv != null) { offer_paths_hu_conv.ptrs_to.add(this); };
+			this.offer_paths = offer_paths_hu_conv;
+		}
+	}
+	/**
+	 * A request from an async recipient to a static invoice server that a [`StaticInvoice`] be
+	 * provided in response to [`InvoiceRequest`]s from payers.
+	 * 
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 */
+	public final static class ServeStaticInvoice extends AsyncPaymentsMessage {
+		public final org.ldk.structs.ServeStaticInvoice serve_static_invoice;
+		private ServeStaticInvoice(long ptr, bindings.LDKAsyncPaymentsMessage.ServeStaticInvoice obj) {
+			super(null, ptr);
+			long serve_static_invoice = obj.serve_static_invoice;
+			org.ldk.structs.ServeStaticInvoice serve_static_invoice_hu_conv = null; if (serve_static_invoice < 0 || serve_static_invoice > 4096) { serve_static_invoice_hu_conv = new org.ldk.structs.ServeStaticInvoice(null, serve_static_invoice); }
+			if (serve_static_invoice_hu_conv != null) { serve_static_invoice_hu_conv.ptrs_to.add(this); };
+			this.serve_static_invoice = serve_static_invoice_hu_conv;
+		}
+	}
+	/**
+	 * Confirmation from a static invoice server that a [`StaticInvoice`] was persisted and the
+	 * corresponding [`Offer`] is ready to be used to receive async payments. Sent to an async
+	 * recipient in response to a [`ServeStaticInvoice`] message.
+	 * 
+	 * [`Offer`]: crate::offers::offer::Offer
+	 */
+	public final static class StaticInvoicePersisted extends AsyncPaymentsMessage {
+		public final org.ldk.structs.StaticInvoicePersisted static_invoice_persisted;
+		private StaticInvoicePersisted(long ptr, bindings.LDKAsyncPaymentsMessage.StaticInvoicePersisted obj) {
+			super(null, ptr);
+			long static_invoice_persisted = obj.static_invoice_persisted;
+			org.ldk.structs.StaticInvoicePersisted static_invoice_persisted_hu_conv = null; if (static_invoice_persisted < 0 || static_invoice_persisted > 4096) { static_invoice_persisted_hu_conv = new org.ldk.structs.StaticInvoicePersisted(null, static_invoice_persisted); }
+			if (static_invoice_persisted_hu_conv != null) { static_invoice_persisted_hu_conv.ptrs_to.add(this); };
+			this.static_invoice_persisted = static_invoice_persisted_hu_conv;
+		}
+	}
 	/**
 	 * An HTLC is being held upstream for the often-offline recipient, to be released via
 	 * [`ReleaseHeldHtlc`].
@@ -74,6 +149,54 @@ public class AsyncPaymentsMessage extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OfferPathsRequest-variant AsyncPaymentsMessage
+	 */
+	public static AsyncPaymentsMessage offer_paths_request(org.ldk.structs.OfferPathsRequest a) {
+		long ret = bindings.AsyncPaymentsMessage_offer_paths_request(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OfferPaths-variant AsyncPaymentsMessage
+	 */
+	public static AsyncPaymentsMessage offer_paths(org.ldk.structs.OfferPaths a) {
+		long ret = bindings.AsyncPaymentsMessage_offer_paths(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ServeStaticInvoice-variant AsyncPaymentsMessage
+	 */
+	public static AsyncPaymentsMessage serve_static_invoice(org.ldk.structs.ServeStaticInvoice a) {
+		long ret = bindings.AsyncPaymentsMessage_serve_static_invoice(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new StaticInvoicePersisted-variant AsyncPaymentsMessage
+	 */
+	public static AsyncPaymentsMessage static_invoice_persisted(org.ldk.structs.StaticInvoicePersisted a) {
+		long ret = bindings.AsyncPaymentsMessage_static_invoice_persisted(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

@@ -15,6 +15,10 @@ import javax.annotation.Nullable;
  * [`ChannelMonitor::get_claimable_balances`], calculated with respect to the corresponding on-chain
  * transactions.
  * 
+ * When a channel is spliced, most fields continue to refer to the original pre-splice channel
+ * state until the splice transaction reaches sufficient confirmations to be locked (and we
+ * exchange `splice_locked` messages with our peer). See individual fields for details.
+ * 
  * [`ChannelManager::list_channels`]: crate::ln::channelmanager::ChannelManager::list_channels
  * [`ChannelManager::list_usable_channels`]: crate::ln::channelmanager::ChannelManager::list_usable_channels
  * [`ChainMonitor::get_claimable_balances`]: crate::chain::chainmonitor::ChainMonitor::get_claimable_balances
@@ -30,8 +34,9 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
-	 * The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
-	 * thereafter this is the txid of the funding transaction xor the funding transaction output).
+	 * The channel's ID (prior to initial channel setup this is a random 32 bytes, thereafter it is
+	 * derived from channel funding or key material).
+	 * 
 	 * Note that this means this value is *not* persistent - it can change once during the
 	 * lifetime of the channel.
 	 */
@@ -45,8 +50,9 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
-	 * The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
-	 * thereafter this is the txid of the funding transaction xor the funding transaction output).
+	 * The channel's ID (prior to initial channel setup this is a random 32 bytes, thereafter it is
+	 * derived from channel funding or key material).
+	 * 
 	 * Note that this means this value is *not* persistent - it can change once during the
 	 * lifetime of the channel.
 	 */
@@ -81,6 +87,10 @@ public class ChannelDetails extends CommonBase {
 	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
 	 * our counterparty already.
 	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
+	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
@@ -97,6 +107,10 @@ public class ChannelDetails extends CommonBase {
 	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
 	 * our counterparty already.
 	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
+	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_funding_txo(@Nullable org.ldk.structs.OutPoint val) {
@@ -109,6 +123,10 @@ public class ChannelDetails extends CommonBase {
 	 * The features which this channel operates with. See individual features for more info.
 	 * 
 	 * `None` until negotiation completes and the channel type is finalized.
+	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -127,6 +145,10 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * `None` until negotiation completes and the channel type is finalized.
 	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
+	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_channel_type(@Nullable org.ldk.structs.ChannelTypeFeatures val) {
@@ -144,6 +166,10 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * For channels with [`confirmations_required`] set to `Some(0)`, [`outbound_scid_alias`] may
 	 * be used in place of this in outbound routes. See [`get_outbound_payment_scid`].
+	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
 	 * 
 	 * [`inbound_scid_alias`]: Self::inbound_scid_alias
 	 * [`outbound_scid_alias`]: Self::outbound_scid_alias
@@ -170,6 +196,10 @@ public class ChannelDetails extends CommonBase {
 	 * For channels with [`confirmations_required`] set to `Some(0)`, [`outbound_scid_alias`] may
 	 * be used in place of this in outbound routes. See [`get_outbound_payment_scid`].
 	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
+	 * 
 	 * [`inbound_scid_alias`]: Self::inbound_scid_alias
 	 * [`outbound_scid_alias`]: Self::outbound_scid_alias
 	 * [`get_inbound_payment_scid`]: Self::get_inbound_payment_scid
@@ -190,6 +220,10 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * This will be `None` as long as the channel is not available for routing outbound payments.
 	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
+	 * 
 	 * [`short_channel_id`]: Self::short_channel_id
 	 * [`confirmations_required`]: Self::confirmations_required
 	 */
@@ -209,6 +243,10 @@ public class ChannelDetails extends CommonBase {
 	 * `Some(0)`).
 	 * 
 	 * This will be `None` as long as the channel is not available for routing outbound payments.
+	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
 	 * 
 	 * [`short_channel_id`]: Self::short_channel_id
 	 * [`confirmations_required`]: Self::confirmations_required
@@ -258,6 +296,10 @@ public class ChannelDetails extends CommonBase {
 
 	/**
 	 * The value, in satoshis, of this channel as appears in the funding output
+	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
 	 */
 	public long get_channel_value_satoshis() {
 		long ret = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
@@ -267,6 +309,10 @@ public class ChannelDetails extends CommonBase {
 
 	/**
 	 * The value, in satoshis, of this channel as appears in the funding output
+	 * 
+	 * When a channel is spliced, this continues to refer to the original pre-splice channel
+	 * state until the splice transaction reaches sufficient confirmations to be locked (and we
+	 * exchange `splice_locked` messages with our peer).
 	 */
 	public void set_channel_value_satoshis(long val) {
 		bindings.ChannelDetails_set_channel_value_satoshis(this.ptr, val);
@@ -842,14 +888,49 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * The witness script that is used to lock the channel's funding output to commitment
+	 * transactions.
+	 * 
+	 * When a channel is spliced, this continues to refer to the original funding output (which
+	 * was spent by the splice transaction) until the splice transaction reached sufficient
+	 * confirmations to be locked (and we exchange `splice_locked` messages with our peer).
+	 * 
+	 * This field will be `None` for objects serialized with LDK versions prior to 0.2.0.
+	 */
+	public Option_CVec_u8ZZ get_funding_redeem_script() {
+		long ret = bindings.ChannelDetails_get_funding_redeem_script(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_CVec_u8ZZ ret_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The witness script that is used to lock the channel's funding output to commitment
+	 * transactions.
+	 * 
+	 * When a channel is spliced, this continues to refer to the original funding output (which
+	 * was spent by the splice transaction) until the splice transaction reached sufficient
+	 * confirmations to be locked (and we exchange `splice_locked` messages with our peer).
+	 * 
+	 * This field will be `None` for objects serialized with LDK versions prior to 0.2.0.
+	 */
+	public void set_funding_redeem_script(org.ldk.structs.Option_CVec_u8ZZ val) {
+		bindings.ChannelDetails_set_funding_redeem_script(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelDetails given each field
 	 * 
 	 * Note that funding_txo_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 * Note that channel_type_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 * Note that config_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static ChannelDetails of(org.ldk.structs.ChannelId channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, @Nullable org.ldk.structs.OutPoint funding_txo_arg, @Nullable org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, org.ldk.structs.Option_u32Z feerate_sat_per_1000_weight_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long next_outbound_htlc_minimum_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, org.ldk.structs.Option_ChannelShutdownStateZ channel_shutdown_state_arg, boolean is_usable_arg, boolean is_announced_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, @Nullable org.ldk.structs.ChannelConfig config_arg, InboundHTLCDetails[] pending_inbound_htlcs_arg, OutboundHTLCDetails[] pending_outbound_htlcs_arg) {
-		long ret = bindings.ChannelDetails_new(channel_id_arg.ptr, counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), feerate_sat_per_1000_weight_arg.ptr, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, next_outbound_htlc_minimum_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, channel_shutdown_state_arg.ptr, is_usable_arg, is_announced_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr, pending_inbound_htlcs_arg != null ? Arrays.stream(pending_inbound_htlcs_arg).mapToLong(pending_inbound_htlcs_arg_conv_20 -> pending_inbound_htlcs_arg_conv_20.ptr).toArray() : null, pending_outbound_htlcs_arg != null ? Arrays.stream(pending_outbound_htlcs_arg).mapToLong(pending_outbound_htlcs_arg_conv_21 -> pending_outbound_htlcs_arg_conv_21.ptr).toArray() : null);
+	public static ChannelDetails of(org.ldk.structs.ChannelId channel_id_arg, org.ldk.structs.ChannelCounterparty counterparty_arg, @Nullable org.ldk.structs.OutPoint funding_txo_arg, @Nullable org.ldk.structs.ChannelTypeFeatures channel_type_arg, org.ldk.structs.Option_u64Z short_channel_id_arg, org.ldk.structs.Option_u64Z outbound_scid_alias_arg, org.ldk.structs.Option_u64Z inbound_scid_alias_arg, long channel_value_satoshis_arg, org.ldk.structs.Option_u64Z unspendable_punishment_reserve_arg, org.ldk.util.UInt128 user_channel_id_arg, org.ldk.structs.Option_u32Z feerate_sat_per_1000_weight_arg, long outbound_capacity_msat_arg, long next_outbound_htlc_limit_msat_arg, long next_outbound_htlc_minimum_msat_arg, long inbound_capacity_msat_arg, org.ldk.structs.Option_u32Z confirmations_required_arg, org.ldk.structs.Option_u32Z confirmations_arg, org.ldk.structs.Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_channel_ready_arg, org.ldk.structs.Option_ChannelShutdownStateZ channel_shutdown_state_arg, boolean is_usable_arg, boolean is_announced_arg, org.ldk.structs.Option_u64Z inbound_htlc_minimum_msat_arg, org.ldk.structs.Option_u64Z inbound_htlc_maximum_msat_arg, @Nullable org.ldk.structs.ChannelConfig config_arg, InboundHTLCDetails[] pending_inbound_htlcs_arg, OutboundHTLCDetails[] pending_outbound_htlcs_arg, org.ldk.structs.Option_CVec_u8ZZ funding_redeem_script_arg) {
+		long ret = bindings.ChannelDetails_new(channel_id_arg.ptr, counterparty_arg.ptr, funding_txo_arg == null ? 0 : funding_txo_arg.ptr, channel_type_arg == null ? 0 : channel_type_arg.ptr, short_channel_id_arg.ptr, outbound_scid_alias_arg.ptr, inbound_scid_alias_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg.getLEBytes(), feerate_sat_per_1000_weight_arg.ptr, outbound_capacity_msat_arg, next_outbound_htlc_limit_msat_arg, next_outbound_htlc_minimum_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, confirmations_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_channel_ready_arg, channel_shutdown_state_arg.ptr, is_usable_arg, is_announced_arg, inbound_htlc_minimum_msat_arg.ptr, inbound_htlc_maximum_msat_arg.ptr, config_arg == null ? 0 : config_arg.ptr, pending_inbound_htlcs_arg != null ? Arrays.stream(pending_inbound_htlcs_arg).mapToLong(pending_inbound_htlcs_arg_conv_20 -> pending_inbound_htlcs_arg_conv_20.ptr).toArray() : null, pending_outbound_htlcs_arg != null ? Arrays.stream(pending_outbound_htlcs_arg).mapToLong(pending_outbound_htlcs_arg_conv_21 -> pending_outbound_htlcs_arg_conv_21.ptr).toArray() : null, funding_redeem_script_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(counterparty_arg);
 		Reference.reachabilityFence(funding_txo_arg);
@@ -878,6 +959,7 @@ public class ChannelDetails extends CommonBase {
 		Reference.reachabilityFence(config_arg);
 		Reference.reachabilityFence(pending_inbound_htlcs_arg);
 		Reference.reachabilityFence(pending_outbound_htlcs_arg);
+		Reference.reachabilityFence(funding_redeem_script_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelDetails ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelDetails(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -934,6 +1016,22 @@ public class ChannelDetails extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the funding output for this channel, if available.
+	 * 
+	 * When a channel is spliced, this continues to refer to the original funding output (which
+	 * was spent by the splice transaction) until the splice transaction reaches sufficient
+	 * confirmations to be locked (and we exchange `splice_locked` messages with our peer).
+	 */
+	public Option_TxOutZ get_funding_output() {
+		long ret = bindings.ChannelDetails_get_funding_output(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_TxOutZ ret_hu_conv = org.ldk.structs.Option_TxOutZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

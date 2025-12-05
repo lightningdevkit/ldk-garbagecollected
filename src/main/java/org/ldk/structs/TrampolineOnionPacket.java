@@ -148,7 +148,6 @@ public class TrampolineOnionPacket extends CommonBase {
 		boolean ret = bindings.TrampolineOnionPacket_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -163,6 +162,17 @@ public class TrampolineOnionPacket extends CommonBase {
 		byte[] ret = bindings.TrampolineOnionPacket_write(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Read a TrampolineOnionPacket from a byte array, created by TrampolineOnionPacket_write
+	 */
+	public static Result_TrampolineOnionPacketDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.TrampolineOnionPacket_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_TrampolineOnionPacketDecodeErrorZ ret_hu_conv = Result_TrampolineOnionPacketDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

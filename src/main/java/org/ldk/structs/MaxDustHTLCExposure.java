@@ -70,12 +70,19 @@ public class MaxDustHTLCExposure extends CommonBase {
 	 * on HTLC outputs means your channel may be subject to more dust exposure in the event of
 	 * increases in fee rate.
 	 * 
+	 * Note that because zero-commitment-fee anchor channels do not allow for feerate updates (and
+	 * thus never experience dust exposure changes due to feerate shifts, resulting in no
+	 * force-closes due to dust exposure limits), such channels will calculate their maximum
+	 * dust exposure using a constant feerate of 250 sat/KW when using this variant.
+	 * See [`ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments`] to enable such channels.
+	 * 
 	 * # Backwards Compatibility
 	 * This variant only became available in LDK 0.0.116, so if you downgrade to a prior version
 	 * by default this will be set to a [`Self::FixedLimitMsat`] of 5,000,000 msat.
 	 * 
 	 * [`FeeEstimator`]: crate::chain::chaininterface::FeeEstimator
 	 * [`ConfirmationTarget::MaximumFeeEstimate`]: crate::chain::chaininterface::ConfirmationTarget::MaximumFeeEstimate
+	 * [`ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments`]: ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments
 	 */
 	public final static class FeeRateMultiplier extends MaxDustHTLCExposure {
 		public final long fee_rate_multiplier;

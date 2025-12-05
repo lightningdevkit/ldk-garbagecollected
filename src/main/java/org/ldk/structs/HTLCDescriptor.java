@@ -233,7 +233,6 @@ public class HTLCDescriptor extends CommonBase {
 		boolean ret = bindings.HTLCDescriptor_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -329,20 +328,6 @@ public class HTLCDescriptor extends CommonBase {
 		Reference.reachabilityFence(signature);
 		Reference.reachabilityFence(witness_script);
 		return ret;
-	}
-
-	/**
-	 * Derives the channel signer required to sign the HTLC input.
-	 */
-	public EcdsaChannelSigner derive_channel_signer(org.ldk.structs.SignerProvider signer_provider) {
-		long ret = bindings.HTLCDescriptor_derive_channel_signer(this.ptr, signer_provider.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(signer_provider);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(signer_provider); };
-		return ret_hu_conv;
 	}
 
 }

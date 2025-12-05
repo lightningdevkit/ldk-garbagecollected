@@ -64,28 +64,33 @@ public class OnionMessagePath extends CommonBase {
 	/**
 	 * Addresses that may be used to connect to [`OnionMessagePath::first_node`].
 	 * 
-	 * Only needs to be set if a connection to the node is required. [`OnionMessenger`] may use
-	 * this to initiate such a connection.
+	 * Only needs to be filled in if a connection to the node is required and it is not a known peer.
+	 * [`OnionMessenger`] may use this to initiate such a connection.
 	 * 
 	 * Returns a copy of the field.
 	 */
-	public Option_CVec_SocketAddressZZ get_first_node_addresses() {
-		long ret = bindings.OnionMessagePath_get_first_node_addresses(this.ptr);
+	public SocketAddress[] get_first_node_addresses() {
+		long[] ret = bindings.OnionMessagePath_get_first_node_addresses(this.ptr);
 		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_CVec_SocketAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_SocketAddressZZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
+		int ret_conv_15_len = ret.length;
+		SocketAddress[] ret_conv_15_arr = new SocketAddress[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = ret[p];
+			org.ldk.structs.SocketAddress ret_conv_15_hu_conv = org.ldk.structs.SocketAddress.constr_from_ptr(ret_conv_15);
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.add(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
+		}
+		return ret_conv_15_arr;
 	}
 
 	/**
 	 * Addresses that may be used to connect to [`OnionMessagePath::first_node`].
 	 * 
-	 * Only needs to be set if a connection to the node is required. [`OnionMessenger`] may use
-	 * this to initiate such a connection.
+	 * Only needs to be filled in if a connection to the node is required and it is not a known peer.
+	 * [`OnionMessenger`] may use this to initiate such a connection.
 	 */
-	public void set_first_node_addresses(org.ldk.structs.Option_CVec_SocketAddressZZ val) {
-		bindings.OnionMessagePath_set_first_node_addresses(this.ptr, val.ptr);
+	public void set_first_node_addresses(SocketAddress[] val) {
+		bindings.OnionMessagePath_set_first_node_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -93,8 +98,8 @@ public class OnionMessagePath extends CommonBase {
 	/**
 	 * Constructs a new OnionMessagePath given each field
 	 */
-	public static OnionMessagePath of(byte[][] intermediate_nodes_arg, org.ldk.structs.Destination destination_arg, org.ldk.structs.Option_CVec_SocketAddressZZ first_node_addresses_arg) {
-		long ret = bindings.OnionMessagePath_new(intermediate_nodes_arg != null ? Arrays.stream(intermediate_nodes_arg).map(intermediate_nodes_arg_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)).toArray(byte[][]::new) : null, destination_arg.ptr, first_node_addresses_arg.ptr);
+	public static OnionMessagePath of(byte[][] intermediate_nodes_arg, org.ldk.structs.Destination destination_arg, SocketAddress[] first_node_addresses_arg) {
+		long ret = bindings.OnionMessagePath_new(intermediate_nodes_arg != null ? Arrays.stream(intermediate_nodes_arg).map(intermediate_nodes_arg_conv_8 -> InternalUtils.check_arr_len(intermediate_nodes_arg_conv_8, 33)).toArray(byte[][]::new) : null, destination_arg.ptr, first_node_addresses_arg != null ? Arrays.stream(first_node_addresses_arg).mapToLong(first_node_addresses_arg_conv_15 -> first_node_addresses_arg_conv_15.ptr).toArray() : null);
 		Reference.reachabilityFence(intermediate_nodes_arg);
 		Reference.reachabilityFence(destination_arg);
 		Reference.reachabilityFence(first_node_addresses_arg);

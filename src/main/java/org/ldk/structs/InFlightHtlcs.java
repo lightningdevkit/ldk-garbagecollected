@@ -58,7 +58,6 @@ public class InFlightHtlcs extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(payer_node_id);
-		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
@@ -72,8 +71,6 @@ public class InFlightHtlcs extends CommonBase {
 		Reference.reachabilityFence(target);
 		Reference.reachabilityFence(channel_scid);
 		Reference.reachabilityFence(used_msat);
-		if (this != null) { this.ptrs_to.add(source); };
-		if (this != null) { this.ptrs_to.add(target); };
 	}
 
 	/**
@@ -89,8 +86,6 @@ public class InFlightHtlcs extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(source); };
-		if (this != null) { this.ptrs_to.add(target); };
 		return ret_hu_conv;
 	}
 

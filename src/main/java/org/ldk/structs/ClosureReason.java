@@ -54,6 +54,9 @@ public class ClosureReason extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel.class) {
 			return new CounterpartyCoopClosedUnfundedChannel(ptr, (bindings.LDKClosureReason.CounterpartyCoopClosedUnfundedChannel)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKClosureReason.LocallyCoopClosedUnfundedChannel.class) {
+			return new LocallyCoopClosedUnfundedChannel(ptr, (bindings.LDKClosureReason.LocallyCoopClosedUnfundedChannel)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKClosureReason.FundingBatchClosure.class) {
 			return new FundingBatchClosure(ptr, (bindings.LDKClosureReason.FundingBatchClosure)raw_val);
 		}
@@ -80,7 +83,7 @@ public class ClosureReason extends CommonBase {
 		 * a security vulnerability in the terminal emulator or the logging subsystem.
 		 * To be safe, use `Display` on `UntrustedString`
 		 * 
-		 * [`UntrustedString`]: crate::util::string::UntrustedString
+		 * [`UntrustedString`]: crate::types::string::UntrustedString
 		*/
 		public final org.ldk.structs.UntrustedString peer_msg;
 		private CounterpartyForceClosed(long ptr, bindings.LDKClosureReason.CounterpartyForceClosed obj) {
@@ -92,32 +95,42 @@ public class ClosureReason extends CommonBase {
 		}
 	}
 	/**
-	 * Closure generated from [`ChannelManager::force_close_channel`], called by the user.
+	 * Closure generated from [`ChannelManager::force_close_broadcasting_latest_txn`] or
+	 * [`ChannelManager::force_close_all_channels_broadcasting_latest_txn`], called by the user.
 	 * 
-	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel.
+	 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn
+	 * [`ChannelManager::force_close_all_channels_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_all_channels_broadcasting_latest_txn
 	 */
 	public final static class HolderForceClosed extends ClosureReason {
 		/**
 		 * Whether or not the latest transaction was broadcasted when the channel was force
 		 * closed.
 		 * 
-		 * Channels closed using [`ChannelManager::force_close_broadcasting_latest_txn`] will have
-		 * this field set to true, whereas channels closed using [`ChannelManager::force_close_without_broadcasting_txn`]
-		 * or force-closed prior to being funded will have this field set to false.
+		 * This will be set to `Some(true)` for any channels closed after their funding
+		 * transaction was (or might have been) broadcasted, and `Some(false)` for any channels
+		 * closed prior to their funding transaction being broadcasted.
 		 * 
 		 * This will be `None` for objects generated or written by LDK 0.0.123 and
 		 * earlier.
-		 * 
-		 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn.
-		 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn.
 		*/
 		public final org.ldk.structs.Option_boolZ broadcasted_latest_txn;
+		/**
+		 * The error message provided to [`ChannelManager::force_close_broadcasting_latest_txn`] or
+		 * [`ChannelManager::force_close_all_channels_broadcasting_latest_txn`].
+		 * 
+		 * This will be the empty string for objects generated or written by LDK 0.1 and earlier.
+		 * 
+		 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn
+		 * [`ChannelManager::force_close_all_channels_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_all_channels_broadcasting_latest_txn
+		*/
+		public final java.lang.String message;
 		private HolderForceClosed(long ptr, bindings.LDKClosureReason.HolderForceClosed obj) {
 			super(null, ptr);
 			long broadcasted_latest_txn = obj.broadcasted_latest_txn;
 			org.ldk.structs.Option_boolZ broadcasted_latest_txn_hu_conv = org.ldk.structs.Option_boolZ.constr_from_ptr(broadcasted_latest_txn);
 			if (broadcasted_latest_txn_hu_conv != null) { broadcasted_latest_txn_hu_conv.ptrs_to.add(this); };
 			this.broadcasted_latest_txn = broadcasted_latest_txn_hu_conv;
+			this.message = obj.message;
 		}
 	}
 	/**
@@ -164,7 +177,8 @@ public class ClosureReason extends CommonBase {
 		}
 	}
 	/**
-	 * The funding transaction failed to confirm in a timely manner on an inbound channel.
+	 * The funding transaction failed to confirm in a timely manner on an inbound channel or the
+	 * counterparty failed to fund the channel in a timely manner.
 	 */
 	public final static class FundingTimedOut extends ClosureReason {
 		private FundingTimedOut(long ptr, bindings.LDKClosureReason.FundingTimedOut obj) {
@@ -223,6 +237,18 @@ public class ClosureReason extends CommonBase {
 		}
 	}
 	/**
+	 * We requested a cooperative close of a channel that had not been funded yet.
+	 * The channel has been immediately closed.
+	 * 
+	 * Note that events containing this variant will be lost on downgrade to a version of LDK
+	 * prior to 0.2.
+	 */
+	public final static class LocallyCoopClosedUnfundedChannel extends ClosureReason {
+		private LocallyCoopClosedUnfundedChannel(long ptr, bindings.LDKClosureReason.LocallyCoopClosedUnfundedChannel obj) {
+			super(null, ptr);
+		}
+	}
+	/**
 	 * Another channel in the same funding batch closed before the funding transaction
 	 * was ready to be broadcast.
 	 */
@@ -235,8 +261,18 @@ public class ClosureReason extends CommonBase {
 	 * One of our HTLCs timed out in a channel, causing us to force close the channel.
 	 */
 	public final static class HTLCsTimedOut extends ClosureReason {
+		/**
+		 * The payment hash of an HTLC that timed out.
+		 * 
+		 * Will be `None` for any event serialized by LDK prior to 0.2.
+		*/
+		public final org.ldk.structs.Option_ThirtyTwoBytesZ payment_hash;
 		private HTLCsTimedOut(long ptr, bindings.LDKClosureReason.HTLCsTimedOut obj) {
 			super(null, ptr);
+			long payment_hash = obj.payment_hash;
+			org.ldk.structs.Option_ThirtyTwoBytesZ payment_hash_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(payment_hash);
+			if (payment_hash_hu_conv != null) { payment_hash_hu_conv.ptrs_to.add(this); };
+			this.payment_hash = payment_hash_hu_conv;
 		}
 	}
 	/**
@@ -298,9 +334,10 @@ public class ClosureReason extends CommonBase {
 	/**
 	 * Utility method to constructs a new HolderForceClosed-variant ClosureReason
 	 */
-	public static ClosureReason holder_force_closed(org.ldk.structs.Option_boolZ broadcasted_latest_txn) {
-		long ret = bindings.ClosureReason_holder_force_closed(broadcasted_latest_txn.ptr);
+	public static ClosureReason holder_force_closed(org.ldk.structs.Option_boolZ broadcasted_latest_txn, java.lang.String message) {
+		long ret = bindings.ClosureReason_holder_force_closed(broadcasted_latest_txn.ptr, message);
 		Reference.reachabilityFence(broadcasted_latest_txn);
+		Reference.reachabilityFence(message);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -408,6 +445,17 @@ public class ClosureReason extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new LocallyCoopClosedUnfundedChannel-variant ClosureReason
+	 */
+	public static ClosureReason locally_coop_closed_unfunded_channel() {
+		long ret = bindings.ClosureReason_locally_coop_closed_unfunded_channel();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new FundingBatchClosure-variant ClosureReason
 	 */
 	public static ClosureReason funding_batch_closure() {
@@ -421,8 +469,9 @@ public class ClosureReason extends CommonBase {
 	/**
 	 * Utility method to constructs a new HTLCsTimedOut-variant ClosureReason
 	 */
-	public static ClosureReason htlcs_timed_out() {
-		long ret = bindings.ClosureReason_htlcs_timed_out();
+	public static ClosureReason htlcs_timed_out(org.ldk.structs.Option_ThirtyTwoBytesZ payment_hash) {
+		long ret = bindings.ClosureReason_htlcs_timed_out(payment_hash.ptr);
+		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

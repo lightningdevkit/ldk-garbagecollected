@@ -106,16 +106,18 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * it is an output from an old state which we broadcast (which should never happen).
 	 * 
 	 * To derive the delayed payment key which is used to sign this input, you must pass the
-	 * holder [`InMemorySigner::delayed_payment_base_key`] (i.e., the private key which corresponds to the
-	 * [`ChannelPublicKeys::delayed_payment_basepoint`] in [`ChannelSigner::pubkeys`]) and the provided
-	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to [`chan_utils::derive_private_key`]. The DelayedPaymentKey can be
-	 * generated without the secret key using [`DelayedPaymentKey::from_basepoint`] and only the
-	 * [`ChannelPublicKeys::delayed_payment_basepoint`] which appears in [`ChannelSigner::pubkeys`].
+	 * holder [`InMemorySigner::delayed_payment_base_key`] (i.e., the private key which
+	 * corresponds to the [`ChannelPublicKeys::delayed_payment_basepoint`] in
+	 * [`ChannelSigner::pubkeys`]) and the provided
+	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to
+	 * [`chan_utils::derive_private_key`]. The DelayedPaymentKey can be generated without the
+	 * secret key using [`DelayedPaymentKey::from_basepoint`] and only the
+	 * [`ChannelPublicKeys::delayed_payment_basepoint`] which appears in
+	 * [`ChannelSigner::pubkeys`].
 	 * 
 	 * To derive the [`DelayedPaymentOutputDescriptor::revocation_pubkey`] provided here (which is
 	 * used in the witness script generation), you must pass the counterparty
-	 * [`ChannelPublicKeys::revocation_basepoint`] (which appears in the call to
-	 * [`ChannelSigner::provide_channel_parameters`]) and the provided
+	 * [`ChannelPublicKeys::revocation_basepoint`] and the provided
 	 * [`DelayedPaymentOutputDescriptor::per_commitment_point`] to
 	 * [`RevocationKey`].
 	 * 

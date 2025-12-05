@@ -35,10 +35,6 @@ public enum Bolt11SemanticError {
 	 */
 	LDKBolt11SemanticError_InvalidFeatures,
 	/**
-	 * The recovery id doesn't fit the signature/pub key
-	 */
-	LDKBolt11SemanticError_InvalidRecoveryId,
-	/**
 	 * The invoice's signature is invalid
 	 */
 	LDKBolt11SemanticError_InvalidSignature,

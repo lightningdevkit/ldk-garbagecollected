@@ -81,7 +81,6 @@ public class Verification extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(nonce);
 		Reference.reachabilityFence(expanded_key);
-		if (this != null) { this.ptrs_to.add(expanded_key); };
 		return ret;
 	}
 
@@ -96,7 +95,6 @@ public class Verification extends CommonBase {
 		Reference.reachabilityFence(expanded_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(expanded_key); };
 		return ret_hu_conv;
 	}
 

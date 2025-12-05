@@ -81,7 +81,6 @@ public class BlindedPaymentPath extends CommonBase {
 		boolean ret = bindings.BlindedPaymentPath_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -108,7 +107,6 @@ public class BlindedPaymentPath extends CommonBase {
 	 * Create a blinded path for a payment, to be forwarded along `intermediate_nodes`.
 	 * 
 	 * Errors if:
-	 * a provided node id is invalid
 	 * [`BlindedPayInfo`] calculation results in an integer overflow
 	 * any unknown features are required in the provided [`ForwardTlvs`]
 	 */
@@ -199,6 +197,29 @@ public class BlindedPaymentPath extends CommonBase {
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(node_signer); };
 		if (this != null) { this.ptrs_to.add(node_id_lookup); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Builds a new [`BlindedPaymentPath`] from its constituent parts.
+	 * 
+	 * Useful when reconstructing a blinded path from previously serialized components.
+	 * 
+	 * Parameters:
+	 * `introduction_node_id`: The public key of the introduction node in the path.
+	 * `blinding_point`: The public key used for blinding the path.
+	 * `blinded_hops`: The encrypted routing information for each hop in the path.
+	 * `payinfo`: The [`BlindedPayInfo`] for the blinded path.
+	 */
+	public static BlindedPaymentPath from_blinded_path_and_payinfo(byte[] introduction_node_id, byte[] blinding_point, BlindedHop[] blinded_hops, org.ldk.structs.BlindedPayInfo payinfo) {
+		long ret = bindings.BlindedPaymentPath_from_blinded_path_and_payinfo(InternalUtils.check_arr_len(introduction_node_id, 33), InternalUtils.check_arr_len(blinding_point, 33), blinded_hops != null ? Arrays.stream(blinded_hops).mapToLong(blinded_hops_conv_12 -> blinded_hops_conv_12.ptr).toArray() : null, payinfo.ptr);
+		Reference.reachabilityFence(introduction_node_id);
+		Reference.reachabilityFence(blinding_point);
+		Reference.reachabilityFence(blinded_hops);
+		Reference.reachabilityFence(payinfo);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedPaymentPath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedPaymentPath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

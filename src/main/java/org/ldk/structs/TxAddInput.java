@@ -64,23 +64,23 @@ public class TxAddInput extends CommonBase {
 	}
 
 	/**
-	 * Serialized transaction that contains the output this input spends to verify that it is non
-	 * malleable.
+	 * Serialized transaction that contains the output this input spends to verify that it is
+	 * non-malleable. Omitted for shared input.
 	 */
-	public TransactionU16LenLimited get_prevtx() {
+	public Option_TransactionZ get_prevtx() {
 		long ret = bindings.TxAddInput_get_prevtx(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.TransactionU16LenLimited ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TransactionU16LenLimited(null, ret); }
+		org.ldk.structs.Option_TransactionZ ret_hu_conv = org.ldk.structs.Option_TransactionZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Serialized transaction that contains the output this input spends to verify that it is non
-	 * malleable.
+	 * Serialized transaction that contains the output this input spends to verify that it is
+	 * non-malleable. Omitted for shared input.
 	 */
-	public void set_prevtx(org.ldk.structs.TransactionU16LenLimited val) {
+	public void set_prevtx(org.ldk.structs.Option_TransactionZ val) {
 		bindings.TxAddInput_set_prevtx(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -146,7 +146,7 @@ public class TxAddInput extends CommonBase {
 	/**
 	 * Constructs a new TxAddInput given each field
 	 */
-	public static TxAddInput of(org.ldk.structs.ChannelId channel_id_arg, long serial_id_arg, org.ldk.structs.TransactionU16LenLimited prevtx_arg, int prevtx_out_arg, int sequence_arg, org.ldk.structs.Option_ThirtyTwoBytesZ shared_input_txid_arg) {
+	public static TxAddInput of(org.ldk.structs.ChannelId channel_id_arg, long serial_id_arg, org.ldk.structs.Option_TransactionZ prevtx_arg, int prevtx_out_arg, int sequence_arg, org.ldk.structs.Option_ThirtyTwoBytesZ shared_input_txid_arg) {
 		long ret = bindings.TxAddInput_new(channel_id_arg.ptr, serial_id_arg, prevtx_arg.ptr, prevtx_out_arg, sequence_arg, shared_input_txid_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(serial_id_arg);
@@ -199,7 +199,6 @@ public class TxAddInput extends CommonBase {
 		boolean ret = bindings.TxAddInput_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
