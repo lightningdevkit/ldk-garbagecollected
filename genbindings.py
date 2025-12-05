@@ -907,20 +907,26 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             fn_defn = owned_fn_defn
             write_c("static inline " + fn_defn + "{\n")
             if check_sfx is not None:
-                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+                write_c("\tCHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
             write_c("\treturn " + field_ty.rust_obj.replace("LDK", "") + "_clone(&" + accessor[0] + "owner" + accessor[1] + ");\n")
+        elif field_decl == "void":
+            fn_defn = owned_fn_defn
+            write_c("static inline " + fn_defn + "{\n")
+            if check_sfx is not None:
+                write_c("\tCHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+            holds_ref = True
         elif field_ty.arr_len is not None or field_ty.is_native_primitive or field_ty.rust_obj in unitary_enums:
             fn_defn = owned_fn_defn
             write_c("static inline " + fn_defn + "{\n")
             if check_sfx is not None:
-                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+                write_c("\tCHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
             write_c("\treturn " + accessor[0] + "owner" + accessor[1] + ";\n")
             holds_ref = True
         else:
             fn_defn = ptr_fn_defn
             write_c("static inline " + fn_defn + "{\n")
             if check_sfx is not None:
-                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+                write_c("\tCHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
             write_c("\treturn &" + accessor[0] + "owner" + accessor[1] + ";\n")
             holds_ref = True
         write_c("}\n")
