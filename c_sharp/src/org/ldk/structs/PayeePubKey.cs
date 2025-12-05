@@ -80,7 +80,6 @@ public class PayeePubKey : CommonBase {
 		bool ret = bindings.PayeePubKey_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -88,5 +87,17 @@ public class PayeePubKey : CommonBase {
 		if (!(o is PayeePubKey)) return false;
 		return this.eq((PayeePubKey)o);
 	}
+	/**
+	 * Build a PayeePubKey from a PublicKey
+	 */
+	public static org.ldk.structs.PayeePubKey from_PublicKey(byte[] f) {
+		long ret = bindings.PayeePubKey_from_PublicKey(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(f, 33)));
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PayeePubKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

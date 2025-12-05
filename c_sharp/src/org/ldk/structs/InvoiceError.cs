@@ -148,5 +148,29 @@ public class InvoiceError : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Build a InvoiceError from a Bolt12SemanticError
+	 */
+	public static org.ldk.structs.InvoiceError from_Bolt12SemanticError(Bolt12SemanticError f) {
+		long ret = bindings.InvoiceError_from_Bolt12SemanticError(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InvoiceError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a InvoiceError from a SignError
+	 */
+	public static org.ldk.structs.InvoiceError from_SignError(org.ldk.structs.SignError f) {
+		long ret = bindings.InvoiceError_from_SignError(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InvoiceError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InvoiceError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

@@ -149,7 +149,6 @@ public class TrampolineOnionPacket : CommonBase {
 		bool ret = bindings.TrampolineOnionPacket_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -166,6 +165,17 @@ public class TrampolineOnionPacket : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
+	}
+
+	/**
+	 * Read a TrampolineOnionPacket from a byte array, created by TrampolineOnionPacket_write
+	 */
+	public static org.ldk.structs.Result_TrampolineOnionPacketDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.TrampolineOnionPacket_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_TrampolineOnionPacketDecodeErrorZ ret_hu_conv = Result_TrampolineOnionPacketDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

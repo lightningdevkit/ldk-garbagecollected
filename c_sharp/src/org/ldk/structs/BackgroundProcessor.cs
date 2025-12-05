@@ -48,21 +48,21 @@ public class BackgroundProcessor : CommonBase {
 	 * documentation].
 	 * 
 	 * The thread runs indefinitely unless the object is dropped, [`stop`] is called, or
-	 * [`Persister::persist_manager`] returns an error. In case of an error, the error is retrieved by calling
+	 * [`KVStoreSync`] returns an error. In case of an error, the error is retrieved by calling
 	 * either [`join`] or [`stop`].
 	 * 
 	 * # Data Persistence
 	 * 
-	 * [`Persister::persist_manager`] is responsible for writing out the [`ChannelManager`] to disk, and/or
+	 * [`KVStoreSync`] is responsible for writing out the [`ChannelManager`] to disk, and/or
 	 * uploading to one or more backup services. See [`ChannelManager::write`] for writing out a
 	 * [`ChannelManager`]. See the `lightning-persister` crate for LDK's
 	 * provided implementation.
 	 * 
-	 * [`Persister::persist_graph`] is responsible for writing out the [`NetworkGraph`] to disk, if
+	 * [`KVStoreSync`] is also responsible for writing out the [`NetworkGraph`] to disk, if
 	 * [`GossipSync`] is supplied. See [`NetworkGraph::write`] for writing out a [`NetworkGraph`].
 	 * See the `lightning-persister` crate for LDK's provided implementation.
 	 * 
-	 * Typically, users should either implement [`Persister::persist_manager`] to never return an
+	 * Typically, users should either implement [`KVStoreSync`] to never return an
 	 * error or call [`join`] and handle any error that may arise. For the latter case,
 	 * `BackgroundProcessor` must be restarted by calling `start` again after handling the error.
 	 * 
@@ -84,32 +84,34 @@ public class BackgroundProcessor : CommonBase {
 	 * [`stop`]: Self::stop
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 * [`ChannelManager::write`]: lightning::ln::channelmanager::ChannelManager#impl-Writeable
-	 * [`Persister::persist_manager`]: lightning::util::persist::Persister::persist_manager
-	 * [`Persister::persist_graph`]: lightning::util::persist::Persister::persist_graph
 	 * [`NetworkGraph`]: lightning::routing::gossip::NetworkGraph
 	 * [`NetworkGraph::write`]: lightning::routing::gossip::NetworkGraph#impl-Writeable
+	 * 
+	 * Note that sweeper (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.BackgroundProcessor start(org.ldk.structs.Persister persister, org.ldk.structs.EventHandler event_handler, org.ldk.structs.ChainMonitor chain_monitor, org.ldk.structs.ChannelManager channel_manager, org.ldk.structs.OnionMessenger onion_messenger, org.ldk.structs.GossipSync gossip_sync, org.ldk.structs.PeerManager peer_manager, org.ldk.structs.Logger logger, org.ldk.structs.Option_WriteableScoreZ scorer) {
-		long ret = bindings.BackgroundProcessor_start(persister.ptr, event_handler.ptr, chain_monitor.ptr, channel_manager.ptr, onion_messenger.ptr, gossip_sync.ptr, peer_manager.ptr, logger.ptr, scorer.ptr);
-		GC.KeepAlive(persister);
+	public static org.ldk.structs.BackgroundProcessor start(org.ldk.structs.KVStoreSync kv_store, org.ldk.structs.EventHandler event_handler, org.ldk.structs.ChainMonitor chain_monitor, org.ldk.structs.ChannelManager channel_manager, org.ldk.structs.OnionMessenger onion_messenger, org.ldk.structs.GossipSync gossip_sync, org.ldk.structs.PeerManager peer_manager, org.ldk.structs.OutputSweeperSync sweeper, org.ldk.structs.Logger logger, org.ldk.structs.Option_WriteableScoreZ scorer) {
+		long ret = bindings.BackgroundProcessor_start(kv_store.ptr, event_handler.ptr, chain_monitor.ptr, channel_manager.ptr, onion_messenger.ptr, gossip_sync.ptr, peer_manager.ptr, sweeper == null ? 0 : sweeper.ptr, logger.ptr, scorer.ptr);
+		GC.KeepAlive(kv_store);
 		GC.KeepAlive(event_handler);
 		GC.KeepAlive(chain_monitor);
 		GC.KeepAlive(channel_manager);
 		GC.KeepAlive(onion_messenger);
 		GC.KeepAlive(gossip_sync);
 		GC.KeepAlive(peer_manager);
+		GC.KeepAlive(sweeper);
 		GC.KeepAlive(logger);
 		GC.KeepAlive(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BackgroundProcessor(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(persister); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(kv_store); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(event_handler); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(chain_monitor); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_manager); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(onion_messenger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(gossip_sync); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(peer_manager); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(sweeper); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(scorer); };
 		return ret_hu_conv;

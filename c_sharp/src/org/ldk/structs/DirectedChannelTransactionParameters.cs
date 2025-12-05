@@ -78,7 +78,7 @@ public class DirectedChannelTransactionParameters : CommonBase {
 	}
 
 	/**
-	 * Whether to use anchors for this channel
+	 * The type of channel these parameters are for
 	 */
 	public org.ldk.structs.ChannelTypeFeatures channel_type_features() {
 		long ret = bindings.DirectedChannelTransactionParameters_channel_type_features(this.ptr);
@@ -87,6 +87,15 @@ public class DirectedChannelTransactionParameters : CommonBase {
 		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * The value locked in the channel, denominated in satoshis.
+	 */
+	public long channel_value_satoshis() {
+		long ret = bindings.DirectedChannelTransactionParameters_channel_value_satoshis(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 }

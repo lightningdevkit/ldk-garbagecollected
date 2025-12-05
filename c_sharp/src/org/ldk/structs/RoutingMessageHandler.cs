@@ -48,15 +48,6 @@ public interface RoutingMessageHandlerInterface {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	NodeAnnouncement get_next_node_announcement(org.ldk.structs.NodeId starting_point);
-	/**Called when a connection is established with a peer. This can be used to
-	 * perform routing table synchronization using a strategy defined by the
-	 * implementor.
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 */
-	Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, bool inbound);
 	/**Handles the reply of a query we initiated to learn about channels
 	 * for a given range of blocks. We can expect to receive one or more
 	 * replies to a single query.
@@ -82,18 +73,6 @@ public interface RoutingMessageHandlerInterface {
 	 * [`ChannelAnnouncement`]s.
 	 */
 	bool processing_queue_high();
-	/**Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	NodeFeatures provided_node_features();
-	/**Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	InitFeatures provided_init_features(byte[] their_node_id);
 }
 
 /**
@@ -157,14 +136,6 @@ public class RoutingMessageHandler : CommonBase {
 			long result = ret == null ? 0 : ret.clone_ptr();
 			return result;
 		}
-		public long peer_connected(long _their_node_id, long _init, bool _inbound) {
-			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
-			org.ldk.structs.Init _init_hu_conv = null; if (_init < 0 || _init > 4096) { _init_hu_conv = new org.ldk.structs.Init(null, _init); }
-			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id_conv, _init_hu_conv, _inbound);
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
-		}
 		public long handle_reply_channel_range(long _their_node_id, long _msg) {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.ReplyChannelRange _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.ReplyChannelRange(null, _msg); }
@@ -206,32 +177,19 @@ public class RoutingMessageHandler : CommonBase {
 				GC.KeepAlive(arg);
 			return ret;
 		}
-		public long provided_node_features() {
-			NodeFeatures ret = arg.provided_node_features();
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
-		}
-		public long provided_init_features(long _their_node_id) {
-			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
-			InitFeatures ret = arg.provided_init_features(_their_node_id_conv);
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
-		}
 	}
 
 	/** Creates a new instance of RoutingMessageHandler from a given implementation */
-	public static RoutingMessageHandler new_impl(RoutingMessageHandlerInterface arg, MessageSendEventsProviderInterface messageSendEventsProvider_impl) {
+	public static RoutingMessageHandler new_impl(RoutingMessageHandlerInterface arg, BaseMessageHandlerInterface baseMessageHandler_impl) {
 		LDKRoutingMessageHandlerHolder impl_holder = new LDKRoutingMessageHandlerHolder();
 		LDKRoutingMessageHandlerImpl impl = new LDKRoutingMessageHandlerImpl(arg, impl_holder);
-		MessageSendEventsProvider messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl);
-		long[] ptr_idx = bindings.LDKRoutingMessageHandler_new(impl, messageSendEventsProvider.instance_idx);
+		BaseMessageHandler baseMessageHandler = BaseMessageHandler.new_impl(baseMessageHandler_impl);
+		long[] ptr_idx = bindings.LDKRoutingMessageHandler_new(impl, baseMessageHandler.instance_idx);
 
 		impl_holder.held = new RoutingMessageHandler(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = impl;
-		impl_holder.held.ptrs_to.AddLast(messageSendEventsProvider);
+		impl_holder.held.ptrs_to.AddLast(baseMessageHandler);
 		return impl_holder.held;
 	}
 
@@ -250,7 +208,6 @@ public class RoutingMessageHandler : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -269,7 +226,6 @@ public class RoutingMessageHandler : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -288,7 +244,6 @@ public class RoutingMessageHandler : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -323,27 +278,6 @@ public class RoutingMessageHandler : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeAnnouncement(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Called when a connection is established with a peer. This can be used to
-	 * perform routing table synchronization using a strategy defined by the
-	 * implementor.
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 */
-	public org.ldk.structs.Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init init, bool inbound) {
-		long ret = bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), init.ptr, inbound);
-		GC.KeepAlive(this);
-		GC.KeepAlive(their_node_id);
-		GC.KeepAlive(init);
-		GC.KeepAlive(inbound);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(init); };
 		return ret_hu_conv;
 	}
 
@@ -416,37 +350,6 @@ public class RoutingMessageHandler : CommonBase {
 		bool ret = bindings.RoutingMessageHandler_processing_queue_high(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
-	}
-
-	/**
-	 * Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	public org.ldk.structs.NodeFeatures provided_node_features() {
-		long ret = bindings.RoutingMessageHandler_provided_node_features(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	public org.ldk.structs.InitFeatures provided_init_features(byte[] their_node_id) {
-		long ret = bindings.RoutingMessageHandler_provided_init_features(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)));
-		GC.KeepAlive(this);
-		GC.KeepAlive(their_node_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
 	}
 
 }

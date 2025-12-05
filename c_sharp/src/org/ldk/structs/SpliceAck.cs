@@ -136,7 +136,6 @@ public class SpliceAck : CommonBase {
 		bool ret = bindings.SpliceAck_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

@@ -10,24 +10,24 @@ namespace org { namespace ldk { namespace structs {
 
 /** An implementation of Watch */
 public interface WatchInterface {
-	/**Watches a channel identified by `funding_txo` using `monitor`.
+	/**Watches a channel identified by `channel_id` using `monitor`.
 	 * 
 	 * Implementations are responsible for watching the chain for the funding transaction along
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
-	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
+	 * calling [`block_connected`] and [`blocks_disconnected`] on the monitor.
 	 * 
 	 * A return of `Err(())` indicates that the channel should immediately be force-closed without
 	 * broadcasting the funding transaction.
 	 * 
-	 * If the given `funding_txo` has previously been registered via `watch_channel`, `Err(())`
+	 * If the given `channel_id` has previously been registered via `watch_channel`, `Err(())`
 	 * must be returned.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
-	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
+	 * [`blocks_disconnected`]: channelmonitor::ChannelMonitor::blocks_disconnected
 	 */
-	Result_ChannelMonitorUpdateStatusNoneZ watch_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitor monitor);
-	/**Updates a channel identified by `funding_txo` by applying `update` to its monitor.
+	Result_ChannelMonitorUpdateStatusNoneZ watch_channel(org.ldk.structs.ChannelId channel_id, org.ldk.structs.ChannelMonitor monitor);
+	/**Updates a channel identified by `channel_id` by applying `update` to its monitor.
 	 * 
 	 * Implementations must call [`ChannelMonitor::update_monitor`] with the given update. This
 	 * may fail (returning an `Err(())`), in which case this should return
@@ -43,7 +43,7 @@ public interface WatchInterface {
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
-	ChannelMonitorUpdateStatus update_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitorUpdate update);
+	ChannelMonitorUpdateStatus update_channel(org.ldk.structs.ChannelId channel_id, org.ldk.structs.ChannelMonitorUpdate update);
 	/**Returns any monitor events since the last call. Subsequent calls must only return new
 	 * events.
 	 * 
@@ -83,21 +83,21 @@ public class Watch : CommonBase {
 		internal LDKWatchImpl(WatchInterface arg, LDKWatchHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private WatchInterface arg;
 		private LDKWatchHolder impl_holder;
-		public long watch_channel(long _funding_txo, long _monitor) {
-			org.ldk.structs.OutPoint _funding_txo_hu_conv = null; if (_funding_txo < 0 || _funding_txo > 4096) { _funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, _funding_txo); }
-			if (_funding_txo_hu_conv != null) { _funding_txo_hu_conv.ptrs_to.AddLast(this); };
+		public long watch_channel(long _channel_id, long _monitor) {
+			org.ldk.structs.ChannelId _channel_id_hu_conv = null; if (_channel_id < 0 || _channel_id > 4096) { _channel_id_hu_conv = new org.ldk.structs.ChannelId(null, _channel_id); }
+			if (_channel_id_hu_conv != null) { _channel_id_hu_conv.ptrs_to.AddLast(this); };
 			org.ldk.structs.ChannelMonitor _monitor_hu_conv = null; if (_monitor < 0 || _monitor > 4096) { _monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, _monitor); }
 			if (_monitor_hu_conv != null) { _monitor_hu_conv.ptrs_to.AddLast(this); };
-			Result_ChannelMonitorUpdateStatusNoneZ ret = arg.watch_channel(_funding_txo_hu_conv, _monitor_hu_conv);
+			Result_ChannelMonitorUpdateStatusNoneZ ret = arg.watch_channel(_channel_id_hu_conv, _monitor_hu_conv);
 				GC.KeepAlive(arg);
 			long result = ret.clone_ptr();
 			return result;
 		}
-		public ChannelMonitorUpdateStatus update_channel(long _funding_txo, long _update) {
-			org.ldk.structs.OutPoint _funding_txo_hu_conv = null; if (_funding_txo < 0 || _funding_txo > 4096) { _funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, _funding_txo); }
-			if (_funding_txo_hu_conv != null) { _funding_txo_hu_conv.ptrs_to.AddLast(this); };
+		public ChannelMonitorUpdateStatus update_channel(long _channel_id, long _update) {
+			org.ldk.structs.ChannelId _channel_id_hu_conv = null; if (_channel_id < 0 || _channel_id > 4096) { _channel_id_hu_conv = new org.ldk.structs.ChannelId(null, _channel_id); }
+			if (_channel_id_hu_conv != null) { _channel_id_hu_conv.ptrs_to.AddLast(this); };
 			org.ldk.structs.ChannelMonitorUpdate _update_hu_conv = null; if (_update < 0 || _update > 4096) { _update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, _update); }
-			ChannelMonitorUpdateStatus ret = arg.update_channel(_funding_txo_hu_conv, _update_hu_conv);
+			ChannelMonitorUpdateStatus ret = arg.update_channel(_channel_id_hu_conv, _update_hu_conv);
 				GC.KeepAlive(arg);
 			return ret;
 		}
@@ -122,26 +122,26 @@ public class Watch : CommonBase {
 	}
 
 	/**
-	 * Watches a channel identified by `funding_txo` using `monitor`.
+	 * Watches a channel identified by `channel_id` using `monitor`.
 	 * 
 	 * Implementations are responsible for watching the chain for the funding transaction along
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
-	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
+	 * calling [`block_connected`] and [`blocks_disconnected`] on the monitor.
 	 * 
 	 * A return of `Err(())` indicates that the channel should immediately be force-closed without
 	 * broadcasting the funding transaction.
 	 * 
-	 * If the given `funding_txo` has previously been registered via `watch_channel`, `Err(())`
+	 * If the given `channel_id` has previously been registered via `watch_channel`, `Err(())`
 	 * must be returned.
 	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
-	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
+	 * [`blocks_disconnected`]: channelmonitor::ChannelMonitor::blocks_disconnected
 	 */
-	public org.ldk.structs.Result_ChannelMonitorUpdateStatusNoneZ watch_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitor monitor) {
-		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo.ptr, monitor.ptr);
+	public org.ldk.structs.Result_ChannelMonitorUpdateStatusNoneZ watch_channel(org.ldk.structs.ChannelId channel_id, org.ldk.structs.ChannelMonitor monitor) {
+		long ret = bindings.Watch_watch_channel(this.ptr, channel_id.ptr, monitor.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(funding_txo);
+		GC.KeepAlive(channel_id);
 		GC.KeepAlive(monitor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelMonitorUpdateStatusNoneZ ret_hu_conv = Result_ChannelMonitorUpdateStatusNoneZ.constr_from_ptr(ret);
@@ -149,7 +149,7 @@ public class Watch : CommonBase {
 	}
 
 	/**
-	 * Updates a channel identified by `funding_txo` by applying `update` to its monitor.
+	 * Updates a channel identified by `channel_id` by applying `update` to its monitor.
 	 * 
 	 * Implementations must call [`ChannelMonitor::update_monitor`] with the given update. This
 	 * may fail (returning an `Err(())`), in which case this should return
@@ -165,12 +165,11 @@ public class Watch : CommonBase {
 	 * 
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
-	public ChannelMonitorUpdateStatus update_channel(org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelMonitorUpdate update) {
-		ChannelMonitorUpdateStatus ret = bindings.Watch_update_channel(this.ptr, funding_txo.ptr, update.ptr);
+	public ChannelMonitorUpdateStatus update_channel(org.ldk.structs.ChannelId channel_id, org.ldk.structs.ChannelMonitorUpdate update) {
+		ChannelMonitorUpdateStatus ret = bindings.Watch_update_channel(this.ptr, channel_id.ptr, update.ptr);
 		GC.KeepAlive(this);
-		GC.KeepAlive(funding_txo);
+		GC.KeepAlive(channel_id);
 		GC.KeepAlive(update);
-		if (this != null) { this.ptrs_to.AddLast(update); };
 		return ret;
 	}
 

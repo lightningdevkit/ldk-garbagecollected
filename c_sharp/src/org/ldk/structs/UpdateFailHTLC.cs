@@ -56,6 +56,31 @@ public class UpdateFailHTLC : CommonBase {
 		GC.KeepAlive(val);
 	}
 
+	/**
+	 * Optional field for the attribution data that allows the sender to pinpoint the failing node under all conditions
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public org.ldk.structs.AttributionData get_attribution_data() {
+		long ret = bindings.UpdateFailHTLC_get_attribution_data(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AttributionData ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AttributionData(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Optional field for the attribution data that allows the sender to pinpoint the failing node under all conditions
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_attribution_data(org.ldk.structs.AttributionData val) {
+		bindings.UpdateFailHTLC_set_attribution_data(this.ptr, val == null ? 0 : val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
 	internal long clone_ptr() {
 		long ret = bindings.UpdateFailHTLC_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -95,7 +120,6 @@ public class UpdateFailHTLC : CommonBase {
 		bool ret = bindings.UpdateFailHTLC_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

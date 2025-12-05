@@ -187,12 +187,36 @@ public class UpdateAddHTLC : CommonBase {
 	}
 
 	/**
+	 * Set to `Some` if the sender wants the receiver of this message to hold onto this HTLC until
+	 * receipt of a [`ReleaseHeldHtlc`] onion message from the payment recipient.
+	 * 
+	 * [`ReleaseHeldHtlc`]: crate::onion_message::async_payments::ReleaseHeldHtlc
+	 */
+	public COption_NoneZ get_hold_htlc() {
+		COption_NoneZ ret = bindings.UpdateAddHTLC_get_hold_htlc(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Set to `Some` if the sender wants the receiver of this message to hold onto this HTLC until
+	 * receipt of a [`ReleaseHeldHtlc`] onion message from the payment recipient.
+	 * 
+	 * [`ReleaseHeldHtlc`]: crate::onion_message::async_payments::ReleaseHeldHtlc
+	 */
+	public void set_hold_htlc(COption_NoneZ val) {
+		bindings.UpdateAddHTLC_set_hold_htlc(this.ptr, val);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * Constructs a new UpdateAddHTLC given each field
 	 * 
 	 * Note that blinding_point_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.UpdateAddHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, long amount_msat_arg, byte[] payment_hash_arg, int cltv_expiry_arg, org.ldk.structs.Option_u64Z skimmed_fee_msat_arg, org.ldk.structs.OnionPacket onion_routing_packet_arg, byte[] blinding_point_arg) {
-		long ret = bindings.UpdateAddHTLC_new(channel_id_arg.ptr, htlc_id_arg, amount_msat_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash_arg, 32)), cltv_expiry_arg, skimmed_fee_msat_arg.ptr, onion_routing_packet_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point_arg, 33)));
+	public static org.ldk.structs.UpdateAddHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, long amount_msat_arg, byte[] payment_hash_arg, int cltv_expiry_arg, org.ldk.structs.Option_u64Z skimmed_fee_msat_arg, org.ldk.structs.OnionPacket onion_routing_packet_arg, byte[] blinding_point_arg, COption_NoneZ hold_htlc_arg) {
+		long ret = bindings.UpdateAddHTLC_new(channel_id_arg.ptr, htlc_id_arg, amount_msat_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash_arg, 32)), cltv_expiry_arg, skimmed_fee_msat_arg.ptr, onion_routing_packet_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point_arg, 33)), hold_htlc_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(htlc_id_arg);
 		GC.KeepAlive(amount_msat_arg);
@@ -201,6 +225,7 @@ public class UpdateAddHTLC : CommonBase {
 		GC.KeepAlive(skimmed_fee_msat_arg);
 		GC.KeepAlive(onion_routing_packet_arg);
 		GC.KeepAlive(blinding_point_arg);
+		GC.KeepAlive(hold_htlc_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UpdateAddHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateAddHTLC(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -246,7 +271,6 @@ public class UpdateAddHTLC : CommonBase {
 		bool ret = bindings.UpdateAddHTLC_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

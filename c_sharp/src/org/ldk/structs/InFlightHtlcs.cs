@@ -53,7 +53,6 @@ public class InFlightHtlcs : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(payer_node_id);
-		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
@@ -67,8 +66,6 @@ public class InFlightHtlcs : CommonBase {
 		GC.KeepAlive(target);
 		GC.KeepAlive(channel_scid);
 		GC.KeepAlive(used_msat);
-		if (this != null) { this.ptrs_to.AddLast(source); };
-		if (this != null) { this.ptrs_to.AddLast(target); };
 	}
 
 	/**
@@ -84,8 +81,6 @@ public class InFlightHtlcs : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		if (this != null) { this.ptrs_to.AddLast(source); };
-		if (this != null) { this.ptrs_to.AddLast(target); };
 		return ret_hu_conv;
 	}
 

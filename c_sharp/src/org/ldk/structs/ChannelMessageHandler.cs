@@ -31,6 +31,12 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `channel_ready` message from the given peer.
 	 */
 	void handle_channel_ready(byte[] their_node_id, org.ldk.structs.ChannelReady msg);
+	/**Handle an incoming `peer_storage` message from the given peer.
+	 */
+	void handle_peer_storage(byte[] their_node_id, org.ldk.structs.PeerStorage msg);
+	/**Handle an incoming `peer_storage_retrieval` message from the given peer.
+	 */
+	void handle_peer_storage_retrieval(byte[] their_node_id, org.ldk.structs.PeerStorageRetrieval msg);
 	/**Handle an incoming `shutdown` message from the given peer.
 	 */
 	void handle_shutdown(byte[] their_node_id, org.ldk.structs.Shutdown msg);
@@ -40,6 +46,15 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `stfu` message from the given peer.
 	 */
 	void handle_stfu(byte[] their_node_id, org.ldk.structs.Stfu msg);
+	/**Handle an incoming `splice_init` message from the given peer.
+	 */
+	void handle_splice_init(byte[] their_node_id, org.ldk.structs.SpliceInit msg);
+	/**Handle an incoming `splice_ack` message from the given peer.
+	 */
+	void handle_splice_ack(byte[] their_node_id, org.ldk.structs.SpliceAck msg);
+	/**Handle an incoming `splice_locked` message from the given peer.
+	 */
+	void handle_splice_locked(byte[] their_node_id, org.ldk.structs.SpliceLocked msg);
 	/**Handle an incoming `tx_add_input message` from the given peer.
 	 */
 	void handle_tx_add_input(byte[] their_node_id, org.ldk.structs.TxAddInput msg);
@@ -82,6 +97,9 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `commitment_signed` message from the given peer.
 	 */
 	void handle_commitment_signed(byte[] their_node_id, org.ldk.structs.CommitmentSigned msg);
+	/**Handle a batch of incoming `commitment_signed` message from the given peer.
+	 */
+	void handle_commitment_signed_batch(byte[] their_node_id, org.ldk.structs.ChannelId channel_id, CommitmentSigned[] batch);
 	/**Handle an incoming `revoke_and_ack` message from the given peer.
 	 */
 	void handle_revoke_and_ack(byte[] their_node_id, org.ldk.structs.RevokeAndACK msg);
@@ -91,18 +109,6 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `announcement_signatures` message from the given peer.
 	 */
 	void handle_announcement_signatures(byte[] their_node_id, org.ldk.structs.AnnouncementSignatures msg);
-	/**Indicates a connection to the peer failed/an existing connection was lost.
-	 */
-	void peer_disconnected(byte[] their_node_id);
-	/**Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 * 
-	 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
-	 */
-	Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init msg, bool inbound);
 	/**Handle an incoming `channel_reestablish` message from the given peer.
 	 */
 	void handle_channel_reestablish(byte[] their_node_id, org.ldk.structs.ChannelReestablish msg);
@@ -112,18 +118,6 @@ public interface ChannelMessageHandlerInterface {
 	/**Handle an incoming `error` message from the given peer.
 	 */
 	void handle_error(byte[] their_node_id, org.ldk.structs.ErrorMessage msg);
-	/**Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	NodeFeatures provided_node_features();
-	/**Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	InitFeatures provided_init_features(byte[] their_node_id);
 	/**Gets the chain hashes for this `ChannelMessageHandler` indicating which chains it supports.
 	 * 
 	 * If it's `None`, then no particular network chain hash compatibility will be enforced when
@@ -202,6 +196,20 @@ public class ChannelMessageHandler : CommonBase {
 			arg.handle_channel_ready(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
+		public void handle_peer_storage(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.PeerStorage _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.PeerStorage(null, _msg); }
+			if (_msg_hu_conv != null) { _msg_hu_conv.ptrs_to.AddLast(this); };
+			arg.handle_peer_storage(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_peer_storage_retrieval(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.PeerStorageRetrieval _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.PeerStorageRetrieval(null, _msg); }
+			if (_msg_hu_conv != null) { _msg_hu_conv.ptrs_to.AddLast(this); };
+			arg.handle_peer_storage_retrieval(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
 		public void handle_shutdown(long _their_node_id, long _msg) {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.Shutdown _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.Shutdown(null, _msg); }
@@ -218,6 +226,24 @@ public class ChannelMessageHandler : CommonBase {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.Stfu _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.Stfu(null, _msg); }
 			arg.handle_stfu(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice_init(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.SpliceInit _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.SpliceInit(null, _msg); }
+			arg.handle_splice_init(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice_ack(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.SpliceAck _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.SpliceAck(null, _msg); }
+			arg.handle_splice_ack(_their_node_id_conv, _msg_hu_conv);
+				GC.KeepAlive(arg);
+		}
+		public void handle_splice_locked(long _their_node_id, long _msg) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.SpliceLocked _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.SpliceLocked(null, _msg); }
+			arg.handle_splice_locked(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
 		public void handle_tx_add_input(long _their_node_id, long _msg) {
@@ -283,6 +309,7 @@ public class ChannelMessageHandler : CommonBase {
 		public void handle_update_fulfill_htlc(long _their_node_id, long _msg) {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.UpdateFulfillHTLC _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, _msg); }
+			if (_msg_hu_conv != null) { _msg_hu_conv.ptrs_to.AddLast(this); };
 			arg.handle_update_fulfill_htlc(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
@@ -304,6 +331,22 @@ public class ChannelMessageHandler : CommonBase {
 			arg.handle_commitment_signed(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
+		public void handle_commitment_signed_batch(long _their_node_id, long _channel_id, long _batch) {
+			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
+			org.ldk.structs.ChannelId _channel_id_hu_conv = null; if (_channel_id < 0 || _channel_id > 4096) { _channel_id_hu_conv = new org.ldk.structs.ChannelId(null, _channel_id); }
+			if (_channel_id_hu_conv != null) { _channel_id_hu_conv.ptrs_to.AddLast(this); };
+			int _batch_conv_18_len = InternalUtils.getArrayLength(_batch);
+			CommitmentSigned[] _batch_conv_18_arr = new CommitmentSigned[_batch_conv_18_len];
+			for (int s = 0; s < _batch_conv_18_len; s++) {
+				long _batch_conv_18 = InternalUtils.getU64ArrayElem(_batch, s);
+				org.ldk.structs.CommitmentSigned _batch_conv_18_hu_conv = null; if (_batch_conv_18 < 0 || _batch_conv_18 > 4096) { _batch_conv_18_hu_conv = new org.ldk.structs.CommitmentSigned(null, _batch_conv_18); }
+				if (_batch_conv_18_hu_conv != null) { _batch_conv_18_hu_conv.ptrs_to.AddLast(this); };
+				_batch_conv_18_arr[s] = _batch_conv_18_hu_conv;
+			}
+			bindings.free_buffer(_batch);
+			arg.handle_commitment_signed_batch(_their_node_id_conv, _channel_id_hu_conv, _batch_conv_18_arr);
+				GC.KeepAlive(arg);
+		}
 		public void handle_revoke_and_ack(long _their_node_id, long _msg) {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
 			org.ldk.structs.RevokeAndACK _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.RevokeAndACK(null, _msg); }
@@ -321,19 +364,6 @@ public class ChannelMessageHandler : CommonBase {
 			org.ldk.structs.AnnouncementSignatures _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, _msg); }
 			arg.handle_announcement_signatures(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
-		}
-		public void peer_disconnected(long _their_node_id) {
-			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
-			arg.peer_disconnected(_their_node_id_conv);
-				GC.KeepAlive(arg);
-		}
-		public long peer_connected(long _their_node_id, long _msg, bool _inbound) {
-			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
-			org.ldk.structs.Init _msg_hu_conv = null; if (_msg < 0 || _msg > 4096) { _msg_hu_conv = new org.ldk.structs.Init(null, _msg); }
-			Result_NoneNoneZ ret = arg.peer_connected(_their_node_id_conv, _msg_hu_conv, _inbound);
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
 		}
 		public void handle_channel_reestablish(long _their_node_id, long _msg) {
 			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
@@ -353,19 +383,6 @@ public class ChannelMessageHandler : CommonBase {
 			arg.handle_error(_their_node_id_conv, _msg_hu_conv);
 				GC.KeepAlive(arg);
 		}
-		public long provided_node_features() {
-			NodeFeatures ret = arg.provided_node_features();
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
-		}
-		public long provided_init_features(long _their_node_id) {
-			byte[] _their_node_id_conv = InternalUtils.decodeUint8Array(_their_node_id);
-			InitFeatures ret = arg.provided_init_features(_their_node_id_conv);
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
-			return result;
-		}
 		public long get_chain_hashes() {
 			Option_CVec_ThirtyTwoBytesZZ ret = arg.get_chain_hashes();
 				GC.KeepAlive(arg);
@@ -379,16 +396,16 @@ public class ChannelMessageHandler : CommonBase {
 	}
 
 	/** Creates a new instance of ChannelMessageHandler from a given implementation */
-	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProviderInterface messageSendEventsProvider_impl) {
+	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, BaseMessageHandlerInterface baseMessageHandler_impl) {
 		LDKChannelMessageHandlerHolder impl_holder = new LDKChannelMessageHandlerHolder();
 		LDKChannelMessageHandlerImpl impl = new LDKChannelMessageHandlerImpl(arg, impl_holder);
-		MessageSendEventsProvider messageSendEventsProvider = MessageSendEventsProvider.new_impl(messageSendEventsProvider_impl);
-		long[] ptr_idx = bindings.LDKChannelMessageHandler_new(impl, messageSendEventsProvider.instance_idx);
+		BaseMessageHandler baseMessageHandler = BaseMessageHandler.new_impl(baseMessageHandler_impl);
+		long[] ptr_idx = bindings.LDKChannelMessageHandler_new(impl, baseMessageHandler.instance_idx);
 
 		impl_holder.held = new ChannelMessageHandler(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = impl;
-		impl_holder.held.ptrs_to.AddLast(messageSendEventsProvider);
+		impl_holder.held.ptrs_to.AddLast(baseMessageHandler);
 		return impl_holder.held;
 	}
 
@@ -400,7 +417,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -411,7 +427,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -422,7 +437,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -433,7 +447,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -444,7 +457,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -455,7 +467,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -466,7 +477,26 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `peer_storage` message from the given peer.
+	 */
+	public void handle_peer_storage(byte[] their_node_id, org.ldk.structs.PeerStorage msg) {
+		bindings.ChannelMessageHandler_handle_peer_storage(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+	}
+
+	/**
+	 * Handle an incoming `peer_storage_retrieval` message from the given peer.
+	 */
+	public void handle_peer_storage_retrieval(byte[] their_node_id, org.ldk.structs.PeerStorageRetrieval msg) {
+		bindings.ChannelMessageHandler_handle_peer_storage_retrieval(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
 	}
 
 	/**
@@ -477,7 +507,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -488,7 +517,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -499,7 +527,36 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_init` message from the given peer.
+	 */
+	public void handle_splice_init(byte[] their_node_id, org.ldk.structs.SpliceInit msg) {
+		bindings.ChannelMessageHandler_handle_splice_init(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+	}
+
+	/**
+	 * Handle an incoming `splice_ack` message from the given peer.
+	 */
+	public void handle_splice_ack(byte[] their_node_id, org.ldk.structs.SpliceAck msg) {
+		bindings.ChannelMessageHandler_handle_splice_ack(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
+	}
+
+	/**
+	 * Handle an incoming `splice_locked` message from the given peer.
+	 */
+	public void handle_splice_locked(byte[] their_node_id, org.ldk.structs.SpliceLocked msg) {
+		bindings.ChannelMessageHandler_handle_splice_locked(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(msg);
 	}
 
 	/**
@@ -510,7 +567,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -521,7 +577,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -532,7 +587,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -543,7 +597,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -554,7 +607,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -565,7 +617,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -576,7 +627,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -587,7 +637,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -598,7 +647,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -609,7 +657,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -620,7 +667,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -631,7 +677,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -642,7 +687,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -653,7 +697,17 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
+	}
+
+	/**
+	 * Handle a batch of incoming `commitment_signed` message from the given peer.
+	 */
+	public void handle_commitment_signed_batch(byte[] their_node_id, org.ldk.structs.ChannelId channel_id, CommitmentSigned[] batch) {
+		bindings.ChannelMessageHandler_handle_commitment_signed_batch(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), channel_id.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(batch, batch_conv_18 => batch_conv_18.ptr)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(their_node_id);
+		GC.KeepAlive(channel_id);
+		GC.KeepAlive(batch);
 	}
 
 	/**
@@ -664,7 +718,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -675,7 +728,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -686,37 +738,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
-	}
-
-	/**
-	 * Indicates a connection to the peer failed/an existing connection was lost.
-	 */
-	public void peer_disconnected(byte[] their_node_id) {
-		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)));
-		GC.KeepAlive(this);
-		GC.KeepAlive(their_node_id);
-	}
-
-	/**
-	 * Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 * 
-	 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
-	 */
-	public org.ldk.structs.Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init msg, bool inbound) {
-		long ret = bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)), msg.ptr, inbound);
-		GC.KeepAlive(this);
-		GC.KeepAlive(their_node_id);
-		GC.KeepAlive(msg);
-		GC.KeepAlive(inbound);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
-		return ret_hu_conv;
 	}
 
 	/**
@@ -727,7 +748,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -738,7 +758,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 	}
 
 	/**
@@ -749,38 +768,6 @@ public class ChannelMessageHandler : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(their_node_id);
 		GC.KeepAlive(msg);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
-	}
-
-	/**
-	 * Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	public org.ldk.structs.NodeFeatures provided_node_features() {
-		long ret = bindings.ChannelMessageHandler_provided_node_features(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	public org.ldk.structs.InitFeatures provided_init_features(byte[] their_node_id) {
-		long ret = bindings.ChannelMessageHandler_provided_init_features(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(their_node_id, 33)));
-		GC.KeepAlive(this);
-		GC.KeepAlive(their_node_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
 	}
 
 	/**

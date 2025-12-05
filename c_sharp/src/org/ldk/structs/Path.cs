@@ -123,7 +123,6 @@ public class Path : CommonBase {
 		bool ret = bindings.Path_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -159,6 +158,15 @@ public class Path : CommonBase {
 		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * True if this [`Path`] has at least one Trampoline hop.
+	 */
+	public bool has_trampoline_hops() {
+		bool ret = bindings.Path_has_trampoline_hops(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
 	}
 
 }

@@ -163,7 +163,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 
 	/**
 	 * The channel public keys and other parameters needed to generate a spending transaction or
-	 * to provide to a re-derived signer through [`ChannelSigner::provide_channel_parameters`].
+	 * to provide to a signer.
 	 * 
 	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.123 or later.
 	 * 
@@ -180,7 +180,7 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 
 	/**
 	 * The channel public keys and other parameters needed to generate a spending transaction or
-	 * to provide to a re-derived signer through [`ChannelSigner::provide_channel_parameters`].
+	 * to provide to a signer.
 	 * 
 	 * Added as optional, but always `Some` if the descriptor was produced in v0.0.123 or later.
 	 * 
@@ -252,7 +252,6 @@ public class DelayedPaymentOutputDescriptor : CommonBase {
 		bool ret = bindings.DelayedPaymentOutputDescriptor_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

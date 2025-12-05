@@ -44,7 +44,6 @@ public class ShutdownScript : CommonBase {
 		bool ret = bindings.ShutdownScript_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -144,13 +143,13 @@ public class ShutdownScript : CommonBase {
 	/**
 	 * Returns whether the shutdown script is compatible with the features as defined by BOLT #2.
 	 * 
-	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit`.
+	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit` and/or
+	 * `option_simple_close`.
 	 */
 	public bool is_compatible(org.ldk.structs.InitFeatures features) {
 		bool ret = bindings.ShutdownScript_is_compatible(this.ptr, features.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(features);
-		if (this != null) { this.ptrs_to.AddLast(features); };
 		return ret;
 	}
 

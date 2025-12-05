@@ -17,7 +17,7 @@ public interface SignerProviderInterface {
 	 * 
 	 * This method must return a different value each time it is called.
 	 */
-	byte[] generate_channel_keys_id(bool inbound, long channel_value_satoshis, org.ldk.util.UInt128 user_channel_id);
+	byte[] generate_channel_keys_id(bool inbound, org.ldk.util.UInt128 user_channel_id);
 	/**Derives the private key material backing a `Signer`.
 	 * 
 	 * To derive a new `Signer`, a fresh `channel_keys_id` should be obtained through
@@ -25,22 +25,7 @@ public interface SignerProviderInterface {
 	 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
 	 * [`ChannelSigner::channel_keys_id`].
 	 */
-	EcdsaChannelSigner derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id);
-	/**Reads a [`Signer`] for this [`SignerProvider`] from the given input stream.
-	 * This is only called during deserialization of other objects which contain
-	 * [`EcdsaChannelSigner`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
-	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
-	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
-	 * you've read all of the provided bytes to ensure no corruption occurred.
-	 * 
-	 * This method is slowly being phased out -- it will only be called when reading objects
-	 * written by LDK versions prior to 0.0.113.
-	 * 
-	 * [`Signer`]: Self::EcdsaSigner
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	Result_EcdsaChannelSignerDecodeErrorZ read_chan_signer(byte[] reader);
+	EcdsaChannelSigner derive_channel_signer(byte[] channel_keys_id);
 	/**Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
 	 * 
 	 * If this function returns an error, this will result in a channel failing to open.
@@ -79,27 +64,20 @@ public class SignerProvider : CommonBase {
 		internal LDKSignerProviderImpl(SignerProviderInterface arg, LDKSignerProviderHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private SignerProviderInterface arg;
 		private LDKSignerProviderHolder impl_holder;
-		public long generate_channel_keys_id(bool _inbound, long _channel_value_satoshis, long _user_channel_id) {
+		public long generate_channel_keys_id(bool _inbound, long _user_channel_id) {
 			org.ldk.util.UInt128 _user_channel_id_conv = new org.ldk.util.UInt128(_user_channel_id);
 			bindings.free_buffer(_user_channel_id);
-			byte[] ret = arg.generate_channel_keys_id(_inbound, _channel_value_satoshis, _user_channel_id_conv);
+			byte[] ret = arg.generate_channel_keys_id(_inbound, _user_channel_id_conv);
 				GC.KeepAlive(arg);
 			long result = InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(ret, 32));
 			return result;
 		}
-		public long derive_channel_signer(long _channel_value_satoshis, long _channel_keys_id) {
+		public long derive_channel_signer(long _channel_keys_id) {
 			byte[] _channel_keys_id_conv = InternalUtils.decodeUint8Array(_channel_keys_id);
-			EcdsaChannelSigner ret = arg.derive_channel_signer(_channel_value_satoshis, _channel_keys_id_conv);
+			EcdsaChannelSigner ret = arg.derive_channel_signer(_channel_keys_id_conv);
 				GC.KeepAlive(arg);
 			long result = ret.clone_ptr();
 			if (impl_holder.held != null) { impl_holder.held.ptrs_to.AddLast(ret); };
-			return result;
-		}
-		public long read_chan_signer(long _reader) {
-			byte[] _reader_conv = InternalUtils.decodeUint8Array(_reader);
-			Result_EcdsaChannelSignerDecodeErrorZ ret = arg.read_chan_signer(_reader_conv);
-				GC.KeepAlive(arg);
-			long result = ret.clone_ptr();
 			return result;
 		}
 		public long get_destination_script(long _channel_keys_id) {
@@ -137,11 +115,10 @@ public class SignerProvider : CommonBase {
 	 * 
 	 * This method must return a different value each time it is called.
 	 */
-	public byte[] generate_channel_keys_id(bool inbound, long channel_value_satoshis, org.ldk.util.UInt128 user_channel_id) {
-		long ret = bindings.SignerProvider_generate_channel_keys_id(this.ptr, inbound, channel_value_satoshis, InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()));
+	public byte[] generate_channel_keys_id(bool inbound, org.ldk.util.UInt128 user_channel_id) {
+		long ret = bindings.SignerProvider_generate_channel_keys_id(this.ptr, inbound, InternalUtils.encodeUint8Array(user_channel_id.getLEBytes()));
 		GC.KeepAlive(this);
 		GC.KeepAlive(inbound);
-		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
@@ -156,38 +133,13 @@ public class SignerProvider : CommonBase {
 	 * re-derived from its `channel_keys_id`, which can be obtained through its trait method
 	 * [`ChannelSigner::channel_keys_id`].
 	 */
-	public org.ldk.structs.EcdsaChannelSigner derive_channel_signer(long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.SignerProvider_derive_channel_signer(this.ptr, channel_value_satoshis, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_keys_id, 32)));
+	public org.ldk.structs.EcdsaChannelSigner derive_channel_signer(byte[] channel_keys_id) {
+		long ret = bindings.SignerProvider_derive_channel_signer(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(channel_keys_id, 32)));
 		GC.KeepAlive(this);
-		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(channel_keys_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Reads a [`Signer`] for this [`SignerProvider`] from the given input stream.
-	 * This is only called during deserialization of other objects which contain
-	 * [`EcdsaChannelSigner`]-implementing objects (i.e., [`ChannelMonitor`]s and [`ChannelManager`]s).
-	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
-	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
-	 * you've read all of the provided bytes to ensure no corruption occurred.
-	 * 
-	 * This method is slowly being phased out -- it will only be called when reading objects
-	 * written by LDK versions prior to 0.0.113.
-	 * 
-	 * [`Signer`]: Self::EcdsaSigner
-	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
-	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-	 */
-	public org.ldk.structs.Result_EcdsaChannelSignerDecodeErrorZ read_chan_signer(byte[] reader) {
-		long ret = bindings.SignerProvider_read_chan_signer(this.ptr, InternalUtils.encodeUint8Array(reader));
-		GC.KeepAlive(this);
-		GC.KeepAlive(reader);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_EcdsaChannelSignerDecodeErrorZ ret_hu_conv = Result_EcdsaChannelSignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

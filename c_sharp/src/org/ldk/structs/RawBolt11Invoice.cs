@@ -49,7 +49,6 @@ public class RawBolt11Invoice : CommonBase {
 		bool ret = bindings.RawBolt11Invoice_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

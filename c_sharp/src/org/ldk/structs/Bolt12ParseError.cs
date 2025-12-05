@@ -33,5 +33,41 @@ public class Bolt12ParseError : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Build a Bolt12ParseError from a DecodeError
+	 */
+	public static org.ldk.structs.Bolt12ParseError from_DecodeError(org.ldk.structs.DecodeError f) {
+		long ret = bindings.Bolt12ParseError_from_DecodeError(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt12ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt12ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a Bolt12ParseError from a Bolt12SemanticError
+	 */
+	public static org.ldk.structs.Bolt12ParseError from_Bolt12SemanticError(Bolt12SemanticError f) {
+		long ret = bindings.Bolt12ParseError_from_Bolt12SemanticError(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt12ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt12ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a Bolt12ParseError from a Secp256k1Error
+	 */
+	public static org.ldk.structs.Bolt12ParseError from_Secp256k1Error(Secp256k1Error f) {
+		long ret = bindings.Bolt12ParseError_from_Secp256k1Error(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt12ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt12ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

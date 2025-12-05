@@ -62,7 +62,6 @@ public class SignBolt12InvoiceFn : CommonBase {
 		GC.KeepAlive(message);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SchnorrSignatureNoneZ ret_hu_conv = Result_SchnorrSignatureNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(message); };
 		return ret_hu_conv;
 	}
 

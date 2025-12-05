@@ -110,7 +110,6 @@ public class RouteHint : CommonBase {
 		bool ret = bindings.RouteHint_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -118,5 +117,17 @@ public class RouteHint : CommonBase {
 		if (!(o is RouteHint)) return false;
 		return this.eq((RouteHint)o);
 	}
+	/**
+	 * Build a RouteHint from a PrivateRoute
+	 */
+	public static org.ldk.structs.RouteHint from_PrivateRoute(org.ldk.structs.PrivateRoute f) {
+		long ret = bindings.RouteHint_from_PrivateRoute(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RouteHint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

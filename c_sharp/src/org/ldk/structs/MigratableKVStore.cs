@@ -12,7 +12,7 @@ namespace org { namespace ldk { namespace structs {
 public interface MigratableKVStoreInterface {
 	/**Returns *all* known keys as a list of `primary_namespace`, `secondary_namespace`, `key` tuples.
 	 * 
-	 * This is useful for migrating data from [`KVStore`] implementation to [`KVStore`]
+	 * This is useful for migrating data from [`KVStoreSync`] implementation to [`KVStoreSync`]
 	 * implementation.
 	 * 
 	 * Must exhaustively return all entries known to the store to ensure no data is missed, but
@@ -48,23 +48,23 @@ public class MigratableKVStore : CommonBase {
 	}
 
 	/** Creates a new instance of MigratableKVStore from a given implementation */
-	public static MigratableKVStore new_impl(MigratableKVStoreInterface arg, KVStoreInterface kVStore_impl) {
+	public static MigratableKVStore new_impl(MigratableKVStoreInterface arg, KVStoreSyncInterface kVStoreSync_impl) {
 		LDKMigratableKVStoreHolder impl_holder = new LDKMigratableKVStoreHolder();
 		LDKMigratableKVStoreImpl impl = new LDKMigratableKVStoreImpl(arg, impl_holder);
-		KVStore kVStore = KVStore.new_impl(kVStore_impl);
-		long[] ptr_idx = bindings.LDKMigratableKVStore_new(impl, kVStore.instance_idx);
+		KVStoreSync kVStoreSync = KVStoreSync.new_impl(kVStoreSync_impl);
+		long[] ptr_idx = bindings.LDKMigratableKVStore_new(impl, kVStoreSync.instance_idx);
 
 		impl_holder.held = new MigratableKVStore(null, ptr_idx[0]);
 		impl_holder.held.instance_idx = ptr_idx[1];
 		impl_holder.held.bindings_instance = impl;
-		impl_holder.held.ptrs_to.AddLast(kVStore);
+		impl_holder.held.ptrs_to.AddLast(kVStoreSync);
 		return impl_holder.held;
 	}
 
 	/**
 	 * Returns *all* known keys as a list of `primary_namespace`, `secondary_namespace`, `key` tuples.
 	 * 
-	 * This is useful for migrating data from [`KVStore`] implementation to [`KVStore`]
+	 * This is useful for migrating data from [`KVStoreSync`] implementation to [`KVStoreSync`]
 	 * implementation.
 	 * 
 	 * Must exhaustively return all entries known to the store to ensure no data is missed, but
@@ -75,6 +75,24 @@ public class MigratableKVStore : CommonBase {
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C3Tuple_StrStrStrZZIOErrorZ ret_hu_conv = Result_CVec_C3Tuple_StrStrStrZZIOErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	internal long clone_ptr() {
+		long ret = bindings.MigratableKVStore_clone_ptr(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of a MigratableKVStore
+	 */
+	public org.ldk.structs.MigratableKVStore clone() {
+		long ret = bindings.MigratableKVStore_clone(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		MigratableKVStore ret_hu_conv = new MigratableKVStore(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
 

@@ -86,5 +86,53 @@ public class GraphSyncError : CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Build a GraphSyncError from a IOError
+	 */
+	public static org.ldk.structs.GraphSyncError from_IOError(IOError f) {
+		long ret = bindings.GraphSyncError_from_IOError(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a Secp256k1Error
+	 */
+	public static org.ldk.structs.GraphSyncError from_Secp256k1Error(Secp256k1Error f) {
+		long ret = bindings.GraphSyncError_from_Secp256k1Error(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a DecodeError
+	 */
+	public static org.ldk.structs.GraphSyncError from_DecodeError(org.ldk.structs.DecodeError f) {
+		long ret = bindings.GraphSyncError_from_DecodeError(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a LightningError
+	 */
+	public static org.ldk.structs.GraphSyncError from_LightningError(org.ldk.structs.LightningError f) {
+		long ret = bindings.GraphSyncError_from_LightningError(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

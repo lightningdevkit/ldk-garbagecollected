@@ -44,12 +44,13 @@ public class PeerManager : CommonBase {
 	 * timestamp, however if it is not available a persistent counter that increases once per
 	 * minute should suffice.
 	 */
-	public static org.ldk.structs.PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, CustomMessageHandler message_handler_custom_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.NodeSigner node_signer) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr, message_handler_custom_message_handler_arg.ptr), current_time, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(ephemeral_random_data, 32)), logger.ptr, node_signer.ptr);
+	public static org.ldk.structs.PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, OnionMessageHandler message_handler_onion_message_handler_arg, CustomMessageHandler message_handler_custom_message_handler_arg, SendOnlyMessageHandler message_handler_send_only_message_handler_arg, int current_time, byte[] ephemeral_random_data, org.ldk.structs.Logger logger, org.ldk.structs.NodeSigner node_signer) {
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg.ptr, message_handler_onion_message_handler_arg.ptr, message_handler_custom_message_handler_arg.ptr, message_handler_send_only_message_handler_arg.ptr), current_time, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(ephemeral_random_data, 32)), logger.ptr, node_signer.ptr);
 		GC.KeepAlive(message_handler_chan_handler_arg);
 		GC.KeepAlive(message_handler_route_handler_arg);
 		GC.KeepAlive(message_handler_onion_message_handler_arg);
 		GC.KeepAlive(message_handler_custom_message_handler_arg);
+		GC.KeepAlive(message_handler_send_only_message_handler_arg);
 		GC.KeepAlive(current_time);
 		GC.KeepAlive(ephemeral_random_data);
 		GC.KeepAlive(logger);
@@ -61,6 +62,7 @@ public class PeerManager : CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_route_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_onion_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_custom_message_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(message_handler_send_only_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
 		return ret_hu_conv;
@@ -190,11 +192,9 @@ public class PeerManager : CommonBase {
 	 * 
 	 * Will *not* call back into [`send_data`] on any descriptors to avoid reentrancy complexity.
 	 * Thus, however, you should call [`process_events`] after any `read_event` to generate
-	 * [`send_data`] calls to handle responses.
-	 * 
-	 * If `Ok(true)` is returned, further read_events should not be triggered until a
-	 * [`send_data`] call on this descriptor has `resume_read` set (preventing DoS issues in the
-	 * send buffer).
+	 * [`send_data`] calls to handle responses. This is also important to give [`send_data`] calls
+	 * a chance to pause reads if too many messages have been queued in response allowing a peer
+	 * to bloat our memory.
 	 * 
 	 * In order to avoid processing too many messages at once per peer, `data` should be on the
 	 * order of 4KiB.
@@ -202,13 +202,13 @@ public class PeerManager : CommonBase {
 	 * [`send_data`]: SocketDescriptor::send_data
 	 * [`process_events`]: PeerManager::process_events
 	 */
-	public org.ldk.structs.Result_boolPeerHandleErrorZ read_event(org.ldk.structs.SocketDescriptor peer_descriptor, byte[] data) {
+	public org.ldk.structs.Result_NonePeerHandleErrorZ read_event(org.ldk.structs.SocketDescriptor peer_descriptor, byte[] data) {
 		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor.ptr, InternalUtils.encodeUint8Array(data));
 		GC.KeepAlive(this);
 		GC.KeepAlive(peer_descriptor);
 		GC.KeepAlive(data);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -233,6 +233,8 @@ public class PeerManager : CommonBase {
 	 * [`send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards
 	 * [`send_data`]: SocketDescriptor::send_data
+	 * [`lightning-net-tokio`]: https://docs.rs/lightning-net-tokio/latest/lightning_net_tokio
+	 * [`lightning-background-processor`]: https://docs.rs/lightning-background-processor/latest/lightning_background_processor
 	 */
 	public void process_events() {
 		bindings.PeerManager_process_events(this.ptr);
@@ -305,7 +307,7 @@ public class PeerManager : CommonBase {
 	 * 
 	 * Panics if `addresses` is absurdly large (more than 100).
 	 * 
-	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
+	 * [`get_and_clear_pending_msg_events`]: BaseMessageHandler::get_and_clear_pending_msg_events
 	 */
 	public void broadcast_node_announcement(byte[] rgb, byte[] alias, SocketAddress[] addresses) {
 		bindings.PeerManager_broadcast_node_announcement(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(rgb, 3)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(alias, 32)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(addresses, addresses_conv_15 => addresses_conv_15.ptr)));

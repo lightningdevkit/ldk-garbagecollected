@@ -20,8 +20,9 @@ public class OffersContext : CommonBase {
 		long raw_ty = bindings.LDKOffersContext_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new OffersContext_InvoiceRequest(ptr);
-			case 1: return new OffersContext_OutboundPayment(ptr);
-			case 2: return new OffersContext_InboundPayment(ptr);
+			case 1: return new OffersContext_StaticInvoiceRequested(ptr);
+			case 2: return new OffersContext_OutboundPayment(ptr);
+			case 3: return new OffersContext_InboundPayment(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -44,6 +45,48 @@ public class OffersContext : CommonBase {
 			this.nonce = nonce_hu_conv;
 		}
 	}
+	/** A OffersContext of type StaticInvoiceRequested */
+	public class OffersContext_StaticInvoiceRequested : OffersContext {
+		/**
+		 * An identifier for the async recipient for whom we as a static invoice server are serving
+		 * [`StaticInvoice`]s. Used paired with the
+		 * [`OffersContext::StaticInvoiceRequested::invoice_slot`] when looking up a corresponding
+		 * [`StaticInvoice`] to return to the payer if the recipient is offline. This id was previously
+		 * provided via [`AsyncPaymentsContext::ServeStaticInvoice::recipient_id`].
+		 * 
+		 * Also useful for rate limiting the number of [`InvoiceRequest`]s we will respond to on
+		 * recipient's behalf.
+		 * 
+		 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+		 */
+		public byte[] recipient_id;
+		/**
+		 * The slot number for a specific [`StaticInvoice`] that the recipient previously
+		 * requested be served on their behalf. Useful when paired with the
+		 * [`OffersContext::StaticInvoiceRequested::recipient_id`] to pull that specific invoice from
+		 * the database when payers send an [`InvoiceRequest`]. This id was previously
+		 * provided via [`AsyncPaymentsContext::ServeStaticInvoice::invoice_slot`].
+		 * 
+		 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+		 */
+		public short invoice_slot;
+		/**
+		 * The time as duration since the Unix epoch at which this path expires and messages sent over
+		 * it should be ignored.
+		 * 
+		 * Useful to timeout async recipients that are no longer supported as clients.
+		 */
+		public long path_absolute_expiry;
+		internal OffersContext_StaticInvoiceRequested(long ptr) : base(null, ptr) {
+			long recipient_id = bindings.LDKOffersContext_StaticInvoiceRequested_get_recipient_id(ptr);
+			byte[] recipient_id_conv = InternalUtils.decodeUint8Array(recipient_id);
+			this.recipient_id = recipient_id_conv;
+			this.invoice_slot = bindings.LDKOffersContext_StaticInvoiceRequested_get_invoice_slot(ptr);
+			this.path_absolute_expiry = bindings.LDKOffersContext_StaticInvoiceRequested_get_path_absolute_expiry(ptr);
+		}
+	}
 	/** A OffersContext of type OutboundPayment */
 	public class OffersContext_OutboundPayment : OffersContext {
 		/**
@@ -62,15 +105,6 @@ public class OffersContext : CommonBase {
 		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
 		 */
 		public org.ldk.structs.Nonce nonce;
-		/**
-		 * Authentication code for the [`PaymentId`], which should be checked when the context is
-		 * used with an [`InvoiceError`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
-		 */
-		public byte[] hmac;
 		internal OffersContext_OutboundPayment(long ptr) : base(null, ptr) {
 			long payment_id = bindings.LDKOffersContext_OutboundPayment_get_payment_id(ptr);
 			byte[] payment_id_conv = InternalUtils.decodeUint8Array(payment_id);
@@ -79,9 +113,6 @@ public class OffersContext : CommonBase {
 			org.ldk.structs.Nonce nonce_hu_conv = null; if (nonce < 0 || nonce > 4096) { nonce_hu_conv = new org.ldk.structs.Nonce(null, nonce); }
 			if (nonce_hu_conv != null) { nonce_hu_conv.ptrs_to.AddLast(this); };
 			this.nonce = nonce_hu_conv;
-			long hmac = bindings.LDKOffersContext_OutboundPayment_get_hmac(ptr);
-			byte[] hmac_conv = InternalUtils.decodeUint8Array(hmac);
-			this.hmac = hmac_conv;
 		}
 	}
 	/** A OffersContext of type InboundPayment */
@@ -92,32 +123,10 @@ public class OffersContext : CommonBase {
 		 * [`Bolt12Invoice::payment_hash`]: crate::offers::invoice::Bolt12Invoice::payment_hash
 		 */
 		public byte[] payment_hash;
-		/**
-		 * A nonce used for authenticating that a received [`InvoiceError`] is for a valid
-		 * sent [`Bolt12Invoice`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
-		 */
-		public org.ldk.structs.Nonce nonce;
-		/**
-		 * Authentication code for the [`PaymentHash`], which should be checked when the context is
-		 * used to log the received [`InvoiceError`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		 */
-		public byte[] hmac;
 		internal OffersContext_InboundPayment(long ptr) : base(null, ptr) {
 			long payment_hash = bindings.LDKOffersContext_InboundPayment_get_payment_hash(ptr);
 			byte[] payment_hash_conv = InternalUtils.decodeUint8Array(payment_hash);
 			this.payment_hash = payment_hash_conv;
-			long nonce = bindings.LDKOffersContext_InboundPayment_get_nonce(ptr);
-			org.ldk.structs.Nonce nonce_hu_conv = null; if (nonce < 0 || nonce > 4096) { nonce_hu_conv = new org.ldk.structs.Nonce(null, nonce); }
-			if (nonce_hu_conv != null) { nonce_hu_conv.ptrs_to.AddLast(this); };
-			this.nonce = nonce_hu_conv;
-			long hmac = bindings.LDKOffersContext_InboundPayment_get_hmac(ptr);
-			byte[] hmac_conv = InternalUtils.decodeUint8Array(hmac);
-			this.hmac = hmac_conv;
 		}
 	}
 	internal long clone_ptr() {
@@ -151,13 +160,26 @@ public class OffersContext : CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new StaticInvoiceRequested-variant OffersContext
+	 */
+	public static org.ldk.structs.OffersContext static_invoice_requested(byte[] recipient_id, short invoice_slot, long path_absolute_expiry) {
+		long ret = bindings.OffersContext_static_invoice_requested(InternalUtils.encodeUint8Array(recipient_id), invoice_slot, path_absolute_expiry);
+		GC.KeepAlive(recipient_id);
+		GC.KeepAlive(invoice_slot);
+		GC.KeepAlive(path_absolute_expiry);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new OutboundPayment-variant OffersContext
 	 */
-	public static org.ldk.structs.OffersContext outbound_payment(byte[] payment_id, org.ldk.structs.Nonce nonce, byte[] hmac) {
-		long ret = bindings.OffersContext_outbound_payment(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)), nonce.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(hmac, 32)));
+	public static org.ldk.structs.OffersContext outbound_payment(byte[] payment_id, org.ldk.structs.Nonce nonce) {
+		long ret = bindings.OffersContext_outbound_payment(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)), nonce.ptr);
 		GC.KeepAlive(payment_id);
 		GC.KeepAlive(nonce);
-		GC.KeepAlive(hmac);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -167,11 +189,9 @@ public class OffersContext : CommonBase {
 	/**
 	 * Utility method to constructs a new InboundPayment-variant OffersContext
 	 */
-	public static org.ldk.structs.OffersContext inbound_payment(byte[] payment_hash, org.ldk.structs.Nonce nonce, byte[] hmac) {
-		long ret = bindings.OffersContext_inbound_payment(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), nonce.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(hmac, 32)));
+	public static org.ldk.structs.OffersContext inbound_payment(byte[] payment_hash) {
+		long ret = bindings.OffersContext_inbound_payment(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)));
 		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(nonce);
-		GC.KeepAlive(hmac);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

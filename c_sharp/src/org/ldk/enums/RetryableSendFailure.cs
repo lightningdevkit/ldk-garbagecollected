@@ -8,11 +8,14 @@ namespace org { namespace ldk { namespace enums {/**
  */
 public enum RetryableSendFailure {
 	/**
-	 * The provided [`PaymentParameters::expiry_time`] indicated that the payment has expired.
+	 * The provided [`PaymentParameters::expiry_time`] indicated that the payment has expired or
+	 * the BOLT 12 invoice paid to via [`ChannelManager::send_payment_for_bolt12_invoice`] was
+	 * expired.
 	 * 
 	 * Note that this error is *not* caused by [`Retry::Timeout`].
 	 * 
 	 * [`PaymentParameters::expiry_time`]: crate::routing::router::PaymentParameters::expiry_time
+	 * [`ChannelManager::send_payment_for_bolt12_invoice`]: crate::ln::channelmanager::ChannelManager::send_payment_for_bolt12_invoice
 	 */
 	LDKRetryableSendFailure_PaymentExpired,
 	/**

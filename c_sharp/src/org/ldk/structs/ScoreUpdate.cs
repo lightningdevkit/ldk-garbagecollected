@@ -94,7 +94,6 @@ public class ScoreUpdate : CommonBase {
 		GC.KeepAlive(path);
 		GC.KeepAlive(short_channel_id);
 		GC.KeepAlive(duration_since_epoch);
-		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
@@ -105,7 +104,6 @@ public class ScoreUpdate : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(duration_since_epoch);
-		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
@@ -117,7 +115,6 @@ public class ScoreUpdate : CommonBase {
 		GC.KeepAlive(path);
 		GC.KeepAlive(short_channel_id);
 		GC.KeepAlive(duration_since_epoch);
-		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**
@@ -128,7 +125,6 @@ public class ScoreUpdate : CommonBase {
 		GC.KeepAlive(this);
 		GC.KeepAlive(path);
 		GC.KeepAlive(duration_since_epoch);
-		if (this != null) { this.ptrs_to.AddLast(path); };
 	}
 
 	/**

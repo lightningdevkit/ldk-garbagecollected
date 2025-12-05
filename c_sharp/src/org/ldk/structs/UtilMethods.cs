@@ -46,6 +46,65 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Returns the amount that needs to be maintained as a reserve per anchor channel.
+	 * 
+	 * This reserve currently needs to be allocated as a disjoint set of at least 1 UTXO per channel,
+	 * as claims are not yet aggregated across channels.
+	 * 
+	 * To only require 1 UTXO per channel, it is assumed that, on average, transactions are able to
+	 * get confirmed within 1 block with [ConfirmationTarget::UrgentOnChainSweep], or that only a
+	 * portion of channels will go through unilateral closure at the same time, allowing UTXOs to be
+	 * shared. Otherwise, multiple UTXOs would be needed per channel:
+	 * - HTLC time-out transactions with different expiries cannot be aggregated. This could result in
+	 * many individual transactions that need to be confirmed starting from different, but potentially
+	 * sequential block heights.
+	 * - If each transaction takes N blocks to confirm, at least N UTXOs per channel are needed to
+	 * provide the necessary concurrency.
+	 * 
+	 * The returned amount includes the fee to spend a single UTXO of the type indicated by
+	 * [AnchorChannelReserveContext::taproot_wallet]. Larger sets of UTXOs with more complex witnesses
+	 * will need to include the corresponding fee required to spend them.
+	 * 
+	 * [ConfirmationTarget::UrgentOnChainSweep]: crate::chain::chaininterface::ConfirmationTarget::UrgentOnChainSweep
+	 */
+	public static long get_reserve_per_channel(org.ldk.structs.AnchorChannelReserveContext context) {
+		long ret = bindings.get_reserve_per_channel(context.ptr);
+		GC.KeepAlive(context);
+		return ret;
+	}
+
+	/**
+	 * Calculates the number of anchor channels that can be supported by the reserve provided
+	 * by `utxos`.
+	 */
+	public static long get_supportable_anchor_channels(org.ldk.structs.AnchorChannelReserveContext context, Utxo[] utxos) {
+		long ret = bindings.get_supportable_anchor_channels(context.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(utxos, utxos_conv_6 => utxos_conv_6.ptr)));
+		GC.KeepAlive(context);
+		GC.KeepAlive(utxos);
+		return ret;
+	}
+
+	/**
+	 * Verifies whether the anchor channel reserve provided by `utxos` is sufficient to support
+	 * an additional anchor channel.
+	 * 
+	 * This should be verified:
+	 * - Before opening a new outbound anchor channel with [ChannelManager::create_channel].
+	 * - Before accepting a new inbound anchor channel while handling [Event::OpenChannelRequest].
+	 * 
+	 * [ChannelManager::create_channel]: crate::ln::channelmanager::ChannelManager::create_channel
+	 * [Event::OpenChannelRequest]: crate::events::Event::OpenChannelRequest
+	 */
+	public static bool can_support_additional_anchor_channel(org.ldk.structs.AnchorChannelReserveContext context, Utxo[] utxos, org.ldk.structs.ChannelManager a_channel_manager, org.ldk.structs.ChainMonitor chain_monitor) {
+		bool ret = bindings.can_support_additional_anchor_channel(context.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(utxos, utxos_conv_6 => utxos_conv_6.ptr)), a_channel_manager.ptr, chain_monitor.ptr);
+		GC.KeepAlive(context);
+		GC.KeepAlive(utxos);
+		GC.KeepAlive(a_channel_manager);
+		GC.KeepAlive(chain_monitor);
+		return ret;
+	}
+
+	/**
 	 * Read a APIError from a byte array, created by APIError_write
 	 */
 	public static org.ldk.structs.Result_COption_APIErrorZDecodeErrorZ APIError_read(byte[] ser) {
@@ -110,15 +169,13 @@ public class UtilMethods {
 		GC.KeepAlive(target_store);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneIOErrorZ ret_hu_conv = Result_NoneIOErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(source_store); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(target_store); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Read previously persisted [`ChannelMonitor`]s from the store.
 	 */
-	public static org.ldk.structs.Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ read_channel_monitors(org.ldk.structs.KVStore kv_store, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider) {
+	public static org.ldk.structs.Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ read_channel_monitors(org.ldk.structs.KVStoreSync kv_store, org.ldk.structs.EntropySource entropy_source, org.ldk.structs.SignerProvider signer_provider) {
 		long ret = bindings.read_channel_monitors(kv_store.ptr, entropy_source.ptr, signer_provider.ptr);
 		GC.KeepAlive(kv_store);
 		GC.KeepAlive(entropy_source);
@@ -173,10 +230,10 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Read a C2Tuple_BestBlockOutputSweeperZ from a byte array, created by C2Tuple_BestBlockOutputSweeperZ_write
+	 * Read a C2Tuple_BestBlockOutputSweeperSyncZ from a byte array, created by C2Tuple_BestBlockOutputSweeperSyncZ_write
 	 */
-	public static org.ldk.structs.Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ C2Tuple_BestBlockOutputSweeperZ_read(byte[] ser, org.ldk.structs.BroadcasterInterface arg_a, org.ldk.structs.FeeEstimator arg_b, org.ldk.structs.Option_FilterZ arg_c, org.ldk.structs.OutputSpender arg_d, org.ldk.structs.ChangeDestinationSource arg_e, org.ldk.structs.KVStore arg_f, org.ldk.structs.Logger arg_g) {
-		long ret = bindings.C2Tuple_BestBlockOutputSweeperZ_read(InternalUtils.encodeUint8Array(ser), arg_a.ptr, arg_b.ptr, arg_c.ptr, arg_d.ptr, arg_e.ptr, arg_f.ptr, arg_g.ptr);
+	public static org.ldk.structs.Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ C2Tuple_BestBlockOutputSweeperSyncZ_read(byte[] ser, org.ldk.structs.BroadcasterInterface arg_a, org.ldk.structs.FeeEstimator arg_b, org.ldk.structs.Option_FilterZ arg_c, org.ldk.structs.OutputSpender arg_d, org.ldk.structs.ChangeDestinationSourceSync arg_e, org.ldk.structs.KVStoreSync arg_f, org.ldk.structs.Logger arg_g) {
+		long ret = bindings.C2Tuple_BestBlockOutputSweeperSyncZ_read(InternalUtils.encodeUint8Array(ser), arg_a.ptr, arg_b.ptr, arg_c.ptr, arg_d.ptr, arg_e.ptr, arg_f.ptr, arg_g.ptr);
 		GC.KeepAlive(ser);
 		GC.KeepAlive(arg_a);
 		GC.KeepAlive(arg_b);
@@ -186,7 +243,7 @@ public class UtilMethods {
 		GC.KeepAlive(arg_f);
 		GC.KeepAlive(arg_g);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ.constr_from_ptr(ret);
+		Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_a); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_b); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_c); };
@@ -224,183 +281,71 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Peel one layer off an incoming onion, returning a [`PendingHTLCInfo`] that contains information
-	 * about the intended next-hop for the HTLC.
-	 * 
-	 * This does all the relevant context-free checks that LDK requires for payment relay or
-	 * acceptance. If the payment is to be received, and the amount matches the expected amount for
-	 * a given invoice, this indicates the [`msgs::UpdateAddHTLC`], once fully committed in the
-	 * channel, will generate an [`Event::PaymentClaimable`].
-	 * 
-	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 * Read a PathFailure from a byte array, created by PathFailure_write
 	 */
-	public static org.ldk.structs.Result_PendingHTLCInfoInboundHTLCErrZ peel_payment_onion(org.ldk.structs.UpdateAddHTLC msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, int cur_height, bool allow_skimmed_fees) {
-		long ret = bindings.peel_payment_onion(msg.ptr, node_signer.ptr, logger.ptr, cur_height, allow_skimmed_fees);
-		GC.KeepAlive(msg);
-		GC.KeepAlive(node_signer);
-		GC.KeepAlive(logger);
-		GC.KeepAlive(cur_height);
-		GC.KeepAlive(allow_skimmed_fees);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PendingHTLCInfoInboundHTLCErrZ ret_hu_conv = Result_PendingHTLCInfoInboundHTLCErrZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
-	 * [`ChannelManager`].
-	 */
-	public static org.ldk.structs.InitFeatures provided_init_features(org.ldk.structs.UserConfig config) {
-		long ret = bindings.provided_init_features(config.ptr);
-		GC.KeepAlive(config);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(config); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a C2Tuple_ThirtyTwoBytesChannelManagerZ from a byte array, created by C2Tuple_ThirtyTwoBytesChannelManagerZ_write
-	 */
-	public static org.ldk.structs.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ C2Tuple_ThirtyTwoBytesChannelManagerZ_read(byte[] ser, EntropySource arg_entropy_source, NodeSigner arg_node_signer, SignerProvider arg_signer_provider, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Router arg_router, MessageRouter arg_message_router, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
-		long ret = bindings.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(InternalUtils.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(arg_entropy_source.ptr, arg_node_signer.ptr, arg_signer_provider.ptr, arg_fee_estimator.ptr, arg_chain_monitor.ptr, arg_tx_broadcaster.ptr, arg_router.ptr, arg_message_router.ptr, arg_logger.ptr, arg_default_config.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(arg_channel_monitors, arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16.ptr))));
-		GC.KeepAlive(ser);
-		GC.KeepAlive(arg_entropy_source);
-		GC.KeepAlive(arg_node_signer);
-		GC.KeepAlive(arg_signer_provider);
-		GC.KeepAlive(arg_fee_estimator);
-		GC.KeepAlive(arg_chain_monitor);
-		GC.KeepAlive(arg_tx_broadcaster);
-		GC.KeepAlive(arg_router);
-		GC.KeepAlive(arg_message_router);
-		GC.KeepAlive(arg_logger);
-		GC.KeepAlive(arg_default_config);
-		GC.KeepAlive(arg_channel_monitors);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_entropy_source); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_node_signer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_signer_provider); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_fee_estimator); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_chain_monitor); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_tx_broadcaster); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_router); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_message_router); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_logger); };
-		;
-		foreach (ChannelMonitor arg_channel_monitors_conv_16 in arg_channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_channel_monitors_conv_16); }; };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Adds a tweak to a public key to derive a new public key.
-	 * 
-	 * May panic if `tweak` is not the output of a SHA-256 hash.
-	 */
-	public static byte[] add_public_key_tweak(byte[] base_point, byte[] tweak) {
-		long ret = bindings.add_public_key_tweak(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(base_point, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(tweak, 32)));
-		GC.KeepAlive(base_point);
-		GC.KeepAlive(tweak);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
-	 * Read a InboundHTLCStateDetails from a byte array, created by InboundHTLCStateDetails_write
-	 */
-	public static org.ldk.structs.Result_COption_InboundHTLCStateDetailsZDecodeErrorZ InboundHTLCStateDetails_read(byte[] ser) {
-		long ret = bindings.InboundHTLCStateDetails_read(InternalUtils.encodeUint8Array(ser));
+	public static org.ldk.structs.Result_COption_PathFailureZDecodeErrorZ PathFailure_read(byte[] ser) {
+		long ret = bindings.PathFailure_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_InboundHTLCStateDetailsZDecodeErrorZ ret_hu_conv = Result_COption_InboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		Result_COption_PathFailureZDecodeErrorZ ret_hu_conv = Result_COption_PathFailureZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Read a OutboundHTLCStateDetails from a byte array, created by OutboundHTLCStateDetails_write
+	 * Read a ClosureReason from a byte array, created by ClosureReason_write
 	 */
-	public static org.ldk.structs.Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ OutboundHTLCStateDetails_read(byte[] ser) {
-		long ret = bindings.OutboundHTLCStateDetails_read(InternalUtils.encodeUint8Array(ser));
+	public static org.ldk.structs.Result_COption_ClosureReasonZDecodeErrorZ ClosureReason_read(byte[] ser) {
+		long ret = bindings.ClosureReason_read(InternalUtils.encodeUint8Array(ser));
 		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ ret_hu_conv = Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment`], but no
-	 * `ChannelManager` is required. Useful for generating invoices for [phantom node payments] without
-	 * a `ChannelManager`.
-	 * 
-	 * `keys` is generated by calling [`NodeSigner::get_inbound_payment_key`]. It is recommended to
-	 * cache this value and not regenerate it for each new inbound payment.
-	 * 
-	 * `current_time` is a Unix timestamp representing the current time.
-	 * 
-	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
-	 * on versions of LDK prior to 0.0.114.
-	 * 
-	 * [phantom node payments]: crate::sign::PhantomKeysManager
-	 * [`NodeSigner::get_inbound_payment_key`]: crate::sign::NodeSigner::get_inbound_payment_key
+	 * Read a HTLCHandlingFailureType from a byte array, created by HTLCHandlingFailureType_write
 	 */
-	public static org.ldk.structs.Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ create(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.EntropySource entropy_source, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create(keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, entropy_source.ptr, current_time, min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(keys);
-		GC.KeepAlive(min_value_msat);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		GC.KeepAlive(entropy_source);
-		GC.KeepAlive(current_time);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
+	public static org.ldk.structs.Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ HTLCHandlingFailureType_read(byte[] ser) {
+		long ret = bindings.HTLCHandlingFailureType_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ ret_hu_conv = Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash`],
-	 * but no `ChannelManager` is required. Useful for generating invoices for [phantom node payments]
-	 * without a `ChannelManager`.
-	 * 
-	 * See [`create`] for information on the `keys` and `current_time` parameters.
-	 * 
-	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
-	 * on versions of LDK prior to 0.0.114.
-	 * 
-	 * [phantom node payments]: crate::sign::PhantomKeysManager
+	 * Read a PaymentFailureReason from a byte array, created by PaymentFailureReason_write
 	 */
-	public static org.ldk.structs.Result_ThirtyTwoBytesNoneZ create_from_hash(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create_from_hash(keys.ptr, min_value_msat.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), invoice_expiry_delta_secs, current_time, min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(keys);
-		GC.KeepAlive(min_value_msat);
-		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		GC.KeepAlive(current_time);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
+	public static org.ldk.structs.Result_COption_PaymentFailureReasonZDecodeErrorZ PaymentFailureReason_read(byte[] ser) {
+		long ret = bindings.PaymentFailureReason_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(keys); };
+		Result_COption_PaymentFailureReasonZDecodeErrorZ ret_hu_conv = Result_COption_PaymentFailureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Parses an OnionV3 host and port into a [`SocketAddress::OnionV3`].
-	 * 
-	 * The host part must end with \".onion\".
+	 * Read a Event from a byte array, created by Event_write
 	 */
-	public static org.ldk.structs.Result_SocketAddressSocketAddressParseErrorZ parse_onion_address(string host, short port) {
-		long ret = bindings.parse_onion_address(InternalUtils.encodeString(host), port);
-		GC.KeepAlive(host);
-		GC.KeepAlive(port);
+	public static org.ldk.structs.Result_COption_EventZDecodeErrorZ Event_read(byte[] ser) {
+		long ret = bindings.Event_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SocketAddressSocketAddressParseErrorZ ret_hu_conv = Result_SocketAddressSocketAddressParseErrorZ.constr_from_ptr(ret);
+		Result_COption_EventZDecodeErrorZ ret_hu_conv = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Maximum number of in-flight HTLCs in each direction allowed by the lightning protocol.
+	 * 
+	 * 483 for non-zero-fee-commitment channels and 114 for zero-fee-commitment channels.
+	 * 
+	 * Actual maximums can be set equal to or below this value by each channel participant.
+	 */
+	public static short max_htlcs(org.ldk.structs.ChannelTypeFeatures channel_type) {
+		short ret = bindings.max_htlcs(channel_type.ptr);
+		GC.KeepAlive(channel_type);
+		return ret;
 	}
 
 	/**
@@ -413,10 +358,28 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Gets the weight of a single input-output pair in externally funded HTLC-success transactions
+	 */
+	public static long aggregated_htlc_success_input_output_pair_weight(org.ldk.structs.ChannelTypeFeatures channel_type_features) {
+		long ret = bindings.aggregated_htlc_success_input_output_pair_weight(channel_type_features.ptr);
+		GC.KeepAlive(channel_type_features);
+		return ret;
+	}
+
+	/**
 	 * Gets the weight for an HTLC-Timeout transaction.
 	 */
 	public static long htlc_timeout_tx_weight(org.ldk.structs.ChannelTypeFeatures channel_type_features) {
 		long ret = bindings.htlc_timeout_tx_weight(channel_type_features.ptr);
+		GC.KeepAlive(channel_type_features);
+		return ret;
+	}
+
+	/**
+	 * Gets the weight of a single input-output pair in externally funded HTLC-timeout transactions
+	 */
+	public static long aggregated_htlc_timeout_input_output_pair_weight(org.ldk.structs.ChannelTypeFeatures channel_type_features) {
+		long ret = bindings.aggregated_htlc_timeout_input_output_pair_weight(channel_type_features.ptr);
 		GC.KeepAlive(channel_type_features);
 		return ret;
 	}
@@ -506,11 +469,11 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Returns the script for the counterparty's output on a holder's commitment transaction based on
-	 * the channel type.
+	 * Returns the script for the countersigner's (i.e. non-broadcaster's) output on a commitment
+	 * transaction based on the channel type.
 	 */
-	public static byte[] get_counterparty_payment_script(org.ldk.structs.ChannelTypeFeatures channel_type_features, byte[] payment_key) {
-		long ret = bindings.get_counterparty_payment_script(channel_type_features.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_key, 33)));
+	public static byte[] get_countersigner_payment_script(org.ldk.structs.ChannelTypeFeatures channel_type_features, byte[] payment_key) {
+		long ret = bindings.get_countersigner_payment_script(channel_type_features.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_key, 33)));
 		GC.KeepAlive(channel_type_features);
 		GC.KeepAlive(payment_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -586,8 +549,8 @@ public class UtilMethods {
 	/**
 	 * Gets the witnessScript for the to_remote output when anchors are enabled.
 	 */
-	public static byte[] get_to_countersignatory_with_anchors_redeemscript(byte[] payment_point) {
-		long ret = bindings.get_to_countersignatory_with_anchors_redeemscript(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_point, 33)));
+	public static byte[] get_to_countersigner_keyed_anchor_redeemscript(byte[] payment_point) {
+		long ret = bindings.get_to_countersigner_keyed_anchor_redeemscript(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_point, 33)));
 		GC.KeepAlive(payment_point);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
@@ -595,15 +558,27 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Gets the witnessScript for an anchor output from the funding public key.
+	 * Gets the script_pubkey for a shared anchor
+	 */
+	public static byte[] shared_anchor_script_pubkey() {
+		long ret = bindings.shared_anchor_script_pubkey();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Gets the witnessScript for a keyed anchor (non-zero-fee-commitments) output from the funding
+	 * public key.
+	 * 
 	 * The witness in the spending input must be:
 	 * <BIP 143 funding_signature>
 	 * After 16 blocks of confirmation, an alternative satisfying witness could be:
 	 * <>
 	 * (empty vector required to satisfy compliance with MINIMALIF-standard rule)
 	 */
-	public static byte[] get_anchor_redeemscript(byte[] funding_pubkey) {
-		long ret = bindings.get_anchor_redeemscript(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_pubkey, 33)));
+	public static byte[] get_keyed_anchor_redeemscript(byte[] funding_pubkey) {
+		long ret = bindings.get_keyed_anchor_redeemscript(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_pubkey, 33)));
 		GC.KeepAlive(funding_pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
@@ -611,10 +586,11 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Returns the witness required to satisfy and spend an anchor input.
+	 * Returns the witness required to satisfy and spend a keyed anchor (non-zero-fee-commitments)
+	 * input.
 	 */
-	public static byte[] build_anchor_input_witness(byte[] funding_key, byte[] funding_sig) {
-		long ret = bindings.build_anchor_input_witness(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_key, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_sig, 64)));
+	public static byte[] build_keyed_anchor_input_witness(byte[] funding_key, byte[] funding_sig) {
+		long ret = bindings.build_keyed_anchor_input_witness(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_key, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_sig, 64)));
 		GC.KeepAlive(funding_key);
 		GC.KeepAlive(funding_sig);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -636,6 +612,182 @@ public class UtilMethods {
 		GC.KeepAlive(countersignatory_payment_basepoint);
 		GC.KeepAlive(outbound_from_broadcaster);
 		return ret;
+	}
+
+	/**
+	 * Adds a tweak to a public key to derive a new public key.
+	 * 
+	 * May panic if `tweak` is not the output of a SHA-256 hash.
+	 */
+	public static byte[] add_public_key_tweak(byte[] base_point, byte[] tweak) {
+		long ret = bindings.add_public_key_tweak(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(base_point, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(tweak, 32)));
+		GC.KeepAlive(base_point);
+		GC.KeepAlive(tweak);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a InboundHTLCStateDetails from a byte array, created by InboundHTLCStateDetails_write
+	 */
+	public static org.ldk.structs.Result_COption_InboundHTLCStateDetailsZDecodeErrorZ InboundHTLCStateDetails_read(byte[] ser) {
+		long ret = bindings.InboundHTLCStateDetails_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_InboundHTLCStateDetailsZDecodeErrorZ ret_hu_conv = Result_COption_InboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a OutboundHTLCStateDetails from a byte array, created by OutboundHTLCStateDetails_write
+	 */
+	public static org.ldk.structs.Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ OutboundHTLCStateDetails_read(byte[] ser) {
+		long ret = bindings.OutboundHTLCStateDetails_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ ret_hu_conv = Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public static org.ldk.structs.InitFeatures provided_init_features(org.ldk.structs.UserConfig config) {
+		long ret = bindings.provided_init_features(config.ptr);
+		GC.KeepAlive(config);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a C2Tuple_ThirtyTwoBytesChannelManagerZ from a byte array, created by C2Tuple_ThirtyTwoBytesChannelManagerZ_write
+	 */
+	public static org.ldk.structs.Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ C2Tuple_ThirtyTwoBytesChannelManagerZ_read(byte[] ser, EntropySource arg_entropy_source, NodeSigner arg_node_signer, SignerProvider arg_signer_provider, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Router arg_router, MessageRouter arg_message_router, Logger arg_logger, UserConfig arg_config, ChannelMonitor[] arg_channel_monitors) {
+		long ret = bindings.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(InternalUtils.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(arg_entropy_source.ptr, arg_node_signer.ptr, arg_signer_provider.ptr, arg_fee_estimator.ptr, arg_chain_monitor.ptr, arg_tx_broadcaster.ptr, arg_router.ptr, arg_message_router.ptr, arg_logger.ptr, arg_config.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(arg_channel_monitors, arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16.ptr))));
+		GC.KeepAlive(ser);
+		GC.KeepAlive(arg_entropy_source);
+		GC.KeepAlive(arg_node_signer);
+		GC.KeepAlive(arg_signer_provider);
+		GC.KeepAlive(arg_fee_estimator);
+		GC.KeepAlive(arg_chain_monitor);
+		GC.KeepAlive(arg_tx_broadcaster);
+		GC.KeepAlive(arg_router);
+		GC.KeepAlive(arg_message_router);
+		GC.KeepAlive(arg_logger);
+		GC.KeepAlive(arg_config);
+		GC.KeepAlive(arg_channel_monitors);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_signer_provider); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_fee_estimator); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_chain_monitor); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_tx_broadcaster); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_router); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_message_router); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_logger); };
+		;
+		foreach (ChannelMonitor arg_channel_monitors_conv_16 in arg_channel_monitors) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_channel_monitors_conv_16); }; };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment`], but no
+	 * `ChannelManager` is required. Useful for generating invoices for [phantom node payments] without
+	 * a `ChannelManager`.
+	 * 
+	 * `keys` is generated by calling [`NodeSigner::get_expanded_key`]. It is recommended to
+	 * cache this value and not regenerate it for each new inbound payment.
+	 * 
+	 * `current_time` is a Unix timestamp representing the current time.
+	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
+	 * [`NodeSigner::get_expanded_key`]: crate::sign::NodeSigner::get_expanded_key
+	 */
+	public static org.ldk.structs.Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ create(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, int invoice_expiry_delta_secs, org.ldk.structs.EntropySource entropy_source, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create(keys.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, entropy_source.ptr, current_time, min_final_cltv_expiry_delta.ptr);
+		GC.KeepAlive(keys);
+		GC.KeepAlive(min_value_msat);
+		GC.KeepAlive(invoice_expiry_delta_secs);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(current_time);
+		GC.KeepAlive(min_final_cltv_expiry_delta);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ ret_hu_conv = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash`],
+	 * but no `ChannelManager` is required. Useful for generating invoices for [phantom node payments]
+	 * without a `ChannelManager`.
+	 * 
+	 * See [`create`] for information on the `keys` and `current_time` parameters.
+	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
+	 */
+	public static org.ldk.structs.Result_ThirtyTwoBytesNoneZ create_from_hash(org.ldk.structs.ExpandedKey keys, org.ldk.structs.Option_u64Z min_value_msat, byte[] payment_hash, int invoice_expiry_delta_secs, long current_time, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
+		long ret = bindings.create_from_hash(keys.ptr, min_value_msat.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), invoice_expiry_delta_secs, current_time, min_final_cltv_expiry_delta.ptr);
+		GC.KeepAlive(keys);
+		GC.KeepAlive(min_value_msat);
+		GC.KeepAlive(payment_hash);
+		GC.KeepAlive(invoice_expiry_delta_secs);
+		GC.KeepAlive(current_time);
+		GC.KeepAlive(min_final_cltv_expiry_delta);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ThirtyTwoBytesNoneZ ret_hu_conv = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Parses an OnionV3 host and port into a [`SocketAddress::OnionV3`].
+	 * 
+	 * The host part must end with \".onion\".
+	 */
+	public static org.ldk.structs.Result_SocketAddressSocketAddressParseErrorZ parse_onion_address(string host, short port) {
+		long ret = bindings.parse_onion_address(InternalUtils.encodeString(host), port);
+		GC.KeepAlive(host);
+		GC.KeepAlive(port);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SocketAddressSocketAddressParseErrorZ ret_hu_conv = Result_SocketAddressSocketAddressParseErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Peel one layer off an incoming onion, returning a [`PendingHTLCInfo`] that contains information
+	 * about the intended next-hop for the HTLC.
+	 * 
+	 * This does all the relevant context-free checks that LDK requires for payment relay or
+	 * acceptance. If the payment is to be received, and the amount matches the expected amount for
+	 * a given invoice, this indicates the [`msgs::UpdateAddHTLC`], once fully committed in the
+	 * channel, will generate an [`Event::PaymentClaimable`].
+	 * 
+	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 */
+	public static org.ldk.structs.Result_PendingHTLCInfoInboundHTLCErrZ peel_payment_onion(org.ldk.structs.UpdateAddHTLC msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, int cur_height, bool allow_skimmed_fees) {
+		long ret = bindings.peel_payment_onion(msg.ptr, node_signer.ptr, logger.ptr, cur_height, allow_skimmed_fees);
+		GC.KeepAlive(msg);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(logger);
+		GC.KeepAlive(cur_height);
+		GC.KeepAlive(allow_skimmed_fees);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PendingHTLCInfoInboundHTLCErrZ ret_hu_conv = Result_PendingHTLCInfoInboundHTLCErrZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
+		return ret_hu_conv;
 	}
 
 	/**
@@ -761,154 +913,148 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
-	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
-	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
-	 * doesn't have to store preimage/payment secret information and (b) `ChannelManager` can verify
-	 * that the payment secret is valid when the invoice is paid.
+	 * Build a payment onion, returning the first hop msat and cltv values as well.
 	 * 
-	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
-	 * in excess of the current time.
+	 * `cur_block_height` should be set to the best known block height + 1.
 	 * 
-	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
-	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
-	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
-	 * confirmations during routing.
-	 * 
-	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: crate::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 * Note that invoice_request (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.Result_Bolt11InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z amt_msat, string description, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create_invoice_from_channelmanager(channelmanager.ptr, amt_msat.ptr, InternalUtils.encodeString(description), invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(amt_msat);
-		GC.KeepAlive(description);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_Bolt11InvoiceSignOrCreationErrorZ ret_hu_conv = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
-	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
-	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
-	 * doesn't have to store preimage/payment secret information and (b) `ChannelManager` can verify
-	 * that the payment secret is valid when the invoice is paid.
-	 * Use this variant if you want to pass the `description_hash` to the invoice.
-	 * 
-	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
-	 * in excess of the current time.
-	 * 
-	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
-	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
-	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
-	 * confirmations during routing.
-	 * 
-	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: crate::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
-	 */
-	public static org.ldk.structs.Result_Bolt11InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, int invoice_expiry_delta_secs, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash(channelmanager.ptr, amt_msat.ptr, description_hash.ptr, invoice_expiry_delta_secs, min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(amt_msat);
-		GC.KeepAlive(description_hash);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_Bolt11InvoiceSignOrCreationErrorZ ret_hu_conv = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * See [`create_invoice_from_channelmanager`].
-	 * 
-	 * This version allows for providing custom [`PaymentHash`] and description hash for the invoice.
-	 * 
-	 * This may be useful if you're building an on-chain swap or involving another protocol where
-	 * the payment hash is also involved outside the scope of lightning and want to set the
-	 * description hash.
-	 */
-	public static org.ldk.structs.Result_Bolt11InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_description_hash_and_payment_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z amt_msat, org.ldk.structs.Sha256 description_hash, int invoice_expiry_delta_secs, byte[] payment_hash, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create_invoice_from_channelmanager_with_description_hash_and_payment_hash(channelmanager.ptr, amt_msat.ptr, description_hash.ptr, invoice_expiry_delta_secs, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(amt_msat);
-		GC.KeepAlive(description_hash);
-		GC.KeepAlive(invoice_expiry_delta_secs);
+	public static org.ldk.structs.Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ create_payment_onion(org.ldk.structs.Path path, byte[] session_priv, long total_msat, org.ldk.structs.RecipientOnionFields recipient_onion, int cur_block_height, byte[] payment_hash, org.ldk.structs.Option_ThirtyTwoBytesZ keysend_preimage, org.ldk.structs.InvoiceRequest invoice_request, byte[] prng_seed) {
+		long ret = bindings.create_payment_onion(path.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(session_priv, 32)), total_msat, recipient_onion.ptr, cur_block_height, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), keysend_preimage.ptr, invoice_request == null ? 0 : invoice_request.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(prng_seed, 32)));
+		GC.KeepAlive(path);
+		GC.KeepAlive(session_priv);
+		GC.KeepAlive(total_msat);
+		GC.KeepAlive(recipient_onion);
+		GC.KeepAlive(cur_block_height);
 		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
+		GC.KeepAlive(keysend_preimage);
+		GC.KeepAlive(invoice_request);
+		GC.KeepAlive(prng_seed);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_Bolt11InvoiceSignOrCreationErrorZ ret_hu_conv = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
+		Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ ret_hu_conv = Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * See [`create_invoice_from_channelmanager`].
-	 * 
-	 * This version allows for providing a custom [`PaymentHash`] for the invoice.
-	 * This may be useful if you're building an on-chain swap or involving another protocol where
-	 * the payment hash is also involved outside the scope of lightning.
+	 * Verifies the signature with a pubkey over the given message using a tagged hash as the message
+	 * digest.
 	 */
-	public static org.ldk.structs.Result_Bolt11InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_with_payment_hash(org.ldk.structs.ChannelManager channelmanager, org.ldk.structs.Option_u64Z amt_msat, string description, int invoice_expiry_delta_secs, byte[] payment_hash, org.ldk.structs.Option_u16Z min_final_cltv_expiry_delta) {
-		long ret = bindings.create_invoice_from_channelmanager_with_payment_hash(channelmanager.ptr, amt_msat.ptr, InternalUtils.encodeString(description), invoice_expiry_delta_secs, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_hash, 32)), min_final_cltv_expiry_delta.ptr);
-		GC.KeepAlive(channelmanager);
-		GC.KeepAlive(amt_msat);
-		GC.KeepAlive(description);
-		GC.KeepAlive(invoice_expiry_delta_secs);
-		GC.KeepAlive(payment_hash);
-		GC.KeepAlive(min_final_cltv_expiry_delta);
+	public static org.ldk.structs.Result_NoneSecp256k1ErrorZ verify_signature(byte[] signature, org.ldk.structs.TaggedHash message, byte[] pubkey) {
+		long ret = bindings.verify_signature(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(signature, 64)), message.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(pubkey, 33)));
+		GC.KeepAlive(signature);
+		GC.KeepAlive(message);
+		GC.KeepAlive(pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_Bolt11InvoiceSignOrCreationErrorZ ret_hu_conv = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channelmanager); };
+		Result_NoneSecp256k1ErrorZ ret_hu_conv = Result_NoneSecp256k1ErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Builds the necessary parameters to pay or pre-flight probe the given variable-amount
-	 * (also known as 'zero-amount') [`Bolt11Invoice`] using
-	 * [`ChannelManager::send_payment`] or [`ChannelManager::send_preflight_probes`].
-	 * 
-	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
-	 * same [`PaymentHash`] has never been paid before.
-	 * 
-	 * Will always succeed unless the invoice has an amount specified, in which case
-	 * [`payment_parameters_from_invoice`] should be used.
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::send_preflight_probes`]: crate::ln::channelmanager::ChannelManager::send_preflight_probes
+	 * Returns whether `tlv_type` corresponds to a TLV record for async payment messages.
 	 */
-	public static org.ldk.structs.Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_variable_amount_invoice(org.ldk.structs.Bolt11Invoice invoice, long amount_msat) {
-		long ret = bindings.payment_parameters_from_variable_amount_invoice(invoice.ptr, amount_msat);
-		GC.KeepAlive(invoice);
-		GC.KeepAlive(amount_msat);
+	public static bool AsyncPaymentsMessage_is_known_type(long tlv_type) {
+		bool ret = bindings.AsyncPaymentsMessage_is_known_type(tlv_type);
+		GC.KeepAlive(tlv_type);
+		return ret;
+	}
+
+	/**
+	 * Returns whether `tlv_type` corresponds to a TLV record for DNS Resolvers.
+	 */
+	public static bool DNSResolverMessage_is_known_type(long tlv_type) {
+		bool ret = bindings.DNSResolverMessage_is_known_type(tlv_type);
+		GC.KeepAlive(tlv_type);
+		return ret;
+	}
+
+	/**
+	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`, first calling [`Destination::resolve`] on `path.destination` with the given
+	 * [`ReadOnlyNetworkGraph`].
+	 * 
+	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
+	 * needed to connect to the first node.
+	 * 
+	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static org.ldk.structs.Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ create_onion_message_resolving_destination(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.NodeIdLookUp node_id_lookup, org.ldk.structs.ReadOnlyNetworkGraph network_graph, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedMessagePath reply_path) {
+		long ret = bindings.create_onion_message_resolving_destination(entropy_source.ptr, node_signer.ptr, node_id_lookup.ptr, network_graph.ptr, path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(node_id_lookup);
+		GC.KeepAlive(network_graph);
+		GC.KeepAlive(path);
+		GC.KeepAlive(contents);
+		GC.KeepAlive(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ ret_hu_conv = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
+		Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ ret_hu_conv = Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_lookup); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(contents); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Builds the necessary parameters to pay or pre-flight probe the given [`Bolt11Invoice`] using
-	 * [`ChannelManager::send_payment`] or [`ChannelManager::send_preflight_probes`].
+	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`.
 	 * 
-	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
-	 * same [`PaymentHash`] has never been paid before.
+	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
+	 * needed to connect to the first node.
 	 * 
-	 * Will always succeed unless the invoice has no amount specified, in which case
-	 * [`payment_parameters_from_variable_amount_invoice`] should be used.
+	 * Returns [`SendError::UnresolvedIntroductionNode`] if:
+	 * - `destination` contains a blinded path with an [`IntroductionNode::DirectedShortChannelId`],
+	 * - unless it can be resolved by [`NodeIdLookUp::next_node_id`].
+	 * Use [`create_onion_message_resolving_destination`] instead to resolve the introduction node
+	 * first with a [`ReadOnlyNetworkGraph`].
 	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::send_preflight_probes`]: crate::ln::channelmanager::ChannelManager::send_preflight_probes
+	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ payment_parameters_from_invoice(org.ldk.structs.Bolt11Invoice invoice) {
-		long ret = bindings.payment_parameters_from_invoice(invoice.ptr);
-		GC.KeepAlive(invoice);
+	public static org.ldk.structs.Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.NodeIdLookUp node_id_lookup, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedMessagePath reply_path) {
+		long ret = bindings.create_onion_message(entropy_source.ptr, node_signer.ptr, node_id_lookup.ptr, path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
+		GC.KeepAlive(entropy_source);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(node_id_lookup);
+		GC.KeepAlive(path);
+		GC.KeepAlive(contents);
+		GC.KeepAlive(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ ret_hu_conv = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(invoice); };
+		Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ ret_hu_conv = Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_lookup); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(contents); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Decode one layer of an incoming [`OnionMessage`].
+	 * 
+	 * Returns either the next layer of the onion for forwarding or the decrypted content for the
+	 * receiver.
+	 */
+	public static org.ldk.structs.Result_PeeledOnionNoneZ peel_onion_message(org.ldk.structs.OnionMessage msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
+		long ret = bindings.peel_onion_message(msg.ptr, node_signer.ptr, logger.ptr, custom_handler.ptr);
+		GC.KeepAlive(msg);
+		GC.KeepAlive(node_signer);
+		GC.KeepAlive(logger);
+		GC.KeepAlive(custom_handler);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PeeledOnionNoneZ ret_hu_conv = Result_PeeledOnionNoneZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(custom_handler); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns whether `tlv_type` corresponds to a TLV record for Offers.
+	 */
+	public static bool OffersMessage_is_known_type(long tlv_type) {
+		bool ret = bindings.OffersMessage_is_known_type(tlv_type);
+		GC.KeepAlive(tlv_type);
+		return ret;
 	}
 
 	/**
@@ -932,7 +1078,6 @@ public class UtilMethods {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -946,7 +1091,6 @@ public class UtilMethods {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -979,7 +1123,7 @@ public class UtilMethods {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, ChannelDetails[] first_hops, org.ldk.structs.Logger logger, org.ldk.structs.ScoreLookUp scorer, org.ldk.structs.ProbabilisticScoringFeeParameters score_params, byte[] random_seed_bytes) {
+	public static org.ldk.structs.Result_RouteStrZ find_route(byte[] our_node_pubkey, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, ChannelDetails[] first_hops, org.ldk.structs.Logger logger, org.ldk.structs.ScoreLookUp scorer, org.ldk.structs.ProbabilisticScoringFeeParameters score_params, byte[] random_seed_bytes) {
 		long ret = bindings.find_route(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(our_node_pubkey, 33)), route_params.ptr, network_graph.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(first_hops, first_hops_conv_16 => first_hops_conv_16.ptr)), logger.ptr, scorer.ptr, score_params.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(random_seed_bytes, 32)));
 		GC.KeepAlive(our_node_pubkey);
 		GC.KeepAlive(route_params);
@@ -990,13 +1134,11 @@ public class UtilMethods {
 		GC.KeepAlive(score_params);
 		GC.KeepAlive(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(route_params); };
+		Result_RouteStrZ ret_hu_conv = Result_RouteStrZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
 		if (first_hops != null) { foreach (ChannelDetails first_hops_conv_16 in first_hops) { if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(first_hops_conv_16); }; } };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(scorer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(score_params); };
 		return ret_hu_conv;
 	}
 
@@ -1006,7 +1148,7 @@ public class UtilMethods {
 	 * 
 	 * Re-uses logic from `find_route`, so the restrictions described there also apply here.
 	 */
-	public static org.ldk.structs.Result_RouteLightningErrorZ build_route_from_hops(byte[] our_node_pubkey, byte[][] hops, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes) {
+	public static org.ldk.structs.Result_RouteStrZ build_route_from_hops(byte[] our_node_pubkey, byte[][] hops, org.ldk.structs.RouteParameters route_params, org.ldk.structs.NetworkGraph network_graph, org.ldk.structs.Logger logger, byte[] random_seed_bytes) {
 		long ret = bindings.build_route_from_hops(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(our_node_pubkey, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(hops, hops_conv_8 => InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(hops_conv_8, 33)))), route_params.ptr, network_graph.ptr, logger.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(random_seed_bytes, 32)));
 		GC.KeepAlive(our_node_pubkey);
 		GC.KeepAlive(hops);
@@ -1015,8 +1157,7 @@ public class UtilMethods {
 		GC.KeepAlive(logger);
 		GC.KeepAlive(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(route_params); };
+		Result_RouteStrZ ret_hu_conv = Result_RouteStrZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
 		return ret_hu_conv;
@@ -1053,204 +1194,30 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for async payment messages.
-	 */
-	public static bool AsyncPaymentsMessage_is_known_type(long tlv_type) {
-		bool ret = bindings.AsyncPaymentsMessage_is_known_type(tlv_type);
-		GC.KeepAlive(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for DNS Resolvers.
-	 */
-	public static bool DNSResolverMessage_is_known_type(long tlv_type) {
-		bool ret = bindings.DNSResolverMessage_is_known_type(tlv_type);
-		GC.KeepAlive(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
-	 * `path`, first calling [`Destination::resolve`] on `path.destination` with the given
-	 * [`ReadOnlyNetworkGraph`].
+	 * Computes the tweak to apply to the base funding key of a channel.
 	 * 
-	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
-	 * needed to connect to the first node.
+	 * The tweak is computed similar to existing tweaks used in
+	 * [BOLT-3](https://github.com/lightning/bolts/blob/master/03-transactions.md#key-derivation):
 	 * 
-	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public static org.ldk.structs.Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ create_onion_message_resolving_destination(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.NodeIdLookUp node_id_lookup, org.ldk.structs.ReadOnlyNetworkGraph network_graph, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedMessagePath reply_path) {
-		long ret = bindings.create_onion_message_resolving_destination(entropy_source.ptr, node_signer.ptr, node_id_lookup.ptr, network_graph.ptr, path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
-		GC.KeepAlive(entropy_source);
-		GC.KeepAlive(node_signer);
-		GC.KeepAlive(node_id_lookup);
-		GC.KeepAlive(network_graph);
-		GC.KeepAlive(path);
-		GC.KeepAlive(contents);
-		GC.KeepAlive(reply_path);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ ret_hu_conv = Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_lookup); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(network_graph); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(contents); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
-	 * `path`.
+	 * 1. We use the txid of the funding transaction the splice transaction is spending instead of the
+	 * `per_commitment_point` to guarantee uniqueness.
+	 * 2. We include the private key instead of the public key to guarantee only those with knowledge
+	 * of it can re-derive the new funding key.
 	 * 
-	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
-	 * needed to connect to the first node.
+	 * tweak = SHA256(splice_parent_funding_txid || base_funding_secret_key)
+	 * tweaked_funding_key = base_funding_key + tweak
 	 * 
-	 * Returns [`SendError::UnresolvedIntroductionNode`] if:
-	 * - `destination` contains a blinded path with an [`IntroductionNode::DirectedShortChannelId`],
-	 * - unless it can be resolved by [`NodeIdLookUp::next_node_id`].
-	 * Use [`create_onion_message_resolving_destination`] instead to resolve the introduction node
-	 * first with a [`ReadOnlyNetworkGraph`].
-	 * 
-	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * While the use of this tweak is not required (signers may choose to compute a tweak of their
+	 * choice), signers must ensure their tweak guarantees the two properties mentioned above:
+	 * uniqueness and derivable only by one or both of the channel participants.
 	 */
-	public static org.ldk.structs.Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ create_onion_message(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.NodeIdLookUp node_id_lookup, org.ldk.structs.OnionMessagePath path, org.ldk.structs.OnionMessageContents contents, org.ldk.structs.BlindedMessagePath reply_path) {
-		long ret = bindings.create_onion_message(entropy_source.ptr, node_signer.ptr, node_id_lookup.ptr, path.ptr, contents.ptr, reply_path == null ? 0 : reply_path.ptr);
-		GC.KeepAlive(entropy_source);
-		GC.KeepAlive(node_signer);
-		GC.KeepAlive(node_id_lookup);
-		GC.KeepAlive(path);
-		GC.KeepAlive(contents);
-		GC.KeepAlive(reply_path);
+	public static org.ldk.structs.BigEndianScalar compute_funding_key_tweak(byte[] base_funding_secret_key, byte[] splice_parent_funding_txid) {
+		long ret = bindings.compute_funding_key_tweak(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(base_funding_secret_key, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(splice_parent_funding_txid, 32)));
+		GC.KeepAlive(base_funding_secret_key);
+		GC.KeepAlive(splice_parent_funding_txid);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ ret_hu_conv = Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(entropy_source); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_id_lookup); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(contents); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Decode one layer of an incoming [`OnionMessage`].
-	 * 
-	 * Returns either the next layer of the onion for forwarding or the decrypted content for the
-	 * receiver.
-	 */
-	public static org.ldk.structs.Result_PeeledOnionNoneZ peel_onion_message(org.ldk.structs.OnionMessage msg, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.Logger logger, org.ldk.structs.CustomOnionMessageHandler custom_handler) {
-		long ret = bindings.peel_onion_message(msg.ptr, node_signer.ptr, logger.ptr, custom_handler.ptr);
-		GC.KeepAlive(msg);
-		GC.KeepAlive(node_signer);
-		GC.KeepAlive(logger);
-		GC.KeepAlive(custom_handler);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_PeeledOnionNoneZ ret_hu_conv = Result_PeeledOnionNoneZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(msg); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(node_signer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(logger); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(custom_handler); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for Offers.
-	 */
-	public static bool OffersMessage_is_known_type(long tlv_type) {
-		bool ret = bindings.OffersMessage_is_known_type(tlv_type);
-		GC.KeepAlive(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Read a PathFailure from a byte array, created by PathFailure_write
-	 */
-	public static org.ldk.structs.Result_COption_PathFailureZDecodeErrorZ PathFailure_read(byte[] ser) {
-		long ret = bindings.PathFailure_read(InternalUtils.encodeUint8Array(ser));
-		GC.KeepAlive(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_PathFailureZDecodeErrorZ ret_hu_conv = Result_COption_PathFailureZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a ClosureReason from a byte array, created by ClosureReason_write
-	 */
-	public static org.ldk.structs.Result_COption_ClosureReasonZDecodeErrorZ ClosureReason_read(byte[] ser) {
-		long ret = bindings.ClosureReason_read(InternalUtils.encodeUint8Array(ser));
-		GC.KeepAlive(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a HTLCDestination from a byte array, created by HTLCDestination_write
-	 */
-	public static org.ldk.structs.Result_COption_HTLCDestinationZDecodeErrorZ HTLCDestination_read(byte[] ser) {
-		long ret = bindings.HTLCDestination_read(InternalUtils.encodeUint8Array(ser));
-		GC.KeepAlive(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_HTLCDestinationZDecodeErrorZ ret_hu_conv = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a PaymentFailureReason from a byte array, created by PaymentFailureReason_write
-	 */
-	public static org.ldk.structs.Result_COption_PaymentFailureReasonZDecodeErrorZ PaymentFailureReason_read(byte[] ser) {
-		long ret = bindings.PaymentFailureReason_read(InternalUtils.encodeUint8Array(ser));
-		GC.KeepAlive(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_PaymentFailureReasonZDecodeErrorZ ret_hu_conv = Result_COption_PaymentFailureReasonZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a Event from a byte array, created by Event_write
-	 */
-	public static org.ldk.structs.Result_COption_EventZDecodeErrorZ Event_read(byte[] ser) {
-		long ret = bindings.Event_read(InternalUtils.encodeUint8Array(ser));
-		GC.KeepAlive(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_COption_EventZDecodeErrorZ ret_hu_conv = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Determines if the given parameters are valid given the secret used to generate the promise.
-	 */
-	public static bool is_valid_opening_fee_params(org.ldk.structs.LSPS2OpeningFeeParams fee_params, byte[] promise_secret) {
-		bool ret = bindings.is_valid_opening_fee_params(fee_params.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(promise_secret, 32)));
-		GC.KeepAlive(fee_params);
-		GC.KeepAlive(promise_secret);
-		return ret;
-	}
-
-	/**
-	 * Determines if the given parameters are expired, or still valid.
-	 */
-	public static bool is_expired_opening_fee_params(org.ldk.structs.LSPS2OpeningFeeParams fee_params) {
-		bool ret = bindings.is_expired_opening_fee_params(fee_params.ptr);
-		GC.KeepAlive(fee_params);
-		return ret;
-	}
-
-	/**
-	 * Computes the opening fee given a payment size and the fee parameters.
-	 * 
-	 * Returns [`Option::None`] when the computation overflows.
-	 * 
-	 * See the [`specification`](https://github.com/lightning/blips/blob/master/blip-0052.md#computing-the-opening_fee) for more details.
-	 */
-	public static org.ldk.structs.Option_u64Z compute_opening_fee(long payment_size_msat, long opening_fee_min_fee_msat, long opening_fee_proportional) {
-		long ret = bindings.compute_opening_fee(payment_size_msat, opening_fee_min_fee_msat, opening_fee_proportional);
-		GC.KeepAlive(payment_size_msat);
-		GC.KeepAlive(opening_fee_min_fee_msat);
-		GC.KeepAlive(opening_fee_proportional);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
-		return ret_hu_conv;
+		BigEndianScalar ret_conv = new BigEndianScalar(null, ret);
+		return ret_conv;
 	}
 
 } } } }

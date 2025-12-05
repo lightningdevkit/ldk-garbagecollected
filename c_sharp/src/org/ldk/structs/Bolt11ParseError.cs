@@ -25,7 +25,6 @@ public class Bolt11ParseError : CommonBase {
 		bool ret = bindings.Bolt11ParseError_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -60,6 +59,30 @@ public class Bolt11ParseError : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		string ret_conv = InternalUtils.decodeString(ret);
 		return ret_conv;
+	}
+
+	/**
+	 * Build a Bolt11ParseError from a Secp256k1Error
+	 */
+	public static org.ldk.structs.Bolt11ParseError from_Secp256k1Error(Secp256k1Error f) {
+		long ret = bindings.Bolt11ParseError_from_Secp256k1Error(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt11ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt11ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a Bolt11ParseError from a Error
+	 */
+	public static org.ldk.structs.Bolt11ParseError from_Error(org.ldk.util.UnqualifiedError f) {
+		long ret = bindings.Bolt11ParseError_from_Error(0);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt11ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt11ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 }

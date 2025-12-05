@@ -140,7 +140,6 @@ public class RouteParameters : CommonBase {
 		bool ret = bindings.RouteParameters_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -175,7 +174,6 @@ public class RouteParameters : CommonBase {
 		GC.KeepAlive(best_block_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(recipient_onion); };
 		return ret_hu_conv;
 	}
 

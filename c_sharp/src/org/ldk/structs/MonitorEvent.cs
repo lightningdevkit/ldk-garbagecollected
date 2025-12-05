@@ -20,7 +20,8 @@ public class MonitorEvent : CommonBase {
 			case 0: return new MonitorEvent_HTLCEvent(ptr);
 			case 1: return new MonitorEvent_HolderForceClosedWithInfo(ptr);
 			case 2: return new MonitorEvent_HolderForceClosed(ptr);
-			case 3: return new MonitorEvent_Completed(ptr);
+			case 3: return new MonitorEvent_CommitmentTxConfirmed(ptr);
+			case 4: return new MonitorEvent_Completed(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -73,6 +74,11 @@ public class MonitorEvent : CommonBase {
 			org.ldk.structs.OutPoint holder_force_closed_hu_conv = null; if (holder_force_closed < 0 || holder_force_closed > 4096) { holder_force_closed_hu_conv = new org.ldk.structs.OutPoint(null, holder_force_closed); }
 			if (holder_force_closed_hu_conv != null) { holder_force_closed_hu_conv.ptrs_to.AddLast(this); };
 			this.holder_force_closed = holder_force_closed_hu_conv;
+		}
+	}
+	/** A MonitorEvent of type CommitmentTxConfirmed */
+	public class MonitorEvent_CommitmentTxConfirmed : MonitorEvent {
+		internal MonitorEvent_CommitmentTxConfirmed(long ptr) : base(null, ptr) {
 		}
 	}
 	/** A MonitorEvent of type Completed */
@@ -155,6 +161,17 @@ public class MonitorEvent : CommonBase {
 	public static org.ldk.structs.MonitorEvent holder_force_closed(org.ldk.structs.OutPoint a) {
 		long ret = bindings.MonitorEvent_holder_force_closed(a.ptr);
 		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
+	 */
+	public static org.ldk.structs.MonitorEvent commitment_tx_confirmed() {
+		long ret = bindings.MonitorEvent_commitment_tx_confirmed();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
