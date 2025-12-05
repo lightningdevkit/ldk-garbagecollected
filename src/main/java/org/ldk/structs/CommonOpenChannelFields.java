@@ -352,10 +352,8 @@ public class CommonOpenChannelFields extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent
-	 * 
-	 * If this is `None`, we derive the channel type from the intersection of our
-	 * feature bits with our counterparty's feature bits from the [`Init`] message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -370,10 +368,8 @@ public class CommonOpenChannelFields extends CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent
-	 * 
-	 * If this is `None`, we derive the channel type from the intersection of our
-	 * feature bits with our counterparty's feature bits from the [`Init`] message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -453,7 +449,6 @@ public class CommonOpenChannelFields extends CommonBase {
 		boolean ret = bindings.CommonOpenChannelFields_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

@@ -57,7 +57,6 @@ public class HtlcBasepoint extends CommonBase {
 		boolean ret = bindings.HtlcBasepoint_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -112,6 +111,18 @@ public class HtlcBasepoint extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(per_commitment_point);
 		return ret;
+	}
+
+	/**
+	 * Build a HtlcBasepoint from a PublicKey
+	 */
+	public static HtlcBasepoint from_PublicKey(byte[] f) {
+		long ret = bindings.HtlcBasepoint_from_PublicKey(InternalUtils.check_arr_len(f, 33));
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.HtlcBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.HtlcBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 	/**

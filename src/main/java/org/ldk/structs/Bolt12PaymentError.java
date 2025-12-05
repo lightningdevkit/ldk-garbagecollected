@@ -33,6 +33,9 @@ public class Bolt12PaymentError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKBolt12PaymentError.SendingFailed.class) {
 			return new SendingFailed(ptr, (bindings.LDKBolt12PaymentError.SendingFailed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKBolt12PaymentError.BlindedPathCreationFailed.class) {
+			return new BlindedPathCreationFailed(ptr, (bindings.LDKBolt12PaymentError.BlindedPathCreationFailed)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -68,6 +71,20 @@ public class Bolt12PaymentError extends CommonBase {
 		private SendingFailed(long ptr, bindings.LDKBolt12PaymentError.SendingFailed obj) {
 			super(null, ptr);
 			this.sending_failed = obj.sending_failed;
+		}
+	}
+	/**
+	 * Failed to create a blinded path back to ourselves.
+	 * 
+	 * We attempted to initiate payment to a [`StaticInvoice`] but failed to create a reply path for
+	 * our [`HeldHtlcAvailable`] message.
+	 * 
+	 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+	 * [`HeldHtlcAvailable`]: crate::onion_message::async_payments::HeldHtlcAvailable
+	 */
+	public final static class BlindedPathCreationFailed extends Bolt12PaymentError {
+		private BlindedPathCreationFailed(long ptr, bindings.LDKBolt12PaymentError.BlindedPathCreationFailed obj) {
+			super(null, ptr);
 		}
 	}
 	long clone_ptr() {
@@ -127,6 +144,17 @@ public class Bolt12PaymentError extends CommonBase {
 	public static Bolt12PaymentError sending_failed(org.ldk.enums.RetryableSendFailure a) {
 		long ret = bindings.Bolt12PaymentError_sending_failed(a);
 		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt12PaymentError ret_hu_conv = org.ldk.structs.Bolt12PaymentError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BlindedPathCreationFailed-variant Bolt12PaymentError
+	 */
+	public static Bolt12PaymentError blinded_path_creation_failed() {
+		long ret = bindings.Bolt12PaymentError_blinded_path_creation_failed();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Bolt12PaymentError ret_hu_conv = org.ldk.structs.Bolt12PaymentError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

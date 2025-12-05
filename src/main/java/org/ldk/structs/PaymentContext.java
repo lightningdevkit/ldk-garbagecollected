@@ -27,6 +27,9 @@ public class PaymentContext extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKPaymentContext.Bolt12Offer.class) {
 			return new Bolt12Offer(ptr, (bindings.LDKPaymentContext.Bolt12Offer)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKPaymentContext.AsyncBolt12Offer.class) {
+			return new AsyncBolt12Offer(ptr, (bindings.LDKPaymentContext.AsyncBolt12Offer)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKPaymentContext.Bolt12Refund.class) {
 			return new Bolt12Refund(ptr, (bindings.LDKPaymentContext.Bolt12Refund)raw_val);
 		}
@@ -46,6 +49,21 @@ public class PaymentContext extends CommonBase {
 			org.ldk.structs.Bolt12OfferContext bolt12_offer_hu_conv = null; if (bolt12_offer < 0 || bolt12_offer > 4096) { bolt12_offer_hu_conv = new org.ldk.structs.Bolt12OfferContext(null, bolt12_offer); }
 			if (bolt12_offer_hu_conv != null) { bolt12_offer_hu_conv.ptrs_to.add(this); };
 			this.bolt12_offer = bolt12_offer_hu_conv;
+		}
+	}
+	/**
+	 * The payment was made for a static invoice requested from a BOLT 12 [`Offer`].
+	 * 
+	 * [`Offer`]: crate::offers::offer::Offer
+	 */
+	public final static class AsyncBolt12Offer extends PaymentContext {
+		public final org.ldk.structs.AsyncBolt12OfferContext async_bolt12_offer;
+		private AsyncBolt12Offer(long ptr, bindings.LDKPaymentContext.AsyncBolt12Offer obj) {
+			super(null, ptr);
+			long async_bolt12_offer = obj.async_bolt12_offer;
+			org.ldk.structs.AsyncBolt12OfferContext async_bolt12_offer_hu_conv = null; if (async_bolt12_offer < 0 || async_bolt12_offer > 4096) { async_bolt12_offer_hu_conv = new org.ldk.structs.AsyncBolt12OfferContext(null, async_bolt12_offer); }
+			if (async_bolt12_offer_hu_conv != null) { async_bolt12_offer_hu_conv.ptrs_to.add(this); };
+			this.async_bolt12_offer = async_bolt12_offer_hu_conv;
 		}
 	}
 	/**
@@ -86,6 +104,18 @@ public class PaymentContext extends CommonBase {
 	 */
 	public static PaymentContext bolt12_offer(org.ldk.structs.Bolt12OfferContext a) {
 		long ret = bindings.PaymentContext_bolt12_offer(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentContext ret_hu_conv = org.ldk.structs.PaymentContext.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new AsyncBolt12Offer-variant PaymentContext
+	 */
+	public static PaymentContext async_bolt12_offer(org.ldk.structs.AsyncBolt12OfferContext a) {
+		long ret = bindings.PaymentContext_async_bolt12_offer(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentContext ret_hu_conv = org.ldk.structs.PaymentContext.constr_from_ptr(ret);

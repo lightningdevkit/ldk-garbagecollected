@@ -93,11 +93,13 @@ public class Persist extends CommonBase {
 	public static interface PersistInterface {
 		/**
 		 * Persist a new channel's data in response to a [`chain::Watch::watch_channel`] call. This is
-		 * called by [`ChannelManager`] for new channels, or may be called directly, e.g. on startup.
+		 * called by [`ChannelManager`] for new channels, or may be called directly, e.g. on startup,
+		 * with the `monitor_name` returned by [`ChannelMonitor::persistence_key`].
 		 * 
-		 * The data can be stored any way you want, but the identifier provided by LDK is the
-		 * channel's outpoint (and it is up to you to maintain a correct mapping between the outpoint
-		 * and the stored channel data). Note that you **must** persist every new monitor to disk.
+		 * The data can be stored any way you want, so long as `monitor_name` is used to maintain a
+		 * correct mapping with the stored channel data (i.e., calls to `update_persisted_channel` with
+		 * the same `monitor_name` must be applied to or overwrite this data). Note that you **must
+		 * persist every new monitor to disk.
 		 * 
 		 * The [`ChannelMonitor::get_latest_update_id`] uniquely links this call to [`ChainMonitor::channel_monitor_updated`].
 		 * For [`Persist::persist_new_channel`], it is only necessary to call [`ChainMonitor::channel_monitor_updated`]
@@ -109,7 +111,7 @@ public class Persist extends CommonBase {
 		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 		 * [`Writeable::write`]: crate::util::ser::Writeable::write
 		 */
-		ChannelMonitorUpdateStatus persist_new_channel(OutPoint channel_funding_outpoint, ChannelMonitor monitor);
+		ChannelMonitorUpdateStatus persist_new_channel(MonitorName monitor_name, ChannelMonitor monitor);
 		/**
 		 * Update one channel's data. The provided [`ChannelMonitor`] has already applied the given
 		 * update.
@@ -151,7 +153,7 @@ public class Persist extends CommonBase {
 		 * 
 		 * Note that monitor_update (or a relevant inner pointer) may be NULL or all-0s to represent None
 		 */
-		ChannelMonitorUpdateStatus update_persisted_channel(OutPoint channel_funding_outpoint, ChannelMonitorUpdate monitor_update, ChannelMonitor monitor);
+		ChannelMonitorUpdateStatus update_persisted_channel(MonitorName monitor_name, ChannelMonitorUpdate monitor_update, ChannelMonitor monitor);
 		/**
 		 * Prevents the channel monitor from being loaded on startup.
 		 * 
@@ -165,46 +167,63 @@ public class Persist extends CommonBase {
 		 * restart, this method must in that case be idempotent, ensuring it can handle scenarios where
 		 * the monitor already exists in the archive.
 		 */
-		void archive_persisted_channel(OutPoint channel_funding_outpoint);
+		void archive_persisted_channel(MonitorName monitor_name);
+		/**
+		 * Fetches the set of [`ChannelMonitorUpdate`]s, previously persisted with
+		 * [`Self::update_persisted_channel`], which have completed.
+		 * 
+		 * Returning an update here is equivalent to calling
+		 * [`ChainMonitor::channel_monitor_updated`]. Because of this, this method is defaulted and
+		 * hidden in the docs.
+		 */
+		TwoTuple_ChannelIdu64Z[] get_and_clear_completed_updates();
 	}
 	private static class LDKPersistHolder { Persist held; }
 	public static Persist new_impl(PersistInterface arg) {
 		final LDKPersistHolder impl_holder = new LDKPersistHolder();
 		impl_holder.held = new Persist(new bindings.LDKPersist() {
-			@Override public ChannelMonitorUpdateStatus persist_new_channel(long channel_funding_outpoint, long monitor) {
-				org.ldk.structs.OutPoint channel_funding_outpoint_hu_conv = null; if (channel_funding_outpoint < 0 || channel_funding_outpoint > 4096) { channel_funding_outpoint_hu_conv = new org.ldk.structs.OutPoint(null, channel_funding_outpoint); }
-				if (channel_funding_outpoint_hu_conv != null) { channel_funding_outpoint_hu_conv.ptrs_to.add(this); };
+			@Override public ChannelMonitorUpdateStatus persist_new_channel(long monitor_name, long monitor) {
+				org.ldk.structs.MonitorName monitor_name_hu_conv = org.ldk.structs.MonitorName.constr_from_ptr(monitor_name);
+				if (monitor_name_hu_conv != null) { monitor_name_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
-				ChannelMonitorUpdateStatus ret = arg.persist_new_channel(channel_funding_outpoint_hu_conv, monitor_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.persist_new_channel(monitor_name_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
-			@Override public ChannelMonitorUpdateStatus update_persisted_channel(long channel_funding_outpoint, long monitor_update, long monitor) {
-				org.ldk.structs.OutPoint channel_funding_outpoint_hu_conv = null; if (channel_funding_outpoint < 0 || channel_funding_outpoint > 4096) { channel_funding_outpoint_hu_conv = new org.ldk.structs.OutPoint(null, channel_funding_outpoint); }
-				if (channel_funding_outpoint_hu_conv != null) { channel_funding_outpoint_hu_conv.ptrs_to.add(this); };
+			@Override public ChannelMonitorUpdateStatus update_persisted_channel(long monitor_name, long monitor_update, long monitor) {
+				org.ldk.structs.MonitorName monitor_name_hu_conv = org.ldk.structs.MonitorName.constr_from_ptr(monitor_name);
+				if (monitor_name_hu_conv != null) { monitor_name_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitorUpdate monitor_update_hu_conv = null; if (monitor_update < 0 || monitor_update > 4096) { monitor_update_hu_conv = new org.ldk.structs.ChannelMonitorUpdate(null, monitor_update); }
 				if (monitor_update_hu_conv != null) { monitor_update_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new org.ldk.structs.ChannelMonitor(null, monitor); }
-				ChannelMonitorUpdateStatus ret = arg.update_persisted_channel(channel_funding_outpoint_hu_conv, monitor_update_hu_conv, monitor_hu_conv);
+				ChannelMonitorUpdateStatus ret = arg.update_persisted_channel(monitor_name_hu_conv, monitor_update_hu_conv, monitor_hu_conv);
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
-			@Override public void archive_persisted_channel(long channel_funding_outpoint) {
-				org.ldk.structs.OutPoint channel_funding_outpoint_hu_conv = null; if (channel_funding_outpoint < 0 || channel_funding_outpoint > 4096) { channel_funding_outpoint_hu_conv = new org.ldk.structs.OutPoint(null, channel_funding_outpoint); }
-				if (channel_funding_outpoint_hu_conv != null) { channel_funding_outpoint_hu_conv.ptrs_to.add(this); };
-				arg.archive_persisted_channel(channel_funding_outpoint_hu_conv);
+			@Override public void archive_persisted_channel(long monitor_name) {
+				org.ldk.structs.MonitorName monitor_name_hu_conv = org.ldk.structs.MonitorName.constr_from_ptr(monitor_name);
+				if (monitor_name_hu_conv != null) { monitor_name_hu_conv.ptrs_to.add(this); };
+				arg.archive_persisted_channel(monitor_name_hu_conv);
 				Reference.reachabilityFence(arg);
+			}
+			@Override public long[] get_and_clear_completed_updates() {
+				TwoTuple_ChannelIdu64Z[] ret = arg.get_and_clear_completed_updates();
+				Reference.reachabilityFence(arg);
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_24 -> ret_conv_24.clone_ptr()).toArray() : null;
+				return result;
 			}
 		});
 		return impl_holder.held;
 	}
 	/**
 	 * Persist a new channel's data in response to a [`chain::Watch::watch_channel`] call. This is
-	 * called by [`ChannelManager`] for new channels, or may be called directly, e.g. on startup.
+	 * called by [`ChannelManager`] for new channels, or may be called directly, e.g. on startup,
+	 * with the `monitor_name` returned by [`ChannelMonitor::persistence_key`].
 	 * 
-	 * The data can be stored any way you want, but the identifier provided by LDK is the
-	 * channel's outpoint (and it is up to you to maintain a correct mapping between the outpoint
-	 * and the stored channel data). Note that you **must** persist every new monitor to disk.
+	 * The data can be stored any way you want, so long as `monitor_name` is used to maintain a
+	 * correct mapping with the stored channel data (i.e., calls to `update_persisted_channel` with
+	 * the same `monitor_name` must be applied to or overwrite this data). Note that you **must
+	 * persist every new monitor to disk.
 	 * 
 	 * The [`ChannelMonitor::get_latest_update_id`] uniquely links this call to [`ChainMonitor::channel_monitor_updated`].
 	 * For [`Persist::persist_new_channel`], it is only necessary to call [`ChainMonitor::channel_monitor_updated`]
@@ -216,12 +235,11 @@ public class Persist extends CommonBase {
 	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
-	public ChannelMonitorUpdateStatus persist_new_channel(org.ldk.structs.OutPoint channel_funding_outpoint, org.ldk.structs.ChannelMonitor monitor) {
-		ChannelMonitorUpdateStatus ret = bindings.Persist_persist_new_channel(this.ptr, channel_funding_outpoint.ptr, monitor.ptr);
+	public ChannelMonitorUpdateStatus persist_new_channel(org.ldk.structs.MonitorName monitor_name, org.ldk.structs.ChannelMonitor monitor) {
+		ChannelMonitorUpdateStatus ret = bindings.Persist_persist_new_channel(this.ptr, monitor_name.ptr, monitor.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_funding_outpoint);
+		Reference.reachabilityFence(monitor_name);
 		Reference.reachabilityFence(monitor);
-		if (this != null) { this.ptrs_to.add(monitor); };
 		return ret;
 	}
 
@@ -266,13 +284,12 @@ public class Persist extends CommonBase {
 	 * 
 	 * Note that monitor_update (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public ChannelMonitorUpdateStatus update_persisted_channel(org.ldk.structs.OutPoint channel_funding_outpoint, @Nullable org.ldk.structs.ChannelMonitorUpdate monitor_update, org.ldk.structs.ChannelMonitor monitor) {
-		ChannelMonitorUpdateStatus ret = bindings.Persist_update_persisted_channel(this.ptr, channel_funding_outpoint.ptr, monitor_update == null ? 0 : monitor_update.ptr, monitor.ptr);
+	public ChannelMonitorUpdateStatus update_persisted_channel(org.ldk.structs.MonitorName monitor_name, @Nullable org.ldk.structs.ChannelMonitorUpdate monitor_update, org.ldk.structs.ChannelMonitor monitor) {
+		ChannelMonitorUpdateStatus ret = bindings.Persist_update_persisted_channel(this.ptr, monitor_name.ptr, monitor_update == null ? 0 : monitor_update.ptr, monitor.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_funding_outpoint);
+		Reference.reachabilityFence(monitor_name);
 		Reference.reachabilityFence(monitor_update);
 		Reference.reachabilityFence(monitor);
-		if (this != null) { this.ptrs_to.add(monitor); };
 		return ret;
 	}
 
@@ -289,10 +306,32 @@ public class Persist extends CommonBase {
 	 * restart, this method must in that case be idempotent, ensuring it can handle scenarios where
 	 * the monitor already exists in the archive.
 	 */
-	public void archive_persisted_channel(org.ldk.structs.OutPoint channel_funding_outpoint) {
-		bindings.Persist_archive_persisted_channel(this.ptr, channel_funding_outpoint.ptr);
+	public void archive_persisted_channel(org.ldk.structs.MonitorName monitor_name) {
+		bindings.Persist_archive_persisted_channel(this.ptr, monitor_name.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_funding_outpoint);
+		Reference.reachabilityFence(monitor_name);
+	}
+
+	/**
+	 * Fetches the set of [`ChannelMonitorUpdate`]s, previously persisted with
+	 * [`Self::update_persisted_channel`], which have completed.
+	 * 
+	 * Returning an update here is equivalent to calling
+	 * [`ChainMonitor::channel_monitor_updated`]. Because of this, this method is defaulted and
+	 * hidden in the docs.
+	 */
+	public TwoTuple_ChannelIdu64Z[] get_and_clear_completed_updates() {
+		long[] ret = bindings.Persist_get_and_clear_completed_updates(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_24_len = ret.length;
+		TwoTuple_ChannelIdu64Z[] ret_conv_24_arr = new TwoTuple_ChannelIdu64Z[ret_conv_24_len];
+		for (int y = 0; y < ret_conv_24_len; y++) {
+			long ret_conv_24 = ret[y];
+			TwoTuple_ChannelIdu64Z ret_conv_24_hu_conv = new TwoTuple_ChannelIdu64Z(null, ret_conv_24);
+			if (ret_conv_24_hu_conv != null) { ret_conv_24_hu_conv.ptrs_to.add(this); };
+			ret_conv_24_arr[y] = ret_conv_24_hu_conv;
+		}
+		return ret_conv_24_arr;
 	}
 
 }

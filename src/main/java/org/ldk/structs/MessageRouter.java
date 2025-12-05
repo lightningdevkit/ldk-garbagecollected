@@ -45,23 +45,7 @@ public class MessageRouter extends CommonBase {
 		 * Creates [`BlindedMessagePath`]s to the `recipient` node. The nodes in `peers` are assumed to
 		 * be direct peers with the `recipient`.
 		 */
-		Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, MessageContext context, byte[][] peers);
-		/**
-		 * Creates compact [`BlindedMessagePath`]s to the `recipient` node. The nodes in `peers` are
-		 * assumed to be direct peers with the `recipient`.
-		 * 
-		 * Compact blinded paths use short channel ids instead of pubkeys for a smaller serialization,
-		 * which is beneficial when a QR code is used to transport the data. The SCID is passed using
-		 * a [`MessageForwardNode`] but may be `None` for graceful degradation.
-		 * 
-		 * Implementations using additional intermediate nodes are responsible for using a
-		 * [`MessageForwardNode`] with `Some` short channel id, if possible. Similarly, implementations
-		 * should call [`BlindedMessagePath::use_compact_introduction_node`].
-		 * 
-		 * The provided implementation simply delegates to [`MessageRouter::create_blinded_paths`],
-		 * ignoring the short channel ids.
-		 */
-		Result_CVec_BlindedMessagePathZNoneZ create_compact_blinded_paths(byte[] recipient, MessageContext context, MessageForwardNode[] peers);
+		Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, ReceiveAuthKey local_node_receive_key, MessageContext context, MessageForwardNode[] peers);
 	}
 	private static class LDKMessageRouterHolder { MessageRouter held; }
 	public static MessageRouter new_impl(MessageRouterInterface arg) {
@@ -75,15 +59,9 @@ public class MessageRouter extends CommonBase {
 				long result = ret.clone_ptr();
 				return result;
 			}
-			@Override public long create_blinded_paths(byte[] recipient, long context, byte[][] peers) {
-				org.ldk.structs.MessageContext context_hu_conv = org.ldk.structs.MessageContext.constr_from_ptr(context);
-				if (context_hu_conv != null) { context_hu_conv.ptrs_to.add(this); };
-				Result_CVec_BlindedMessagePathZNoneZ ret = arg.create_blinded_paths(recipient, context_hu_conv, peers);
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
-			}
-			@Override public long create_compact_blinded_paths(byte[] recipient, long context, long[] peers) {
+			@Override public long create_blinded_paths(byte[] recipient, long local_node_receive_key, long context, long[] peers) {
+				org.ldk.structs.ReceiveAuthKey local_node_receive_key_hu_conv = null; if (local_node_receive_key < 0 || local_node_receive_key > 4096) { local_node_receive_key_hu_conv = new org.ldk.structs.ReceiveAuthKey(null, local_node_receive_key); }
+				if (local_node_receive_key_hu_conv != null) { local_node_receive_key_hu_conv.ptrs_to.add(this); };
 				org.ldk.structs.MessageContext context_hu_conv = org.ldk.structs.MessageContext.constr_from_ptr(context);
 				if (context_hu_conv != null) { context_hu_conv.ptrs_to.add(this); };
 				int peers_conv_20_len = peers.length;
@@ -94,7 +72,7 @@ public class MessageRouter extends CommonBase {
 					if (peers_conv_20_hu_conv != null) { peers_conv_20_hu_conv.ptrs_to.add(this); };
 					peers_conv_20_arr[u] = peers_conv_20_hu_conv;
 				}
-				Result_CVec_BlindedMessagePathZNoneZ ret = arg.create_compact_blinded_paths(recipient, context_hu_conv, peers_conv_20_arr);
+				Result_CVec_BlindedMessagePathZNoneZ ret = arg.create_blinded_paths(recipient, local_node_receive_key_hu_conv, context_hu_conv, peers_conv_20_arr);
 				Reference.reachabilityFence(arg);
 				long result = ret.clone_ptr();
 				return result;
@@ -120,36 +98,11 @@ public class MessageRouter extends CommonBase {
 	 * Creates [`BlindedMessagePath`]s to the `recipient` node. The nodes in `peers` are assumed to
 	 * be direct peers with the `recipient`.
 	 */
-	public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, org.ldk.structs.MessageContext context, byte[][] peers) {
-		long ret = bindings.MessageRouter_create_blinded_paths(this.ptr, InternalUtils.check_arr_len(recipient, 33), context.ptr, peers != null ? Arrays.stream(peers).map(peers_conv_8 -> InternalUtils.check_arr_len(peers_conv_8, 33)).toArray(byte[][]::new) : null);
+	public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, org.ldk.structs.ReceiveAuthKey local_node_receive_key, org.ldk.structs.MessageContext context, MessageForwardNode[] peers) {
+		long ret = bindings.MessageRouter_create_blinded_paths(this.ptr, InternalUtils.check_arr_len(recipient, 33), local_node_receive_key.ptr, context.ptr, peers != null ? Arrays.stream(peers).mapToLong(peers_conv_20 -> peers_conv_20.ptr).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(recipient);
-		Reference.reachabilityFence(context);
-		Reference.reachabilityFence(peers);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_CVec_BlindedMessagePathZNoneZ ret_hu_conv = Result_CVec_BlindedMessagePathZNoneZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Creates compact [`BlindedMessagePath`]s to the `recipient` node. The nodes in `peers` are
-	 * assumed to be direct peers with the `recipient`.
-	 * 
-	 * Compact blinded paths use short channel ids instead of pubkeys for a smaller serialization,
-	 * which is beneficial when a QR code is used to transport the data. The SCID is passed using
-	 * a [`MessageForwardNode`] but may be `None` for graceful degradation.
-	 * 
-	 * Implementations using additional intermediate nodes are responsible for using a
-	 * [`MessageForwardNode`] with `Some` short channel id, if possible. Similarly, implementations
-	 * should call [`BlindedMessagePath::use_compact_introduction_node`].
-	 * 
-	 * The provided implementation simply delegates to [`MessageRouter::create_blinded_paths`],
-	 * ignoring the short channel ids.
-	 */
-	public Result_CVec_BlindedMessagePathZNoneZ create_compact_blinded_paths(byte[] recipient, org.ldk.structs.MessageContext context, MessageForwardNode[] peers) {
-		long ret = bindings.MessageRouter_create_compact_blinded_paths(this.ptr, InternalUtils.check_arr_len(recipient, 33), context.ptr, peers != null ? Arrays.stream(peers).mapToLong(peers_conv_20 -> peers_conv_20.ptr).toArray() : null);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(recipient);
+		Reference.reachabilityFence(local_node_receive_key);
 		Reference.reachabilityFence(context);
 		Reference.reachabilityFence(peers);
 		if (ret >= 0 && ret <= 4096) { return null; }

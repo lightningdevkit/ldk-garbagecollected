@@ -100,4 +100,52 @@ public class GraphSyncError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Build a GraphSyncError from a IOError
+	 */
+	public static GraphSyncError from_IOError(org.ldk.enums.IOError f) {
+		long ret = bindings.GraphSyncError_from_IOError(f);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a Secp256k1Error
+	 */
+	public static GraphSyncError from_Secp256k1Error(org.ldk.enums.Secp256k1Error f) {
+		long ret = bindings.GraphSyncError_from_Secp256k1Error(f);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a DecodeError
+	 */
+	public static GraphSyncError from_DecodeError(org.ldk.structs.DecodeError f) {
+		long ret = bindings.GraphSyncError_from_DecodeError(f.ptr);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a GraphSyncError from a LightningError
+	 */
+	public static GraphSyncError from_LightningError(org.ldk.structs.LightningError f) {
+		long ret = bindings.GraphSyncError_from_LightningError(f.ptr);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.GraphSyncError ret_hu_conv = org.ldk.structs.GraphSyncError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }

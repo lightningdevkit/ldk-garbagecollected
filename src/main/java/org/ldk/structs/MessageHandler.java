@@ -129,14 +129,45 @@ public class MessageHandler extends CommonBase {
 	}
 
 	/**
+	 * A message handler which can be used to send messages.
+	 * 
+	 * This should generally be a [`ChainMonitor`].
+	 * 
+	 * [`ChainMonitor`]: crate::chain::chainmonitor::ChainMonitor
+	 */
+	public SendOnlyMessageHandler get_send_only_message_handler() {
+		long ret = bindings.MessageHandler_get_send_only_message_handler(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		SendOnlyMessageHandler ret_hu_conv = new SendOnlyMessageHandler(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * A message handler which can be used to send messages.
+	 * 
+	 * This should generally be a [`ChainMonitor`].
+	 * 
+	 * [`ChainMonitor`]: crate::chain::chainmonitor::ChainMonitor
+	 */
+	public void set_send_only_message_handler(org.ldk.structs.SendOnlyMessageHandler val) {
+		bindings.MessageHandler_set_send_only_message_handler(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+		if (this != null) { this.ptrs_to.add(val); };
+	}
+
+	/**
 	 * Constructs a new MessageHandler given each field
 	 */
-	public static MessageHandler of(org.ldk.structs.ChannelMessageHandler chan_handler_arg, org.ldk.structs.RoutingMessageHandler route_handler_arg, org.ldk.structs.OnionMessageHandler onion_message_handler_arg, org.ldk.structs.CustomMessageHandler custom_message_handler_arg) {
-		long ret = bindings.MessageHandler_new(chan_handler_arg.ptr, route_handler_arg.ptr, onion_message_handler_arg.ptr, custom_message_handler_arg.ptr);
+	public static MessageHandler of(org.ldk.structs.ChannelMessageHandler chan_handler_arg, org.ldk.structs.RoutingMessageHandler route_handler_arg, org.ldk.structs.OnionMessageHandler onion_message_handler_arg, org.ldk.structs.CustomMessageHandler custom_message_handler_arg, org.ldk.structs.SendOnlyMessageHandler send_only_message_handler_arg) {
+		long ret = bindings.MessageHandler_new(chan_handler_arg.ptr, route_handler_arg.ptr, onion_message_handler_arg.ptr, custom_message_handler_arg.ptr, send_only_message_handler_arg.ptr);
 		Reference.reachabilityFence(chan_handler_arg);
 		Reference.reachabilityFence(route_handler_arg);
 		Reference.reachabilityFence(onion_message_handler_arg);
 		Reference.reachabilityFence(custom_message_handler_arg);
+		Reference.reachabilityFence(send_only_message_handler_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.MessageHandler(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -144,6 +175,7 @@ public class MessageHandler extends CommonBase {
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(route_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(onion_message_handler_arg); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(custom_message_handler_arg); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(send_only_message_handler_arg); };
 		return ret_hu_conv;
 	}
 

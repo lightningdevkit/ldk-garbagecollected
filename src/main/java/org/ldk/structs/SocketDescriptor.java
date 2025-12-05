@@ -57,17 +57,16 @@ public class SocketDescriptor extends CommonBase {
 		 * 
 		 * If the returned size is smaller than `data.len()`, a
 		 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
-		 * written. Additionally, until a `send_data` event completes fully, no further
-		 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
-		 * prevent denial-of-service issues, you should not read or buffer any data from the socket
-		 * until then.
+		 * written.
 		 * 
-		 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
-		 * (indicating that read events should be paused to prevent DoS in the send buffer),
-		 * `resume_read` may be set indicating that read events on this descriptor should resume. A
-		 * `resume_read` of false carries no meaning, and should not cause any action.
+		 * If `continue_read` is *not* set, further [`PeerManager::read_event`] calls should be
+		 * avoided until another call is made with it set. This allows us to pause read if there are
+		 * too many outgoing messages queued for a peer to avoid DoS issues where a peer fills our
+		 * buffer by sending us messages that need response without reading the responses.
+		 * 
+		 * Note that calls may be made with an empty `data` to update the `continue_read` flag.
 		 */
-		long send_data(byte[] data, boolean resume_read);
+		long send_data(byte[] data, boolean continue_read);
 		/**
 		 * Disconnect the socket pointed to by this SocketDescriptor.
 		 * 
@@ -89,8 +88,8 @@ public class SocketDescriptor extends CommonBase {
 	public static SocketDescriptor new_impl(SocketDescriptorInterface arg) {
 		final LDKSocketDescriptorHolder impl_holder = new LDKSocketDescriptorHolder();
 		impl_holder.held = new SocketDescriptor(new bindings.LDKSocketDescriptor() {
-			@Override public long send_data(byte[] data, boolean resume_read) {
-				long ret = arg.send_data(data, resume_read);
+			@Override public long send_data(byte[] data, boolean continue_read) {
+				long ret = arg.send_data(data, continue_read);
 				Reference.reachabilityFence(arg);
 				return ret;
 			}
@@ -122,21 +121,20 @@ public class SocketDescriptor extends CommonBase {
 	 * 
 	 * If the returned size is smaller than `data.len()`, a
 	 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
-	 * written. Additionally, until a `send_data` event completes fully, no further
-	 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
-	 * prevent denial-of-service issues, you should not read or buffer any data from the socket
-	 * until then.
+	 * written.
 	 * 
-	 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
-	 * (indicating that read events should be paused to prevent DoS in the send buffer),
-	 * `resume_read` may be set indicating that read events on this descriptor should resume. A
-	 * `resume_read` of false carries no meaning, and should not cause any action.
+	 * If `continue_read` is *not* set, further [`PeerManager::read_event`] calls should be
+	 * avoided until another call is made with it set. This allows us to pause read if there are
+	 * too many outgoing messages queued for a peer to avoid DoS issues where a peer fills our
+	 * buffer by sending us messages that need response without reading the responses.
+	 * 
+	 * Note that calls may be made with an empty `data` to update the `continue_read` flag.
 	 */
-	public long send_data(byte[] data, boolean resume_read) {
-		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
+	public long send_data(byte[] data, boolean continue_read) {
+		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, continue_read);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(data);
-		Reference.reachabilityFence(resume_read);
+		Reference.reachabilityFence(continue_read);
 		return ret;
 	}
 

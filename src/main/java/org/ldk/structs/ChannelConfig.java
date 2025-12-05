@@ -454,7 +454,6 @@ public class ChannelConfig extends CommonBase {
 		boolean ret = bindings.ChannelConfig_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -469,7 +468,6 @@ public class ChannelConfig extends CommonBase {
 		bindings.ChannelConfig_apply(this.ptr, update.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(update);
-		if (this != null) { this.ptrs_to.add(update); };
 	}
 
 	/**

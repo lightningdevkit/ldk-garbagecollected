@@ -61,9 +61,6 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.ProbeFailed.class) {
 			return new ProbeFailed(ptr, (bindings.LDKEvent.ProbeFailed)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKEvent.PendingHTLCsForwardable.class) {
-			return new PendingHTLCsForwardable(ptr, (bindings.LDKEvent.PendingHTLCsForwardable)raw_val);
-		}
 		if (raw_val.getClass() == bindings.LDKEvent.HTLCIntercepted.class) {
 			return new HTLCIntercepted(ptr, (bindings.LDKEvent.HTLCIntercepted)raw_val);
 		}
@@ -82,6 +79,12 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.ChannelClosed.class) {
 			return new ChannelClosed(ptr, (bindings.LDKEvent.ChannelClosed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.SplicePending.class) {
+			return new SplicePending(ptr, (bindings.LDKEvent.SplicePending)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEvent.SpliceFailed.class) {
+			return new SpliceFailed(ptr, (bindings.LDKEvent.SpliceFailed)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKEvent.DiscardFunding.class) {
 			return new DiscardFunding(ptr, (bindings.LDKEvent.DiscardFunding)raw_val);
 		}
@@ -99,6 +102,15 @@ public class Event extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKEvent.OnionMessagePeerConnected.class) {
 			return new OnionMessagePeerConnected(ptr, (bindings.LDKEvent.OnionMessagePeerConnected)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEvent.PersistStaticInvoice.class) {
+			return new PersistStaticInvoice(ptr, (bindings.LDKEvent.PersistStaticInvoice)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEvent.StaticInvoiceRequested.class) {
+			return new StaticInvoiceRequested(ptr, (bindings.LDKEvent.StaticInvoiceRequested)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEvent.FundingTransactionReadyForSigning.class) {
+			return new FundingTransactionReadyForSigning(ptr, (bindings.LDKEvent.FundingTransactionReadyForSigning)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -318,15 +330,11 @@ public class Event extends CommonBase {
 		*/
 		public final org.ldk.structs.PaymentPurpose purpose;
 		/**
-		 * The `channel_id` indicating over which channel we received the payment.
+		 * The `(channel_id, user_channel_id)` pairs over which the payment was received.
 		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 * This will be an incomplete vector for MPP payment events created/serialized using LDK version 0.1.0 and prior.
 		*/
-		@Nullable public final org.ldk.structs.ChannelId via_channel_id;
-		/**
-		 * The `user_channel_id` indicating over which channel we received the payment.
-		*/
-		public final org.ldk.structs.Option_U128Z via_user_channel_id;
+		public final TwoTuple_ChannelIdCOption_U128ZZ[] receiving_channel_ids;
 		/**
 		 * The block height at which this payment will be failed back and will no longer be
 		 * eligible for claiming.
@@ -361,14 +369,16 @@ public class Event extends CommonBase {
 			org.ldk.structs.PaymentPurpose purpose_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(purpose);
 			if (purpose_hu_conv != null) { purpose_hu_conv.ptrs_to.add(this); };
 			this.purpose = purpose_hu_conv;
-			long via_channel_id = obj.via_channel_id;
-			org.ldk.structs.ChannelId via_channel_id_hu_conv = null; if (via_channel_id < 0 || via_channel_id > 4096) { via_channel_id_hu_conv = new org.ldk.structs.ChannelId(null, via_channel_id); }
-			if (via_channel_id_hu_conv != null) { via_channel_id_hu_conv.ptrs_to.add(this); };
-			this.via_channel_id = via_channel_id_hu_conv;
-			long via_user_channel_id = obj.via_user_channel_id;
-			org.ldk.structs.Option_U128Z via_user_channel_id_hu_conv = org.ldk.structs.Option_U128Z.constr_from_ptr(via_user_channel_id);
-			if (via_user_channel_id_hu_conv != null) { via_user_channel_id_hu_conv.ptrs_to.add(this); };
-			this.via_user_channel_id = via_user_channel_id_hu_conv;
+			long[] receiving_channel_ids = obj.receiving_channel_ids;
+			int receiving_channel_ids_conv_34_len = receiving_channel_ids.length;
+			TwoTuple_ChannelIdCOption_U128ZZ[] receiving_channel_ids_conv_34_arr = new TwoTuple_ChannelIdCOption_U128ZZ[receiving_channel_ids_conv_34_len];
+			for (int i = 0; i < receiving_channel_ids_conv_34_len; i++) {
+				long receiving_channel_ids_conv_34 = receiving_channel_ids[i];
+				TwoTuple_ChannelIdCOption_U128ZZ receiving_channel_ids_conv_34_hu_conv = new TwoTuple_ChannelIdCOption_U128ZZ(null, receiving_channel_ids_conv_34);
+				if (receiving_channel_ids_conv_34_hu_conv != null) { receiving_channel_ids_conv_34_hu_conv.ptrs_to.add(this); };
+				receiving_channel_ids_conv_34_arr[i] = receiving_channel_ids_conv_34_hu_conv;
+			}
+			this.receiving_channel_ids = receiving_channel_ids_conv_34_arr;
 			long claim_deadline = obj.claim_deadline;
 			org.ldk.structs.Option_u32Z claim_deadline_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(claim_deadline);
 			if (claim_deadline_hu_conv != null) { claim_deadline_hu_conv.ptrs_to.add(this); };
@@ -514,7 +524,9 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] node_id;
 		/**
-		 * Sockets for connecting to the node.
+		 * Sockets for connecting to the node, if available. We don't require these addresses to be
+		 * present in case the node id corresponds to a known peer that is offline and can be awoken,
+		 * such as via the LSPS5 protocol.
 		*/
 		public final SocketAddress[] addresses;
 		private ConnectionNeeded(long ptr, bindings.LDKEvent.ConnectionNeeded obj) {
@@ -624,9 +636,19 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] payment_hash;
 		/**
+		 * The total amount that was paid, across all paths.
+		 * 
+		 * Note that, like [`Route::get_total_amount`], this does *not* include the paid fees.
+		 * 
+		 * This is only `None` for payments initiated on LDK versions prior to 0.2.
+		 * 
+		 * [`Route::get_total_amount`]: crate::routing::router::Route::get_total_amount
+		*/
+		public final org.ldk.structs.Option_u64Z amount_msat;
+		/**
 		 * The total fee which was spent at intermediate hops in this payment, across all paths.
 		 * 
-		 * Note that, like [`Route::get_total_fees`] this does *not* include any potential
+		 * Note that, like [`Route::get_total_fees`], this does *not* include any potential
 		 * overpayment to the recipient node.
 		 * 
 		 * If the recipient or an intermediate node misbehaves and gives us free money, this may
@@ -637,6 +659,20 @@ public class Event extends CommonBase {
 		 * [`Route::get_total_fees`]: crate::routing::router::Route::get_total_fees
 		*/
 		public final org.ldk.structs.Option_u64Z fee_paid_msat;
+		/**
+		 * The BOLT 12 invoice that was paid. `None` if the payment was a non BOLT 12 payment.
+		 * 
+		 * The BOLT 12 invoice is useful for proof of payment because it contains the
+		 * payment hash. A third party can verify that the payment was made by
+		 * showing the invoice and confirming that the payment hash matches
+		 * the hash of the payment preimage.
+		 * 
+		 * However, the [`PaidBolt12Invoice`] can also be of type [`StaticInvoice`], which
+		 * is a special [`Bolt12Invoice`] where proof of payment is not possible.
+		 * 
+		 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+		*/
+		public final org.ldk.structs.Option_PaidBolt12InvoiceZ bolt12_invoice;
 		private PaymentSent(long ptr, bindings.LDKEvent.PaymentSent obj) {
 			super(null, ptr);
 			long payment_id = obj.payment_id;
@@ -645,10 +681,18 @@ public class Event extends CommonBase {
 			this.payment_id = payment_id_hu_conv;
 			this.payment_preimage = obj.payment_preimage;
 			this.payment_hash = obj.payment_hash;
+			long amount_msat = obj.amount_msat;
+			org.ldk.structs.Option_u64Z amount_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(amount_msat);
+			if (amount_msat_hu_conv != null) { amount_msat_hu_conv.ptrs_to.add(this); };
+			this.amount_msat = amount_msat_hu_conv;
 			long fee_paid_msat = obj.fee_paid_msat;
 			org.ldk.structs.Option_u64Z fee_paid_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(fee_paid_msat);
 			if (fee_paid_msat_hu_conv != null) { fee_paid_msat_hu_conv.ptrs_to.add(this); };
 			this.fee_paid_msat = fee_paid_msat_hu_conv;
+			long bolt12_invoice = obj.bolt12_invoice;
+			org.ldk.structs.Option_PaidBolt12InvoiceZ bolt12_invoice_hu_conv = org.ldk.structs.Option_PaidBolt12InvoiceZ.constr_from_ptr(bolt12_invoice);
+			if (bolt12_invoice_hu_conv != null) { bolt12_invoice_hu_conv.ptrs_to.add(this); };
+			this.bolt12_invoice = bolt12_invoice_hu_conv;
 		}
 	}
 	/**
@@ -736,6 +780,25 @@ public class Event extends CommonBase {
 		 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
 		*/
 		public final org.ldk.structs.Path path;
+		/**
+		 * The time that each hop indicated it held the HTLC.
+		 * 
+		 * The unit in which the hold times are expressed are 100's of milliseconds. So a hop
+		 * reporting 2 is a hold time that corresponds to between 200 and 299 milliseconds.
+		 * 
+		 * We expect that at each hop the actual hold time will be strictly greater than the hold
+		 * time of the following hops, as a node along the path shouldn't have completed the HTLC
+		 * until the next node has completed it. Note that because hold times are in 100's of ms,
+		 * hold times as reported are likely to often be equal across hops.
+		 * 
+		 * If our peer didn't provide attribution data or the HTLC resolved on chain, the list
+		 * will be empty.
+		 * 
+		 * Each entry will correspond with one entry in [`Path::hops`], or, thereafter, the
+		 * [`BlindedTail::trampoline_hops`] in [`Path::blinded_tail`]. Because not all nodes
+		 * support hold times, the list may be shorter than the number of hops in the path.
+		*/
+		public final int[] hold_times;
 		private PaymentPathSuccessful(long ptr, bindings.LDKEvent.PaymentPathSuccessful obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
@@ -747,6 +810,7 @@ public class Event extends CommonBase {
 			org.ldk.structs.Path path_hu_conv = null; if (path < 0 || path > 4096) { path_hu_conv = new org.ldk.structs.Path(null, path); }
 			if (path_hu_conv != null) { path_hu_conv.ptrs_to.add(this); };
 			this.path = path_hu_conv;
+			this.hold_times = obj.hold_times;
 		}
 	}
 	/**
@@ -809,6 +873,25 @@ public class Event extends CommonBase {
 		 * retried. May be `None` for older [`Event`] serializations.
 		*/
 		public final org.ldk.structs.Option_u64Z short_channel_id;
+		/**
+		 * The time that each hop indicated it held the HTLC.
+		 * 
+		 * The unit in which the hold times are expressed are 100's of milliseconds. So a hop
+		 * reporting 2 is a hold time that corresponds to between 200 and 299 milliseconds.
+		 * 
+		 * We expect that at each hop the actual hold time will be strictly greater than the hold
+		 * time of the following hops, as a node along the path shouldn't have completed the HTLC
+		 * until the next node has completed it. Note that because hold times are in 100's of ms,
+		 * hold times as reported are likely to often be equal across hops.
+		 * 
+		 * If our peer didn't provide attribution data or the HTLC resolved on chain, the list
+		 * will be empty.
+		 * 
+		 * Each entry will correspond with one entry in [`Path::hops`], or, thereafter, the
+		 * [`BlindedTail::trampoline_hops`] in [`Path::blinded_tail`]. Because not all nodes
+		 * support hold times, the list may be shorter than the number of hops in the path.
+		*/
+		public final int[] hold_times;
 		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
 			long payment_id = obj.payment_id;
@@ -829,6 +912,7 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
 			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
 			this.short_channel_id = short_channel_id_hu_conv;
+			this.hold_times = obj.hold_times;
 		}
 	}
 	/**
@@ -909,29 +993,6 @@ public class Event extends CommonBase {
 			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
 			if (short_channel_id_hu_conv != null) { short_channel_id_hu_conv.ptrs_to.add(this); };
 			this.short_channel_id = short_channel_id_hu_conv;
-		}
-	}
-	/**
-	 * Used to indicate that [`ChannelManager::process_pending_htlc_forwards`] should be called at
-	 * a time in the future.
-	 * 
-	 * # Failure Behavior and Persistence
-	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
-	 * returning `Err(ReplayEvent ())`) and will be regenerated after restarts.
-	 * 
-	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards
-	 */
-	public final static class PendingHTLCsForwardable extends Event {
-		/**
-		 * The minimum amount of time that should be waited prior to calling
-		 * process_pending_htlc_forwards. To increase the effort required to correlate payments,
-		 * you should wait a random amount of time in roughly the range (now + time_forwardable,
-		 * now + 5*time_forwardable).
-		*/
-		public final long time_forwardable;
-		private PendingHTLCsForwardable(long ptr, bindings.LDKEvent.PendingHTLCsForwardable obj) {
-			super(null, ptr);
-			this.time_forwardable = obj.time_forwardable;
 		}
 	}
 	/**
@@ -1226,6 +1287,12 @@ public class Event extends CommonBase {
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
 		@Nullable public final org.ldk.structs.ChannelTypeFeatures channel_type;
+		/**
+		 * The witness script that is used to lock the channel's funding output to commitment transactions.
+		 * 
+		 * This field will be `None` for objects serialized with LDK versions prior to 0.2.0.
+		*/
+		public final org.ldk.structs.Option_CVec_u8ZZ funding_redeem_script;
 		private ChannelPending(long ptr, bindings.LDKEvent.ChannelPending obj) {
 			super(null, ptr);
 			long channel_id = obj.channel_id;
@@ -1248,13 +1315,20 @@ public class Event extends CommonBase {
 			org.ldk.structs.ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, channel_type); }
 			if (channel_type_hu_conv != null) { channel_type_hu_conv.ptrs_to.add(this); };
 			this.channel_type = channel_type_hu_conv;
+			long funding_redeem_script = obj.funding_redeem_script;
+			org.ldk.structs.Option_CVec_u8ZZ funding_redeem_script_hu_conv = org.ldk.structs.Option_CVec_u8ZZ.constr_from_ptr(funding_redeem_script);
+			if (funding_redeem_script_hu_conv != null) { funding_redeem_script_hu_conv.ptrs_to.add(this); };
+			this.funding_redeem_script = funding_redeem_script_hu_conv;
 		}
 	}
 	/**
-	 * Used to indicate that a channel with the given `channel_id` is ready to
-	 * be used. This event is emitted either when the funding transaction has been confirmed
-	 * on-chain, or, in case of a 0conf channel, when both parties have confirmed the channel
-	 * establishment.
+	 * Used to indicate that a channel with the given `channel_id` is ready to be used. This event
+	 * is emitted when
+	 * - the initial funding transaction has been confirmed on-chain to an acceptable depth
+	 * according to both parties (i.e., `channel_ready` messages were exchanged),
+	 * - a splice funding transaction has been confirmed on-chain to an acceptable depth according
+	 * to both parties (i.e., `splice_locked` messages were exchanged), or,
+	 * - in case of a 0conf channel, when both parties have confirmed the channel establishment.
 	 * 
 	 * # Failure Behavior and Persistence
 	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
@@ -1281,6 +1355,13 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] counterparty_node_id;
 		/**
+		 * The outpoint of the channel's funding transaction.
+		 * 
+		 * Will be `None` if the channel's funding transaction reached an acceptable depth prior to
+		 * version 0.2.
+		*/
+		public final org.ldk.structs.Option_OutPointZ funding_txo;
+		/**
 		 * The features that this channel will operate with.
 		*/
 		public final org.ldk.structs.ChannelTypeFeatures channel_type;
@@ -1294,6 +1375,10 @@ public class Event extends CommonBase {
 			org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
 			this.user_channel_id = user_channel_id_conv;
 			this.counterparty_node_id = obj.counterparty_node_id;
+			long funding_txo = obj.funding_txo;
+			org.ldk.structs.Option_OutPointZ funding_txo_hu_conv = org.ldk.structs.Option_OutPointZ.constr_from_ptr(funding_txo);
+			if (funding_txo_hu_conv != null) { funding_txo_hu_conv.ptrs_to.add(this); };
+			this.funding_txo = funding_txo_hu_conv;
 			long channel_type = obj.channel_type;
 			org.ldk.structs.ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, channel_type); }
 			if (channel_type_hu_conv != null) { channel_type_hu_conv.ptrs_to.add(this); };
@@ -1402,8 +1487,169 @@ public class Event extends CommonBase {
 		}
 	}
 	/**
+	 * Used to indicate that a splice for the given `channel_id` has been negotiated and its
+	 * funding transaction has been broadcast.
+	 * 
+	 * The splice is then considered pending until both parties have seen enough confirmations to
+	 * consider the funding locked. Once this occurs, an [`Event::ChannelReady`] will be emitted.
+	 * 
+	 * Any UTXOs spent by the splice cannot be reused except by an RBF attempt for the same channel.
+	 * 
+	 * # Failure Behavior and Persistence
+	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
+	 * returning `Err(ReplayEvent ())`) and will be persisted across restarts.
+	 */
+	public final static class SplicePending extends Event {
+		/**
+		 * The `channel_id` of the channel that has a pending splice funding transaction.
+		*/
+		public final org.ldk.structs.ChannelId channel_id;
+		/**
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+		 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+		 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+		 * `user_channel_id` will be randomized for an inbound channel.
+		 * 
+		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+		 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
+		*/
+		public final org.ldk.util.UInt128 user_channel_id;
+		/**
+		 * The `node_id` of the channel counterparty.
+		*/
+		public final byte[] counterparty_node_id;
+		/**
+		 * The outpoint of the channel's splice funding transaction.
+		*/
+		public final org.ldk.structs.OutPoint new_funding_txo;
+		/**
+		 * The features that this channel will operate with. Currently, these will be the same
+		 * features that the channel was opened with, but in the future splices may change them.
+		*/
+		public final org.ldk.structs.ChannelTypeFeatures channel_type;
+		/**
+		 * The witness script that is used to lock the channel's funding output to commitment transactions.
+		*/
+		public final byte[] new_funding_redeem_script;
+		private SplicePending(long ptr, bindings.LDKEvent.SplicePending obj) {
+			super(null, ptr);
+			long channel_id = obj.channel_id;
+			org.ldk.structs.ChannelId channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.ChannelId(null, channel_id); }
+			if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
+			this.channel_id = channel_id_hu_conv;
+			byte[] user_channel_id = obj.user_channel_id;
+			org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
+			this.user_channel_id = user_channel_id_conv;
+			this.counterparty_node_id = obj.counterparty_node_id;
+			long new_funding_txo = obj.new_funding_txo;
+			org.ldk.structs.OutPoint new_funding_txo_hu_conv = null; if (new_funding_txo < 0 || new_funding_txo > 4096) { new_funding_txo_hu_conv = new org.ldk.structs.OutPoint(null, new_funding_txo); }
+			if (new_funding_txo_hu_conv != null) { new_funding_txo_hu_conv.ptrs_to.add(this); };
+			this.new_funding_txo = new_funding_txo_hu_conv;
+			long channel_type = obj.channel_type;
+			org.ldk.structs.ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, channel_type); }
+			if (channel_type_hu_conv != null) { channel_type_hu_conv.ptrs_to.add(this); };
+			this.channel_type = channel_type_hu_conv;
+			this.new_funding_redeem_script = obj.new_funding_redeem_script;
+		}
+	}
+	/**
+	 * Used to indicate that a splice for the given `channel_id` has failed.
+	 * 
+	 * This event may be emitted if a splice fails after it has been initiated but prior to signing
+	 * any negotiated funding transaction.
+	 * 
+	 * Any UTXOs contributed to be spent by the funding transaction may be reused and will be
+	 * given in `contributed_inputs`.
+	 * 
+	 * # Failure Behavior and Persistence
+	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
+	 * returning `Err(ReplayEvent ())`) and will be persisted across restarts.
+	 */
+	public final static class SpliceFailed extends Event {
+		/**
+		 * The `channel_id` of the channel for which the splice failed.
+		*/
+		public final org.ldk.structs.ChannelId channel_id;
+		/**
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+		 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+		 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+		 * `user_channel_id` will be randomized for an inbound channel.
+		 * 
+		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+		 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
+		*/
+		public final org.ldk.util.UInt128 user_channel_id;
+		/**
+		 * The `node_id` of the channel counterparty.
+		*/
+		public final byte[] counterparty_node_id;
+		/**
+		 * The outpoint of the channel's splice funding transaction, if one was created.
+		*/
+		public final org.ldk.structs.Option_OutPointZ abandoned_funding_txo;
+		/**
+		 * The features that this channel will operate with, if available.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final org.ldk.structs.ChannelTypeFeatures channel_type;
+		/**
+		 * UTXOs spent as inputs contributed to the splice transaction.
+		*/
+		public final OutPoint[] contributed_inputs;
+		/**
+		 * Outputs contributed to the splice transaction.
+		*/
+		public final TxOut[] contributed_outputs;
+		private SpliceFailed(long ptr, bindings.LDKEvent.SpliceFailed obj) {
+			super(null, ptr);
+			long channel_id = obj.channel_id;
+			org.ldk.structs.ChannelId channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.ChannelId(null, channel_id); }
+			if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
+			this.channel_id = channel_id_hu_conv;
+			byte[] user_channel_id = obj.user_channel_id;
+			org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
+			this.user_channel_id = user_channel_id_conv;
+			this.counterparty_node_id = obj.counterparty_node_id;
+			long abandoned_funding_txo = obj.abandoned_funding_txo;
+			org.ldk.structs.Option_OutPointZ abandoned_funding_txo_hu_conv = org.ldk.structs.Option_OutPointZ.constr_from_ptr(abandoned_funding_txo);
+			if (abandoned_funding_txo_hu_conv != null) { abandoned_funding_txo_hu_conv.ptrs_to.add(this); };
+			this.abandoned_funding_txo = abandoned_funding_txo_hu_conv;
+			long channel_type = obj.channel_type;
+			org.ldk.structs.ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, channel_type); }
+			if (channel_type_hu_conv != null) { channel_type_hu_conv.ptrs_to.add(this); };
+			this.channel_type = channel_type_hu_conv;
+			long[] contributed_inputs = obj.contributed_inputs;
+			int contributed_inputs_conv_10_len = contributed_inputs.length;
+			OutPoint[] contributed_inputs_conv_10_arr = new OutPoint[contributed_inputs_conv_10_len];
+			for (int k = 0; k < contributed_inputs_conv_10_len; k++) {
+				long contributed_inputs_conv_10 = contributed_inputs[k];
+				org.ldk.structs.OutPoint contributed_inputs_conv_10_hu_conv = null; if (contributed_inputs_conv_10 < 0 || contributed_inputs_conv_10 > 4096) { contributed_inputs_conv_10_hu_conv = new org.ldk.structs.OutPoint(null, contributed_inputs_conv_10); }
+				if (contributed_inputs_conv_10_hu_conv != null) { contributed_inputs_conv_10_hu_conv.ptrs_to.add(this); };
+				contributed_inputs_conv_10_arr[k] = contributed_inputs_conv_10_hu_conv;
+			}
+			this.contributed_inputs = contributed_inputs_conv_10_arr;
+			long[] contributed_outputs = obj.contributed_outputs;
+			int contributed_outputs_conv_7_len = contributed_outputs.length;
+			TxOut[] contributed_outputs_conv_7_arr = new TxOut[contributed_outputs_conv_7_len];
+			for (int h = 0; h < contributed_outputs_conv_7_len; h++) {
+				long contributed_outputs_conv_7 = contributed_outputs[h];
+				TxOut contributed_outputs_conv_7_conv = new TxOut(null, contributed_outputs_conv_7);
+				contributed_outputs_conv_7_arr[h] = contributed_outputs_conv_7_conv;
+			}
+			this.contributed_outputs = contributed_outputs_conv_7_arr;
+		}
+	}
+	/**
 	 * Used to indicate to the user that they can abandon the funding transaction and recycle the
 	 * inputs for another purpose.
+	 * 
+	 * When splicing, users can expect to receive an event for each negotiated splice transaction
+	 * that did not become locked. The negotiated splice transaction that became locked can be
+	 * obtained via [`Event::ChannelReady::funding_txo`].
 	 * 
 	 * This event is not guaranteed to be generated for channels that are closed due to a restart.
 	 * 
@@ -1437,8 +1683,8 @@ public class Event extends CommonBase {
 	 * 
 	 * To accept the request (and in the case of a dual-funded channel, not contribute funds),
 	 * call [`ChannelManager::accept_inbound_channel`].
-	 * To reject the request, call [`ChannelManager::force_close_without_broadcasting_txn`].
-	 * Note that a ['ChannelClosed`] event will _not_ be triggered if the channel is rejected.
+	 * To reject the request, call [`ChannelManager::force_close_broadcasting_latest_txn`].
+	 * Note that a [`ChannelClosed`] event will _not_ be triggered if the channel is rejected.
 	 * 
 	 * The event is only triggered when a new open channel request is received and the
 	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true.
@@ -1448,7 +1694,8 @@ public class Event extends CommonBase {
 	 * returning `Err(ReplayEvent ())`) and won't be persisted across restarts.
 	 * 
 	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-	 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
+	 * [`ChannelClosed`]: Event::ChannelClosed
+	 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn
 	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 	 */
 	public final static class OpenChannelRequest extends Event {
@@ -1457,10 +1704,10 @@ public class Event extends CommonBase {
 		 * 
 		 * When responding to the request, the `temporary_channel_id` should be passed
 		 * back to the ChannelManager through [`ChannelManager::accept_inbound_channel`] to accept,
-		 * or through [`ChannelManager::force_close_without_broadcasting_txn`] to reject.
+		 * or through [`ChannelManager::force_close_broadcasting_latest_txn`] to reject.
 		 * 
 		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-		 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
+		 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn
 		*/
 		public final org.ldk.structs.ChannelId temporary_channel_id;
 		/**
@@ -1468,11 +1715,11 @@ public class Event extends CommonBase {
 		 * 
 		 * When responding to the request, the `counterparty_node_id` should be passed
 		 * back to the `ChannelManager` through [`ChannelManager::accept_inbound_channel`] to
-		 * accept the request, or through [`ChannelManager::force_close_without_broadcasting_txn`] to reject the
-		 * request.
+		 * accept the request, or through [`ChannelManager::force_close_broadcasting_latest_txn`]
+		 * to reject the request.
 		 * 
 		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
-		 * [`ChannelManager::force_close_without_broadcasting_txn`]: crate::ln::channelmanager::ChannelManager::force_close_without_broadcasting_txn
+		 * [`ChannelManager::force_close_broadcasting_latest_txn`]: crate::ln::channelmanager::ChannelManager::force_close_broadcasting_latest_txn
 		*/
 		public final byte[] counterparty_node_id;
 		/**
@@ -1538,16 +1785,6 @@ public class Event extends CommonBase {
 	 * Indicates that the HTLC was accepted, but could not be processed when or after attempting to
 	 * forward it.
 	 * 
-	 * Some scenarios where this event may be sent include:
-	 * Insufficient capacity in the outbound channel
-	 * While waiting to forward the HTLC, the channel it is meant to be forwarded through closes
-	 * When an unknown SCID is requested for forwarding a payment.
-	 * Expected MPP amount has already been reached
-	 * The HTLC has timed out
-	 * 
-	 * This event, however, does not get generated if an HTLC fails to meet the forwarding
-	 * requirements (i.e. insufficient fees paid, or a CLTV that is too soon).
-	 * 
 	 * # Failure Behavior and Persistence
 	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
 	 * returning `Err(ReplayEvent ())`) and will be persisted across restarts.
@@ -1558,27 +1795,39 @@ public class Event extends CommonBase {
 		*/
 		public final org.ldk.structs.ChannelId prev_channel_id;
 		/**
-		 * Destination of the HTLC that failed to be processed.
+		 * The type of HTLC handling that failed.
 		*/
-		public final org.ldk.structs.HTLCDestination failed_next_destination;
+		public final org.ldk.structs.HTLCHandlingFailureType failure_type;
+		/**
+		 * The reason that the HTLC failed.
+		 * 
+		 * This field will be `None` only for objects serialized prior to LDK 0.2.0.
+		*/
+		public final org.ldk.structs.Option_HTLCHandlingFailureReasonZ failure_reason;
 		private HTLCHandlingFailed(long ptr, bindings.LDKEvent.HTLCHandlingFailed obj) {
 			super(null, ptr);
 			long prev_channel_id = obj.prev_channel_id;
 			org.ldk.structs.ChannelId prev_channel_id_hu_conv = null; if (prev_channel_id < 0 || prev_channel_id > 4096) { prev_channel_id_hu_conv = new org.ldk.structs.ChannelId(null, prev_channel_id); }
 			if (prev_channel_id_hu_conv != null) { prev_channel_id_hu_conv.ptrs_to.add(this); };
 			this.prev_channel_id = prev_channel_id_hu_conv;
-			long failed_next_destination = obj.failed_next_destination;
-			org.ldk.structs.HTLCDestination failed_next_destination_hu_conv = org.ldk.structs.HTLCDestination.constr_from_ptr(failed_next_destination);
-			if (failed_next_destination_hu_conv != null) { failed_next_destination_hu_conv.ptrs_to.add(this); };
-			this.failed_next_destination = failed_next_destination_hu_conv;
+			long failure_type = obj.failure_type;
+			org.ldk.structs.HTLCHandlingFailureType failure_type_hu_conv = org.ldk.structs.HTLCHandlingFailureType.constr_from_ptr(failure_type);
+			if (failure_type_hu_conv != null) { failure_type_hu_conv.ptrs_to.add(this); };
+			this.failure_type = failure_type_hu_conv;
+			long failure_reason = obj.failure_reason;
+			org.ldk.structs.Option_HTLCHandlingFailureReasonZ failure_reason_hu_conv = org.ldk.structs.Option_HTLCHandlingFailureReasonZ.constr_from_ptr(failure_reason);
+			if (failure_reason_hu_conv != null) { failure_reason_hu_conv.ptrs_to.add(this); };
+			this.failure_reason = failure_reason_hu_conv;
 		}
 	}
 	/**
 	 * Indicates that a transaction originating from LDK needs to have its fee bumped. This event
 	 * requires confirmed external funds to be readily available to spend.
 	 * 
-	 * LDK does not currently generate this event unless the
-	 * [`ChannelHandshakeConfig::negotiate_anchors_zero_fee_htlc_tx`] config flag is set to true.
+	 * LDK does not currently generate this event unless either the
+	 * [`ChannelHandshakeConfig::negotiate_anchors_zero_fee_htlc_tx`] or the
+	 * [`ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments`] config flags are set to
+	 * true.
 	 * It is limited to the scope of channels with anchor outputs.
 	 * 
 	 * # Failure Behavior and Persistence
@@ -1586,6 +1835,7 @@ public class Event extends CommonBase {
 	 * returning `Err(ReplayEvent ())`), but will only be regenerated as needed after restarts.
 	 * 
 	 * [`ChannelHandshakeConfig::negotiate_anchors_zero_fee_htlc_tx`]: crate::util::config::ChannelHandshakeConfig::negotiate_anchors_zero_fee_htlc_tx
+	 * [`ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments`]: crate::util::config::ChannelHandshakeConfig::negotiate_anchor_zero_fee_commitments
 	 */
 	public final static class BumpTransaction extends Event {
 		public final org.ldk.structs.BumpTransactionEvent bump_transaction;
@@ -1602,6 +1852,12 @@ public class Event extends CommonBase {
 	 * that is currently offline. This event will only be generated if the
 	 * `OnionMessenger` was initialized with
 	 * [`OnionMessenger::new_with_offline_peer_interception`], see its docs.
+	 * 
+	 * The offline peer should be awoken if possible on receipt of this event, such as via the LSPS5
+	 * protocol.
+	 * 
+	 * Once they connect, you should handle the generated [`Event::OnionMessagePeerConnected`] and
+	 * provide the stored message.
 	 * 
 	 * # Failure Behavior and Persistence
 	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
@@ -1628,16 +1884,18 @@ public class Event extends CommonBase {
 		}
 	}
 	/**
-	 * Indicates that an onion message supporting peer has come online and it may
-	 * be time to forward any onion messages that were previously intercepted for
-	 * them. This event will only be generated if the `OnionMessenger` was
-	 * initialized with
+	 * Indicates that an onion message supporting peer has come online and any messages previously
+	 * stored for them (from [`Event::OnionMessageIntercepted`]s) should be forwarded to them by
+	 * calling [`OnionMessenger::forward_onion_message`].
+	 * 
+	 * This event will only be generated if the `OnionMessenger` was initialized with
 	 * [`OnionMessenger::new_with_offline_peer_interception`], see its docs.
 	 * 
 	 * # Failure Behavior and Persistence
 	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
 	 * returning `Err(ReplayEvent ())`), but won't be persisted across restarts.
 	 * 
+	 * [`OnionMessenger::forward_onion_message`]: crate::onion_message::messenger::OnionMessenger::forward_onion_message
 	 * [`OnionMessenger::new_with_offline_peer_interception`]: crate::onion_message::messenger::OnionMessenger::new_with_offline_peer_interception
 	 */
 	public final static class OnionMessagePeerConnected extends Event {
@@ -1649,6 +1907,214 @@ public class Event extends CommonBase {
 		private OnionMessagePeerConnected(long ptr, bindings.LDKEvent.OnionMessagePeerConnected obj) {
 			super(null, ptr);
 			this.peer_node_id = obj.peer_node_id;
+		}
+	}
+	/**
+	 * As a static invoice server, we received a [`StaticInvoice`] from an async recipient that wants
+	 * us to serve the invoice to payers on their behalf when they are offline. This event will only
+	 * be generated if we previously created paths using
+	 * [`ChannelManager::blinded_paths_for_async_recipient`] and the recipient was configured with
+	 * them via [`ChannelManager::set_paths_to_static_invoice_server`].
+	 * 
+	 * [`ChannelManager::blinded_paths_for_async_recipient`]: crate::ln::channelmanager::ChannelManager::blinded_paths_for_async_recipient
+	 * [`ChannelManager::set_paths_to_static_invoice_server`]: crate::ln::channelmanager::ChannelManager::set_paths_to_static_invoice_server
+	 */
+	public final static class PersistStaticInvoice extends Event {
+		/**
+		 * The invoice that should be persisted and later provided to payers when handling a future
+		 * [`Event::StaticInvoiceRequested`].
+		*/
+		public final org.ldk.structs.StaticInvoice invoice;
+		/**
+		 * The path to where invoice requests will be forwarded. If we receive an invoice
+		 * request, we'll forward it to the async recipient over this path in case the
+		 * recipient is online to provide a new invoice. This path should be persisted and
+		 * later provided to [`ChannelManager::respond_to_static_invoice_request`].
+		 * 
+		 * This path's [`BlindedMessagePath::introduction_node`] MUST be set to our node or one of our
+		 * peers. This is because, for DoS protection, invoice requests forwarded over this path are
+		 * treated by our node like any other onion message forward and will not generate
+		 * [`Event::ConnectionNeeded`] if the first hop in the path is not our peer.
+		 * 
+		 * If the next-hop peer in the path is offline, if configured to do so we will generate an
+		 * [`Event::OnionMessageIntercepted`] for the invoice request.
+		 * 
+		 * [`ChannelManager::respond_to_static_invoice_request`]: crate::ln::channelmanager::ChannelManager::respond_to_static_invoice_request
+		*/
+		public final org.ldk.structs.BlindedMessagePath invoice_request_path;
+		/**
+		 * Useful for the recipient to replace a specific invoice stored by us as the static invoice
+		 * server.
+		 * 
+		 * When this invoice and its metadata are persisted, this slot number should be included so if
+		 * we receive another [`Event::PersistStaticInvoice`] containing the same slot number we can
+		 * swap the existing invoice out for the new one.
+		*/
+		public final short invoice_slot;
+		/**
+		 * An identifier for the recipient, originally provided to
+		 * [`ChannelManager::blinded_paths_for_async_recipient`].
+		 * 
+		 * When an [`Event::StaticInvoiceRequested`] comes in for the invoice, this id will be surfaced
+		 * and can be used alongside the `invoice_slot` to retrieve the invoice from the database.
+		 * 
+		 * [`ChannelManager::blinded_paths_for_async_recipient`]: crate::ln::channelmanager::ChannelManager::blinded_paths_for_async_recipient
+		*/
+		public final byte[] recipient_id;
+		/**
+		 * Once the [`StaticInvoice`] and `invoice_slot` are persisted,
+		 * [`ChannelManager::static_invoice_persisted`] should be called with this responder to confirm
+		 * to the recipient that their [`Offer`] is ready to be used for async payments.
+		 * 
+		 * [`ChannelManager::static_invoice_persisted`]: crate::ln::channelmanager::ChannelManager::static_invoice_persisted
+		 * [`Offer`]: crate::offers::offer::Offer
+		*/
+		public final org.ldk.structs.Responder invoice_persisted_path;
+		private PersistStaticInvoice(long ptr, bindings.LDKEvent.PersistStaticInvoice obj) {
+			super(null, ptr);
+			long invoice = obj.invoice;
+			org.ldk.structs.StaticInvoice invoice_hu_conv = null; if (invoice < 0 || invoice > 4096) { invoice_hu_conv = new org.ldk.structs.StaticInvoice(null, invoice); }
+			if (invoice_hu_conv != null) { invoice_hu_conv.ptrs_to.add(this); };
+			this.invoice = invoice_hu_conv;
+			long invoice_request_path = obj.invoice_request_path;
+			org.ldk.structs.BlindedMessagePath invoice_request_path_hu_conv = null; if (invoice_request_path < 0 || invoice_request_path > 4096) { invoice_request_path_hu_conv = new org.ldk.structs.BlindedMessagePath(null, invoice_request_path); }
+			if (invoice_request_path_hu_conv != null) { invoice_request_path_hu_conv.ptrs_to.add(this); };
+			this.invoice_request_path = invoice_request_path_hu_conv;
+			this.invoice_slot = obj.invoice_slot;
+			this.recipient_id = obj.recipient_id;
+			long invoice_persisted_path = obj.invoice_persisted_path;
+			org.ldk.structs.Responder invoice_persisted_path_hu_conv = null; if (invoice_persisted_path < 0 || invoice_persisted_path > 4096) { invoice_persisted_path_hu_conv = new org.ldk.structs.Responder(null, invoice_persisted_path); }
+			if (invoice_persisted_path_hu_conv != null) { invoice_persisted_path_hu_conv.ptrs_to.add(this); };
+			this.invoice_persisted_path = invoice_persisted_path_hu_conv;
+		}
+	}
+	/**
+	 * As a static invoice server, we received an [`InvoiceRequest`] on behalf of an often-offline
+	 * recipient for whom we are serving [`StaticInvoice`]s.
+	 * 
+	 * This event will only be generated if we previously created paths using
+	 * [`ChannelManager::blinded_paths_for_async_recipient`] and the recipient was configured with
+	 * them via [`ChannelManager::set_paths_to_static_invoice_server`].
+	 * 
+	 * If we previously persisted a [`StaticInvoice`] from an [`Event::PersistStaticInvoice`] that
+	 * matches the below `recipient_id` and `invoice_slot`, that invoice should be retrieved now
+	 * and forwarded to the payer via [`ChannelManager::respond_to_static_invoice_request`].
+	 * The invoice request path previously persisted from [`Event::PersistStaticInvoice`] should
+	 * also be provided in [`ChannelManager::respond_to_static_invoice_request`].
+	 * 
+	 * [`ChannelManager::blinded_paths_for_async_recipient`]: crate::ln::channelmanager::ChannelManager::blinded_paths_for_async_recipient
+	 * [`ChannelManager::set_paths_to_static_invoice_server`]: crate::ln::channelmanager::ChannelManager::set_paths_to_static_invoice_server
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 * [`ChannelManager::respond_to_static_invoice_request`]: crate::ln::channelmanager::ChannelManager::respond_to_static_invoice_request
+	 */
+	public final static class StaticInvoiceRequested extends Event {
+		/**
+		 * An identifier for the recipient previously surfaced in
+		 * [`Event::PersistStaticInvoice::recipient_id`]. Useful when paired with the `invoice_slot` to
+		 * retrieve the [`StaticInvoice`] requested by the payer.
+		*/
+		public final byte[] recipient_id;
+		/**
+		 * The slot number for the invoice being requested, previously surfaced in
+		 * [`Event::PersistStaticInvoice::invoice_slot`]. Useful when paired with the `recipient_id` to
+		 * retrieve the [`StaticInvoice`] requested by the payer.
+		*/
+		public final short invoice_slot;
+		/**
+		 * The path over which the [`StaticInvoice`] will be sent to the payer, which should be
+		 * provided to [`ChannelManager::respond_to_static_invoice_request`] along with the invoice.
+		 * 
+		 * [`ChannelManager::respond_to_static_invoice_request`]: crate::ln::channelmanager::ChannelManager::respond_to_static_invoice_request
+		*/
+		public final org.ldk.structs.Responder reply_path;
+		/**
+		 * The invoice request that will be forwarded to the async recipient to give the
+		 * recipient a chance to provide an invoice in case it is online. It should be
+		 * provided to [`ChannelManager::respond_to_static_invoice_request`].
+		 * 
+		 * [`ChannelManager::respond_to_static_invoice_request`]: crate::ln::channelmanager::ChannelManager::respond_to_static_invoice_request
+		*/
+		public final org.ldk.structs.InvoiceRequest invoice_request;
+		private StaticInvoiceRequested(long ptr, bindings.LDKEvent.StaticInvoiceRequested obj) {
+			super(null, ptr);
+			this.recipient_id = obj.recipient_id;
+			this.invoice_slot = obj.invoice_slot;
+			long reply_path = obj.reply_path;
+			org.ldk.structs.Responder reply_path_hu_conv = null; if (reply_path < 0 || reply_path > 4096) { reply_path_hu_conv = new org.ldk.structs.Responder(null, reply_path); }
+			if (reply_path_hu_conv != null) { reply_path_hu_conv.ptrs_to.add(this); };
+			this.reply_path = reply_path_hu_conv;
+			long invoice_request = obj.invoice_request;
+			org.ldk.structs.InvoiceRequest invoice_request_hu_conv = null; if (invoice_request < 0 || invoice_request > 4096) { invoice_request_hu_conv = new org.ldk.structs.InvoiceRequest(null, invoice_request); }
+			if (invoice_request_hu_conv != null) { invoice_request_hu_conv.ptrs_to.add(this); };
+			this.invoice_request = invoice_request_hu_conv;
+		}
+	}
+	/**
+	 * Indicates that a channel funding transaction constructed interactively is ready to be
+	 * signed. This event will only be triggered if at least one input was contributed.
+	 * 
+	 * The transaction contains all inputs and outputs provided by both parties including the
+	 * channel's funding output and a change output if applicable.
+	 * 
+	 * No part of the transaction should be changed before signing as the content of the transaction
+	 * has already been negotiated with the counterparty.
+	 * 
+	 * Each signature MUST use the `SIGHASH_ALL` flag to avoid invalidation of the initial commitment and
+	 * hence possible loss of funds.
+	 * 
+	 * After signing, call [`ChannelManager::funding_transaction_signed`] with the (partially) signed
+	 * funding transaction.
+	 * 
+	 * Generated in [`ChannelManager`] message handling.
+	 * 
+	 * # Failure Behavior and Persistence
+	 * This event will eventually be replayed after failures-to-handle (i.e., the event handler
+	 * returning `Err(ReplayEvent ())`), but will only be regenerated as needed after restarts.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`ChannelManager::funding_transaction_signed`]: crate::ln::channelmanager::ChannelManager::funding_transaction_signed
+	 */
+	public final static class FundingTransactionReadyForSigning extends Event {
+		/**
+		 * The `channel_id` of the channel which you'll need to pass back into
+		 * [`ChannelManager::funding_transaction_signed`].
+		 * 
+		 * [`ChannelManager::funding_transaction_signed`]: crate::ln::channelmanager::ChannelManager::funding_transaction_signed
+		*/
+		public final org.ldk.structs.ChannelId channel_id;
+		/**
+		 * The counterparty's `node_id`, which you'll need to pass back into
+		 * [`ChannelManager::funding_transaction_signed`].
+		 * 
+		 * [`ChannelManager::funding_transaction_signed`]: crate::ln::channelmanager::ChannelManager::funding_transaction_signed
+		*/
+		public final byte[] counterparty_node_id;
+		/**
+		 * The `user_channel_id` value passed in for outbound channels, or for inbound channels if
+		 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+		 * `user_channel_id` will be randomized for inbound channels.
+		 * 
+		 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
+		*/
+		public final org.ldk.util.UInt128 user_channel_id;
+		/**
+		 * The unsigned transaction to be signed and passed back to
+		 * [`ChannelManager::funding_transaction_signed`].
+		 * 
+		 * [`ChannelManager::funding_transaction_signed`]: crate::ln::channelmanager::ChannelManager::funding_transaction_signed
+		*/
+		public final byte[] unsigned_transaction;
+		private FundingTransactionReadyForSigning(long ptr, bindings.LDKEvent.FundingTransactionReadyForSigning obj) {
+			super(null, ptr);
+			long channel_id = obj.channel_id;
+			org.ldk.structs.ChannelId channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.ChannelId(null, channel_id); }
+			if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
+			this.channel_id = channel_id_hu_conv;
+			this.counterparty_node_id = obj.counterparty_node_id;
+			byte[] user_channel_id = obj.user_channel_id;
+			org.ldk.util.UInt128 user_channel_id_conv = new org.ldk.util.UInt128(user_channel_id);
+			this.user_channel_id = user_channel_id_conv;
+			this.unsigned_transaction = obj.unsigned_transaction;
 		}
 	}
 	long clone_ptr() {
@@ -1704,16 +2170,15 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentClaimable-variant Event
 	 */
-	public static Event payment_claimable(byte[] receiver_node_id, byte[] payment_hash, org.ldk.structs.RecipientOnionFields onion_fields, long amount_msat, long counterparty_skimmed_fee_msat, org.ldk.structs.PaymentPurpose purpose, org.ldk.structs.ChannelId via_channel_id, org.ldk.structs.Option_U128Z via_user_channel_id, org.ldk.structs.Option_u32Z claim_deadline, org.ldk.structs.Option_ThirtyTwoBytesZ payment_id) {
-		long ret = bindings.Event_payment_claimable(InternalUtils.check_arr_len(receiver_node_id, 33), InternalUtils.check_arr_len(payment_hash, 32), onion_fields.ptr, amount_msat, counterparty_skimmed_fee_msat, purpose.ptr, via_channel_id.ptr, via_user_channel_id.ptr, claim_deadline.ptr, payment_id.ptr);
+	public static Event payment_claimable(byte[] receiver_node_id, byte[] payment_hash, org.ldk.structs.RecipientOnionFields onion_fields, long amount_msat, long counterparty_skimmed_fee_msat, org.ldk.structs.PaymentPurpose purpose, TwoTuple_ChannelIdCOption_U128ZZ[] receiving_channel_ids, org.ldk.structs.Option_u32Z claim_deadline, org.ldk.structs.Option_ThirtyTwoBytesZ payment_id) {
+		long ret = bindings.Event_payment_claimable(InternalUtils.check_arr_len(receiver_node_id, 33), InternalUtils.check_arr_len(payment_hash, 32), onion_fields.ptr, amount_msat, counterparty_skimmed_fee_msat, purpose.ptr, receiving_channel_ids != null ? Arrays.stream(receiving_channel_ids).mapToLong(receiving_channel_ids_conv_34 -> receiving_channel_ids_conv_34.ptr).toArray() : null, claim_deadline.ptr, payment_id.ptr);
 		Reference.reachabilityFence(receiver_node_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(onion_fields);
 		Reference.reachabilityFence(amount_msat);
 		Reference.reachabilityFence(counterparty_skimmed_fee_msat);
 		Reference.reachabilityFence(purpose);
-		Reference.reachabilityFence(via_channel_id);
-		Reference.reachabilityFence(via_user_channel_id);
+		Reference.reachabilityFence(receiving_channel_ids);
 		Reference.reachabilityFence(claim_deadline);
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -1772,12 +2237,14 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentSent-variant Event
 	 */
-	public static Event payment_sent(org.ldk.structs.Option_ThirtyTwoBytesZ payment_id, byte[] payment_preimage, byte[] payment_hash, org.ldk.structs.Option_u64Z fee_paid_msat) {
-		long ret = bindings.Event_payment_sent(payment_id.ptr, InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), fee_paid_msat.ptr);
+	public static Event payment_sent(org.ldk.structs.Option_ThirtyTwoBytesZ payment_id, byte[] payment_preimage, byte[] payment_hash, org.ldk.structs.Option_u64Z amount_msat, org.ldk.structs.Option_u64Z fee_paid_msat, org.ldk.structs.Option_PaidBolt12InvoiceZ bolt12_invoice) {
+		long ret = bindings.Event_payment_sent(payment_id.ptr, InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), amount_msat.ptr, fee_paid_msat.ptr, bolt12_invoice.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_preimage);
 		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(amount_msat);
 		Reference.reachabilityFence(fee_paid_msat);
+		Reference.reachabilityFence(bolt12_invoice);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -1801,11 +2268,12 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
 	 */
-	public static Event payment_path_successful(byte[] payment_id, org.ldk.structs.Option_ThirtyTwoBytesZ payment_hash, org.ldk.structs.Path path) {
-		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), payment_hash.ptr, path.ptr);
+	public static Event payment_path_successful(byte[] payment_id, org.ldk.structs.Option_ThirtyTwoBytesZ payment_hash, org.ldk.structs.Path path, int[] hold_times) {
+		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), payment_hash.ptr, path.ptr, hold_times);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(hold_times);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -1815,14 +2283,15 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(org.ldk.structs.Option_ThirtyTwoBytesZ payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.PathFailure failure, org.ldk.structs.Path path, org.ldk.structs.Option_u64Z short_channel_id) {
-		long ret = bindings.Event_payment_path_failed(payment_id.ptr, InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, failure.ptr, path.ptr, short_channel_id.ptr);
+	public static Event payment_path_failed(org.ldk.structs.Option_ThirtyTwoBytesZ payment_id, byte[] payment_hash, boolean payment_failed_permanently, org.ldk.structs.PathFailure failure, org.ldk.structs.Path path, org.ldk.structs.Option_u64Z short_channel_id, int[] hold_times) {
+		long ret = bindings.Event_payment_path_failed(payment_id.ptr, InternalUtils.check_arr_len(payment_hash, 32), payment_failed_permanently, failure.ptr, path.ptr, short_channel_id.ptr, hold_times);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(payment_failed_permanently);
 		Reference.reachabilityFence(failure);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(hold_times);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -1852,18 +2321,6 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new PendingHTLCsForwardable-variant Event
-	 */
-	public static Event pending_htlcs_forwardable(long time_forwardable) {
-		long ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
-		Reference.reachabilityFence(time_forwardable);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -1923,14 +2380,15 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelPending-variant Event
 	 */
-	public static Event channel_pending(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ChannelId former_temporary_channel_id, byte[] counterparty_node_id, org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelTypeFeatures channel_type) {
-		long ret = bindings.Event_channel_pending(channel_id.ptr, user_channel_id.getLEBytes(), former_temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), funding_txo.ptr, channel_type.ptr);
+	public static Event channel_pending(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, org.ldk.structs.ChannelId former_temporary_channel_id, byte[] counterparty_node_id, org.ldk.structs.OutPoint funding_txo, org.ldk.structs.ChannelTypeFeatures channel_type, org.ldk.structs.Option_CVec_u8ZZ funding_redeem_script) {
+		long ret = bindings.Event_channel_pending(channel_id.ptr, user_channel_id.getLEBytes(), former_temporary_channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), funding_txo.ptr, channel_type.ptr, funding_redeem_script.ptr);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(user_channel_id);
 		Reference.reachabilityFence(former_temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(channel_type);
+		Reference.reachabilityFence(funding_redeem_script);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -1940,11 +2398,12 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelReady-variant Event
 	 */
-	public static Event channel_ready(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, byte[] counterparty_node_id, org.ldk.structs.ChannelTypeFeatures channel_type) {
-		long ret = bindings.Event_channel_ready(channel_id.ptr, user_channel_id.getLEBytes(), InternalUtils.check_arr_len(counterparty_node_id, 33), channel_type.ptr);
+	public static Event channel_ready(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, byte[] counterparty_node_id, org.ldk.structs.Option_OutPointZ funding_txo, org.ldk.structs.ChannelTypeFeatures channel_type) {
+		long ret = bindings.Event_channel_ready(channel_id.ptr, user_channel_id.getLEBytes(), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_txo.ptr, channel_type.ptr);
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(user_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(channel_type);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
@@ -1964,6 +2423,41 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(channel_capacity_sats);
 		Reference.reachabilityFence(channel_funding_txo);
 		Reference.reachabilityFence(last_local_balance_msat);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SplicePending-variant Event
+	 */
+	public static Event splice_pending(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, byte[] counterparty_node_id, org.ldk.structs.OutPoint new_funding_txo, org.ldk.structs.ChannelTypeFeatures channel_type, byte[] new_funding_redeem_script) {
+		long ret = bindings.Event_splice_pending(channel_id.ptr, user_channel_id.getLEBytes(), InternalUtils.check_arr_len(counterparty_node_id, 33), new_funding_txo.ptr, channel_type.ptr, new_funding_redeem_script);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(new_funding_txo);
+		Reference.reachabilityFence(channel_type);
+		Reference.reachabilityFence(new_funding_redeem_script);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SpliceFailed-variant Event
+	 */
+	public static Event splice_failed(org.ldk.structs.ChannelId channel_id, org.ldk.util.UInt128 user_channel_id, byte[] counterparty_node_id, org.ldk.structs.Option_OutPointZ abandoned_funding_txo, org.ldk.structs.ChannelTypeFeatures channel_type, OutPoint[] contributed_inputs, TxOut[] contributed_outputs) {
+		long ret = bindings.Event_splice_failed(channel_id.ptr, user_channel_id.getLEBytes(), InternalUtils.check_arr_len(counterparty_node_id, 33), abandoned_funding_txo.ptr, channel_type.ptr, contributed_inputs != null ? Arrays.stream(contributed_inputs).mapToLong(contributed_inputs_conv_10 -> contributed_inputs_conv_10.ptr).toArray() : null, contributed_outputs != null ? Arrays.stream(contributed_outputs).mapToLong(contributed_outputs_conv_7 -> contributed_outputs_conv_7.ptr).toArray() : null);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(abandoned_funding_txo);
+		Reference.reachabilityFence(channel_type);
+		Reference.reachabilityFence(contributed_inputs);
+		Reference.reachabilityFence(contributed_outputs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -2004,10 +2498,11 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new HTLCHandlingFailed-variant Event
 	 */
-	public static Event htlchandling_failed(org.ldk.structs.ChannelId prev_channel_id, org.ldk.structs.HTLCDestination failed_next_destination) {
-		long ret = bindings.Event_htlchandling_failed(prev_channel_id.ptr, failed_next_destination.ptr);
+	public static Event htlchandling_failed(org.ldk.structs.ChannelId prev_channel_id, org.ldk.structs.HTLCHandlingFailureType failure_type, org.ldk.structs.Option_HTLCHandlingFailureReasonZ failure_reason) {
+		long ret = bindings.Event_htlchandling_failed(prev_channel_id.ptr, failure_type.ptr, failure_reason.ptr);
 		Reference.reachabilityFence(prev_channel_id);
-		Reference.reachabilityFence(failed_next_destination);
+		Reference.reachabilityFence(failure_type);
+		Reference.reachabilityFence(failure_reason);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -2045,6 +2540,52 @@ public class Event extends CommonBase {
 	public static Event onion_message_peer_connected(byte[] peer_node_id) {
 		long ret = bindings.Event_onion_message_peer_connected(InternalUtils.check_arr_len(peer_node_id, 33));
 		Reference.reachabilityFence(peer_node_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PersistStaticInvoice-variant Event
+	 */
+	public static Event persist_static_invoice(org.ldk.structs.StaticInvoice invoice, org.ldk.structs.BlindedMessagePath invoice_request_path, short invoice_slot, byte[] recipient_id, org.ldk.structs.Responder invoice_persisted_path) {
+		long ret = bindings.Event_persist_static_invoice(invoice.ptr, invoice_request_path.ptr, invoice_slot, recipient_id, invoice_persisted_path.ptr);
+		Reference.reachabilityFence(invoice);
+		Reference.reachabilityFence(invoice_request_path);
+		Reference.reachabilityFence(invoice_slot);
+		Reference.reachabilityFence(recipient_id);
+		Reference.reachabilityFence(invoice_persisted_path);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new StaticInvoiceRequested-variant Event
+	 */
+	public static Event static_invoice_requested(byte[] recipient_id, short invoice_slot, org.ldk.structs.Responder reply_path, org.ldk.structs.InvoiceRequest invoice_request) {
+		long ret = bindings.Event_static_invoice_requested(recipient_id, invoice_slot, reply_path.ptr, invoice_request.ptr);
+		Reference.reachabilityFence(recipient_id);
+		Reference.reachabilityFence(invoice_slot);
+		Reference.reachabilityFence(reply_path);
+		Reference.reachabilityFence(invoice_request);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new FundingTransactionReadyForSigning-variant Event
+	 */
+	public static Event funding_transaction_ready_for_signing(org.ldk.structs.ChannelId channel_id, byte[] counterparty_node_id, org.ldk.util.UInt128 user_channel_id, byte[] unsigned_transaction) {
+		long ret = bindings.Event_funding_transaction_ready_for_signing(channel_id.ptr, InternalUtils.check_arr_len(counterparty_node_id, 33), user_channel_id.getLEBytes(), unsigned_transaction);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(unsigned_transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

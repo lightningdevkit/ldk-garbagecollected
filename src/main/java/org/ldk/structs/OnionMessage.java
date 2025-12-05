@@ -9,7 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * An onion message to be sent to or received from a peer.
+ * An [`onion message`] to be sent to or received from a peer.
+ * 
+ * [`onion message`]: https://github.com/lightning/bolts/blob/master/04-onion-routing.md#onion-messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class OnionMessage extends CommonBase {
@@ -111,7 +113,6 @@ public class OnionMessage extends CommonBase {
 		boolean ret = bindings.OnionMessage_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

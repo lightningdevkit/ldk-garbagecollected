@@ -22,8 +22,8 @@ import javax.annotation.Nullable;
 public class ChannelSigner extends CommonBase {
 	final bindings.LDKChannelSigner bindings_instance;
 	ChannelSigner(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private ChannelSigner(bindings.LDKChannelSigner arg, ChannelPublicKeys pubkeys) {
-		super(bindings.LDKChannelSigner_new(arg, pubkeys.clone_ptr()));
+	private ChannelSigner(bindings.LDKChannelSigner arg) {
+		super(bindings.LDKChannelSigner_new(arg));
 		this.ptrs_to.add(arg);
 		this.bindings_instance = arg;
 	}
@@ -104,6 +104,26 @@ public class ChannelSigner extends CommonBase {
 		 */
 		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 		/**
+		 * Returns the holder channel public keys and basepoints. This should only be called once
+		 * during channel creation and as such implementations are allowed undefined behavior if
+		 * called more than once.
+		 * 
+		 * This method is *not* asynchronous. Instead, the value must be computed locally or in
+		 * advance and cached.
+		 */
+		ChannelPublicKeys pubkeys();
+		/**
+		 * Returns a new funding pubkey (i.e. our public which is used in a 2-of-2 with the
+		 * counterparty's key to to lock the funds on-chain) for a spliced channel.
+		 * 
+		 * `splice_parent_funding_txid` can be used to compute a tweak with which to rotate the base
+		 * key (which will then be available later in signing operations via
+		 * [`ChannelTransactionParameters::splice_parent_funding_txid`]).
+		 * 
+		 * This method is *not* asynchronous. Instead, the value must be cached locally.
+		 */
+		byte[] new_funding_pubkey(byte[] splice_parent_funding_txid);
+		/**
 		 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
 		 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
 		 * [`EcdsaChannelSigner`] object uniquely and lookup or re-derive its keys.
@@ -111,21 +131,9 @@ public class ChannelSigner extends CommonBase {
 		 * This method is *not* asynchronous. Instead, the value must be cached locally.
 		 */
 		byte[] channel_keys_id();
-		/**
-		 * Set the counterparty static channel data, including basepoints,
-		 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint.
-		 * 
-		 * This data is static, and will never change for a channel once set. For a given [`ChannelSigner`]
-		 * instance, LDK will call this method exactly once - either immediately after construction
-		 * (not including if done via [`SignerProvider::read_chan_signer`]) or when the funding
-		 * information has been generated.
-		 * 
-		 * channel_parameters.is_populated() MUST be true.
-		 */
-		void provide_channel_parameters(ChannelTransactionParameters channel_parameters);
 	}
 	private static class LDKChannelSignerHolder { ChannelSigner held; }
-	public static ChannelSigner new_impl(ChannelSignerInterface arg, ChannelPublicKeys pubkeys) {
+	public static ChannelSigner new_impl(ChannelSignerInterface arg) {
 		final LDKChannelSignerHolder impl_holder = new LDKChannelSignerHolder();
 		impl_holder.held = new ChannelSigner(new bindings.LDKChannelSigner() {
 			@Override public long get_per_commitment_point(long idx) {
@@ -153,18 +161,25 @@ public class ChannelSigner extends CommonBase {
 				long result = ret.clone_ptr();
 				return result;
 			}
+			@Override public long pubkeys() {
+				ChannelPublicKeys ret = arg.pubkeys();
+				Reference.reachabilityFence(arg);
+				long result = ret.clone_ptr();
+				return result;
+			}
+			@Override public byte[] new_funding_pubkey(byte[] splice_parent_funding_txid) {
+				byte[] ret = arg.new_funding_pubkey(splice_parent_funding_txid);
+				Reference.reachabilityFence(arg);
+				byte[] result = InternalUtils.check_arr_len(ret, 33);
+				return result;
+			}
 			@Override public byte[] channel_keys_id() {
 				byte[] ret = arg.channel_keys_id();
 				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
-			@Override public void provide_channel_parameters(long channel_parameters) {
-				org.ldk.structs.ChannelTransactionParameters channel_parameters_hu_conv = null; if (channel_parameters < 0 || channel_parameters > 4096) { channel_parameters_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, channel_parameters); }
-				arg.provide_channel_parameters(channel_parameters_hu_conv);
-				Reference.reachabilityFence(arg);
-			}
-		}, pubkeys);
+		});
 		return impl_holder.held;
 	}
 	/**
@@ -236,7 +251,6 @@ public class ChannelSigner extends CommonBase {
 		Reference.reachabilityFence(outbound_htlc_preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(holder_tx); };
 		return ret_hu_conv;
 	}
 
@@ -261,6 +275,40 @@ public class ChannelSigner extends CommonBase {
 	}
 
 	/**
+	 * Returns the holder channel public keys and basepoints. This should only be called once
+	 * during channel creation and as such implementations are allowed undefined behavior if
+	 * called more than once.
+	 * 
+	 * This method is *not* asynchronous. Instead, the value must be computed locally or in
+	 * advance and cached.
+	 */
+	public ChannelPublicKeys pubkeys() {
+		long ret = bindings.ChannelSigner_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelPublicKeys(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns a new funding pubkey (i.e. our public which is used in a 2-of-2 with the
+	 * counterparty's key to to lock the funds on-chain) for a spliced channel.
+	 * 
+	 * `splice_parent_funding_txid` can be used to compute a tweak with which to rotate the base
+	 * key (which will then be available later in signing operations via
+	 * [`ChannelTransactionParameters::splice_parent_funding_txid`]).
+	 * 
+	 * This method is *not* asynchronous. Instead, the value must be cached locally.
+	 */
+	public byte[] new_funding_pubkey(byte[] splice_parent_funding_txid) {
+		byte[] ret = bindings.ChannelSigner_new_funding_pubkey(this.ptr, InternalUtils.check_arr_len(splice_parent_funding_txid, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(splice_parent_funding_txid);
+		return ret;
+	}
+
+	/**
 	 * Returns an arbitrary identifier describing the set of keys which are provided back to you in
 	 * some [`SpendableOutputDescriptor`] types. This should be sufficient to identify this
 	 * [`EcdsaChannelSigner`] object uniquely and lookup or re-derive its keys.
@@ -271,37 +319,6 @@ public class ChannelSigner extends CommonBase {
 		byte[] ret = bindings.ChannelSigner_channel_keys_id(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
-	}
-
-	/**
-	 * Set the counterparty static channel data, including basepoints,
-	 * `counterparty_selected`/`holder_selected_contest_delay` and funding outpoint.
-	 * 
-	 * This data is static, and will never change for a channel once set. For a given [`ChannelSigner`]
-	 * instance, LDK will call this method exactly once - either immediately after construction
-	 * (not including if done via [`SignerProvider::read_chan_signer`]) or when the funding
-	 * information has been generated.
-	 * 
-	 * channel_parameters.is_populated() MUST be true.
-	 */
-	public void provide_channel_parameters(org.ldk.structs.ChannelTransactionParameters channel_parameters) {
-		bindings.ChannelSigner_provide_channel_parameters(this.ptr, channel_parameters.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(channel_parameters);
-		if (this != null) { this.ptrs_to.add(channel_parameters); };
-	}
-
-	/**
-	 * Frees any resources associated with this object given its this_arg pointer.
-	 * Does not need to free the outer struct containing function pointers and may be NULL is no resources need to be freed.
-	 */
-	public ChannelPublicKeys get_pubkeys() {
-		long ret = bindings.ChannelSigner_get_pubkeys(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelPublicKeys(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
 	}
 
 }

@@ -54,7 +54,6 @@ public class RevocationBasepoint extends CommonBase {
 		boolean ret = bindings.RevocationBasepoint_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -99,6 +98,18 @@ public class RevocationBasepoint extends CommonBase {
 		byte[] ret = bindings.RevocationBasepoint_to_public_key(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Build a RevocationBasepoint from a PublicKey
+	 */
+	public static RevocationBasepoint from_PublicKey(byte[] f) {
+		long ret = bindings.RevocationBasepoint_from_PublicKey(InternalUtils.check_arr_len(f, 33));
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.RevocationBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevocationBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 	/**

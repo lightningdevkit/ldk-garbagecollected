@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 
 
 /**
- * A set of keys that were HKDF-expanded. Returned by [`NodeSigner::get_inbound_payment_key`].
+ * A set of keys that were HKDF-expanded. Returned by [`NodeSigner::get_expanded_key`].
  * 
- * [`NodeSigner::get_inbound_payment_key`]: crate::sign::NodeSigner::get_inbound_payment_key
+ * [`NodeSigner::get_expanded_key`]: crate::sign::NodeSigner::get_expanded_key
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ExpandedKey extends CommonBase {
@@ -61,7 +61,6 @@ public class ExpandedKey extends CommonBase {
 		boolean ret = bindings.ExpandedKey_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

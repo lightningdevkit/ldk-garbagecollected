@@ -40,23 +40,6 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two Bolt12InvoiceFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(org.ldk.structs.Bolt12InvoiceFeatures b) {
-		boolean ret = bindings.Bolt12InvoiceFeatures_eq(this.ptr, b.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
-		return ret;
-	}
-
-	@Override public boolean equals(Object o) {
-		if (!(o instanceof Bolt12InvoiceFeatures)) return false;
-		return this.eq((Bolt12InvoiceFeatures)o);
-	}
 	long clone_ptr() {
 		long ret = bindings.Bolt12InvoiceFeatures_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -124,7 +107,6 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 		boolean ret = bindings.Bolt12InvoiceFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -135,7 +117,6 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 		long[] ret = bindings.Bolt12InvoiceFeatures_required_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -247,6 +228,14 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_basic_mpp() {
+		bindings.Bolt12InvoiceFeatures_clear_basic_mpp(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_basic_mpp() {
@@ -277,6 +266,14 @@ public class Bolt12InvoiceFeatures extends CommonBase {
 	 */
 	public void set_trampoline_routing_required() {
 		bindings.Bolt12InvoiceFeatures_set_trampoline_routing_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_trampoline_routing() {
+		bindings.Bolt12InvoiceFeatures_clear_trampoline_routing(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 

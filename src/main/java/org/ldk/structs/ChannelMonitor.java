@@ -15,11 +15,21 @@ import javax.annotation.Nullable;
  * You MUST ensure that no ChannelMonitors for a given channel anywhere contain out-of-date
  * information and are actively monitoring the chain.
  * 
- * Note that the deserializer is only implemented for (BlockHash, ChannelMonitor), which
- * tells you the last block hash which was block_connect()ed. You MUST rescan any blocks along
- * the \"reorg path\" (ie disconnecting blocks until you find a common ancestor from both the
- * returned block hash and the the current chain and then reconnecting blocks to get to the
- * best chain) upon deserializing the object!
+ * Like the [`ChannelManager`], deserialization is implemented for `(BlockHash, ChannelMonitor)`,
+ * providing you with the last block hash which was connected before shutting down. You must begin
+ * syncing the chain from that point, disconnecting and connecting blocks as required to get to
+ * the best chain on startup. Note that all [`ChannelMonitor`]s passed to a [`ChainMonitor`] must
+ * by synced as of the same block, so syncing must happen prior to [`ChainMonitor`]
+ * initialization.
+ * 
+ * For those loading potentially-ancient [`ChannelMonitor`]s, deserialization is also implemented
+ * for `Option<(BlockHash, ChannelMonitor)>`. LDK can no longer deserialize a [`ChannelMonitor`]
+ * that was first created in LDK prior to 0.0.110 and last updated prior to LDK 0.0.119. In such
+ * cases, the `Option<(..)>` deserialization option may return `Ok(None)` rather than failing to
+ * deserialize, allowing you to differentiate between the two cases.
+ * 
+ * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+ * [`ChainMonitor`]: crate::chain::chainmonitor::ChainMonitor
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelMonitor extends CommonBase {
@@ -58,6 +68,26 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	/**
+	 * Returns a unique id for persisting the [`ChannelMonitor`], which is used as a key in a
+	 * key-value store.
+	 * 
+	 * Note: Previously, the funding outpoint was used in the [`Persist`] trait. However, since the
+	 * outpoint may change during splicing, this method is used to obtain a unique key instead. For
+	 * v1 channels, the funding outpoint is still used for backwards compatibility, whereas v2
+	 * channels use the channel id since it is fixed.
+	 * 
+	 * [`Persist`]: crate::chain::chainmonitor::Persist
+	 */
+	public MonitorName persistence_key() {
+		long ret = bindings.ChannelMonitor_persistence_key(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MonitorName ret_hu_conv = org.ldk.structs.MonitorName.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Updates a ChannelMonitor on the basis of some new information provided by the Channel
 	 * itself.
 	 * 
@@ -72,10 +102,7 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(updates); };
-		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -94,13 +121,22 @@ public class ChannelMonitor extends CommonBase {
 	/**
 	 * Gets the funding transaction outpoint of the channel this ChannelMonitor is monitoring for.
 	 */
-	public TwoTuple_OutPointCVec_u8ZZ get_funding_txo() {
+	public OutPoint get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		TwoTuple_OutPointCVec_u8ZZ ret_hu_conv = new TwoTuple_OutPointCVec_u8ZZ(null, ret);
+		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the funding script of the channel this ChannelMonitor is monitoring for.
+	 */
+	public byte[] get_funding_script() {
+		byte[] ret = bindings.ChannelMonitor_get_funding_script(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**
@@ -111,6 +147,18 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the channel type of the corresponding channel.
+	 */
+	public ChannelTypeFeatures channel_type_features() {
+		long ret = bindings.ChannelMonitor_channel_type_features(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
@@ -144,7 +192,6 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(filter);
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(filter); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -190,7 +237,6 @@ public class ChannelMonitor extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneReplayEventZ ret_hu_conv = Result_NoneReplayEventZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(handler); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 
@@ -254,7 +300,6 @@ public class ChannelMonitor extends CommonBase {
 			if (ret_conv_23_hu_conv != null) { ret_conv_23_hu_conv.ptrs_to.add(this); };
 			ret_conv_23_arr[x] = ret_conv_23_hu_conv;
 		}
-		if (this != null) { this.ptrs_to.add(update); };
 		return ret_conv_23_arr;
 	}
 
@@ -274,6 +319,10 @@ public class ChannelMonitor extends CommonBase {
 	 * to the commitment transaction being revoked, this will return a signed transaction, but
 	 * the signature will not be valid.
 	 * 
+	 * Note that due to splicing, this can also return an `Err` when the counterparty commitment
+	 * this transaction is attempting to claim is no longer valid because the corresponding funding
+	 * transaction was spliced.
+	 * 
 	 * [`EcdsaChannelSigner::sign_justice_revoked_output`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_justice_revoked_output
 	 * [`Persist`]: crate::chain::chainmonitor::Persist
 	 */
@@ -291,13 +340,7 @@ public class ChannelMonitor extends CommonBase {
 
 	/**
 	 * Gets the `node_id` of the counterparty for this channel.
-	 * 
-	 * Will be `None` for channels constructed on LDK versions prior to 0.0.110 and always `Some`
-	 * otherwise.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	@Nullable
 	public byte[] get_counterparty_node_id() {
 		byte[] ret = bindings.ChannelMonitor_get_counterparty_node_id(this.ptr);
 		Reference.reachabilityFence(this);
@@ -314,6 +357,16 @@ public class ChannelMonitor extends CommonBase {
 	 * close channel with their commitment transaction after a substantial amount of time. Best
 	 * may be to contact the other node operator out-of-band to coordinate other options available
 	 * to you.
+	 * 
+	 * Note: For channels using manual funding broadcast (see
+	 * [`crate::ln::channelmanager::ChannelManager::funding_transaction_generated_manual_broadcast`]),
+	 * automatic broadcasts are suppressed until the funding transaction has been observed on-chain.
+	 * Calling this method overrides that suppression and queues the latest holder commitment
+	 * transaction for broadcast even if the funding has not yet been seen on-chain. This may result
+	 * in unconfirmable transactions being broadcast or [`Event::BumpTransaction`] notifications for
+	 * transactions that cannot be confirmed until the funding transaction is visible.
+	 * 
+	 * [`Event::BumpTransaction`]: crate::events::Event::BumpTransaction
 	 */
 	public void broadcast_latest_holder_commitment_txn(org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
 		bindings.ChannelMonitor_broadcast_latest_holder_commitment_txn(this.ptr, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
@@ -321,9 +374,7 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -358,7 +409,6 @@ public class ChannelMonitor extends CommonBase {
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_49_arr;
 	}
 
@@ -366,17 +416,15 @@ public class ChannelMonitor extends CommonBase {
 	 * Determines if the disconnected block contained any transactions of interest and updates
 	 * appropriately.
 	 */
-	public void block_disconnected(byte[] header, int height, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
-		bindings.ChannelMonitor_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
+	public void blocks_disconnected(org.ldk.structs.BestBlock fork_point, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
+		bindings.ChannelMonitor_blocks_disconnected(this.ptr, fork_point.ptr, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(header);
-		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(fork_point);
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -407,17 +455,16 @@ public class ChannelMonitor extends CommonBase {
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_49_arr;
 	}
 
 	/**
 	 * Processes a transaction that was reorganized out of the chain.
 	 * 
-	 * Used instead of [`block_disconnected`] by clients that are notified of transactions rather
+	 * Used instead of [`blocks_disconnected`] by clients that are notified of transactions rather
 	 * than blocks. See [`chain::Confirm`] for calling expectations.
 	 * 
-	 * [`block_disconnected`]: Self::block_disconnected
+	 * [`blocks_disconnected`]: Self::blocks_disconnected
 	 */
 	public void transaction_unconfirmed(byte[] txid, org.ldk.structs.BroadcasterInterface broadcaster, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Logger logger) {
 		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32), broadcaster.ptr, fee_estimator.ptr, logger.ptr);
@@ -428,7 +475,6 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -458,7 +504,6 @@ public class ChannelMonitor extends CommonBase {
 		}
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_conv_49_arr;
 	}
 
@@ -507,7 +552,6 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -531,7 +575,6 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(logger);
 		if (this != null) { this.ptrs_to.add(broadcaster); };
 		if (this != null) { this.ptrs_to.add(fee_estimator); };
-		if (this != null) { this.ptrs_to.add(logger); };
 	}
 
 	/**
@@ -593,7 +636,6 @@ public class ChannelMonitor extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_boolboolZ ret_hu_conv = new TwoTuple_boolboolZ(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(logger); };
 		return ret_hu_conv;
 	}
 

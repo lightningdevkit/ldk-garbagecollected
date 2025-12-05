@@ -24,26 +24,6 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Holder secret key in the 2-of-2 multisig script of a channel. This key also backs the
-	 * holder's anchor output in a commitment transaction, if one is present.
-	 */
-	public byte[] get_funding_key() {
-		byte[] ret = bindings.InMemorySigner_get_funding_key(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Holder secret key in the 2-of-2 multisig script of a channel. This key also backs the
-	 * holder's anchor output in a commitment transaction, if one is present.
-	 */
-	public void set_funding_key(byte[] val) {
-		bindings.InMemorySigner_set_funding_key(this.ptr, InternalUtils.check_arr_len(val, 32));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
 	 * Holder secret key for blinded revocation pubkey.
 	 */
 	public byte[] get_revocation_base_key() {
@@ -57,24 +37,6 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_revocation_base_key(byte[] val) {
 		bindings.InMemorySigner_set_revocation_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(val);
-	}
-
-	/**
-	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions.
-	 */
-	public byte[] get_payment_key() {
-		byte[] ret = bindings.InMemorySigner_get_payment_key(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions.
-	 */
-	public void set_payment_key(byte[] val) {
-		bindings.InMemorySigner_set_payment_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -152,146 +114,14 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Creates a new [`InMemorySigner`].
+	 * Holder secret key in the 2-of-2 multisig script of a channel. This key also backs the
+	 * holder's anchor output in a commitment transaction, if one is present.
 	 */
-	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id, byte[] rand_bytes_unique_start) {
-		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32), InternalUtils.check_arr_len(rand_bytes_unique_start, 32));
-		Reference.reachabilityFence(funding_key);
-		Reference.reachabilityFence(revocation_base_key);
-		Reference.reachabilityFence(payment_key);
-		Reference.reachabilityFence(delayed_payment_base_key);
-		Reference.reachabilityFence(htlc_base_key);
-		Reference.reachabilityFence(commitment_seed);
-		Reference.reachabilityFence(channel_value_satoshis);
-		Reference.reachabilityFence(channel_keys_id);
-		Reference.reachabilityFence(rand_bytes_unique_start);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns the counterparty's pubkeys.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public ChannelPublicKeys counterparty_pubkeys() {
-		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
+	public byte[] funding_key(org.ldk.structs.Option_ThirtyTwoBytesZ splice_parent_funding_txid) {
+		byte[] ret = bindings.InMemorySigner_funding_key(this.ptr, splice_parent_funding_txid.ptr);
 		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelPublicKeys(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns the `contest_delay` value specified by our counterparty and applied on holder-broadcastable
-	 * transactions, i.e., the amount of time that we have to wait to recover our funds if we
-	 * broadcast a transaction.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 */
-	public Option_u16Z counterparty_selected_contest_delay() {
-		long ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_u16Z ret_hu_conv = org.ldk.structs.Option_u16Z.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns the `contest_delay` value specified by us and applied on transactions broadcastable
-	 * by our counterparty, i.e., the amount of time that they have to wait to recover their funds
-	 * if they broadcast a transaction.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 */
-	public Option_u16Z holder_selected_contest_delay() {
-		long ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_u16Z ret_hu_conv = org.ldk.structs.Option_u16Z.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns whether the holder is the initiator.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 */
-	public Option_boolZ is_outbound() {
-		long ret = bindings.InMemorySigner_is_outbound(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_boolZ ret_hu_conv = org.ldk.structs.Option_boolZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Funding outpoint
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public OutPoint funding_outpoint() {
-		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OutPoint(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns a [`ChannelTransactionParameters`] for this channel, to be used when verifying or
-	 * building transactions.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public ChannelTransactionParameters get_channel_parameters() {
-		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTransactionParameters(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns the channel type features of the channel parameters. Should be helpful for
-	 * determining a channel's category, i. e. legacy/anchors/taproot/etc.
-	 * 
-	 * Will return `None` if [`ChannelSigner::provide_channel_parameters`] has not been called.
-	 * In general, this is safe to `unwrap` only in [`ChannelSigner`] implementation.
-	 * 
-	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	@Nullable
-	public ChannelTypeFeatures channel_type_features() {
-		long ret = bindings.InMemorySigner_channel_type_features(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
+		Reference.reachabilityFence(splice_parent_funding_txid);
+		return ret;
 	}
 
 	/**
@@ -312,7 +142,6 @@ public class InMemorySigner extends CommonBase {
 		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_WitnessNoneZ ret_hu_conv = Result_WitnessNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}
 
@@ -336,7 +165,6 @@ public class InMemorySigner extends CommonBase {
 		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_WitnessNoneZ ret_hu_conv = Result_WitnessNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(descriptor); };
 		return ret_hu_conv;
 	}
 
@@ -380,24 +208,15 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
-	 * Serialize the InMemorySigner object into a byte array which can be read by InMemorySigner_read
+	 * Constructs a new BaseEcdsaChannelSigner which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseEcdsaChannelSigner must be freed before this_arg is
 	 */
-	public byte[] write() {
-		byte[] ret = bindings.InMemorySigner_write(this.ptr);
+	public BaseEcdsaChannelSigner as_BaseEcdsaChannelSigner() {
+		long ret = bindings.InMemorySigner_as_BaseEcdsaChannelSigner(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
-	 */
-	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, org.ldk.structs.EntropySource arg) {
-		long ret = bindings.InMemorySigner_read(ser, arg.ptr);
-		Reference.reachabilityFence(ser);
-		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg); };
+		BaseEcdsaChannelSigner ret_hu_conv = new BaseEcdsaChannelSigner(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

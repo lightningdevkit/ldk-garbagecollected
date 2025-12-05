@@ -85,7 +85,6 @@ public class ScoreLookUp extends CommonBase {
 		Reference.reachabilityFence(candidate);
 		Reference.reachabilityFence(usage);
 		Reference.reachabilityFence(score_params);
-		if (this != null) { this.ptrs_to.add(score_params); };
 		return ret;
 	}
 

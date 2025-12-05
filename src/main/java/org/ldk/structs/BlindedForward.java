@@ -67,6 +67,8 @@ public class BlindedForward extends CommonBase {
 	 * forwarded within a [`BlindedPaymentPath`] that was concatenated to another blinded path that
 	 * starts at the next hop.
 	 * 
+	 * [`BlindedPaymentPath`]: crate::blinded_path::payment::BlindedPaymentPath
+	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
@@ -80,6 +82,8 @@ public class BlindedForward extends CommonBase {
 	 * Overrides the next hop's [`msgs::UpdateAddHTLC::blinding_point`]. Set if this HTLC is being
 	 * forwarded within a [`BlindedPaymentPath`] that was concatenated to another blinded path that
 	 * starts at the next hop.
+	 * 
+	 * [`BlindedPaymentPath`]: crate::blinded_path::payment::BlindedPaymentPath
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -144,7 +148,6 @@ public class BlindedForward extends CommonBase {
 		boolean ret = bindings.BlindedForward_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

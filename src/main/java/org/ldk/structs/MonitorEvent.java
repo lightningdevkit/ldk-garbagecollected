@@ -30,6 +30,9 @@ public class MonitorEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.HolderForceClosed.class) {
 			return new HolderForceClosed(ptr, (bindings.LDKMonitorEvent.HolderForceClosed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMonitorEvent.CommitmentTxConfirmed.class) {
+			return new CommitmentTxConfirmed(ptr, (bindings.LDKMonitorEvent.CommitmentTxConfirmed)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.Completed.class) {
 			return new Completed(ptr, (bindings.LDKMonitorEvent.Completed)raw_val);
 		}
@@ -94,6 +97,15 @@ public class MonitorEvent extends CommonBase {
 			org.ldk.structs.OutPoint holder_force_closed_hu_conv = null; if (holder_force_closed < 0 || holder_force_closed > 4096) { holder_force_closed_hu_conv = new org.ldk.structs.OutPoint(null, holder_force_closed); }
 			if (holder_force_closed_hu_conv != null) { holder_force_closed_hu_conv.ptrs_to.add(this); };
 			this.holder_force_closed = holder_force_closed_hu_conv;
+		}
+	}
+	/**
+	 * Indicates that we've detected a commitment transaction (either holder's or counterparty's)
+	 * be included in a block and should consider the channel closed.
+	 */
+	public final static class CommitmentTxConfirmed extends MonitorEvent {
+		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
+			super(null, ptr);
 		}
 	}
 	/**
@@ -182,6 +194,17 @@ public class MonitorEvent extends CommonBase {
 	public static MonitorEvent holder_force_closed(org.ldk.structs.OutPoint a) {
 		long ret = bindings.MonitorEvent_holder_force_closed(a.ptr);
 		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
+	 */
+	public static MonitorEvent commitment_tx_confirmed() {
+		long ret = bindings.MonitorEvent_commitment_tx_confirmed();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

@@ -26,6 +26,9 @@ public class OffersContext extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKOffersContext.InvoiceRequest.class) {
 			return new InvoiceRequest(ptr, (bindings.LDKOffersContext.InvoiceRequest)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKOffersContext.StaticInvoiceRequested.class) {
+			return new StaticInvoiceRequested(ptr, (bindings.LDKOffersContext.StaticInvoiceRequested)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKOffersContext.OutboundPayment.class) {
 			return new OutboundPayment(ptr, (bindings.LDKOffersContext.OutboundPayment)raw_val);
 		}
@@ -61,6 +64,55 @@ public class OffersContext extends CommonBase {
 		}
 	}
 	/**
+	 * Context used by a [`BlindedMessagePath`] within the [`Offer`] of an async recipient.
+	 * 
+	 * This variant is received by the static invoice server when handling an [`InvoiceRequest`] on
+	 * behalf of said async recipient.
+	 * 
+	 * [`Offer`]: crate::offers::offer::Offer
+	 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+	 */
+	public final static class StaticInvoiceRequested extends OffersContext {
+		/**
+		 * An identifier for the async recipient for whom we as a static invoice server are serving
+		 * [`StaticInvoice`]s. Used paired with the
+		 * [`OffersContext::StaticInvoiceRequested::invoice_slot`] when looking up a corresponding
+		 * [`StaticInvoice`] to return to the payer if the recipient is offline. This id was previously
+		 * provided via [`AsyncPaymentsContext::ServeStaticInvoice::recipient_id`].
+		 * 
+		 * Also useful for rate limiting the number of [`InvoiceRequest`]s we will respond to on
+		 * recipient's behalf.
+		 * 
+		 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+		*/
+		public final byte[] recipient_id;
+		/**
+		 * The slot number for a specific [`StaticInvoice`] that the recipient previously
+		 * requested be served on their behalf. Useful when paired with the
+		 * [`OffersContext::StaticInvoiceRequested::recipient_id`] to pull that specific invoice from
+		 * the database when payers send an [`InvoiceRequest`]. This id was previously
+		 * provided via [`AsyncPaymentsContext::ServeStaticInvoice::invoice_slot`].
+		 * 
+		 * [`StaticInvoice`]: crate::offers::static_invoice::StaticInvoice
+		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
+		*/
+		public final short invoice_slot;
+		/**
+		 * The time as duration since the Unix epoch at which this path expires and messages sent over
+		 * it should be ignored.
+		 * 
+		 * Useful to timeout async recipients that are no longer supported as clients.
+		*/
+		public final long path_absolute_expiry;
+		private StaticInvoiceRequested(long ptr, bindings.LDKOffersContext.StaticInvoiceRequested obj) {
+			super(null, ptr);
+			this.recipient_id = obj.recipient_id;
+			this.invoice_slot = obj.invoice_slot;
+			this.path_absolute_expiry = obj.path_absolute_expiry;
+		}
+	}
+	/**
 	 * Context used by a [`BlindedMessagePath`] within a [`Refund`] or as a reply path for an
 	 * [`InvoiceRequest`].
 	 * 
@@ -89,15 +141,6 @@ public class OffersContext extends CommonBase {
 		 * [`InvoiceRequest`]: crate::offers::invoice_request::InvoiceRequest
 		*/
 		public final org.ldk.structs.Nonce nonce;
-		/**
-		 * Authentication code for the [`PaymentId`], which should be checked when the context is
-		 * used with an [`InvoiceError`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
-		*/
-		@Nullable public final byte[] hmac;
 		private OutboundPayment(long ptr, bindings.LDKOffersContext.OutboundPayment obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
@@ -105,7 +148,6 @@ public class OffersContext extends CommonBase {
 			org.ldk.structs.Nonce nonce_hu_conv = null; if (nonce < 0 || nonce > 4096) { nonce_hu_conv = new org.ldk.structs.Nonce(null, nonce); }
 			if (nonce_hu_conv != null) { nonce_hu_conv.ptrs_to.add(this); };
 			this.nonce = nonce_hu_conv;
-			this.hmac = obj.hmac;
 		}
 	}
 	/**
@@ -123,29 +165,9 @@ public class OffersContext extends CommonBase {
 		 * [`Bolt12Invoice::payment_hash`]: crate::offers::invoice::Bolt12Invoice::payment_hash
 		*/
 		public final byte[] payment_hash;
-		/**
-		 * A nonce used for authenticating that a received [`InvoiceError`] is for a valid
-		 * sent [`Bolt12Invoice`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		 * [`Bolt12Invoice`]: crate::offers::invoice::Bolt12Invoice
-		*/
-		public final org.ldk.structs.Nonce nonce;
-		/**
-		 * Authentication code for the [`PaymentHash`], which should be checked when the context is
-		 * used to log the received [`InvoiceError`].
-		 * 
-		 * [`InvoiceError`]: crate::offers::invoice_error::InvoiceError
-		*/
-		public final byte[] hmac;
 		private InboundPayment(long ptr, bindings.LDKOffersContext.InboundPayment obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
-			long nonce = obj.nonce;
-			org.ldk.structs.Nonce nonce_hu_conv = null; if (nonce < 0 || nonce > 4096) { nonce_hu_conv = new org.ldk.structs.Nonce(null, nonce); }
-			if (nonce_hu_conv != null) { nonce_hu_conv.ptrs_to.add(this); };
-			this.nonce = nonce_hu_conv;
-			this.hmac = obj.hmac;
 		}
 	}
 	long clone_ptr() {
@@ -179,13 +201,26 @@ public class OffersContext extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new StaticInvoiceRequested-variant OffersContext
+	 */
+	public static OffersContext static_invoice_requested(byte[] recipient_id, short invoice_slot, long path_absolute_expiry) {
+		long ret = bindings.OffersContext_static_invoice_requested(recipient_id, invoice_slot, path_absolute_expiry);
+		Reference.reachabilityFence(recipient_id);
+		Reference.reachabilityFence(invoice_slot);
+		Reference.reachabilityFence(path_absolute_expiry);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new OutboundPayment-variant OffersContext
 	 */
-	public static OffersContext outbound_payment(byte[] payment_id, org.ldk.structs.Nonce nonce, byte[] hmac) {
-		long ret = bindings.OffersContext_outbound_payment(InternalUtils.check_arr_len(payment_id, 32), nonce.ptr, InternalUtils.check_arr_len(hmac, 32));
+	public static OffersContext outbound_payment(byte[] payment_id, org.ldk.structs.Nonce nonce) {
+		long ret = bindings.OffersContext_outbound_payment(InternalUtils.check_arr_len(payment_id, 32), nonce.ptr);
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(nonce);
-		Reference.reachabilityFence(hmac);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -195,11 +230,9 @@ public class OffersContext extends CommonBase {
 	/**
 	 * Utility method to constructs a new InboundPayment-variant OffersContext
 	 */
-	public static OffersContext inbound_payment(byte[] payment_hash, org.ldk.structs.Nonce nonce, byte[] hmac) {
-		long ret = bindings.OffersContext_inbound_payment(InternalUtils.check_arr_len(payment_hash, 32), nonce.ptr, InternalUtils.check_arr_len(hmac, 32));
+	public static OffersContext inbound_payment(byte[] payment_hash) {
+		long ret = bindings.OffersContext_inbound_payment(InternalUtils.check_arr_len(payment_hash, 32));
 		Reference.reachabilityFence(payment_hash);
-		Reference.reachabilityFence(nonce);
-		Reference.reachabilityFence(hmac);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OffersContext ret_hu_conv = org.ldk.structs.OffersContext.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

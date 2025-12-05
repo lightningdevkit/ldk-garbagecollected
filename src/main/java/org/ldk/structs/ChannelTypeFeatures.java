@@ -49,23 +49,6 @@ public class ChannelTypeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two ChannelTypeFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(org.ldk.structs.ChannelTypeFeatures b) {
-		boolean ret = bindings.ChannelTypeFeatures_eq(this.ptr, b.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
-		return ret;
-	}
-
-	@Override public boolean equals(Object o) {
-		if (!(o instanceof ChannelTypeFeatures)) return false;
-		return this.eq((ChannelTypeFeatures)o);
-	}
 	long clone_ptr() {
 		long ret = bindings.ChannelTypeFeatures_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -119,6 +102,17 @@ public class ChannelTypeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Constructs a ChannelTypeFeatures with zero fee commitment anchors support.
+	 */
+	public static ChannelTypeFeatures anchors_zero_fee_commitments() {
+		long ret = bindings.ChannelTypeFeatures_anchors_zero_fee_commitments();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static ChannelTypeFeatures empty() {
@@ -155,7 +149,6 @@ public class ChannelTypeFeatures extends CommonBase {
 		boolean ret = bindings.ChannelTypeFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -166,7 +159,6 @@ public class ChannelTypeFeatures extends CommonBase {
 		long[] ret = bindings.ChannelTypeFeatures_required_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -262,22 +254,6 @@ public class ChannelTypeFeatures extends CommonBase {
 	}
 
 	/**
-	 * Unsets the `scid_privacy` feature
-	 */
-	public void clear_scid_privacy() {
-		bindings.ChannelTypeFeatures_clear_scid_privacy(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
-	 * Unsets the `anchors_zero_fee_htlc_tx` feature
-	 */
-	public void clear_anchors_zero_fee_htlc_tx() {
-		bindings.ChannelTypeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
 	 * Set this feature as optional.
 	 */
 	public void set_static_remote_key_optional() {
@@ -290,6 +266,14 @@ public class ChannelTypeFeatures extends CommonBase {
 	 */
 	public void set_static_remote_key_required() {
 		bindings.ChannelTypeFeatures_set_static_remote_key_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_static_remote_key() {
+		bindings.ChannelTypeFeatures_clear_static_remote_key(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -328,6 +312,14 @@ public class ChannelTypeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_nonzero_fee_htlc_tx() {
+		bindings.ChannelTypeFeatures_clear_anchors_nonzero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_anchors_nonzero_fee_htlc_tx() {
@@ -358,6 +350,14 @@ public class ChannelTypeFeatures extends CommonBase {
 	 */
 	public void set_anchors_zero_fee_htlc_tx_required() {
 		bindings.ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_zero_fee_htlc_tx() {
+		bindings.ChannelTypeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -396,6 +396,14 @@ public class ChannelTypeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_taproot() {
+		bindings.ChannelTypeFeatures_clear_taproot(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_taproot() {
@@ -426,6 +434,14 @@ public class ChannelTypeFeatures extends CommonBase {
 	 */
 	public void set_scid_privacy_required() {
 		bindings.ChannelTypeFeatures_set_scid_privacy_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_scid_privacy() {
+		bindings.ChannelTypeFeatures_clear_scid_privacy(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -464,10 +480,51 @@ public class ChannelTypeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void supports_zero_conf() {
+		bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
-	public boolean supports_zero_conf() {
-		boolean ret = bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+	public boolean requires_zero_conf() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_anchor_zero_fee_commitments_optional() {
+		bindings.ChannelTypeFeatures_set_anchor_zero_fee_commitments_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_anchor_zero_fee_commitments_required() {
+		bindings.ChannelTypeFeatures_set_anchor_zero_fee_commitments_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchor_zero_fee_commitments() {
+		bindings.ChannelTypeFeatures_clear_anchor_zero_fee_commitments(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_anchor_zero_fee_commitments() {
+		boolean ret = bindings.ChannelTypeFeatures_supports_anchor_zero_fee_commitments(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -475,8 +532,8 @@ public class ChannelTypeFeatures extends CommonBase {
 	/**
 	 * Checks if this feature is required.
 	 */
-	public boolean requires_zero_conf() {
-		boolean ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);
+	public boolean requires_anchor_zero_fee_commitments() {
+		boolean ret = bindings.ChannelTypeFeatures_requires_anchor_zero_fee_commitments(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}

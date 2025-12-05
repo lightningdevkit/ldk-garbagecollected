@@ -107,7 +107,7 @@ public class RouteHop extends CommonBase {
 	 * The fee taken on this hop (for paying for the use of the *next* channel in the path).
 	 * If this is the last hop in [`Path::hops`]:
 	 * if we're sending to a [`BlindedPaymentPath`], this is the fee paid for use of the entire
-	 * blinded path
+	 * blinded path (including any Trampoline hops)
 	 * otherwise, this is the full value of this [`Path`]'s part of the payment
 	 */
 	public long get_fee_msat() {
@@ -120,7 +120,7 @@ public class RouteHop extends CommonBase {
 	 * The fee taken on this hop (for paying for the use of the *next* channel in the path).
 	 * If this is the last hop in [`Path::hops`]:
 	 * if we're sending to a [`BlindedPaymentPath`], this is the fee paid for use of the entire
-	 * blinded path
+	 * blinded path (including any Trampoline hops)
 	 * otherwise, this is the full value of this [`Path`]'s part of the payment
 	 */
 	public void set_fee_msat(long val) {
@@ -133,7 +133,7 @@ public class RouteHop extends CommonBase {
 	 * The CLTV delta added for this hop.
 	 * If this is the last hop in [`Path::hops`]:
 	 * if we're sending to a [`BlindedPaymentPath`], this is the CLTV delta for the entire blinded
-	 * path
+	 * path (including any Trampoline hops)
 	 * otherwise, this is the CLTV delta expected at the destination
 	 */
 	public int get_cltv_expiry_delta() {
@@ -146,7 +146,7 @@ public class RouteHop extends CommonBase {
 	 * The CLTV delta added for this hop.
 	 * If this is the last hop in [`Path::hops`]:
 	 * if we're sending to a [`BlindedPaymentPath`], this is the CLTV delta for the entire blinded
-	 * path
+	 * path (including any Trampoline hops)
 	 * otherwise, this is the CLTV delta expected at the destination
 	 */
 	public void set_cltv_expiry_delta(int val) {
@@ -244,7 +244,6 @@ public class RouteHop extends CommonBase {
 		boolean ret = bindings.RouteHop_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

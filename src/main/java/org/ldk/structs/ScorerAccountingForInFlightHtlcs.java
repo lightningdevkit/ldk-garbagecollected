@@ -36,7 +36,6 @@ public class ScorerAccountingForInFlightHtlcs extends CommonBase {
 		org.ldk.structs.ScorerAccountingForInFlightHtlcs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ScorerAccountingForInFlightHtlcs(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(scorer); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(inflight_htlcs); };
 		return ret_hu_conv;
 	}
 

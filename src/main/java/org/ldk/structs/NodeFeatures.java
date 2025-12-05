@@ -40,23 +40,6 @@ public class NodeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two NodeFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(org.ldk.structs.NodeFeatures b) {
-		boolean ret = bindings.NodeFeatures_eq(this.ptr, b.ptr);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
-		return ret;
-	}
-
-	@Override public boolean equals(Object o) {
-		if (!(o instanceof NodeFeatures)) return false;
-		return this.eq((NodeFeatures)o);
-	}
 	long clone_ptr() {
 		long ret = bindings.NodeFeatures_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -124,7 +107,6 @@ public class NodeFeatures extends CommonBase {
 		boolean ret = bindings.NodeFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -135,7 +117,6 @@ public class NodeFeatures extends CommonBase {
 		long[] ret = bindings.NodeFeatures_required_unknown_bits_from(this.ptr, other.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(other);
-		if (this != null) { this.ptrs_to.add(other); };
 		return ret;
 	}
 
@@ -231,69 +212,6 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
-	 * Unsets the `upfront_shutdown_script` feature
-	 */
-	public NodeFeatures clear_upfront_shutdown_script() {
-		long ret = bindings.NodeFeatures_clear_upfront_shutdown_script(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		;
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Unsets the `shutdown_anysegwit` feature
-	 */
-	public NodeFeatures clear_shutdown_anysegwit() {
-		long ret = bindings.NodeFeatures_clear_shutdown_anysegwit(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		;
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Unsets the `wumbo` feature
-	 */
-	public NodeFeatures clear_wumbo() {
-		long ret = bindings.NodeFeatures_clear_wumbo(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		;
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Unsets the `scid_privacy` feature
-	 */
-	public void clear_scid_privacy() {
-		bindings.NodeFeatures_clear_scid_privacy(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
-	 * Unsets the `anchors_zero_fee_htlc_tx` feature
-	 */
-	public void clear_anchors_zero_fee_htlc_tx() {
-		bindings.NodeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
-	 * Unsets the `route_blinding` feature
-	 */
-	public void clear_route_blinding() {
-		bindings.NodeFeatures_clear_route_blinding(this.ptr);
-		Reference.reachabilityFence(this);
-	}
-
-	/**
 	 * Set this feature as optional.
 	 */
 	public void set_data_loss_protect_optional() {
@@ -306,6 +224,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_data_loss_protect_required() {
 		bindings.NodeFeatures_set_data_loss_protect_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_data_loss_protect() {
+		bindings.NodeFeatures_clear_data_loss_protect(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -344,6 +270,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_upfront_shutdown_script() {
+		bindings.NodeFeatures_clear_upfront_shutdown_script(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_upfront_shutdown_script() {
@@ -374,6 +308,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_gossip_queries_required() {
 		bindings.NodeFeatures_set_gossip_queries_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_gossip_queries() {
+		bindings.NodeFeatures_clear_gossip_queries(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -412,6 +354,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_variable_length_onion() {
+		bindings.NodeFeatures_clear_variable_length_onion(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_variable_length_onion() {
@@ -442,6 +392,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_static_remote_key_required() {
 		bindings.NodeFeatures_set_static_remote_key_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_static_remote_key() {
+		bindings.NodeFeatures_clear_static_remote_key(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -480,6 +438,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_payment_secret() {
+		bindings.NodeFeatures_clear_payment_secret(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_payment_secret() {
@@ -510,6 +476,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_basic_mpp_required() {
 		bindings.NodeFeatures_set_basic_mpp_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_basic_mpp() {
+		bindings.NodeFeatures_clear_basic_mpp(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -548,6 +522,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_wumbo() {
+		bindings.NodeFeatures_clear_wumbo(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_wumbo() {
@@ -578,6 +560,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_anchors_nonzero_fee_htlc_tx_required() {
 		bindings.NodeFeatures_set_anchors_nonzero_fee_htlc_tx_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_nonzero_fee_htlc_tx() {
+		bindings.NodeFeatures_clear_anchors_nonzero_fee_htlc_tx(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -616,6 +606,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_zero_fee_htlc_tx() {
+		bindings.NodeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_anchors_zero_fee_htlc_tx() {
@@ -646,6 +644,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_route_blinding_required() {
 		bindings.NodeFeatures_set_route_blinding_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_route_blinding() {
+		bindings.NodeFeatures_clear_route_blinding(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -684,6 +690,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_shutdown_anysegwit() {
+		bindings.NodeFeatures_clear_shutdown_anysegwit(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_shutdown_anysegwit() {
@@ -714,6 +728,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_dual_fund_required() {
 		bindings.NodeFeatures_set_dual_fund_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_dual_fund() {
+		bindings.NodeFeatures_clear_dual_fund(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -752,6 +774,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_taproot() {
+		bindings.NodeFeatures_clear_taproot(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_taproot() {
@@ -772,6 +802,48 @@ public class NodeFeatures extends CommonBase {
 	/**
 	 * Set this feature as optional.
 	 */
+	public void set_quiescence_optional() {
+		bindings.NodeFeatures_set_quiescence_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_quiescence_required() {
+		bindings.NodeFeatures_set_quiescence_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_quiescence() {
+		bindings.NodeFeatures_clear_quiescence(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_quiescence() {
+		boolean ret = bindings.NodeFeatures_supports_quiescence(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_quiescence() {
+		boolean ret = bindings.NodeFeatures_requires_quiescence(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
 	public void set_onion_messages_optional() {
 		bindings.NodeFeatures_set_onion_messages_optional(this.ptr);
 		Reference.reachabilityFence(this);
@@ -782,6 +854,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_onion_messages_required() {
 		bindings.NodeFeatures_set_onion_messages_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_onion_messages() {
+		bindings.NodeFeatures_clear_onion_messages(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -806,6 +886,48 @@ public class NodeFeatures extends CommonBase {
 	/**
 	 * Set this feature as optional.
 	 */
+	public void set_provide_storage_optional() {
+		bindings.NodeFeatures_set_provide_storage_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_provide_storage_required() {
+		bindings.NodeFeatures_set_provide_storage_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_provide_storage() {
+		bindings.NodeFeatures_clear_provide_storage(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_provide_storage() {
+		boolean ret = bindings.NodeFeatures_supports_provide_storage(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_provide_storage() {
+		boolean ret = bindings.NodeFeatures_requires_provide_storage(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
 	public void set_channel_type_optional() {
 		bindings.NodeFeatures_set_channel_type_optional(this.ptr);
 		Reference.reachabilityFence(this);
@@ -816,6 +938,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_channel_type_required() {
 		bindings.NodeFeatures_set_channel_type_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_channel_type() {
+		bindings.NodeFeatures_clear_channel_type(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -854,6 +984,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_scid_privacy() {
+		bindings.NodeFeatures_clear_scid_privacy(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_scid_privacy() {
@@ -888,16 +1026,15 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
-	 * Checks if this feature is supported.
+	 * Unsets this feature.
 	 */
-	public boolean supports_zero_conf() {
-		boolean ret = bindings.NodeFeatures_supports_zero_conf(this.ptr);
+	public void supports_zero_conf() {
+		bindings.NodeFeatures_supports_zero_conf(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
 	}
 
 	/**
-	 * Checks if this feature is required.
+	 * Checks if this feature is supported.
 	 */
 	public boolean requires_zero_conf() {
 		boolean ret = bindings.NodeFeatures_requires_zero_conf(this.ptr);
@@ -918,6 +1055,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_keysend_required() {
 		bindings.NodeFeatures_set_keysend_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_keysend() {
+		bindings.NodeFeatures_clear_keysend(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
@@ -956,6 +1101,14 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_trampoline_routing() {
+		bindings.NodeFeatures_clear_trampoline_routing(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public boolean supports_trampoline_routing() {
@@ -976,6 +1129,216 @@ public class NodeFeatures extends CommonBase {
 	/**
 	 * Set this feature as optional.
 	 */
+	public void set_simple_close_optional() {
+		bindings.NodeFeatures_set_simple_close_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_simple_close_required() {
+		bindings.NodeFeatures_set_simple_close_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_simple_close() {
+		bindings.NodeFeatures_clear_simple_close(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_simple_close() {
+		boolean ret = bindings.NodeFeatures_supports_simple_close(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_simple_close() {
+		boolean ret = bindings.NodeFeatures_requires_simple_close(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_splicing_production_optional() {
+		bindings.NodeFeatures_set_splicing_production_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_splicing_production_required() {
+		bindings.NodeFeatures_set_splicing_production_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_splicing_production() {
+		bindings.NodeFeatures_clear_splicing_production(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_splicing_production() {
+		boolean ret = bindings.NodeFeatures_supports_splicing_production(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_splicing_production() {
+		boolean ret = bindings.NodeFeatures_requires_splicing_production(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_anchor_zero_fee_commitments_optional() {
+		bindings.NodeFeatures_set_anchor_zero_fee_commitments_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_anchor_zero_fee_commitments_required() {
+		bindings.NodeFeatures_set_anchor_zero_fee_commitments_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchor_zero_fee_commitments() {
+		bindings.NodeFeatures_clear_anchor_zero_fee_commitments(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_anchor_zero_fee_commitments() {
+		boolean ret = bindings.NodeFeatures_supports_anchor_zero_fee_commitments(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_anchor_zero_fee_commitments() {
+		boolean ret = bindings.NodeFeatures_requires_anchor_zero_fee_commitments(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_htlc_hold_optional() {
+		bindings.NodeFeatures_set_htlc_hold_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_htlc_hold_required() {
+		bindings.NodeFeatures_set_htlc_hold_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_htlc_hold() {
+		bindings.NodeFeatures_clear_htlc_hold(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_htlc_hold() {
+		boolean ret = bindings.NodeFeatures_supports_htlc_hold(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_htlc_hold() {
+		boolean ret = bindings.NodeFeatures_requires_htlc_hold(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_splicing_optional() {
+		bindings.NodeFeatures_set_splicing_optional(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_splicing_required() {
+		bindings.NodeFeatures_set_splicing_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_splicing() {
+		bindings.NodeFeatures_clear_splicing(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public boolean supports_splicing() {
+		boolean ret = bindings.NodeFeatures_supports_splicing(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
+	 */
+	public boolean requires_splicing() {
+		boolean ret = bindings.NodeFeatures_requires_splicing(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
 	public void set_dns_resolution_optional() {
 		bindings.NodeFeatures_set_dns_resolution_optional(this.ptr);
 		Reference.reachabilityFence(this);
@@ -986,6 +1349,14 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public void set_dns_resolution_required() {
 		bindings.NodeFeatures_set_dns_resolution_required(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_dns_resolution() {
+		bindings.NodeFeatures_clear_dns_resolution(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 

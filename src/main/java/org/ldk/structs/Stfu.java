@@ -42,18 +42,18 @@ public class Stfu extends CommonBase {
 	}
 
 	/**
-	 * Initiator flag, 1 if initiating, 0 if replying to an stfu.
+	 * Initiator flag, true if initiating, false if replying to an stfu.
 	 */
-	public byte get_initiator() {
-		byte ret = bindings.Stfu_get_initiator(this.ptr);
+	public boolean get_initiator() {
+		boolean ret = bindings.Stfu_get_initiator(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
-	 * Initiator flag, 1 if initiating, 0 if replying to an stfu.
+	 * Initiator flag, true if initiating, false if replying to an stfu.
 	 */
-	public void set_initiator(byte val) {
+	public void set_initiator(boolean val) {
 		bindings.Stfu_set_initiator(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -62,7 +62,7 @@ public class Stfu extends CommonBase {
 	/**
 	 * Constructs a new Stfu given each field
 	 */
-	public static Stfu of(org.ldk.structs.ChannelId channel_id_arg, byte initiator_arg) {
+	public static Stfu of(org.ldk.structs.ChannelId channel_id_arg, boolean initiator_arg) {
 		long ret = bindings.Stfu_new(channel_id_arg.ptr, initiator_arg);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(initiator_arg);
@@ -99,7 +99,6 @@ public class Stfu extends CommonBase {
 		boolean ret = bindings.Stfu_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

@@ -41,14 +41,25 @@ public class BumpTransactionEvent extends CommonBase {
 	 * and child anchor transactions), possibly resulting in a loss of funds. Once the transaction
 	 * is constructed, it must be fully signed for and broadcast by the consumer of the event
 	 * along with the `commitment_tx` enclosed. Note that the `commitment_tx` must always be
-	 * broadcast first, as the child anchor transaction depends on it.
+	 * broadcast first, as the child anchor transaction depends on it. It is also possible that the
+	 * feerate of the commitment transaction is already sufficient, in which case the child anchor
+	 * transaction is not needed and only the commitment transaction should be broadcast.
+	 * 
+	 * In zero-fee commitment channels, the commitment transaction and the anchor transaction
+	 * form a 1-parent-1-child package that conforms to BIP 431 (known as TRUC transactions).
+	 * The anchor transaction must be version 3, and its size must be no more than 1000 vB.
+	 * The anchor transaction is usually needed to bump the fee of the commitment transaction
+	 * as the commitment transaction is not explicitly assigned any fees. In those cases the
+	 * anchor transaction must be broadcast together with the commitment transaction as a
+	 * `child-with-parents` package (usually using the Bitcoin Core `submitpackage` RPC).
 	 * 
 	 * The consumer should be able to sign for any of the additional inputs included within the
-	 * child anchor transaction. To sign its anchor input, an [`EcdsaChannelSigner`] should be
-	 * re-derived through [`AnchorDescriptor::derive_channel_signer`]. The anchor input signature
-	 * can be computed with [`EcdsaChannelSigner::sign_holder_anchor_input`], which can then be
-	 * provided to [`build_anchor_input_witness`] along with the `funding_pubkey` to obtain the
-	 * full witness required to spend.
+	 * child anchor transaction. To sign its keyed-anchor input, an [`EcdsaChannelSigner`] should
+	 * be re-derived through [`SignerProvider::derive_channel_signer`]. The anchor input signature
+	 * can be computed with [`EcdsaChannelSigner::sign_holder_keyed_anchor_input`], which can then
+	 * be provided to [`build_keyed_anchor_input_witness`] along with the `funding_pubkey` to
+	 * obtain the full witness required to spend. Note that no signature or witness data is
+	 * required to spend the keyless anchor used in zero-fee commitment channels.
 	 * 
 	 * It is possible to receive more than one instance of this event if a valid child anchor
 	 * transaction is never broadcast or is but not with a sufficient fee to be mined. Care should
@@ -68,8 +79,8 @@ public class BumpTransactionEvent extends CommonBase {
 	 * be not urgent.
 	 * 
 	 * [`EcdsaChannelSigner`]: crate::sign::ecdsa::EcdsaChannelSigner
-	 * [`EcdsaChannelSigner::sign_holder_anchor_input`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_holder_anchor_input
-	 * [`build_anchor_input_witness`]: crate::ln::chan_utils::build_anchor_input_witness
+	 * [`EcdsaChannelSigner::sign_holder_keyed_anchor_input`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_holder_keyed_anchor_input
+	 * [`build_keyed_anchor_input_witness`]: crate::ln::chan_utils::build_keyed_anchor_input_witness
 	 */
 	public final static class ChannelClose extends BumpTransactionEvent {
 		/**
@@ -143,18 +154,29 @@ public class BumpTransactionEvent extends CommonBase {
 	}
 	/**
 	 * Indicates that a channel featuring anchor outputs has unilaterally closed on-chain by a
-	 * holder commitment transaction and its HTLC(s) need to be resolved on-chain. With the
-	 * zero-HTLC-transaction-fee variant of anchor outputs, the pre-signed HTLC
-	 * transactions have a zero fee, thus requiring additional inputs and/or outputs to be attached
-	 * for a timely confirmation within the chain. These additional inputs and/or outputs must be
-	 * appended to the resulting HTLC transaction to meet the target feerate. Failure to meet the
-	 * target feerate decreases the confirmation odds of the transaction, possibly resulting in a
-	 * loss of funds. Once the transaction meets the target feerate, it must be signed for and
-	 * broadcast by the consumer of the event.
+	 * holder commitment transaction and its HTLC(s) need to be resolved on-chain. In all such
+	 * channels, the pre-signed HTLC transactions have a zero fee, thus requiring additional
+	 * inputs and/or outputs to be attached for a timely confirmation within the chain. These
+	 * additional inputs and/or outputs must be appended to the resulting HTLC transaction to
+	 * meet the target feerate. Failure to meet the target feerate decreases the confirmation
+	 * odds of the transaction, possibly resulting in a loss of funds. Once the transaction
+	 * meets the target feerate, it must be signed for and broadcast by the consumer of the
+	 * event.
+	 * 
+	 * In zero-fee commitment channels, you must set the version of the HTLC claim transaction
+	 * to version 3 as the counterparty's signature commits to the version of
+	 * the transaction. You must also make sure that this claim transaction does not grow
+	 * bigger than 10,000 vB, the maximum vsize of any TRUC transaction as specified in
+	 * BIP 431. It is possible for [`htlc_descriptors`] to be long enough such
+	 * that claiming all the HTLCs therein in a single transaction would exceed this limit.
+	 * In this case, you must claim all the HTLCs in [`htlc_descriptors`] using multiple
+	 * transactions. Finally, note that while HTLCs in zero-fee commitment channels no
+	 * longer have the 1 CSV lock, LDK will still emit this event only after the commitment
+	 * transaction has 1 confirmation.
 	 * 
 	 * The consumer should be able to sign for any of the non-HTLC inputs added to the resulting
 	 * HTLC transaction. To sign HTLC inputs, an [`EcdsaChannelSigner`] should be re-derived
-	 * through [`HTLCDescriptor::derive_channel_signer`]. Each HTLC input's signature can be
+	 * through [`SignerProvider::derive_channel_signer`]. Each HTLC input's signature can be
 	 * computed with [`EcdsaChannelSigner::sign_holder_htlc_transaction`], which can then be
 	 * provided to [`HTLCDescriptor::tx_input_witness`] to obtain the fully signed witness required
 	 * to spend.
@@ -171,6 +193,7 @@ public class BumpTransactionEvent extends CommonBase {
 	 * 
 	 * [`EcdsaChannelSigner`]: crate::sign::ecdsa::EcdsaChannelSigner
 	 * [`EcdsaChannelSigner::sign_holder_htlc_transaction`]: crate::sign::ecdsa::EcdsaChannelSigner::sign_holder_htlc_transaction
+	 * [`htlc_descriptors`]: `BumpTransactionEvent::HTLCResolution::htlc_descriptors`
 	 */
 	public final static class HTLCResolution extends BumpTransactionEvent {
 		/**
