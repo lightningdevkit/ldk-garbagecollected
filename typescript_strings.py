@@ -669,7 +669,8 @@ static void alloc_freed(void* ptr, int lineno) {
 			} else {
 				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n Possibly double-free from %s, allocated on line %d.", ptr, lineno, it->struct_name, it->lineno);
 			}
-			abort();
+			//abort();
+			return;
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
