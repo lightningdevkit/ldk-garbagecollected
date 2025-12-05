@@ -1,0 +1,1 @@
+export { FundingLockedFlags } from "../bindings.mjs";
