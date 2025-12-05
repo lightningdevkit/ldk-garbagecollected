@@ -19,13 +19,57 @@ public class AsyncPaymentsMessage : CommonBase {
 	internal static AsyncPaymentsMessage constr_from_ptr(long ptr) {
 		long raw_ty = bindings.LDKAsyncPaymentsMessage_ty_from_ptr(ptr);
 		switch (raw_ty) {
-			case 0: return new AsyncPaymentsMessage_HeldHtlcAvailable(ptr);
-			case 1: return new AsyncPaymentsMessage_ReleaseHeldHtlc(ptr);
+			case 0: return new AsyncPaymentsMessage_OfferPathsRequest(ptr);
+			case 1: return new AsyncPaymentsMessage_OfferPaths(ptr);
+			case 2: return new AsyncPaymentsMessage_ServeStaticInvoice(ptr);
+			case 3: return new AsyncPaymentsMessage_StaticInvoicePersisted(ptr);
+			case 4: return new AsyncPaymentsMessage_HeldHtlcAvailable(ptr);
+			case 5: return new AsyncPaymentsMessage_ReleaseHeldHtlc(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
 	}
 
+	/** A AsyncPaymentsMessage of type OfferPathsRequest */
+	public class AsyncPaymentsMessage_OfferPathsRequest : AsyncPaymentsMessage {
+		public org.ldk.structs.OfferPathsRequest offer_paths_request;
+		internal AsyncPaymentsMessage_OfferPathsRequest(long ptr) : base(null, ptr) {
+			long offer_paths_request = bindings.LDKAsyncPaymentsMessage_OfferPathsRequest_get_offer_paths_request(ptr);
+			org.ldk.structs.OfferPathsRequest offer_paths_request_hu_conv = null; if (offer_paths_request < 0 || offer_paths_request > 4096) { offer_paths_request_hu_conv = new org.ldk.structs.OfferPathsRequest(null, offer_paths_request); }
+			if (offer_paths_request_hu_conv != null) { offer_paths_request_hu_conv.ptrs_to.AddLast(this); };
+			this.offer_paths_request = offer_paths_request_hu_conv;
+		}
+	}
+	/** A AsyncPaymentsMessage of type OfferPaths */
+	public class AsyncPaymentsMessage_OfferPaths : AsyncPaymentsMessage {
+		public org.ldk.structs.OfferPaths offer_paths;
+		internal AsyncPaymentsMessage_OfferPaths(long ptr) : base(null, ptr) {
+			long offer_paths = bindings.LDKAsyncPaymentsMessage_OfferPaths_get_offer_paths(ptr);
+			org.ldk.structs.OfferPaths offer_paths_hu_conv = null; if (offer_paths < 0 || offer_paths > 4096) { offer_paths_hu_conv = new org.ldk.structs.OfferPaths(null, offer_paths); }
+			if (offer_paths_hu_conv != null) { offer_paths_hu_conv.ptrs_to.AddLast(this); };
+			this.offer_paths = offer_paths_hu_conv;
+		}
+	}
+	/** A AsyncPaymentsMessage of type ServeStaticInvoice */
+	public class AsyncPaymentsMessage_ServeStaticInvoice : AsyncPaymentsMessage {
+		public org.ldk.structs.ServeStaticInvoice serve_static_invoice;
+		internal AsyncPaymentsMessage_ServeStaticInvoice(long ptr) : base(null, ptr) {
+			long serve_static_invoice = bindings.LDKAsyncPaymentsMessage_ServeStaticInvoice_get_serve_static_invoice(ptr);
+			org.ldk.structs.ServeStaticInvoice serve_static_invoice_hu_conv = null; if (serve_static_invoice < 0 || serve_static_invoice > 4096) { serve_static_invoice_hu_conv = new org.ldk.structs.ServeStaticInvoice(null, serve_static_invoice); }
+			if (serve_static_invoice_hu_conv != null) { serve_static_invoice_hu_conv.ptrs_to.AddLast(this); };
+			this.serve_static_invoice = serve_static_invoice_hu_conv;
+		}
+	}
+	/** A AsyncPaymentsMessage of type StaticInvoicePersisted */
+	public class AsyncPaymentsMessage_StaticInvoicePersisted : AsyncPaymentsMessage {
+		public org.ldk.structs.StaticInvoicePersisted static_invoice_persisted;
+		internal AsyncPaymentsMessage_StaticInvoicePersisted(long ptr) : base(null, ptr) {
+			long static_invoice_persisted = bindings.LDKAsyncPaymentsMessage_StaticInvoicePersisted_get_static_invoice_persisted(ptr);
+			org.ldk.structs.StaticInvoicePersisted static_invoice_persisted_hu_conv = null; if (static_invoice_persisted < 0 || static_invoice_persisted > 4096) { static_invoice_persisted_hu_conv = new org.ldk.structs.StaticInvoicePersisted(null, static_invoice_persisted); }
+			if (static_invoice_persisted_hu_conv != null) { static_invoice_persisted_hu_conv.ptrs_to.AddLast(this); };
+			this.static_invoice_persisted = static_invoice_persisted_hu_conv;
+		}
+	}
 	/** A AsyncPaymentsMessage of type HeldHtlcAvailable */
 	public class AsyncPaymentsMessage_HeldHtlcAvailable : AsyncPaymentsMessage {
 		public org.ldk.structs.HeldHtlcAvailable held_htlc_available;
@@ -61,6 +105,54 @@ public class AsyncPaymentsMessage : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OfferPathsRequest-variant AsyncPaymentsMessage
+	 */
+	public static org.ldk.structs.AsyncPaymentsMessage offer_paths_request(org.ldk.structs.OfferPathsRequest a) {
+		long ret = bindings.AsyncPaymentsMessage_offer_paths_request(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OfferPaths-variant AsyncPaymentsMessage
+	 */
+	public static org.ldk.structs.AsyncPaymentsMessage offer_paths(org.ldk.structs.OfferPaths a) {
+		long ret = bindings.AsyncPaymentsMessage_offer_paths(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ServeStaticInvoice-variant AsyncPaymentsMessage
+	 */
+	public static org.ldk.structs.AsyncPaymentsMessage serve_static_invoice(org.ldk.structs.ServeStaticInvoice a) {
+		long ret = bindings.AsyncPaymentsMessage_serve_static_invoice(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new StaticInvoicePersisted-variant AsyncPaymentsMessage
+	 */
+	public static org.ldk.structs.AsyncPaymentsMessage static_invoice_persisted(org.ldk.structs.StaticInvoicePersisted a) {
+		long ret = bindings.AsyncPaymentsMessage_static_invoice_persisted(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AsyncPaymentsMessage ret_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

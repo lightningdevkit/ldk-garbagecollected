@@ -34,19 +34,32 @@ public class Balance : CommonBase {
 	/** A Balance of type ClaimableOnChannelClose */
 	public class Balance_ClaimableOnChannelClose : Balance {
 		/**
-		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
-		 * required to do so.
-		 */
-		public long amount_satoshis;
-		/**
-		 * The transaction fee we pay for the closing commitment transaction. This amount is not
-		 * included in the [`Balance::ClaimableOnChannelClose::amount_satoshis`] value.
+		 * A list of balance candidates based on the latest set of valid holder commitment
+		 * transactions that can hit the chain. Typically, a channel only has one valid holder
+		 * commitment transaction that spends the current funding output. As soon as a channel is
+		 * spliced, an alternative holder commitment transaction exists spending the new funding
+		 * output. More alternative holder commitment transactions can exist as the splice remains
+		 * pending and RBF attempts are made.
 		 * 
-		 * Note that if this channel is inbound (and thus our counterparty pays the commitment
-		 * transaction fee) this value will be zero. For [`ChannelMonitor`]s created prior to LDK
-		 * 0.0.124, the channel is always treated as outbound (and thus this value is never zero).
+		 * The candidates are sorted by the order in which the holder commitment transactions were
+		 * negotiated. When only one candidate exists, the channel does not have a splice pending.
+		 * When multiple candidates exist, the last one reflects the balance of the
+		 * latest splice/RBF attempt, while the first reflects the balance prior to the splice
+		 * occurring.
+		 * 
+		 * Entries remain in this vec until the pending splice has reached [`ANTI_REORG_DELAY`]
+		 * confirmations, at which point any conflicts will be removed. Once a splice confirms
+		 * [`Self::ClaimableOnChannelClose::confirmed_balance_candidate_index`] will point to the
+		 * confirmed entry, even if it has fewer than [`ANTI_REORG_DELAY`] confirmations.
 		 */
-		public long transaction_fee_satoshis;
+		public HolderCommitmentTransactionBalance[] balance_candidates;
+		/**
+		 * The index within [`Balance::ClaimableOnChannelClose::balance_candidates`] for the
+		 * balance according to the current onchain state of the channel. This can be helpful when
+		 * wanting to determine the claimable amount when the holder commitment transaction for the
+		 * current funding transaction is broadcast and/or confirms.
+		 */
+		public long confirmed_balance_candidate_index;
 		/**
 		 * The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
 		 * from us and are related to a payment which was sent by us. This is the sum of the
@@ -73,7 +86,7 @@ public class Balance : CommonBase {
 		 * to us and for which we know the preimage. This is the sum of the millisatoshis part of
 		 * all HTLCs which would be represented by [`Balance::ContentiousClaimable`] on channel
 		 * close, but whose current value is included in
-		 * [`Balance::ClaimableOnChannelClose::amount_satoshis`], as well as any dust HTLCs which
+		 * [`HolderCommitmentTransactionBalance::amount_satoshis`], as well as any dust HTLCs which
 		 * would otherwise be represented the same.
 		 * 
 		 * This amount (rounded up to a whole satoshi value) will not be included in the counterparty's
@@ -92,8 +105,18 @@ public class Balance : CommonBase {
 		 */
 		public long inbound_htlc_rounded_msat;
 		internal Balance_ClaimableOnChannelClose(long ptr) : base(null, ptr) {
-			this.amount_satoshis = bindings.LDKBalance_ClaimableOnChannelClose_get_amount_satoshis(ptr);
-			this.transaction_fee_satoshis = bindings.LDKBalance_ClaimableOnChannelClose_get_transaction_fee_satoshis(ptr);
+			long balance_candidates = bindings.LDKBalance_ClaimableOnChannelClose_get_balance_candidates(ptr);
+			int balance_candidates_conv_36_len = InternalUtils.getArrayLength(balance_candidates);
+			HolderCommitmentTransactionBalance[] balance_candidates_conv_36_arr = new HolderCommitmentTransactionBalance[balance_candidates_conv_36_len];
+			for (int k = 0; k < balance_candidates_conv_36_len; k++) {
+				long balance_candidates_conv_36 = InternalUtils.getU64ArrayElem(balance_candidates, k);
+				org.ldk.structs.HolderCommitmentTransactionBalance balance_candidates_conv_36_hu_conv = null; if (balance_candidates_conv_36 < 0 || balance_candidates_conv_36 > 4096) { balance_candidates_conv_36_hu_conv = new org.ldk.structs.HolderCommitmentTransactionBalance(null, balance_candidates_conv_36); }
+				if (balance_candidates_conv_36_hu_conv != null) { balance_candidates_conv_36_hu_conv.ptrs_to.AddLast(this); };
+				balance_candidates_conv_36_arr[k] = balance_candidates_conv_36_hu_conv;
+			}
+			bindings.free_buffer(balance_candidates);
+			this.balance_candidates = balance_candidates_conv_36_arr;
+			this.confirmed_balance_candidate_index = bindings.LDKBalance_ClaimableOnChannelClose_get_confirmed_balance_candidate_index(ptr);
 			this.outbound_payment_htlc_rounded_msat = bindings.LDKBalance_ClaimableOnChannelClose_get_outbound_payment_htlc_rounded_msat(ptr);
 			this.outbound_forwarded_htlc_rounded_msat = bindings.LDKBalance_ClaimableOnChannelClose_get_outbound_forwarded_htlc_rounded_msat(ptr);
 			this.inbound_claiming_htlc_rounded_msat = bindings.LDKBalance_ClaimableOnChannelClose_get_inbound_claiming_htlc_rounded_msat(ptr);
@@ -242,10 +265,10 @@ public class Balance : CommonBase {
 	/**
 	 * Utility method to constructs a new ClaimableOnChannelClose-variant Balance
 	 */
-	public static org.ldk.structs.Balance claimable_on_channel_close(long amount_satoshis, long transaction_fee_satoshis, long outbound_payment_htlc_rounded_msat, long outbound_forwarded_htlc_rounded_msat, long inbound_claiming_htlc_rounded_msat, long inbound_htlc_rounded_msat) {
-		long ret = bindings.Balance_claimable_on_channel_close(amount_satoshis, transaction_fee_satoshis, outbound_payment_htlc_rounded_msat, outbound_forwarded_htlc_rounded_msat, inbound_claiming_htlc_rounded_msat, inbound_htlc_rounded_msat);
-		GC.KeepAlive(amount_satoshis);
-		GC.KeepAlive(transaction_fee_satoshis);
+	public static org.ldk.structs.Balance claimable_on_channel_close(HolderCommitmentTransactionBalance[] balance_candidates, long confirmed_balance_candidate_index, long outbound_payment_htlc_rounded_msat, long outbound_forwarded_htlc_rounded_msat, long inbound_claiming_htlc_rounded_msat, long inbound_htlc_rounded_msat) {
+		long ret = bindings.Balance_claimable_on_channel_close(InternalUtils.encodeUint64Array(InternalUtils.mapArray(balance_candidates, balance_candidates_conv_36 => balance_candidates_conv_36.ptr)), confirmed_balance_candidate_index, outbound_payment_htlc_rounded_msat, outbound_forwarded_htlc_rounded_msat, inbound_claiming_htlc_rounded_msat, inbound_htlc_rounded_msat);
+		GC.KeepAlive(balance_candidates);
+		GC.KeepAlive(confirmed_balance_candidate_index);
 		GC.KeepAlive(outbound_payment_htlc_rounded_msat);
 		GC.KeepAlive(outbound_forwarded_htlc_rounded_msat);
 		GC.KeepAlive(inbound_claiming_htlc_rounded_msat);
@@ -343,6 +366,13 @@ public class Balance : CommonBase {
 	}
 	/**
 	 * The amount claimable, in satoshis.
+	 * 
+	 * When the channel has yet to close, this returns the balance we expect to claim from the
+	 * channel. This may change throughout the lifetime of the channel due to payments, but also
+	 * due to splicing. If there's a pending splice, this will return the balance we expect to have
+	 * assuming the latest negotiated splice confirms. However, if one of the negotiated splice
+	 * transactions has already confirmed but is not yet locked, this reports the corresponding
+	 * balance for said splice transaction instead.
 	 * 
 	 * For outbound payments, this excludes the balance from the possible HTLC timeout.
 	 * 

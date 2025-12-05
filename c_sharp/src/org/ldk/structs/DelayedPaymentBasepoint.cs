@@ -54,7 +54,6 @@ public class DelayedPaymentBasepoint : CommonBase {
 		bool ret = bindings.DelayedPaymentBasepoint_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -113,6 +112,18 @@ public class DelayedPaymentBasepoint : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
+	}
+
+	/**
+	 * Build a DelayedPaymentBasepoint from a PublicKey
+	 */
+	public static org.ldk.structs.DelayedPaymentBasepoint from_PublicKey(byte[] f) {
+		long ret = bindings.DelayedPaymentBasepoint_from_PublicKey(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(f, 33)));
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.DelayedPaymentBasepoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.DelayedPaymentBasepoint(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 	/**

@@ -49,7 +49,6 @@ public class Nonce : CommonBase {
 		bool ret = bindings.Nonce_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

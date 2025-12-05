@@ -217,5 +217,17 @@ public class DecodeError : CommonBase {
 		return ret_conv;
 	}
 
+	/**
+	 * Build a DecodeError from a IOError
+	 */
+	public static org.ldk.structs.DecodeError from_IOError(IOError f) {
+		long ret = bindings.DecodeError_from_IOError(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.DecodeError ret_hu_conv = org.ldk.structs.DecodeError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

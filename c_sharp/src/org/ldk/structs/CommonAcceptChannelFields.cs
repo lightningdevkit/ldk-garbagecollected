@@ -297,9 +297,8 @@ public class CommonAcceptChannelFields : CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * This is required to match the equivalent field in [`OpenChannel`] or [`OpenChannelV2`]'s
 	 * [`CommonOpenChannelFields::channel_type`].
@@ -316,9 +315,8 @@ public class CommonAcceptChannelFields : CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent. If none is set, we derive the channel
-	 * type from the intersection of our feature bits with our counterparty's feature bits from
-	 * the Init message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * This is required to match the equivalent field in [`OpenChannel`] or [`OpenChannelV2`]'s
 	 * [`CommonOpenChannelFields::channel_type`].
@@ -398,7 +396,6 @@ public class CommonAcceptChannelFields : CommonBase {
 		bool ret = bindings.CommonAcceptChannelFields_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

@@ -18,8 +18,9 @@ public class PendingHTLCRouting : CommonBase {
 		long raw_ty = bindings.LDKPendingHTLCRouting_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PendingHTLCRouting_Forward(ptr);
-			case 1: return new PendingHTLCRouting_Receive(ptr);
-			case 2: return new PendingHTLCRouting_ReceiveKeysend(ptr);
+			case 1: return new PendingHTLCRouting_TrampolineForward(ptr);
+			case 2: return new PendingHTLCRouting_Receive(ptr);
+			case 3: return new PendingHTLCRouting_ReceiveKeysend(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -50,6 +51,11 @@ public class PendingHTLCRouting : CommonBase {
 		 * The absolute CLTV of the inbound HTLC
 		 */
 		public org.ldk.structs.Option_u32Z incoming_cltv_expiry;
+		/**
+		 * Whether this HTLC should be held by our node until we receive a corresponding
+		 * [`ReleaseHeldHtlc`] onion message.
+		 */
+		public COption_NoneZ hold_htlc;
 		internal PendingHTLCRouting_Forward(long ptr) : base(null, ptr) {
 			long onion_packet = bindings.LDKPendingHTLCRouting_Forward_get_onion_packet(ptr);
 			org.ldk.structs.OnionPacket onion_packet_hu_conv = null; if (onion_packet < 0 || onion_packet > 4096) { onion_packet_hu_conv = new org.ldk.structs.OnionPacket(null, onion_packet); }
@@ -64,6 +70,53 @@ public class PendingHTLCRouting : CommonBase {
 			org.ldk.structs.Option_u32Z incoming_cltv_expiry_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(incoming_cltv_expiry);
 			if (incoming_cltv_expiry_hu_conv != null) { incoming_cltv_expiry_hu_conv.ptrs_to.AddLast(this); };
 			this.incoming_cltv_expiry = incoming_cltv_expiry_hu_conv;
+			this.hold_htlc = bindings.LDKPendingHTLCRouting_Forward_get_hold_htlc(ptr);
+		}
+	}
+	/** A PendingHTLCRouting of type TrampolineForward */
+	public class PendingHTLCRouting_TrampolineForward : PendingHTLCRouting {
+		/**
+		 * The onion shared secret we build with the sender (or the preceding Trampoline node) used
+		 * to decrypt the onion.
+		 * 
+		 * This is later used to encrypt failure packets in the event that the HTLC is failed.
+		 */
+		public byte[] incoming_shared_secret;
+		/**
+		 * The onion which should be included in the forwarded HTLC, telling the next hop what to
+		 * do with the HTLC.
+		 */
+		public org.ldk.structs.TrampolineOnionPacket onion_packet;
+		/**
+		 * The node ID of the Trampoline node which we need to route this HTLC to.
+		 */
+		public byte[] node_id;
+		/**
+		 * Set if this HTLC is being forwarded within a blinded path.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		public org.ldk.structs.BlindedForward blinded;
+		/**
+		 * The absolute CLTV of the inbound HTLC
+		 */
+		public int incoming_cltv_expiry;
+		internal PendingHTLCRouting_TrampolineForward(long ptr) : base(null, ptr) {
+			long incoming_shared_secret = bindings.LDKPendingHTLCRouting_TrampolineForward_get_incoming_shared_secret(ptr);
+			byte[] incoming_shared_secret_conv = InternalUtils.decodeUint8Array(incoming_shared_secret);
+			this.incoming_shared_secret = incoming_shared_secret_conv;
+			long onion_packet = bindings.LDKPendingHTLCRouting_TrampolineForward_get_onion_packet(ptr);
+			org.ldk.structs.TrampolineOnionPacket onion_packet_hu_conv = null; if (onion_packet < 0 || onion_packet > 4096) { onion_packet_hu_conv = new org.ldk.structs.TrampolineOnionPacket(null, onion_packet); }
+			if (onion_packet_hu_conv != null) { onion_packet_hu_conv.ptrs_to.AddLast(this); };
+			this.onion_packet = onion_packet_hu_conv;
+			long node_id = bindings.LDKPendingHTLCRouting_TrampolineForward_get_node_id(ptr);
+			byte[] node_id_conv = InternalUtils.decodeUint8Array(node_id);
+			this.node_id = node_id_conv;
+			long blinded = bindings.LDKPendingHTLCRouting_TrampolineForward_get_blinded(ptr);
+			org.ldk.structs.BlindedForward blinded_hu_conv = null; if (blinded < 0 || blinded > 4096) { blinded_hu_conv = new org.ldk.structs.BlindedForward(null, blinded); }
+			if (blinded_hu_conv != null) { blinded_hu_conv.ptrs_to.AddLast(this); };
+			this.blinded = blinded_hu_conv;
+			this.incoming_cltv_expiry = bindings.LDKPendingHTLCRouting_TrampolineForward_get_incoming_cltv_expiry(ptr);
 		}
 	}
 	/** A PendingHTLCRouting of type Receive */
@@ -190,9 +243,22 @@ public class PendingHTLCRouting : CommonBase {
 		/**
 		 * Set if we are receiving a keysend to a blinded path, meaning we created the
 		 * [`PaymentSecret`] and should verify it using our
-		 * [`NodeSigner::get_inbound_payment_key`].
+		 * [`NodeSigner::get_expanded_key`].
 		 */
 		public bool has_recipient_created_payment_secret;
+		/**
+		 * The [`InvoiceRequest`] associated with the [`Offer`] corresponding to this payment.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		public org.ldk.structs.InvoiceRequest invoice_request;
+		/**
+		 * The context of the payment included by the recipient in a blinded path, or `None` if a
+		 * blinded path was not used.
+		 * 
+		 * Used in part to determine the [`events::PaymentPurpose`].
+		 */
+		public org.ldk.structs.Option_PaymentContextZ payment_context;
 		internal PendingHTLCRouting_ReceiveKeysend(long ptr) : base(null, ptr) {
 			long payment_data = bindings.LDKPendingHTLCRouting_ReceiveKeysend_get_payment_data(ptr);
 			org.ldk.structs.FinalOnionHopData payment_data_hu_conv = null; if (payment_data < 0 || payment_data > 4096) { payment_data_hu_conv = new org.ldk.structs.FinalOnionHopData(null, payment_data); }
@@ -219,6 +285,14 @@ public class PendingHTLCRouting : CommonBase {
 			this.custom_tlvs = custom_tlvs_conv_23_arr;
 			this.requires_blinded_error = bindings.LDKPendingHTLCRouting_ReceiveKeysend_get_requires_blinded_error(ptr);
 			this.has_recipient_created_payment_secret = bindings.LDKPendingHTLCRouting_ReceiveKeysend_get_has_recipient_created_payment_secret(ptr);
+			long invoice_request = bindings.LDKPendingHTLCRouting_ReceiveKeysend_get_invoice_request(ptr);
+			org.ldk.structs.InvoiceRequest invoice_request_hu_conv = null; if (invoice_request < 0 || invoice_request > 4096) { invoice_request_hu_conv = new org.ldk.structs.InvoiceRequest(null, invoice_request); }
+			if (invoice_request_hu_conv != null) { invoice_request_hu_conv.ptrs_to.AddLast(this); };
+			this.invoice_request = invoice_request_hu_conv;
+			long payment_context = bindings.LDKPendingHTLCRouting_ReceiveKeysend_get_payment_context(ptr);
+			org.ldk.structs.Option_PaymentContextZ payment_context_hu_conv = org.ldk.structs.Option_PaymentContextZ.constr_from_ptr(payment_context);
+			if (payment_context_hu_conv != null) { payment_context_hu_conv.ptrs_to.AddLast(this); };
+			this.payment_context = payment_context_hu_conv;
 		}
 	}
 	internal long clone_ptr() {
@@ -242,10 +316,27 @@ public class PendingHTLCRouting : CommonBase {
 	/**
 	 * Utility method to constructs a new Forward-variant PendingHTLCRouting
 	 */
-	public static org.ldk.structs.PendingHTLCRouting forward(org.ldk.structs.OnionPacket onion_packet, long short_channel_id, org.ldk.structs.BlindedForward blinded, org.ldk.structs.Option_u32Z incoming_cltv_expiry) {
-		long ret = bindings.PendingHTLCRouting_forward(onion_packet.ptr, short_channel_id, blinded.ptr, incoming_cltv_expiry.ptr);
+	public static org.ldk.structs.PendingHTLCRouting forward(org.ldk.structs.OnionPacket onion_packet, long short_channel_id, org.ldk.structs.BlindedForward blinded, org.ldk.structs.Option_u32Z incoming_cltv_expiry, COption_NoneZ hold_htlc) {
+		long ret = bindings.PendingHTLCRouting_forward(onion_packet.ptr, short_channel_id, blinded.ptr, incoming_cltv_expiry.ptr, hold_htlc);
 		GC.KeepAlive(onion_packet);
 		GC.KeepAlive(short_channel_id);
+		GC.KeepAlive(blinded);
+		GC.KeepAlive(incoming_cltv_expiry);
+		GC.KeepAlive(hold_htlc);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PendingHTLCRouting ret_hu_conv = org.ldk.structs.PendingHTLCRouting.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new TrampolineForward-variant PendingHTLCRouting
+	 */
+	public static org.ldk.structs.PendingHTLCRouting trampoline_forward(byte[] incoming_shared_secret, org.ldk.structs.TrampolineOnionPacket onion_packet, byte[] node_id, org.ldk.structs.BlindedForward blinded, int incoming_cltv_expiry) {
+		long ret = bindings.PendingHTLCRouting_trampoline_forward(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(incoming_shared_secret, 32)), onion_packet.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id, 33)), blinded.ptr, incoming_cltv_expiry);
+		GC.KeepAlive(incoming_shared_secret);
+		GC.KeepAlive(onion_packet);
+		GC.KeepAlive(node_id);
 		GC.KeepAlive(blinded);
 		GC.KeepAlive(incoming_cltv_expiry);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -275,8 +366,8 @@ public class PendingHTLCRouting : CommonBase {
 	/**
 	 * Utility method to constructs a new ReceiveKeysend-variant PendingHTLCRouting
 	 */
-	public static org.ldk.structs.PendingHTLCRouting receive_keysend(org.ldk.structs.FinalOnionHopData payment_data, byte[] payment_preimage, org.ldk.structs.Option_CVec_u8ZZ payment_metadata, int incoming_cltv_expiry, TwoTuple_u64CVec_u8ZZ[] custom_tlvs, bool requires_blinded_error, bool has_recipient_created_payment_secret) {
-		long ret = bindings.PendingHTLCRouting_receive_keysend(payment_data.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_preimage, 32)), payment_metadata.ptr, incoming_cltv_expiry, InternalUtils.encodeUint64Array(InternalUtils.mapArray(custom_tlvs, custom_tlvs_conv_23 => custom_tlvs_conv_23.ptr)), requires_blinded_error, has_recipient_created_payment_secret);
+	public static org.ldk.structs.PendingHTLCRouting receive_keysend(org.ldk.structs.FinalOnionHopData payment_data, byte[] payment_preimage, org.ldk.structs.Option_CVec_u8ZZ payment_metadata, int incoming_cltv_expiry, TwoTuple_u64CVec_u8ZZ[] custom_tlvs, bool requires_blinded_error, bool has_recipient_created_payment_secret, org.ldk.structs.InvoiceRequest invoice_request, org.ldk.structs.Option_PaymentContextZ payment_context) {
+		long ret = bindings.PendingHTLCRouting_receive_keysend(payment_data.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_preimage, 32)), payment_metadata.ptr, incoming_cltv_expiry, InternalUtils.encodeUint64Array(InternalUtils.mapArray(custom_tlvs, custom_tlvs_conv_23 => custom_tlvs_conv_23.ptr)), requires_blinded_error, has_recipient_created_payment_secret, invoice_request.ptr, payment_context.ptr);
 		GC.KeepAlive(payment_data);
 		GC.KeepAlive(payment_preimage);
 		GC.KeepAlive(payment_metadata);
@@ -284,6 +375,8 @@ public class PendingHTLCRouting : CommonBase {
 		GC.KeepAlive(custom_tlvs);
 		GC.KeepAlive(requires_blinded_error);
 		GC.KeepAlive(has_recipient_created_payment_secret);
+		GC.KeepAlive(invoice_request);
+		GC.KeepAlive(payment_context);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PendingHTLCRouting ret_hu_conv = org.ldk.structs.PendingHTLCRouting.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

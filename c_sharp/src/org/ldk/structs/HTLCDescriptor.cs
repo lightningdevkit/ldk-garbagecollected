@@ -234,7 +234,6 @@ public class HTLCDescriptor : CommonBase {
 		bool ret = bindings.HTLCDescriptor_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -336,20 +335,6 @@ public class HTLCDescriptor : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
-	}
-
-	/**
-	 * Derives the channel signer required to sign the HTLC input.
-	 */
-	public org.ldk.structs.EcdsaChannelSigner derive_channel_signer(org.ldk.structs.SignerProvider signer_provider) {
-		long ret = bindings.HTLCDescriptor_derive_channel_signer(this.ptr, signer_provider.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(signer_provider);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		if (this != null) { this.ptrs_to.AddLast(signer_provider); };
-		return ret_hu_conv;
 	}
 
 }

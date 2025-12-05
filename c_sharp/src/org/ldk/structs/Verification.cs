@@ -80,7 +80,6 @@ public class Verification : CommonBase {
 		GC.KeepAlive(expanded_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		if (this != null) { this.ptrs_to.AddLast(expanded_key); };
 		return ret_conv;
 	}
 
@@ -95,7 +94,6 @@ public class Verification : CommonBase {
 		GC.KeepAlive(expanded_key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(expanded_key); };
 		return ret_hu_conv;
 	}
 

@@ -86,20 +86,21 @@ public class PhantomKeysManager : CommonBase {
 	 * that is shared across all nodes that intend to participate in [phantom node payments]
 	 * together.
 	 * 
-	 * See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`, and
-	 * `starting_time_nanos`.
+	 * See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`,
+	 * `starting_time_nanos`, and `v2_remote_key_derivation`.
 	 * 
 	 * `cross_node_seed` must be the same across all phantom payment-receiving nodes and also the
 	 * same across restarts, or else inbound payments may fail.
 	 * 
 	 * [phantom node payments]: PhantomKeysManager
 	 */
-	public static org.ldk.structs.PhantomKeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed) {
-		long ret = bindings.PhantomKeysManager_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(cross_node_seed, 32)));
+	public static org.ldk.structs.PhantomKeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, byte[] cross_node_seed, bool v2_remote_key_derivation) {
+		long ret = bindings.PhantomKeysManager_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(cross_node_seed, 32)), v2_remote_key_derivation);
 		GC.KeepAlive(seed);
 		GC.KeepAlive(starting_time_secs);
 		GC.KeepAlive(starting_time_nanos);
 		GC.KeepAlive(cross_node_seed);
+		GC.KeepAlive(v2_remote_key_derivation);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PhantomKeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PhantomKeysManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -109,10 +110,9 @@ public class PhantomKeysManager : CommonBase {
 	/**
 	 * See [`KeysManager::derive_channel_keys`] for documentation on this method.
 	 */
-	public org.ldk.structs.InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] _params) {
-		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(_params, 32)));
+	public org.ldk.structs.InMemorySigner derive_channel_keys(byte[] _params) {
+		long ret = bindings.PhantomKeysManager_derive_channel_keys(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(_params, 32)));
 		GC.KeepAlive(this);
-		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }

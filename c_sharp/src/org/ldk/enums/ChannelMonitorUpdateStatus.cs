@@ -27,6 +27,12 @@ public enum ChannelMonitorUpdateStatus {
 	 * 
 	 * This includes performing any `fsync()` calls required to ensure the update is guaranteed to
 	 * be available on restart even if the application crashes.
+	 * 
+	 * If you return this variant, you cannot later return [`InProgress`] from the same instance of
+	 * [`Persist`]/[`Watch`] without first restarting.
+	 * 
+	 * [`InProgress`]: ChannelMonitorUpdateStatus::InProgress
+	 * [`Persist`]: chainmonitor::Persist
 	 */
 	LDKChannelMonitorUpdateStatus_Completed,
 	/**
@@ -54,7 +60,12 @@ public enum ChannelMonitorUpdateStatus {
 	 * reliable, this feature is considered beta, and a handful of edge-cases remain. Until the
 	 * remaining cases are fixed, in rare cases, *using this feature may lead to funds loss*.
 	 * 
+	 * If you return this variant, you cannot later return [`Completed`] from the same instance of
+	 * [`Persist`]/[`Watch`] without first restarting.
+	 * 
 	 * [`InProgress`]: ChannelMonitorUpdateStatus::InProgress
+	 * [`Completed`]: ChannelMonitorUpdateStatus::Completed
+	 * [`Persist`]: chainmonitor::Persist
 	 */
 	LDKChannelMonitorUpdateStatus_InProgress,
 	/**

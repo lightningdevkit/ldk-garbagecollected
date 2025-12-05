@@ -82,7 +82,6 @@ public class ScoreLookUp : CommonBase {
 		GC.KeepAlive(candidate);
 		GC.KeepAlive(usage);
 		GC.KeepAlive(score_params);
-		if (this != null) { this.ptrs_to.AddLast(score_params); };
 		return ret;
 	}
 

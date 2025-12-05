@@ -18,17 +18,16 @@ public interface SocketDescriptorInterface {
 	 * 
 	 * If the returned size is smaller than `data.len()`, a
 	 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
-	 * written. Additionally, until a `send_data` event completes fully, no further
-	 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
-	 * prevent denial-of-service issues, you should not read or buffer any data from the socket
-	 * until then.
+	 * written.
 	 * 
-	 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
-	 * (indicating that read events should be paused to prevent DoS in the send buffer),
-	 * `resume_read` may be set indicating that read events on this descriptor should resume. A
-	 * `resume_read` of false carries no meaning, and should not cause any action.
+	 * If `continue_read` is *not* set, further [`PeerManager::read_event`] calls should be
+	 * avoided until another call is made with it set. This allows us to pause read if there are
+	 * too many outgoing messages queued for a peer to avoid DoS issues where a peer fills our
+	 * buffer by sending us messages that need response without reading the responses.
+	 * 
+	 * Note that calls may be made with an empty `data` to update the `continue_read` flag.
 	 */
-	long send_data(byte[] data, bool resume_read);
+	long send_data(byte[] data, bool continue_read);
 	/**Disconnect the socket pointed to by this SocketDescriptor.
 	 * 
 	 * You do *not* need to call [`PeerManager::socket_disconnected`] with this socket after this
@@ -72,9 +71,9 @@ public class SocketDescriptor : CommonBase {
 		internal LDKSocketDescriptorImpl(SocketDescriptorInterface arg, LDKSocketDescriptorHolder impl_holder) { this.arg = arg; this.impl_holder = impl_holder; }
 		private SocketDescriptorInterface arg;
 		private LDKSocketDescriptorHolder impl_holder;
-		public long send_data(long _data, bool _resume_read) {
+		public long send_data(long _data, bool _continue_read) {
 			byte[] _data_conv = InternalUtils.decodeUint8Array(_data);
-			long ret = arg.send_data(_data_conv, _resume_read);
+			long ret = arg.send_data(_data_conv, _continue_read);
 				GC.KeepAlive(arg);
 			return ret;
 		}
@@ -117,21 +116,20 @@ public class SocketDescriptor : CommonBase {
 	 * 
 	 * If the returned size is smaller than `data.len()`, a
 	 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
-	 * written. Additionally, until a `send_data` event completes fully, no further
-	 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
-	 * prevent denial-of-service issues, you should not read or buffer any data from the socket
-	 * until then.
+	 * written.
 	 * 
-	 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
-	 * (indicating that read events should be paused to prevent DoS in the send buffer),
-	 * `resume_read` may be set indicating that read events on this descriptor should resume. A
-	 * `resume_read` of false carries no meaning, and should not cause any action.
+	 * If `continue_read` is *not* set, further [`PeerManager::read_event`] calls should be
+	 * avoided until another call is made with it set. This allows us to pause read if there are
+	 * too many outgoing messages queued for a peer to avoid DoS issues where a peer fills our
+	 * buffer by sending us messages that need response without reading the responses.
+	 * 
+	 * Note that calls may be made with an empty `data` to update the `continue_read` flag.
 	 */
-	public long send_data(byte[] data, bool resume_read) {
-		long ret = bindings.SocketDescriptor_send_data(this.ptr, InternalUtils.encodeUint8Array(data), resume_read);
+	public long send_data(byte[] data, bool continue_read) {
+		long ret = bindings.SocketDescriptor_send_data(this.ptr, InternalUtils.encodeUint8Array(data), continue_read);
 		GC.KeepAlive(this);
 		GC.KeepAlive(data);
-		GC.KeepAlive(resume_read);
+		GC.KeepAlive(continue_read);
 		return ret;
 	}
 

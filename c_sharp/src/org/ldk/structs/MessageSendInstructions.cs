@@ -21,6 +21,7 @@ public class MessageSendInstructions : CommonBase {
 			case 1: return new MessageSendInstructions_WithReplyPath(ptr);
 			case 2: return new MessageSendInstructions_WithoutReplyPath(ptr);
 			case 3: return new MessageSendInstructions_ForReply(ptr);
+			case 4: return new MessageSendInstructions_ForwardedMessage(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -95,6 +96,30 @@ public class MessageSendInstructions : CommonBase {
 			this.instructions = instructions_hu_conv;
 		}
 	}
+	/** A MessageSendInstructions of type ForwardedMessage */
+	public class MessageSendInstructions_ForwardedMessage : MessageSendInstructions {
+		/**
+		 * The destination where we need to send the forwarded onion message.
+		 */
+		public org.ldk.structs.Destination destination;
+		/**
+		 * The reply path which should be included in the message, that terminates at the original
+		 * sender of this forwarded message.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		 */
+		public org.ldk.structs.BlindedMessagePath reply_path;
+		internal MessageSendInstructions_ForwardedMessage(long ptr) : base(null, ptr) {
+			long destination = bindings.LDKMessageSendInstructions_ForwardedMessage_get_destination(ptr);
+			org.ldk.structs.Destination destination_hu_conv = org.ldk.structs.Destination.constr_from_ptr(destination);
+			if (destination_hu_conv != null) { destination_hu_conv.ptrs_to.AddLast(this); };
+			this.destination = destination_hu_conv;
+			long reply_path = bindings.LDKMessageSendInstructions_ForwardedMessage_get_reply_path(ptr);
+			org.ldk.structs.BlindedMessagePath reply_path_hu_conv = null; if (reply_path < 0 || reply_path > 4096) { reply_path_hu_conv = new org.ldk.structs.BlindedMessagePath(null, reply_path); }
+			if (reply_path_hu_conv != null) { reply_path_hu_conv.ptrs_to.AddLast(this); };
+			this.reply_path = reply_path_hu_conv;
+		}
+	}
 	internal long clone_ptr() {
 		long ret = bindings.MessageSendInstructions_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -157,6 +182,19 @@ public class MessageSendInstructions : CommonBase {
 	public static org.ldk.structs.MessageSendInstructions for_reply(org.ldk.structs.ResponseInstruction instructions) {
 		long ret = bindings.MessageSendInstructions_for_reply(instructions.ptr);
 		GC.KeepAlive(instructions);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendInstructions ret_hu_conv = org.ldk.structs.MessageSendInstructions.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ForwardedMessage-variant MessageSendInstructions
+	 */
+	public static org.ldk.structs.MessageSendInstructions forwarded_message(org.ldk.structs.Destination destination, org.ldk.structs.BlindedMessagePath reply_path) {
+		long ret = bindings.MessageSendInstructions_forwarded_message(destination.ptr, reply_path.ptr);
+		GC.KeepAlive(destination);
+		GC.KeepAlive(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageSendInstructions ret_hu_conv = org.ldk.structs.MessageSendInstructions.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

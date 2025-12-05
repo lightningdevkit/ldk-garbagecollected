@@ -19,6 +19,42 @@ public class BlindedTail : CommonBase {
 	}
 
 	/**
+	 * The list of unblinded Trampoline hops. When using Trampoline, must contain at least one hop.
+	 * 
+	 * Note that the first [`TrampolineHop`] node must also be present as the last [`RouteHop`] node,
+	 * where the [`RouteHop`]'s fee_msat is the fee paid for use of the entire blinded path, including
+	 * any Trampoline hops.
+	 */
+	public TrampolineHop[] get_trampoline_hops() {
+		long ret = bindings.BlindedTail_get_trampoline_hops(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_15_len = InternalUtils.getArrayLength(ret);
+		TrampolineHop[] ret_conv_15_arr = new TrampolineHop[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
+			long ret_conv_15 = InternalUtils.getU64ArrayElem(ret, p);
+			org.ldk.structs.TrampolineHop ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new org.ldk.structs.TrampolineHop(null, ret_conv_15); }
+			if (ret_conv_15_hu_conv != null) { ret_conv_15_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_15_arr;
+	}
+
+	/**
+	 * The list of unblinded Trampoline hops. When using Trampoline, must contain at least one hop.
+	 * 
+	 * Note that the first [`TrampolineHop`] node must also be present as the last [`RouteHop`] node,
+	 * where the [`RouteHop`]'s fee_msat is the fee paid for use of the entire blinded path, including
+	 * any Trampoline hops.
+	 */
+	public void set_trampoline_hops(TrampolineHop[] val) {
+		bindings.BlindedTail_set_trampoline_hops(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_15 => val_conv_15.ptr)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * The hops of the [`BlindedPaymentPath`] provided by the recipient.
 	 */
 	public BlindedHop[] get_hops() {
@@ -107,8 +143,9 @@ public class BlindedTail : CommonBase {
 	/**
 	 * Constructs a new BlindedTail given each field
 	 */
-	public static org.ldk.structs.BlindedTail of(BlindedHop[] hops_arg, byte[] blinding_point_arg, int excess_final_cltv_expiry_delta_arg, long final_value_msat_arg) {
-		long ret = bindings.BlindedTail_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(hops_arg, hops_arg_conv_12 => hops_arg_conv_12.ptr)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point_arg, 33)), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
+	public static org.ldk.structs.BlindedTail of(TrampolineHop[] trampoline_hops_arg, BlindedHop[] hops_arg, byte[] blinding_point_arg, int excess_final_cltv_expiry_delta_arg, long final_value_msat_arg) {
+		long ret = bindings.BlindedTail_new(InternalUtils.encodeUint64Array(InternalUtils.mapArray(trampoline_hops_arg, trampoline_hops_arg_conv_15 => trampoline_hops_arg_conv_15.ptr)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(hops_arg, hops_arg_conv_12 => hops_arg_conv_12.ptr)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point_arg, 33)), excess_final_cltv_expiry_delta_arg, final_value_msat_arg);
+		GC.KeepAlive(trampoline_hops_arg);
 		GC.KeepAlive(hops_arg);
 		GC.KeepAlive(blinding_point_arg);
 		GC.KeepAlive(excess_final_cltv_expiry_delta_arg);
@@ -158,7 +195,6 @@ public class BlindedTail : CommonBase {
 		bool ret = bindings.BlindedTail_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

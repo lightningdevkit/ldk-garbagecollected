@@ -62,6 +62,25 @@ public class Sleeper : CommonBase {
 	}
 
 	/**
+	 * Constructs a new sleeper from four futures, allowing blocking on all four at once.
+	 */
+	public static org.ldk.structs.Sleeper from_four_futures(org.ldk.structs.Future fut_a, org.ldk.structs.Future fut_b, org.ldk.structs.Future fut_c, org.ldk.structs.Future fut_d) {
+		long ret = bindings.Sleeper_from_four_futures(fut_a.ptr, fut_b.ptr, fut_c.ptr, fut_d.ptr);
+		GC.KeepAlive(fut_a);
+		GC.KeepAlive(fut_b);
+		GC.KeepAlive(fut_c);
+		GC.KeepAlive(fut_d);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Sleeper ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Sleeper(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fut_a); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fut_b); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fut_c); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(fut_d); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new sleeper on many futures, allowing blocking on all at once.
 	 */
 	public static org.ldk.structs.Sleeper of(Future[] futures) {

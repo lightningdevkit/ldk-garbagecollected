@@ -385,7 +385,6 @@ public class InvoiceRequest : CommonBase {
 		GC.KeepAlive(key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_VerifiedInvoiceRequestNoneZ ret_hu_conv = Result_VerifiedInvoiceRequestNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(key); };
 		;
 		return ret_hu_conv;
 	}
@@ -406,7 +405,6 @@ public class InvoiceRequest : CommonBase {
 		GC.KeepAlive(key);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_VerifiedInvoiceRequestNoneZ ret_hu_conv = Result_VerifiedInvoiceRequestNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(key); };
 		;
 		return ret_hu_conv;
 	}

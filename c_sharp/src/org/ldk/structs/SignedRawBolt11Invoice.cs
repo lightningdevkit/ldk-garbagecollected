@@ -28,7 +28,6 @@ public class SignedRawBolt11Invoice : CommonBase {
 		bool ret = bindings.SignedRawBolt11Invoice_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -130,7 +129,7 @@ public class SignedRawBolt11Invoice : CommonBase {
 
 	/**
 	 * Checks if the signature is valid for the included payee public key or if none exists if it's
-	 * valid for the recovered signature (which should always be true?).
+	 * possible to recover the public key from the signature.
 	 */
 	public bool check_signature() {
 		bool ret = bindings.SignedRawBolt11Invoice_check_signature(this.ptr);

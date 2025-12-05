@@ -61,6 +61,29 @@ public class CommitmentTransaction : CommonBase {
 	}
 
 	/**
+	 * Constructs a new `CommitmentTransaction` from the list of HTLCs and the direct balances.
+	 * 
+	 * All HTLCs MUST be above the dust limit for the channel.
+	 * The broadcaster and countersignatory amounts MUST be either 0 or above dust. If the amount
+	 * is 0, the corresponding output will be omitted from the transaction.
+	 */
+	public static org.ldk.structs.CommitmentTransaction of(long commitment_number, byte[] per_commitment_point, long to_broadcaster_value_sat, long to_countersignatory_value_sat, int feerate_per_kw, HTLCOutputInCommitment[] nondust_htlcs, org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
+		long ret = bindings.CommitmentTransaction_new(commitment_number, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_point, 33)), to_broadcaster_value_sat, to_countersignatory_value_sat, feerate_per_kw, InternalUtils.encodeUint64Array(InternalUtils.mapArray(nondust_htlcs, nondust_htlcs_conv_24 => nondust_htlcs_conv_24.ptr)), channel_parameters.ptr);
+		GC.KeepAlive(commitment_number);
+		GC.KeepAlive(per_commitment_point);
+		GC.KeepAlive(to_broadcaster_value_sat);
+		GC.KeepAlive(to_countersignatory_value_sat);
+		GC.KeepAlive(feerate_per_kw);
+		GC.KeepAlive(nondust_htlcs);
+		GC.KeepAlive(channel_parameters);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.CommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.CommitmentTransaction(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(channel_parameters); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * The backwards-counting commitment number
 	 */
 	public long commitment_number() {
@@ -99,10 +122,13 @@ public class CommitmentTransaction : CommonBase {
 	}
 
 	/**
-	 * The feerate paid per 1000-weight-unit in this commitment transaction.
+	 * The feerate paid per 1000-weight-unit we negotiated with our
+	 * peer for this commitment transaction. Note that the actual
+	 * feerate of the commitment transaction may be higher than the
+	 * negotiated feerate.
 	 */
-	public int feerate_per_kw() {
-		int ret = bindings.CommitmentTransaction_feerate_per_kw(this.ptr);
+	public int negotiated_feerate_per_kw() {
+		int ret = bindings.CommitmentTransaction_negotiated_feerate_per_kw(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}
@@ -132,17 +158,13 @@ public class CommitmentTransaction : CommonBase {
 	 * An external validating signer must call this method before signing
 	 * or using the built transaction.
 	 */
-	public org.ldk.structs.Result_TrustedCommitmentTransactionNoneZ verify(org.ldk.structs.DirectedChannelTransactionParameters channel_parameters, org.ldk.structs.ChannelPublicKeys broadcaster_keys, org.ldk.structs.ChannelPublicKeys countersignatory_keys) {
-		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters.ptr, broadcaster_keys.ptr, countersignatory_keys.ptr);
+	public org.ldk.structs.Result_TrustedCommitmentTransactionNoneZ verify(org.ldk.structs.DirectedChannelTransactionParameters channel_parameters) {
+		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(channel_parameters);
-		GC.KeepAlive(broadcaster_keys);
-		GC.KeepAlive(countersignatory_keys);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(channel_parameters); };
-		if (this != null) { this.ptrs_to.AddLast(broadcaster_keys); };
-		if (this != null) { this.ptrs_to.AddLast(countersignatory_keys); };
 		return ret_hu_conv;
 	}
 

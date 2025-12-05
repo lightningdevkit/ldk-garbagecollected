@@ -18,17 +18,20 @@ public class InboundHTLCErr : CommonBase {
 	/**
 	 * BOLT 4 error code.
 	 */
-	public short get_err_code() {
-		short ret = bindings.InboundHTLCErr_get_err_code(this.ptr);
+	public org.ldk.structs.LocalHTLCFailureReason get_reason() {
+		long ret = bindings.InboundHTLCErr_get_reason(this.ptr);
 		GC.KeepAlive(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.LocalHTLCFailureReason ret_hu_conv = org.ldk.structs.LocalHTLCFailureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * BOLT 4 error code.
 	 */
-	public void set_err_code(short val) {
-		bindings.InboundHTLCErr_set_err_code(this.ptr, val);
+	public void set_reason(org.ldk.structs.LocalHTLCFailureReason val) {
+		bindings.InboundHTLCErr_set_reason(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -78,9 +81,9 @@ public class InboundHTLCErr : CommonBase {
 	/**
 	 * Constructs a new InboundHTLCErr given each field
 	 */
-	public static org.ldk.structs.InboundHTLCErr of(short err_code_arg, byte[] err_data_arg, string msg_arg) {
-		long ret = bindings.InboundHTLCErr_new(err_code_arg, InternalUtils.encodeUint8Array(err_data_arg), InternalUtils.encodeString(msg_arg));
-		GC.KeepAlive(err_code_arg);
+	public static org.ldk.structs.InboundHTLCErr of(org.ldk.structs.LocalHTLCFailureReason reason_arg, byte[] err_data_arg, string msg_arg) {
+		long ret = bindings.InboundHTLCErr_new(reason_arg.ptr, InternalUtils.encodeUint8Array(err_data_arg), InternalUtils.encodeString(msg_arg));
+		GC.KeepAlive(reason_arg);
 		GC.KeepAlive(err_data_arg);
 		GC.KeepAlive(msg_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -128,7 +131,6 @@ public class InboundHTLCErr : CommonBase {
 		bool ret = bindings.InboundHTLCErr_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

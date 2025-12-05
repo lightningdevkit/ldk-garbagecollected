@@ -21,7 +21,8 @@ public class PaymentContext : CommonBase {
 		long raw_ty = bindings.LDKPaymentContext_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new PaymentContext_Bolt12Offer(ptr);
-			case 1: return new PaymentContext_Bolt12Refund(ptr);
+			case 1: return new PaymentContext_AsyncBolt12Offer(ptr);
+			case 2: return new PaymentContext_Bolt12Refund(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -35,6 +36,16 @@ public class PaymentContext : CommonBase {
 			org.ldk.structs.Bolt12OfferContext bolt12_offer_hu_conv = null; if (bolt12_offer < 0 || bolt12_offer > 4096) { bolt12_offer_hu_conv = new org.ldk.structs.Bolt12OfferContext(null, bolt12_offer); }
 			if (bolt12_offer_hu_conv != null) { bolt12_offer_hu_conv.ptrs_to.AddLast(this); };
 			this.bolt12_offer = bolt12_offer_hu_conv;
+		}
+	}
+	/** A PaymentContext of type AsyncBolt12Offer */
+	public class PaymentContext_AsyncBolt12Offer : PaymentContext {
+		public org.ldk.structs.AsyncBolt12OfferContext async_bolt12_offer;
+		internal PaymentContext_AsyncBolt12Offer(long ptr) : base(null, ptr) {
+			long async_bolt12_offer = bindings.LDKPaymentContext_AsyncBolt12Offer_get_async_bolt12_offer(ptr);
+			org.ldk.structs.AsyncBolt12OfferContext async_bolt12_offer_hu_conv = null; if (async_bolt12_offer < 0 || async_bolt12_offer > 4096) { async_bolt12_offer_hu_conv = new org.ldk.structs.AsyncBolt12OfferContext(null, async_bolt12_offer); }
+			if (async_bolt12_offer_hu_conv != null) { async_bolt12_offer_hu_conv.ptrs_to.AddLast(this); };
+			this.async_bolt12_offer = async_bolt12_offer_hu_conv;
 		}
 	}
 	/** A PaymentContext of type Bolt12Refund */
@@ -70,6 +81,18 @@ public class PaymentContext : CommonBase {
 	 */
 	public static org.ldk.structs.PaymentContext bolt12_offer(org.ldk.structs.Bolt12OfferContext a) {
 		long ret = bindings.PaymentContext_bolt12_offer(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentContext ret_hu_conv = org.ldk.structs.PaymentContext.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new AsyncBolt12Offer-variant PaymentContext
+	 */
+	public static org.ldk.structs.PaymentContext async_bolt12_offer(org.ldk.structs.AsyncBolt12OfferContext a) {
+		long ret = bindings.PaymentContext_async_bolt12_offer(a.ptr);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentContext ret_hu_conv = org.ldk.structs.PaymentContext.constr_from_ptr(ret);

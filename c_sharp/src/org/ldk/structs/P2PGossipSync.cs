@@ -65,14 +65,14 @@ public class P2PGossipSync : CommonBase {
 	}
 
 	/**
-	 * Constructs a new MessageSendEventsProvider which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
+	 * Constructs a new BaseMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseMessageHandler must be freed before this_arg is
 	 */
-	public org.ldk.structs.MessageSendEventsProvider as_MessageSendEventsProvider() {
-		long ret = bindings.P2PGossipSync_as_MessageSendEventsProvider(this.ptr);
+	public org.ldk.structs.BaseMessageHandler as_BaseMessageHandler() {
+		long ret = bindings.P2PGossipSync_as_BaseMessageHandler(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
+		BaseMessageHandler ret_hu_conv = new BaseMessageHandler(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}

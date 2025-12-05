@@ -16,6 +16,36 @@ public class ClaimedHTLC : CommonBase {
 	}
 
 	/**
+	 * The counterparty of the channel.
+	 * 
+	 * This value will always be `None` for objects serialized with LDK versions prior to 0.2 and
+	 * `Some` otherwise.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public byte[] get_counterparty_node_id() {
+		long ret = bindings.ClaimedHTLC_get_counterparty_node_id(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * The counterparty of the channel.
+	 * 
+	 * This value will always be `None` for objects serialized with LDK versions prior to 0.2 and
+	 * `Some` otherwise.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_counterparty_node_id(byte[] val) {
+		bindings.ClaimedHTLC_set_counterparty_node_id(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 33)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * The `channel_id` of the channel over which the HTLC was received.
 	 */
 	public org.ldk.structs.ChannelId get_channel_id() {
@@ -143,9 +173,12 @@ public class ClaimedHTLC : CommonBase {
 
 	/**
 	 * Constructs a new ClaimedHTLC given each field
+	 * 
+	 * Note that counterparty_node_id_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.ClaimedHTLC of(org.ldk.structs.ChannelId channel_id_arg, org.ldk.util.UInt128 user_channel_id_arg, int cltv_expiry_arg, long value_msat_arg, long counterparty_skimmed_fee_msat_arg) {
-		long ret = bindings.ClaimedHTLC_new(channel_id_arg.ptr, InternalUtils.encodeUint8Array(user_channel_id_arg.getLEBytes()), cltv_expiry_arg, value_msat_arg, counterparty_skimmed_fee_msat_arg);
+	public static org.ldk.structs.ClaimedHTLC of(byte[] counterparty_node_id_arg, org.ldk.structs.ChannelId channel_id_arg, org.ldk.util.UInt128 user_channel_id_arg, int cltv_expiry_arg, long value_msat_arg, long counterparty_skimmed_fee_msat_arg) {
+		long ret = bindings.ClaimedHTLC_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(counterparty_node_id_arg, 33)), channel_id_arg.ptr, InternalUtils.encodeUint8Array(user_channel_id_arg.getLEBytes()), cltv_expiry_arg, value_msat_arg, counterparty_skimmed_fee_msat_arg);
+		GC.KeepAlive(counterparty_node_id_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(user_channel_id_arg);
 		GC.KeepAlive(cltv_expiry_arg);
@@ -184,7 +217,6 @@ public class ClaimedHTLC : CommonBase {
 		bool ret = bindings.ClaimedHTLC_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

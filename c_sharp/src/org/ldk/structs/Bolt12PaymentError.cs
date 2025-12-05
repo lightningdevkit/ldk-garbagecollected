@@ -21,6 +21,7 @@ public class Bolt12PaymentError : CommonBase {
 			case 1: return new Bolt12PaymentError_DuplicateInvoice(ptr);
 			case 2: return new Bolt12PaymentError_UnknownRequiredFeatures(ptr);
 			case 3: return new Bolt12PaymentError_SendingFailed(ptr);
+			case 4: return new Bolt12PaymentError_BlindedPathCreationFailed(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -46,6 +47,11 @@ public class Bolt12PaymentError : CommonBase {
 		public RetryableSendFailure sending_failed;
 		internal Bolt12PaymentError_SendingFailed(long ptr) : base(null, ptr) {
 			this.sending_failed = bindings.LDKBolt12PaymentError_SendingFailed_get_sending_failed(ptr);
+		}
+	}
+	/** A Bolt12PaymentError of type BlindedPathCreationFailed */
+	public class Bolt12PaymentError_BlindedPathCreationFailed : Bolt12PaymentError {
+		internal Bolt12PaymentError_BlindedPathCreationFailed(long ptr) : base(null, ptr) {
 		}
 	}
 	internal long clone_ptr() {
@@ -105,6 +111,17 @@ public class Bolt12PaymentError : CommonBase {
 	public static org.ldk.structs.Bolt12PaymentError sending_failed(RetryableSendFailure a) {
 		long ret = bindings.Bolt12PaymentError_sending_failed(a);
 		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt12PaymentError ret_hu_conv = org.ldk.structs.Bolt12PaymentError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BlindedPathCreationFailed-variant Bolt12PaymentError
+	 */
+	public static org.ldk.structs.Bolt12PaymentError blinded_path_creation_failed() {
+		long ret = bindings.Bolt12PaymentError_blinded_path_creation_failed();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Bolt12PaymentError ret_hu_conv = org.ldk.structs.Bolt12PaymentError.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };

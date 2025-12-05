@@ -31,7 +31,6 @@ public class Bolt11Invoice : CommonBase {
 		bool ret = bindings.Bolt11Invoice_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -94,7 +93,7 @@ public class Bolt11Invoice : CommonBase {
 	}
 
 	/**
-	 * Check that the invoice is signed correctly and that key recovery works
+	 * Check that the invoice is signed correctly
 	 */
 	public org.ldk.structs.Result_NoneBolt11SemanticErrorZ check_signature() {
 		long ret = bindings.Bolt11Invoice_check_signature(this.ptr);
@@ -324,6 +323,20 @@ public class Bolt11Invoice : CommonBase {
 		}
 		bindings.free_buffer(ret);
 		return ret_conv_9_arr;
+	}
+
+	/**
+	 * Returns the first fallback address as an [`Address`].
+	 * 
+	 * See [`Self::fallback_addresses`] to fetch all addresses of known type.
+	 */
+	public org.ldk.structs.Option_AddressZ first_fallback_address() {
+		long ret = bindings.Bolt11Invoice_first_fallback_address(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_AddressZ ret_hu_conv = org.ldk.structs.Option_AddressZ.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 	/**

@@ -36,16 +36,51 @@ public class OMNameResolver : CommonBase {
 	}
 
 	/**
+	 * Builds a new [`OMNameResolver`] which will not validate the time limits on DNSSEC proofs
+	 * (for builds without the \"std\" feature and until [`Self::new_best_block`] is called).
+	 * 
+	 * If possible, you should prefer [`Self::new`] so that providing stale proofs is not
+	 * possible, however in no-std environments where there is some trust in the resolver used and
+	 * no time source is available, this may be acceptable.
+	 * 
+	 * Note that not calling [`Self::new_best_block`] will result in requests not timing out and
+	 * unresolved requests leaking memory. You must instead call
+	 * [`Self::expire_pending_resolution`] as unresolved requests expire.
+	 */
+	public static org.ldk.structs.OMNameResolver new_without_no_std_expiry_validation() {
+		long ret = bindings.OMNameResolver_new_without_no_std_expiry_validation();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OMNameResolver ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OMNameResolver(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Informs the [`OMNameResolver`] of the passage of time in the form of a new best Bitcoin
 	 * block.
 	 * 
-	 * This will call back to resolve some pending queries which have timed out.
+	 * This is used to prune stale requests (by block height) and keep track of the current time
+	 * to validate that DNSSEC proofs are current.
 	 */
 	public void new_best_block(int height, int time) {
 		bindings.OMNameResolver_new_best_block(this.ptr, height, time);
 		GC.KeepAlive(this);
 		GC.KeepAlive(height);
 		GC.KeepAlive(time);
+	}
+
+	/**
+	 * Removes any pending resolutions for the given `name` and `payment_id`.
+	 * 
+	 * Any future calls to [`Self::handle_dnssec_proof_for_offer`] or
+	 * [`Self::handle_dnssec_proof_for_uri`] will no longer return a result for the given
+	 * resolution.
+	 */
+	public void expire_pending_resolution(org.ldk.structs.HumanReadableName name, byte[] payment_id) {
+		bindings.OMNameResolver_expire_pending_resolution(this.ptr, name.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(payment_id, 32)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(name);
+		GC.KeepAlive(payment_id);
 	}
 
 	/**

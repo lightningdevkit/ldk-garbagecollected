@@ -40,15 +40,16 @@ public class Amount : CommonBase {
 		/**
 		 * The currency that the amount is denominated in.
 		 */
-		public byte[] iso4217_code;
+		public org.ldk.structs.CurrencyCode iso4217_code;
 		/**
-		 * The amount in the currency unit adjusted by the ISO 4712 exponent (e.g., USD cents).
+		 * The amount in the currency unit adjusted by the ISO 4217 exponent (e.g., USD cents).
 		 */
 		public long amount;
 		internal Amount_Currency(long ptr) : base(null, ptr) {
 			long iso4217_code = bindings.LDKAmount_Currency_get_iso4217_code(ptr);
-			byte[] iso4217_code_conv = InternalUtils.decodeUint8Array(iso4217_code);
-			this.iso4217_code = iso4217_code_conv;
+			org.ldk.structs.CurrencyCode iso4217_code_hu_conv = null; if (iso4217_code < 0 || iso4217_code > 4096) { iso4217_code_hu_conv = new org.ldk.structs.CurrencyCode(null, iso4217_code); }
+			if (iso4217_code_hu_conv != null) { iso4217_code_hu_conv.ptrs_to.AddLast(this); };
+			this.iso4217_code = iso4217_code_hu_conv;
 			this.amount = bindings.LDKAmount_Currency_get_amount(ptr);
 		}
 	}
@@ -85,8 +86,8 @@ public class Amount : CommonBase {
 	/**
 	 * Utility method to constructs a new Currency-variant Amount
 	 */
-	public static org.ldk.structs.Amount currency(byte[] iso4217_code, long amount) {
-		long ret = bindings.Amount_currency(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(iso4217_code, 3)), amount);
+	public static org.ldk.structs.Amount currency(org.ldk.structs.CurrencyCode iso4217_code, long amount) {
+		long ret = bindings.Amount_currency(iso4217_code.ptr, amount);
 		GC.KeepAlive(iso4217_code);
 		GC.KeepAlive(amount);
 		if (ret >= 0 && ret <= 4096) { return null; }

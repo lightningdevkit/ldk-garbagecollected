@@ -149,7 +149,6 @@ public class Packet : CommonBase {
 		bool ret = bindings.Packet_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -166,6 +165,17 @@ public class Packet : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
+	}
+
+	/**
+	 * Read a Packet from a byte array, created by Packet_write
+	 */
+	public static org.ldk.structs.Result_PacketDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Packet_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PacketDecodeErrorZ ret_hu_conv = Result_PacketDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

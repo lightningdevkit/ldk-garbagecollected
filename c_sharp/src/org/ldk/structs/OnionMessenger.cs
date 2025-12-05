@@ -36,6 +36,7 @@ namespace org { namespace ldk { namespace structs {
  * # use lightning::ln::peer_handler::IgnoringMessageHandler;
  * # use lightning::onion_message::messenger::{Destination, MessageRouter, MessageSendInstructions, OnionMessagePath, OnionMessenger};
  * # use lightning::onion_message::packet::OnionMessageContents;
+ * # use lightning::sign::{NodeSigner, ReceiveAuthKey};
  * # use lightning::util::logger::{Logger, Record};
  * # use lightning::util::ser::{Writeable, Writer};
  * # use lightning::io;
@@ -54,18 +55,19 @@ namespace org { namespace ldk { namespace structs {
  * #         Ok(OnionMessagePath {
  * #             intermediate_nodes: vec![hop_node_id1, hop_node_id2],
  * #             destination,
- * #             first_node_addresses: None,
+ * #             first_node_addresses: Vec::new(),
  * #         })
  * #     }
  * #     fn create_blinded_paths<T: secp256k1::Signing + secp256k1::Verification>(
- * #         &self, _recipient: PublicKey, _context: MessageContext, _peers: Vec<PublicKey>, _secp_ctx: &Secp256k1<T>
+ * #         &self, _recipient: PublicKey, _local_node_receive_key: ReceiveAuthKey,
+ * #         _context: MessageContext, _peers: Vec<MessageForwardNode>, _secp_ctx: &Secp256k1<T>
  * #     ) -> Result<Vec<BlindedMessagePath>, ()> {
  * #         unreachable!()
  * #     }
  * # }
  * # let seed = [42u8; 32];
  * # let time = Duration::from_secs(123456);
- * # let keys_manager = KeysManager::new(&seed, time.as_secs(), time.subsec_nanos());
+ * # let keys_manager = KeysManager::new(&seed, time.as_secs(), time.subsec_nanos(), true);
  * # let logger = Arc::new(FakeLogger {});
  * # let node_secret = SecretKey::from_slice(&<Vec<u8>>::from_hex(\"0101010101010101010101010101010101010101010101010101010101010101\").unwrap()[..]).unwrap();
  * # let secp_ctx = Secp256k1::new();
@@ -114,7 +116,8 @@ namespace org { namespace ldk { namespace structs {
  * \tMessageForwardNode { node_id: hop_node_id4, short_channel_id: None },
  * ];
  * let context = MessageContext::Custom(Vec::new());
- * let blinded_path = BlindedMessagePath::new(&hops, your_node_id, context, &keys_manager, &secp_ctx).unwrap();
+ * let receive_key = keys_manager.get_receive_auth_key();
+ * let blinded_path = BlindedMessagePath::new(&hops, your_node_id, receive_key, context, &keys_manager, &secp_ctx);
  * 
  * Send a custom onion message to a blinded path.
  * let destination = Destination::BlindedPath(blinded_path);
@@ -289,6 +292,19 @@ public class OnionMessenger : CommonBase {
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new BaseMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseMessageHandler must be freed before this_arg is
+	 */
+	public org.ldk.structs.BaseMessageHandler as_BaseMessageHandler() {
+		long ret = bindings.OnionMessenger_as_BaseMessageHandler(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BaseMessageHandler ret_hu_conv = new BaseMessageHandler(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}

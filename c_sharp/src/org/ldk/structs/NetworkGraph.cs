@@ -135,7 +135,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -151,7 +150,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -172,7 +170,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		if (this != null) { this.ptrs_to.AddLast(utxo_lookup); };
 		return ret_hu_conv;
 	}
@@ -192,7 +189,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -211,7 +207,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(utxo_lookup);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		if (this != null) { this.ptrs_to.AddLast(utxo_lookup); };
 		return ret_hu_conv;
 	}
@@ -224,10 +219,11 @@ public class NetworkGraph : CommonBase {
 	 * 
 	 * All other parameters as used in [`msgs::UnsignedChannelAnnouncement`] fields.
 	 */
-	public org.ldk.structs.Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, long timestamp, org.ldk.structs.ChannelFeatures features, byte[] node_id_1, byte[] node_id_2) {
-		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, timestamp, features.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id_1, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(node_id_2, 33)));
+	public org.ldk.structs.Result_NoneLightningErrorZ add_channel_from_partial_announcement(long short_channel_id, org.ldk.structs.Option_u64Z capacity_sats, long timestamp, org.ldk.structs.ChannelFeatures features, org.ldk.structs.NodeId node_id_1, org.ldk.structs.NodeId node_id_2) {
+		long ret = bindings.NetworkGraph_add_channel_from_partial_announcement(this.ptr, short_channel_id, capacity_sats.ptr, timestamp, features.ptr, node_id_1.ptr, node_id_2.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(short_channel_id);
+		GC.KeepAlive(capacity_sats);
 		GC.KeepAlive(timestamp);
 		GC.KeepAlive(features);
 		GC.KeepAlive(node_id_1);
@@ -319,7 +315,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -337,7 +332,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 
@@ -355,7 +349,6 @@ public class NetworkGraph : CommonBase {
 		GC.KeepAlive(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(msg); };
 		return ret_hu_conv;
 	}
 

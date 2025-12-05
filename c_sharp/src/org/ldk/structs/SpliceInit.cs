@@ -59,8 +59,8 @@ public class SpliceInit : CommonBase {
 	/**
 	 * The feerate for the new funding transaction, set by the splice initiator
 	 */
-	public int get_funding_feerate_perkw() {
-		int ret = bindings.SpliceInit_get_funding_feerate_perkw(this.ptr);
+	public int get_funding_feerate_per_kw() {
+		int ret = bindings.SpliceInit_get_funding_feerate_per_kw(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}
@@ -68,8 +68,8 @@ public class SpliceInit : CommonBase {
 	/**
 	 * The feerate for the new funding transaction, set by the splice initiator
 	 */
-	public void set_funding_feerate_perkw(int val) {
-		bindings.SpliceInit_set_funding_feerate_perkw(this.ptr, val);
+	public void set_funding_feerate_per_kw(int val) {
+		bindings.SpliceInit_set_funding_feerate_per_kw(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -133,11 +133,11 @@ public class SpliceInit : CommonBase {
 	/**
 	 * Constructs a new SpliceInit given each field
 	 */
-	public static org.ldk.structs.SpliceInit of(org.ldk.structs.ChannelId channel_id_arg, long funding_contribution_satoshis_arg, int funding_feerate_perkw_arg, int locktime_arg, byte[] funding_pubkey_arg, COption_NoneZ require_confirmed_inputs_arg) {
-		long ret = bindings.SpliceInit_new(channel_id_arg.ptr, funding_contribution_satoshis_arg, funding_feerate_perkw_arg, locktime_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_pubkey_arg, 33)), require_confirmed_inputs_arg);
+	public static org.ldk.structs.SpliceInit of(org.ldk.structs.ChannelId channel_id_arg, long funding_contribution_satoshis_arg, int funding_feerate_per_kw_arg, int locktime_arg, byte[] funding_pubkey_arg, COption_NoneZ require_confirmed_inputs_arg) {
+		long ret = bindings.SpliceInit_new(channel_id_arg.ptr, funding_contribution_satoshis_arg, funding_feerate_per_kw_arg, locktime_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(funding_pubkey_arg, 33)), require_confirmed_inputs_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(funding_contribution_satoshis_arg);
-		GC.KeepAlive(funding_feerate_perkw_arg);
+		GC.KeepAlive(funding_feerate_per_kw_arg);
 		GC.KeepAlive(locktime_arg);
 		GC.KeepAlive(funding_pubkey_arg);
 		GC.KeepAlive(require_confirmed_inputs_arg);
@@ -174,7 +174,6 @@ public class SpliceInit : CommonBase {
 		bool ret = bindings.SpliceInit_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

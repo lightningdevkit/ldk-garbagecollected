@@ -361,10 +361,8 @@ public class CommonOpenChannelFields : CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent
-	 * 
-	 * If this is `None`, we derive the channel type from the intersection of our
-	 * feature bits with our counterparty's feature bits from the [`Init`] message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -378,10 +376,8 @@ public class CommonOpenChannelFields : CommonBase {
 	}
 
 	/**
-	 * The channel type that this channel will represent
-	 * 
-	 * If this is `None`, we derive the channel type from the intersection of our
-	 * feature bits with our counterparty's feature bits from the [`Init`] message.
+	 * The channel type that this channel will represent. As defined in the latest
+	 * specification, this field is required. However, it is an `Option` for legacy reasons.
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -461,7 +457,6 @@ public class CommonOpenChannelFields : CommonBase {
 		bool ret = bindings.CommonOpenChannelFields_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
