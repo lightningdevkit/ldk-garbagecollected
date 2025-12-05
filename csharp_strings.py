@@ -673,6 +673,8 @@ int CS_LDK_register_{fn_suffix}_invoker(invoker_{fn_suffix} invoker) {{
             return "byte[] " + conv_name + " = InternalUtils.decodeUint8Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
             return "short[] " + conv_name + " = InternalUtils.decodeUint16Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint32_t" or mapped_ty.c_ty == "int32_t":
+            return "int[] " + conv_name + " = InternalUtils.decodeUint32Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t" or mapped_ty.c_ty == "int64_t":
             return "long[] " + conv_name + " = InternalUtils.decodeUint64Array(" + arr_name + ");"
         else:
