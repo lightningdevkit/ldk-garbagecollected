@@ -55,6 +55,7 @@ export class NodeLDKNet {
 		let descriptor = ldk.SocketDescriptor.new_impl ({
 			send_data(data: Uint8Array, resume_read: boolean): number {
 				if (resume_read) socket.resume();
+				else socket.pause();
 
 				if (sock_write_waiting) return 0;
 				const written = socket.write(data);
@@ -83,7 +84,6 @@ export class NodeLDKNet {
 		socket.on("data", function(data) {
 			const res = this_pm.read_event(descriptor, data);
 			if (!res.is_ok()) descriptor.disconnect_socket();
-			else if ((res as ldk.Result_boolPeerHandleErrorZ_OK).res) socket.pause();
 			this_pm.process_events();
 		});
 
