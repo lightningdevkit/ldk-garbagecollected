@@ -192,7 +192,11 @@ jobs:
           fetch-depth: 0
       - name: Install cbindgen
         run: |
-          cargo install cbindgen
+          git clone https://github.com/eqrion/cbindgen
+          cd cbindgen/
+          git checkout v0.20.0
+          cargo update -p indexmap --precise "1.6.2" --verbose
+          cargo install --locked --path .
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global safe.directory '*'
