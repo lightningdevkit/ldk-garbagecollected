@@ -237,6 +237,8 @@ public class PeerManager extends CommonBase {
 	 * [`send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards
 	 * [`send_data`]: SocketDescriptor::send_data
+	 * [`lightning-net-tokio`]: https://docs.rs/lightning-net-tokio/latest/lightning_net_tokio
+	 * [`lightning-background-processor`]: https://docs.rs/lightning-background-processor/latest/lightning_background_processor
 	 */
 	public void process_events() {
 		bindings.PeerManager_process_events(this.ptr);
