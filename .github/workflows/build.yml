@@ -40,13 +40,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -146,13 +146,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -201,13 +201,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -390,13 +390,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -456,13 +456,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -588,13 +588,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
@@ -730,13 +730,13 @@ jobs:
           # Note this is a different endpoint, as we need one non-upstream commit!
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
-          git checkout origin/0.1-bindings
+          git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.1
+          git checkout 0.2
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
