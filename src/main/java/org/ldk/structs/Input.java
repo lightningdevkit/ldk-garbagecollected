@@ -138,7 +138,6 @@ public class Input extends CommonBase {
 		boolean ret = bindings.Input_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

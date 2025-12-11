@@ -16,19 +16,6 @@ public class UnauthenticatedReceiveTlvs : CommonBase {
 	}
 
 	/**
-	 * Constructs a new Verification which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned Verification must be freed before this_arg is
-	 */
-	public org.ldk.structs.Verification as_Verification() {
-		long ret = bindings.UnauthenticatedReceiveTlvs_as_Verification(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Verification ret_hu_conv = new Verification(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Used to authenticate the sender of a payment to the receiver and tie MPP HTLCs together.
 	 */
 	public byte[] get_payment_secret() {
@@ -134,7 +121,6 @@ public class UnauthenticatedReceiveTlvs : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ReceiveTlvs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ReceiveTlvs(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		if (this != null) { this.ptrs_to.AddLast(expanded_key); };
 		;
 		return ret_hu_conv;
 	}
@@ -148,6 +134,19 @@ public class UnauthenticatedReceiveTlvs : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
+	}
+
+	/**
+	 * Constructs a new Verification which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Verification must be freed before this_arg is
+	 */
+	public org.ldk.structs.Verification as_Verification() {
+		long ret = bindings.UnauthenticatedReceiveTlvs_as_Verification(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Verification ret_hu_conv = new Verification(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
 	}
 
 }

@@ -148,7 +148,6 @@ public class Packet extends CommonBase {
 		boolean ret = bindings.Packet_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -163,6 +162,17 @@ public class Packet extends CommonBase {
 		byte[] ret = bindings.Packet_write(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Read a Packet from a byte array, created by Packet_write
+	 */
+	public static Result_PacketDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Packet_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PacketDecodeErrorZ ret_hu_conv = Result_PacketDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

@@ -60,12 +60,31 @@ public class AnchorDescriptor : CommonBase {
 	}
 
 	/**
+	 * Zero-fee-commitment anchors have variable value, which is tracked here.
+	 */
+	public long get_value() {
+		long ret = bindings.AnchorDescriptor_get_value(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Zero-fee-commitment anchors have variable value, which is tracked here.
+	 */
+	public void set_value(long val) {
+		bindings.AnchorDescriptor_set_value(this.ptr, val);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * Constructs a new AnchorDescriptor given each field
 	 */
-	public static org.ldk.structs.AnchorDescriptor of(org.ldk.structs.ChannelDerivationParameters channel_derivation_parameters_arg, org.ldk.structs.OutPoint outpoint_arg) {
-		long ret = bindings.AnchorDescriptor_new(channel_derivation_parameters_arg.ptr, outpoint_arg.ptr);
+	public static org.ldk.structs.AnchorDescriptor of(org.ldk.structs.ChannelDerivationParameters channel_derivation_parameters_arg, org.ldk.structs.OutPoint outpoint_arg, long value_arg) {
+		long ret = bindings.AnchorDescriptor_new(channel_derivation_parameters_arg.ptr, outpoint_arg.ptr, value_arg);
 		GC.KeepAlive(channel_derivation_parameters_arg);
 		GC.KeepAlive(outpoint_arg);
+		GC.KeepAlive(value_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.AnchorDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AnchorDescriptor(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -99,7 +118,6 @@ public class AnchorDescriptor : CommonBase {
 		bool ret = bindings.AnchorDescriptor_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -132,17 +150,6 @@ public class AnchorDescriptor : CommonBase {
 	}
 
 	/**
-	 * Returns the witness script of the anchor output in the commitment transaction.
-	 */
-	public byte[] witness_script() {
-		long ret = bindings.AnchorDescriptor_witness_script(this.ptr);
-		GC.KeepAlive(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
 	 * Returns the fully signed witness required to spend the anchor output in the commitment
 	 * transaction.
 	 */
@@ -153,20 +160,6 @@ public class AnchorDescriptor : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
 		return ret_conv;
-	}
-
-	/**
-	 * Derives the channel signer required to sign the anchor input.
-	 */
-	public org.ldk.structs.EcdsaChannelSigner derive_channel_signer(org.ldk.structs.SignerProvider signer_provider) {
-		long ret = bindings.AnchorDescriptor_derive_channel_signer(this.ptr, signer_provider.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(signer_provider);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		EcdsaChannelSigner ret_hu_conv = new EcdsaChannelSigner(null, ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		if (this != null) { this.ptrs_to.AddLast(signer_provider); };
-		return ret_hu_conv;
 	}
 
 }

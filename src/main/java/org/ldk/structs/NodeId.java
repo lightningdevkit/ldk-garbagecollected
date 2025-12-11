@@ -9,7 +9,12 @@ import javax.annotation.Nullable;
 
 
 /**
- * Represents the compressed public key of a node
+ * A compressed pubkey which a node uses to sign announcements and decode HTLCs routed through it.
+ * 
+ * This type stores a simple byte array which is not checked for validity (i.e. that it describes
+ * a point which lies on the secp256k1 curve), unlike [`PublicKey`], as validity checking would
+ * otherwise represent a large portion of [`NetworkGraph`] deserialization time (and RGS
+ * application).
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NodeId extends CommonBase {
@@ -47,7 +52,6 @@ public class NodeId extends CommonBase {
 		boolean ret = bindings.NodeId_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -145,6 +149,18 @@ public class NodeId extends CommonBase {
 		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeIdDecodeErrorZ ret_hu_conv = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a NodeId from a PublicKey
+	 */
+	public static NodeId from_PublicKey(byte[] f) {
+		long ret = bindings.NodeId_from_PublicKey(InternalUtils.check_arr_len(f, 33));
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeId(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

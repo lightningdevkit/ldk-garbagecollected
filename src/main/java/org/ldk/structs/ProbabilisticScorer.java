@@ -90,7 +90,6 @@ public class ProbabilisticScorer extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_C2Tuple_u64u64ZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_u64u64ZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(target); };
 		return ret_hu_conv;
 	}
 
@@ -130,7 +129,6 @@ public class ProbabilisticScorer extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_C2Tuple_ThirtyTwoU16sThirtyTwoU16sZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_ThirtyTwoU16sThirtyTwoU16sZZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(target); };
 		return ret_hu_conv;
 	}
 
@@ -160,8 +158,6 @@ public class ProbabilisticScorer extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_f64Z ret_hu_conv = org.ldk.structs.Option_f64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(target); };
-		if (this != null) { this.ptrs_to.add(params); };
 		return ret_hu_conv;
 	}
 
@@ -182,8 +178,27 @@ public class ProbabilisticScorer extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.Option_f64Z ret_hu_conv = org.ldk.structs.Option_f64Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		if (this != null) { this.ptrs_to.add(target); };
-		if (this != null) { this.ptrs_to.add(params); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Overwrite the scorer state with the given external scores.
+	 */
+	public void set_scores(org.ldk.structs.ChannelLiquidities external_scores) {
+		bindings.ProbabilisticScorer_set_scores(this.ptr, external_scores.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(external_scores);
+	}
+
+	/**
+	 * Returns the current scores.
+	 */
+	public ChannelLiquidities scores() {
+		long ret = bindings.ProbabilisticScorer_scores(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelLiquidities ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelLiquidities(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

@@ -46,23 +46,6 @@ public class ChannelTypeFeatures : CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two ChannelTypeFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public bool eq(org.ldk.structs.ChannelTypeFeatures b) {
-		bool ret = bindings.ChannelTypeFeatures_eq(this.ptr, b.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
-		return ret;
-	}
-
-	public override bool Equals(object o) {
-		if (!(o is ChannelTypeFeatures)) return false;
-		return this.eq((ChannelTypeFeatures)o);
-	}
 	internal long clone_ptr() {
 		long ret = bindings.ChannelTypeFeatures_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -116,6 +99,17 @@ public class ChannelTypeFeatures : CommonBase {
 	}
 
 	/**
+	 * Constructs a ChannelTypeFeatures with zero fee commitment anchors support.
+	 */
+	public static org.ldk.structs.ChannelTypeFeatures anchors_zero_fee_commitments() {
+		long ret = bindings.ChannelTypeFeatures_anchors_zero_fee_commitments();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelTypeFeatures(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Create a blank Features with no features set
 	 */
 	public static org.ldk.structs.ChannelTypeFeatures empty() {
@@ -154,7 +148,6 @@ public class ChannelTypeFeatures : CommonBase {
 		bool ret = bindings.ChannelTypeFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(other);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret;
 	}
 
@@ -167,7 +160,6 @@ public class ChannelTypeFeatures : CommonBase {
 		GC.KeepAlive(other);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		long[] ret_conv = InternalUtils.decodeUint64Array(ret);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret_conv;
 	}
 
@@ -263,22 +255,6 @@ public class ChannelTypeFeatures : CommonBase {
 	}
 
 	/**
-	 * Unsets the `scid_privacy` feature
-	 */
-	public void clear_scid_privacy() {
-		bindings.ChannelTypeFeatures_clear_scid_privacy(this.ptr);
-		GC.KeepAlive(this);
-	}
-
-	/**
-	 * Unsets the `anchors_zero_fee_htlc_tx` feature
-	 */
-	public void clear_anchors_zero_fee_htlc_tx() {
-		bindings.ChannelTypeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
-		GC.KeepAlive(this);
-	}
-
-	/**
 	 * Set this feature as optional.
 	 */
 	public void set_static_remote_key_optional() {
@@ -291,6 +267,14 @@ public class ChannelTypeFeatures : CommonBase {
 	 */
 	public void set_static_remote_key_required() {
 		bindings.ChannelTypeFeatures_set_static_remote_key_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_static_remote_key() {
+		bindings.ChannelTypeFeatures_clear_static_remote_key(this.ptr);
 		GC.KeepAlive(this);
 	}
 
@@ -329,6 +313,14 @@ public class ChannelTypeFeatures : CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_nonzero_fee_htlc_tx() {
+		bindings.ChannelTypeFeatures_clear_anchors_nonzero_fee_htlc_tx(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public bool supports_anchors_nonzero_fee_htlc_tx() {
@@ -359,6 +351,14 @@ public class ChannelTypeFeatures : CommonBase {
 	 */
 	public void set_anchors_zero_fee_htlc_tx_required() {
 		bindings.ChannelTypeFeatures_set_anchors_zero_fee_htlc_tx_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchors_zero_fee_htlc_tx() {
+		bindings.ChannelTypeFeatures_clear_anchors_zero_fee_htlc_tx(this.ptr);
 		GC.KeepAlive(this);
 	}
 
@@ -397,6 +397,14 @@ public class ChannelTypeFeatures : CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_taproot() {
+		bindings.ChannelTypeFeatures_clear_taproot(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public bool supports_taproot() {
@@ -427,6 +435,14 @@ public class ChannelTypeFeatures : CommonBase {
 	 */
 	public void set_scid_privacy_required() {
 		bindings.ChannelTypeFeatures_set_scid_privacy_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_scid_privacy() {
+		bindings.ChannelTypeFeatures_clear_scid_privacy(this.ptr);
 		GC.KeepAlive(this);
 	}
 
@@ -465,10 +481,51 @@ public class ChannelTypeFeatures : CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void supports_zero_conf() {
+		bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
-	public bool supports_zero_conf() {
-		bool ret = bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+	public bool requires_zero_conf() {
+		bool ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Set this feature as optional.
+	 */
+	public void set_anchor_zero_fee_commitments_optional() {
+		bindings.ChannelTypeFeatures_set_anchor_zero_fee_commitments_optional(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Set this feature as required.
+	 */
+	public void set_anchor_zero_fee_commitments_required() {
+		bindings.ChannelTypeFeatures_set_anchor_zero_fee_commitments_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_anchor_zero_fee_commitments() {
+		bindings.ChannelTypeFeatures_clear_anchor_zero_fee_commitments(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Checks if this feature is supported.
+	 */
+	public bool supports_anchor_zero_fee_commitments() {
+		bool ret = bindings.ChannelTypeFeatures_supports_anchor_zero_fee_commitments(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}
@@ -476,8 +533,8 @@ public class ChannelTypeFeatures : CommonBase {
 	/**
 	 * Checks if this feature is required.
 	 */
-	public bool requires_zero_conf() {
-		bool ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);
+	public bool requires_anchor_zero_fee_commitments() {
+		bool ret = bindings.ChannelTypeFeatures_requires_anchor_zero_fee_commitments(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}

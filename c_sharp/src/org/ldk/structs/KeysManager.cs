@@ -44,13 +44,19 @@ public class KeysManager : CommonBase {
 	 * [`ChannelMonitor`] data, though a current copy of [`ChannelMonitor`] data is also required
 	 * for any channel, and some on-chain during-closing funds.
 	 * 
+	 * If `v2_remote_key_derivation` is set, the `script_pubkey`s which receive funds on-chain when
+	 * our counterparty force-closes will be one of a static set of [`STATIC_PAYMENT_KEY_COUNT`]*2
+	 * possible `script_pubkey`s. This only applies to new or spliced channels, however if this is
+	 * set you *MUST NOT* downgrade to a version of LDK prior to 0.2.
+	 * 
 	 * [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
 	 */
-	public static org.ldk.structs.KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos) {
-		long ret = bindings.KeysManager_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos);
+	public static org.ldk.structs.KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos, bool v2_remote_key_derivation) {
+		long ret = bindings.KeysManager_new(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos, v2_remote_key_derivation);
 		GC.KeepAlive(seed);
 		GC.KeepAlive(starting_time_secs);
 		GC.KeepAlive(starting_time_nanos);
+		GC.KeepAlive(v2_remote_key_derivation);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.KeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.KeysManager(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -69,12 +75,39 @@ public class KeysManager : CommonBase {
 	}
 
 	/**
+	 * Gets the set of possible `script_pubkey`s which can appear on chain for our
+	 * non-HTLC-encumbered balance if our counterparty force-closes a channel.
+	 * 
+	 * If you've lost all data except your seed, asking your peers nicely to force-close the
+	 * chanels they had with you (and hoping they don't broadcast a stale state and that there are
+	 * no pending HTLCs in the latest state) and scanning the chain for these `script_pubkey`s can
+	 * allow you to recover (some of) your funds.
+	 * 
+	 * Only channels opened when using a [`KeysManager`] with the `v2_remote_key_derivation`
+	 * argument to [`KeysManager::new`] set, or any spliced channels will close to such scripts,
+	 * other channels will close to a randomly-generated `script_pubkey`.
+	 */
+	public byte[][] possible_v2_counterparty_closed_balance_spks() {
+		long ret = bindings.KeysManager_possible_v2_counterparty_closed_balance_spks(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_8_len = InternalUtils.getArrayLength(ret);
+		byte[][] ret_conv_8_arr = new byte[ret_conv_8_len][];
+		for (int i = 0; i < ret_conv_8_len; i++) {
+			long ret_conv_8 = InternalUtils.getU64ArrayElem(ret, i);
+			byte[] ret_conv_8_conv = InternalUtils.decodeUint8Array(ret_conv_8);
+			ret_conv_8_arr[i] = ret_conv_8_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_8_arr;
+	}
+
+	/**
 	 * Derive an old [`EcdsaChannelSigner`] containing per-channel secrets based on a key derivation parameters.
 	 */
-	public org.ldk.structs.InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] _params) {
-		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(_params, 32)));
+	public org.ldk.structs.InMemorySigner derive_channel_keys(byte[] _params) {
+		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(_params, 32)));
 		GC.KeepAlive(this);
-		GC.KeepAlive(channel_value_satoshis);
 		GC.KeepAlive(_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InMemorySigner(null, ret); }

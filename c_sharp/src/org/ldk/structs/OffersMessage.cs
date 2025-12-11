@@ -21,7 +21,8 @@ public class OffersMessage : CommonBase {
 		switch (raw_ty) {
 			case 0: return new OffersMessage_InvoiceRequest(ptr);
 			case 1: return new OffersMessage_Invoice(ptr);
-			case 2: return new OffersMessage_InvoiceError(ptr);
+			case 2: return new OffersMessage_StaticInvoice(ptr);
+			case 3: return new OffersMessage_InvoiceError(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -45,6 +46,16 @@ public class OffersMessage : CommonBase {
 			org.ldk.structs.Bolt12Invoice invoice_hu_conv = null; if (invoice < 0 || invoice > 4096) { invoice_hu_conv = new org.ldk.structs.Bolt12Invoice(null, invoice); }
 			if (invoice_hu_conv != null) { invoice_hu_conv.ptrs_to.AddLast(this); };
 			this.invoice = invoice_hu_conv;
+		}
+	}
+	/** A OffersMessage of type StaticInvoice */
+	public class OffersMessage_StaticInvoice : OffersMessage {
+		public org.ldk.structs.StaticInvoice static_invoice;
+		internal OffersMessage_StaticInvoice(long ptr) : base(null, ptr) {
+			long static_invoice = bindings.LDKOffersMessage_StaticInvoice_get_static_invoice(ptr);
+			org.ldk.structs.StaticInvoice static_invoice_hu_conv = null; if (static_invoice < 0 || static_invoice > 4096) { static_invoice_hu_conv = new org.ldk.structs.StaticInvoice(null, static_invoice); }
+			if (static_invoice_hu_conv != null) { static_invoice_hu_conv.ptrs_to.AddLast(this); };
+			this.static_invoice = static_invoice_hu_conv;
 		}
 	}
 	/** A OffersMessage of type InvoiceError */
@@ -100,6 +111,18 @@ public class OffersMessage : CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new StaticInvoice-variant OffersMessage
+	 */
+	public static org.ldk.structs.OffersMessage static_invoice(org.ldk.structs.StaticInvoice a) {
+		long ret = bindings.OffersMessage_static_invoice(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OffersMessage ret_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new InvoiceError-variant OffersMessage
 	 */
 	public static org.ldk.structs.OffersMessage invoice_error(org.ldk.structs.InvoiceError a) {
@@ -145,7 +168,6 @@ public class OffersMessage : CommonBase {
 		GC.KeepAlive(arg_b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OffersMessageDecodeErrorZ ret_hu_conv = Result_OffersMessageDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(arg_b); };
 		return ret_hu_conv;
 	}
 

@@ -25,6 +25,10 @@ public enum Bolt12SemanticError {
 	 */
 	LDKBolt12SemanticError_InvalidAmount,
 	/**
+	 * The currency code did not contain valid ASCII uppercase letters.
+	 */
+	LDKBolt12SemanticError_InvalidCurrencyCode,
+	/**
 	 * An amount was provided but was not sufficient in value.
 	 */
 	LDKBolt12SemanticError_InsufficientAmount,

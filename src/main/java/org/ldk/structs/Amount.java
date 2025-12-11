@@ -51,14 +51,17 @@ public class Amount extends CommonBase {
 		/**
 		 * The currency that the amount is denominated in.
 		*/
-		public final byte[] iso4217_code;
+		public final org.ldk.structs.CurrencyCode iso4217_code;
 		/**
-		 * The amount in the currency unit adjusted by the ISO 4712 exponent (e.g., USD cents).
+		 * The amount in the currency unit adjusted by the ISO 4217 exponent (e.g., USD cents).
 		*/
 		public final long amount;
 		private Currency(long ptr, bindings.LDKAmount.Currency obj) {
 			super(null, ptr);
-			this.iso4217_code = obj.iso4217_code;
+			long iso4217_code = obj.iso4217_code;
+			org.ldk.structs.CurrencyCode iso4217_code_hu_conv = null; if (iso4217_code < 0 || iso4217_code > 4096) { iso4217_code_hu_conv = new org.ldk.structs.CurrencyCode(null, iso4217_code); }
+			if (iso4217_code_hu_conv != null) { iso4217_code_hu_conv.ptrs_to.add(this); };
+			this.iso4217_code = iso4217_code_hu_conv;
 			this.amount = obj.amount;
 		}
 	}
@@ -95,8 +98,8 @@ public class Amount extends CommonBase {
 	/**
 	 * Utility method to constructs a new Currency-variant Amount
 	 */
-	public static Amount currency(byte[] iso4217_code, long amount) {
-		long ret = bindings.Amount_currency(InternalUtils.check_arr_len(iso4217_code, 3), amount);
+	public static Amount currency(org.ldk.structs.CurrencyCode iso4217_code, long amount) {
+		long ret = bindings.Amount_currency(iso4217_code.ptr, amount);
 		Reference.reachabilityFence(iso4217_code);
 		Reference.reachabilityFence(amount);
 		if (ret >= 0 && ret <= 4096) { return null; }

@@ -80,13 +80,42 @@ public class UpdateFulfillHTLC extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new UpdateFulfillHTLC given each field
+	 * Optional field for attribution data that allows the sender to receive per hop HTLC hold times.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static UpdateFulfillHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
-		long ret = bindings.UpdateFulfillHTLC_new(channel_id_arg.ptr, htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
+	@Nullable
+	public AttributionData get_attribution_data() {
+		long ret = bindings.UpdateFulfillHTLC_get_attribution_data(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.AttributionData ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.AttributionData(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Optional field for attribution data that allows the sender to receive per hop HTLC hold times.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_attribution_data(@Nullable org.ldk.structs.AttributionData val) {
+		bindings.UpdateFulfillHTLC_set_attribution_data(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Constructs a new UpdateFulfillHTLC given each field
+	 * 
+	 * Note that attribution_data_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static UpdateFulfillHTLC of(org.ldk.structs.ChannelId channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg, @Nullable org.ldk.structs.AttributionData attribution_data_arg) {
+		long ret = bindings.UpdateFulfillHTLC_new(channel_id_arg.ptr, htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32), attribution_data_arg == null ? 0 : attribution_data_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(htlc_id_arg);
 		Reference.reachabilityFence(payment_preimage_arg);
+		Reference.reachabilityFence(attribution_data_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UpdateFulfillHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
@@ -132,7 +161,6 @@ public class UpdateFulfillHTLC extends CommonBase {
 		boolean ret = bindings.UpdateFulfillHTLC_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

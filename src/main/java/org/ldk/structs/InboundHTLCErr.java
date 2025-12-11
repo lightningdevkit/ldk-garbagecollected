@@ -23,17 +23,20 @@ public class InboundHTLCErr extends CommonBase {
 	/**
 	 * BOLT 4 error code.
 	 */
-	public short get_err_code() {
-		short ret = bindings.InboundHTLCErr_get_err_code(this.ptr);
+	public LocalHTLCFailureReason get_reason() {
+		long ret = bindings.InboundHTLCErr_get_reason(this.ptr);
 		Reference.reachabilityFence(this);
-		return ret;
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.LocalHTLCFailureReason ret_hu_conv = org.ldk.structs.LocalHTLCFailureReason.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
 	}
 
 	/**
 	 * BOLT 4 error code.
 	 */
-	public void set_err_code(short val) {
-		bindings.InboundHTLCErr_set_err_code(this.ptr, val);
+	public void set_reason(org.ldk.structs.LocalHTLCFailureReason val) {
+		bindings.InboundHTLCErr_set_reason(this.ptr, val.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -79,9 +82,9 @@ public class InboundHTLCErr extends CommonBase {
 	/**
 	 * Constructs a new InboundHTLCErr given each field
 	 */
-	public static InboundHTLCErr of(short err_code_arg, byte[] err_data_arg, java.lang.String msg_arg) {
-		long ret = bindings.InboundHTLCErr_new(err_code_arg, err_data_arg, msg_arg);
-		Reference.reachabilityFence(err_code_arg);
+	public static InboundHTLCErr of(org.ldk.structs.LocalHTLCFailureReason reason_arg, byte[] err_data_arg, java.lang.String msg_arg) {
+		long ret = bindings.InboundHTLCErr_new(reason_arg.ptr, err_data_arg, msg_arg);
+		Reference.reachabilityFence(reason_arg);
 		Reference.reachabilityFence(err_data_arg);
 		Reference.reachabilityFence(msg_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
@@ -129,7 +132,6 @@ public class InboundHTLCErr extends CommonBase {
 		boolean ret = bindings.InboundHTLCErr_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

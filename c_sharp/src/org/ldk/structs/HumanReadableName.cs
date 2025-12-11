@@ -9,11 +9,14 @@ namespace org { namespace ldk { namespace structs {
 /**
  * A struct containing the two parts of a BIP 353 Human Readable Name - the user and domain parts.
  * 
- * The `user` and `domain` parts, together, cannot exceed 232 bytes in length, and both must be
+ * The `user` and `domain` parts, together, cannot exceed 231 bytes in length, and both must be
  * non-empty.
  * 
- * To protect against [Homograph Attacks], both parts of a Human Readable Name must be plain
- * ASCII.
+ * If you intend to handle non-ASCII `user` or `domain` parts, you must handle [Homograph Attacks]
+ * and do punycode en-/de-coding yourself. This struct will always handle only plain ASCII `user`
+ * and `domain` parts.
+ * 
+ * This struct can also be used for LN-Address recipients.
  * 
  * [Homograph Attacks]: https://en.wikipedia.org/wiki/IDN_homograph_attack
  */
@@ -62,7 +65,6 @@ public class HumanReadableName : CommonBase {
 		bool ret = bindings.HumanReadableName_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -139,6 +141,17 @@ public class HumanReadableName : CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HumanReadableNameDecodeErrorZ ret_hu_conv = Result_HumanReadableNameDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Get the string representation of a HumanReadableName object
+	 */
+	public string to_str() {
+		long ret = bindings.HumanReadableName_to_str(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		string ret_conv = InternalUtils.decodeString(ret);
+		return ret_conv;
 	}
 
 }

@@ -14,13 +14,13 @@ import { ConfirmationTarget } from '../enums/ConfirmationTarget.mjs';
 import { CreationError } from '../enums/CreationError.mjs';
 import { Currency } from '../enums/Currency.mjs';
 import { Direction } from '../enums/Direction.mjs';
+import { FundingLockedFlags } from '../enums/FundingLockedFlags.mjs';
 import { HTLCClaim } from '../enums/HTLCClaim.mjs';
 import { IOError } from '../enums/IOError.mjs';
 import { InboundHTLCStateDetails } from '../enums/InboundHTLCStateDetails.mjs';
-import { LSPS1OrderState } from '../enums/LSPS1OrderState.mjs';
-import { LSPS1PaymentState } from '../enums/LSPS1PaymentState.mjs';
 import { Level } from '../enums/Level.mjs';
 import { Network } from '../enums/Network.mjs';
+import { NextFundingFlag } from '../enums/NextFundingFlag.mjs';
 import { OutboundHTLCStateDetails } from '../enums/OutboundHTLCStateDetails.mjs';
 import { PaymentFailureReason } from '../enums/PaymentFailureReason.mjs';
 import { Recipient } from '../enums/Recipient.mjs';
@@ -58,11 +58,12 @@ import { TwoTuple_DNSResolverMessageResponseInstructionZ } from '../structs/TwoT
 import { Option_C2Tuple_DNSResolverMessageResponseInstructionZZ, Option_C2Tuple_DNSResolverMessageResponseInstructionZZ_Some, Option_C2Tuple_DNSResolverMessageResponseInstructionZZ_None } from '../structs/Option_C2Tuple_DNSResolverMessageResponseInstructionZZ.mjs';
 import { Destination, Destination_Node, Destination_BlindedPath } from '../structs/Destination.mjs';
 import { Nonce } from '../structs/Nonce.mjs';
-import { OffersContext, OffersContext_InvoiceRequest, OffersContext_OutboundPayment, OffersContext_InboundPayment } from '../structs/OffersContext.mjs';
-import { AsyncPaymentsContext, AsyncPaymentsContext_OutboundPayment } from '../structs/AsyncPaymentsContext.mjs';
+import { OffersContext, OffersContext_InvoiceRequest, OffersContext_StaticInvoiceRequested, OffersContext_OutboundPayment, OffersContext_InboundPayment } from '../structs/OffersContext.mjs';
+import { OfferId } from '../structs/OfferId.mjs';
+import { AsyncPaymentsContext, AsyncPaymentsContext_OfferPathsRequest, AsyncPaymentsContext_OfferPaths, AsyncPaymentsContext_ServeStaticInvoice, AsyncPaymentsContext_StaticInvoicePersisted, AsyncPaymentsContext_OutboundPayment, AsyncPaymentsContext_InboundPayment, AsyncPaymentsContext_ReleaseHeldHtlc } from '../structs/AsyncPaymentsContext.mjs';
 import { DNSResolverContext } from '../structs/DNSResolverContext.mjs';
 import { MessageContext, MessageContext_Offers, MessageContext_AsyncPayments, MessageContext_DNSResolver, MessageContext_Custom } from '../structs/MessageContext.mjs';
-import { MessageSendInstructions, MessageSendInstructions_WithSpecifiedReplyPath, MessageSendInstructions_WithReplyPath, MessageSendInstructions_WithoutReplyPath, MessageSendInstructions_ForReply } from '../structs/MessageSendInstructions.mjs';
+import { MessageSendInstructions, MessageSendInstructions_WithSpecifiedReplyPath, MessageSendInstructions_WithReplyPath, MessageSendInstructions_WithoutReplyPath, MessageSendInstructions_ForReply, MessageSendInstructions_ForwardedMessage } from '../structs/MessageSendInstructions.mjs';
 import { TwoTuple_DNSResolverMessageMessageSendInstructionsZ } from '../structs/TwoTuple_DNSResolverMessageMessageSendInstructionsZ.mjs';
 import { Result_DNSResolverMessageDecodeErrorZ } from '../structs/Result_DNSResolverMessageDecodeErrorZ.mjs';
 import { HumanReadableName } from '../structs/HumanReadableName.mjs';
@@ -83,6 +84,7 @@ import { Result_Bolt12InvoiceBolt12SemanticErrorZ } from '../structs/Result_Bolt
 import { Result_SchnorrSignatureNoneZ } from '../structs/Result_SchnorrSignatureNoneZ.mjs';
 import { BlindedPaymentPath } from '../structs/BlindedPaymentPath.mjs';
 import { Option_CVec_ThirtyTwoBytesZZ, Option_CVec_ThirtyTwoBytesZZ_Some, Option_CVec_ThirtyTwoBytesZZ_None } from '../structs/Option_CVec_ThirtyTwoBytesZZ.mjs';
+import { CurrencyCode } from '../structs/CurrencyCode.mjs';
 import { Amount, Amount_Bitcoin, Amount_Currency } from '../structs/Amount.mjs';
 import { Option_AmountZ, Option_AmountZ_Some, Option_AmountZ_None } from '../structs/Option_AmountZ.mjs';
 import { Quantity, Quantity_Bounded, Quantity_Unbounded, Quantity_One } from '../structs/Quantity.mjs';
@@ -109,53 +111,43 @@ import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { Option_BigEndianScalarZ, Option_BigEndianScalarZ_Some, Option_BigEndianScalarZ_None } from '../structs/Option_BigEndianScalarZ.mjs';
 import { Result_RecoverableSignatureNoneZ } from '../structs/Result_RecoverableSignatureNoneZ.mjs';
 import { Result_ECDSASignatureNoneZ } from '../structs/Result_ECDSASignatureNoneZ.mjs';
+import { Result_StrNoneZ } from '../structs/Result_StrNoneZ.mjs';
 import { Result_TransactionNoneZ } from '../structs/Result_TransactionNoneZ.mjs';
-import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
-import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
-import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
-import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
-import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
-import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
-import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
-import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
-import { ChannelTransactionParameters } from '../structs/ChannelTransactionParameters.mjs';
-import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
-import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
-import { Result_EcdsaChannelSignerDecodeErrorZ } from '../structs/Result_EcdsaChannelSignerDecodeErrorZ.mjs';
 import { Result_CVec_u8ZNoneZ } from '../structs/Result_CVec_u8ZNoneZ.mjs';
 import { ShutdownScript } from '../structs/ShutdownScript.mjs';
 import { Result_ShutdownScriptNoneZ } from '../structs/Result_ShutdownScriptNoneZ.mjs';
-import { Option_u16Z, Option_u16Z_Some, Option_u16Z_None } from '../structs/Option_u16Z.mjs';
-import { Option_boolZ, Option_boolZ_Some, Option_boolZ_None } from '../structs/Option_boolZ.mjs';
 import { Result_WitnessNoneZ } from '../structs/Result_WitnessNoneZ.mjs';
-import { InMemorySigner } from '../structs/InMemorySigner.mjs';
-import { Result_InMemorySignerDecodeErrorZ } from '../structs/Result_InMemorySignerDecodeErrorZ.mjs';
-import { RouteParameters } from '../structs/RouteParameters.mjs';
-import { ThreeTuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ } from '../structs/ThreeTuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZ.mjs';
-import { Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ } from '../structs/Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.mjs';
+import { TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ } from '../structs/TwoTuple_ECDSASignatureCVec_ECDSASignatureZZ.mjs';
+import { Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ } from '../structs/Result_C2Tuple_ECDSASignatureCVec_ECDSASignatureZZNoneZ.mjs';
 import { ChannelDetails } from '../structs/ChannelDetails.mjs';
 import { Route } from '../structs/Route.mjs';
-import { LightningError } from '../structs/LightningError.mjs';
-import { Result_RouteLightningErrorZ } from '../structs/Result_RouteLightningErrorZ.mjs';
+import { Result_RouteStrZ } from '../structs/Result_RouteStrZ.mjs';
 import { Result_CVec_BlindedPaymentPathZNoneZ } from '../structs/Result_CVec_BlindedPaymentPathZNoneZ.mjs';
 import { InFlightHtlcs } from '../structs/InFlightHtlcs.mjs';
 import { Result_InFlightHtlcsDecodeErrorZ } from '../structs/Result_InFlightHtlcsDecodeErrorZ.mjs';
 import { RouteHop } from '../structs/RouteHop.mjs';
 import { Result_RouteHopDecodeErrorZ } from '../structs/Result_RouteHopDecodeErrorZ.mjs';
+import { TrampolineHop } from '../structs/TrampolineHop.mjs';
+import { Result_TrampolineHopDecodeErrorZ } from '../structs/Result_TrampolineHopDecodeErrorZ.mjs';
 import { BlindedHop } from '../structs/BlindedHop.mjs';
 import { BlindedTail } from '../structs/BlindedTail.mjs';
 import { Result_BlindedTailDecodeErrorZ } from '../structs/Result_BlindedTailDecodeErrorZ.mjs';
 import { Path } from '../structs/Path.mjs';
 import { Result_RouteDecodeErrorZ } from '../structs/Result_RouteDecodeErrorZ.mjs';
+import { RouteParameters } from '../structs/RouteParameters.mjs';
 import { Result_RouteParametersDecodeErrorZ } from '../structs/Result_RouteParametersDecodeErrorZ.mjs';
 import { PaymentParameters } from '../structs/PaymentParameters.mjs';
 import { Result_PaymentParametersDecodeErrorZ } from '../structs/Result_PaymentParametersDecodeErrorZ.mjs';
+import { RouteParametersConfig } from '../structs/RouteParametersConfig.mjs';
+import { Result_RouteParametersConfigDecodeErrorZ } from '../structs/Result_RouteParametersConfigDecodeErrorZ.mjs';
 import { RouteHint } from '../structs/RouteHint.mjs';
 import { Result_RouteHintDecodeErrorZ } from '../structs/Result_RouteHintDecodeErrorZ.mjs';
 import { RouteHintHop } from '../structs/RouteHintHop.mjs';
 import { Result_RouteHintHopDecodeErrorZ } from '../structs/Result_RouteHintHopDecodeErrorZ.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
+import { ChannelLiquidities } from '../structs/ChannelLiquidities.mjs';
+import { Result_ChannelLiquiditiesDecodeErrorZ } from '../structs/Result_ChannelLiquiditiesDecodeErrorZ.mjs';
 import { NodeId } from '../structs/NodeId.mjs';
 import { TwoTuple_u64u64Z } from '../structs/TwoTuple_u64u64Z.mjs';
 import { Option_C2Tuple_u64u64ZZ, Option_C2Tuple_u64u64ZZ_Some, Option_C2Tuple_u64u64ZZ_None } from '../structs/Option_C2Tuple_u64u64ZZ.mjs';
@@ -175,23 +167,32 @@ import { ThreeTuple_ThirtyTwoBytesu32COption_ThirtyTwoBytesZZ } from '../structs
 import { Result_ChannelMonitorUpdateStatusNoneZ } from '../structs/Result_ChannelMonitorUpdateStatusNoneZ.mjs';
 import { HTLCUpdate } from '../structs/HTLCUpdate.mjs';
 import { UntrustedString } from '../structs/UntrustedString.mjs';
-import { ClosureReason, ClosureReason_CounterpartyForceClosed, ClosureReason_HolderForceClosed, ClosureReason_LegacyCooperativeClosure, ClosureReason_CounterpartyInitiatedCooperativeClosure, ClosureReason_LocallyInitiatedCooperativeClosure, ClosureReason_CommitmentTxConfirmed, ClosureReason_FundingTimedOut, ClosureReason_ProcessingError, ClosureReason_DisconnectedPeer, ClosureReason_OutdatedChannelManager, ClosureReason_CounterpartyCoopClosedUnfundedChannel, ClosureReason_FundingBatchClosure, ClosureReason_HTLCsTimedOut, ClosureReason_PeerFeerateTooLow } from '../structs/ClosureReason.mjs';
+import { Option_boolZ, Option_boolZ_Some, Option_boolZ_None } from '../structs/Option_boolZ.mjs';
+import { ClosureReason, ClosureReason_CounterpartyForceClosed, ClosureReason_HolderForceClosed, ClosureReason_LegacyCooperativeClosure, ClosureReason_CounterpartyInitiatedCooperativeClosure, ClosureReason_LocallyInitiatedCooperativeClosure, ClosureReason_CommitmentTxConfirmed, ClosureReason_FundingTimedOut, ClosureReason_ProcessingError, ClosureReason_DisconnectedPeer, ClosureReason_OutdatedChannelManager, ClosureReason_CounterpartyCoopClosedUnfundedChannel, ClosureReason_LocallyCoopClosedUnfundedChannel, ClosureReason_FundingBatchClosure, ClosureReason_HTLCsTimedOut, ClosureReason_PeerFeerateTooLow } from '../structs/ClosureReason.mjs';
 import { ChannelId } from '../structs/ChannelId.mjs';
-import { MonitorEvent, MonitorEvent_HTLCEvent, MonitorEvent_HolderForceClosedWithInfo, MonitorEvent_HolderForceClosed, MonitorEvent_Completed } from '../structs/MonitorEvent.mjs';
+import { MonitorEvent, MonitorEvent_HTLCEvent, MonitorEvent_HolderForceClosedWithInfo, MonitorEvent_HolderForceClosed, MonitorEvent_CommitmentTxConfirmed, MonitorEvent_Completed } from '../structs/MonitorEvent.mjs';
 import { FourTuple_OutPointChannelIdCVec_MonitorEventZPublicKeyZ } from '../structs/FourTuple_OutPointChannelIdCVec_MonitorEventZPublicKeyZ.mjs';
-import { Option_StrZ, Option_StrZ_Some, Option_StrZ_None } from '../structs/Option_StrZ.mjs';
-import { LSPSRequestId } from '../structs/LSPSRequestId.mjs';
-import { APIError, APIError_APIMisuseError, APIError_FeeRateTooHigh, APIError_InvalidRoute, APIError_ChannelUnavailable, APIError_MonitorUpdateInProgress, APIError_IncompatibleShutdownScript } from '../structs/APIError.mjs';
-import { Result_LSPSRequestIdAPIErrorZ } from '../structs/Result_LSPSRequestIdAPIErrorZ.mjs';
-import { LSPS2OpeningFeeParams } from '../structs/LSPS2OpeningFeeParams.mjs';
-import { OfferId } from '../structs/OfferId.mjs';
 import { Result_OfferIdDecodeErrorZ } from '../structs/Result_OfferIdDecodeErrorZ.mjs';
 import { Result_NoneBolt12SemanticErrorZ } from '../structs/Result_NoneBolt12SemanticErrorZ.mjs';
 import { Result_OfferBolt12SemanticErrorZ } from '../structs/Result_OfferBolt12SemanticErrorZ.mjs';
 import { InvoiceRequestWithDerivedPayerSigningPubkeyBuilder } from '../structs/InvoiceRequestWithDerivedPayerSigningPubkeyBuilder.mjs';
 import { Result_InvoiceRequestWithDerivedPayerSigningPubkeyBuilderBolt12SemanticErrorZ } from '../structs/Result_InvoiceRequestWithDerivedPayerSigningPubkeyBuilderBolt12SemanticErrorZ.mjs';
 import { Result_OfferDecodeErrorZ } from '../structs/Result_OfferDecodeErrorZ.mjs';
+import { CurrencyCodeError } from '../structs/CurrencyCodeError.mjs';
+import { Result_CurrencyCodeCurrencyCodeErrorZ } from '../structs/Result_CurrencyCodeCurrencyCodeErrorZ.mjs';
 import { Result_OfferBolt12ParseErrorZ } from '../structs/Result_OfferBolt12ParseErrorZ.mjs';
+import { HTLCOutputInCommitment } from '../structs/HTLCOutputInCommitment.mjs';
+import { Utxo } from '../structs/Utxo.mjs';
+import { Result_UtxoDecodeErrorZ } from '../structs/Result_UtxoDecodeErrorZ.mjs';
+import { Option_TxOutZ, Option_TxOutZ_Some, Option_TxOutZ_None } from '../structs/Option_TxOutZ.mjs';
+import { Result_u64ShortChannelIdErrorZ } from '../structs/Result_u64ShortChannelIdErrorZ.mjs';
+import { PendingHTLCInfo } from '../structs/PendingHTLCInfo.mjs';
+import { InboundHTLCErr } from '../structs/InboundHTLCErr.mjs';
+import { Result_PendingHTLCInfoInboundHTLCErrZ } from '../structs/Result_PendingHTLCInfoInboundHTLCErrZ.mjs';
+import { Result_CVec_UtxoZNoneZ } from '../structs/Result_CVec_UtxoZNoneZ.mjs';
+import { Input } from '../structs/Input.mjs';
+import { CoinSelection } from '../structs/CoinSelection.mjs';
+import { Result_CoinSelectionNoneZ } from '../structs/Result_CoinSelectionNoneZ.mjs';
 import { Result_NodeIdDecodeErrorZ } from '../structs/Result_NodeIdDecodeErrorZ.mjs';
 import { Result_PublicKeySecp256k1ErrorZ } from '../structs/Result_PublicKeySecp256k1ErrorZ.mjs';
 import { NetworkUpdate, NetworkUpdate_ChannelFailure, NetworkUpdate_NodeFailure } from '../structs/NetworkUpdate.mjs';
@@ -202,6 +203,7 @@ import { UtxoFuture } from '../structs/UtxoFuture.mjs';
 import { UtxoResult, UtxoResult_Sync, UtxoResult_Async } from '../structs/UtxoResult.mjs';
 import { UtxoLookup, UtxoLookupInterface } from '../structs/UtxoLookup.mjs';
 import { Option_UtxoLookupZ, Option_UtxoLookupZ_Some, Option_UtxoLookupZ_None } from '../structs/Option_UtxoLookupZ.mjs';
+import { LightningError } from '../structs/LightningError.mjs';
 import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningErrorZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ChannelAnnouncement } from '../structs/ChannelAnnouncement.mjs';
@@ -232,6 +234,8 @@ import { AnnouncementSignatures } from '../structs/AnnouncementSignatures.mjs';
 import { CommitmentUpdate } from '../structs/CommitmentUpdate.mjs';
 import { RevokeAndACK } from '../structs/RevokeAndACK.mjs';
 import { ClosingSigned } from '../structs/ClosingSigned.mjs';
+import { ClosingComplete } from '../structs/ClosingComplete.mjs';
+import { ClosingSig } from '../structs/ClosingSig.mjs';
 import { Shutdown } from '../structs/Shutdown.mjs';
 import { ChannelReestablish } from '../structs/ChannelReestablish.mjs';
 import { NodeAnnouncement } from '../structs/NodeAnnouncement.mjs';
@@ -242,7 +246,9 @@ import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
 import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
-import { MessageSendEvent, MessageSendEvent_SendAcceptChannel, MessageSendEvent_SendAcceptChannelV2, MessageSendEvent_SendOpenChannel, MessageSendEvent_SendOpenChannelV2, MessageSendEvent_SendFundingCreated, MessageSendEvent_SendFundingSigned, MessageSendEvent_SendStfu, MessageSendEvent_SendSpliceInit, MessageSendEvent_SendSpliceAck, MessageSendEvent_SendSpliceLocked, MessageSendEvent_SendTxAddInput, MessageSendEvent_SendTxAddOutput, MessageSendEvent_SendTxRemoveInput, MessageSendEvent_SendTxRemoveOutput, MessageSendEvent_SendTxComplete, MessageSendEvent_SendTxSignatures, MessageSendEvent_SendTxInitRbf, MessageSendEvent_SendTxAckRbf, MessageSendEvent_SendTxAbort, MessageSendEvent_SendChannelReady, MessageSendEvent_SendAnnouncementSignatures, MessageSendEvent_UpdateHTLCs, MessageSendEvent_SendRevokeAndACK, MessageSendEvent_SendClosingSigned, MessageSendEvent_SendShutdown, MessageSendEvent_SendChannelReestablish, MessageSendEvent_SendChannelAnnouncement, MessageSendEvent_BroadcastChannelAnnouncement, MessageSendEvent_BroadcastChannelUpdate, MessageSendEvent_BroadcastNodeAnnouncement, MessageSendEvent_SendChannelUpdate, MessageSendEvent_HandleError, MessageSendEvent_SendChannelRangeQuery, MessageSendEvent_SendShortIdsQuery, MessageSendEvent_SendReplyChannelRange, MessageSendEvent_SendGossipTimestampFilter } from '../structs/MessageSendEvent.mjs';
+import { PeerStorage } from '../structs/PeerStorage.mjs';
+import { PeerStorageRetrieval } from '../structs/PeerStorageRetrieval.mjs';
+import { MessageSendEvent, MessageSendEvent_SendAcceptChannel, MessageSendEvent_SendAcceptChannelV2, MessageSendEvent_SendOpenChannel, MessageSendEvent_SendOpenChannelV2, MessageSendEvent_SendFundingCreated, MessageSendEvent_SendFundingSigned, MessageSendEvent_SendStfu, MessageSendEvent_SendSpliceInit, MessageSendEvent_SendSpliceAck, MessageSendEvent_SendSpliceLocked, MessageSendEvent_SendTxAddInput, MessageSendEvent_SendTxAddOutput, MessageSendEvent_SendTxRemoveInput, MessageSendEvent_SendTxRemoveOutput, MessageSendEvent_SendTxComplete, MessageSendEvent_SendTxSignatures, MessageSendEvent_SendTxInitRbf, MessageSendEvent_SendTxAckRbf, MessageSendEvent_SendTxAbort, MessageSendEvent_SendChannelReady, MessageSendEvent_SendAnnouncementSignatures, MessageSendEvent_UpdateHTLCs, MessageSendEvent_SendRevokeAndACK, MessageSendEvent_SendClosingSigned, MessageSendEvent_SendClosingComplete, MessageSendEvent_SendClosingSig, MessageSendEvent_SendShutdown, MessageSendEvent_SendChannelReestablish, MessageSendEvent_SendChannelAnnouncement, MessageSendEvent_BroadcastChannelAnnouncement, MessageSendEvent_BroadcastChannelUpdate, MessageSendEvent_BroadcastNodeAnnouncement, MessageSendEvent_SendChannelUpdate, MessageSendEvent_HandleError, MessageSendEvent_SendChannelRangeQuery, MessageSendEvent_SendShortIdsQuery, MessageSendEvent_SendReplyChannelRange, MessageSendEvent_SendGossipTimestampFilter, MessageSendEvent_SendPeerStorage, MessageSendEvent_SendPeerStorageRetrieval } from '../structs/MessageSendEvent.mjs';
 import { ChannelUpdateInfo } from '../structs/ChannelUpdateInfo.mjs';
 import { Result_ChannelUpdateInfoDecodeErrorZ } from '../structs/Result_ChannelUpdateInfoDecodeErrorZ.mjs';
 import { ChannelInfo } from '../structs/ChannelInfo.mjs';
@@ -261,28 +267,23 @@ import { NodeInfo } from '../structs/NodeInfo.mjs';
 import { Result_NodeInfoDecodeErrorZ } from '../structs/Result_NodeInfoDecodeErrorZ.mjs';
 import { Result_NetworkGraphDecodeErrorZ } from '../structs/Result_NetworkGraphDecodeErrorZ.mjs';
 import { Option_CVec_SocketAddressZZ, Option_CVec_SocketAddressZZ_Some, Option_CVec_SocketAddressZZ_None } from '../structs/Option_CVec_SocketAddressZZ.mjs';
-import { Result_u64ShortChannelIdErrorZ } from '../structs/Result_u64ShortChannelIdErrorZ.mjs';
-import { PendingHTLCInfo } from '../structs/PendingHTLCInfo.mjs';
-import { InboundHTLCErr } from '../structs/InboundHTLCErr.mjs';
-import { Result_PendingHTLCInfoInboundHTLCErrZ } from '../structs/Result_PendingHTLCInfoInboundHTLCErrZ.mjs';
-import { Utxo } from '../structs/Utxo.mjs';
-import { Option_TxOutZ, Option_TxOutZ_Some, Option_TxOutZ_None } from '../structs/Option_TxOutZ.mjs';
-import { Input } from '../structs/Input.mjs';
-import { CoinSelection } from '../structs/CoinSelection.mjs';
-import { Result_CoinSelectionNoneZ } from '../structs/Result_CoinSelectionNoneZ.mjs';
-import { Result_CVec_UtxoZNoneZ } from '../structs/Result_CVec_UtxoZNoneZ.mjs';
 import { Bolt12OfferContext } from '../structs/Bolt12OfferContext.mjs';
+import { AsyncBolt12OfferContext } from '../structs/AsyncBolt12OfferContext.mjs';
 import { Bolt12RefundContext } from '../structs/Bolt12RefundContext.mjs';
-import { PaymentContext, PaymentContext_Bolt12Offer, PaymentContext_Bolt12Refund } from '../structs/PaymentContext.mjs';
+import { PaymentContext, PaymentContext_Bolt12Offer, PaymentContext_AsyncBolt12Offer, PaymentContext_Bolt12Refund } from '../structs/PaymentContext.mjs';
 import { Option_PaymentContextZ, Option_PaymentContextZ_Some, Option_PaymentContextZ_None } from '../structs/Option_PaymentContextZ.mjs';
+import { Option_StrZ, Option_StrZ_Some, Option_StrZ_None } from '../structs/Option_StrZ.mjs';
 import { TwoTuple_u64u16Z } from '../structs/TwoTuple_u64u16Z.mjs';
 import { Option_C2Tuple_u64u16ZZ, Option_C2Tuple_u64u16ZZ_Some, Option_C2Tuple_u64u16ZZ_None } from '../structs/Option_C2Tuple_u64u16ZZ.mjs';
+import { APIError, APIError_APIMisuseError, APIError_FeeRateTooHigh, APIError_InvalidRoute, APIError_ChannelUnavailable, APIError_MonitorUpdateInProgress, APIError_IncompatibleShutdownScript } from '../structs/APIError.mjs';
 import { Result_ChannelIdAPIErrorZ } from '../structs/Result_ChannelIdAPIErrorZ.mjs';
 import { RecentPaymentDetails, RecentPaymentDetails_AwaitingInvoice, RecentPaymentDetails_Pending, RecentPaymentDetails_Fulfilled, RecentPaymentDetails_Abandoned } from '../structs/RecentPaymentDetails.mjs';
 import { Result_NoneAPIErrorZ } from '../structs/Result_NoneAPIErrorZ.mjs';
 import { Result_NoneRetryableSendFailureZ } from '../structs/Result_NoneRetryableSendFailureZ.mjs';
+import { Bolt11PaymentError, Bolt11PaymentError_InvalidAmount, Bolt11PaymentError_SendingFailed } from '../structs/Bolt11PaymentError.mjs';
+import { Result_NoneBolt11PaymentErrorZ } from '../structs/Result_NoneBolt11PaymentErrorZ.mjs';
 import { Option_OffersContextZ, Option_OffersContextZ_Some, Option_OffersContextZ_None } from '../structs/Option_OffersContextZ.mjs';
-import { Bolt12PaymentError, Bolt12PaymentError_UnexpectedInvoice, Bolt12PaymentError_DuplicateInvoice, Bolt12PaymentError_UnknownRequiredFeatures, Bolt12PaymentError_SendingFailed } from '../structs/Bolt12PaymentError.mjs';
+import { Bolt12PaymentError, Bolt12PaymentError_UnexpectedInvoice, Bolt12PaymentError_DuplicateInvoice, Bolt12PaymentError_UnknownRequiredFeatures, Bolt12PaymentError_SendingFailed, Bolt12PaymentError_BlindedPathCreationFailed } from '../structs/Bolt12PaymentError.mjs';
 import { Result_NoneBolt12PaymentErrorZ } from '../structs/Result_NoneBolt12PaymentErrorZ.mjs';
 import { Result_ThirtyTwoBytesRetryableSendFailureZ } from '../structs/Result_ThirtyTwoBytesRetryableSendFailureZ.mjs';
 import { TwoTuple_ThirtyTwoBytesThirtyTwoBytesZ } from '../structs/TwoTuple_ThirtyTwoBytesThirtyTwoBytesZ.mjs';
@@ -295,38 +296,63 @@ import { Option_C2Tuple_PublicKeyChannelIdZZ, Option_C2Tuple_PublicKeyChannelIdZ
 import { Bolt11Invoice } from '../structs/Bolt11Invoice.mjs';
 import { SignOrCreationError, SignOrCreationError_SignError, SignOrCreationError_CreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_Bolt11InvoiceSignOrCreationErrorZ } from '../structs/Result_Bolt11InvoiceSignOrCreationErrorZ.mjs';
+import { Option_u16Z, Option_u16Z_Some, Option_u16Z_None } from '../structs/Option_u16Z.mjs';
 import { OfferWithDerivedMetadataBuilder } from '../structs/OfferWithDerivedMetadataBuilder.mjs';
 import { Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ } from '../structs/Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ.mjs';
+import { Result_OfferNoneZ } from '../structs/Result_OfferNoneZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.mjs';
 import { Result_ThirtyTwoBytesAPIErrorZ } from '../structs/Result_ThirtyTwoBytesAPIErrorZ.mjs';
+import { Result_CVec_BlindedMessagePathZNoneZ } from '../structs/Result_CVec_BlindedMessagePathZNoneZ.mjs';
+import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { InvoiceRequest } from '../structs/InvoiceRequest.mjs';
+import { StaticInvoice } from '../structs/StaticInvoice.mjs';
 import { InvoiceError } from '../structs/InvoiceError.mjs';
-import { OffersMessage, OffersMessage_InvoiceRequest, OffersMessage_Invoice, OffersMessage_InvoiceError } from '../structs/OffersMessage.mjs';
+import { OffersMessage, OffersMessage_InvoiceRequest, OffersMessage_Invoice, OffersMessage_StaticInvoice, OffersMessage_InvoiceError } from '../structs/OffersMessage.mjs';
 import { TwoTuple_OffersMessageResponseInstructionZ } from '../structs/TwoTuple_OffersMessageResponseInstructionZ.mjs';
 import { Option_C2Tuple_OffersMessageResponseInstructionZZ, Option_C2Tuple_OffersMessageResponseInstructionZZ_Some, Option_C2Tuple_OffersMessageResponseInstructionZZ_None } from '../structs/Option_C2Tuple_OffersMessageResponseInstructionZZ.mjs';
 import { TwoTuple_OffersMessageMessageSendInstructionsZ } from '../structs/TwoTuple_OffersMessageMessageSendInstructionsZ.mjs';
+import { OfferPaths } from '../structs/OfferPaths.mjs';
+import { TwoTuple_OfferPathsResponseInstructionZ } from '../structs/TwoTuple_OfferPathsResponseInstructionZ.mjs';
+import { Option_C2Tuple_OfferPathsResponseInstructionZZ, Option_C2Tuple_OfferPathsResponseInstructionZZ_Some, Option_C2Tuple_OfferPathsResponseInstructionZZ_None } from '../structs/Option_C2Tuple_OfferPathsResponseInstructionZZ.mjs';
+import { ServeStaticInvoice } from '../structs/ServeStaticInvoice.mjs';
+import { TwoTuple_ServeStaticInvoiceResponseInstructionZ } from '../structs/TwoTuple_ServeStaticInvoiceResponseInstructionZ.mjs';
+import { Option_C2Tuple_ServeStaticInvoiceResponseInstructionZZ, Option_C2Tuple_ServeStaticInvoiceResponseInstructionZZ_Some, Option_C2Tuple_ServeStaticInvoiceResponseInstructionZZ_None } from '../structs/Option_C2Tuple_ServeStaticInvoiceResponseInstructionZZ.mjs';
 import { ReleaseHeldHtlc } from '../structs/ReleaseHeldHtlc.mjs';
 import { TwoTuple_ReleaseHeldHtlcResponseInstructionZ } from '../structs/TwoTuple_ReleaseHeldHtlcResponseInstructionZ.mjs';
 import { Option_C2Tuple_ReleaseHeldHtlcResponseInstructionZZ, Option_C2Tuple_ReleaseHeldHtlcResponseInstructionZZ_Some, Option_C2Tuple_ReleaseHeldHtlcResponseInstructionZZ_None } from '../structs/Option_C2Tuple_ReleaseHeldHtlcResponseInstructionZZ.mjs';
+import { OfferPathsRequest } from '../structs/OfferPathsRequest.mjs';
+import { StaticInvoicePersisted } from '../structs/StaticInvoicePersisted.mjs';
 import { HeldHtlcAvailable } from '../structs/HeldHtlcAvailable.mjs';
-import { AsyncPaymentsMessage, AsyncPaymentsMessage_HeldHtlcAvailable, AsyncPaymentsMessage_ReleaseHeldHtlc } from '../structs/AsyncPaymentsMessage.mjs';
+import { AsyncPaymentsMessage, AsyncPaymentsMessage_OfferPathsRequest, AsyncPaymentsMessage_OfferPaths, AsyncPaymentsMessage_ServeStaticInvoice, AsyncPaymentsMessage_StaticInvoicePersisted, AsyncPaymentsMessage_HeldHtlcAvailable, AsyncPaymentsMessage_ReleaseHeldHtlc } from '../structs/AsyncPaymentsMessage.mjs';
 import { TwoTuple_AsyncPaymentsMessageMessageSendInstructionsZ } from '../structs/TwoTuple_AsyncPaymentsMessageMessageSendInstructionsZ.mjs';
 import { PhantomRouteHints } from '../structs/PhantomRouteHints.mjs';
 import { Result_PhantomRouteHintsDecodeErrorZ } from '../structs/Result_PhantomRouteHintsDecodeErrorZ.mjs';
 import { BlindedForward } from '../structs/BlindedForward.mjs';
 import { Result_BlindedForwardDecodeErrorZ } from '../structs/Result_BlindedForwardDecodeErrorZ.mjs';
 import { OnionPacket } from '../structs/OnionPacket.mjs';
+import { TrampolineOnionPacket } from '../structs/TrampolineOnionPacket.mjs';
 import { FinalOnionHopData } from '../structs/FinalOnionHopData.mjs';
-import { PendingHTLCRouting, PendingHTLCRouting_Forward, PendingHTLCRouting_Receive, PendingHTLCRouting_ReceiveKeysend } from '../structs/PendingHTLCRouting.mjs';
+import { PendingHTLCRouting, PendingHTLCRouting_Forward, PendingHTLCRouting_TrampolineForward, PendingHTLCRouting_Receive, PendingHTLCRouting_ReceiveKeysend } from '../structs/PendingHTLCRouting.mjs';
 import { Result_PendingHTLCRoutingDecodeErrorZ } from '../structs/Result_PendingHTLCRoutingDecodeErrorZ.mjs';
 import { Result_PendingHTLCInfoDecodeErrorZ } from '../structs/Result_PendingHTLCInfoDecodeErrorZ.mjs';
 import { Result_BlindedFailureDecodeErrorZ } from '../structs/Result_BlindedFailureDecodeErrorZ.mjs';
+import { ChannelTransactionParameters } from '../structs/ChannelTransactionParameters.mjs';
+import { CommitmentTransaction } from '../structs/CommitmentTransaction.mjs';
+import { HolderCommitmentTransaction } from '../structs/HolderCommitmentTransaction.mjs';
+import { ClosingTransaction } from '../structs/ClosingTransaction.mjs';
+import { UnsignedChannelAnnouncement } from '../structs/UnsignedChannelAnnouncement.mjs';
+import { ChannelPublicKeys } from '../structs/ChannelPublicKeys.mjs';
+import { ChannelSigner, ChannelSignerInterface } from '../structs/ChannelSigner.mjs';
+import { BaseEcdsaChannelSigner, BaseEcdsaChannelSignerInterface } from '../structs/BaseEcdsaChannelSigner.mjs';
+import { EcdsaChannelSigner, EcdsaChannelSignerInterface } from '../structs/EcdsaChannelSigner.mjs';
 import { ChannelMonitor } from '../structs/ChannelMonitor.mjs';
 import { ChannelMonitorUpdate } from '../structs/ChannelMonitorUpdate.mjs';
 import { Watch, WatchInterface } from '../structs/Watch.mjs';
 import { BroadcasterInterface, BroadcasterInterfaceInterface } from '../structs/BroadcasterInterface.mjs';
 import { EntropySource, EntropySourceInterface } from '../structs/EntropySource.mjs';
 import { ExpandedKey } from '../structs/ExpandedKey.mjs';
+import { PeerStorageKey } from '../structs/PeerStorageKey.mjs';
+import { ReceiveAuthKey } from '../structs/ReceiveAuthKey.mjs';
 import { RawBolt11Invoice } from '../structs/RawBolt11Invoice.mjs';
 import { UnsignedChannelUpdate } from '../structs/UnsignedChannelUpdate.mjs';
 import { UnsignedNodeAnnouncement } from '../structs/UnsignedNodeAnnouncement.mjs';
@@ -338,25 +364,43 @@ import { ReceiveTlvs } from '../structs/ReceiveTlvs.mjs';
 import { Router, RouterInterface } from '../structs/Router.mjs';
 import { OnionMessagePath } from '../structs/OnionMessagePath.mjs';
 import { Result_OnionMessagePathNoneZ } from '../structs/Result_OnionMessagePathNoneZ.mjs';
-import { Result_CVec_BlindedMessagePathZNoneZ } from '../structs/Result_CVec_BlindedMessagePathZNoneZ.mjs';
 import { MessageForwardNode } from '../structs/MessageForwardNode.mjs';
 import { MessageRouter, MessageRouterInterface } from '../structs/MessageRouter.mjs';
 import { ChannelManager } from '../structs/ChannelManager.mjs';
 import { TwoTuple_ThirtyTwoBytesChannelManagerZ } from '../structs/TwoTuple_ThirtyTwoBytesChannelManagerZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.mjs';
+import { Result_NoneSecp256k1ErrorZ } from '../structs/Result_NoneSecp256k1ErrorZ.mjs';
 import { MaxDustHTLCExposure, MaxDustHTLCExposure_FixedLimitMsat, MaxDustHTLCExposure_FeeRateMultiplier } from '../structs/MaxDustHTLCExposure.mjs';
 import { Result_MaxDustHTLCExposureDecodeErrorZ } from '../structs/Result_MaxDustHTLCExposureDecodeErrorZ.mjs';
 import { ChannelConfig } from '../structs/ChannelConfig.mjs';
 import { Result_ChannelConfigDecodeErrorZ } from '../structs/Result_ChannelConfigDecodeErrorZ.mjs';
 import { Option_MaxDustHTLCExposureZ, Option_MaxDustHTLCExposureZ_Some, Option_MaxDustHTLCExposureZ_None } from '../structs/Option_MaxDustHTLCExposureZ.mjs';
+import { Option_u8Z, Option_u8Z_Some, Option_u8Z_None } from '../structs/Option_u8Z.mjs';
 import { Option_APIErrorZ, Option_APIErrorZ_Some, Option_APIErrorZ_None } from '../structs/Option_APIErrorZ.mjs';
 import { Result_COption_APIErrorZDecodeErrorZ } from '../structs/Result_COption_APIErrorZDecodeErrorZ.mjs';
-import { LSPS2RawOpeningFeeParams } from '../structs/LSPS2RawOpeningFeeParams.mjs';
+import { EncryptedOurPeerStorage } from '../structs/EncryptedOurPeerStorage.mjs';
+import { Result_EncryptedOurPeerStorageNoneZ } from '../structs/Result_EncryptedOurPeerStorageNoneZ.mjs';
+import { DecryptedOurPeerStorage } from '../structs/DecryptedOurPeerStorage.mjs';
+import { Result_DecryptedOurPeerStorageNoneZ } from '../structs/Result_DecryptedOurPeerStorageNoneZ.mjs';
+import { VerifiedInvoiceRequest } from '../structs/VerifiedInvoiceRequest.mjs';
+import { InvreqResponseInstructions, InvreqResponseInstructions_SendInvoice, InvreqResponseInstructions_SendStaticInvoice } from '../structs/InvreqResponseInstructions.mjs';
+import { Result_InvreqResponseInstructionsNoneZ } from '../structs/Result_InvreqResponseInstructionsNoneZ.mjs';
+import { Option_MessageContextZ, Option_MessageContextZ_Some, Option_MessageContextZ_None } from '../structs/Option_MessageContextZ.mjs';
+import { TwoTuple_OffersMessageCOption_MessageContextZZ } from '../structs/TwoTuple_OffersMessageCOption_MessageContextZZ.mjs';
+import { TwoTuple_OfferboolZ } from '../structs/TwoTuple_OfferboolZ.mjs';
+import { Result_C2Tuple_OfferboolZNoneZ } from '../structs/Result_C2Tuple_OfferboolZNoneZ.mjs';
+import { TwoTuple_OfferPathsMessageContextZ } from '../structs/TwoTuple_OfferPathsMessageContextZ.mjs';
+import { Option_C2Tuple_OfferPathsMessageContextZZ, Option_C2Tuple_OfferPathsMessageContextZZ_Some, Option_C2Tuple_OfferPathsMessageContextZZ_None } from '../structs/Option_C2Tuple_OfferPathsMessageContextZZ.mjs';
+import { TwoTuple_ServeStaticInvoiceMessageContextZ } from '../structs/TwoTuple_ServeStaticInvoiceMessageContextZ.mjs';
+import { Option_C2Tuple_ServeStaticInvoiceMessageContextZZ, Option_C2Tuple_ServeStaticInvoiceMessageContextZZ_Some, Option_C2Tuple_ServeStaticInvoiceMessageContextZZ_None } from '../structs/Option_C2Tuple_ServeStaticInvoiceMessageContextZZ.mjs';
+import { TwoTuple_CVec_u8Zu16Z } from '../structs/TwoTuple_CVec_u8Zu16Z.mjs';
+import { Result_C2Tuple_CVec_u8Zu16ZNoneZ } from '../structs/Result_C2Tuple_CVec_u8Zu16ZNoneZ.mjs';
+import { TwoTuple_OutPointCVec_u8ZZ } from '../structs/TwoTuple_OutPointCVec_u8ZZ.mjs';
 import { Result_ChannelMonitorUpdateDecodeErrorZ } from '../structs/Result_ChannelMonitorUpdateDecodeErrorZ.mjs';
 import { Option_MonitorEventZ, Option_MonitorEventZ_Some, Option_MonitorEventZ_None } from '../structs/Option_MonitorEventZ.mjs';
 import { Result_COption_MonitorEventZDecodeErrorZ } from '../structs/Result_COption_MonitorEventZDecodeErrorZ.mjs';
 import { Result_HTLCUpdateDecodeErrorZ } from '../structs/Result_HTLCUpdateDecodeErrorZ.mjs';
-import { TwoTuple_OutPointCVec_u8ZZ } from '../structs/TwoTuple_OutPointCVec_u8ZZ.mjs';
+import { HolderCommitmentTransactionBalance } from '../structs/HolderCommitmentTransactionBalance.mjs';
 import { TwoTuple_u32CVec_u8ZZ } from '../structs/TwoTuple_u32CVec_u8ZZ.mjs';
 import { TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ } from '../structs/TwoTuple_ThirtyTwoBytesCVec_C2Tuple_u32CVec_u8ZZZZ.mjs';
 import { ReplayEvent } from '../structs/ReplayEvent.mjs';
@@ -382,9 +426,19 @@ import { PeerDetails } from '../structs/PeerDetails.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
-import { Result_boolPeerHandleErrorZ } from '../structs/Result_boolPeerHandleErrorZ.mjs';
 import { GraphSyncError, GraphSyncError_DecodeError, GraphSyncError_LightningError } from '../structs/GraphSyncError.mjs';
 import { Result_u32GraphSyncErrorZ } from '../structs/Result_u32GraphSyncErrorZ.mjs';
+import { AsyncReceiveOfferCache } from '../structs/AsyncReceiveOfferCache.mjs';
+import { Result_AsyncReceiveOfferCacheDecodeErrorZ } from '../structs/Result_AsyncReceiveOfferCacheDecodeErrorZ.mjs';
+import { Result_InvoiceRequestBolt12SemanticErrorZ } from '../structs/Result_InvoiceRequestBolt12SemanticErrorZ.mjs';
+import { InvoiceWithExplicitSigningPubkeyBuilder } from '../structs/InvoiceWithExplicitSigningPubkeyBuilder.mjs';
+import { Result_InvoiceWithExplicitSigningPubkeyBuilderBolt12SemanticErrorZ } from '../structs/Result_InvoiceWithExplicitSigningPubkeyBuilderBolt12SemanticErrorZ.mjs';
+import { Result_VerifiedInvoiceRequestNoneZ } from '../structs/Result_VerifiedInvoiceRequestNoneZ.mjs';
+import { InvoiceWithDerivedSigningPubkeyBuilder } from '../structs/InvoiceWithDerivedSigningPubkeyBuilder.mjs';
+import { Result_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ } from '../structs/Result_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ.mjs';
+import { Result_InvoiceRequestDecodeErrorZ } from '../structs/Result_InvoiceRequestDecodeErrorZ.mjs';
+import { InvoiceRequestFields } from '../structs/InvoiceRequestFields.mjs';
+import { Result_InvoiceRequestFieldsDecodeErrorZ } from '../structs/Result_InvoiceRequestFieldsDecodeErrorZ.mjs';
 import { Result_CVec_u8ZIOErrorZ } from '../structs/Result_CVec_u8ZIOErrorZ.mjs';
 import { Result_NoneIOErrorZ } from '../structs/Result_NoneIOErrorZ.mjs';
 import { Result_CVec_StrZIOErrorZ } from '../structs/Result_CVec_StrZIOErrorZ.mjs';
@@ -392,28 +446,20 @@ import { ThreeTuple_StrStrStrZ } from '../structs/ThreeTuple_StrStrStrZ.mjs';
 import { Result_CVec_C3Tuple_StrStrStrZZIOErrorZ } from '../structs/Result_CVec_C3Tuple_StrStrStrZZIOErrorZ.mjs';
 import { Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ } from '../structs/Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ.mjs';
 import { Result_C2Tuple_ThirtyTwoBytesChannelMonitorZIOErrorZ } from '../structs/Result_C2Tuple_ThirtyTwoBytesChannelMonitorZIOErrorZ.mjs';
-import { MonitorName } from '../structs/MonitorName.mjs';
-import { Result_MonitorNameIOErrorZ } from '../structs/Result_MonitorNameIOErrorZ.mjs';
+import { TwoTuple_ChannelIdu64Z } from '../structs/TwoTuple_ChannelIdu64Z.mjs';
 import { UpdateName } from '../structs/UpdateName.mjs';
 import { Result_UpdateNameIOErrorZ } from '../structs/Result_UpdateNameIOErrorZ.mjs';
-import { Result_InvoiceRequestBolt12SemanticErrorZ } from '../structs/Result_InvoiceRequestBolt12SemanticErrorZ.mjs';
-import { InvoiceWithExplicitSigningPubkeyBuilder } from '../structs/InvoiceWithExplicitSigningPubkeyBuilder.mjs';
-import { Result_InvoiceWithExplicitSigningPubkeyBuilderBolt12SemanticErrorZ } from '../structs/Result_InvoiceWithExplicitSigningPubkeyBuilderBolt12SemanticErrorZ.mjs';
-import { VerifiedInvoiceRequest } from '../structs/VerifiedInvoiceRequest.mjs';
-import { Result_VerifiedInvoiceRequestNoneZ } from '../structs/Result_VerifiedInvoiceRequestNoneZ.mjs';
-import { InvoiceWithDerivedSigningPubkeyBuilder } from '../structs/InvoiceWithDerivedSigningPubkeyBuilder.mjs';
-import { Result_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ } from '../structs/Result_InvoiceWithDerivedSigningPubkeyBuilderBolt12SemanticErrorZ.mjs';
-import { Result_InvoiceRequestDecodeErrorZ } from '../structs/Result_InvoiceRequestDecodeErrorZ.mjs';
-import { InvoiceRequestFields } from '../structs/InvoiceRequestFields.mjs';
-import { Result_InvoiceRequestFieldsDecodeErrorZ } from '../structs/Result_InvoiceRequestFieldsDecodeErrorZ.mjs';
+import { Option_TransactionZ, Option_TransactionZ_Some, Option_TransactionZ_None } from '../structs/Option_TransactionZ.mjs';
 import { Option_ECDSASignatureZ, Option_ECDSASignatureZ_Some, Option_ECDSASignatureZ_None } from '../structs/Option_ECDSASignatureZ.mjs';
 import { Option_i64Z, Option_i64Z_Some, Option_i64Z_None } from '../structs/Option_i64Z.mjs';
+import { TwoTuple_u64BlindedMessagePathZ } from '../structs/TwoTuple_u64BlindedMessagePathZ.mjs';
 import { Result_SocketAddressDecodeErrorZ } from '../structs/Result_SocketAddressDecodeErrorZ.mjs';
 import { Result_SocketAddressSocketAddressParseErrorZ } from '../structs/Result_SocketAddressSocketAddressParseErrorZ.mjs';
 import { UpdateAddHTLC } from '../structs/UpdateAddHTLC.mjs';
 import { UpdateFulfillHTLC } from '../structs/UpdateFulfillHTLC.mjs';
 import { UpdateFailHTLC } from '../structs/UpdateFailHTLC.mjs';
 import { UpdateFailMalformedHTLC } from '../structs/UpdateFailMalformedHTLC.mjs';
+import { Result_TrampolineOnionPacketDecodeErrorZ } from '../structs/Result_TrampolineOnionPacketDecodeErrorZ.mjs';
 import { Result_AcceptChannelDecodeErrorZ } from '../structs/Result_AcceptChannelDecodeErrorZ.mjs';
 import { Result_AcceptChannelV2DecodeErrorZ } from '../structs/Result_AcceptChannelV2DecodeErrorZ.mjs';
 import { Result_StfuDecodeErrorZ } from '../structs/Result_StfuDecodeErrorZ.mjs';
@@ -431,12 +477,15 @@ import { Result_TxAckRbfDecodeErrorZ } from '../structs/Result_TxAckRbfDecodeErr
 import { Result_TxAbortDecodeErrorZ } from '../structs/Result_TxAbortDecodeErrorZ.mjs';
 import { Result_AnnouncementSignaturesDecodeErrorZ } from '../structs/Result_AnnouncementSignaturesDecodeErrorZ.mjs';
 import { Result_ChannelReestablishDecodeErrorZ } from '../structs/Result_ChannelReestablishDecodeErrorZ.mjs';
+import { NextFunding } from '../structs/NextFunding.mjs';
+import { Result_NextFundingDecodeErrorZ } from '../structs/Result_NextFundingDecodeErrorZ.mjs';
+import { FundingLocked } from '../structs/FundingLocked.mjs';
+import { Result_FundingLockedDecodeErrorZ } from '../structs/Result_FundingLockedDecodeErrorZ.mjs';
 import { Result_ClosingSignedDecodeErrorZ } from '../structs/Result_ClosingSignedDecodeErrorZ.mjs';
+import { Result_ClosingCompleteDecodeErrorZ } from '../structs/Result_ClosingCompleteDecodeErrorZ.mjs';
+import { Result_ClosingSigDecodeErrorZ } from '../structs/Result_ClosingSigDecodeErrorZ.mjs';
 import { ClosingSignedFeeRange } from '../structs/ClosingSignedFeeRange.mjs';
 import { Result_ClosingSignedFeeRangeDecodeErrorZ } from '../structs/Result_ClosingSignedFeeRangeDecodeErrorZ.mjs';
-import { CommitmentSignedBatch } from '../structs/CommitmentSignedBatch.mjs';
-import { Result_CommitmentSignedBatchDecodeErrorZ } from '../structs/Result_CommitmentSignedBatchDecodeErrorZ.mjs';
-import { CommitmentSigned } from '../structs/CommitmentSigned.mjs';
 import { Result_CommitmentSignedDecodeErrorZ } from '../structs/Result_CommitmentSignedDecodeErrorZ.mjs';
 import { Result_FundingCreatedDecodeErrorZ } from '../structs/Result_FundingCreatedDecodeErrorZ.mjs';
 import { Result_FundingSignedDecodeErrorZ } from '../structs/Result_FundingSignedDecodeErrorZ.mjs';
@@ -452,6 +501,10 @@ import { Result_UpdateFailMalformedHTLCDecodeErrorZ } from '../structs/Result_Up
 import { UpdateFee } from '../structs/UpdateFee.mjs';
 import { Result_UpdateFeeDecodeErrorZ } from '../structs/Result_UpdateFeeDecodeErrorZ.mjs';
 import { Result_UpdateFulfillHTLCDecodeErrorZ } from '../structs/Result_UpdateFulfillHTLCDecodeErrorZ.mjs';
+import { Result_PeerStorageDecodeErrorZ } from '../structs/Result_PeerStorageDecodeErrorZ.mjs';
+import { Result_PeerStorageRetrievalDecodeErrorZ } from '../structs/Result_PeerStorageRetrievalDecodeErrorZ.mjs';
+import { StartBatch } from '../structs/StartBatch.mjs';
+import { Result_StartBatchDecodeErrorZ } from '../structs/Result_StartBatchDecodeErrorZ.mjs';
 import { Result_OnionPacketDecodeErrorZ } from '../structs/Result_OnionPacketDecodeErrorZ.mjs';
 import { Result_UpdateAddHTLCDecodeErrorZ } from '../structs/Result_UpdateAddHTLCDecodeErrorZ.mjs';
 import { OnionMessage } from '../structs/OnionMessage.mjs';
@@ -490,13 +543,16 @@ import { Result_ChannelCounterpartyDecodeErrorZ } from '../structs/Result_Channe
 import { Option_ChannelShutdownStateZ, Option_ChannelShutdownStateZ_Some, Option_ChannelShutdownStateZ_None } from '../structs/Option_ChannelShutdownStateZ.mjs';
 import { Result_ChannelDetailsDecodeErrorZ } from '../structs/Result_ChannelDetailsDecodeErrorZ.mjs';
 import { Result_ChannelShutdownStateDecodeErrorZ } from '../structs/Result_ChannelShutdownStateDecodeErrorZ.mjs';
-import { RawLSPSMessage } from '../structs/RawLSPSMessage.mjs';
-import { Result_RawLSPSMessageDecodeErrorZ } from '../structs/Result_RawLSPSMessageDecodeErrorZ.mjs';
-import { LSPSDateTime } from '../structs/LSPSDateTime.mjs';
-import { Result_LSPSDateTimeNoneZ } from '../structs/Result_LSPSDateTimeNoneZ.mjs';
+import { Result_OfferPathsRequestDecodeErrorZ } from '../structs/Result_OfferPathsRequestDecodeErrorZ.mjs';
+import { Result_OfferPathsDecodeErrorZ } from '../structs/Result_OfferPathsDecodeErrorZ.mjs';
+import { Result_ServeStaticInvoiceDecodeErrorZ } from '../structs/Result_ServeStaticInvoiceDecodeErrorZ.mjs';
+import { Result_StaticInvoicePersistedDecodeErrorZ } from '../structs/Result_StaticInvoicePersistedDecodeErrorZ.mjs';
 import { Result_HeldHtlcAvailableDecodeErrorZ } from '../structs/Result_HeldHtlcAvailableDecodeErrorZ.mjs';
 import { Result_ReleaseHeldHtlcDecodeErrorZ } from '../structs/Result_ReleaseHeldHtlcDecodeErrorZ.mjs';
 import { Result_AsyncPaymentsMessageDecodeErrorZ } from '../structs/Result_AsyncPaymentsMessageDecodeErrorZ.mjs';
+import { SignError, SignError_Signing, SignError_Verification } from '../structs/SignError.mjs';
+import { Result_StaticInvoiceSignErrorZ } from '../structs/Result_StaticInvoiceSignErrorZ.mjs';
+import { Result_StaticInvoiceDecodeErrorZ } from '../structs/Result_StaticInvoiceDecodeErrorZ.mjs';
 import { Result_OffersMessageDecodeErrorZ } from '../structs/Result_OffersMessageDecodeErrorZ.mjs';
 import { Option_HTLCClaimZ, Option_HTLCClaimZ_Some, Option_HTLCClaimZ_None } from '../structs/Option_HTLCClaimZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
@@ -521,7 +577,6 @@ import { Option_usizeZ, Option_usizeZ_Some, Option_usizeZ_None } from '../struct
 import { Result_ShutdownScriptDecodeErrorZ } from '../structs/Result_ShutdownScriptDecodeErrorZ.mjs';
 import { InvalidShutdownScript } from '../structs/InvalidShutdownScript.mjs';
 import { Result_ShutdownScriptInvalidShutdownScriptZ } from '../structs/Result_ShutdownScriptInvalidShutdownScriptZ.mjs';
-import { Result_u64NoneZ } from '../structs/Result_u64NoneZ.mjs';
 import { FundingInfo, FundingInfo_Tx, FundingInfo_OutPoint } from '../structs/FundingInfo.mjs';
 import { Result_FundingInfoDecodeErrorZ } from '../structs/Result_FundingInfoDecodeErrorZ.mjs';
 import { PaymentPurpose, PaymentPurpose_Bolt11InvoicePayment, PaymentPurpose_Bolt12OfferPayment, PaymentPurpose_Bolt12RefundPayment, PaymentPurpose_SpontaneousPayment } from '../structs/PaymentPurpose.mjs';
@@ -533,21 +588,32 @@ import { Option_PathFailureZ, Option_PathFailureZ_Some, Option_PathFailureZ_None
 import { Result_COption_PathFailureZDecodeErrorZ } from '../structs/Result_COption_PathFailureZDecodeErrorZ.mjs';
 import { Option_ClosureReasonZ, Option_ClosureReasonZ_Some, Option_ClosureReasonZ_None } from '../structs/Option_ClosureReasonZ.mjs';
 import { Result_COption_ClosureReasonZDecodeErrorZ } from '../structs/Result_COption_ClosureReasonZDecodeErrorZ.mjs';
-import { HTLCDestination, HTLCDestination_NextHopChannel, HTLCDestination_UnknownNextHop, HTLCDestination_InvalidForward, HTLCDestination_InvalidOnion, HTLCDestination_FailedPayment } from '../structs/HTLCDestination.mjs';
-import { Option_HTLCDestinationZ, Option_HTLCDestinationZ_Some, Option_HTLCDestinationZ_None } from '../structs/Option_HTLCDestinationZ.mjs';
-import { Result_COption_HTLCDestinationZDecodeErrorZ } from '../structs/Result_COption_HTLCDestinationZDecodeErrorZ.mjs';
+import { HTLCHandlingFailureType, HTLCHandlingFailureType_Forward, HTLCHandlingFailureType_UnknownNextHop, HTLCHandlingFailureType_InvalidForward, HTLCHandlingFailureType_InvalidOnion, HTLCHandlingFailureType_Receive } from '../structs/HTLCHandlingFailureType.mjs';
+import { Option_HTLCHandlingFailureTypeZ, Option_HTLCHandlingFailureTypeZ_Some, Option_HTLCHandlingFailureTypeZ_None } from '../structs/Option_HTLCHandlingFailureTypeZ.mjs';
+import { Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ } from '../structs/Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ.mjs';
+import { LocalHTLCFailureReason, LocalHTLCFailureReason_TemporaryNodeFailure, LocalHTLCFailureReason_PermanentNodeFailure, LocalHTLCFailureReason_RequiredNodeFeature, LocalHTLCFailureReason_InvalidOnionVersion, LocalHTLCFailureReason_InvalidOnionHMAC, LocalHTLCFailureReason_InvalidOnionKey, LocalHTLCFailureReason_TemporaryChannelFailure, LocalHTLCFailureReason_PermanentChannelFailure, LocalHTLCFailureReason_RequiredChannelFeature, LocalHTLCFailureReason_UnknownNextPeer, LocalHTLCFailureReason_AmountBelowMinimum, LocalHTLCFailureReason_FeeInsufficient, LocalHTLCFailureReason_IncorrectCLTVExpiry, LocalHTLCFailureReason_CLTVExpiryTooSoon, LocalHTLCFailureReason_IncorrectPaymentDetails, LocalHTLCFailureReason_FinalIncorrectCLTVExpiry, LocalHTLCFailureReason_FinalIncorrectHTLCAmount, LocalHTLCFailureReason_ChannelDisabled, LocalHTLCFailureReason_CLTVExpiryTooFar, LocalHTLCFailureReason_InvalidOnionPayload, LocalHTLCFailureReason_MPPTimeout, LocalHTLCFailureReason_InvalidOnionBlinding, LocalHTLCFailureReason_UnknownFailureCode, LocalHTLCFailureReason_ForwardExpiryBuffer, LocalHTLCFailureReason_InvalidTrampolineForward, LocalHTLCFailureReason_PaymentClaimBuffer, LocalHTLCFailureReason_DustLimitHolder, LocalHTLCFailureReason_DustLimitCounterparty, LocalHTLCFailureReason_FeeSpikeBuffer, LocalHTLCFailureReason_PrivateChannelForward, LocalHTLCFailureReason_RealSCIDForward, LocalHTLCFailureReason_ChannelNotReady, LocalHTLCFailureReason_InvalidKeysendPreimage, LocalHTLCFailureReason_InvalidTrampolinePayload, LocalHTLCFailureReason_PaymentSecretRequired, LocalHTLCFailureReason_OutgoingCLTVTooSoon, LocalHTLCFailureReason_ChannelClosed, LocalHTLCFailureReason_OnChainTimeout, LocalHTLCFailureReason_ZeroAmount, LocalHTLCFailureReason_HTLCMinimum, LocalHTLCFailureReason_HTLCMaximum, LocalHTLCFailureReason_PeerOffline, LocalHTLCFailureReason_ChannelBalanceOverdrawn } from '../structs/LocalHTLCFailureReason.mjs';
+import { HTLCHandlingFailureReason, HTLCHandlingFailureReason_Downstream, HTLCHandlingFailureReason_Local } from '../structs/HTLCHandlingFailureReason.mjs';
+import { Result_HTLCHandlingFailureReasonDecodeErrorZ } from '../structs/Result_HTLCHandlingFailureReasonDecodeErrorZ.mjs';
 import { Option_PaymentFailureReasonZ, Option_PaymentFailureReasonZ_Some, Option_PaymentFailureReasonZ_None } from '../structs/Option_PaymentFailureReasonZ.mjs';
 import { Result_COption_PaymentFailureReasonZDecodeErrorZ } from '../structs/Result_COption_PaymentFailureReasonZDecodeErrorZ.mjs';
 import { Option_U128Z, Option_U128Z_Some, Option_U128Z_None } from '../structs/Option_U128Z.mjs';
+import { TwoTuple_ChannelIdCOption_U128ZZ } from '../structs/TwoTuple_ChannelIdCOption_U128ZZ.mjs';
+import { PaidBolt12Invoice, PaidBolt12Invoice_Bolt12Invoice, PaidBolt12Invoice_StaticInvoice } from '../structs/PaidBolt12Invoice.mjs';
+import { Option_PaidBolt12InvoiceZ, Option_PaidBolt12InvoiceZ_Some, Option_PaidBolt12InvoiceZ_None } from '../structs/Option_PaidBolt12InvoiceZ.mjs';
+import { Option_OutPointZ, Option_OutPointZ_Some, Option_OutPointZ_None } from '../structs/Option_OutPointZ.mjs';
+import { Option_HTLCHandlingFailureReasonZ, Option_HTLCHandlingFailureReasonZ_Some, Option_HTLCHandlingFailureReasonZ_None } from '../structs/Option_HTLCHandlingFailureReasonZ.mjs';
 import { Responder } from '../structs/Responder.mjs';
 import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { InboundChannelFunds, InboundChannelFunds_PushMsat, InboundChannelFunds_DualFunded } from '../structs/InboundChannelFunds.mjs';
 import { ChannelParameters } from '../structs/ChannelParameters.mjs';
 import { AnchorDescriptor } from '../structs/AnchorDescriptor.mjs';
 import { BumpTransactionEvent, BumpTransactionEvent_ChannelClose, BumpTransactionEvent_HTLCResolution } from '../structs/BumpTransactionEvent.mjs';
-import { Event, Event_FundingGenerationReady, Event_FundingTxBroadcastSafe, Event_PaymentClaimable, Event_PaymentClaimed, Event_ConnectionNeeded, Event_InvoiceReceived, Event_PaymentSent, Event_PaymentFailed, Event_PaymentPathSuccessful, Event_PaymentPathFailed, Event_ProbeSuccessful, Event_ProbeFailed, Event_PendingHTLCsForwardable, Event_HTLCIntercepted, Event_SpendableOutputs, Event_PaymentForwarded, Event_ChannelPending, Event_ChannelReady, Event_ChannelClosed, Event_DiscardFunding, Event_OpenChannelRequest, Event_HTLCHandlingFailed, Event_BumpTransaction, Event_OnionMessageIntercepted, Event_OnionMessagePeerConnected } from '../structs/Event.mjs';
+import { Event, Event_FundingGenerationReady, Event_FundingTxBroadcastSafe, Event_PaymentClaimable, Event_PaymentClaimed, Event_ConnectionNeeded, Event_InvoiceReceived, Event_PaymentSent, Event_PaymentFailed, Event_PaymentPathSuccessful, Event_PaymentPathFailed, Event_ProbeSuccessful, Event_ProbeFailed, Event_HTLCIntercepted, Event_SpendableOutputs, Event_PaymentForwarded, Event_ChannelPending, Event_ChannelReady, Event_ChannelClosed, Event_SplicePending, Event_SpliceFailed, Event_DiscardFunding, Event_OpenChannelRequest, Event_HTLCHandlingFailed, Event_BumpTransaction, Event_OnionMessageIntercepted, Event_OnionMessagePeerConnected, Event_PersistStaticInvoice, Event_StaticInvoiceRequested, Event_FundingTransactionReadyForSigning } from '../structs/Event.mjs';
 import { Option_EventZ, Option_EventZ_Some, Option_EventZ_None } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
+import { Result_PaidBolt12InvoiceDecodeErrorZ } from '../structs/Result_PaidBolt12InvoiceDecodeErrorZ.mjs';
+import { Packet } from '../structs/Packet.mjs';
+import { Result_PacketDecodeErrorZ } from '../structs/Result_PacketDecodeErrorZ.mjs';
 import { Result_NonceDecodeErrorZ } from '../structs/Result_NonceDecodeErrorZ.mjs';
 import { Bolt11ParseError } from '../structs/Bolt11ParseError.mjs';
 import { Result_SiPrefixBolt11ParseErrorZ } from '../structs/Result_SiPrefixBolt11ParseErrorZ.mjs';
@@ -570,11 +636,22 @@ import { Result_PrivateRouteCreationErrorZ } from '../structs/Result_PrivateRout
 import { Result_OutPointDecodeErrorZ } from '../structs/Result_OutPointDecodeErrorZ.mjs';
 import { BigSize } from '../structs/BigSize.mjs';
 import { Result_BigSizeDecodeErrorZ } from '../structs/Result_BigSizeDecodeErrorZ.mjs';
+import { CollectionLength } from '../structs/CollectionLength.mjs';
+import { Result_CollectionLengthDecodeErrorZ } from '../structs/Result_CollectionLengthDecodeErrorZ.mjs';
 import { Result_UntrustedStringDecodeErrorZ } from '../structs/Result_UntrustedStringDecodeErrorZ.mjs';
 import { Result_HostnameDecodeErrorZ } from '../structs/Result_HostnameDecodeErrorZ.mjs';
-import { TransactionU16LenLimited } from '../structs/TransactionU16LenLimited.mjs';
-import { Result_TransactionU16LenLimitedNoneZ } from '../structs/Result_TransactionU16LenLimitedNoneZ.mjs';
-import { Result_TransactionU16LenLimitedDecodeErrorZ } from '../structs/Result_TransactionU16LenLimitedDecodeErrorZ.mjs';
+import { BlindedPayInfo } from '../structs/BlindedPayInfo.mjs';
+import { Result_BlindedPayInfoDecodeErrorZ } from '../structs/Result_BlindedPayInfoDecodeErrorZ.mjs';
+import { Result_BlindedPaymentPathNoneZ } from '../structs/Result_BlindedPaymentPathNoneZ.mjs';
+import { PaymentForwardNode } from '../structs/PaymentForwardNode.mjs';
+import { PaymentRelay } from '../structs/PaymentRelay.mjs';
+import { Result_PaymentRelayDecodeErrorZ } from '../structs/Result_PaymentRelayDecodeErrorZ.mjs';
+import { PaymentConstraints } from '../structs/PaymentConstraints.mjs';
+import { Result_PaymentConstraintsDecodeErrorZ } from '../structs/Result_PaymentConstraintsDecodeErrorZ.mjs';
+import { Result_PaymentContextDecodeErrorZ } from '../structs/Result_PaymentContextDecodeErrorZ.mjs';
+import { Result_Bolt12OfferContextDecodeErrorZ } from '../structs/Result_Bolt12OfferContextDecodeErrorZ.mjs';
+import { Result_AsyncBolt12OfferContextDecodeErrorZ } from '../structs/Result_AsyncBolt12OfferContextDecodeErrorZ.mjs';
+import { Result_Bolt12RefundContextDecodeErrorZ } from '../structs/Result_Bolt12RefundContextDecodeErrorZ.mjs';
 import { Result_ChannelIdDecodeErrorZ } from '../structs/Result_ChannelIdDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
 import { Result_InitFeaturesDecodeErrorZ } from '../structs/Result_InitFeaturesDecodeErrorZ.mjs';
@@ -590,30 +667,25 @@ import { BlindedHopFeatures } from '../structs/BlindedHopFeatures.mjs';
 import { Result_BlindedHopFeaturesDecodeErrorZ } from '../structs/Result_BlindedHopFeaturesDecodeErrorZ.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { TwoTuple__u832u16Z } from '../structs/TwoTuple__u832u16Z.mjs';
-import { BlindedPayInfo } from '../structs/BlindedPayInfo.mjs';
-import { Result_BlindedPayInfoDecodeErrorZ } from '../structs/Result_BlindedPayInfoDecodeErrorZ.mjs';
-import { Result_BlindedPaymentPathNoneZ } from '../structs/Result_BlindedPaymentPathNoneZ.mjs';
-import { PaymentForwardNode } from '../structs/PaymentForwardNode.mjs';
-import { PaymentRelay } from '../structs/PaymentRelay.mjs';
-import { Result_PaymentRelayDecodeErrorZ } from '../structs/Result_PaymentRelayDecodeErrorZ.mjs';
-import { PaymentConstraints } from '../structs/PaymentConstraints.mjs';
-import { Result_PaymentConstraintsDecodeErrorZ } from '../structs/Result_PaymentConstraintsDecodeErrorZ.mjs';
-import { Result_PaymentContextDecodeErrorZ } from '../structs/Result_PaymentContextDecodeErrorZ.mjs';
-import { Result_Bolt12OfferContextDecodeErrorZ } from '../structs/Result_Bolt12OfferContextDecodeErrorZ.mjs';
-import { Result_Bolt12RefundContextDecodeErrorZ } from '../structs/Result_Bolt12RefundContextDecodeErrorZ.mjs';
 import { Result_ResponderDecodeErrorZ } from '../structs/Result_ResponderDecodeErrorZ.mjs';
-import { Option_MessageContextZ, Option_MessageContextZ_Some, Option_MessageContextZ_None } from '../structs/Option_MessageContextZ.mjs';
-import { ThreeTuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ } from '../structs/ThreeTuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZ.mjs';
+import { ThreeTuple_PublicKeyOnionMessageCVec_SocketAddressZZ } from '../structs/ThreeTuple_PublicKeyOnionMessageCVec_SocketAddressZZ.mjs';
 import { SendError, SendError_Secp256k1, SendError_TooBigPacket, SendError_TooFewBlindedHops, SendError_InvalidFirstHop, SendError_PathNotFound, SendError_InvalidMessage, SendError_BufferFull, SendError_GetNodeIdFailed, SendError_UnresolvedIntroductionNode, SendError_BlindedPathAdvanceFailed } from '../structs/SendError.mjs';
-import { Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ } from '../structs/Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.mjs';
+import { Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ } from '../structs/Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ.mjs';
 import { NextMessageHop, NextMessageHop_NodeId, NextMessageHop_ShortChannelId } from '../structs/NextMessageHop.mjs';
-import { ParsedOnionMessageContents, ParsedOnionMessageContents_Offers, ParsedOnionMessageContents_DNSResolver, ParsedOnionMessageContents_Custom } from '../structs/ParsedOnionMessageContents.mjs';
-import { PeeledOnion, PeeledOnion_Forward, PeeledOnion_Receive } from '../structs/PeeledOnion.mjs';
+import { PeeledOnion, PeeledOnion_Forward, PeeledOnion_Offers, PeeledOnion_AsyncPayments, PeeledOnion_DNSResolver, PeeledOnion_Custom } from '../structs/PeeledOnion.mjs';
 import { Result_PeeledOnionNoneZ } from '../structs/Result_PeeledOnionNoneZ.mjs';
 import { SendSuccess, SendSuccess_Buffered, SendSuccess_BufferedAwaitingConnection } from '../structs/SendSuccess.mjs';
 import { Result_SendSuccessSendErrorZ } from '../structs/Result_SendSuccessSendErrorZ.mjs';
 import { Result_NoneSendErrorZ } from '../structs/Result_NoneSendErrorZ.mjs';
 import { Result_BlindedHopDecodeErrorZ } from '../structs/Result_BlindedHopDecodeErrorZ.mjs';
+import { FundingTxInput } from '../structs/FundingTxInput.mjs';
+import { Result_FundingTxInputDecodeErrorZ } from '../structs/Result_FundingTxInputDecodeErrorZ.mjs';
+import { Result_FundingTxInputNoneZ } from '../structs/Result_FundingTxInputNoneZ.mjs';
+import { Result_LocalHTLCFailureReasonDecodeErrorZ } from '../structs/Result_LocalHTLCFailureReasonDecodeErrorZ.mjs';
+import { ThreeTuple_OnionPacketu64u32Z } from '../structs/ThreeTuple_OnionPacketu64u32Z.mjs';
+import { Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ } from '../structs/Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ.mjs';
+import { AttributionData } from '../structs/AttributionData.mjs';
+import { Result_AttributionDataDecodeErrorZ } from '../structs/Result_AttributionDataDecodeErrorZ.mjs';
 import { Result_InvoiceErrorDecodeErrorZ } from '../structs/Result_InvoiceErrorDecodeErrorZ.mjs';
 import { TrackedSpendableOutput } from '../structs/TrackedSpendableOutput.mjs';
 import { Result_TrackedSpendableOutputDecodeErrorZ } from '../structs/Result_TrackedSpendableOutputDecodeErrorZ.mjs';
@@ -622,13 +694,12 @@ import { Result_OutputSpendStatusDecodeErrorZ } from '../structs/Result_OutputSp
 import { WatchedOutput } from '../structs/WatchedOutput.mjs';
 import { Filter, FilterInterface } from '../structs/Filter.mjs';
 import { Option_FilterZ, Option_FilterZ_Some, Option_FilterZ_None } from '../structs/Option_FilterZ.mjs';
-import { ChangeDestinationSource, ChangeDestinationSourceInterface } from '../structs/ChangeDestinationSource.mjs';
-import { KVStore, KVStoreInterface } from '../structs/KVStore.mjs';
+import { ChangeDestinationSourceSync, ChangeDestinationSourceSyncInterface } from '../structs/ChangeDestinationSourceSync.mjs';
+import { KVStoreSync, KVStoreSyncInterface } from '../structs/KVStoreSync.mjs';
 import { OutputSpender, OutputSpenderInterface } from '../structs/OutputSpender.mjs';
-import { OutputSweeper } from '../structs/OutputSweeper.mjs';
-import { Result_OutputSweeperDecodeErrorZ } from '../structs/Result_OutputSweeperDecodeErrorZ.mjs';
-import { TwoTuple_BestBlockOutputSweeperZ } from '../structs/TwoTuple_BestBlockOutputSweeperZ.mjs';
-import { Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ } from '../structs/Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ.mjs';
+import { OutputSweeperSync } from '../structs/OutputSweeperSync.mjs';
+import { TwoTuple_BestBlockOutputSweeperSyncZ } from '../structs/TwoTuple_BestBlockOutputSweeperSyncZ.mjs';
+import { Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ } from '../structs/Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ.mjs';
 import { DelayedPaymentBasepoint } from '../structs/DelayedPaymentBasepoint.mjs';
 import { Result_DelayedPaymentBasepointDecodeErrorZ } from '../structs/Result_DelayedPaymentBasepointDecodeErrorZ.mjs';
 import { DelayedPaymentKey } from '../structs/DelayedPaymentKey.mjs';
@@ -643,15 +714,95 @@ import { RevocationKey } from '../structs/RevocationKey.mjs';
 import { Result_RevocationKeyDecodeErrorZ } from '../structs/Result_RevocationKeyDecodeErrorZ.mjs';
 import { LockedChannelMonitor } from '../structs/LockedChannelMonitor.mjs';
 import { Result_LockedChannelMonitorNoneZ } from '../structs/Result_LockedChannelMonitorNoneZ.mjs';
-import { TwoTuple_OutPointChannelIdZ } from '../structs/TwoTuple_OutPointChannelIdZ.mjs';
-import { TwoTuple_OutPointCVec_u64ZZ } from '../structs/TwoTuple_OutPointCVec_u64ZZ.mjs';
+import { TwoTuple_ChannelIdCVec_u64ZZ } from '../structs/TwoTuple_ChannelIdCVec_u64ZZ.mjs';
 import { Result_BlindedMessagePathDecodeErrorZ } from '../structs/Result_BlindedMessagePathDecodeErrorZ.mjs';
-import { Result_BlindedMessagePathNoneZ } from '../structs/Result_BlindedMessagePathNoneZ.mjs';
 import { Result_MessageContextDecodeErrorZ } from '../structs/Result_MessageContextDecodeErrorZ.mjs';
 import { Result_OffersContextDecodeErrorZ } from '../structs/Result_OffersContextDecodeErrorZ.mjs';
 import { Result_AsyncPaymentsContextDecodeErrorZ } from '../structs/Result_AsyncPaymentsContextDecodeErrorZ.mjs';
 import { Result_DNSResolverContextDecodeErrorZ } from '../structs/Result_DNSResolverContextDecodeErrorZ.mjs';
+import { AnchorChannelReserveContext } from '../structs/AnchorChannelReserveContext.mjs';
+import { MonitorName, MonitorName_V1Channel, MonitorName_V2Channel } from '../structs/MonitorName.mjs';
+import { Persist, PersistInterface } from '../structs/Persist.mjs';
+import { ChainMonitor } from '../structs/ChainMonitor.mjs';
+import { KVStoreSyncWrapper } from '../structs/KVStoreSyncWrapper.mjs';
 import { MigratableKVStore, MigratableKVStoreInterface } from '../structs/MigratableKVStore.mjs';
+import { MonitorUpdatingPersister } from '../structs/MonitorUpdatingPersister.mjs';
+import { SpendingDelay, SpendingDelay_Relative, SpendingDelay_Absolute } from '../structs/SpendingDelay.mjs';
+import { Listen, ListenInterface } from '../structs/Listen.mjs';
+import { Confirm, ConfirmInterface } from '../structs/Confirm.mjs';
+import { Notifier } from '../structs/Notifier.mjs';
+import { Future } from '../structs/Future.mjs';
+import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
+import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
+import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
+import { ChannelConfigUpdate } from '../structs/ChannelConfigUpdate.mjs';
+import { UserConfig } from '../structs/UserConfig.mjs';
+import { ChannelConfigOverrides } from '../structs/ChannelConfigOverrides.mjs';
+import { ChannelHandshakeConfigUpdate } from '../structs/ChannelHandshakeConfigUpdate.mjs';
+import { IntroductionNode, IntroductionNode_NodeId, IntroductionNode_DirectedShortChannelId } from '../structs/IntroductionNode.mjs';
+import { NodeIdLookUp, NodeIdLookUpInterface } from '../structs/NodeIdLookUp.mjs';
+import { EmptyNodeIdLookUp } from '../structs/EmptyNodeIdLookUp.mjs';
+import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
+import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
+import { TrampolineForwardTlvs } from '../structs/TrampolineForwardTlvs.mjs';
+import { UnauthenticatedReceiveTlvs } from '../structs/UnauthenticatedReceiveTlvs.mjs';
+import { BaseMessageHandler, BaseMessageHandlerInterface } from '../structs/BaseMessageHandler.mjs';
+import { SendOnlyMessageHandler, SendOnlyMessageHandlerInterface } from '../structs/SendOnlyMessageHandler.mjs';
+import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
+import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
+import { WalletSourceSync, WalletSourceSyncInterface } from '../structs/WalletSourceSync.mjs';
+import { WalletSync } from '../structs/WalletSync.mjs';
+import { CoinSelectionSourceSync, CoinSelectionSourceSyncInterface } from '../structs/CoinSelectionSourceSync.mjs';
+import { BumpTransactionEventHandlerSync } from '../structs/BumpTransactionEventHandlerSync.mjs';
+import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
+import { Verification, VerificationInterface } from '../structs/Verification.mjs';
+import { OptionalOfferPaymentParams } from '../structs/OptionalOfferPaymentParams.mjs';
+import { FailureCode, FailureCode_TemporaryNodeFailure, FailureCode_RequiredNodeFeatureMissing, FailureCode_IncorrectOrUnknownPaymentDetails, FailureCode_InvalidOnionPayload } from '../structs/FailureCode.mjs';
+import { ChainParameters } from '../structs/ChainParameters.mjs';
+import { SpliceContribution, SpliceContribution_SpliceIn, SpliceContribution_SpliceOut } from '../structs/SpliceContribution.mjs';
+import { Bolt11InvoiceParameters } from '../structs/Bolt11InvoiceParameters.mjs';
+import { Sha256 } from '../structs/Sha256.mjs';
+import { Bolt11InvoiceDescription, Bolt11InvoiceDescription_Direct, Bolt11InvoiceDescription_Hash } from '../structs/Bolt11InvoiceDescription.mjs';
+import { OfferFromHrn } from '../structs/OfferFromHrn.mjs';
+import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
+import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
+import { AsyncPaymentsMessageHandler, AsyncPaymentsMessageHandlerInterface } from '../structs/AsyncPaymentsMessageHandler.mjs';
+import { DNSResolverMessageHandler, DNSResolverMessageHandlerInterface } from '../structs/DNSResolverMessageHandler.mjs';
+import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
+import { CommonOpenChannelFields } from '../structs/CommonOpenChannelFields.mjs';
+import { CommonAcceptChannelFields } from '../structs/CommonAcceptChannelFields.mjs';
+import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
+import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
+import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
+import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
+import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
+import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
+import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
+import { MessageHandler } from '../structs/MessageHandler.mjs';
+import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
+import { PeerManager } from '../structs/PeerManager.mjs';
+import { OfferWithExplicitMetadataBuilder } from '../structs/OfferWithExplicitMetadataBuilder.mjs';
+import { PrintableString } from '../structs/PrintableString.mjs';
+import { OfferFeatures } from '../structs/OfferFeatures.mjs';
+import { OffersMessageFlow } from '../structs/OffersMessageFlow.mjs';
+import { HeldHtlcReplyPath, HeldHtlcReplyPath_ToUs, HeldHtlcReplyPath_ToCounterparty } from '../structs/HeldHtlcReplyPath.mjs';
+import { SignBolt12InvoiceFn, SignBolt12InvoiceFnInterface } from '../structs/SignBolt12InvoiceFn.mjs';
+import { TaggedHash } from '../structs/TaggedHash.mjs';
+import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
+import { ErroneousField } from '../structs/ErroneousField.mjs';
+import { UnsignedInvoiceRequest } from '../structs/UnsignedInvoiceRequest.mjs';
+import { SignInvoiceRequestFn, SignInvoiceRequestFnInterface } from '../structs/SignInvoiceRequestFn.mjs';
+import { UnsignedStaticInvoice } from '../structs/UnsignedStaticInvoice.mjs';
+import { SignStaticInvoiceFn, SignStaticInvoiceFnInterface } from '../structs/SignStaticInvoiceFn.mjs';
+import { OMNameResolver } from '../structs/OMNameResolver.mjs';
+import { OnionMessenger } from '../structs/OnionMessenger.mjs';
+import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
+import { NodeIdMessageRouter } from '../structs/NodeIdMessageRouter.mjs';
+import { NullMessageRouter } from '../structs/NullMessageRouter.mjs';
+import { ParsedOnionMessageContents, ParsedOnionMessageContents_Offers, ParsedOnionMessageContents_AsyncPayments, ParsedOnionMessageContents_DNSResolver, ParsedOnionMessageContents_Custom } from '../structs/ParsedOnionMessageContents.mjs';
+import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
+import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
+import { EffectiveCapacity, EffectiveCapacity_ExactLiquidity, EffectiveCapacity_AdvertisedMaxHTLC, EffectiveCapacity_Total, EffectiveCapacity_Infinite, EffectiveCapacity_HintMaxHTLC, EffectiveCapacity_Unknown } from '../structs/EffectiveCapacity.mjs';
 import { FirstHopCandidate } from '../structs/FirstHopCandidate.mjs';
 import { PublicHopCandidate } from '../structs/PublicHopCandidate.mjs';
 import { PrivateHopCandidate } from '../structs/PrivateHopCandidate.mjs';
@@ -663,138 +814,27 @@ import { ProbabilisticScoringFeeParameters } from '../structs/ProbabilisticScori
 import { ScoreLookUp, ScoreLookUpInterface } from '../structs/ScoreLookUp.mjs';
 import { ScoreUpdate, ScoreUpdateInterface } from '../structs/ScoreUpdate.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
-import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
-import { Persister, PersisterInterface } from '../structs/Persister.mjs';
-import { MonitorUpdatingPersister } from '../structs/MonitorUpdatingPersister.mjs';
-import { Persist, PersistInterface } from '../structs/Persist.mjs';
-import { Listen, ListenInterface } from '../structs/Listen.mjs';
-import { Confirm, ConfirmInterface } from '../structs/Confirm.mjs';
-import { SpendingDelay, SpendingDelay_Relative, SpendingDelay_Absolute } from '../structs/SpendingDelay.mjs';
-import { FutureCallback, FutureCallbackInterface } from '../structs/FutureCallback.mjs';
-import { Future } from '../structs/Future.mjs';
-import { ChannelHandshakeConfig } from '../structs/ChannelHandshakeConfig.mjs';
-import { ChannelHandshakeLimits } from '../structs/ChannelHandshakeLimits.mjs';
-import { ChannelConfigUpdate } from '../structs/ChannelConfigUpdate.mjs';
-import { UserConfig } from '../structs/UserConfig.mjs';
-import { ChainMonitor } from '../structs/ChainMonitor.mjs';
-import { EventHandler, EventHandlerInterface } from '../structs/EventHandler.mjs';
-import { EventsProvider, EventsProviderInterface } from '../structs/EventsProvider.mjs';
-import { Verification, VerificationInterface } from '../structs/Verification.mjs';
-import { UnauthenticatedReceiveTlvs } from '../structs/UnauthenticatedReceiveTlvs.mjs';
-import { FailureCode, FailureCode_TemporaryNodeFailure, FailureCode_RequiredNodeFeatureMissing, FailureCode_IncorrectOrUnknownPaymentDetails, FailureCode_InvalidOnionPayload } from '../structs/FailureCode.mjs';
-import { ChainParameters } from '../structs/ChainParameters.mjs';
-import { Bolt11InvoiceParameters } from '../structs/Bolt11InvoiceParameters.mjs';
-import { Sha256 } from '../structs/Sha256.mjs';
-import { Bolt11InvoiceDescription, Bolt11InvoiceDescription_Direct, Bolt11InvoiceDescription_Hash } from '../structs/Bolt11InvoiceDescription.mjs';
-import { MessageSendEventsProvider, MessageSendEventsProviderInterface } from '../structs/MessageSendEventsProvider.mjs';
-import { ChannelMessageHandler, ChannelMessageHandlerInterface } from '../structs/ChannelMessageHandler.mjs';
-import { OffersMessageHandler, OffersMessageHandlerInterface } from '../structs/OffersMessageHandler.mjs';
-import { AsyncPaymentsMessageHandler, AsyncPaymentsMessageHandlerInterface } from '../structs/AsyncPaymentsMessageHandler.mjs';
-import { DNSResolverMessageHandler, DNSResolverMessageHandlerInterface } from '../structs/DNSResolverMessageHandler.mjs';
-import { NodeIdLookUp, NodeIdLookUpInterface } from '../structs/NodeIdLookUp.mjs';
-import { ChannelManagerReadArgs } from '../structs/ChannelManagerReadArgs.mjs';
-import { CommonOpenChannelFields } from '../structs/CommonOpenChannelFields.mjs';
-import { CommonAcceptChannelFields } from '../structs/CommonAcceptChannelFields.mjs';
-import { Packet } from '../structs/Packet.mjs';
-import { RoutingMessageHandler, RoutingMessageHandlerInterface } from '../structs/RoutingMessageHandler.mjs';
-import { OnionMessageHandler, OnionMessageHandlerInterface } from '../structs/OnionMessageHandler.mjs';
-import { TrampolineOnionPacket } from '../structs/TrampolineOnionPacket.mjs';
-import { CustomMessageReader, CustomMessageReaderInterface } from '../structs/CustomMessageReader.mjs';
-import { CustomMessageHandler, CustomMessageHandlerInterface } from '../structs/CustomMessageHandler.mjs';
-import { IgnoringMessageHandler } from '../structs/IgnoringMessageHandler.mjs';
-import { CustomOnionMessageHandler, CustomOnionMessageHandlerInterface } from '../structs/CustomOnionMessageHandler.mjs';
-import { ErroringMessageHandler } from '../structs/ErroringMessageHandler.mjs';
-import { MessageHandler } from '../structs/MessageHandler.mjs';
-import { SocketDescriptor, SocketDescriptorInterface } from '../structs/SocketDescriptor.mjs';
-import { PeerManager } from '../structs/PeerManager.mjs';
-import { DirectedChannelTransactionParameters } from '../structs/DirectedChannelTransactionParameters.mjs';
-import { OfferWithExplicitMetadataBuilder } from '../structs/OfferWithExplicitMetadataBuilder.mjs';
-import { PrintableString } from '../structs/PrintableString.mjs';
-import { OfferFeatures } from '../structs/OfferFeatures.mjs';
-import { SignBolt12InvoiceFn, SignBolt12InvoiceFnInterface } from '../structs/SignBolt12InvoiceFn.mjs';
-import { TaggedHash } from '../structs/TaggedHash.mjs';
-import { InvoiceRequestFeatures } from '../structs/InvoiceRequestFeatures.mjs';
-import { ErroneousField } from '../structs/ErroneousField.mjs';
-import { UnsignedInvoiceRequest } from '../structs/UnsignedInvoiceRequest.mjs';
-import { SignInvoiceRequestFn, SignInvoiceRequestFnInterface } from '../structs/SignInvoiceRequestFn.mjs';
-import { SignError, SignError_Signing, SignError_Verification } from '../structs/SignError.mjs';
-import { P2PGossipSync } from '../structs/P2PGossipSync.mjs';
-import { ReadOnlyNetworkGraph } from '../structs/ReadOnlyNetworkGraph.mjs';
-import { DirectedChannelInfo } from '../structs/DirectedChannelInfo.mjs';
-import { EffectiveCapacity, EffectiveCapacity_ExactLiquidity, EffectiveCapacity_AdvertisedMaxHTLC, EffectiveCapacity_Total, EffectiveCapacity_Infinite, EffectiveCapacity_HintMaxHTLC, EffectiveCapacity_Unknown } from '../structs/EffectiveCapacity.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 import { ScorerAccountingForInFlightHtlcs } from '../structs/ScorerAccountingForInFlightHtlcs.mjs';
 import { Payee, Payee_Blinded, Payee_Clear } from '../structs/Payee.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
+import { WriteableScore, WriteableScoreInterface } from '../structs/WriteableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
 import { MultiThreadedScoreLockRead } from '../structs/MultiThreadedScoreLockRead.mjs';
 import { MultiThreadedScoreLockWrite } from '../structs/MultiThreadedScoreLockWrite.mjs';
 import { ProbabilisticScoringDecayParameters } from '../structs/ProbabilisticScoringDecayParameters.mjs';
+import { CombinedScorer } from '../structs/CombinedScorer.mjs';
+import { ChangeDestinationSourceSyncWrapper } from '../structs/ChangeDestinationSourceSyncWrapper.mjs';
+import { InMemorySigner } from '../structs/InMemorySigner.mjs';
 import { KeysManager } from '../structs/KeysManager.mjs';
 import { PhantomKeysManager } from '../structs/PhantomKeysManager.mjs';
 import { RandomBytes } from '../structs/RandomBytes.mjs';
-import { OMNameResolver } from '../structs/OMNameResolver.mjs';
-import { OnionMessenger } from '../structs/OnionMessenger.mjs';
-import { DefaultMessageRouter } from '../structs/DefaultMessageRouter.mjs';
-import { IntroductionNode, IntroductionNode_NodeId, IntroductionNode_DirectedShortChannelId } from '../structs/IntroductionNode.mjs';
-import { EmptyNodeIdLookUp } from '../structs/EmptyNodeIdLookUp.mjs';
-import { ForwardTlvs } from '../structs/ForwardTlvs.mjs';
-import { CoinSelectionSource, CoinSelectionSourceInterface } from '../structs/CoinSelectionSource.mjs';
-import { WalletSource, WalletSourceInterface } from '../structs/WalletSource.mjs';
-import { Wallet } from '../structs/Wallet.mjs';
-import { BumpTransactionEventHandler } from '../structs/BumpTransactionEventHandler.mjs';
 import { RapidGossipSync } from '../structs/RapidGossipSync.mjs';
 import { GossipSync, GossipSync_P2P, GossipSync_Rapid, GossipSync_None } from '../structs/GossipSync.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
 import { MinFinalCltvExpiryDelta } from '../structs/MinFinalCltvExpiryDelta.mjs';
 import { Fallback, Fallback_SegWitProgram, Fallback_PubKeyHash, Fallback_ScriptHash } from '../structs/Fallback.mjs';
-import { LSPS0ClientEvent, LSPS0ClientEvent_ListProtocolsResponse } from '../structs/LSPS0ClientEvent.mjs';
-import { LSPS1Options } from '../structs/LSPS1Options.mjs';
-import { LSPSResponseError } from '../structs/LSPSResponseError.mjs';
-import { LSPS1OrderId } from '../structs/LSPS1OrderId.mjs';
-import { LSPS1OrderParams } from '../structs/LSPS1OrderParams.mjs';
-import { LSPS1PaymentInfo } from '../structs/LSPS1PaymentInfo.mjs';
-import { LSPS1ChannelInfo } from '../structs/LSPS1ChannelInfo.mjs';
-import { LSPS1ClientEvent, LSPS1ClientEvent_SupportedOptionsReady, LSPS1ClientEvent_SupportedOptionsRequestFailed, LSPS1ClientEvent_OrderCreated, LSPS1ClientEvent_OrderStatus, LSPS1ClientEvent_OrderRequestFailed } from '../structs/LSPS1ClientEvent.mjs';
-import { LSPS2ClientEvent, LSPS2ClientEvent_OpeningParametersReady, LSPS2ClientEvent_InvoiceParametersReady } from '../structs/LSPS2ClientEvent.mjs';
-import { LSPS2ServiceEvent, LSPS2ServiceEvent_GetInfo, LSPS2ServiceEvent_BuyRequest, LSPS2ServiceEvent_OpenChannel } from '../structs/LSPS2ServiceEvent.mjs';
-import { LiquidityEvent, LiquidityEvent_LSPS0Client, LiquidityEvent_LSPS1Client, LiquidityEvent_LSPS2Client, LiquidityEvent_LSPS2Service } from '../structs/LiquidityEvent.mjs';
-import { LSPS0ClientHandler } from '../structs/LSPS0ClientHandler.mjs';
-import { LSPS0ListProtocolsRequest } from '../structs/LSPS0ListProtocolsRequest.mjs';
-import { LSPS0ListProtocolsResponse } from '../structs/LSPS0ListProtocolsResponse.mjs';
-import { LSPS0Request, LSPS0Request_ListProtocols } from '../structs/LSPS0Request.mjs';
-import { LSPS0Response, LSPS0Response_ListProtocols, LSPS0Response_ListProtocolsError } from '../structs/LSPS0Response.mjs';
-import { LSPS0Message, LSPS0Message_Request, LSPS0Message_Response } from '../structs/LSPS0Message.mjs';
-import { LSPS1GetInfoRequest } from '../structs/LSPS1GetInfoRequest.mjs';
-import { LSPS1CreateOrderRequest } from '../structs/LSPS1CreateOrderRequest.mjs';
-import { LSPS1GetOrderRequest } from '../structs/LSPS1GetOrderRequest.mjs';
-import { LSPS1Request, LSPS1Request_GetInfo, LSPS1Request_CreateOrder, LSPS1Request_GetOrder } from '../structs/LSPS1Request.mjs';
-import { LSPS1GetInfoResponse } from '../structs/LSPS1GetInfoResponse.mjs';
-import { LSPS1CreateOrderResponse } from '../structs/LSPS1CreateOrderResponse.mjs';
-import { LSPS1Response, LSPS1Response_GetInfo, LSPS1Response_GetInfoError, LSPS1Response_CreateOrder, LSPS1Response_CreateOrderError, LSPS1Response_GetOrder, LSPS1Response_GetOrderError } from '../structs/LSPS1Response.mjs';
-import { LSPS1Message, LSPS1Message_Request, LSPS1Message_Response } from '../structs/LSPS1Message.mjs';
-import { LSPS2GetInfoRequest } from '../structs/LSPS2GetInfoRequest.mjs';
-import { LSPS2BuyRequest } from '../structs/LSPS2BuyRequest.mjs';
-import { LSPS2Request, LSPS2Request_GetInfo, LSPS2Request_Buy } from '../structs/LSPS2Request.mjs';
-import { LSPS2GetInfoResponse } from '../structs/LSPS2GetInfoResponse.mjs';
-import { LSPS2BuyResponse } from '../structs/LSPS2BuyResponse.mjs';
-import { LSPS2Response, LSPS2Response_GetInfo, LSPS2Response_GetInfoError, LSPS2Response_Buy, LSPS2Response_BuyError } from '../structs/LSPS2Response.mjs';
-import { LSPS2Message, LSPS2Message_Request, LSPS2Message_Response } from '../structs/LSPS2Message.mjs';
-import { LSPSMessage, LSPSMessage_Invalid, LSPSMessage_LSPS0, LSPSMessage_LSPS1, LSPSMessage_LSPS2 } from '../structs/LSPSMessage.mjs';
-import { LSPS0ServiceHandler } from '../structs/LSPS0ServiceHandler.mjs';
-import { LSPS1ClientConfig } from '../structs/LSPS1ClientConfig.mjs';
-import { LSPS1ClientHandler } from '../structs/LSPS1ClientHandler.mjs';
-import { LSPS1Bolt11PaymentInfo } from '../structs/LSPS1Bolt11PaymentInfo.mjs';
-import { LSPS1OnchainPaymentInfo } from '../structs/LSPS1OnchainPaymentInfo.mjs';
-import { LSPS1OnchainPayment } from '../structs/LSPS1OnchainPayment.mjs';
-import { LSPS2ClientConfig } from '../structs/LSPS2ClientConfig.mjs';
-import { LSPS2ClientHandler } from '../structs/LSPS2ClientHandler.mjs';
-import { LSPS2InterceptScid } from '../structs/LSPS2InterceptScid.mjs';
-import { LSPS2ServiceConfig } from '../structs/LSPS2ServiceConfig.mjs';
-import { LSPS2ServiceHandler } from '../structs/LSPS2ServiceHandler.mjs';
-import { MessageQueue } from '../structs/MessageQueue.mjs';
-import { ProcessMessagesCallback, ProcessMessagesCallbackInterface } from '../structs/ProcessMessagesCallback.mjs';
 
 import { CommonBase, UInt5, WitnessVersion, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
@@ -832,6 +872,58 @@ export class UtilMethods extends CommonBase {
 	 */
 	public static constructor_COption_NoneZ_none(): COption_NoneZ {
 		const ret: COption_NoneZ = bindings.COption_NoneZ_none();
+		return ret;
+	}
+
+	/**
+	 * Returns the amount that needs to be maintained as a reserve per anchor channel.
+	 * 
+	 * This reserve currently needs to be allocated as a disjoint set of at least 1 UTXO per channel,
+	 * as claims are not yet aggregated across channels.
+	 * 
+	 * To only require 1 UTXO per channel, it is assumed that, on average, transactions are able to
+	 * get confirmed within 1 block with [ConfirmationTarget::UrgentOnChainSweep], or that only a
+	 * portion of channels will go through unilateral closure at the same time, allowing UTXOs to be
+	 * shared. Otherwise, multiple UTXOs would be needed per channel:
+	 * - HTLC time-out transactions with different expiries cannot be aggregated. This could result in
+	 * many individual transactions that need to be confirmed starting from different, but potentially
+	 * sequential block heights.
+	 * - If each transaction takes N blocks to confirm, at least N UTXOs per channel are needed to
+	 * provide the necessary concurrency.
+	 * 
+	 * The returned amount includes the fee to spend a single UTXO of the type indicated by
+	 * [AnchorChannelReserveContext::taproot_wallet]. Larger sets of UTXOs with more complex witnesses
+	 * will need to include the corresponding fee required to spend them.
+	 * 
+	 * [ConfirmationTarget::UrgentOnChainSweep]: crate::chain::chaininterface::ConfirmationTarget::UrgentOnChainSweep
+	 */
+	public static constructor_get_reserve_per_channel(context: AnchorChannelReserveContext): bigint {
+		const ret: bigint = bindings.get_reserve_per_channel(CommonBase.get_ptr_of(context));
+		return ret;
+	}
+
+	/**
+	 * Calculates the number of anchor channels that can be supported by the reserve provided
+	 * by `utxos`.
+	 */
+	public static constructor_get_supportable_anchor_channels(context: AnchorChannelReserveContext, utxos: Utxo[]): bigint {
+		const ret: bigint = bindings.get_supportable_anchor_channels(CommonBase.get_ptr_of(context), bindings.encodeUint64Array(utxos.map(utxos_conv_6 => CommonBase.get_ptr_of(utxos_conv_6))));
+		return ret;
+	}
+
+	/**
+	 * Verifies whether the anchor channel reserve provided by `utxos` is sufficient to support
+	 * an additional anchor channel.
+	 * 
+	 * This should be verified:
+	 * - Before opening a new outbound anchor channel with [ChannelManager::create_channel].
+	 * - Before accepting a new inbound anchor channel while handling [Event::OpenChannelRequest].
+	 * 
+	 * [ChannelManager::create_channel]: crate::ln::channelmanager::ChannelManager::create_channel
+	 * [Event::OpenChannelRequest]: crate::events::Event::OpenChannelRequest
+	 */
+	public static constructor_can_support_additional_anchor_channel(context: AnchorChannelReserveContext, utxos: Utxo[], a_channel_manager: ChannelManager, chain_monitor: ChainMonitor): boolean {
+		const ret: boolean = bindings.can_support_additional_anchor_channel(CommonBase.get_ptr_of(context), bindings.encodeUint64Array(utxos.map(utxos_conv_6 => CommonBase.get_ptr_of(utxos_conv_6))), CommonBase.get_ptr_of(a_channel_manager), CommonBase.get_ptr_of(chain_monitor));
 		return ret;
 	}
 
@@ -886,15 +978,13 @@ export class UtilMethods extends CommonBase {
 	public static constructor_migrate_kv_store_data(source_store: MigratableKVStore, target_store: MigratableKVStore): Result_NoneIOErrorZ {
 		const ret: bigint = bindings.migrate_kv_store_data(CommonBase.get_ptr_of(source_store), CommonBase.get_ptr_of(target_store));
 		const ret_hu_conv: Result_NoneIOErrorZ = Result_NoneIOErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, source_store);
-		CommonBase.add_ref_from(ret_hu_conv, target_store);
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Read previously persisted [`ChannelMonitor`]s from the store.
 	 */
-	public static constructor_read_channel_monitors(kv_store: KVStore, entropy_source: EntropySource, signer_provider: SignerProvider): Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ {
+	public static constructor_read_channel_monitors(kv_store: KVStoreSync, entropy_source: EntropySource, signer_provider: SignerProvider): Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ {
 		const ret: bigint = bindings.read_channel_monitors(CommonBase.get_ptr_of(kv_store), CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(signer_provider));
 		const ret_hu_conv: Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ = Result_CVec_C2Tuple_ThirtyTwoBytesChannelMonitorZZIOErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, kv_store);
@@ -938,11 +1028,11 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
-	 * Read a C2Tuple_BestBlockOutputSweeperZ from a byte array, created by C2Tuple_BestBlockOutputSweeperZ_write
+	 * Read a C2Tuple_BestBlockOutputSweeperSyncZ from a byte array, created by C2Tuple_BestBlockOutputSweeperSyncZ_write
 	 */
-	public static constructor_C2Tuple_BestBlockOutputSweeperZ_read(ser: Uint8Array, arg_a: BroadcasterInterface, arg_b: FeeEstimator, arg_c: Option_FilterZ, arg_d: OutputSpender, arg_e: ChangeDestinationSource, arg_f: KVStore, arg_g: Logger): Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ {
-		const ret: bigint = bindings.C2Tuple_BestBlockOutputSweeperZ_read(bindings.encodeUint8Array(ser), CommonBase.get_ptr_of(arg_a), CommonBase.get_ptr_of(arg_b), CommonBase.get_ptr_of(arg_c), CommonBase.get_ptr_of(arg_d), CommonBase.get_ptr_of(arg_e), CommonBase.get_ptr_of(arg_f), CommonBase.get_ptr_of(arg_g));
-		const ret_hu_conv: Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ = Result_C2Tuple_BestBlockOutputSweeperZDecodeErrorZ.constr_from_ptr(ret);
+	public static constructor_C2Tuple_BestBlockOutputSweeperSyncZ_read(ser: Uint8Array, arg_a: BroadcasterInterface, arg_b: FeeEstimator, arg_c: Option_FilterZ, arg_d: OutputSpender, arg_e: ChangeDestinationSourceSync, arg_f: KVStoreSync, arg_g: Logger): Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ {
+		const ret: bigint = bindings.C2Tuple_BestBlockOutputSweeperSyncZ_read(bindings.encodeUint8Array(ser), CommonBase.get_ptr_of(arg_a), CommonBase.get_ptr_of(arg_b), CommonBase.get_ptr_of(arg_c), CommonBase.get_ptr_of(arg_d), CommonBase.get_ptr_of(arg_e), CommonBase.get_ptr_of(arg_f), CommonBase.get_ptr_of(arg_g));
+		const ret_hu_conv: Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ = Result_C2Tuple_BestBlockOutputSweeperSyncZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg_a);
 		CommonBase.add_ref_from(ret_hu_conv, arg_b);
 		CommonBase.add_ref_from(ret_hu_conv, arg_c);
@@ -974,138 +1064,60 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
-	 * Peel one layer off an incoming onion, returning a [`PendingHTLCInfo`] that contains information
-	 * about the intended next-hop for the HTLC.
-	 * 
-	 * This does all the relevant context-free checks that LDK requires for payment relay or
-	 * acceptance. If the payment is to be received, and the amount matches the expected amount for
-	 * a given invoice, this indicates the [`msgs::UpdateAddHTLC`], once fully committed in the
-	 * channel, will generate an [`Event::PaymentClaimable`].
-	 * 
-	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 * Read a PathFailure from a byte array, created by PathFailure_write
 	 */
-	public static constructor_peel_payment_onion(msg: UpdateAddHTLC, node_signer: NodeSigner, logger: Logger, cur_height: number, allow_skimmed_fees: boolean): Result_PendingHTLCInfoInboundHTLCErrZ {
-		const ret: bigint = bindings.peel_payment_onion(CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(logger), cur_height, allow_skimmed_fees);
-		const ret_hu_conv: Result_PendingHTLCInfoInboundHTLCErrZ = Result_PendingHTLCInfoInboundHTLCErrZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, msg);
-		CommonBase.add_ref_from(ret_hu_conv, node_signer);
-		CommonBase.add_ref_from(ret_hu_conv, logger);
+	public static constructor_PathFailure_read(ser: Uint8Array): Result_COption_PathFailureZDecodeErrorZ {
+		const ret: bigint = bindings.PathFailure_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_PathFailureZDecodeErrorZ = Result_COption_PathFailureZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
-	 * [`ChannelManager`].
+	 * Read a ClosureReason from a byte array, created by ClosureReason_write
 	 */
-	public static constructor_provided_init_features(config: UserConfig): InitFeatures {
-		const ret: bigint = bindings.provided_init_features(CommonBase.get_ptr_of(config));
-		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		CommonBase.add_ref_from(ret_hu_conv, config);
+	public static constructor_ClosureReason_read(ser: Uint8Array): Result_COption_ClosureReasonZDecodeErrorZ {
+		const ret: bigint = bindings.ClosureReason_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Read a C2Tuple_ThirtyTwoBytesChannelManagerZ from a byte array, created by C2Tuple_ThirtyTwoBytesChannelManagerZ_write
+	 * Read a HTLCHandlingFailureType from a byte array, created by HTLCHandlingFailureType_write
 	 */
-	public static constructor_C2Tuple_ThirtyTwoBytesChannelManagerZ_read(ser: Uint8Array, arg_entropy_source: EntropySource, arg_node_signer: NodeSigner, arg_signer_provider: SignerProvider, arg_fee_estimator: FeeEstimator, arg_chain_monitor: Watch, arg_tx_broadcaster: BroadcasterInterface, arg_router: Router, arg_message_router: MessageRouter, arg_logger: Logger, arg_default_config: UserConfig, arg_channel_monitors: ChannelMonitor[]): Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ {
-		const ret: bigint = bindings.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(bindings.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(CommonBase.get_ptr_of(arg_entropy_source), CommonBase.get_ptr_of(arg_node_signer), CommonBase.get_ptr_of(arg_signer_provider), CommonBase.get_ptr_of(arg_fee_estimator), CommonBase.get_ptr_of(arg_chain_monitor), CommonBase.get_ptr_of(arg_tx_broadcaster), CommonBase.get_ptr_of(arg_router), CommonBase.get_ptr_of(arg_message_router), CommonBase.get_ptr_of(arg_logger), CommonBase.get_ptr_of(arg_default_config), bindings.encodeUint64Array(arg_channel_monitors.map(arg_channel_monitors_conv_16 => CommonBase.get_ptr_of(arg_channel_monitors_conv_16)))));
-		const ret_hu_conv: Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ = Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, arg_entropy_source);
-		CommonBase.add_ref_from(ret_hu_conv, arg_node_signer);
-		CommonBase.add_ref_from(ret_hu_conv, arg_signer_provider);
-		CommonBase.add_ref_from(ret_hu_conv, arg_fee_estimator);
-		CommonBase.add_ref_from(ret_hu_conv, arg_chain_monitor);
-		CommonBase.add_ref_from(ret_hu_conv, arg_tx_broadcaster);
-		CommonBase.add_ref_from(ret_hu_conv, arg_router);
-		CommonBase.add_ref_from(ret_hu_conv, arg_message_router);
-		CommonBase.add_ref_from(ret_hu_conv, arg_logger);
-		;
-		arg_channel_monitors.forEach((arg_channel_monitors_conv_16: ChannelMonitor) => { CommonBase.add_ref_from(ret_hu_conv, arg_channel_monitors_conv_16); });
+	public static constructor_HTLCHandlingFailureType_read(ser: Uint8Array): Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ {
+		const ret: bigint = bindings.HTLCHandlingFailureType_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ = Result_COption_HTLCHandlingFailureTypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Adds a tweak to a public key to derive a new public key.
-	 * 
-	 * May panic if `tweak` is not the output of a SHA-256 hash.
+	 * Read a PaymentFailureReason from a byte array, created by PaymentFailureReason_write
 	 */
-	public static constructor_add_public_key_tweak(base_point: Uint8Array, tweak: Uint8Array): Uint8Array {
-		const ret: number = bindings.add_public_key_tweak(bindings.encodeUint8Array(base_point), bindings.encodeUint8Array(tweak));
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
-	 * Read a InboundHTLCStateDetails from a byte array, created by InboundHTLCStateDetails_write
-	 */
-	public static constructor_InboundHTLCStateDetails_read(ser: Uint8Array): Result_COption_InboundHTLCStateDetailsZDecodeErrorZ {
-		const ret: bigint = bindings.InboundHTLCStateDetails_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_InboundHTLCStateDetailsZDecodeErrorZ = Result_COption_InboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+	public static constructor_PaymentFailureReason_read(ser: Uint8Array): Result_COption_PaymentFailureReasonZDecodeErrorZ {
+		const ret: bigint = bindings.PaymentFailureReason_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_PaymentFailureReasonZDecodeErrorZ = Result_COption_PaymentFailureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Read a OutboundHTLCStateDetails from a byte array, created by OutboundHTLCStateDetails_write
+	 * Read a Event from a byte array, created by Event_write
 	 */
-	public static constructor_OutboundHTLCStateDetails_read(ser: Uint8Array): Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ {
-		const ret: bigint = bindings.OutboundHTLCStateDetails_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ = Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+	public static constructor_Event_read(ser: Uint8Array): Result_COption_EventZDecodeErrorZ {
+		const ret: bigint = bindings.Event_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_EventZDecodeErrorZ = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment`], but no
-	 * `ChannelManager` is required. Useful for generating invoices for [phantom node payments] without
-	 * a `ChannelManager`.
+	 * Maximum number of in-flight HTLCs in each direction allowed by the lightning protocol.
 	 * 
-	 * `keys` is generated by calling [`NodeSigner::get_inbound_payment_key`]. It is recommended to
-	 * cache this value and not regenerate it for each new inbound payment.
+	 * 483 for non-zero-fee-commitment channels and 114 for zero-fee-commitment channels.
 	 * 
-	 * `current_time` is a Unix timestamp representing the current time.
-	 * 
-	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
-	 * on versions of LDK prior to 0.0.114.
-	 * 
-	 * [phantom node payments]: crate::sign::PhantomKeysManager
-	 * [`NodeSigner::get_inbound_payment_key`]: crate::sign::NodeSigner::get_inbound_payment_key
+	 * Actual maximums can be set equal to or below this value by each channel participant.
 	 */
-	public static constructor_create(keys: ExpandedKey, min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number, entropy_source: EntropySource, current_time: bigint, min_final_cltv_expiry_delta: Option_u16Z): Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ {
-		const ret: bigint = bindings.create(CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs, CommonBase.get_ptr_of(entropy_source), current_time, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, keys);
-		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash`],
-	 * but no `ChannelManager` is required. Useful for generating invoices for [phantom node payments]
-	 * without a `ChannelManager`.
-	 * 
-	 * See [`create`] for information on the `keys` and `current_time` parameters.
-	 * 
-	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
-	 * on versions of LDK prior to 0.0.114.
-	 * 
-	 * [phantom node payments]: crate::sign::PhantomKeysManager
-	 */
-	public static constructor_create_from_hash(keys: ExpandedKey, min_value_msat: Option_u64Z, payment_hash: Uint8Array, invoice_expiry_delta_secs: number, current_time: bigint, min_final_cltv_expiry_delta: Option_u16Z): Result_ThirtyTwoBytesNoneZ {
-		const ret: bigint = bindings.create_from_hash(CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), bindings.encodeUint8Array(payment_hash), invoice_expiry_delta_secs, current_time, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_ThirtyTwoBytesNoneZ = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, keys);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Parses an OnionV3 host and port into a [`SocketAddress::OnionV3`].
-	 * 
-	 * The host part must end with \".onion\".
-	 */
-	public static constructor_parse_onion_address(host: string, port: number): Result_SocketAddressSocketAddressParseErrorZ {
-		const ret: bigint = bindings.parse_onion_address(bindings.encodeString(host), port);
-		const ret_hu_conv: Result_SocketAddressSocketAddressParseErrorZ = Result_SocketAddressSocketAddressParseErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
+	public static constructor_max_htlcs(channel_type: ChannelTypeFeatures): number {
+		const ret: number = bindings.max_htlcs(CommonBase.get_ptr_of(channel_type));
+		return ret;
 	}
 
 	/**
@@ -1117,10 +1129,26 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
+	 * Gets the weight of a single input-output pair in externally funded HTLC-success transactions
+	 */
+	public static constructor_aggregated_htlc_success_input_output_pair_weight(channel_type_features: ChannelTypeFeatures): bigint {
+		const ret: bigint = bindings.aggregated_htlc_success_input_output_pair_weight(CommonBase.get_ptr_of(channel_type_features));
+		return ret;
+	}
+
+	/**
 	 * Gets the weight for an HTLC-Timeout transaction.
 	 */
 	public static constructor_htlc_timeout_tx_weight(channel_type_features: ChannelTypeFeatures): bigint {
 		const ret: bigint = bindings.htlc_timeout_tx_weight(CommonBase.get_ptr_of(channel_type_features));
+		return ret;
+	}
+
+	/**
+	 * Gets the weight of a single input-output pair in externally funded HTLC-timeout transactions
+	 */
+	public static constructor_aggregated_htlc_timeout_input_output_pair_weight(channel_type_features: ChannelTypeFeatures): bigint {
+		const ret: bigint = bindings.aggregated_htlc_timeout_input_output_pair_weight(CommonBase.get_ptr_of(channel_type_features));
 		return ret;
 	}
 
@@ -1188,11 +1216,11 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
-	 * Returns the script for the counterparty's output on a holder's commitment transaction based on
-	 * the channel type.
+	 * Returns the script for the countersigner's (i.e. non-broadcaster's) output on a commitment
+	 * transaction based on the channel type.
 	 */
-	public static constructor_get_counterparty_payment_script(channel_type_features: ChannelTypeFeatures, payment_key: Uint8Array): Uint8Array {
-		const ret: number = bindings.get_counterparty_payment_script(CommonBase.get_ptr_of(channel_type_features), bindings.encodeUint8Array(payment_key));
+	public static constructor_get_countersigner_payment_script(channel_type_features: ChannelTypeFeatures, payment_key: Uint8Array): Uint8Array {
+		const ret: number = bindings.get_countersigner_payment_script(CommonBase.get_ptr_of(channel_type_features), bindings.encodeUint8Array(payment_key));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -1244,31 +1272,43 @@ export class UtilMethods extends CommonBase {
 	/**
 	 * Gets the witnessScript for the to_remote output when anchors are enabled.
 	 */
-	public static constructor_get_to_countersignatory_with_anchors_redeemscript(payment_point: Uint8Array): Uint8Array {
-		const ret: number = bindings.get_to_countersignatory_with_anchors_redeemscript(bindings.encodeUint8Array(payment_point));
+	public static constructor_get_to_countersigner_keyed_anchor_redeemscript(payment_point: Uint8Array): Uint8Array {
+		const ret: number = bindings.get_to_countersigner_keyed_anchor_redeemscript(bindings.encodeUint8Array(payment_point));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
 	/**
-	 * Gets the witnessScript for an anchor output from the funding public key.
+	 * Gets the script_pubkey for a shared anchor
+	 */
+	public static constructor_shared_anchor_script_pubkey(): Uint8Array {
+		const ret: number = bindings.shared_anchor_script_pubkey();
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Gets the witnessScript for a keyed anchor (non-zero-fee-commitments) output from the funding
+	 * public key.
+	 * 
 	 * The witness in the spending input must be:
 	 * <BIP 143 funding_signature>
 	 * After 16 blocks of confirmation, an alternative satisfying witness could be:
 	 * <>
 	 * (empty vector required to satisfy compliance with MINIMALIF-standard rule)
 	 */
-	public static constructor_get_anchor_redeemscript(funding_pubkey: Uint8Array): Uint8Array {
-		const ret: number = bindings.get_anchor_redeemscript(bindings.encodeUint8Array(funding_pubkey));
+	public static constructor_get_keyed_anchor_redeemscript(funding_pubkey: Uint8Array): Uint8Array {
+		const ret: number = bindings.get_keyed_anchor_redeemscript(bindings.encodeUint8Array(funding_pubkey));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
 	/**
-	 * Returns the witness required to satisfy and spend an anchor input.
+	 * Returns the witness required to satisfy and spend a keyed anchor (non-zero-fee-commitments)
+	 * input.
 	 */
-	public static constructor_build_anchor_input_witness(funding_key: Uint8Array, funding_sig: Uint8Array): Uint8Array {
-		const ret: number = bindings.build_anchor_input_witness(bindings.encodeUint8Array(funding_key), bindings.encodeUint8Array(funding_sig));
+	public static constructor_build_keyed_anchor_input_witness(funding_key: Uint8Array, funding_sig: Uint8Array): Uint8Array {
+		const ret: number = bindings.build_keyed_anchor_input_witness(bindings.encodeUint8Array(funding_key), bindings.encodeUint8Array(funding_sig));
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
@@ -1284,6 +1324,137 @@ export class UtilMethods extends CommonBase {
 	public static constructor_get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint: Uint8Array, countersignatory_payment_basepoint: Uint8Array, outbound_from_broadcaster: boolean): bigint {
 		const ret: bigint = bindings.get_commitment_transaction_number_obscure_factor(bindings.encodeUint8Array(broadcaster_payment_basepoint), bindings.encodeUint8Array(countersignatory_payment_basepoint), outbound_from_broadcaster);
 		return ret;
+	}
+
+	/**
+	 * Adds a tweak to a public key to derive a new public key.
+	 * 
+	 * May panic if `tweak` is not the output of a SHA-256 hash.
+	 */
+	public static constructor_add_public_key_tweak(base_point: Uint8Array, tweak: Uint8Array): Uint8Array {
+		const ret: number = bindings.add_public_key_tweak(bindings.encodeUint8Array(base_point), bindings.encodeUint8Array(tweak));
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a InboundHTLCStateDetails from a byte array, created by InboundHTLCStateDetails_write
+	 */
+	public static constructor_InboundHTLCStateDetails_read(ser: Uint8Array): Result_COption_InboundHTLCStateDetailsZDecodeErrorZ {
+		const ret: bigint = bindings.InboundHTLCStateDetails_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_InboundHTLCStateDetailsZDecodeErrorZ = Result_COption_InboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a OutboundHTLCStateDetails from a byte array, created by OutboundHTLCStateDetails_write
+	 */
+	public static constructor_OutboundHTLCStateDetails_read(ser: Uint8Array): Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ {
+		const ret: bigint = bindings.OutboundHTLCStateDetails_read(bindings.encodeUint8Array(ser));
+		const ret_hu_conv: Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ = Result_COption_OutboundHTLCStateDetailsZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Fetches the set of [`InitFeatures`] flags that are provided by or required by
+	 * [`ChannelManager`].
+	 */
+	public static constructor_provided_init_features(config: UserConfig): InitFeatures {
+		const ret: bigint = bindings.provided_init_features(CommonBase.get_ptr_of(config));
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a C2Tuple_ThirtyTwoBytesChannelManagerZ from a byte array, created by C2Tuple_ThirtyTwoBytesChannelManagerZ_write
+	 */
+	public static constructor_C2Tuple_ThirtyTwoBytesChannelManagerZ_read(ser: Uint8Array, arg_entropy_source: EntropySource, arg_node_signer: NodeSigner, arg_signer_provider: SignerProvider, arg_fee_estimator: FeeEstimator, arg_chain_monitor: Watch, arg_tx_broadcaster: BroadcasterInterface, arg_router: Router, arg_message_router: MessageRouter, arg_logger: Logger, arg_config: UserConfig, arg_channel_monitors: ChannelMonitor[]): Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ {
+		const ret: bigint = bindings.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(bindings.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(CommonBase.get_ptr_of(arg_entropy_source), CommonBase.get_ptr_of(arg_node_signer), CommonBase.get_ptr_of(arg_signer_provider), CommonBase.get_ptr_of(arg_fee_estimator), CommonBase.get_ptr_of(arg_chain_monitor), CommonBase.get_ptr_of(arg_tx_broadcaster), CommonBase.get_ptr_of(arg_router), CommonBase.get_ptr_of(arg_message_router), CommonBase.get_ptr_of(arg_logger), CommonBase.get_ptr_of(arg_config), bindings.encodeUint64Array(arg_channel_monitors.map(arg_channel_monitors_conv_16 => CommonBase.get_ptr_of(arg_channel_monitors_conv_16)))));
+		const ret_hu_conv: Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ = Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, arg_entropy_source);
+		CommonBase.add_ref_from(ret_hu_conv, arg_node_signer);
+		CommonBase.add_ref_from(ret_hu_conv, arg_signer_provider);
+		CommonBase.add_ref_from(ret_hu_conv, arg_fee_estimator);
+		CommonBase.add_ref_from(ret_hu_conv, arg_chain_monitor);
+		CommonBase.add_ref_from(ret_hu_conv, arg_tx_broadcaster);
+		CommonBase.add_ref_from(ret_hu_conv, arg_router);
+		CommonBase.add_ref_from(ret_hu_conv, arg_message_router);
+		CommonBase.add_ref_from(ret_hu_conv, arg_logger);
+		;
+		arg_channel_monitors.forEach((arg_channel_monitors_conv_16: ChannelMonitor) => { CommonBase.add_ref_from(ret_hu_conv, arg_channel_monitors_conv_16); });
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment`], but no
+	 * `ChannelManager` is required. Useful for generating invoices for [phantom node payments] without
+	 * a `ChannelManager`.
+	 * 
+	 * `keys` is generated by calling [`NodeSigner::get_expanded_key`]. It is recommended to
+	 * cache this value and not regenerate it for each new inbound payment.
+	 * 
+	 * `current_time` is a Unix timestamp representing the current time.
+	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
+	 * [`NodeSigner::get_expanded_key`]: crate::sign::NodeSigner::get_expanded_key
+	 */
+	public static constructor_create(keys: ExpandedKey, min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number, entropy_source: EntropySource, current_time: bigint, min_final_cltv_expiry_delta: Option_u16Z): Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ {
+		const ret: bigint = bindings.create(CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs, CommonBase.get_ptr_of(entropy_source), current_time, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
+		const ret_hu_conv: Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ = Result_C2Tuple_ThirtyTwoBytesThirtyTwoBytesZNoneZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Equivalent to [`crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash`],
+	 * but no `ChannelManager` is required. Useful for generating invoices for [phantom node payments]
+	 * without a `ChannelManager`.
+	 * 
+	 * See [`create`] for information on the `keys` and `current_time` parameters.
+	 * 
+	 * Note that if `min_final_cltv_expiry_delta` is set to some value, then the payment will not be receivable
+	 * on versions of LDK prior to 0.0.114.
+	 * 
+	 * [phantom node payments]: crate::sign::PhantomKeysManager
+	 */
+	public static constructor_create_from_hash(keys: ExpandedKey, min_value_msat: Option_u64Z, payment_hash: Uint8Array, invoice_expiry_delta_secs: number, current_time: bigint, min_final_cltv_expiry_delta: Option_u16Z): Result_ThirtyTwoBytesNoneZ {
+		const ret: bigint = bindings.create_from_hash(CommonBase.get_ptr_of(keys), CommonBase.get_ptr_of(min_value_msat), bindings.encodeUint8Array(payment_hash), invoice_expiry_delta_secs, current_time, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
+		const ret_hu_conv: Result_ThirtyTwoBytesNoneZ = Result_ThirtyTwoBytesNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Parses an OnionV3 host and port into a [`SocketAddress::OnionV3`].
+	 * 
+	 * The host part must end with \".onion\".
+	 */
+	public static constructor_parse_onion_address(host: string, port: number): Result_SocketAddressSocketAddressParseErrorZ {
+		const ret: bigint = bindings.parse_onion_address(bindings.encodeString(host), port);
+		const ret_hu_conv: Result_SocketAddressSocketAddressParseErrorZ = Result_SocketAddressSocketAddressParseErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Peel one layer off an incoming onion, returning a [`PendingHTLCInfo`] that contains information
+	 * about the intended next-hop for the HTLC.
+	 * 
+	 * This does all the relevant context-free checks that LDK requires for payment relay or
+	 * acceptance. If the payment is to be received, and the amount matches the expected amount for
+	 * a given invoice, this indicates the [`msgs::UpdateAddHTLC`], once fully committed in the
+	 * channel, will generate an [`Event::PaymentClaimable`].
+	 * 
+	 * [`Event::PaymentClaimable`]: crate::events::Event::PaymentClaimable
+	 */
+	public static constructor_peel_payment_onion(msg: UpdateAddHTLC, node_signer: NodeSigner, logger: Logger, cur_height: number, allow_skimmed_fees: boolean): Result_PendingHTLCInfoInboundHTLCErrZ {
+		const ret: bigint = bindings.peel_payment_onion(CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(logger), cur_height, allow_skimmed_fees);
+		const ret_hu_conv: Result_PendingHTLCInfoInboundHTLCErrZ = Result_PendingHTLCInfoInboundHTLCErrZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, node_signer);
+		CommonBase.add_ref_from(ret_hu_conv, logger);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -1381,123 +1552,111 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
-	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
-	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
-	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
-	 * doesn't have to store preimage/payment secret information and (b) `ChannelManager` can verify
-	 * that the payment secret is valid when the invoice is paid.
+	 * Build a payment onion, returning the first hop msat and cltv values as well.
 	 * 
-	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
-	 * in excess of the current time.
+	 * `cur_block_height` should be set to the best known block height + 1.
 	 * 
-	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
-	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
-	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
-	 * confirmations during routing.
-	 * 
-	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: crate::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 * Note that invoice_request (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static constructor_create_invoice_from_channelmanager(channelmanager: ChannelManager, amt_msat: Option_u64Z, description: string, invoice_expiry_delta_secs: number, min_final_cltv_expiry_delta: Option_u16Z): Result_Bolt11InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager(CommonBase.get_ptr_of(channelmanager), CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), invoice_expiry_delta_secs, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_Bolt11InvoiceSignOrCreationErrorZ = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
+	public static constructor_create_payment_onion(path: Path, session_priv: Uint8Array, total_msat: bigint, recipient_onion: RecipientOnionFields, cur_block_height: number, payment_hash: Uint8Array, keysend_preimage: Option_ThirtyTwoBytesZ, invoice_request: InvoiceRequest|null, prng_seed: Uint8Array): Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ {
+		const ret: bigint = bindings.create_payment_onion(CommonBase.get_ptr_of(path), bindings.encodeUint8Array(session_priv), total_msat, CommonBase.get_ptr_of(recipient_onion), cur_block_height, bindings.encodeUint8Array(payment_hash), CommonBase.get_ptr_of(keysend_preimage), invoice_request == null ? 0n : CommonBase.get_ptr_of(invoice_request), bindings.encodeUint8Array(prng_seed));
+		const ret_hu_conv: Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ = Result_C3Tuple_OnionPacketu64u32ZAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
-	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
-	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
-	 * doesn't have to store preimage/payment secret information and (b) `ChannelManager` can verify
-	 * that the payment secret is valid when the invoice is paid.
-	 * Use this variant if you want to pass the `description_hash` to the invoice.
-	 * 
-	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
-	 * in excess of the current time.
-	 * 
-	 * You can specify a custom `min_final_cltv_expiry_delta`, or let LDK default it to
-	 * [`MIN_FINAL_CLTV_EXPIRY_DELTA`]. The provided expiry must be at least [`MIN_FINAL_CLTV_EXPIRY_DELTA`].
-	 * Note that LDK will add a buffer of 3 blocks to the delta to allow for up to a few new block
-	 * confirmations during routing.
-	 * 
-	 * [`MIN_FINAL_CLTV_EXPIRY_DETLA`]: crate::ln::channelmanager::MIN_FINAL_CLTV_EXPIRY_DELTA
+	 * Verifies the signature with a pubkey over the given message using a tagged hash as the message
+	 * digest.
 	 */
-	public static constructor_create_invoice_from_channelmanager_with_description_hash(channelmanager: ChannelManager, amt_msat: Option_u64Z, description_hash: Sha256, invoice_expiry_delta_secs: number, min_final_cltv_expiry_delta: Option_u16Z): Result_Bolt11InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager_with_description_hash(CommonBase.get_ptr_of(channelmanager), CommonBase.get_ptr_of(amt_msat), CommonBase.get_ptr_of(description_hash), invoice_expiry_delta_secs, CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_Bolt11InvoiceSignOrCreationErrorZ = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
+	public static constructor_verify_signature(signature: Uint8Array, message: TaggedHash, pubkey: Uint8Array): Result_NoneSecp256k1ErrorZ {
+		const ret: bigint = bindings.verify_signature(bindings.encodeUint8Array(signature), CommonBase.get_ptr_of(message), bindings.encodeUint8Array(pubkey));
+		const ret_hu_conv: Result_NoneSecp256k1ErrorZ = Result_NoneSecp256k1ErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * See [`create_invoice_from_channelmanager`].
-	 * 
-	 * This version allows for providing custom [`PaymentHash`] and description hash for the invoice.
-	 * 
-	 * This may be useful if you're building an on-chain swap or involving another protocol where
-	 * the payment hash is also involved outside the scope of lightning and want to set the
-	 * description hash.
+	 * Returns whether `tlv_type` corresponds to a TLV record for async payment messages.
 	 */
-	public static constructor_create_invoice_from_channelmanager_with_description_hash_and_payment_hash(channelmanager: ChannelManager, amt_msat: Option_u64Z, description_hash: Sha256, invoice_expiry_delta_secs: number, payment_hash: Uint8Array, min_final_cltv_expiry_delta: Option_u16Z): Result_Bolt11InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager_with_description_hash_and_payment_hash(CommonBase.get_ptr_of(channelmanager), CommonBase.get_ptr_of(amt_msat), CommonBase.get_ptr_of(description_hash), invoice_expiry_delta_secs, bindings.encodeUint8Array(payment_hash), CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_Bolt11InvoiceSignOrCreationErrorZ = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
+	public static constructor_AsyncPaymentsMessage_is_known_type(tlv_type: bigint): boolean {
+		const ret: boolean = bindings.AsyncPaymentsMessage_is_known_type(tlv_type);
+		return ret;
+	}
+
+	/**
+	 * Returns whether `tlv_type` corresponds to a TLV record for DNS Resolvers.
+	 */
+	public static constructor_DNSResolverMessage_is_known_type(tlv_type: bigint): boolean {
+		const ret: boolean = bindings.DNSResolverMessage_is_known_type(tlv_type);
+		return ret;
+	}
+
+	/**
+	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`, first calling [`Destination::resolve`] on `path.destination` with the given
+	 * [`ReadOnlyNetworkGraph`].
+	 * 
+	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
+	 * needed to connect to the first node.
+	 * 
+	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static constructor_create_onion_message_resolving_destination(entropy_source: EntropySource, node_signer: NodeSigner, node_id_lookup: NodeIdLookUp, network_graph: ReadOnlyNetworkGraph, path: OnionMessagePath, contents: OnionMessageContents, reply_path: BlindedMessagePath|null): Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ {
+		const ret: bigint = bindings.create_onion_message_resolving_destination(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(node_id_lookup), CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(path), CommonBase.get_ptr_of(contents), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
+		const ret_hu_conv: Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ = Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
+		CommonBase.add_ref_from(ret_hu_conv, node_signer);
+		CommonBase.add_ref_from(ret_hu_conv, node_id_lookup);
+		CommonBase.add_ref_from(ret_hu_conv, network_graph);
+		CommonBase.add_ref_from(ret_hu_conv, contents);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * See [`create_invoice_from_channelmanager`].
+	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
+	 * `path`.
 	 * 
-	 * This version allows for providing a custom [`PaymentHash`] for the invoice.
-	 * This may be useful if you're building an on-chain swap or involving another protocol where
-	 * the payment hash is also involved outside the scope of lightning.
+	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
+	 * needed to connect to the first node.
+	 * 
+	 * Returns [`SendError::UnresolvedIntroductionNode`] if:
+	 * - `destination` contains a blinded path with an [`IntroductionNode::DirectedShortChannelId`],
+	 * - unless it can be resolved by [`NodeIdLookUp::next_node_id`].
+	 * Use [`create_onion_message_resolving_destination`] instead to resolve the introduction node
+	 * first with a [`ReadOnlyNetworkGraph`].
+	 * 
+	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static constructor_create_invoice_from_channelmanager_with_payment_hash(channelmanager: ChannelManager, amt_msat: Option_u64Z, description: string, invoice_expiry_delta_secs: number, payment_hash: Uint8Array, min_final_cltv_expiry_delta: Option_u16Z): Result_Bolt11InvoiceSignOrCreationErrorZ {
-		const ret: bigint = bindings.create_invoice_from_channelmanager_with_payment_hash(CommonBase.get_ptr_of(channelmanager), CommonBase.get_ptr_of(amt_msat), bindings.encodeString(description), invoice_expiry_delta_secs, bindings.encodeUint8Array(payment_hash), CommonBase.get_ptr_of(min_final_cltv_expiry_delta));
-		const ret_hu_conv: Result_Bolt11InvoiceSignOrCreationErrorZ = Result_Bolt11InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, channelmanager);
+	public static constructor_create_onion_message(entropy_source: EntropySource, node_signer: NodeSigner, node_id_lookup: NodeIdLookUp, path: OnionMessagePath, contents: OnionMessageContents, reply_path: BlindedMessagePath|null): Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ {
+		const ret: bigint = bindings.create_onion_message(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(node_id_lookup), CommonBase.get_ptr_of(path), CommonBase.get_ptr_of(contents), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
+		const ret_hu_conv: Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ = Result_C3Tuple_PublicKeyOnionMessageCVec_SocketAddressZZSendErrorZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
+		CommonBase.add_ref_from(ret_hu_conv, node_signer);
+		CommonBase.add_ref_from(ret_hu_conv, node_id_lookup);
+		CommonBase.add_ref_from(ret_hu_conv, contents);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Builds the necessary parameters to pay or pre-flight probe the given variable-amount
-	 * (also known as 'zero-amount') [`Bolt11Invoice`] using
-	 * [`ChannelManager::send_payment`] or [`ChannelManager::send_preflight_probes`].
+	 * Decode one layer of an incoming [`OnionMessage`].
 	 * 
-	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
-	 * same [`PaymentHash`] has never been paid before.
-	 * 
-	 * Will always succeed unless the invoice has an amount specified, in which case
-	 * [`payment_parameters_from_invoice`] should be used.
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::send_preflight_probes`]: crate::ln::channelmanager::ChannelManager::send_preflight_probes
+	 * Returns either the next layer of the onion for forwarding or the decrypted content for the
+	 * receiver.
 	 */
-	public static constructor_payment_parameters_from_variable_amount_invoice(invoice: Bolt11Invoice, amount_msat: bigint): Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ {
-		const ret: bigint = bindings.payment_parameters_from_variable_amount_invoice(CommonBase.get_ptr_of(invoice), amount_msat);
-		const ret_hu_conv: Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, invoice);
+	public static constructor_peel_onion_message(msg: OnionMessage, node_signer: NodeSigner, logger: Logger, custom_handler: CustomOnionMessageHandler): Result_PeeledOnionNoneZ {
+		const ret: bigint = bindings.peel_onion_message(CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(custom_handler));
+		const ret_hu_conv: Result_PeeledOnionNoneZ = Result_PeeledOnionNoneZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, node_signer);
+		CommonBase.add_ref_from(ret_hu_conv, logger);
+		CommonBase.add_ref_from(ret_hu_conv, custom_handler);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Builds the necessary parameters to pay or pre-flight probe the given [`Bolt11Invoice`] using
-	 * [`ChannelManager::send_payment`] or [`ChannelManager::send_preflight_probes`].
-	 * 
-	 * Prior to paying, you must ensure that the [`Bolt11Invoice::payment_hash`] is unique and the
-	 * same [`PaymentHash`] has never been paid before.
-	 * 
-	 * Will always succeed unless the invoice has no amount specified, in which case
-	 * [`payment_parameters_from_variable_amount_invoice`] should be used.
-	 * 
-	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
-	 * [`ChannelManager::send_preflight_probes`]: crate::ln::channelmanager::ChannelManager::send_preflight_probes
+	 * Returns whether `tlv_type` corresponds to a TLV record for Offers.
 	 */
-	public static constructor_payment_parameters_from_invoice(invoice: Bolt11Invoice): Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ {
-		const ret: bigint = bindings.payment_parameters_from_invoice(CommonBase.get_ptr_of(invoice));
-		const ret_hu_conv: Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ = Result_C3Tuple_ThirtyTwoBytesRecipientOnionFieldsRouteParametersZNoneZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, invoice);
-		return ret_hu_conv;
+	public static constructor_OffersMessage_is_known_type(tlv_type: bigint): boolean {
+		const ret: boolean = bindings.OffersMessage_is_known_type(tlv_type);
+		return ret;
 	}
 
 	/**
@@ -1517,7 +1676,6 @@ export class UtilMethods extends CommonBase {
 	public static constructor_verify_node_announcement(msg: NodeAnnouncement): Result_NoneLightningErrorZ {
 		const ret: bigint = bindings.verify_node_announcement(CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -1529,7 +1687,6 @@ export class UtilMethods extends CommonBase {
 	public static constructor_verify_channel_announcement(msg: ChannelAnnouncement): Result_NoneLightningErrorZ {
 		const ret: bigint = bindings.verify_channel_announcement(CommonBase.get_ptr_of(msg));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, msg);
 		return ret_hu_conv;
 	}
 
@@ -1562,15 +1719,13 @@ export class UtilMethods extends CommonBase {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static constructor_find_route(our_node_pubkey: Uint8Array, route_params: RouteParameters, network_graph: NetworkGraph, first_hops: ChannelDetails[]|null, logger: Logger, scorer: ScoreLookUp, score_params: ProbabilisticScoringFeeParameters, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
+	public static constructor_find_route(our_node_pubkey: Uint8Array, route_params: RouteParameters, network_graph: NetworkGraph, first_hops: ChannelDetails[]|null, logger: Logger, scorer: ScoreLookUp, score_params: ProbabilisticScoringFeeParameters, random_seed_bytes: Uint8Array): Result_RouteStrZ {
 		const ret: bigint = bindings.find_route(bindings.encodeUint8Array(our_node_pubkey), CommonBase.get_ptr_of(route_params), CommonBase.get_ptr_of(network_graph), bindings.encodeUint64Array(first_hops != null ? first_hops.map(first_hops_conv_16 => CommonBase.get_ptr_of(first_hops_conv_16)) : null), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(scorer), CommonBase.get_ptr_of(score_params), bindings.encodeUint8Array(random_seed_bytes));
-		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, route_params);
+		const ret_hu_conv: Result_RouteStrZ = Result_RouteStrZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
 		if (first_hops != null) { first_hops.forEach((first_hops_conv_16: ChannelDetails) => { CommonBase.add_ref_from(ret_hu_conv, first_hops_conv_16); }) };
 		CommonBase.add_ref_from(ret_hu_conv, logger);
 		CommonBase.add_ref_from(ret_hu_conv, scorer);
-		CommonBase.add_ref_from(ret_hu_conv, score_params);
 		return ret_hu_conv;
 	}
 
@@ -1580,10 +1735,9 @@ export class UtilMethods extends CommonBase {
 	 * 
 	 * Re-uses logic from `find_route`, so the restrictions described there also apply here.
 	 */
-	public static constructor_build_route_from_hops(our_node_pubkey: Uint8Array, hops: Uint8Array[], route_params: RouteParameters, network_graph: NetworkGraph, logger: Logger, random_seed_bytes: Uint8Array): Result_RouteLightningErrorZ {
+	public static constructor_build_route_from_hops(our_node_pubkey: Uint8Array, hops: Uint8Array[], route_params: RouteParameters, network_graph: NetworkGraph, logger: Logger, random_seed_bytes: Uint8Array): Result_RouteStrZ {
 		const ret: bigint = bindings.build_route_from_hops(bindings.encodeUint8Array(our_node_pubkey), bindings.encodeUint32Array(hops.map(hops_conv_12 => bindings.encodeUint8Array(hops_conv_12))), CommonBase.get_ptr_of(route_params), CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(logger), bindings.encodeUint8Array(random_seed_bytes));
-		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, route_params);
+		const ret_hu_conv: Result_RouteStrZ = Result_RouteStrZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, network_graph);
 		CommonBase.add_ref_from(ret_hu_conv, logger);
 		return ret_hu_conv;
@@ -1614,164 +1768,27 @@ export class UtilMethods extends CommonBase {
 	}
 
 	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for async payment messages.
-	 */
-	public static constructor_AsyncPaymentsMessage_is_known_type(tlv_type: bigint): boolean {
-		const ret: boolean = bindings.AsyncPaymentsMessage_is_known_type(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for DNS Resolvers.
-	 */
-	public static constructor_DNSResolverMessage_is_known_type(tlv_type: bigint): boolean {
-		const ret: boolean = bindings.DNSResolverMessage_is_known_type(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
-	 * `path`, first calling [`Destination::resolve`] on `path.destination` with the given
-	 * [`ReadOnlyNetworkGraph`].
+	 * Computes the tweak to apply to the base funding key of a channel.
 	 * 
-	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
-	 * needed to connect to the first node.
+	 * The tweak is computed similar to existing tweaks used in
+	 * [BOLT-3](https://github.com/lightning/bolts/blob/master/03-transactions.md#key-derivation):
 	 * 
-	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public static constructor_create_onion_message_resolving_destination(entropy_source: EntropySource, node_signer: NodeSigner, node_id_lookup: NodeIdLookUp, network_graph: ReadOnlyNetworkGraph, path: OnionMessagePath, contents: OnionMessageContents, reply_path: BlindedMessagePath|null): Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ {
-		const ret: bigint = bindings.create_onion_message_resolving_destination(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(node_id_lookup), CommonBase.get_ptr_of(network_graph), CommonBase.get_ptr_of(path), CommonBase.get_ptr_of(contents), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
-		const ret_hu_conv: Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ = Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
-		CommonBase.add_ref_from(ret_hu_conv, node_signer);
-		CommonBase.add_ref_from(ret_hu_conv, node_id_lookup);
-		CommonBase.add_ref_from(ret_hu_conv, network_graph);
-		CommonBase.add_ref_from(ret_hu_conv, contents);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Creates an [`OnionMessage`] with the given `contents` for sending to the destination of
-	 * `path`.
+	 * 1. We use the txid of the funding transaction the splice transaction is spending instead of the
+	 * `per_commitment_point` to guarantee uniqueness.
+	 * 2. We include the private key instead of the public key to guarantee only those with knowledge
+	 * of it can re-derive the new funding key.
 	 * 
-	 * Returns the node id of the peer to send the message to, the message itself, and any addresses
-	 * needed to connect to the first node.
+	 * tweak = SHA256(splice_parent_funding_txid || base_funding_secret_key)
+	 * tweaked_funding_key = base_funding_key + tweak
 	 * 
-	 * Returns [`SendError::UnresolvedIntroductionNode`] if:
-	 * - `destination` contains a blinded path with an [`IntroductionNode::DirectedShortChannelId`],
-	 * - unless it can be resolved by [`NodeIdLookUp::next_node_id`].
-	 * Use [`create_onion_message_resolving_destination`] instead to resolve the introduction node
-	 * first with a [`ReadOnlyNetworkGraph`].
-	 * 
-	 * Note that reply_path (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * While the use of this tweak is not required (signers may choose to compute a tweak of their
+	 * choice), signers must ensure their tweak guarantees the two properties mentioned above:
+	 * uniqueness and derivable only by one or both of the channel participants.
 	 */
-	public static constructor_create_onion_message(entropy_source: EntropySource, node_signer: NodeSigner, node_id_lookup: NodeIdLookUp, path: OnionMessagePath, contents: OnionMessageContents, reply_path: BlindedMessagePath|null): Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ {
-		const ret: bigint = bindings.create_onion_message(CommonBase.get_ptr_of(entropy_source), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(node_id_lookup), CommonBase.get_ptr_of(path), CommonBase.get_ptr_of(contents), reply_path == null ? 0n : CommonBase.get_ptr_of(reply_path));
-		const ret_hu_conv: Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ = Result_C3Tuple_PublicKeyOnionMessageCOption_CVec_SocketAddressZZZSendErrorZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, entropy_source);
-		CommonBase.add_ref_from(ret_hu_conv, node_signer);
-		CommonBase.add_ref_from(ret_hu_conv, node_id_lookup);
-		CommonBase.add_ref_from(ret_hu_conv, contents);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Decode one layer of an incoming [`OnionMessage`].
-	 * 
-	 * Returns either the next layer of the onion for forwarding or the decrypted content for the
-	 * receiver.
-	 */
-	public static constructor_peel_onion_message(msg: OnionMessage, node_signer: NodeSigner, logger: Logger, custom_handler: CustomOnionMessageHandler): Result_PeeledOnionNoneZ {
-		const ret: bigint = bindings.peel_onion_message(CommonBase.get_ptr_of(msg), CommonBase.get_ptr_of(node_signer), CommonBase.get_ptr_of(logger), CommonBase.get_ptr_of(custom_handler));
-		const ret_hu_conv: Result_PeeledOnionNoneZ = Result_PeeledOnionNoneZ.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, msg);
-		CommonBase.add_ref_from(ret_hu_conv, node_signer);
-		CommonBase.add_ref_from(ret_hu_conv, logger);
-		CommonBase.add_ref_from(ret_hu_conv, custom_handler);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Returns whether `tlv_type` corresponds to a TLV record for Offers.
-	 */
-	public static constructor_OffersMessage_is_known_type(tlv_type: bigint): boolean {
-		const ret: boolean = bindings.OffersMessage_is_known_type(tlv_type);
-		return ret;
-	}
-
-	/**
-	 * Read a PathFailure from a byte array, created by PathFailure_write
-	 */
-	public static constructor_PathFailure_read(ser: Uint8Array): Result_COption_PathFailureZDecodeErrorZ {
-		const ret: bigint = bindings.PathFailure_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_PathFailureZDecodeErrorZ = Result_COption_PathFailureZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a ClosureReason from a byte array, created by ClosureReason_write
-	 */
-	public static constructor_ClosureReason_read(ser: Uint8Array): Result_COption_ClosureReasonZDecodeErrorZ {
-		const ret: bigint = bindings.ClosureReason_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a HTLCDestination from a byte array, created by HTLCDestination_write
-	 */
-	public static constructor_HTLCDestination_read(ser: Uint8Array): Result_COption_HTLCDestinationZDecodeErrorZ {
-		const ret: bigint = bindings.HTLCDestination_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_HTLCDestinationZDecodeErrorZ = Result_COption_HTLCDestinationZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a PaymentFailureReason from a byte array, created by PaymentFailureReason_write
-	 */
-	public static constructor_PaymentFailureReason_read(ser: Uint8Array): Result_COption_PaymentFailureReasonZDecodeErrorZ {
-		const ret: bigint = bindings.PaymentFailureReason_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_PaymentFailureReasonZDecodeErrorZ = Result_COption_PaymentFailureReasonZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Read a Event from a byte array, created by Event_write
-	 */
-	public static constructor_Event_read(ser: Uint8Array): Result_COption_EventZDecodeErrorZ {
-		const ret: bigint = bindings.Event_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_COption_EventZDecodeErrorZ = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Determines if the given parameters are valid given the secret used to generate the promise.
-	 */
-	public static constructor_is_valid_opening_fee_params(fee_params: LSPS2OpeningFeeParams, promise_secret: Uint8Array): boolean {
-		const ret: boolean = bindings.is_valid_opening_fee_params(CommonBase.get_ptr_of(fee_params), bindings.encodeUint8Array(promise_secret));
-		return ret;
-	}
-
-	/**
-	 * Determines if the given parameters are expired, or still valid.
-	 */
-	public static constructor_is_expired_opening_fee_params(fee_params: LSPS2OpeningFeeParams): boolean {
-		const ret: boolean = bindings.is_expired_opening_fee_params(CommonBase.get_ptr_of(fee_params));
-		return ret;
-	}
-
-	/**
-	 * Computes the opening fee given a payment size and the fee parameters.
-	 * 
-	 * Returns [`Option::None`] when the computation overflows.
-	 * 
-	 * See the [`specification`](https://github.com/lightning/blips/blob/master/blip-0052.md#computing-the-opening_fee) for more details.
-	 */
-	public static constructor_compute_opening_fee(payment_size_msat: bigint, opening_fee_min_fee_msat: bigint, opening_fee_proportional: bigint): Option_u64Z {
-		const ret: bigint = bindings.compute_opening_fee(payment_size_msat, opening_fee_min_fee_msat, opening_fee_proportional);
-		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
-		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
-		return ret_hu_conv;
+	public static constructor_compute_funding_key_tweak(base_funding_secret_key: Uint8Array, splice_parent_funding_txid: Uint8Array): BigEndianScalar {
+		const ret: bigint = bindings.compute_funding_key_tweak(bindings.encodeUint8Array(base_funding_secret_key), bindings.encodeUint8Array(splice_parent_funding_txid));
+		const ret_conv: BigEndianScalar = new BigEndianScalar(null, ret);
+		return ret_conv;
 	}
 
 }

@@ -137,7 +137,6 @@ public class Utxo extends CommonBase {
 		boolean ret = bindings.Utxo_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -145,6 +144,26 @@ public class Utxo extends CommonBase {
 		if (!(o instanceof Utxo)) return false;
 		return this.eq((Utxo)o);
 	}
+	/**
+	 * Serialize the Utxo object into a byte array which can be read by Utxo_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Utxo_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a Utxo from a byte array, created by Utxo_write
+	 */
+	public static Result_UtxoDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Utxo_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_UtxoDecodeErrorZ ret_hu_conv = Result_UtxoDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Returns a `Utxo` with the `satisfaction_weight` estimate for a legacy P2PKH output.
 	 */

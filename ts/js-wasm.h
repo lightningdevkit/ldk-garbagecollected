@@ -39,6 +39,8 @@ typedef uint32_t JSValue;
 
 DECL_IMPORT(u, u, u, u, u, u)
 DECL_IMPORT(b, u, u, u, u, u)
+DECL_IMPORT(b, u, u, b, u, u)
+DECL_IMPORT(b, u, u, b, u, b)
 DECL_IMPORT(b, b, u, u, u, u)
 DECL_IMPORT(b, b, b, u, u, u)
 DECL_IMPORT(b, b, b, b, u, u)

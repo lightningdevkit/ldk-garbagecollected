@@ -60,7 +60,6 @@ public class RevocationKey extends CommonBase {
 		boolean ret = bindings.RevocationKey_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -116,7 +115,6 @@ public class RevocationKey extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RevocationKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevocationKey(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(countersignatory_basepoint); };
 		return ret_hu_conv;
 	}
 

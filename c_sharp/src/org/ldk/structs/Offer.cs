@@ -289,7 +289,6 @@ public class Offer : CommonBase {
 		GC.KeepAlive(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceRequestWithDerivedPayerSigningPubkeyBuilderBolt12SemanticErrorZ ret_hu_conv = Result_InvoiceRequestWithDerivedPayerSigningPubkeyBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.AddLast(expanded_key); };
 		return ret_hu_conv;
 	}
 

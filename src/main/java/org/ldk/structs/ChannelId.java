@@ -78,7 +78,6 @@ public class ChannelId extends CommonBase {
 		boolean ret = bindings.ChannelId_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -181,8 +180,6 @@ public class ChannelId extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelId(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ours); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(theirs); };
 		return ret_hu_conv;
 	}
 
@@ -196,8 +193,18 @@ public class ChannelId extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelId(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(our_revocation_basepoint); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Indicates whether this is a V2 channel ID for the given local and remote revocation basepoints.
+	 */
+	public boolean is_v2_channel_id(org.ldk.structs.RevocationBasepoint ours, org.ldk.structs.RevocationBasepoint theirs) {
+		boolean ret = bindings.ChannelId_is_v2_channel_id(this.ptr, ours.ptr, theirs.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(ours);
+		Reference.reachabilityFence(theirs);
+		return ret;
 	}
 
 	/**

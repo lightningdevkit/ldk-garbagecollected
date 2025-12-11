@@ -29,6 +29,9 @@ public class OffersMessage extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKOffersMessage.Invoice.class) {
 			return new Invoice(ptr, (bindings.LDKOffersMessage.Invoice)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKOffersMessage.StaticInvoice.class) {
+			return new StaticInvoice(ptr, (bindings.LDKOffersMessage.StaticInvoice)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKOffersMessage.InvoiceError.class) {
 			return new InvoiceError(ptr, (bindings.LDKOffersMessage.InvoiceError)raw_val);
 		}
@@ -63,6 +66,19 @@ public class OffersMessage extends CommonBase {
 			org.ldk.structs.Bolt12Invoice invoice_hu_conv = null; if (invoice < 0 || invoice > 4096) { invoice_hu_conv = new org.ldk.structs.Bolt12Invoice(null, invoice); }
 			if (invoice_hu_conv != null) { invoice_hu_conv.ptrs_to.add(this); };
 			this.invoice = invoice_hu_conv;
+		}
+	}
+	/**
+	 * A [`StaticInvoice`] sent in response to an [`InvoiceRequest`].
+	 */
+	public final static class StaticInvoice extends OffersMessage {
+		public final org.ldk.structs.StaticInvoice static_invoice;
+		private StaticInvoice(long ptr, bindings.LDKOffersMessage.StaticInvoice obj) {
+			super(null, ptr);
+			long static_invoice = obj.static_invoice;
+			org.ldk.structs.StaticInvoice static_invoice_hu_conv = null; if (static_invoice < 0 || static_invoice > 4096) { static_invoice_hu_conv = new org.ldk.structs.StaticInvoice(null, static_invoice); }
+			if (static_invoice_hu_conv != null) { static_invoice_hu_conv.ptrs_to.add(this); };
+			this.static_invoice = static_invoice_hu_conv;
 		}
 	}
 	/**
@@ -121,6 +137,18 @@ public class OffersMessage extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new StaticInvoice-variant OffersMessage
+	 */
+	public static OffersMessage static_invoice(org.ldk.structs.StaticInvoice a) {
+		long ret = bindings.OffersMessage_static_invoice(a.ptr);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.OffersMessage ret_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new InvoiceError-variant OffersMessage
 	 */
 	public static OffersMessage invoice_error(org.ldk.structs.InvoiceError a) {
@@ -164,7 +192,6 @@ public class OffersMessage extends CommonBase {
 		Reference.reachabilityFence(arg_b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OffersMessageDecodeErrorZ ret_hu_conv = Result_OffersMessageDecodeErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(arg_b); };
 		return ret_hu_conv;
 	}
 

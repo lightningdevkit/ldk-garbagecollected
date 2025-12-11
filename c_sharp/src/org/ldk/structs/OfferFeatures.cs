@@ -15,23 +15,6 @@ public class OfferFeatures : CommonBase {
 		if (ptr != 0) { bindings.OfferFeatures_free(ptr); }
 	}
 
-	/**
-	 * Checks if two OfferFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public bool eq(org.ldk.structs.OfferFeatures b) {
-		bool ret = bindings.OfferFeatures_eq(this.ptr, b.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
-		return ret;
-	}
-
-	public override bool Equals(object o) {
-		if (!(o is OfferFeatures)) return false;
-		return this.eq((OfferFeatures)o);
-	}
 	internal long clone_ptr() {
 		long ret = bindings.OfferFeatures_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -101,7 +84,6 @@ public class OfferFeatures : CommonBase {
 		bool ret = bindings.OfferFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(other);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret;
 	}
 
@@ -114,7 +96,6 @@ public class OfferFeatures : CommonBase {
 		GC.KeepAlive(other);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		long[] ret_conv = InternalUtils.decodeUint64Array(ret);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret_conv;
 	}
 

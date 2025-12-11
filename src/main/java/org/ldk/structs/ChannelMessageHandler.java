@@ -17,10 +17,10 @@ import javax.annotation.Nullable;
 public class ChannelMessageHandler extends CommonBase {
 	final bindings.LDKChannelMessageHandler bindings_instance;
 	ChannelMessageHandler(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private ChannelMessageHandler(bindings.LDKChannelMessageHandler arg, bindings.LDKMessageSendEventsProvider MessageSendEventsProvider) {
-		super(bindings.LDKChannelMessageHandler_new(arg, MessageSendEventsProvider));
+	private ChannelMessageHandler(bindings.LDKChannelMessageHandler arg, bindings.LDKBaseMessageHandler BaseMessageHandler) {
+		super(bindings.LDKChannelMessageHandler_new(arg, BaseMessageHandler));
 		this.ptrs_to.add(arg);
-		this.ptrs_to.add(MessageSendEventsProvider);
+		this.ptrs_to.add(BaseMessageHandler);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
@@ -70,6 +70,14 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_channel_ready(byte[] their_node_id, ChannelReady msg);
 		/**
+		 * Handle an incoming `peer_storage` message from the given peer.
+		 */
+		void handle_peer_storage(byte[] their_node_id, PeerStorage msg);
+		/**
+		 * Handle an incoming `peer_storage_retrieval` message from the given peer.
+		 */
+		void handle_peer_storage_retrieval(byte[] their_node_id, PeerStorageRetrieval msg);
+		/**
 		 * Handle an incoming `shutdown` message from the given peer.
 		 */
 		void handle_shutdown(byte[] their_node_id, Shutdown msg);
@@ -81,6 +89,18 @@ public class ChannelMessageHandler extends CommonBase {
 		 * Handle an incoming `stfu` message from the given peer.
 		 */
 		void handle_stfu(byte[] their_node_id, Stfu msg);
+		/**
+		 * Handle an incoming `splice_init` message from the given peer.
+		 */
+		void handle_splice_init(byte[] their_node_id, SpliceInit msg);
+		/**
+		 * Handle an incoming `splice_ack` message from the given peer.
+		 */
+		void handle_splice_ack(byte[] their_node_id, SpliceAck msg);
+		/**
+		 * Handle an incoming `splice_locked` message from the given peer.
+		 */
+		void handle_splice_locked(byte[] their_node_id, SpliceLocked msg);
 		/**
 		 * Handle an incoming `tx_add_input message` from the given peer.
 		 */
@@ -138,6 +158,10 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_commitment_signed(byte[] their_node_id, CommitmentSigned msg);
 		/**
+		 * Handle a batch of incoming `commitment_signed` message from the given peer.
+		 */
+		void handle_commitment_signed_batch(byte[] their_node_id, ChannelId channel_id, CommitmentSigned[] batch);
+		/**
 		 * Handle an incoming `revoke_and_ack` message from the given peer.
 		 */
 		void handle_revoke_and_ack(byte[] their_node_id, RevokeAndACK msg);
@@ -150,20 +174,6 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_announcement_signatures(byte[] their_node_id, AnnouncementSignatures msg);
 		/**
-		 * Indicates a connection to the peer failed/an existing connection was lost.
-		 */
-		void peer_disconnected(byte[] their_node_id);
-		/**
-		 * Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
-		 * 
-		 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-		 * with us. Implementors should be somewhat conservative about doing so, however, as other
-		 * message handlers may still wish to communicate with this peer.
-		 * 
-		 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
-		 */
-		Result_NoneNoneZ peer_connected(byte[] their_node_id, Init msg, boolean inbound);
-		/**
 		 * Handle an incoming `channel_reestablish` message from the given peer.
 		 */
 		void handle_channel_reestablish(byte[] their_node_id, ChannelReestablish msg);
@@ -175,20 +185,6 @@ public class ChannelMessageHandler extends CommonBase {
 		 * Handle an incoming `error` message from the given peer.
 		 */
 		void handle_error(byte[] their_node_id, ErrorMessage msg);
-		/**
-		 * Gets the node feature flags which this handler itself supports. All available handlers are
-		 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-		 * which are broadcasted in our [`NodeAnnouncement`] message.
-		 */
-		NodeFeatures provided_node_features();
-		/**
-		 * Gets the init feature flags which should be sent to the given peer. All available handlers
-		 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-		 * which are sent in our [`Init`] message.
-		 * 
-		 * Note that this method is called before [`Self::peer_connected`].
-		 */
-		InitFeatures provided_init_features(byte[] their_node_id);
 		/**
 		 * Gets the chain hashes for this `ChannelMessageHandler` indicating which chains it supports.
 		 * 
@@ -207,7 +203,7 @@ public class ChannelMessageHandler extends CommonBase {
 		void message_received();
 	}
 	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
-	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
+	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, BaseMessageHandler.BaseMessageHandlerInterface BaseMessageHandler_impl) {
 		final LDKChannelMessageHandlerHolder impl_holder = new LDKChannelMessageHandlerHolder();
 		impl_holder.held = new ChannelMessageHandler(new bindings.LDKChannelMessageHandler() {
 			@Override public void handle_open_channel(byte[] their_node_id, long msg) {
@@ -245,6 +241,18 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.handle_channel_ready(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
+			@Override public void handle_peer_storage(byte[] their_node_id, long msg) {
+				org.ldk.structs.PeerStorage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.PeerStorage(null, msg); }
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+				arg.handle_peer_storage(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_peer_storage_retrieval(byte[] their_node_id, long msg) {
+				org.ldk.structs.PeerStorageRetrieval msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.PeerStorageRetrieval(null, msg); }
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
+				arg.handle_peer_storage_retrieval(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
 			@Override public void handle_shutdown(byte[] their_node_id, long msg) {
 				org.ldk.structs.Shutdown msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Shutdown(null, msg); }
 				arg.handle_shutdown(their_node_id, msg_hu_conv);
@@ -258,6 +266,21 @@ public class ChannelMessageHandler extends CommonBase {
 			@Override public void handle_stfu(byte[] their_node_id, long msg) {
 				org.ldk.structs.Stfu msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Stfu(null, msg); }
 				arg.handle_stfu(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice_init(byte[] their_node_id, long msg) {
+				org.ldk.structs.SpliceInit msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceInit(null, msg); }
+				arg.handle_splice_init(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice_ack(byte[] their_node_id, long msg) {
+				org.ldk.structs.SpliceAck msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceAck(null, msg); }
+				arg.handle_splice_ack(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
+			}
+			@Override public void handle_splice_locked(byte[] their_node_id, long msg) {
+				org.ldk.structs.SpliceLocked msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.SpliceLocked(null, msg); }
+				arg.handle_splice_locked(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public void handle_tx_add_input(byte[] their_node_id, long msg) {
@@ -312,6 +335,7 @@ public class ChannelMessageHandler extends CommonBase {
 			}
 			@Override public void handle_update_fulfill_htlc(byte[] their_node_id, long msg) {
 				org.ldk.structs.UpdateFulfillHTLC msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.UpdateFulfillHTLC(null, msg); }
+				if (msg_hu_conv != null) { msg_hu_conv.ptrs_to.add(this); };
 				arg.handle_update_fulfill_htlc(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
@@ -330,6 +354,20 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.handle_commitment_signed(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
+			@Override public void handle_commitment_signed_batch(byte[] their_node_id, long channel_id, long[] batch) {
+				org.ldk.structs.ChannelId channel_id_hu_conv = null; if (channel_id < 0 || channel_id > 4096) { channel_id_hu_conv = new org.ldk.structs.ChannelId(null, channel_id); }
+				if (channel_id_hu_conv != null) { channel_id_hu_conv.ptrs_to.add(this); };
+				int batch_conv_18_len = batch.length;
+				CommitmentSigned[] batch_conv_18_arr = new CommitmentSigned[batch_conv_18_len];
+				for (int s = 0; s < batch_conv_18_len; s++) {
+					long batch_conv_18 = batch[s];
+					org.ldk.structs.CommitmentSigned batch_conv_18_hu_conv = null; if (batch_conv_18 < 0 || batch_conv_18 > 4096) { batch_conv_18_hu_conv = new org.ldk.structs.CommitmentSigned(null, batch_conv_18); }
+					if (batch_conv_18_hu_conv != null) { batch_conv_18_hu_conv.ptrs_to.add(this); };
+					batch_conv_18_arr[s] = batch_conv_18_hu_conv;
+				}
+				arg.handle_commitment_signed_batch(their_node_id, channel_id_hu_conv, batch_conv_18_arr);
+				Reference.reachabilityFence(arg);
+			}
 			@Override public void handle_revoke_and_ack(byte[] their_node_id, long msg) {
 				org.ldk.structs.RevokeAndACK msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.RevokeAndACK(null, msg); }
 				arg.handle_revoke_and_ack(their_node_id, msg_hu_conv);
@@ -344,17 +382,6 @@ public class ChannelMessageHandler extends CommonBase {
 				org.ldk.structs.AnnouncementSignatures msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.AnnouncementSignatures(null, msg); }
 				arg.handle_announcement_signatures(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
-			}
-			@Override public void peer_disconnected(byte[] their_node_id) {
-				arg.peer_disconnected(their_node_id);
-				Reference.reachabilityFence(arg);
-			}
-			@Override public long peer_connected(byte[] their_node_id, long msg, boolean inbound) {
-				org.ldk.structs.Init msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.Init(null, msg); }
-				Result_NoneNoneZ ret = arg.peer_connected(their_node_id, msg_hu_conv, inbound);
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
 			}
 			@Override public void handle_channel_reestablish(byte[] their_node_id, long msg) {
 				org.ldk.structs.ChannelReestablish msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new org.ldk.structs.ChannelReestablish(null, msg); }
@@ -371,18 +398,6 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.handle_error(their_node_id, msg_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
-			@Override public long provided_node_features() {
-				NodeFeatures ret = arg.provided_node_features();
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
-			}
-			@Override public long provided_init_features(byte[] their_node_id) {
-				InitFeatures ret = arg.provided_init_features(their_node_id);
-				Reference.reachabilityFence(arg);
-				long result = ret.clone_ptr();
-				return result;
-			}
 			@Override public long get_chain_hashes() {
 				Option_CVec_ThirtyTwoBytesZZ ret = arg.get_chain_hashes();
 				Reference.reachabilityFence(arg);
@@ -393,15 +408,15 @@ public class ChannelMessageHandler extends CommonBase {
 				arg.message_received();
 				Reference.reachabilityFence(arg);
 			}
-		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
+		}, BaseMessageHandler.new_impl(BaseMessageHandler_impl).bindings_instance);
 		return impl_holder.held;
 	}
 
 	/**
-	 * Gets the underlying MessageSendEventsProvider.
+	 * Gets the underlying BaseMessageHandler.
 	 */
-	public MessageSendEventsProvider get_message_send_events_provider() {
-		MessageSendEventsProvider res = new MessageSendEventsProvider(null, bindings.LDKChannelMessageHandler_get_MessageSendEventsProvider(this.ptr));
+	public BaseMessageHandler get_base_message_handler() {
+		BaseMessageHandler res = new BaseMessageHandler(null, bindings.LDKChannelMessageHandler_get_BaseMessageHandler(this.ptr));
 		res.ptrs_to.add(this);
 		return res;
 	}
@@ -414,7 +429,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -425,7 +439,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -436,7 +449,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -447,7 +459,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -458,7 +469,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -469,7 +479,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -480,7 +489,26 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `peer_storage` message from the given peer.
+	 */
+	public void handle_peer_storage(byte[] their_node_id, org.ldk.structs.PeerStorage msg) {
+		bindings.ChannelMessageHandler_handle_peer_storage(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+	}
+
+	/**
+	 * Handle an incoming `peer_storage_retrieval` message from the given peer.
+	 */
+	public void handle_peer_storage_retrieval(byte[] their_node_id, org.ldk.structs.PeerStorageRetrieval msg) {
+		bindings.ChannelMessageHandler_handle_peer_storage_retrieval(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 	}
 
 	/**
@@ -491,7 +519,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -502,7 +529,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -513,7 +539,36 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle an incoming `splice_init` message from the given peer.
+	 */
+	public void handle_splice_init(byte[] their_node_id, org.ldk.structs.SpliceInit msg) {
+		bindings.ChannelMessageHandler_handle_splice_init(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+	}
+
+	/**
+	 * Handle an incoming `splice_ack` message from the given peer.
+	 */
+	public void handle_splice_ack(byte[] their_node_id, org.ldk.structs.SpliceAck msg) {
+		bindings.ChannelMessageHandler_handle_splice_ack(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
+	}
+
+	/**
+	 * Handle an incoming `splice_locked` message from the given peer.
+	 */
+	public void handle_splice_locked(byte[] their_node_id, org.ldk.structs.SpliceLocked msg) {
+		bindings.ChannelMessageHandler_handle_splice_locked(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 	}
 
 	/**
@@ -524,7 +579,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -535,7 +589,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -546,7 +599,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -557,7 +609,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -568,7 +619,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -579,7 +629,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -590,7 +639,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -601,7 +649,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -612,7 +659,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -623,7 +669,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -634,7 +679,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -645,7 +689,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -656,7 +699,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -667,7 +709,17 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
+	}
+
+	/**
+	 * Handle a batch of incoming `commitment_signed` message from the given peer.
+	 */
+	public void handle_commitment_signed_batch(byte[] their_node_id, org.ldk.structs.ChannelId channel_id, CommitmentSigned[] batch) {
+		bindings.ChannelMessageHandler_handle_commitment_signed_batch(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), channel_id.ptr, batch != null ? Arrays.stream(batch).mapToLong(batch_conv_18 -> batch_conv_18.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(batch);
 	}
 
 	/**
@@ -678,7 +730,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -689,7 +740,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -700,37 +750,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
-	}
-
-	/**
-	 * Indicates a connection to the peer failed/an existing connection was lost.
-	 */
-	public void peer_disconnected(byte[] their_node_id) {
-		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(their_node_id);
-	}
-
-	/**
-	 * Handle a peer reconnecting, possibly generating `channel_reestablish` message(s).
-	 * 
-	 * May return an `Err(())` if the features the peer supports are not sufficient to communicate
-	 * with us. Implementors should be somewhat conservative about doing so, however, as other
-	 * message handlers may still wish to communicate with this peer.
-	 * 
-	 * [`Self::peer_disconnected`] will not be called if `Err(())` is returned.
-	 */
-	public Result_NoneNoneZ peer_connected(byte[] their_node_id, org.ldk.structs.Init msg, boolean inbound) {
-		long ret = bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg.ptr, inbound);
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(their_node_id);
-		Reference.reachabilityFence(msg);
-		Reference.reachabilityFence(inbound);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
-		if (this != null) { this.ptrs_to.add(msg); };
-		return ret_hu_conv;
 	}
 
 	/**
@@ -741,7 +760,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -752,7 +770,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
 	}
 
 	/**
@@ -763,38 +780,6 @@ public class ChannelMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(msg);
-		if (this != null) { this.ptrs_to.add(msg); };
-	}
-
-	/**
-	 * Gets the node feature flags which this handler itself supports. All available handlers are
-	 * queried similarly and their feature flags are OR'd together to form the [`NodeFeatures`]
-	 * which are broadcasted in our [`NodeAnnouncement`] message.
-	 */
-	public NodeFeatures provided_node_features() {
-		long ret = bindings.ChannelMessageHandler_provided_node_features(this.ptr);
-		Reference.reachabilityFence(this);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets the init feature flags which should be sent to the given peer. All available handlers
-	 * are queried similarly and their feature flags are OR'd together to form the [`InitFeatures`]
-	 * which are sent in our [`Init`] message.
-	 * 
-	 * Note that this method is called before [`Self::peer_connected`].
-	 */
-	public InitFeatures provided_init_features(byte[] their_node_id) {
-		long ret = bindings.ChannelMessageHandler_provided_init_features(this.ptr, InternalUtils.check_arr_len(their_node_id, 33));
-		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(their_node_id);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.InitFeatures(null, ret); }
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
-		return ret_hu_conv;
 	}
 
 	/**

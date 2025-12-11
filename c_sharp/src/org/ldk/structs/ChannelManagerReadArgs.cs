@@ -25,9 +25,13 @@ namespace org { namespace ldk { namespace structs {
  * This is important if you have replayed a nontrivial number of blocks in step (4), allowing
  * you to avoid having to replay the same blocks if you shut down quickly after startup. It is
  * otherwise not required.
+ * 
  * Note that if you're using a [`ChainMonitor`] for your [`chain::Watch`] implementation, you
  * will likely accomplish this as a side-effect of calling [`chain::Watch::watch_channel`] in
  * the next step.
+ * 
+ * If you wish to avoid this for performance reasons, use
+ * [`ChainMonitor::load_existing_monitor`].
  * 7) Move the [`ChannelMonitor`]s into your local [`chain::Watch`]. If you're using a
  * [`ChainMonitor`], this is done by calling [`chain::Watch::watch_channel`].
  * 
@@ -42,6 +46,7 @@ namespace org { namespace ldk { namespace structs {
  * which you've already broadcasted the transaction.
  * 
  * [`ChainMonitor`]: crate::chain::chainmonitor::ChainMonitor
+ * [`ChainMonitor::load_existing_monitor`]: crate::chain::chainmonitor::ChainMonitor::load_existing_monitor
  */
 public class ChannelManagerReadArgs : CommonBase {
 	internal ChannelManagerReadArgs(object _dummy, long ptr) : base(ptr) { }
@@ -95,8 +100,8 @@ public class ChannelManagerReadArgs : CommonBase {
 
 	/**
 	 * The keys provider which will give us relevant keys. Some keys will be loaded during
-	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
-	 * signing data.
+	 * deserialization and [`SignerProvider::derive_channel_signer`] will be used to derive
+	 * per-Channel signing data.
 	 */
 	public org.ldk.structs.SignerProvider get_signer_provider() {
 		long ret = bindings.ChannelManagerReadArgs_get_signer_provider(this.ptr);
@@ -109,8 +114,8 @@ public class ChannelManagerReadArgs : CommonBase {
 
 	/**
 	 * The keys provider which will give us relevant keys. Some keys will be loaded during
-	 * deserialization and KeysInterface::read_chan_signer will be used to read per-Channel
-	 * signing data.
+	 * deserialization and [`SignerProvider::derive_channel_signer`] will be used to derive
+	 * per-Channel signing data.
 	 */
 	public void set_signer_provider(org.ldk.structs.SignerProvider val) {
 		bindings.ChannelManagerReadArgs_set_signer_provider(this.ptr, val.ptr);
@@ -232,6 +237,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	/**
 	 * The [`MessageRouter`] used for constructing [`BlindedMessagePath`]s for [`Offer`]s,
 	 * [`Refund`]s, and any reply paths.
+	 * 
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
 	 */
 	public org.ldk.structs.MessageRouter get_message_router() {
 		long ret = bindings.ChannelManagerReadArgs_get_message_router(this.ptr);
@@ -245,6 +252,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	/**
 	 * The [`MessageRouter`] used for constructing [`BlindedMessagePath`]s for [`Offer`]s,
 	 * [`Refund`]s, and any reply paths.
+	 * 
+	 * [`BlindedMessagePath`]: crate::blinded_path::message::BlindedMessagePath
 	 */
 	public void set_message_router(org.ldk.structs.MessageRouter val) {
 		bindings.ChannelManagerReadArgs_set_message_router(this.ptr, val.ptr);
@@ -281,8 +290,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * Default settings used for new channels. Any existing channels will continue to use the
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
-	public org.ldk.structs.UserConfig get_default_config() {
-		long ret = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
+	public org.ldk.structs.UserConfig get_config() {
+		long ret = bindings.ChannelManagerReadArgs_get_config(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.UserConfig(null, ret); }
@@ -294,8 +303,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * Default settings used for new channels. Any existing channels will continue to use the
 	 * runtime settings which were stored when the ChannelManager was serialized.
 	 */
-	public void set_default_config(org.ldk.structs.UserConfig val) {
-		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val.ptr);
+	public void set_config(org.ldk.structs.UserConfig val) {
+		bindings.ChannelManagerReadArgs_set_config(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
@@ -305,8 +314,8 @@ public class ChannelManagerReadArgs : CommonBase {
 	 * HashMap for you. This is primarily useful for C bindings where it is not practical to
 	 * populate a HashMap directly from C.
 	 */
-	public static org.ldk.structs.ChannelManagerReadArgs of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.MessageRouter message_router, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(entropy_source.ptr, node_signer.ptr, signer_provider.ptr, fee_estimator.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, message_router.ptr, logger.ptr, default_config.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(channel_monitors, channel_monitors_conv_16 => channel_monitors_conv_16.ptr)));
+	public static org.ldk.structs.ChannelManagerReadArgs of(org.ldk.structs.EntropySource entropy_source, org.ldk.structs.NodeSigner node_signer, org.ldk.structs.SignerProvider signer_provider, org.ldk.structs.FeeEstimator fee_estimator, org.ldk.structs.Watch chain_monitor, org.ldk.structs.BroadcasterInterface tx_broadcaster, org.ldk.structs.Router router, org.ldk.structs.MessageRouter message_router, org.ldk.structs.Logger logger, org.ldk.structs.UserConfig config, ChannelMonitor[] channel_monitors) {
+		long ret = bindings.ChannelManagerReadArgs_new(entropy_source.ptr, node_signer.ptr, signer_provider.ptr, fee_estimator.ptr, chain_monitor.ptr, tx_broadcaster.ptr, router.ptr, message_router.ptr, logger.ptr, config.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(channel_monitors, channel_monitors_conv_16 => channel_monitors_conv_16.ptr)));
 		GC.KeepAlive(entropy_source);
 		GC.KeepAlive(node_signer);
 		GC.KeepAlive(signer_provider);
@@ -316,7 +325,7 @@ public class ChannelManagerReadArgs : CommonBase {
 		GC.KeepAlive(router);
 		GC.KeepAlive(message_router);
 		GC.KeepAlive(logger);
-		GC.KeepAlive(default_config);
+		GC.KeepAlive(config);
 		GC.KeepAlive(channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelManagerReadArgs(null, ret); }

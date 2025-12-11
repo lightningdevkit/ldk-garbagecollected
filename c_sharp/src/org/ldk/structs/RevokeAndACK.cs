@@ -79,13 +79,54 @@ public class RevokeAndACK : CommonBase {
 	}
 
 	/**
+	 * A list of `(htlc_id, blinded_path)`. The receiver of this message will use the blinded paths
+	 * as reply paths to [`HeldHtlcAvailable`] onion messages that they send to the often-offline
+	 * receiver of this HTLC. The `htlc_id` is used by the receiver of this message to identify which
+	 * held HTLC a given blinded path corresponds to.
+	 * 
+	 * [`HeldHtlcAvailable`]: crate::onion_message::async_payments::HeldHtlcAvailable
+	 * 
+	 * Returns a copy of the field.
+	 */
+	public TwoTuple_u64BlindedMessagePathZ[] get_release_htlc_message_paths() {
+		long ret = bindings.RevokeAndACK_get_release_htlc_message_paths(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_33_len = InternalUtils.getArrayLength(ret);
+		TwoTuple_u64BlindedMessagePathZ[] ret_conv_33_arr = new TwoTuple_u64BlindedMessagePathZ[ret_conv_33_len];
+		for (int h = 0; h < ret_conv_33_len; h++) {
+			long ret_conv_33 = InternalUtils.getU64ArrayElem(ret, h);
+			TwoTuple_u64BlindedMessagePathZ ret_conv_33_hu_conv = new TwoTuple_u64BlindedMessagePathZ(null, ret_conv_33);
+			if (ret_conv_33_hu_conv != null) { ret_conv_33_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_33_arr[h] = ret_conv_33_hu_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_33_arr;
+	}
+
+	/**
+	 * A list of `(htlc_id, blinded_path)`. The receiver of this message will use the blinded paths
+	 * as reply paths to [`HeldHtlcAvailable`] onion messages that they send to the often-offline
+	 * receiver of this HTLC. The `htlc_id` is used by the receiver of this message to identify which
+	 * held HTLC a given blinded path corresponds to.
+	 * 
+	 * [`HeldHtlcAvailable`]: crate::onion_message::async_payments::HeldHtlcAvailable
+	 */
+	public void set_release_htlc_message_paths(TwoTuple_u64BlindedMessagePathZ[] val) {
+		bindings.RevokeAndACK_set_release_htlc_message_paths(this.ptr, InternalUtils.encodeUint64Array(InternalUtils.mapArray(val, val_conv_33 => val_conv_33.ptr)));
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
 	 * Constructs a new RevokeAndACK given each field
 	 */
-	public static org.ldk.structs.RevokeAndACK of(org.ldk.structs.ChannelId channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
-		long ret = bindings.RevokeAndACK_new(channel_id_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_secret_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(next_per_commitment_point_arg, 33)));
+	public static org.ldk.structs.RevokeAndACK of(org.ldk.structs.ChannelId channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg, TwoTuple_u64BlindedMessagePathZ[] release_htlc_message_paths_arg) {
+		long ret = bindings.RevokeAndACK_new(channel_id_arg.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(per_commitment_secret_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(next_per_commitment_point_arg, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(release_htlc_message_paths_arg, release_htlc_message_paths_arg_conv_33 => release_htlc_message_paths_arg_conv_33.ptr)));
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(per_commitment_secret_arg);
 		GC.KeepAlive(next_per_commitment_point_arg);
+		GC.KeepAlive(release_htlc_message_paths_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.RevokeAndACK ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.RevokeAndACK(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -131,7 +172,6 @@ public class RevokeAndACK : CommonBase {
 		bool ret = bindings.RevokeAndACK_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

@@ -127,7 +127,6 @@ public class ChannelMonitorUpdate extends CommonBase {
 		boolean ret = bindings.ChannelMonitorUpdate_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -135,6 +134,24 @@ public class ChannelMonitorUpdate extends CommonBase {
 		if (!(o instanceof ChannelMonitorUpdate)) return false;
 		return this.eq((ChannelMonitorUpdate)o);
 	}
+	/**
+	 * Returns a `Vec` of new (funding outpoint, funding script) to monitor the chain for as a
+	 * result of a renegotiated funding transaction.
+	 */
+	public TwoTuple_OutPointCVec_u8ZZ[] renegotiated_funding_data() {
+		long[] ret = bindings.ChannelMonitorUpdate_renegotiated_funding_data(this.ptr);
+		Reference.reachabilityFence(this);
+		int ret_conv_28_len = ret.length;
+		TwoTuple_OutPointCVec_u8ZZ[] ret_conv_28_arr = new TwoTuple_OutPointCVec_u8ZZ[ret_conv_28_len];
+		for (int c = 0; c < ret_conv_28_len; c++) {
+			long ret_conv_28 = ret[c];
+			TwoTuple_OutPointCVec_u8ZZ ret_conv_28_hu_conv = new TwoTuple_OutPointCVec_u8ZZ(null, ret_conv_28);
+			if (ret_conv_28_hu_conv != null) { ret_conv_28_hu_conv.ptrs_to.add(this); };
+			ret_conv_28_arr[c] = ret_conv_28_hu_conv;
+		}
+		return ret_conv_28_arr;
+	}
+
 	/**
 	 * Serialize the ChannelMonitorUpdate object into a byte array which can be read by ChannelMonitorUpdate_read
 	 */

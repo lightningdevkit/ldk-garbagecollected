@@ -49,7 +49,6 @@ public class ShutdownScript extends CommonBase {
 		boolean ret = bindings.ShutdownScript_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -144,13 +143,13 @@ public class ShutdownScript extends CommonBase {
 	/**
 	 * Returns whether the shutdown script is compatible with the features as defined by BOLT #2.
 	 * 
-	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit`.
+	 * Specifically, checks for compliance with feature `option_shutdown_anysegwit` and/or
+	 * `option_simple_close`.
 	 */
 	public boolean is_compatible(org.ldk.structs.InitFeatures features) {
 		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(features);
-		if (this != null) { this.ptrs_to.add(features); };
 		return ret;
 	}
 

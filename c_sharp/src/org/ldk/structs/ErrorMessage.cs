@@ -124,7 +124,6 @@ public class ErrorMessage : CommonBase {
 		bool ret = bindings.ErrorMessage_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

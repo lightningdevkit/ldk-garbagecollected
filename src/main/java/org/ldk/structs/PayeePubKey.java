@@ -83,7 +83,6 @@ public class PayeePubKey extends CommonBase {
 		boolean ret = bindings.PayeePubKey_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -91,4 +90,16 @@ public class PayeePubKey extends CommonBase {
 		if (!(o instanceof PayeePubKey)) return false;
 		return this.eq((PayeePubKey)o);
 	}
+	/**
+	 * Build a PayeePubKey from a PublicKey
+	 */
+	public static PayeePubKey from_PublicKey(byte[] f) {
+		long ret = bindings.PayeePubKey_from_PublicKey(InternalUtils.check_arr_len(f, 33));
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PayeePubKey(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }

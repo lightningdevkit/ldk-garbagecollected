@@ -135,6 +135,14 @@ internal class InternalUtils {
 		bindings.free_buffer(arrptr);
 		return res;
 	}
+	public static int[] decodeUint32Array(long arrptr) {
+		int len = getArrayLength(arrptr);
+		int[] res = new int[len];
+		for (int i = 0; i < len; i++)
+			res[i] = getU32ArrayElem(arrptr, i);
+		bindings.free_buffer(arrptr);
+		return res;
+	}
 	public static long[] decodeUint64Array(long arrptr) {
 		int len = getArrayLength(arrptr);
 		long[] res = new long[len];

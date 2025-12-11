@@ -60,7 +60,6 @@ public class BlindedMessagePath extends CommonBase {
 		boolean ret = bindings.BlindedMessagePath_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -91,31 +90,53 @@ public class BlindedMessagePath extends CommonBase {
 	/**
 	 * Create a one-hop blinded path for a message.
 	 */
-	public static Result_BlindedMessagePathNoneZ one_hop(byte[] recipient_node_id, org.ldk.structs.MessageContext context, org.ldk.structs.EntropySource entropy_source) {
-		long ret = bindings.BlindedMessagePath_one_hop(InternalUtils.check_arr_len(recipient_node_id, 33), context.ptr, entropy_source.ptr);
+	public static BlindedMessagePath one_hop(byte[] recipient_node_id, org.ldk.structs.ReceiveAuthKey local_node_receive_key, org.ldk.structs.MessageContext context, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedMessagePath_one_hop(InternalUtils.check_arr_len(recipient_node_id, 33), local_node_receive_key.ptr, context.ptr, entropy_source.ptr);
 		Reference.reachabilityFence(recipient_node_id);
+		Reference.reachabilityFence(local_node_receive_key);
 		Reference.reachabilityFence(context);
 		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_BlindedMessagePathNoneZ ret_hu_conv = Result_BlindedMessagePathNoneZ.constr_from_ptr(ret);
+		org.ldk.structs.BlindedMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedMessagePath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Create a path for an onion message, to be forwarded along `node_pks`. The last node
-	 * pubkey in `node_pks` will be the destination node.
-	 * 
-	 * Errors if no hops are provided or if `node_pk`(s) are invalid.
+	 * Create a path for an onion message, to be forwarded along `node_pks`.
 	 */
-	public static Result_BlindedMessagePathNoneZ of(MessageForwardNode[] intermediate_nodes, byte[] recipient_node_id, org.ldk.structs.MessageContext context, org.ldk.structs.EntropySource entropy_source) {
-		long ret = bindings.BlindedMessagePath_new(intermediate_nodes != null ? Arrays.stream(intermediate_nodes).mapToLong(intermediate_nodes_conv_20 -> intermediate_nodes_conv_20.ptr).toArray() : null, InternalUtils.check_arr_len(recipient_node_id, 33), context.ptr, entropy_source.ptr);
+	public static BlindedMessagePath of(MessageForwardNode[] intermediate_nodes, byte[] recipient_node_id, org.ldk.structs.ReceiveAuthKey local_node_receive_key, org.ldk.structs.MessageContext context, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedMessagePath_new(intermediate_nodes != null ? Arrays.stream(intermediate_nodes).mapToLong(intermediate_nodes_conv_20 -> intermediate_nodes_conv_20.ptr).toArray() : null, InternalUtils.check_arr_len(recipient_node_id, 33), local_node_receive_key.ptr, context.ptr, entropy_source.ptr);
 		Reference.reachabilityFence(intermediate_nodes);
 		Reference.reachabilityFence(recipient_node_id);
+		Reference.reachabilityFence(local_node_receive_key);
 		Reference.reachabilityFence(context);
 		Reference.reachabilityFence(entropy_source);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_BlindedMessagePathNoneZ ret_hu_conv = Result_BlindedMessagePathNoneZ.constr_from_ptr(ret);
+		org.ldk.structs.BlindedMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedMessagePath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Same as [`BlindedMessagePath::new`], but allows specifying a number of dummy hops.
+	 * 
+	 * Note:
+	 * At most [`MAX_DUMMY_HOPS_COUNT`] dummy hops can be added to the blinded path.
+	 */
+	public static BlindedMessagePath new_with_dummy_hops(MessageForwardNode[] intermediate_nodes, byte[] recipient_node_id, long dummy_hop_count, org.ldk.structs.ReceiveAuthKey local_node_receive_key, org.ldk.structs.MessageContext context, org.ldk.structs.EntropySource entropy_source) {
+		long ret = bindings.BlindedMessagePath_new_with_dummy_hops(intermediate_nodes != null ? Arrays.stream(intermediate_nodes).mapToLong(intermediate_nodes_conv_20 -> intermediate_nodes_conv_20.ptr).toArray() : null, InternalUtils.check_arr_len(recipient_node_id, 33), dummy_hop_count, local_node_receive_key.ptr, context.ptr, entropy_source.ptr);
+		Reference.reachabilityFence(intermediate_nodes);
+		Reference.reachabilityFence(recipient_node_id);
+		Reference.reachabilityFence(dummy_hop_count);
+		Reference.reachabilityFence(local_node_receive_key);
+		Reference.reachabilityFence(context);
+		Reference.reachabilityFence(entropy_source);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedMessagePath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(entropy_source); };
 		return ret_hu_conv;
 	}
@@ -208,6 +229,27 @@ public class BlindedMessagePath extends CommonBase {
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.add(node_signer); };
 		if (this != null) { this.ptrs_to.add(node_id_lookup); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new [`BlindedMessagePath`] from its constituent parts.
+	 * 
+	 * Useful when you need to reconstruct a blinded path from previously serialized components.
+	 * 
+	 * Parameters:
+	 * `introduction_node_id`: The public key of the introduction node in the path
+	 * `blinding_point`: The public key used for blinding the path
+	 * `blinded_hops`: The encrypted routing information for each hop in the path
+	 */
+	public static BlindedMessagePath from_blinded_path(byte[] introduction_node_id, byte[] blinding_point, BlindedHop[] blinded_hops) {
+		long ret = bindings.BlindedMessagePath_from_blinded_path(InternalUtils.check_arr_len(introduction_node_id, 33), InternalUtils.check_arr_len(blinding_point, 33), blinded_hops != null ? Arrays.stream(blinded_hops).mapToLong(blinded_hops_conv_12 -> blinded_hops_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(introduction_node_id);
+		Reference.reachabilityFence(blinding_point);
+		Reference.reachabilityFence(blinded_hops);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedMessagePath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedMessagePath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

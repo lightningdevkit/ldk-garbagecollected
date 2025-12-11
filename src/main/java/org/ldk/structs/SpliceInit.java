@@ -64,8 +64,8 @@ public class SpliceInit extends CommonBase {
 	/**
 	 * The feerate for the new funding transaction, set by the splice initiator
 	 */
-	public int get_funding_feerate_perkw() {
-		int ret = bindings.SpliceInit_get_funding_feerate_perkw(this.ptr);
+	public int get_funding_feerate_per_kw() {
+		int ret = bindings.SpliceInit_get_funding_feerate_per_kw(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -73,8 +73,8 @@ public class SpliceInit extends CommonBase {
 	/**
 	 * The feerate for the new funding transaction, set by the splice initiator
 	 */
-	public void set_funding_feerate_perkw(int val) {
-		bindings.SpliceInit_set_funding_feerate_perkw(this.ptr, val);
+	public void set_funding_feerate_per_kw(int val) {
+		bindings.SpliceInit_set_funding_feerate_per_kw(this.ptr, val);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -136,11 +136,11 @@ public class SpliceInit extends CommonBase {
 	/**
 	 * Constructs a new SpliceInit given each field
 	 */
-	public static SpliceInit of(org.ldk.structs.ChannelId channel_id_arg, long funding_contribution_satoshis_arg, int funding_feerate_perkw_arg, int locktime_arg, byte[] funding_pubkey_arg, org.ldk.enums.COption_NoneZ require_confirmed_inputs_arg) {
-		long ret = bindings.SpliceInit_new(channel_id_arg.ptr, funding_contribution_satoshis_arg, funding_feerate_perkw_arg, locktime_arg, InternalUtils.check_arr_len(funding_pubkey_arg, 33), require_confirmed_inputs_arg);
+	public static SpliceInit of(org.ldk.structs.ChannelId channel_id_arg, long funding_contribution_satoshis_arg, int funding_feerate_per_kw_arg, int locktime_arg, byte[] funding_pubkey_arg, org.ldk.enums.COption_NoneZ require_confirmed_inputs_arg) {
+		long ret = bindings.SpliceInit_new(channel_id_arg.ptr, funding_contribution_satoshis_arg, funding_feerate_per_kw_arg, locktime_arg, InternalUtils.check_arr_len(funding_pubkey_arg, 33), require_confirmed_inputs_arg);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(funding_contribution_satoshis_arg);
-		Reference.reachabilityFence(funding_feerate_perkw_arg);
+		Reference.reachabilityFence(funding_feerate_per_kw_arg);
 		Reference.reachabilityFence(locktime_arg);
 		Reference.reachabilityFence(funding_pubkey_arg);
 		Reference.reachabilityFence(require_confirmed_inputs_arg);
@@ -177,7 +177,6 @@ public class SpliceInit extends CommonBase {
 		boolean ret = bindings.SpliceInit_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

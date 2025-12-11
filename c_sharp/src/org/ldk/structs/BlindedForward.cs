@@ -64,6 +64,8 @@ public class BlindedForward : CommonBase {
 	 * forwarded within a [`BlindedPaymentPath`] that was concatenated to another blinded path that
 	 * starts at the next hop.
 	 * 
+	 * [`BlindedPaymentPath`]: crate::blinded_path::payment::BlindedPaymentPath
+	 * 
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public byte[] get_next_blinding_override() {
@@ -78,6 +80,8 @@ public class BlindedForward : CommonBase {
 	 * Overrides the next hop's [`msgs::UpdateAddHTLC::blinding_point`]. Set if this HTLC is being
 	 * forwarded within a [`BlindedPaymentPath`] that was concatenated to another blinded path that
 	 * starts at the next hop.
+	 * 
+	 * [`BlindedPaymentPath`]: crate::blinded_path::payment::BlindedPaymentPath
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
@@ -142,7 +146,6 @@ public class BlindedForward : CommonBase {
 		bool ret = bindings.BlindedForward_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

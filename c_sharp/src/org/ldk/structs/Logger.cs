@@ -52,5 +52,23 @@ public class Logger : CommonBase {
 		return impl_holder.held;
 	}
 
+	internal long clone_ptr() {
+		long ret = bindings.Logger_clone_ptr(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of a Logger
+	 */
+	public org.ldk.structs.Logger clone() {
+		long ret = bindings.Logger_clone(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Logger ret_hu_conv = new Logger(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

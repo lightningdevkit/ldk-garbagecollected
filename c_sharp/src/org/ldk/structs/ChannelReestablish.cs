@@ -118,36 +118,103 @@ public class ChannelReestablish : CommonBase {
 
 	/**
 	 * The next funding transaction ID
+	 * 
+	 * Allows peers to finalize the signing steps of an interactive transaction construction, or
+	 * safely abort that transaction if it was not signed by one of the peers, who has thus already
+	 * removed it from its state.
+	 * 
+	 * If we've sent `commtiment_signed` for an interactively constructed transaction
+	 * during a signing session, but have not received `tx_signatures` we MUST set `next_funding`
+	 * to the txid of that interactive transaction, else we MUST NOT set it.
+	 * 
+	 * See the spec for further details on this:
+	 * `channel_reestablish`-sending node: https:///github.com/lightning/bolts/blob/247e83d/02-peer-protocol.md?plain=1#L2466-L2470
+	 * `channel_reestablish`-receiving node: https:///github.com/lightning/bolts/blob/247e83d/02-peer-protocol.md?plain=1#L2520-L2531
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public org.ldk.structs.Option_ThirtyTwoBytesZ get_next_funding_txid() {
-		long ret = bindings.ChannelReestablish_get_next_funding_txid(this.ptr);
+	public org.ldk.structs.NextFunding get_next_funding() {
+		long ret = bindings.ChannelReestablish_get_next_funding(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.Option_ThirtyTwoBytesZ ret_hu_conv = org.ldk.structs.Option_ThirtyTwoBytesZ.constr_from_ptr(ret);
+		org.ldk.structs.NextFunding ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NextFunding(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
 
 	/**
 	 * The next funding transaction ID
+	 * 
+	 * Allows peers to finalize the signing steps of an interactive transaction construction, or
+	 * safely abort that transaction if it was not signed by one of the peers, who has thus already
+	 * removed it from its state.
+	 * 
+	 * If we've sent `commtiment_signed` for an interactively constructed transaction
+	 * during a signing session, but have not received `tx_signatures` we MUST set `next_funding`
+	 * to the txid of that interactive transaction, else we MUST NOT set it.
+	 * 
+	 * See the spec for further details on this:
+	 * `channel_reestablish`-sending node: https:///github.com/lightning/bolts/blob/247e83d/02-peer-protocol.md?plain=1#L2466-L2470
+	 * `channel_reestablish`-receiving node: https:///github.com/lightning/bolts/blob/247e83d/02-peer-protocol.md?plain=1#L2520-L2531
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_next_funding_txid(org.ldk.structs.Option_ThirtyTwoBytesZ val) {
-		bindings.ChannelReestablish_set_next_funding_txid(this.ptr, val.ptr);
+	public void set_next_funding(org.ldk.structs.NextFunding val) {
+		bindings.ChannelReestablish_set_next_funding(this.ptr, val == null ? 0 : val.ptr);
+		GC.KeepAlive(this);
+		GC.KeepAlive(val);
+	}
+
+	/**
+	 * The last funding txid sent by the sending node, which may be:
+	 * - the txid of the last `splice_locked` it sent, otherwise
+	 * - the txid of the funding transaction if it sent `channel_ready`, or else
+	 * - `None` if it has never sent `channel_ready` or `splice_locked`
+	 * 
+	 * Also contains a bitfield indicating which messages should be retransmitted.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public org.ldk.structs.FundingLocked get_my_current_funding_locked() {
+		long ret = bindings.ChannelReestablish_get_my_current_funding_locked(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.FundingLocked(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The last funding txid sent by the sending node, which may be:
+	 * - the txid of the last `splice_locked` it sent, otherwise
+	 * - the txid of the funding transaction if it sent `channel_ready`, or else
+	 * - `None` if it has never sent `channel_ready` or `splice_locked`
+	 * 
+	 * Also contains a bitfield indicating which messages should be retransmitted.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_my_current_funding_locked(org.ldk.structs.FundingLocked val) {
+		bindings.ChannelReestablish_set_my_current_funding_locked(this.ptr, val == null ? 0 : val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
 	}
 
 	/**
 	 * Constructs a new ChannelReestablish given each field
+	 * 
+	 * Note that next_funding_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Note that my_current_funding_locked_arg (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static org.ldk.structs.ChannelReestablish of(org.ldk.structs.ChannelId channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.Option_ThirtyTwoBytesZ next_funding_txid_arg) {
-		long ret = bindings.ChannelReestablish_new(channel_id_arg.ptr, next_local_commitment_number_arg, next_remote_commitment_number_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33)), next_funding_txid_arg.ptr);
+	public static org.ldk.structs.ChannelReestablish of(org.ldk.structs.ChannelId channel_id_arg, long next_local_commitment_number_arg, long next_remote_commitment_number_arg, byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg, org.ldk.structs.NextFunding next_funding_arg, org.ldk.structs.FundingLocked my_current_funding_locked_arg) {
+		long ret = bindings.ChannelReestablish_new(channel_id_arg.ptr, next_local_commitment_number_arg, next_remote_commitment_number_arg, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33)), next_funding_arg == null ? 0 : next_funding_arg.ptr, my_current_funding_locked_arg == null ? 0 : my_current_funding_locked_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(next_local_commitment_number_arg);
 		GC.KeepAlive(next_remote_commitment_number_arg);
 		GC.KeepAlive(your_last_per_commitment_secret_arg);
 		GC.KeepAlive(my_current_per_commitment_point_arg);
-		GC.KeepAlive(next_funding_txid_arg);
+		GC.KeepAlive(next_funding_arg);
+		GC.KeepAlive(my_current_funding_locked_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ChannelReestablish ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.ChannelReestablish(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
@@ -193,7 +260,6 @@ public class ChannelReestablish : CommonBase {
 		bool ret = bindings.ChannelReestablish_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

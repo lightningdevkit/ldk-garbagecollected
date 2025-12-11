@@ -20,10 +20,8 @@ public class DNSResolverContext : CommonBase {
 	}
 
 	/**
-	 * A nonce which uniquely describes a DNS resolution.
-	 * 
-	 * When we receive a DNSSEC proof message, we should check that it was sent over the blinded
-	 * path we included in the request by comparing a stored nonce with this one.
+	 * A nonce which uniquely describes a DNS resolution, useful for looking up metadata about the
+	 * request.
 	 */
 	public byte[] get_nonce() {
 		long ret = bindings.DNSResolverContext_get_nonce(this.ptr);
@@ -34,10 +32,8 @@ public class DNSResolverContext : CommonBase {
 	}
 
 	/**
-	 * A nonce which uniquely describes a DNS resolution.
-	 * 
-	 * When we receive a DNSSEC proof message, we should check that it was sent over the blinded
-	 * path we included in the request by comparing a stored nonce with this one.
+	 * A nonce which uniquely describes a DNS resolution, useful for looking up metadata about the
+	 * request.
 	 */
 	public void set_nonce(byte[] val) {
 		bindings.DNSResolverContext_set_nonce(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(val, 16)));
@@ -96,7 +92,6 @@ public class DNSResolverContext : CommonBase {
 		bool ret = bindings.DNSResolverContext_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

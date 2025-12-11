@@ -20,8 +20,9 @@ public class ParsedOnionMessageContents : CommonBase {
 		long raw_ty = bindings.LDKParsedOnionMessageContents_ty_from_ptr(ptr);
 		switch (raw_ty) {
 			case 0: return new ParsedOnionMessageContents_Offers(ptr);
-			case 1: return new ParsedOnionMessageContents_DNSResolver(ptr);
-			case 2: return new ParsedOnionMessageContents_Custom(ptr);
+			case 1: return new ParsedOnionMessageContents_AsyncPayments(ptr);
+			case 2: return new ParsedOnionMessageContents_DNSResolver(ptr);
+			case 3: return new ParsedOnionMessageContents_Custom(ptr);
 			default:
 				throw new ArgumentException("Impossible enum variant");
 		}
@@ -35,6 +36,16 @@ public class ParsedOnionMessageContents : CommonBase {
 			org.ldk.structs.OffersMessage offers_hu_conv = org.ldk.structs.OffersMessage.constr_from_ptr(offers);
 			if (offers_hu_conv != null) { offers_hu_conv.ptrs_to.AddLast(this); };
 			this.offers = offers_hu_conv;
+		}
+	}
+	/** A ParsedOnionMessageContents of type AsyncPayments */
+	public class ParsedOnionMessageContents_AsyncPayments : ParsedOnionMessageContents {
+		public org.ldk.structs.AsyncPaymentsMessage async_payments;
+		internal ParsedOnionMessageContents_AsyncPayments(long ptr) : base(null, ptr) {
+			long async_payments = bindings.LDKParsedOnionMessageContents_AsyncPayments_get_async_payments(ptr);
+			org.ldk.structs.AsyncPaymentsMessage async_payments_hu_conv = org.ldk.structs.AsyncPaymentsMessage.constr_from_ptr(async_payments);
+			if (async_payments_hu_conv != null) { async_payments_hu_conv.ptrs_to.AddLast(this); };
+			this.async_payments = async_payments_hu_conv;
 		}
 	}
 	/** A ParsedOnionMessageContents of type DNSResolver */
@@ -80,6 +91,18 @@ public class ParsedOnionMessageContents : CommonBase {
 	 */
 	public static org.ldk.structs.ParsedOnionMessageContents offers(org.ldk.structs.OffersMessage a) {
 		long ret = bindings.ParsedOnionMessageContents_offers(a.ptr);
+		GC.KeepAlive(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ParsedOnionMessageContents ret_hu_conv = org.ldk.structs.ParsedOnionMessageContents.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new AsyncPayments-variant ParsedOnionMessageContents
+	 */
+	public static org.ldk.structs.ParsedOnionMessageContents async_payments(org.ldk.structs.AsyncPaymentsMessage a) {
+		long ret = bindings.ParsedOnionMessageContents_async_payments(a.ptr);
 		GC.KeepAlive(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.ParsedOnionMessageContents ret_hu_conv = org.ldk.structs.ParsedOnionMessageContents.constr_from_ptr(ret);

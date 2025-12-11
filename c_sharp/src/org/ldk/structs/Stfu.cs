@@ -37,18 +37,18 @@ public class Stfu : CommonBase {
 	}
 
 	/**
-	 * Initiator flag, 1 if initiating, 0 if replying to an stfu.
+	 * Initiator flag, true if initiating, false if replying to an stfu.
 	 */
-	public byte get_initiator() {
-		byte ret = bindings.Stfu_get_initiator(this.ptr);
+	public bool get_initiator() {
+		bool ret = bindings.Stfu_get_initiator(this.ptr);
 		GC.KeepAlive(this);
 		return ret;
 	}
 
 	/**
-	 * Initiator flag, 1 if initiating, 0 if replying to an stfu.
+	 * Initiator flag, true if initiating, false if replying to an stfu.
 	 */
-	public void set_initiator(byte val) {
+	public void set_initiator(bool val) {
 		bindings.Stfu_set_initiator(this.ptr, val);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
@@ -57,7 +57,7 @@ public class Stfu : CommonBase {
 	/**
 	 * Constructs a new Stfu given each field
 	 */
-	public static org.ldk.structs.Stfu of(org.ldk.structs.ChannelId channel_id_arg, byte initiator_arg) {
+	public static org.ldk.structs.Stfu of(org.ldk.structs.ChannelId channel_id_arg, bool initiator_arg) {
 		long ret = bindings.Stfu_new(channel_id_arg.ptr, initiator_arg);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(initiator_arg);
@@ -94,7 +94,6 @@ public class Stfu : CommonBase {
 		bool ret = bindings.Stfu_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

@@ -111,5 +111,29 @@ public class ParseOrSemanticError : CommonBase {
 		return ret_conv;
 	}
 
+	/**
+	 * Build a ParseOrSemanticError from a Bolt11ParseError
+	 */
+	public static org.ldk.structs.ParseOrSemanticError from_Bolt11ParseError(org.ldk.structs.Bolt11ParseError f) {
+		long ret = bindings.ParseOrSemanticError_from_Bolt11ParseError(f.ptr);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ParseOrSemanticError ret_hu_conv = org.ldk.structs.ParseOrSemanticError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a ParseOrSemanticError from a Bolt11SemanticError
+	 */
+	public static org.ldk.structs.ParseOrSemanticError from_Bolt11SemanticError(Bolt11SemanticError f) {
+		long ret = bindings.ParseOrSemanticError_from_Bolt11SemanticError(f);
+		GC.KeepAlive(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.ParseOrSemanticError ret_hu_conv = org.ldk.structs.ParseOrSemanticError.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
 }
 } } }

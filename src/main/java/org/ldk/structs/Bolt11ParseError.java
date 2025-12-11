@@ -30,7 +30,6 @@ public class Bolt11ParseError extends CommonBase {
 		boolean ret = bindings.Bolt11ParseError_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -63,6 +62,30 @@ public class Bolt11ParseError extends CommonBase {
 		String ret = bindings.Bolt11ParseError_to_str(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	/**
+	 * Build a Bolt11ParseError from a Secp256k1Error
+	 */
+	public static Bolt11ParseError from_Secp256k1Error(org.ldk.enums.Secp256k1Error f) {
+		long ret = bindings.Bolt11ParseError_from_Secp256k1Error(f);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt11ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt11ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Build a Bolt11ParseError from a Error
+	 */
+	public static Bolt11ParseError from_Error(org.ldk.util.UnqualifiedError f) {
+		long ret = bindings.Bolt11ParseError_from_Error(0);
+		Reference.reachabilityFence(f);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Bolt11ParseError ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.Bolt11ParseError(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
 	}
 
 }

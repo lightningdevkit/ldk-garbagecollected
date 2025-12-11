@@ -63,7 +63,6 @@ public class ClosingTransaction extends CommonBase {
 		boolean ret = bindings.ClosingTransaction_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

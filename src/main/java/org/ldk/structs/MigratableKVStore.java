@@ -15,10 +15,10 @@ import javax.annotation.Nullable;
 public class MigratableKVStore extends CommonBase {
 	final bindings.LDKMigratableKVStore bindings_instance;
 	MigratableKVStore(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
-	private MigratableKVStore(bindings.LDKMigratableKVStore arg, bindings.LDKKVStore KVStore) {
-		super(bindings.LDKMigratableKVStore_new(arg, KVStore));
+	private MigratableKVStore(bindings.LDKMigratableKVStore arg, bindings.LDKKVStoreSync KVStoreSync) {
+		super(bindings.LDKMigratableKVStore_new(arg, KVStoreSync));
 		this.ptrs_to.add(arg);
-		this.ptrs_to.add(KVStore);
+		this.ptrs_to.add(KVStoreSync);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
@@ -42,7 +42,7 @@ public class MigratableKVStore extends CommonBase {
 		/**
 		 * Returns *all* known keys as a list of `primary_namespace`, `secondary_namespace`, `key` tuples.
 		 * 
-		 * This is useful for migrating data from [`KVStore`] implementation to [`KVStore`]
+		 * This is useful for migrating data from [`KVStoreSync`] implementation to [`KVStoreSync`]
 		 * implementation.
 		 * 
 		 * Must exhaustively return all entries known to the store to ensure no data is missed, but
@@ -51,7 +51,7 @@ public class MigratableKVStore extends CommonBase {
 		Result_CVec_C3Tuple_StrStrStrZZIOErrorZ list_all_keys();
 	}
 	private static class LDKMigratableKVStoreHolder { MigratableKVStore held; }
-	public static MigratableKVStore new_impl(MigratableKVStoreInterface arg, KVStore.KVStoreInterface KVStore_impl) {
+	public static MigratableKVStore new_impl(MigratableKVStoreInterface arg, KVStoreSync.KVStoreSyncInterface KVStoreSync_impl) {
 		final LDKMigratableKVStoreHolder impl_holder = new LDKMigratableKVStoreHolder();
 		impl_holder.held = new MigratableKVStore(new bindings.LDKMigratableKVStore() {
 			@Override public long list_all_keys() {
@@ -60,15 +60,15 @@ public class MigratableKVStore extends CommonBase {
 				long result = ret.clone_ptr();
 				return result;
 			}
-		}, KVStore.new_impl(KVStore_impl).bindings_instance);
+		}, KVStoreSync.new_impl(KVStoreSync_impl).bindings_instance);
 		return impl_holder.held;
 	}
 
 	/**
-	 * Gets the underlying KVStore.
+	 * Gets the underlying KVStoreSync.
 	 */
-	public KVStore get_k_v_store() {
-		KVStore res = new KVStore(null, bindings.LDKMigratableKVStore_get_KVStore(this.ptr));
+	public KVStoreSync get_k_v_store_sync() {
+		KVStoreSync res = new KVStoreSync(null, bindings.LDKMigratableKVStore_get_KVStoreSync(this.ptr));
 		res.ptrs_to.add(this);
 		return res;
 	}
@@ -76,7 +76,7 @@ public class MigratableKVStore extends CommonBase {
 	/**
 	 * Returns *all* known keys as a list of `primary_namespace`, `secondary_namespace`, `key` tuples.
 	 * 
-	 * This is useful for migrating data from [`KVStore`] implementation to [`KVStore`]
+	 * This is useful for migrating data from [`KVStoreSync`] implementation to [`KVStoreSync`]
 	 * implementation.
 	 * 
 	 * Must exhaustively return all entries known to the store to ensure no data is missed, but
@@ -87,6 +87,24 @@ public class MigratableKVStore extends CommonBase {
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_C3Tuple_StrStrStrZZIOErrorZ ret_hu_conv = Result_CVec_C3Tuple_StrStrStrZZIOErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.MigratableKVStore_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of a MigratableKVStore
+	 */
+	public MigratableKVStore clone() {
+		long ret = bindings.MigratableKVStore_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		MigratableKVStore ret_hu_conv = new MigratableKVStore(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}
 

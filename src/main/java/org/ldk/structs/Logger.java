@@ -55,4 +55,22 @@ public class Logger extends CommonBase {
 		});
 		return impl_holder.held;
 	}
+	long clone_ptr() {
+		long ret = bindings.Logger_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of a Logger
+	 */
+	public Logger clone() {
+		long ret = bindings.Logger_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Logger ret_hu_conv = new Logger(null, ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
+		return ret_hu_conv;
+	}
+
 }

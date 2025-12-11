@@ -101,7 +101,6 @@ public class ScoreUpdate extends CommonBase {
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(duration_since_epoch);
-		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
@@ -112,7 +111,6 @@ public class ScoreUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(duration_since_epoch);
-		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
@@ -124,7 +122,6 @@ public class ScoreUpdate extends CommonBase {
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(duration_since_epoch);
-		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**
@@ -135,7 +132,6 @@ public class ScoreUpdate extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(path);
 		Reference.reachabilityFence(duration_since_epoch);
-		if (this != null) { this.ptrs_to.add(path); };
 	}
 
 	/**

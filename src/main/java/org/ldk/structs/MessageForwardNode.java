@@ -10,6 +10,12 @@ import javax.annotation.Nullable;
 
 /**
  * An intermediate node, and possibly a short channel id leading to the next node.
+ * 
+ * Note:
+ * [`MessageForwardNode`] must represent a node that supports [`supports_onion_messages`]
+ * in order to be included in valid blinded paths for onion messaging.
+ * 
+ * [`supports_onion_messages`]: crate::types::features::Features::supports_onion_messages
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class MessageForwardNode extends CommonBase {
@@ -115,7 +121,6 @@ public class MessageForwardNode extends CommonBase {
 		boolean ret = bindings.MessageForwardNode_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 

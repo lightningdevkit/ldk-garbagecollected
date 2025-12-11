@@ -59,23 +59,23 @@ public class TxAddInput : CommonBase {
 	}
 
 	/**
-	 * Serialized transaction that contains the output this input spends to verify that it is non
-	 * malleable.
+	 * Serialized transaction that contains the output this input spends to verify that it is
+	 * non-malleable. Omitted for shared input.
 	 */
-	public org.ldk.structs.TransactionU16LenLimited get_prevtx() {
+	public org.ldk.structs.Option_TransactionZ get_prevtx() {
 		long ret = bindings.TxAddInput_get_prevtx(this.ptr);
 		GC.KeepAlive(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		org.ldk.structs.TransactionU16LenLimited ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.TransactionU16LenLimited(null, ret); }
+		org.ldk.structs.Option_TransactionZ ret_hu_conv = org.ldk.structs.Option_TransactionZ.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Serialized transaction that contains the output this input spends to verify that it is non
-	 * malleable.
+	 * Serialized transaction that contains the output this input spends to verify that it is
+	 * non-malleable. Omitted for shared input.
 	 */
-	public void set_prevtx(org.ldk.structs.TransactionU16LenLimited val) {
+	public void set_prevtx(org.ldk.structs.Option_TransactionZ val) {
 		bindings.TxAddInput_set_prevtx(this.ptr, val.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(val);
@@ -141,7 +141,7 @@ public class TxAddInput : CommonBase {
 	/**
 	 * Constructs a new TxAddInput given each field
 	 */
-	public static org.ldk.structs.TxAddInput of(org.ldk.structs.ChannelId channel_id_arg, long serial_id_arg, org.ldk.structs.TransactionU16LenLimited prevtx_arg, int prevtx_out_arg, int sequence_arg, org.ldk.structs.Option_ThirtyTwoBytesZ shared_input_txid_arg) {
+	public static org.ldk.structs.TxAddInput of(org.ldk.structs.ChannelId channel_id_arg, long serial_id_arg, org.ldk.structs.Option_TransactionZ prevtx_arg, int prevtx_out_arg, int sequence_arg, org.ldk.structs.Option_ThirtyTwoBytesZ shared_input_txid_arg) {
 		long ret = bindings.TxAddInput_new(channel_id_arg.ptr, serial_id_arg, prevtx_arg.ptr, prevtx_out_arg, sequence_arg, shared_input_txid_arg.ptr);
 		GC.KeepAlive(channel_id_arg);
 		GC.KeepAlive(serial_id_arg);
@@ -194,7 +194,6 @@ public class TxAddInput : CommonBase {
 		bool ret = bindings.TxAddInput_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

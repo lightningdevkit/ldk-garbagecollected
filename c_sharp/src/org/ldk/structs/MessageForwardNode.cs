@@ -8,6 +8,12 @@ namespace org { namespace ldk { namespace structs {
 
 /**
  * An intermediate node, and possibly a short channel id leading to the next node.
+ * 
+ * Note:
+ * [`MessageForwardNode`] must represent a node that supports [`supports_onion_messages`]
+ * in order to be included in valid blinded paths for onion messaging.
+ * 
+ * [`supports_onion_messages`]: crate::types::features::Features::supports_onion_messages
  */
 public class MessageForwardNode : CommonBase {
 	internal MessageForwardNode(object _dummy, long ptr) : base(ptr) { }
@@ -112,7 +118,6 @@ public class MessageForwardNode : CommonBase {
 		bool ret = bindings.MessageForwardNode_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

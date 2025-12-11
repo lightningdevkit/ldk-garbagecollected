@@ -66,7 +66,6 @@ public class OfferWithDerivedMetadataBuilder extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.OfferWithDerivedMetadataBuilder ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.OfferWithDerivedMetadataBuilder(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(expanded_key); };
 		return ret_hu_conv;
 	}
 

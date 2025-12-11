@@ -37,23 +37,6 @@ public class Bolt12InvoiceFeatures : CommonBase {
 		return ret_hu_conv;
 	}
 
-	/**
-	 * Checks if two Bolt12InvoiceFeaturess contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public bool eq(org.ldk.structs.Bolt12InvoiceFeatures b) {
-		bool ret = bindings.Bolt12InvoiceFeatures_eq(this.ptr, b.ptr);
-		GC.KeepAlive(this);
-		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
-		return ret;
-	}
-
-	public override bool Equals(object o) {
-		if (!(o is Bolt12InvoiceFeatures)) return false;
-		return this.eq((Bolt12InvoiceFeatures)o);
-	}
 	internal long clone_ptr() {
 		long ret = bindings.Bolt12InvoiceFeatures_clone_ptr(this.ptr);
 		GC.KeepAlive(this);
@@ -123,7 +106,6 @@ public class Bolt12InvoiceFeatures : CommonBase {
 		bool ret = bindings.Bolt12InvoiceFeatures_requires_unknown_bits_from(this.ptr, other.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(other);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret;
 	}
 
@@ -136,7 +118,6 @@ public class Bolt12InvoiceFeatures : CommonBase {
 		GC.KeepAlive(other);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		long[] ret_conv = InternalUtils.decodeUint64Array(ret);
-		if (this != null) { this.ptrs_to.AddLast(other); };
 		return ret_conv;
 	}
 
@@ -248,6 +229,14 @@ public class Bolt12InvoiceFeatures : CommonBase {
 	}
 
 	/**
+	 * Unsets this feature.
+	 */
+	public void clear_basic_mpp() {
+		bindings.Bolt12InvoiceFeatures_clear_basic_mpp(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
 	 * Checks if this feature is supported.
 	 */
 	public bool supports_basic_mpp() {
@@ -278,6 +267,14 @@ public class Bolt12InvoiceFeatures : CommonBase {
 	 */
 	public void set_trampoline_routing_required() {
 		bindings.Bolt12InvoiceFeatures_set_trampoline_routing_required(this.ptr);
+		GC.KeepAlive(this);
+	}
+
+	/**
+	 * Unsets this feature.
+	 */
+	public void clear_trampoline_routing() {
+		bindings.Bolt12InvoiceFeatures_clear_trampoline_routing(this.ptr);
 		GC.KeepAlive(this);
 	}
 

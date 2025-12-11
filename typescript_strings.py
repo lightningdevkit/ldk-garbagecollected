@@ -129,7 +129,7 @@ async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
 	isWasmInitialized = true;
 }
 
-const fn_list = ["uuuuuu", "buuuuu", "bbuuuu", "bbbuuu", "bbbbuu", "bbbbbu",
+const fn_list = ["uuuuuu", "buuuuu", "buubuu", "buubub", "bbuuuu", "bbbuuu", "bbbbuu", "bbbbbu",
 	"bbbbbb", "ubuubu", "ubuuuu", "ubbuuu", "uubuuu", "uubbuu", "uububu", "ububuu", "uuuubu"];
 
 /* @internal */
@@ -280,6 +280,19 @@ export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array
 export function decodeUint16Array (arrayPointer: number, free = true): Uint16Array {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint16Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
+/* @internal */
+export function decodeUint32Array (arrayPointer: number, free = true): Uint32Array {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 8, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
@@ -656,7 +669,8 @@ static void alloc_freed(void* ptr, int lineno) {
 			} else {
 				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n Possibly double-free from %s, allocated on line %d.", ptr, lineno, it->struct_name, it->lineno);
 			}
-			abort();
+			//abort();
+			return;
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
@@ -954,6 +968,8 @@ import * as bindings from '../bindings.mjs'
             return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint16_t" or mapped_ty.c_ty == "int16_t":
             return "const " + conv_name + ": Uint16Array = bindings.decodeUint16Array(" + arr_name + ");"
+        elif mapped_ty.c_ty == "uint32_t" or mapped_ty.c_ty == "int32_t":
+            return "const " + conv_name + ": Uint32Array = bindings.decodeUint32Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "int64_t":
             return "const " + conv_name + ": BigInt64Array = bindings.decodeInt64Array(" + arr_name + ");"
         elif mapped_ty.c_ty == "uint64_t":

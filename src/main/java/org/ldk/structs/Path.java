@@ -127,7 +127,6 @@ public class Path extends CommonBase {
 		boolean ret = bindings.Path_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -163,6 +162,15 @@ public class Path extends CommonBase {
 		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
+	}
+
+	/**
+	 * True if this [`Path`] has at least one Trampoline hop.
+	 */
+	public boolean has_trampoline_hops() {
+		boolean ret = bindings.Path_has_trampoline_hops(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

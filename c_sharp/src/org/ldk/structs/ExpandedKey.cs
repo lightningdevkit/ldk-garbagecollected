@@ -7,9 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * A set of keys that were HKDF-expanded. Returned by [`NodeSigner::get_inbound_payment_key`].
+ * A set of keys that were HKDF-expanded. Returned by [`NodeSigner::get_expanded_key`].
  * 
- * [`NodeSigner::get_inbound_payment_key`]: crate::sign::NodeSigner::get_inbound_payment_key
+ * [`NodeSigner::get_expanded_key`]: crate::sign::NodeSigner::get_expanded_key
  */
 public class ExpandedKey : CommonBase {
 	internal ExpandedKey(object _dummy, long ptr) : base(ptr) { }
@@ -56,7 +56,6 @@ public class ExpandedKey : CommonBase {
 		bool ret = bindings.ExpandedKey_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

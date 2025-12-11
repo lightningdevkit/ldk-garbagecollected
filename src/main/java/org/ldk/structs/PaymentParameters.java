@@ -270,7 +270,6 @@ public class PaymentParameters extends CommonBase {
 		boolean ret = bindings.PaymentParameters_eq(this.ptr, b.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(b);
-		if (this != null) { this.ptrs_to.add(b); };
 		return ret;
 	}
 
@@ -344,13 +343,40 @@ public class PaymentParameters extends CommonBase {
 	 * [`Payee::Blinded::route_hints`], [`Payee::Blinded::features`], and
 	 * [`PaymentParameters::expiry_time`].
 	 */
+	public static PaymentParameters from_bolt11_invoice(org.ldk.structs.Bolt11Invoice invoice) {
+		long ret = bindings.PaymentParameters_from_bolt11_invoice(invoice.ptr);
+		Reference.reachabilityFence(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates parameters for paying to a blinded payee from the provided invoice. Sets
+	 * [`Payee::Blinded::route_hints`], [`Payee::Blinded::features`], and
+	 * [`PaymentParameters::expiry_time`].
+	 */
 	public static PaymentParameters from_bolt12_invoice(org.ldk.structs.Bolt12Invoice invoice) {
 		long ret = bindings.PaymentParameters_from_bolt12_invoice(invoice.ptr);
 		Reference.reachabilityFence(invoice);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(invoice); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates parameters for paying to a blinded payee from the provided invoice. Sets
+	 * [`Payee::Blinded::route_hints`], [`Payee::Blinded::features`], and
+	 * [`PaymentParameters::expiry_time`].
+	 */
+	public static PaymentParameters from_static_invoice(org.ldk.structs.StaticInvoice invoice) {
+		long ret = bindings.PaymentParameters_from_static_invoice(invoice.ptr);
+		Reference.reachabilityFence(invoice);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.PaymentParameters(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

@@ -7,7 +7,9 @@ namespace org { namespace ldk { namespace structs {
 
 
 /**
- * An onion message to be sent to or received from a peer.
+ * An [`onion message`] to be sent to or received from a peer.
+ * 
+ * [`onion message`]: https://github.com/lightning/bolts/blob/master/04-onion-routing.md#onion-messages
  */
 public class OnionMessage : CommonBase {
 	internal OnionMessage(object _dummy, long ptr) : base(ptr) { }
@@ -108,7 +110,6 @@ public class OnionMessage : CommonBase {
 		bool ret = bindings.OnionMessage_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 

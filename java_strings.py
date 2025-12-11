@@ -519,6 +519,8 @@ typedef jbyteArray int8_tArray;
 typedef jbyteArray uint8_tArray;
 typedef jshortArray int16_tArray;
 typedef jshortArray uint16_tArray;
+typedef jintArray int32_tArray;
+typedef jintArray uint32_tArray;
 
 static inline jstring str_ref_to_java(JNIEnv *env, const unsigned char* chars, size_t len) {
 	// Java uses "Modified UTF-8" rather than UTF-8. This requires special
@@ -1511,7 +1513,7 @@ import javax.annotation.Nullable;
         out_java += (return_type_info.java_ty)
         if return_type_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
-        out_java += (" " + method_name + "(")
+        out_java += " " + method_name + "("
         have_args = len(argument_types) > 1 or (len(argument_types) > 0 and argument_types[0].c_ty != "void")
         out_c += (" " + self.c_fn_name_define_pfx(method_name, have_args))
 
@@ -1539,6 +1541,8 @@ import javax.annotation.Nullable;
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " with_default("
                 else:
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " " + meth_n + "("
+            elif meth_n == "notify":
+                out_java_struct += "\t" + return_type_info.java_hu_ty + " do_notify("
             elif meth_n == "clone_ptr" or (struct_meth.startswith("LDKCResult") and (meth_n == "get_ok" or meth_n == "get_err")):
                 out_java_struct += ("\t" + return_type_info.java_hu_ty + " " + meth_n + "(")
             else:

@@ -121,7 +121,6 @@ public class ChannelMonitorUpdate : CommonBase {
 		bool ret = bindings.ChannelMonitorUpdate_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -129,6 +128,26 @@ public class ChannelMonitorUpdate : CommonBase {
 		if (!(o is ChannelMonitorUpdate)) return false;
 		return this.eq((ChannelMonitorUpdate)o);
 	}
+	/**
+	 * Returns a `Vec` of new (funding outpoint, funding script) to monitor the chain for as a
+	 * result of a renegotiated funding transaction.
+	 */
+	public TwoTuple_OutPointCVec_u8ZZ[] renegotiated_funding_data() {
+		long ret = bindings.ChannelMonitorUpdate_renegotiated_funding_data(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		int ret_conv_28_len = InternalUtils.getArrayLength(ret);
+		TwoTuple_OutPointCVec_u8ZZ[] ret_conv_28_arr = new TwoTuple_OutPointCVec_u8ZZ[ret_conv_28_len];
+		for (int c = 0; c < ret_conv_28_len; c++) {
+			long ret_conv_28 = InternalUtils.getU64ArrayElem(ret, c);
+			TwoTuple_OutPointCVec_u8ZZ ret_conv_28_hu_conv = new TwoTuple_OutPointCVec_u8ZZ(null, ret_conv_28);
+			if (ret_conv_28_hu_conv != null) { ret_conv_28_hu_conv.ptrs_to.AddLast(this); };
+			ret_conv_28_arr[c] = ret_conv_28_hu_conv;
+		}
+		bindings.free_buffer(ret);
+		return ret_conv_28_arr;
+	}
+
 	/**
 	 * Serialize the ChannelMonitorUpdate object into a byte array which can be read by ChannelMonitorUpdate_read
 	 */

@@ -53,7 +53,6 @@ public class ReadOnlyNetworkGraph : CommonBase, IDisposable {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.NodeInfo(null, ret); }
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(this); };
-		if (this != null) { this.ptrs_to.AddLast(node_id); };
 		return ret_hu_conv;
 	}
 

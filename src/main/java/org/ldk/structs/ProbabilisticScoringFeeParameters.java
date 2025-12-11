@@ -478,6 +478,64 @@ public class ProbabilisticScoringFeeParameters extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * In order to ensure we have knowledge for as many paths as possible, when probing it makes
+	 * sense to bias away from channels for which we have very recent data.
+	 * 
+	 * This value is a penalty that is applied based on the last time that we updated the bounds
+	 * on the available liquidity in a channel. The specified value is the maximum penalty that
+	 * will be applied.
+	 * 
+	 * It obviously does not make sense to assign a non-0 value here unless you are using the
+	 * pathfinding result for background probing.
+	 * 
+	 * Specifically, the following penalty is applied
+	 * `probing_diversity_penalty_msat * max(0, (86400 - current time + last update))^2 / 86400^2` is
+	 * 
+	 * As this is a maximum value, when setting this you should consider it in relation to the
+	 * other values set to ensure that, at maximum, we strongly avoid paths which we recently
+	 * tried (similar to if they have a low success probability). For example, you might set this
+	 * to be the sum of [`Self::base_penalty_msat`] and
+	 * [`Self::historical_liquidity_penalty_multiplier_msat`] (plus some multiple of their
+	 * corresponding `amount_multiplier`s).
+	 * 
+	 * Default value: 0
+	 */
+	public long get_probing_diversity_penalty_msat() {
+		long ret = bindings.ProbabilisticScoringFeeParameters_get_probing_diversity_penalty_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * In order to ensure we have knowledge for as many paths as possible, when probing it makes
+	 * sense to bias away from channels for which we have very recent data.
+	 * 
+	 * This value is a penalty that is applied based on the last time that we updated the bounds
+	 * on the available liquidity in a channel. The specified value is the maximum penalty that
+	 * will be applied.
+	 * 
+	 * It obviously does not make sense to assign a non-0 value here unless you are using the
+	 * pathfinding result for background probing.
+	 * 
+	 * Specifically, the following penalty is applied
+	 * `probing_diversity_penalty_msat * max(0, (86400 - current time + last update))^2 / 86400^2` is
+	 * 
+	 * As this is a maximum value, when setting this you should consider it in relation to the
+	 * other values set to ensure that, at maximum, we strongly avoid paths which we recently
+	 * tried (similar to if they have a low success probability). For example, you might set this
+	 * to be the sum of [`Self::base_penalty_msat`] and
+	 * [`Self::historical_liquidity_penalty_multiplier_msat`] (plus some multiple of their
+	 * corresponding `amount_multiplier`s).
+	 * 
+	 * Default value: 0
+	 */
+	public void set_probing_diversity_penalty_msat(long val) {
+		bindings.ProbabilisticScoringFeeParameters_set_probing_diversity_penalty_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
 	long clone_ptr() {
 		long ret = bindings.ProbabilisticScoringFeeParameters_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -515,7 +573,6 @@ public class ProbabilisticScoringFeeParameters extends CommonBase {
 		bindings.ProbabilisticScoringFeeParameters_add_banned(this.ptr, node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -535,7 +592,6 @@ public class ProbabilisticScoringFeeParameters extends CommonBase {
 		bindings.ProbabilisticScoringFeeParameters_remove_banned(this.ptr, node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -546,7 +602,6 @@ public class ProbabilisticScoringFeeParameters extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(penalty);
-		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**
@@ -556,7 +611,6 @@ public class ProbabilisticScoringFeeParameters extends CommonBase {
 		bindings.ProbabilisticScoringFeeParameters_remove_manual_penalty(this.ptr, node_id.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(node_id);
-		if (this != null) { this.ptrs_to.add(node_id); };
 	}
 
 	/**

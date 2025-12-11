@@ -33,6 +33,9 @@ public class MessageSendInstructions extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendInstructions.ForReply.class) {
 			return new ForReply(ptr, (bindings.LDKMessageSendInstructions.ForReply)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendInstructions.ForwardedMessage.class) {
+			return new ForwardedMessage(ptr, (bindings.LDKMessageSendInstructions.ForwardedMessage)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -120,6 +123,40 @@ public class MessageSendInstructions extends CommonBase {
 			this.instructions = instructions_hu_conv;
 		}
 	}
+	/**
+	 * Indicates that this onion message did not originate from our node and is being forwarded
+	 * through us from another node on the network to the destination.
+	 * 
+	 * We separate out this case because forwarded onion messages are treated differently from
+	 * outbound onion messages initiated by our node. Outbounds are buffered internally, whereas, for
+	 * DoS protection, forwards should never be buffered internally and instead will either be
+	 * dropped or generate an [`Event::OnionMessageIntercepted`] if the next-hop node is
+	 * disconnected.
+	 */
+	public final static class ForwardedMessage extends MessageSendInstructions {
+		/**
+		 * The destination where we need to send the forwarded onion message.
+		*/
+		public final org.ldk.structs.Destination destination;
+		/**
+		 * The reply path which should be included in the message, that terminates at the original
+		 * sender of this forwarded message.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final org.ldk.structs.BlindedMessagePath reply_path;
+		private ForwardedMessage(long ptr, bindings.LDKMessageSendInstructions.ForwardedMessage obj) {
+			super(null, ptr);
+			long destination = obj.destination;
+			org.ldk.structs.Destination destination_hu_conv = org.ldk.structs.Destination.constr_from_ptr(destination);
+			if (destination_hu_conv != null) { destination_hu_conv.ptrs_to.add(this); };
+			this.destination = destination_hu_conv;
+			long reply_path = obj.reply_path;
+			org.ldk.structs.BlindedMessagePath reply_path_hu_conv = null; if (reply_path < 0 || reply_path > 4096) { reply_path_hu_conv = new org.ldk.structs.BlindedMessagePath(null, reply_path); }
+			if (reply_path_hu_conv != null) { reply_path_hu_conv.ptrs_to.add(this); };
+			this.reply_path = reply_path_hu_conv;
+		}
+	}
 	long clone_ptr() {
 		long ret = bindings.MessageSendInstructions_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -182,6 +219,19 @@ public class MessageSendInstructions extends CommonBase {
 	public static MessageSendInstructions for_reply(org.ldk.structs.ResponseInstruction instructions) {
 		long ret = bindings.MessageSendInstructions_for_reply(instructions.ptr);
 		Reference.reachabilityFence(instructions);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendInstructions ret_hu_conv = org.ldk.structs.MessageSendInstructions.constr_from_ptr(ret);
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ForwardedMessage-variant MessageSendInstructions
+	 */
+	public static MessageSendInstructions forwarded_message(org.ldk.structs.Destination destination, org.ldk.structs.BlindedMessagePath reply_path) {
+		long ret = bindings.MessageSendInstructions_forwarded_message(destination.ptr, reply_path.ptr);
+		Reference.reachabilityFence(destination);
+		Reference.reachabilityFence(reply_path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		org.ldk.structs.MessageSendInstructions ret_hu_conv = org.ldk.structs.MessageSendInstructions.constr_from_ptr(ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(ret_hu_conv); };

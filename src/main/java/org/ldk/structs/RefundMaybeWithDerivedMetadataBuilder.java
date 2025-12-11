@@ -95,7 +95,6 @@ public class RefundMaybeWithDerivedMetadataBuilder extends CommonBase {
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ ret_hu_conv = Result_RefundMaybeWithDerivedMetadataBuilderBolt12SemanticErrorZ.constr_from_ptr(ret);
-		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(expanded_key); };
 		return ret_hu_conv;
 	}
 

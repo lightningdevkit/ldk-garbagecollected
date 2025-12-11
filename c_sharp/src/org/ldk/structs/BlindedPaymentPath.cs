@@ -76,7 +76,6 @@ public class BlindedPaymentPath : CommonBase {
 		bool ret = bindings.BlindedPaymentPath_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -103,7 +102,6 @@ public class BlindedPaymentPath : CommonBase {
 	 * Create a blinded path for a payment, to be forwarded along `intermediate_nodes`.
 	 * 
 	 * Errors if:
-	 * a provided node id is invalid
 	 * [`BlindedPayInfo`] calculation results in an integer overflow
 	 * any unknown features are required in the provided [`ForwardTlvs`]
 	 */
@@ -197,6 +195,29 @@ public class BlindedPaymentPath : CommonBase {
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		if (this != null) { this.ptrs_to.AddLast(node_signer); };
 		if (this != null) { this.ptrs_to.AddLast(node_id_lookup); };
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Builds a new [`BlindedPaymentPath`] from its constituent parts.
+	 * 
+	 * Useful when reconstructing a blinded path from previously serialized components.
+	 * 
+	 * Parameters:
+	 * `introduction_node_id`: The public key of the introduction node in the path.
+	 * `blinding_point`: The public key used for blinding the path.
+	 * `blinded_hops`: The encrypted routing information for each hop in the path.
+	 * `payinfo`: The [`BlindedPayInfo`] for the blinded path.
+	 */
+	public static org.ldk.structs.BlindedPaymentPath from_blinded_path_and_payinfo(byte[] introduction_node_id, byte[] blinding_point, BlindedHop[] blinded_hops, org.ldk.structs.BlindedPayInfo payinfo) {
+		long ret = bindings.BlindedPaymentPath_from_blinded_path_and_payinfo(InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(introduction_node_id, 33)), InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(blinding_point, 33)), InternalUtils.encodeUint64Array(InternalUtils.mapArray(blinded_hops, blinded_hops_conv_12 => blinded_hops_conv_12.ptr)), payinfo.ptr);
+		GC.KeepAlive(introduction_node_id);
+		GC.KeepAlive(blinding_point);
+		GC.KeepAlive(blinded_hops);
+		GC.KeepAlive(payinfo);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.BlindedPaymentPath ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new org.ldk.structs.BlindedPaymentPath(null, ret); }
+		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.AddLast(ret_hu_conv); };
 		return ret_hu_conv;
 	}
 

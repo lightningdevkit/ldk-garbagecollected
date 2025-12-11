@@ -122,7 +122,7 @@ public class ChannelManagerConstructor {
          *                       provided ProbabilisticScoringParameters. You may use this to fetch a "default" route,
          *                       modifying or storing it as you wish before returning the route to LDK.
          */
-        Result_RouteLightningErrorZ find_route(byte[] payer_node_id, RouteParameters route_params, ChannelDetails[] first_hops,
+        Result_RouteStrZ find_route(byte[] payer_node_id, RouteParameters route_params, ChannelDetails[] first_hops,
             InFlightHtlcs inflight_htlcs, @Nullable byte[] payment_hash, @Nullable byte[] payment_id, DefaultRouter default_router);
     }
 
@@ -164,17 +164,17 @@ public class ChannelManagerConstructor {
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
                 @Override
-                public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                public Result_RouteStrZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, null, null, default_router);
                 }
 
                 @Override
-                public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
+                public Result_RouteStrZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router);
                 }
 
                 @Override
-                public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, Option_u64Z amount_msats) {
                     return default_router.as_Router().create_blinded_payment_paths(recipient, first_hops, tlvs, amount_msats);
                 }
             });
@@ -194,7 +194,7 @@ public class ChannelManagerConstructor {
             byte[] block_hash = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK)res).res.get_a();
             monitors[i] = ((Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ.Result_C2Tuple_ThirtyTwoBytesChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
             this.channel_monitors[i] = TwoTuple_ThirtyTwoBytesChannelMonitorZ.of(block_hash, monitors[i]);
-            if (!monitor_funding_set.add(monitors[i].get_funding_txo().get_a()))
+            if (!monitor_funding_set.add(monitors[i].get_funding_txo()))
                 throw new InvalidSerializedDataException("Set of ChannelMonitors contained duplicates (ie the same funding_txo was set on multiple monitors)");
         }
         Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ res =
@@ -238,15 +238,15 @@ public class ChannelManagerConstructor {
         DefaultRouter default_router = DefaultRouter.of(this.net_graph, logger, entropy_source, scorer.as_LockableScore(), scoring_fee_params);
         if (router_wrapper != null) {
             router = Router.new_impl(new Router.RouterInterface() {
-                @Override public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
+                @Override public Result_RouteStrZ find_route(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, null, null, default_router);
                 }
-                @Override public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
+                @Override public Result_RouteStrZ find_route_with_id(byte[] payer, RouteParameters route_params, ChannelDetails[] first_hops, InFlightHtlcs inflight_htlcs, byte[] payment_hash, byte[] payment_id) {
                     return router_wrapper.find_route(payer, route_params, first_hops, inflight_htlcs, payment_hash, payment_id, default_router);
                 }
 
                 @Override
-                public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+                public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, Option_u64Z amount_msats) {
                     return default_router.as_Router().create_blinded_payment_paths(recipient, first_hops, tlvs, amount_msats);
                 }
             });
@@ -271,9 +271,6 @@ public class ChannelManagerConstructor {
      */
     public interface EventHandler {
         Result_NoneReplayEventZ handle_event(Event events);
-        void persist_manager(byte[] channel_manager_bytes);
-        void persist_network_graph(byte[] network_graph);
-        void persist_scorer(byte[] scorer_bytes);
     }
 
     BackgroundProcessor background_processor = null;
@@ -282,18 +279,28 @@ public class ChannelManagerConstructor {
      * Utility which adds all of the deserialized ChannelMonitors to the chain watch so that further updates from the
      * ChannelManager are processed as normal.
      *
+     * This must only be called after the chain state has been updated on each `channel_monitors` and the `chanel_manager`.
+     * First connect each block starting from `get_a()` and going to the current tip for each tuple in `channel_monitors`.
+     * Once complete, `set_a(current tip hash)` should be called for each monitor. Finally, the same should be done with
+     * `channel_manager` from `channel_manager_latest_block_hash` to the same current tip.
+     *
      * This also spawns a background thread which will call the appropriate methods on the provided
      * EventHandler as required.
      *
+     * @param kv_store will be used to persist LDK objects persisted by the LDK background processor. This includes the
+     *                 ChannelManager, network graph, and scorer, but does *not* include the ChannelMonitor or
+     *                 ChannelMonitorUpdates (which are persisted via the Persist interface you gave to the ChainMonitor).
+     * @param output_sweeper should be provided if you are using the LDK OutputSweeper, and is used primarily to ensure
+     *                       it is reliably persisted.
      * @param use_p2p_graph_sync determines if we will sync the network graph from peers over the standard (but
      *                           inefficient) lightning P2P protocol. Note that doing so currently requires trusting
      *                           peers as no DoS mechanism is enforced to ensure we don't accept bogus gossip.
      *                           Alternatively, you may sync the net_graph exposed in this object via Rapid Gossip Sync.
      */
-    public void chain_sync_completed(EventHandler event_handler, boolean use_p2p_graph_sync) {
+    public void chain_sync_completed(KVStoreSync kv_store, EventHandler event_handler, @Nullable OutputSweeperSync output_sweeper, boolean use_p2p_graph_sync) {
         if (background_processor != null) { return; }
         for (TwoTuple_ThirtyTwoBytesChannelMonitorZ monitor: channel_monitors) {
-            this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());
+            this.chain_monitor.load_existing_monitor(monitor.get_b().channel_id(), monitor.get_b());
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
 
@@ -311,8 +318,9 @@ public class ChannelManagerConstructor {
                 IgnoringMessageHandler.of().as_CustomOnionMessageHandler());
         this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                 routing_msg_handler, messenger.as_OnionMessageHandler(),
-                ignoring_handler.as_CustomMessageHandler(), (int)(System.currentTimeMillis() / 1000),
-                this.entropy_source.get_secure_random_bytes(), logger, this.node_signer);
+                ignoring_handler.as_CustomMessageHandler(), chain_monitor.as_SendOnlyMessageHandler(),
+                (int)(System.currentTimeMillis() / 1000), this.entropy_source.get_secure_random_bytes(),
+                logger, this.node_signer);
 
         try {
             this.nio_peer_handler = new NioPeerHandler(peer_manager);
@@ -328,25 +336,8 @@ public class ChannelManagerConstructor {
 
         Option_WriteableScoreZ writeable_score = Option_WriteableScoreZ.some(scorer.as_WriteableScore());
 
-        background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
-            @Override
-            public Result_NoneIOErrorZ persist_manager(ChannelManager channel_manager) {
-                event_handler.persist_manager(channel_manager.write());
-                return Result_NoneIOErrorZ.ok();
-            }
-
-            @Override
-            public Result_NoneIOErrorZ persist_graph(NetworkGraph network_graph) {
-                event_handler.persist_network_graph(network_graph.write());
-                return Result_NoneIOErrorZ.ok();
-            }
-
-            @Override
-            public Result_NoneIOErrorZ persist_scorer(WriteableScore scorer) {
-                event_handler.persist_scorer(scorer.write());
-                return Result_NoneIOErrorZ.ok();
-            }
-        }), ldk_handler, this.chain_monitor, this.channel_manager, messenger, gossip_sync, peer_manager, this.logger, writeable_score);
+        background_processor = BackgroundProcessor.start(kv_store, ldk_handler, this.chain_monitor, this.channel_manager,
+                messenger, gossip_sync, peer_manager, output_sweeper, this.logger, writeable_score);
     }
 
     /**

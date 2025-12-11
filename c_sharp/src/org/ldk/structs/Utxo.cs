@@ -132,7 +132,6 @@ public class Utxo : CommonBase {
 		bool ret = bindings.Utxo_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
@@ -140,6 +139,28 @@ public class Utxo : CommonBase {
 		if (!(o is Utxo)) return false;
 		return this.eq((Utxo)o);
 	}
+	/**
+	 * Serialize the Utxo object into a byte array which can be read by Utxo_read
+	 */
+	public byte[] write() {
+		long ret = bindings.Utxo_write(this.ptr);
+		GC.KeepAlive(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		byte[] ret_conv = InternalUtils.decodeUint8Array(ret);
+		return ret_conv;
+	}
+
+	/**
+	 * Read a Utxo from a byte array, created by Utxo_write
+	 */
+	public static org.ldk.structs.Result_UtxoDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.Utxo_read(InternalUtils.encodeUint8Array(ser));
+		GC.KeepAlive(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_UtxoDecodeErrorZ ret_hu_conv = Result_UtxoDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Returns a `Utxo` with the `satisfaction_weight` estimate for a legacy P2PKH output.
 	 */

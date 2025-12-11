@@ -70,14 +70,14 @@ public class P2PGossipSync extends CommonBase {
 	}
 
 	/**
-	 * Constructs a new MessageSendEventsProvider which calls the relevant methods on this_arg.
-	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
+	 * Constructs a new BaseMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseMessageHandler must be freed before this_arg is
 	 */
-	public MessageSendEventsProvider as_MessageSendEventsProvider() {
-		long ret = bindings.P2PGossipSync_as_MessageSendEventsProvider(this.ptr);
+	public BaseMessageHandler as_BaseMessageHandler() {
+		long ret = bindings.P2PGossipSync_as_BaseMessageHandler(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
+		BaseMessageHandler ret_hu_conv = new BaseMessageHandler(null, ret);
 		if (ret_hu_conv != null) { ret_hu_conv.ptrs_to.add(this); };
 		return ret_hu_conv;
 	}

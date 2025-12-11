@@ -56,13 +56,16 @@ namespace tests {
 		}
 
 		class TestPersister : PersistInterface {
-			public ChannelMonitorUpdateStatus persist_new_channel(OutPoint channel_id, ChannelMonitor data) {
+			public ChannelMonitorUpdateStatus persist_new_channel(MonitorName monitor_name, ChannelMonitor data) {
 				return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 			}
-			public ChannelMonitorUpdateStatus update_persisted_channel(OutPoint channel_id, ChannelMonitorUpdate update, ChannelMonitor data) {
+			public ChannelMonitorUpdateStatus update_persisted_channel(MonitorName monitor_name, ChannelMonitorUpdate update, ChannelMonitor data) {
 				return ChannelMonitorUpdateStatus.LDKChannelMonitorUpdateStatus_Completed;
 			}
-			public void archive_persisted_channel(OutPoint channel_id) { }
+			public void archive_persisted_channel(MonitorName monitor_name) { }
+			public TwoTuple_ChannelIdu64Z[] get_and_clear_completed_updates() {
+				return new TwoTuple_ChannelIdu64Z[0];
+			}
 		}
 
 		class TestEventHandler : EventHandlerInterface {
@@ -89,13 +92,13 @@ namespace tests {
 				this.inner_msg = inner_msg;
 				this.entropy = entropy;
 			}
-			public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters param, ChannelDetails[] chans, InFlightHtlcs htlcs) {
+			public Result_RouteStrZ find_route(byte[] payer, RouteParameters param, ChannelDetails[] chans, InFlightHtlcs htlcs) {
 				return inner.as_Router().find_route(payer, param, chans, htlcs);
 			}
-			public Result_RouteLightningErrorZ find_route_with_id(byte[] payer, RouteParameters param, ChannelDetails[] chans, InFlightHtlcs htlcs, byte[] payment_hash, byte[] payment_id) {
+			public Result_RouteStrZ find_route_with_id(byte[] payer, RouteParameters param, ChannelDetails[] chans, InFlightHtlcs htlcs, byte[] payment_hash, byte[] payment_id) {
 				return inner.as_Router().find_route_with_id(payer, param, chans, htlcs, payment_hash, payment_id);
 			}
-			public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, long amount_msats) {
+			public Result_CVec_BlindedPaymentPathZNoneZ create_blinded_payment_paths(byte[] recipient, ChannelDetails[] first_hops, ReceiveTlvs tlvs, Option_u64Z amount_msats) {
 				Result_BlindedPaymentPathNoneZ info_path = BlindedPaymentPath.one_hop(recipient, tlvs, 40, entropy);
 				BlindedPaymentPath hop = ((Result_BlindedPaymentPathNoneZ.Result_BlindedPaymentPathNoneZ_OK)info_path).res;
 				BlindedPaymentPath[] hops = new BlindedPaymentPath[1];
@@ -106,15 +109,10 @@ namespace tests {
 			public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination dest) {
 				return inner_msg.as_MessageRouter().find_path(sender, peers, dest);
 			}
-			public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, MessageContext ctx, byte[][] peers) {
-				Result_BlindedMessagePathNoneZ path = BlindedMessagePath.one_hop(recipient, ctx, entropy);
-				Assert(path.is_ok(), 2);
+			public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, ReceiveAuthKey auth_key, MessageContext ctx, MessageForwardNode[] peers) {
 				BlindedMessagePath[] paths = new BlindedMessagePath[1];
-				paths[0] = ((Result_BlindedMessagePathNoneZ.Result_BlindedMessagePathNoneZ_OK)path).res;
+				paths[0] = BlindedMessagePath.one_hop(recipient, auth_key, ctx, entropy);
 				return Result_CVec_BlindedMessagePathZNoneZ.ok(paths);
-			}
-			public Result_CVec_BlindedMessagePathZNoneZ create_compact_blinded_paths(byte[] recipient, MessageContext ctx, MessageForwardNode[] peers) {
-				return this.create_blinded_paths(recipient, ctx, new byte[0][]);
 			}
 		}
 
@@ -137,10 +135,10 @@ namespace tests {
 			public Node(byte seed) {
 				byte[] seed_bytes = new byte[32];
 				for (int i = 0; i < 32; i++) seed_bytes[i] = seed;
-				keys = KeysManager.of(seed_bytes, 42, 43);
+				keys = KeysManager.of(seed_bytes, 42, 43, true);
 
 				ldk_broadcaster = BroadcasterInterface.new_impl(broadcaster);
-				chain_monitor = ChainMonitor.of(Option_FilterZ.none(), ldk_broadcaster, logger, estimator, persister);
+				chain_monitor = ChainMonitor.of(Option_FilterZ.none(), ldk_broadcaster, logger, estimator, persister, keys.as_EntropySource(), keys.as_NodeSigner().get_peer_storage_key());
 				graph = NetworkGraph.of(Network.LDKNetwork_Bitcoin, logger);
 				scorer = MultiThreadedLockableScore.of(ProbabilisticScorer.of(ProbabilisticScoringDecayParameters.with_default(), graph, logger).as_Score());
 
@@ -163,18 +161,18 @@ namespace tests {
 			Node node_a = new Node(1);
 			Node node_b = new Node(2);
 
-			InitFeatures init_features = node_a.manager.as_ChannelMessageHandler().provided_init_features(node_b.manager.get_our_node_id());
+			InitFeatures init_features = node_a.manager.as_BaseMessageHandler().provided_init_features(node_b.manager.get_our_node_id());
 			init_features.set_onion_messages_optional();
 			Init init_msg = Init.of(init_features, Option_CVec_ThirtyTwoBytesZZ.none(), Option_SocketAddressZ.none());
-			node_a.manager.as_ChannelMessageHandler().peer_connected(node_b.manager.get_our_node_id(), init_msg, false);
-			node_b.manager.as_ChannelMessageHandler().peer_connected(node_a.manager.get_our_node_id(), init_msg, false);
-			node_a.messenger.as_OnionMessageHandler().peer_connected(node_b.manager.get_our_node_id(), init_msg, false);
-			node_b.messenger.as_OnionMessageHandler().peer_connected(node_a.manager.get_our_node_id(), init_msg, false);
+			node_a.manager.as_BaseMessageHandler().peer_connected(node_b.manager.get_our_node_id(), init_msg, false);
+			node_b.manager.as_BaseMessageHandler().peer_connected(node_a.manager.get_our_node_id(), init_msg, false);
+			node_a.messenger.as_BaseMessageHandler().peer_connected(node_b.manager.get_our_node_id(), init_msg, false);
+			node_b.messenger.as_BaseMessageHandler().peer_connected(node_a.manager.get_our_node_id(), init_msg, false);
 
 			Result_ChannelIdAPIErrorZ res = node_a.manager.create_channel(node_b.manager.get_our_node_id(), 100000, 42, new org.ldk.util.UInt128(43), null, null);
 			Assert(res.is_ok(), 4);
 
-			MessageSendEvent[] msgs = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] msgs = node_a.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(msgs.Length == 1, 5);
 			Assert(msgs[0] is MessageSendEvent.MessageSendEvent_SendOpenChannel, 6);
 			node_b.manager.as_ChannelMessageHandler().handle_open_channel(node_a.manager.get_our_node_id(), ((MessageSendEvent.MessageSendEvent_SendOpenChannel) msgs[0]).msg);
@@ -182,10 +180,10 @@ namespace tests {
 			Event inbound_chan = get_event(node_b.manager);
 			Assert(inbound_chan is Event.Event_OpenChannelRequest, 7);
 			Event.Event_OpenChannelRequest chan_request = (Event.Event_OpenChannelRequest)inbound_chan;
-			Result_NoneAPIErrorZ accept_res = node_b.manager.accept_inbound_channel_from_trusted_peer_0conf(chan_request.temporary_channel_id, chan_request.counterparty_node_id, new org.ldk.util.UInt128(42));
+			Result_NoneAPIErrorZ accept_res = node_b.manager.accept_inbound_channel_from_trusted_peer_0conf(chan_request.temporary_channel_id, chan_request.counterparty_node_id, new org.ldk.util.UInt128(42), null);
 			Assert(accept_res.is_ok(), 8);
 
-			MessageSendEvent[] response_msgs = node_b.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] response_msgs = node_b.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(response_msgs.Length == 1, 9);
 			Assert(response_msgs[0] is MessageSendEvent.MessageSendEvent_SendAcceptChannel, 10);
 			node_a.manager.as_ChannelMessageHandler().handle_accept_channel(node_b.manager.get_our_node_id(), ((MessageSendEvent.MessageSendEvent_SendAcceptChannel) response_msgs[0]).msg);
@@ -273,7 +271,7 @@ namespace tests {
 
 			node_a.manager.batch_funding_transaction_generated(channel, transaction);
 
-			MessageSendEvent[] funding_msg = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] funding_msg = node_a.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(funding_msg.Length == 1, 13);
 			Assert(funding_msg[0] is MessageSendEvent.MessageSendEvent_SendFundingCreated, 14);
 			node_b.manager.as_ChannelMessageHandler().handle_funding_created(node_a.manager.get_our_node_id(), ((MessageSendEvent.MessageSendEvent_SendFundingCreated) funding_msg[0]).msg);
@@ -281,7 +279,7 @@ namespace tests {
 			Event bs_chan_pending = get_event(node_b.manager);
 			Assert(bs_chan_pending is Event.Event_ChannelPending, 15);
 
-			MessageSendEvent[] signed_ready_msgs = node_b.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] signed_ready_msgs = node_b.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(signed_ready_msgs.Length == 2, 16);
 			Assert(signed_ready_msgs[0] is MessageSendEvent.MessageSendEvent_SendFundingSigned, 17);
 			node_a.manager.as_ChannelMessageHandler().handle_funding_signed(node_b.manager.get_our_node_id(), ((MessageSendEvent.MessageSendEvent_SendFundingSigned) signed_ready_msgs[0]).msg);
@@ -290,14 +288,14 @@ namespace tests {
 			Event as_chan_pending = get_event(node_a.manager);
 			Assert(as_chan_pending is Event.Event_ChannelPending, 19);
 
-			MessageSendEvent[] as_ready = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] as_ready = node_a.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(as_ready.Length == 1, 20);
 			Assert(as_ready[0] is MessageSendEvent.MessageSendEvent_SendChannelReady, 21);
 
 			Assert(signed_ready_msgs[1] is MessageSendEvent.MessageSendEvent_SendChannelReady, 22);
 			node_a.manager.as_ChannelMessageHandler().handle_channel_ready(node_b.manager.get_our_node_id(), ((MessageSendEvent.MessageSendEvent_SendChannelReady) signed_ready_msgs[1]).msg);
 
-			MessageSendEvent[] as_chan_update = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] as_chan_update = node_a.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(as_chan_update.Length == 1, 23);
 			Assert(as_chan_update[0] is MessageSendEvent.MessageSendEvent_SendChannelUpdate, 24);
 
@@ -309,19 +307,19 @@ namespace tests {
 			Event bs_chan_ready = get_event(node_b.manager);
 			Assert(bs_chan_ready is Event.Event_ChannelReady, 26);
 
-			MessageSendEvent[] bs_chan_update = node_b.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] bs_chan_update = node_b.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(bs_chan_update.Length == 1, 27);
 			Assert(bs_chan_update[0] is MessageSendEvent.MessageSendEvent_SendChannelUpdate, 28);
 
 			// Now that we have a channel, pay using a BOLT12 offer!
 
-			Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ builder_res = node_b.manager.create_offer_builder(Option_u64Z.none());
+			Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ builder_res = node_b.manager.create_offer_builder();
 			Assert(builder_res.is_ok(), 29);
 			Result_OfferBolt12SemanticErrorZ offer_res = ((Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ.Result_OfferWithDerivedMetadataBuilderBolt12SemanticErrorZ_OK)builder_res).res.build();
 			Assert(offer_res.is_ok(), 30);
 			Offer offer = ((Result_OfferBolt12SemanticErrorZ.Result_OfferBolt12SemanticErrorZ_OK)offer_res).res;
 
-			Result_NoneBolt12SemanticErrorZ pay_res = node_a.manager.pay_for_offer(offer, Option_u64Z.none(), Option_u64Z.some(42000), Option_StrZ.none(), new byte[32], Retry.attempts(0), Option_u64Z.none());
+			Result_NoneBolt12SemanticErrorZ pay_res = node_a.manager.pay_for_offer(offer, Option_u64Z.some(42000), new byte[32], Option_StrZ.none(), RouteParametersConfig.with_default(), Retry.attempts(0));
 			Assert(pay_res.is_ok(), 31);
 
 			OnionMessage as_invreq = node_a.messenger.as_OnionMessageHandler().next_onion_message_for_peer(node_b.manager.get_our_node_id());
@@ -331,7 +329,7 @@ namespace tests {
 			node_a.messenger.as_OnionMessageHandler().handle_onion_message(node_b.manager.get_our_node_id(), bs_inv);
 
 			// At this point node_a will generate a commitment update for node_b, which we check exists but don't bother to handle:
-			MessageSendEvent[] as_commit = node_a.manager.as_MessageSendEventsProvider().get_and_clear_pending_msg_events();
+			MessageSendEvent[] as_commit = node_a.manager.as_BaseMessageHandler().get_and_clear_pending_msg_events();
 			Assert(as_commit.Length == 1, 32);
 			Assert(as_commit[0] is MessageSendEvent.MessageSendEvent_UpdateHTLCs, 33);
 		}
@@ -359,14 +357,14 @@ namespace tests {
 		static Offer BuildOffer(Nonce nonce, KeysManager keys) {
 			Result_PublicKeyNoneZ id_res = keys.as_NodeSigner().get_node_id(Recipient.LDKRecipient_Node);
 			byte[] node_id = ((Result_PublicKeyNoneZ.Result_PublicKeyNoneZ_OK)id_res).res;
-			ExpandedKey inb_key = keys.as_NodeSigner().get_inbound_payment_key();
+			ExpandedKey inb_key = keys.as_NodeSigner().get_expanded_key();
 			OfferWithDerivedMetadataBuilder builder = OfferWithDerivedMetadataBuilder.deriving_signing_pubkey(node_id, inb_key, nonce);
 			Result_OfferBolt12SemanticErrorZ res = builder.build();
 			return ((Result_OfferBolt12SemanticErrorZ.Result_OfferBolt12SemanticErrorZ_OK) res).res;
 		}
 
 		static InvoiceRequestWithDerivedPayerSigningPubkeyBuilder InvReqBuilderFromOffer(Offer offer, KeysManager keys) {
-			ExpandedKey inb_key = keys.as_NodeSigner().get_inbound_payment_key();
+			ExpandedKey inb_key = keys.as_NodeSigner().get_expanded_key();
 			Nonce nonce = Nonce.from_entropy_source(keys.as_EntropySource());
 			Result_InvoiceRequestWithDerivedPayerSigningPubkeyBuilderBolt12SemanticErrorZ builder_res =
 				offer.request_invoice(inb_key, nonce, new byte[32]);
@@ -381,7 +379,7 @@ namespace tests {
 		}
 
 		static InvoiceWithDerivedSigningPubkeyBuilder InvBuilderFromInvReq(Nonce receiver_nonce, InvoiceRequest invreq, KeysManager keys) {
-			ExpandedKey inb_key = keys.as_NodeSigner().get_inbound_payment_key();
+			ExpandedKey inb_key = keys.as_NodeSigner().get_expanded_key();
 			Result_VerifiedInvoiceRequestNoneZ verified_res = invreq.verify_using_recipient_data(receiver_nonce, inb_key);
 			VerifiedInvoiceRequest verified_invreq =
 				((Result_VerifiedInvoiceRequestNoneZ.Result_VerifiedInvoiceRequestNoneZ_OK)verified_res).res;
@@ -409,10 +407,10 @@ namespace tests {
 		static void Bolt12RespondTest() {
 			// Build an Invoice out of an Offer, step by step. We do each step in its own function
 			// to give the background GC a chance to free things out from under us.
-			KeysManager sender = KeysManager.of(new byte[32], 42, 42);
+			KeysManager sender = KeysManager.of(new byte[32], 42, 42, true);
 			byte[] receiver_keys = new byte[32];
 			receiver_keys[10] = 42;
-			KeysManager receiver = KeysManager.of(receiver_keys, 42, 42);
+			KeysManager receiver = KeysManager.of(receiver_keys, 42, 42, true);
 
 			// Run the GC between each step to see if the reference the builders hold to the
 			// original Offer/InvoiceRequest is freed out from under us before building.

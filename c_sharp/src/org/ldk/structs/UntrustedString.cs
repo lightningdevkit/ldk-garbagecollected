@@ -90,7 +90,6 @@ public class UntrustedString : CommonBase {
 		bool ret = bindings.UntrustedString_eq(this.ptr, b.ptr);
 		GC.KeepAlive(this);
 		GC.KeepAlive(b);
-		if (this != null) { this.ptrs_to.AddLast(b); };
 		return ret;
 	}
 
