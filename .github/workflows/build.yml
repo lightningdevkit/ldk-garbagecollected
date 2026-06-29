@@ -43,6 +43,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -50,11 +56,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -149,6 +162,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -156,11 +175,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Rebuild C bindings with STD
         run: |
           cd ldk-c-bindings
@@ -202,15 +228,11 @@ jobs:
           git clone https://github.com/lightningdevkit/rust-lightning
           cd rust-lightning
           git checkout origin/0.2-bindings
-          cargo update -p syn --precise "2.0.106" --verbose
-          cargo update -p quote --precise "1.0.41" --verbose
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.2
           cd lightning-c-bindings
-          cargo update -p syn --precise "2.0.106" --verbose
-          cargo update -p quote --precise "1.0.41" --verbose
       - name: Fetch MacOS SDK
         run: |
           curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
@@ -259,8 +281,6 @@ jobs:
           git clean -f -x -d
           git reset --hard
           cd lightning-c-bindings
-          cargo update -p syn --precise "2.0.106" --verbose
-          cargo update -p quote --precise "1.0.41" --verbose
           cd ../..
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export ANDROID_TOOLCHAIN="$(pwd)/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64"
@@ -393,6 +413,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -400,11 +426,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -459,6 +492,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -466,11 +505,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -591,6 +637,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -598,11 +650,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Fetch MacOS SDK
         run: |
           curl -o Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz https://bitcoincore.org/depends-sources/sdks/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
@@ -733,6 +792,12 @@ jobs:
           git checkout origin/0.2-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
@@ -740,11 +805,18 @@ jobs:
           cd lightning-c-bindings
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
+          cargo update -p libc --precise 0.2.183 --verbose
+          cargo update -p serde_json --precise "1.0.145" --verbose
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose
+          cargo update -p itoa --precise 1.0.15
+          cargo update -p unicode-ident --precise 1.0.22
+          cargo update -p ryu --precise "1.0.20"
       - name: Pin proc-macro and quote to meet MSRV
         run: |
           cd ldk-c-bindings/c-bindings-gen
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
+          cargo update -p unicode-ident --precise 1.0.22
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
