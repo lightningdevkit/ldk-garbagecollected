@@ -213,7 +213,10 @@ public class Bolt11Invoice extends CommonBase {
 	}
 
 	/**
-	 * Recover the payee's public key (only to be used if none was included in the invoice)
+	 * Get the invoice's payee public key.
+	 * 
+	 * This uses the explicitly included payee public key, if present, otherwise it recovers the
+	 * payee public key from the signature. Prefer [`Self::get_payee_pub_key`] for clarity.
 	 */
 	public byte[] recover_payee_pub_key() {
 		byte[] ret = bindings.Bolt11Invoice_recover_payee_pub_key(this.ptr);
@@ -222,8 +225,8 @@ public class Bolt11Invoice extends CommonBase {
 	}
 
 	/**
-	 * Recover the payee's public key if one was included in the invoice, otherwise return the
-	 * recovered public key from the signature
+	 * Get the invoice's payee public key, preferring an explicitly included payee public key and
+	 * falling back to recovering the key from the signature.
 	 */
 	public byte[] get_payee_pub_key() {
 		byte[] ret = bindings.Bolt11Invoice_get_payee_pub_key(this.ptr);
