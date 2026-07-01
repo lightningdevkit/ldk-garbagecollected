@@ -90829,7 +90829,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_OffersMessageFlow_1set_1pat
 	return tag_ptr(ret_conv, true);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OffersMessageFlow_1best_1block_1updated(JNIEnv *env, jclass clz, int64_t this_arg, uint8_tArray header, uint32_t _height) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OffersMessageFlow_1best_1block_1updated(JNIEnv *env, jclass clz, int64_t this_arg, uint8_tArray header, uint32_t height) {
 	LDKOffersMessageFlow this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
@@ -90839,7 +90839,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OffersMessageFlow_1best_1block
 	CHECK((*env)->GetArrayLength(env, header) == 80);
 	(*env)->GetByteArrayRegion(env, header, 0, 80, header_arr);
 	uint8_t (*header_ref)[80] = &header_arr;
-	OffersMessageFlow_best_block_updated(&this_arg_conv, header_ref, _height);
+	OffersMessageFlow_best_block_updated(&this_arg_conv, header_ref, height);
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_OffersMessageFlow_1blinded_1paths_1for_1async_1recipient(JNIEnv *env, jclass clz, int64_t this_arg, uint8_tArray recipient_id, int64_t relative_expiry, int64_tArray peers) {
@@ -111515,22 +111515,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1set_1zero_1conf_
 	InitFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1clear_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKInitFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	InitFeatures_supports_zero_conf(&this_arg_conv);
+	InitFeatures_clear_zero_conf(&this_arg_conv);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1requires_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKInitFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	jboolean ret_conv = InitFeatures_requires_zero_conf(&this_arg_conv);
+	jboolean ret_conv = InitFeatures_supports_zero_conf(&this_arg_conv);
 	return ret_conv;
 }
 
@@ -111552,22 +111552,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1set_1zero_1conf_
 	NodeFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1clear_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKNodeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	NodeFeatures_supports_zero_conf(&this_arg_conv);
+	NodeFeatures_clear_zero_conf(&this_arg_conv);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1requires_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKNodeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	jboolean ret_conv = NodeFeatures_requires_zero_conf(&this_arg_conv);
+	jboolean ret_conv = NodeFeatures_supports_zero_conf(&this_arg_conv);
 	return ret_conv;
 }
 
@@ -111589,13 +111589,43 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1set_1zero
 	ChannelTypeFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1clear_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKChannelTypeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	ChannelTypeFeatures_supports_zero_conf(&this_arg_conv);
+	ChannelTypeFeatures_clear_zero_conf(&this_arg_conv);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1supports_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKChannelTypeFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = ChannelTypeFeatures_supports_zero_conf(&this_arg_conv);
+	return ret_conv;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1requires_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKInitFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = InitFeatures_requires_zero_conf(&this_arg_conv);
+	return ret_conv;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1requires_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKNodeFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = NodeFeatures_requires_zero_conf(&this_arg_conv);
+	return ret_conv;
 }
 
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1requires_1zero_1conf(JNIEnv *env, jclass clz, int64_t this_arg) {

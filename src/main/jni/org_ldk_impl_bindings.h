@@ -65473,18 +65473,18 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1set_1zero_1conf_
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    InitFeatures_supports_zero_conf
+ * Method:    InitFeatures_clear_zero_conf
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1supports_1zero_1conf
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1clear_1zero_1conf
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    InitFeatures_requires_zero_conf
+ * Method:    InitFeatures_supports_zero_conf
  * Signature: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1requires_1zero_1conf
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1supports_1zero_1conf
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -65505,18 +65505,18 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1set_1zero_1conf_
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    NodeFeatures_supports_zero_conf
+ * Method:    NodeFeatures_clear_zero_conf
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1supports_1zero_1conf
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1clear_1zero_1conf
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    NodeFeatures_requires_zero_conf
+ * Method:    NodeFeatures_supports_zero_conf
  * Signature: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1requires_1zero_1conf
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1supports_1zero_1conf
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -65537,10 +65537,34 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1set_1zero
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    ChannelTypeFeatures_supports_zero_conf
+ * Method:    ChannelTypeFeatures_clear_zero_conf
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1supports_1zero_1conf
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1clear_1zero_1conf
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ChannelTypeFeatures_supports_zero_conf
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelTypeFeatures_1supports_1zero_1conf
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    InitFeatures_requires_zero_conf
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_InitFeatures_1requires_1zero_1conf
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    NodeFeatures_requires_zero_conf
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1requires_1zero_1conf
   (JNIEnv *, jclass, jlong);
 
 /*

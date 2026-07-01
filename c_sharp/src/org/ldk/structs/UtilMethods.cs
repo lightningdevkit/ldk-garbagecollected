@@ -30,7 +30,7 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Constructs a new COption_NoneZ containing a
+	 * Constructs a new COption_NoneZ containing a 
 	 */
 	public static COption_NoneZ COption_NoneZ_some() {
 		COption_NoneZ ret = bindings.COption_NoneZ_some();

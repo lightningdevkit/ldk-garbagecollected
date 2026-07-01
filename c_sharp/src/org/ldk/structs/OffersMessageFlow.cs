@@ -105,11 +105,11 @@ public class OffersMessageFlow : CommonBase {
 	 * Must be called whenever a new chain tip becomes available. May be skipped
 	 * for intermediary blocks.
 	 */
-	public void best_block_updated(byte[] header, int _height) {
-		bindings.OffersMessageFlow_best_block_updated(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(header, 80)), _height);
+	public void best_block_updated(byte[] header, int height) {
+		bindings.OffersMessageFlow_best_block_updated(this.ptr, InternalUtils.encodeUint8Array(InternalUtils.check_arr_len(header, 80)), height);
 		GC.KeepAlive(this);
 		GC.KeepAlive(header);
-		GC.KeepAlive(_height);
+		GC.KeepAlive(height);
 	}
 
 	/**

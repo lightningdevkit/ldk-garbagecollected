@@ -483,13 +483,22 @@ public class ChannelTypeFeatures : CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public void supports_zero_conf() {
-		bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+	public void clear_zero_conf() {
+		bindings.ChannelTypeFeatures_clear_zero_conf(this.ptr);
 		GC.KeepAlive(this);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public bool supports_zero_conf() {
+		bool ret = bindings.ChannelTypeFeatures_supports_zero_conf(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public bool requires_zero_conf() {
 		bool ret = bindings.ChannelTypeFeatures_requires_zero_conf(this.ptr);

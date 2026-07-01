@@ -868,6 +868,10 @@ export class RapidGossipSync extends CommonBase {
 	 * Update network graph from binary data.
 	 * Returns the last sync timestamp to be used the next time rapid sync data is queried.
 	 * 
+	 * You should consider the gossip data source as semi-trusted. It is generally the case that it
+	 * can DoS the client either by omitting data which leads to pathfinding failure or by bloating
+	 * the graph such that it leads to eventual OOM on the client.
+	 * 
 	 * `update_data`: `&[u8]` binary stream that comprises the update data
 	 * `current_time_unix`: `Option<u64>` optional current timestamp to verify data age
 	 */
