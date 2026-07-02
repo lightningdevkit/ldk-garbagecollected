@@ -1028,13 +1028,22 @@ public class NodeFeatures extends CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public void supports_zero_conf() {
-		bindings.NodeFeatures_supports_zero_conf(this.ptr);
+	public void clear_zero_conf() {
+		bindings.NodeFeatures_clear_zero_conf(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public boolean supports_zero_conf() {
+		boolean ret = bindings.NodeFeatures_supports_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public boolean requires_zero_conf() {
 		boolean ret = bindings.NodeFeatures_requires_zero_conf(this.ptr);

@@ -1061,13 +1061,22 @@ public class InitFeatures extends CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public void supports_zero_conf() {
-		bindings.InitFeatures_supports_zero_conf(this.ptr);
+	public void clear_zero_conf() {
+		bindings.InitFeatures_clear_zero_conf(this.ptr);
 		Reference.reachabilityFence(this);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public boolean supports_zero_conf() {
+		boolean ret = bindings.InitFeatures_supports_zero_conf(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public boolean requires_zero_conf() {
 		boolean ret = bindings.InitFeatures_requires_zero_conf(this.ptr);

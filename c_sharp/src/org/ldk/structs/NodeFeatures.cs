@@ -1029,13 +1029,22 @@ public class NodeFeatures : CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public void supports_zero_conf() {
-		bindings.NodeFeatures_supports_zero_conf(this.ptr);
+	public void clear_zero_conf() {
+		bindings.NodeFeatures_clear_zero_conf(this.ptr);
 		GC.KeepAlive(this);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public bool supports_zero_conf() {
+		bool ret = bindings.NodeFeatures_supports_zero_conf(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public bool requires_zero_conf() {
 		bool ret = bindings.NodeFeatures_requires_zero_conf(this.ptr);

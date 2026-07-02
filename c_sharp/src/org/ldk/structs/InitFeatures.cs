@@ -1062,13 +1062,22 @@ public class InitFeatures : CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public void supports_zero_conf() {
-		bindings.InitFeatures_supports_zero_conf(this.ptr);
+	public void clear_zero_conf() {
+		bindings.InitFeatures_clear_zero_conf(this.ptr);
 		GC.KeepAlive(this);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public bool supports_zero_conf() {
+		bool ret = bindings.InitFeatures_supports_zero_conf(this.ptr);
+		GC.KeepAlive(this);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public bool requires_zero_conf() {
 		bool ret = bindings.InitFeatures_requires_zero_conf(this.ptr);

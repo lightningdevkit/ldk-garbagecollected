@@ -1760,12 +1760,20 @@ export class InitFeatures extends CommonBase {
 	/**
 	 * Unsets this feature.
 	 */
-	public supports_zero_conf(): void {
-		bindings.InitFeatures_supports_zero_conf(this.ptr);
+	public clear_zero_conf(): void {
+		bindings.InitFeatures_clear_zero_conf(this.ptr);
 	}
 
 	/**
 	 * Checks if this feature is supported.
+	 */
+	public supports_zero_conf(): boolean {
+		const ret: boolean = bindings.InitFeatures_supports_zero_conf(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if this feature is required.
 	 */
 	public requires_zero_conf(): boolean {
 		const ret: boolean = bindings.InitFeatures_requires_zero_conf(this.ptr);

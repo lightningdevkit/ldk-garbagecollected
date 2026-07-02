@@ -110,11 +110,11 @@ public class OffersMessageFlow extends CommonBase {
 	 * Must be called whenever a new chain tip becomes available. May be skipped
 	 * for intermediary blocks.
 	 */
-	public void best_block_updated(byte[] header, int _height) {
-		bindings.OffersMessageFlow_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), _height);
+	public void best_block_updated(byte[] header, int height) {
+		bindings.OffersMessageFlow_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(header);
-		Reference.reachabilityFence(_height);
+		Reference.reachabilityFence(height);
 	}
 
 	/**

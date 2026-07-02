@@ -359,66 +359,6 @@ static inline uint64_t tag_ptr(const void* ptr, bool is_owned) {
 	}
 }
 
-static inline LDKBalanceSource LDKBalanceSource_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKBalanceSource_HolderForceClosed;
-		case 1: return LDKBalanceSource_CounterpartyForceClosed;
-		case 2: return LDKBalanceSource_CoopClose;
-		case 3: return LDKBalanceSource_Htlc;
-		default: abort();
-	}
-}
-static inline int32_t LDKBalanceSource_to_cs(LDKBalanceSource val) {
-	switch (val) {
-		case LDKBalanceSource_HolderForceClosed: return 0;
-		case LDKBalanceSource_CounterpartyForceClosed: return 1;
-		case LDKBalanceSource_CoopClose: return 2;
-		case LDKBalanceSource_Htlc: return 3;
-		default: abort();
-	}
-}
-static inline LDKBlindedFailure LDKBlindedFailure_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKBlindedFailure_FromIntroductionNode;
-		case 1: return LDKBlindedFailure_FromBlindedNode;
-		default: abort();
-	}
-}
-static inline int32_t LDKBlindedFailure_to_cs(LDKBlindedFailure val) {
-	switch (val) {
-		case LDKBlindedFailure_FromIntroductionNode: return 0;
-		case LDKBlindedFailure_FromBlindedNode: return 1;
-		default: abort();
-	}
-}
-static inline LDKBolt11SemanticError LDKBolt11SemanticError_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKBolt11SemanticError_NoPaymentHash;
-		case 1: return LDKBolt11SemanticError_MultiplePaymentHashes;
-		case 2: return LDKBolt11SemanticError_NoDescription;
-		case 3: return LDKBolt11SemanticError_MultipleDescriptions;
-		case 4: return LDKBolt11SemanticError_NoPaymentSecret;
-		case 5: return LDKBolt11SemanticError_MultiplePaymentSecrets;
-		case 6: return LDKBolt11SemanticError_InvalidFeatures;
-		case 7: return LDKBolt11SemanticError_InvalidSignature;
-		case 8: return LDKBolt11SemanticError_ImpreciseAmount;
-		default: abort();
-	}
-}
-static inline int32_t LDKBolt11SemanticError_to_cs(LDKBolt11SemanticError val) {
-	switch (val) {
-		case LDKBolt11SemanticError_NoPaymentHash: return 0;
-		case LDKBolt11SemanticError_MultiplePaymentHashes: return 1;
-		case LDKBolt11SemanticError_NoDescription: return 2;
-		case LDKBolt11SemanticError_MultipleDescriptions: return 3;
-		case LDKBolt11SemanticError_NoPaymentSecret: return 4;
-		case LDKBolt11SemanticError_MultiplePaymentSecrets: return 5;
-		case LDKBolt11SemanticError_InvalidFeatures: return 6;
-		case LDKBolt11SemanticError_InvalidSignature: return 7;
-		case LDKBolt11SemanticError_ImpreciseAmount: return 8;
-		default: abort();
-	}
-}
 static inline LDKBolt12SemanticError LDKBolt12SemanticError_from_cs(int32_t ord) {
 	switch (ord) {
 		case 0: return LDKBolt12SemanticError_AlreadyExpired;
@@ -493,170 +433,6 @@ static inline int32_t LDKBolt12SemanticError_to_cs(LDKBolt12SemanticError val) {
 		default: abort();
 	}
 }
-static inline LDKCOption_NoneZ LDKCOption_NoneZ_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKCOption_NoneZ_Some;
-		case 1: return LDKCOption_NoneZ_None;
-		default: abort();
-	}
-}
-static inline int32_t LDKCOption_NoneZ_to_cs(LDKCOption_NoneZ val) {
-	switch (val) {
-		case LDKCOption_NoneZ_Some: return 0;
-		case LDKCOption_NoneZ_None: return 1;
-		default: abort();
-	}
-}
-static inline LDKChannelMonitorUpdateStatus LDKChannelMonitorUpdateStatus_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKChannelMonitorUpdateStatus_Completed;
-		case 1: return LDKChannelMonitorUpdateStatus_InProgress;
-		case 2: return LDKChannelMonitorUpdateStatus_UnrecoverableError;
-		default: abort();
-	}
-}
-static inline int32_t LDKChannelMonitorUpdateStatus_to_cs(LDKChannelMonitorUpdateStatus val) {
-	switch (val) {
-		case LDKChannelMonitorUpdateStatus_Completed: return 0;
-		case LDKChannelMonitorUpdateStatus_InProgress: return 1;
-		case LDKChannelMonitorUpdateStatus_UnrecoverableError: return 2;
-		default: abort();
-	}
-}
-static inline LDKChannelShutdownState LDKChannelShutdownState_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKChannelShutdownState_NotShuttingDown;
-		case 1: return LDKChannelShutdownState_ShutdownInitiated;
-		case 2: return LDKChannelShutdownState_ResolvingHTLCs;
-		case 3: return LDKChannelShutdownState_NegotiatingClosingFee;
-		case 4: return LDKChannelShutdownState_ShutdownComplete;
-		default: abort();
-	}
-}
-static inline int32_t LDKChannelShutdownState_to_cs(LDKChannelShutdownState val) {
-	switch (val) {
-		case LDKChannelShutdownState_NotShuttingDown: return 0;
-		case LDKChannelShutdownState_ShutdownInitiated: return 1;
-		case LDKChannelShutdownState_ResolvingHTLCs: return 2;
-		case LDKChannelShutdownState_NegotiatingClosingFee: return 3;
-		case LDKChannelShutdownState_ShutdownComplete: return 4;
-		default: abort();
-	}
-}
-static inline LDKConfirmationTarget LDKConfirmationTarget_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKConfirmationTarget_MaximumFeeEstimate;
-		case 1: return LDKConfirmationTarget_UrgentOnChainSweep;
-		case 2: return LDKConfirmationTarget_MinAllowedAnchorChannelRemoteFee;
-		case 3: return LDKConfirmationTarget_MinAllowedNonAnchorChannelRemoteFee;
-		case 4: return LDKConfirmationTarget_AnchorChannelFee;
-		case 5: return LDKConfirmationTarget_NonAnchorChannelFee;
-		case 6: return LDKConfirmationTarget_ChannelCloseMinimum;
-		case 7: return LDKConfirmationTarget_OutputSpendingFee;
-		default: abort();
-	}
-}
-static inline int32_t LDKConfirmationTarget_to_cs(LDKConfirmationTarget val) {
-	switch (val) {
-		case LDKConfirmationTarget_MaximumFeeEstimate: return 0;
-		case LDKConfirmationTarget_UrgentOnChainSweep: return 1;
-		case LDKConfirmationTarget_MinAllowedAnchorChannelRemoteFee: return 2;
-		case LDKConfirmationTarget_MinAllowedNonAnchorChannelRemoteFee: return 3;
-		case LDKConfirmationTarget_AnchorChannelFee: return 4;
-		case LDKConfirmationTarget_NonAnchorChannelFee: return 5;
-		case LDKConfirmationTarget_ChannelCloseMinimum: return 6;
-		case LDKConfirmationTarget_OutputSpendingFee: return 7;
-		default: abort();
-	}
-}
-static inline LDKCreationError LDKCreationError_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKCreationError_DescriptionTooLong;
-		case 1: return LDKCreationError_RouteTooLong;
-		case 2: return LDKCreationError_TimestampOutOfBounds;
-		case 3: return LDKCreationError_InvalidAmount;
-		case 4: return LDKCreationError_MissingRouteHints;
-		case 5: return LDKCreationError_MinFinalCltvExpiryDeltaTooShort;
-		default: abort();
-	}
-}
-static inline int32_t LDKCreationError_to_cs(LDKCreationError val) {
-	switch (val) {
-		case LDKCreationError_DescriptionTooLong: return 0;
-		case LDKCreationError_RouteTooLong: return 1;
-		case LDKCreationError_TimestampOutOfBounds: return 2;
-		case LDKCreationError_InvalidAmount: return 3;
-		case LDKCreationError_MissingRouteHints: return 4;
-		case LDKCreationError_MinFinalCltvExpiryDeltaTooShort: return 5;
-		default: abort();
-	}
-}
-static inline LDKCurrency LDKCurrency_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKCurrency_Bitcoin;
-		case 1: return LDKCurrency_BitcoinTestnet;
-		case 2: return LDKCurrency_Regtest;
-		case 3: return LDKCurrency_Simnet;
-		case 4: return LDKCurrency_Signet;
-		default: abort();
-	}
-}
-static inline int32_t LDKCurrency_to_cs(LDKCurrency val) {
-	switch (val) {
-		case LDKCurrency_Bitcoin: return 0;
-		case LDKCurrency_BitcoinTestnet: return 1;
-		case LDKCurrency_Regtest: return 2;
-		case LDKCurrency_Simnet: return 3;
-		case LDKCurrency_Signet: return 4;
-		default: abort();
-	}
-}
-static inline LDKDirection LDKDirection_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKDirection_NodeOne;
-		case 1: return LDKDirection_NodeTwo;
-		default: abort();
-	}
-}
-static inline int32_t LDKDirection_to_cs(LDKDirection val) {
-	switch (val) {
-		case LDKDirection_NodeOne: return 0;
-		case LDKDirection_NodeTwo: return 1;
-		default: abort();
-	}
-}
-static inline LDKFundingLockedFlags LDKFundingLockedFlags_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKFundingLockedFlags_AnnouncementSignatures;
-		default: abort();
-	}
-}
-static inline int32_t LDKFundingLockedFlags_to_cs(LDKFundingLockedFlags val) {
-	switch (val) {
-		case LDKFundingLockedFlags_AnnouncementSignatures: return 0;
-		default: abort();
-	}
-}
-static inline LDKHTLCClaim LDKHTLCClaim_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKHTLCClaim_OfferedTimeout;
-		case 1: return LDKHTLCClaim_OfferedPreimage;
-		case 2: return LDKHTLCClaim_AcceptedTimeout;
-		case 3: return LDKHTLCClaim_AcceptedPreimage;
-		case 4: return LDKHTLCClaim_Revocation;
-		default: abort();
-	}
-}
-static inline int32_t LDKHTLCClaim_to_cs(LDKHTLCClaim val) {
-	switch (val) {
-		case LDKHTLCClaim_OfferedTimeout: return 0;
-		case LDKHTLCClaim_OfferedPreimage: return 1;
-		case LDKHTLCClaim_AcceptedTimeout: return 2;
-		case LDKHTLCClaim_AcceptedPreimage: return 3;
-		case LDKHTLCClaim_Revocation: return 4;
-		default: abort();
-	}
-}
 static inline LDKIOError LDKIOError_from_cs(int32_t ord) {
 	switch (ord) {
 		case 0: return LDKIOError_NotFound;
@@ -703,155 +479,35 @@ static inline int32_t LDKIOError_to_cs(LDKIOError val) {
 		default: abort();
 	}
 }
-static inline LDKInboundHTLCStateDetails LDKInboundHTLCStateDetails_from_cs(int32_t ord) {
+static inline LDKChannelMonitorUpdateStatus LDKChannelMonitorUpdateStatus_from_cs(int32_t ord) {
 	switch (ord) {
-		case 0: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToAdd;
-		case 1: return LDKInboundHTLCStateDetails_Committed;
-		case 2: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFulfill;
-		case 3: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFail;
+		case 0: return LDKChannelMonitorUpdateStatus_Completed;
+		case 1: return LDKChannelMonitorUpdateStatus_InProgress;
+		case 2: return LDKChannelMonitorUpdateStatus_UnrecoverableError;
 		default: abort();
 	}
 }
-static inline int32_t LDKInboundHTLCStateDetails_to_cs(LDKInboundHTLCStateDetails val) {
+static inline int32_t LDKChannelMonitorUpdateStatus_to_cs(LDKChannelMonitorUpdateStatus val) {
 	switch (val) {
-		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToAdd: return 0;
-		case LDKInboundHTLCStateDetails_Committed: return 1;
-		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFulfill: return 2;
-		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFail: return 3;
+		case LDKChannelMonitorUpdateStatus_Completed: return 0;
+		case LDKChannelMonitorUpdateStatus_InProgress: return 1;
+		case LDKChannelMonitorUpdateStatus_UnrecoverableError: return 2;
 		default: abort();
 	}
 }
-static inline LDKLevel LDKLevel_from_cs(int32_t ord) {
+static inline LDKShortChannelIdError LDKShortChannelIdError_from_cs(int32_t ord) {
 	switch (ord) {
-		case 0: return LDKLevel_Gossip;
-		case 1: return LDKLevel_Trace;
-		case 2: return LDKLevel_Debug;
-		case 3: return LDKLevel_Info;
-		case 4: return LDKLevel_Warn;
-		case 5: return LDKLevel_Error;
+		case 0: return LDKShortChannelIdError_BlockOverflow;
+		case 1: return LDKShortChannelIdError_TxIndexOverflow;
+		case 2: return LDKShortChannelIdError_VoutIndexOverflow;
 		default: abort();
 	}
 }
-static inline int32_t LDKLevel_to_cs(LDKLevel val) {
+static inline int32_t LDKShortChannelIdError_to_cs(LDKShortChannelIdError val) {
 	switch (val) {
-		case LDKLevel_Gossip: return 0;
-		case LDKLevel_Trace: return 1;
-		case LDKLevel_Debug: return 2;
-		case LDKLevel_Info: return 3;
-		case LDKLevel_Warn: return 4;
-		case LDKLevel_Error: return 5;
-		default: abort();
-	}
-}
-static inline LDKNetwork LDKNetwork_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKNetwork_Bitcoin;
-		case 1: return LDKNetwork_Testnet3;
-		case 2: return LDKNetwork_Testnet4;
-		case 3: return LDKNetwork_Regtest;
-		case 4: return LDKNetwork_Signet;
-		default: abort();
-	}
-}
-static inline int32_t LDKNetwork_to_cs(LDKNetwork val) {
-	switch (val) {
-		case LDKNetwork_Bitcoin: return 0;
-		case LDKNetwork_Testnet3: return 1;
-		case LDKNetwork_Testnet4: return 2;
-		case LDKNetwork_Regtest: return 3;
-		case LDKNetwork_Signet: return 4;
-		default: abort();
-	}
-}
-static inline LDKNextFundingFlag LDKNextFundingFlag_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKNextFundingFlag_CommitmentSigned;
-		default: abort();
-	}
-}
-static inline int32_t LDKNextFundingFlag_to_cs(LDKNextFundingFlag val) {
-	switch (val) {
-		case LDKNextFundingFlag_CommitmentSigned: return 0;
-		default: abort();
-	}
-}
-static inline LDKOutboundHTLCStateDetails LDKOutboundHTLCStateDetails_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToAdd;
-		case 1: return LDKOutboundHTLCStateDetails_Committed;
-		case 2: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveSuccess;
-		case 3: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFailure;
-		default: abort();
-	}
-}
-static inline int32_t LDKOutboundHTLCStateDetails_to_cs(LDKOutboundHTLCStateDetails val) {
-	switch (val) {
-		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToAdd: return 0;
-		case LDKOutboundHTLCStateDetails_Committed: return 1;
-		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveSuccess: return 2;
-		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFailure: return 3;
-		default: abort();
-	}
-}
-static inline LDKPaymentFailureReason LDKPaymentFailureReason_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKPaymentFailureReason_RecipientRejected;
-		case 1: return LDKPaymentFailureReason_UserAbandoned;
-		case 2: return LDKPaymentFailureReason_RetriesExhausted;
-		case 3: return LDKPaymentFailureReason_PaymentExpired;
-		case 4: return LDKPaymentFailureReason_RouteNotFound;
-		case 5: return LDKPaymentFailureReason_UnexpectedError;
-		case 6: return LDKPaymentFailureReason_UnknownRequiredFeatures;
-		case 7: return LDKPaymentFailureReason_InvoiceRequestExpired;
-		case 8: return LDKPaymentFailureReason_InvoiceRequestRejected;
-		case 9: return LDKPaymentFailureReason_BlindedPathCreationFailed;
-		default: abort();
-	}
-}
-static inline int32_t LDKPaymentFailureReason_to_cs(LDKPaymentFailureReason val) {
-	switch (val) {
-		case LDKPaymentFailureReason_RecipientRejected: return 0;
-		case LDKPaymentFailureReason_UserAbandoned: return 1;
-		case LDKPaymentFailureReason_RetriesExhausted: return 2;
-		case LDKPaymentFailureReason_PaymentExpired: return 3;
-		case LDKPaymentFailureReason_RouteNotFound: return 4;
-		case LDKPaymentFailureReason_UnexpectedError: return 5;
-		case LDKPaymentFailureReason_UnknownRequiredFeatures: return 6;
-		case LDKPaymentFailureReason_InvoiceRequestExpired: return 7;
-		case LDKPaymentFailureReason_InvoiceRequestRejected: return 8;
-		case LDKPaymentFailureReason_BlindedPathCreationFailed: return 9;
-		default: abort();
-	}
-}
-static inline LDKRecipient LDKRecipient_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKRecipient_Node;
-		case 1: return LDKRecipient_PhantomNode;
-		default: abort();
-	}
-}
-static inline int32_t LDKRecipient_to_cs(LDKRecipient val) {
-	switch (val) {
-		case LDKRecipient_Node: return 0;
-		case LDKRecipient_PhantomNode: return 1;
-		default: abort();
-	}
-}
-static inline LDKRetryableSendFailure LDKRetryableSendFailure_from_cs(int32_t ord) {
-	switch (ord) {
-		case 0: return LDKRetryableSendFailure_PaymentExpired;
-		case 1: return LDKRetryableSendFailure_RouteNotFound;
-		case 2: return LDKRetryableSendFailure_DuplicatePayment;
-		case 3: return LDKRetryableSendFailure_OnionPacketSizeExceeded;
-		default: abort();
-	}
-}
-static inline int32_t LDKRetryableSendFailure_to_cs(LDKRetryableSendFailure val) {
-	switch (val) {
-		case LDKRetryableSendFailure_PaymentExpired: return 0;
-		case LDKRetryableSendFailure_RouteNotFound: return 1;
-		case LDKRetryableSendFailure_DuplicatePayment: return 2;
-		case LDKRetryableSendFailure_OnionPacketSizeExceeded: return 3;
+		case LDKShortChannelIdError_BlockOverflow: return 0;
+		case LDKShortChannelIdError_TxIndexOverflow: return 1;
+		case LDKShortChannelIdError_VoutIndexOverflow: return 2;
 		default: abort();
 	}
 }
@@ -889,37 +545,165 @@ static inline int32_t LDKSecp256k1Error_to_cs(LDKSecp256k1Error val) {
 		default: abort();
 	}
 }
-static inline LDKShortChannelIdError LDKShortChannelIdError_from_cs(int32_t ord) {
+static inline LDKUtxoLookupError LDKUtxoLookupError_from_cs(int32_t ord) {
 	switch (ord) {
-		case 0: return LDKShortChannelIdError_BlockOverflow;
-		case 1: return LDKShortChannelIdError_TxIndexOverflow;
-		case 2: return LDKShortChannelIdError_VoutIndexOverflow;
+		case 0: return LDKUtxoLookupError_UnknownChain;
+		case 1: return LDKUtxoLookupError_UnknownTx;
 		default: abort();
 	}
 }
-static inline int32_t LDKShortChannelIdError_to_cs(LDKShortChannelIdError val) {
+static inline int32_t LDKUtxoLookupError_to_cs(LDKUtxoLookupError val) {
 	switch (val) {
-		case LDKShortChannelIdError_BlockOverflow: return 0;
-		case LDKShortChannelIdError_TxIndexOverflow: return 1;
-		case LDKShortChannelIdError_VoutIndexOverflow: return 2;
+		case LDKUtxoLookupError_UnknownChain: return 0;
+		case LDKUtxoLookupError_UnknownTx: return 1;
 		default: abort();
 	}
 }
-static inline LDKSiPrefix LDKSiPrefix_from_cs(int32_t ord) {
+static inline LDKLevel LDKLevel_from_cs(int32_t ord) {
 	switch (ord) {
-		case 0: return LDKSiPrefix_Milli;
-		case 1: return LDKSiPrefix_Micro;
-		case 2: return LDKSiPrefix_Nano;
-		case 3: return LDKSiPrefix_Pico;
+		case 0: return LDKLevel_Gossip;
+		case 1: return LDKLevel_Trace;
+		case 2: return LDKLevel_Debug;
+		case 3: return LDKLevel_Info;
+		case 4: return LDKLevel_Warn;
+		case 5: return LDKLevel_Error;
 		default: abort();
 	}
 }
-static inline int32_t LDKSiPrefix_to_cs(LDKSiPrefix val) {
+static inline int32_t LDKLevel_to_cs(LDKLevel val) {
 	switch (val) {
-		case LDKSiPrefix_Milli: return 0;
-		case LDKSiPrefix_Micro: return 1;
-		case LDKSiPrefix_Nano: return 2;
-		case LDKSiPrefix_Pico: return 3;
+		case LDKLevel_Gossip: return 0;
+		case LDKLevel_Trace: return 1;
+		case LDKLevel_Debug: return 2;
+		case LDKLevel_Info: return 3;
+		case LDKLevel_Warn: return 4;
+		case LDKLevel_Error: return 5;
+		default: abort();
+	}
+}
+static inline LDKCOption_NoneZ LDKCOption_NoneZ_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKCOption_NoneZ_Some;
+		case 1: return LDKCOption_NoneZ_None;
+		default: abort();
+	}
+}
+static inline int32_t LDKCOption_NoneZ_to_cs(LDKCOption_NoneZ val) {
+	switch (val) {
+		case LDKCOption_NoneZ_Some: return 0;
+		case LDKCOption_NoneZ_None: return 1;
+		default: abort();
+	}
+}
+static inline LDKRetryableSendFailure LDKRetryableSendFailure_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKRetryableSendFailure_PaymentExpired;
+		case 1: return LDKRetryableSendFailure_RouteNotFound;
+		case 2: return LDKRetryableSendFailure_DuplicatePayment;
+		case 3: return LDKRetryableSendFailure_OnionPacketSizeExceeded;
+		default: abort();
+	}
+}
+static inline int32_t LDKRetryableSendFailure_to_cs(LDKRetryableSendFailure val) {
+	switch (val) {
+		case LDKRetryableSendFailure_PaymentExpired: return 0;
+		case LDKRetryableSendFailure_RouteNotFound: return 1;
+		case LDKRetryableSendFailure_DuplicatePayment: return 2;
+		case LDKRetryableSendFailure_OnionPacketSizeExceeded: return 3;
+		default: abort();
+	}
+}
+static inline LDKCreationError LDKCreationError_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKCreationError_DescriptionTooLong;
+		case 1: return LDKCreationError_RouteTooLong;
+		case 2: return LDKCreationError_TimestampOutOfBounds;
+		case 3: return LDKCreationError_InvalidAmount;
+		case 4: return LDKCreationError_MissingRouteHints;
+		case 5: return LDKCreationError_MinFinalCltvExpiryDeltaTooShort;
+		default: abort();
+	}
+}
+static inline int32_t LDKCreationError_to_cs(LDKCreationError val) {
+	switch (val) {
+		case LDKCreationError_DescriptionTooLong: return 0;
+		case LDKCreationError_RouteTooLong: return 1;
+		case LDKCreationError_TimestampOutOfBounds: return 2;
+		case LDKCreationError_InvalidAmount: return 3;
+		case LDKCreationError_MissingRouteHints: return 4;
+		case LDKCreationError_MinFinalCltvExpiryDeltaTooShort: return 5;
+		default: abort();
+	}
+}
+static inline LDKBlindedFailure LDKBlindedFailure_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKBlindedFailure_FromIntroductionNode;
+		case 1: return LDKBlindedFailure_FromBlindedNode;
+		default: abort();
+	}
+}
+static inline int32_t LDKBlindedFailure_to_cs(LDKBlindedFailure val) {
+	switch (val) {
+		case LDKBlindedFailure_FromIntroductionNode: return 0;
+		case LDKBlindedFailure_FromBlindedNode: return 1;
+		default: abort();
+	}
+}
+static inline LDKRecipient LDKRecipient_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKRecipient_Node;
+		case 1: return LDKRecipient_PhantomNode;
+		default: abort();
+	}
+}
+static inline int32_t LDKRecipient_to_cs(LDKRecipient val) {
+	switch (val) {
+		case LDKRecipient_Node: return 0;
+		case LDKRecipient_PhantomNode: return 1;
+		default: abort();
+	}
+}
+static inline LDKConfirmationTarget LDKConfirmationTarget_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKConfirmationTarget_MaximumFeeEstimate;
+		case 1: return LDKConfirmationTarget_UrgentOnChainSweep;
+		case 2: return LDKConfirmationTarget_MinAllowedAnchorChannelRemoteFee;
+		case 3: return LDKConfirmationTarget_MinAllowedNonAnchorChannelRemoteFee;
+		case 4: return LDKConfirmationTarget_AnchorChannelFee;
+		case 5: return LDKConfirmationTarget_NonAnchorChannelFee;
+		case 6: return LDKConfirmationTarget_ChannelCloseMinimum;
+		case 7: return LDKConfirmationTarget_OutputSpendingFee;
+		default: abort();
+	}
+}
+static inline int32_t LDKConfirmationTarget_to_cs(LDKConfirmationTarget val) {
+	switch (val) {
+		case LDKConfirmationTarget_MaximumFeeEstimate: return 0;
+		case LDKConfirmationTarget_UrgentOnChainSweep: return 1;
+		case LDKConfirmationTarget_MinAllowedAnchorChannelRemoteFee: return 2;
+		case LDKConfirmationTarget_MinAllowedNonAnchorChannelRemoteFee: return 3;
+		case LDKConfirmationTarget_AnchorChannelFee: return 4;
+		case LDKConfirmationTarget_NonAnchorChannelFee: return 5;
+		case LDKConfirmationTarget_ChannelCloseMinimum: return 6;
+		case LDKConfirmationTarget_OutputSpendingFee: return 7;
+		default: abort();
+	}
+}
+static inline LDKBalanceSource LDKBalanceSource_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKBalanceSource_HolderForceClosed;
+		case 1: return LDKBalanceSource_CounterpartyForceClosed;
+		case 2: return LDKBalanceSource_CoopClose;
+		case 3: return LDKBalanceSource_Htlc;
+		default: abort();
+	}
+}
+static inline int32_t LDKBalanceSource_to_cs(LDKBalanceSource val) {
+	switch (val) {
+		case LDKBalanceSource_HolderForceClosed: return 0;
+		case LDKBalanceSource_CounterpartyForceClosed: return 1;
+		case LDKBalanceSource_CoopClose: return 2;
+		case LDKBalanceSource_Htlc: return 3;
 		default: abort();
 	}
 }
@@ -941,17 +725,233 @@ static inline int32_t LDKSocketAddressParseError_to_cs(LDKSocketAddressParseErro
 		default: abort();
 	}
 }
-static inline LDKUtxoLookupError LDKUtxoLookupError_from_cs(int32_t ord) {
+static inline LDKInboundHTLCStateDetails LDKInboundHTLCStateDetails_from_cs(int32_t ord) {
 	switch (ord) {
-		case 0: return LDKUtxoLookupError_UnknownChain;
-		case 1: return LDKUtxoLookupError_UnknownTx;
+		case 0: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToAdd;
+		case 1: return LDKInboundHTLCStateDetails_Committed;
+		case 2: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFulfill;
+		case 3: return LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFail;
 		default: abort();
 	}
 }
-static inline int32_t LDKUtxoLookupError_to_cs(LDKUtxoLookupError val) {
+static inline int32_t LDKInboundHTLCStateDetails_to_cs(LDKInboundHTLCStateDetails val) {
 	switch (val) {
-		case LDKUtxoLookupError_UnknownChain: return 0;
-		case LDKUtxoLookupError_UnknownTx: return 1;
+		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToAdd: return 0;
+		case LDKInboundHTLCStateDetails_Committed: return 1;
+		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFulfill: return 2;
+		case LDKInboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFail: return 3;
+		default: abort();
+	}
+}
+static inline LDKOutboundHTLCStateDetails LDKOutboundHTLCStateDetails_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToAdd;
+		case 1: return LDKOutboundHTLCStateDetails_Committed;
+		case 2: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveSuccess;
+		case 3: return LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFailure;
+		default: abort();
+	}
+}
+static inline int32_t LDKOutboundHTLCStateDetails_to_cs(LDKOutboundHTLCStateDetails val) {
+	switch (val) {
+		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToAdd: return 0;
+		case LDKOutboundHTLCStateDetails_Committed: return 1;
+		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveSuccess: return 2;
+		case LDKOutboundHTLCStateDetails_AwaitingRemoteRevokeToRemoveFailure: return 3;
+		default: abort();
+	}
+}
+static inline LDKChannelShutdownState LDKChannelShutdownState_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKChannelShutdownState_NotShuttingDown;
+		case 1: return LDKChannelShutdownState_ShutdownInitiated;
+		case 2: return LDKChannelShutdownState_ResolvingHTLCs;
+		case 3: return LDKChannelShutdownState_NegotiatingClosingFee;
+		case 4: return LDKChannelShutdownState_ShutdownComplete;
+		default: abort();
+	}
+}
+static inline int32_t LDKChannelShutdownState_to_cs(LDKChannelShutdownState val) {
+	switch (val) {
+		case LDKChannelShutdownState_NotShuttingDown: return 0;
+		case LDKChannelShutdownState_ShutdownInitiated: return 1;
+		case LDKChannelShutdownState_ResolvingHTLCs: return 2;
+		case LDKChannelShutdownState_NegotiatingClosingFee: return 3;
+		case LDKChannelShutdownState_ShutdownComplete: return 4;
+		default: abort();
+	}
+}
+static inline LDKHTLCClaim LDKHTLCClaim_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKHTLCClaim_OfferedTimeout;
+		case 1: return LDKHTLCClaim_OfferedPreimage;
+		case 2: return LDKHTLCClaim_AcceptedTimeout;
+		case 3: return LDKHTLCClaim_AcceptedPreimage;
+		case 4: return LDKHTLCClaim_Revocation;
+		default: abort();
+	}
+}
+static inline int32_t LDKHTLCClaim_to_cs(LDKHTLCClaim val) {
+	switch (val) {
+		case LDKHTLCClaim_OfferedTimeout: return 0;
+		case LDKHTLCClaim_OfferedPreimage: return 1;
+		case LDKHTLCClaim_AcceptedTimeout: return 2;
+		case LDKHTLCClaim_AcceptedPreimage: return 3;
+		case LDKHTLCClaim_Revocation: return 4;
+		default: abort();
+	}
+}
+static inline LDKPaymentFailureReason LDKPaymentFailureReason_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKPaymentFailureReason_RecipientRejected;
+		case 1: return LDKPaymentFailureReason_UserAbandoned;
+		case 2: return LDKPaymentFailureReason_RetriesExhausted;
+		case 3: return LDKPaymentFailureReason_PaymentExpired;
+		case 4: return LDKPaymentFailureReason_RouteNotFound;
+		case 5: return LDKPaymentFailureReason_UnexpectedError;
+		case 6: return LDKPaymentFailureReason_UnknownRequiredFeatures;
+		case 7: return LDKPaymentFailureReason_InvoiceRequestExpired;
+		case 8: return LDKPaymentFailureReason_InvoiceRequestRejected;
+		case 9: return LDKPaymentFailureReason_BlindedPathCreationFailed;
+		default: abort();
+	}
+}
+static inline int32_t LDKPaymentFailureReason_to_cs(LDKPaymentFailureReason val) {
+	switch (val) {
+		case LDKPaymentFailureReason_RecipientRejected: return 0;
+		case LDKPaymentFailureReason_UserAbandoned: return 1;
+		case LDKPaymentFailureReason_RetriesExhausted: return 2;
+		case LDKPaymentFailureReason_PaymentExpired: return 3;
+		case LDKPaymentFailureReason_RouteNotFound: return 4;
+		case LDKPaymentFailureReason_UnexpectedError: return 5;
+		case LDKPaymentFailureReason_UnknownRequiredFeatures: return 6;
+		case LDKPaymentFailureReason_InvoiceRequestExpired: return 7;
+		case LDKPaymentFailureReason_InvoiceRequestRejected: return 8;
+		case LDKPaymentFailureReason_BlindedPathCreationFailed: return 9;
+		default: abort();
+	}
+}
+static inline LDKSiPrefix LDKSiPrefix_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKSiPrefix_Milli;
+		case 1: return LDKSiPrefix_Micro;
+		case 2: return LDKSiPrefix_Nano;
+		case 3: return LDKSiPrefix_Pico;
+		default: abort();
+	}
+}
+static inline int32_t LDKSiPrefix_to_cs(LDKSiPrefix val) {
+	switch (val) {
+		case LDKSiPrefix_Milli: return 0;
+		case LDKSiPrefix_Micro: return 1;
+		case LDKSiPrefix_Nano: return 2;
+		case LDKSiPrefix_Pico: return 3;
+		default: abort();
+	}
+}
+static inline LDKBolt11SemanticError LDKBolt11SemanticError_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKBolt11SemanticError_NoPaymentHash;
+		case 1: return LDKBolt11SemanticError_MultiplePaymentHashes;
+		case 2: return LDKBolt11SemanticError_NoDescription;
+		case 3: return LDKBolt11SemanticError_MultipleDescriptions;
+		case 4: return LDKBolt11SemanticError_NoPaymentSecret;
+		case 5: return LDKBolt11SemanticError_MultiplePaymentSecrets;
+		case 6: return LDKBolt11SemanticError_InvalidFeatures;
+		case 7: return LDKBolt11SemanticError_InvalidSignature;
+		case 8: return LDKBolt11SemanticError_ImpreciseAmount;
+		default: abort();
+	}
+}
+static inline int32_t LDKBolt11SemanticError_to_cs(LDKBolt11SemanticError val) {
+	switch (val) {
+		case LDKBolt11SemanticError_NoPaymentHash: return 0;
+		case LDKBolt11SemanticError_MultiplePaymentHashes: return 1;
+		case LDKBolt11SemanticError_NoDescription: return 2;
+		case LDKBolt11SemanticError_MultipleDescriptions: return 3;
+		case LDKBolt11SemanticError_NoPaymentSecret: return 4;
+		case LDKBolt11SemanticError_MultiplePaymentSecrets: return 5;
+		case LDKBolt11SemanticError_InvalidFeatures: return 6;
+		case LDKBolt11SemanticError_InvalidSignature: return 7;
+		case LDKBolt11SemanticError_ImpreciseAmount: return 8;
+		default: abort();
+	}
+}
+static inline LDKDirection LDKDirection_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKDirection_NodeOne;
+		case 1: return LDKDirection_NodeTwo;
+		default: abort();
+	}
+}
+static inline int32_t LDKDirection_to_cs(LDKDirection val) {
+	switch (val) {
+		case LDKDirection_NodeOne: return 0;
+		case LDKDirection_NodeTwo: return 1;
+		default: abort();
+	}
+}
+static inline LDKNetwork LDKNetwork_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKNetwork_Bitcoin;
+		case 1: return LDKNetwork_Testnet3;
+		case 2: return LDKNetwork_Testnet4;
+		case 3: return LDKNetwork_Regtest;
+		case 4: return LDKNetwork_Signet;
+		default: abort();
+	}
+}
+static inline int32_t LDKNetwork_to_cs(LDKNetwork val) {
+	switch (val) {
+		case LDKNetwork_Bitcoin: return 0;
+		case LDKNetwork_Testnet3: return 1;
+		case LDKNetwork_Testnet4: return 2;
+		case LDKNetwork_Regtest: return 3;
+		case LDKNetwork_Signet: return 4;
+		default: abort();
+	}
+}
+static inline LDKNextFundingFlag LDKNextFundingFlag_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKNextFundingFlag_CommitmentSigned;
+		default: abort();
+	}
+}
+static inline int32_t LDKNextFundingFlag_to_cs(LDKNextFundingFlag val) {
+	switch (val) {
+		case LDKNextFundingFlag_CommitmentSigned: return 0;
+		default: abort();
+	}
+}
+static inline LDKFundingLockedFlags LDKFundingLockedFlags_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKFundingLockedFlags_AnnouncementSignatures;
+		default: abort();
+	}
+}
+static inline int32_t LDKFundingLockedFlags_to_cs(LDKFundingLockedFlags val) {
+	switch (val) {
+		case LDKFundingLockedFlags_AnnouncementSignatures: return 0;
+		default: abort();
+	}
+}
+static inline LDKCurrency LDKCurrency_from_cs(int32_t ord) {
+	switch (ord) {
+		case 0: return LDKCurrency_Bitcoin;
+		case 1: return LDKCurrency_BitcoinTestnet;
+		case 2: return LDKCurrency_Regtest;
+		case 3: return LDKCurrency_Simnet;
+		case 4: return LDKCurrency_Signet;
+		default: abort();
+	}
+}
+static inline int32_t LDKCurrency_to_cs(LDKCurrency val) {
+	switch (val) {
+		case LDKCurrency_Bitcoin: return 0;
+		case LDKCurrency_BitcoinTestnet: return 1;
+		case LDKCurrency_Regtest: return 2;
+		case LDKCurrency_Simnet: return 3;
+		case LDKCurrency_Signet: return 4;
 		default: abort();
 	}
 }
@@ -84267,7 +84267,7 @@ int64_t  CS_LDK_OffersMessageFlow_set_paths_to_static_invoice_server(int64_t thi
 	return tag_ptr(ret_conv, true);
 }
 
-void  CS_LDK_OffersMessageFlow_best_block_updated(int64_t this_arg, uint8_tArray header, uint32_t _height) {
+void  CS_LDK_OffersMessageFlow_best_block_updated(int64_t this_arg, uint8_tArray header, uint32_t height) {
 	LDKOffersMessageFlow this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
@@ -84277,7 +84277,7 @@ void  CS_LDK_OffersMessageFlow_best_block_updated(int64_t this_arg, uint8_tArray
 	CHECK(header->arr_len == 80);
 	memcpy(header_arr, header->elems, 80); FREE(header);
 	uint8_t (*header_ref)[80] = &header_arr;
-	OffersMessageFlow_best_block_updated(&this_arg_conv, header_ref, _height);
+	OffersMessageFlow_best_block_updated(&this_arg_conv, header_ref, height);
 }
 
 int64_t  CS_LDK_OffersMessageFlow_blinded_paths_for_async_recipient(int64_t this_arg, uint8_tArray recipient_id, int64_t relative_expiry, int64_tArray peers) {
@@ -104959,22 +104959,22 @@ void  CS_LDK_InitFeatures_set_zero_conf_required(int64_t this_arg) {
 	InitFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-void  CS_LDK_InitFeatures_supports_zero_conf(int64_t this_arg) {
+void  CS_LDK_InitFeatures_clear_zero_conf(int64_t this_arg) {
 	LDKInitFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	InitFeatures_supports_zero_conf(&this_arg_conv);
+	InitFeatures_clear_zero_conf(&this_arg_conv);
 }
 
-jboolean  CS_LDK_InitFeatures_requires_zero_conf(int64_t this_arg) {
+jboolean  CS_LDK_InitFeatures_supports_zero_conf(int64_t this_arg) {
 	LDKInitFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	jboolean ret_conv = InitFeatures_requires_zero_conf(&this_arg_conv);
+	jboolean ret_conv = InitFeatures_supports_zero_conf(&this_arg_conv);
 	return ret_conv;
 }
 
@@ -104996,22 +104996,22 @@ void  CS_LDK_NodeFeatures_set_zero_conf_required(int64_t this_arg) {
 	NodeFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-void  CS_LDK_NodeFeatures_supports_zero_conf(int64_t this_arg) {
+void  CS_LDK_NodeFeatures_clear_zero_conf(int64_t this_arg) {
 	LDKNodeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	NodeFeatures_supports_zero_conf(&this_arg_conv);
+	NodeFeatures_clear_zero_conf(&this_arg_conv);
 }
 
-jboolean  CS_LDK_NodeFeatures_requires_zero_conf(int64_t this_arg) {
+jboolean  CS_LDK_NodeFeatures_supports_zero_conf(int64_t this_arg) {
 	LDKNodeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	jboolean ret_conv = NodeFeatures_requires_zero_conf(&this_arg_conv);
+	jboolean ret_conv = NodeFeatures_supports_zero_conf(&this_arg_conv);
 	return ret_conv;
 }
 
@@ -105033,13 +105033,43 @@ void  CS_LDK_ChannelTypeFeatures_set_zero_conf_required(int64_t this_arg) {
 	ChannelTypeFeatures_set_zero_conf_required(&this_arg_conv);
 }
 
-void  CS_LDK_ChannelTypeFeatures_supports_zero_conf(int64_t this_arg) {
+void  CS_LDK_ChannelTypeFeatures_clear_zero_conf(int64_t this_arg) {
 	LDKChannelTypeFeatures this_arg_conv;
 	this_arg_conv.inner = untag_ptr(this_arg);
 	this_arg_conv.is_owned = ptr_is_owned(this_arg);
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
 	this_arg_conv.is_owned = false;
-	ChannelTypeFeatures_supports_zero_conf(&this_arg_conv);
+	ChannelTypeFeatures_clear_zero_conf(&this_arg_conv);
+}
+
+jboolean  CS_LDK_ChannelTypeFeatures_supports_zero_conf(int64_t this_arg) {
+	LDKChannelTypeFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = ChannelTypeFeatures_supports_zero_conf(&this_arg_conv);
+	return ret_conv;
+}
+
+jboolean  CS_LDK_InitFeatures_requires_zero_conf(int64_t this_arg) {
+	LDKInitFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = InitFeatures_requires_zero_conf(&this_arg_conv);
+	return ret_conv;
+}
+
+jboolean  CS_LDK_NodeFeatures_requires_zero_conf(int64_t this_arg) {
+	LDKNodeFeatures this_arg_conv;
+	this_arg_conv.inner = untag_ptr(this_arg);
+	this_arg_conv.is_owned = ptr_is_owned(this_arg);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	this_arg_conv.is_owned = false;
+	jboolean ret_conv = NodeFeatures_requires_zero_conf(&this_arg_conv);
+	return ret_conv;
 }
 
 jboolean  CS_LDK_ChannelTypeFeatures_requires_zero_conf(int64_t this_arg) {

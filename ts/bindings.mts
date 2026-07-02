@@ -65080,13 +65080,13 @@ export function OffersMessageFlow_set_paths_to_static_invoice_server(this_arg: b
 	const nativeResponseValue = wasm.TS_OffersMessageFlow_set_paths_to_static_invoice_server(this_arg, paths_to_static_invoice_server, peers);
 	return nativeResponseValue;
 }
-	// void OffersMessageFlow_best_block_updated(const struct LDKOffersMessageFlow *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t _height);
+	// void OffersMessageFlow_best_block_updated(const struct LDKOffersMessageFlow *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height);
 /* @internal */
-export function OffersMessageFlow_best_block_updated(this_arg: bigint, header: number, _height: number): void {
+export function OffersMessageFlow_best_block_updated(this_arg: bigint, header: number, height: number): void {
 	if(!isWasmInitialized) {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
-	const nativeResponseValue = wasm.TS_OffersMessageFlow_best_block_updated(this_arg, header, _height);
+	const nativeResponseValue = wasm.TS_OffersMessageFlow_best_block_updated(this_arg, header, height);
 	// debug statements here
 }
 	// MUST_USE_RES struct LDKCResult_CVec_BlindedMessagePathZNoneZ OffersMessageFlow_blinded_paths_for_async_recipient(const struct LDKOffersMessageFlow *NONNULL_PTR this_arg, struct LDKCVec_u8Z recipient_id, struct LDKCOption_u64Z relative_expiry, struct LDKCVec_MessageForwardNodeZ peers);
@@ -80101,22 +80101,22 @@ export function InitFeatures_set_zero_conf_required(this_arg: bigint): void {
 	const nativeResponseValue = wasm.TS_InitFeatures_set_zero_conf_required(this_arg);
 	// debug statements here
 }
-	// void InitFeatures_supports_zero_conf(struct LDKInitFeatures *NONNULL_PTR this_arg);
+	// void InitFeatures_clear_zero_conf(struct LDKInitFeatures *NONNULL_PTR this_arg);
 /* @internal */
-export function InitFeatures_supports_zero_conf(this_arg: bigint): void {
+export function InitFeatures_clear_zero_conf(this_arg: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_InitFeatures_clear_zero_conf(this_arg);
+	// debug statements here
+}
+	// MUST_USE_RES bool InitFeatures_supports_zero_conf(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+/* @internal */
+export function InitFeatures_supports_zero_conf(this_arg: bigint): boolean {
 	if(!isWasmInitialized) {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_InitFeatures_supports_zero_conf(this_arg);
-	// debug statements here
-}
-	// MUST_USE_RES bool InitFeatures_requires_zero_conf(const struct LDKInitFeatures *NONNULL_PTR this_arg);
-/* @internal */
-export function InitFeatures_requires_zero_conf(this_arg: bigint): boolean {
-	if(!isWasmInitialized) {
-		throw new Error("initializeWasm() must be awaited first!");
-	}
-	const nativeResponseValue = wasm.TS_InitFeatures_requires_zero_conf(this_arg);
 	return nativeResponseValue;
 }
 	// void NodeFeatures_set_zero_conf_optional(struct LDKNodeFeatures *NONNULL_PTR this_arg);
@@ -80137,22 +80137,22 @@ export function NodeFeatures_set_zero_conf_required(this_arg: bigint): void {
 	const nativeResponseValue = wasm.TS_NodeFeatures_set_zero_conf_required(this_arg);
 	// debug statements here
 }
-	// void NodeFeatures_supports_zero_conf(struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	// void NodeFeatures_clear_zero_conf(struct LDKNodeFeatures *NONNULL_PTR this_arg);
 /* @internal */
-export function NodeFeatures_supports_zero_conf(this_arg: bigint): void {
+export function NodeFeatures_clear_zero_conf(this_arg: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_NodeFeatures_clear_zero_conf(this_arg);
+	// debug statements here
+}
+	// MUST_USE_RES bool NodeFeatures_supports_zero_conf(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+/* @internal */
+export function NodeFeatures_supports_zero_conf(this_arg: bigint): boolean {
 	if(!isWasmInitialized) {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_NodeFeatures_supports_zero_conf(this_arg);
-	// debug statements here
-}
-	// MUST_USE_RES bool NodeFeatures_requires_zero_conf(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
-/* @internal */
-export function NodeFeatures_requires_zero_conf(this_arg: bigint): boolean {
-	if(!isWasmInitialized) {
-		throw new Error("initializeWasm() must be awaited first!");
-	}
-	const nativeResponseValue = wasm.TS_NodeFeatures_requires_zero_conf(this_arg);
 	return nativeResponseValue;
 }
 	// void ChannelTypeFeatures_set_zero_conf_optional(struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
@@ -80173,14 +80173,41 @@ export function ChannelTypeFeatures_set_zero_conf_required(this_arg: bigint): vo
 	const nativeResponseValue = wasm.TS_ChannelTypeFeatures_set_zero_conf_required(this_arg);
 	// debug statements here
 }
-	// void ChannelTypeFeatures_supports_zero_conf(struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+	// void ChannelTypeFeatures_clear_zero_conf(struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
 /* @internal */
-export function ChannelTypeFeatures_supports_zero_conf(this_arg: bigint): void {
+export function ChannelTypeFeatures_clear_zero_conf(this_arg: bigint): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ChannelTypeFeatures_clear_zero_conf(this_arg);
+	// debug statements here
+}
+	// MUST_USE_RES bool ChannelTypeFeatures_supports_zero_conf(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
+/* @internal */
+export function ChannelTypeFeatures_supports_zero_conf(this_arg: bigint): boolean {
 	if(!isWasmInitialized) {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_ChannelTypeFeatures_supports_zero_conf(this_arg);
-	// debug statements here
+	return nativeResponseValue;
+}
+	// MUST_USE_RES bool InitFeatures_requires_zero_conf(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+/* @internal */
+export function InitFeatures_requires_zero_conf(this_arg: bigint): boolean {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_InitFeatures_requires_zero_conf(this_arg);
+	return nativeResponseValue;
+}
+	// MUST_USE_RES bool NodeFeatures_requires_zero_conf(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+/* @internal */
+export function NodeFeatures_requires_zero_conf(this_arg: bigint): boolean {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_NodeFeatures_requires_zero_conf(this_arg);
+	return nativeResponseValue;
 }
 	// MUST_USE_RES bool ChannelTypeFeatures_requires_zero_conf(const struct LDKChannelTypeFeatures *NONNULL_PTR this_arg);
 /* @internal */

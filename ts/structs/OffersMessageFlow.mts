@@ -913,8 +913,8 @@ export class OffersMessageFlow extends CommonBase {
 	 * Must be called whenever a new chain tip becomes available. May be skipped
 	 * for intermediary blocks.
 	 */
-	public best_block_updated(header: Uint8Array, _height: number): void {
-		bindings.OffersMessageFlow_best_block_updated(this.ptr, bindings.encodeUint8Array(header), _height);
+	public best_block_updated(header: Uint8Array, height: number): void {
+		bindings.OffersMessageFlow_best_block_updated(this.ptr, bindings.encodeUint8Array(header), height);
 	}
 
 	/**
