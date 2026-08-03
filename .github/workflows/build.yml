@@ -51,6 +51,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -153,6 +155,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Rebuild C bindings with STD
         run: |
           cd ldk-c-bindings
@@ -384,6 +388,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -446,6 +452,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -578,6 +586,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           # rust-src doesn't distribute the rustlib Cargo.lock, but an empty
@@ -712,6 +722,8 @@ jobs:
           cargo update -p quote --precise "1.0.30" --verbose
           cargo update -p proc-macro2 --precise "1.0.65" --verbose
           cargo update -p unicode-ident --precise "1.0.22" --verbose
+          cd ../lightning-c-bindings
+          cargo update -p libc --precise "0.2.183" --verbose
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
