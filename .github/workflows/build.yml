@@ -53,13 +53,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
@@ -172,13 +190,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
@@ -420,13 +456,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
@@ -499,13 +553,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
@@ -648,13 +720,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
@@ -799,13 +889,31 @@ jobs:
           cargo update -p unicode-ident --precise "1.0.22" --verbose
           cd ../lightning-c-bindings
           cargo update -p libc --precise "0.2.183" --verbose
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out and the syn pin below
+          # is unambiguous. These enter this workspace via lightning /
+          # lightning-liquidity; guard with || true where a package may be
+          # absent from the graph.
+          cargo update -p serde --precise "1.0.228" --verbose || true
+          cargo update -p tokio --precise "1.38.1" --verbose || true
+          cargo update -p syn --precise "2.0.106" --verbose || true
+          cargo update -p quote --precise "1.0.41" --verbose || true
+          cargo update -p proc-macro2 --precise "1.0.103" --verbose || true
+          cargo update -p unicode-ident --precise "1.0.22" --verbose || true
+          cargo update -p serde_json --precise "1.0.145" --verbose || true
+          cargo update -p itoa --precise "1.0.15" --verbose || true
+          cargo update -p ryu --precise "1.0.20" --verbose || true
           # Pin deps in the rust-lightning workspace too: genbindings.sh runs
           # `cargo rustc -Zunpretty=expanded` inside it. Mirrors PIN_RELEASE_DEPS
           # in rust-lightning's ci/ci-tests.sh for rustc 1.63.
           cd ../../rust-lightning
+          # serde_derive 1.0.229+ and tokio-macros 2.7+ pull syn 3 (MSRV 1.71);
+          # pin serde and tokio first so syn 3 drops out of the graph and the
+          # bare syn pin below is unambiguous.
+          cargo update -p serde --precise "1.0.228" --verbose
+          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p syn --precise "2.0.106" --verbose
           cargo update -p quote --precise "1.0.41" --verbose
-          cargo update -p tokio --precise "1.38.1" --verbose
           cargo update -p proc-macro2 --precise "1.0.103" --verbose
           cargo update -p serde_json --precise "1.0.145" --verbose
           cargo update -p itoa --precise "1.0.15" --verbose
