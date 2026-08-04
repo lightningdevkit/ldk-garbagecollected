@@ -1354,8 +1354,10 @@ JNIEXPORT void JNICALL Java_org_ldk_enums_Network_init (JNIEnv *env, jclass clz)
 	CHECK(Network_class != NULL);
 	Network_LDKNetwork_Bitcoin = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Bitcoin", "Lorg/ldk/enums/Network;");
 	CHECK(Network_LDKNetwork_Bitcoin != NULL);
-	Network_LDKNetwork_Testnet = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet", "Lorg/ldk/enums/Network;");
-	CHECK(Network_LDKNetwork_Testnet != NULL);
+	Network_LDKNetwork_Testnet3 = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet3", "Lorg/ldk/enums/Network;");
+	CHECK(Network_LDKNetwork_Testnet3 != NULL);
+	Network_LDKNetwork_Testnet4 = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Testnet4", "Lorg/ldk/enums/Network;");
+	CHECK(Network_LDKNetwork_Testnet4 != NULL);
 	Network_LDKNetwork_Regtest = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Regtest", "Lorg/ldk/enums/Network;");
 	CHECK(Network_LDKNetwork_Regtest != NULL);
 	Network_LDKNetwork_Signet = (*env)->GetStaticFieldID(env, Network_class, "LDKNetwork_Signet", "Lorg/ldk/enums/Network;");
