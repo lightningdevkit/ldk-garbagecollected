@@ -81,7 +81,7 @@ public class ChannelManagerConstructor {
     private final EntropySource entropy_source;
     private final NodeSigner node_signer;
     private final Router router;
-    private final DefaultMessageRouter msg_router;
+    private final MessageRouter msg_router;
 
     /**
      * Exposes the `ProbabilisticScorer` wrapped inside a lock. Don't forget to `close` this lock when you're done with
@@ -127,6 +127,29 @@ public class ChannelManagerConstructor {
     }
 
     /**
+     * A simple interface to provide onion message paths to LDK.
+     */
+    public interface MessageRouterWrapper {
+        /**
+         * Finds a path for an onion message to the given destination.
+         *
+         * @param default_message_router Provides a message router which uses the LDK path-finder backed by the
+         *                               network graph. You may use this to fetch a "default" path, modifying or
+         *                               storing it as you wish before returning it to LDK.
+         */
+        Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination,
+            DefaultMessageRouter default_message_router);
+
+        /**
+         * Creates blinded message paths to the recipient. Implementations which only wish to customize
+         * [`find_path`] should delegate to `default_message_router`.
+         */
+        Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient,
+            ReceiveAuthKey local_node_receive_key, MessageContext context,
+            MessageForwardNode[] peers, DefaultMessageRouter default_message_router);
+    }
+
+    /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
      *
      * @param filter If provided, the outputs which were previously registered to be monitored for will be loaded into the filter.
@@ -141,6 +164,29 @@ public class ChannelManagerConstructor {
                                      ProbabilisticScoringDecayParameters scoring_decay_params,
                                      ProbabilisticScoringFeeParameters scoring_fee_params,
                                      byte[] probabilistic_scorer_bytes, @Nullable RouterWrapper router_wrapper,
+                                     BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
+        this(channel_manager_serialized, channel_monitors_serialized, config, entropy_source, node_signer,
+                signer_provider, fee_estimator, chain_monitor, filter, net_graph_serialized, scoring_decay_params,
+                scoring_fee_params, probabilistic_scorer_bytes, router_wrapper, null, tx_broadcaster, logger);
+    }
+
+    /**
+     * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
+     *
+     * @param filter If provided, the outputs which were previously registered to be monitored for will be loaded into the filter.
+     *               Note that if the provided Watch is a ChainWatch and has an associated filter, the previously registered
+     *               outputs will be loaded when chain_sync_completed is called.
+     * @param router_wrapper If provided, routes will be fetched by calling the given router rather than an LDK `DefaultRouter`.
+     * @param message_router_wrapper If provided, onion message paths will be fetched by calling the given router rather than an LDK `DefaultMessageRouter`.
+     */
+    public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized, UserConfig config,
+                                     EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
+                                     FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     @Nullable Filter filter, byte[] net_graph_serialized,
+                                     ProbabilisticScoringDecayParameters scoring_decay_params,
+                                     ProbabilisticScoringFeeParameters scoring_fee_params,
+                                     byte[] probabilistic_scorer_bytes, @Nullable RouterWrapper router_wrapper,
+                                     @Nullable MessageRouterWrapper message_router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         this.entropy_source = entropy_source;
         this.node_signer = node_signer;
@@ -181,7 +227,20 @@ public class ChannelManagerConstructor {
         } else {
             router = default_router.as_Router();
         }
-        msg_router = DefaultMessageRouter.of(this.net_graph, entropy_source);
+        DefaultMessageRouter default_msg_router = DefaultMessageRouter.of(this.net_graph, entropy_source);
+        if (message_router_wrapper != null) {
+            msg_router = MessageRouter.new_impl(new MessageRouter.MessageRouterInterface() {
+                @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                    return message_router_wrapper.find_path(sender, peers, destination, default_msg_router);
+                }
+
+                @Override public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, ReceiveAuthKey local_node_receive_key, MessageContext context, MessageForwardNode[] peers) {
+                    return message_router_wrapper.create_blinded_paths(recipient, local_node_receive_key, context, peers, default_msg_router);
+                }
+            });
+        } else {
+            msg_router = default_msg_router.as_MessageRouter();
+        }
 
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple_ThirtyTwoBytesChannelMonitorZ[monitors.length];
@@ -200,7 +259,7 @@ public class ChannelManagerConstructor {
         Result_C2Tuple_ThirtyTwoBytesChannelManagerZDecodeErrorZ res =
                 UtilMethods.C2Tuple_ThirtyTwoBytesChannelManagerZ_read(channel_manager_serialized, entropy_source,
                         node_signer, signer_provider, fee_estimator, chain_monitor.as_Watch(),
-                        tx_broadcaster, router, this.msg_router.as_MessageRouter(), logger, config, monitors);
+                        tx_broadcaster, router, this.msg_router, logger, config, monitors);
         if (!res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
         }
@@ -226,6 +285,25 @@ public class ChannelManagerConstructor {
                                      NetworkGraph net_graph, ProbabilisticScoringDecayParameters scoring_decay_params,
                                      ProbabilisticScoringFeeParameters scoring_fee_params,
                                      @Nullable RouterWrapper router_wrapper,
+                                     BroadcasterInterface tx_broadcaster, Logger logger) {
+        this(network, config, current_blockchain_tip_hash, current_blockchain_tip_height, entropy_source, node_signer,
+                signer_provider, fee_estimator, chain_monitor, net_graph, scoring_decay_params, scoring_fee_params,
+                router_wrapper, null, tx_broadcaster, logger);
+    }
+
+    /**
+     * Constructs a channel manager from the given interface implementations
+     *
+     * @param router_wrapper If provided, routes will be fetched by calling the given router rather than an LDK `DefaultRouter`.
+     * @param message_router_wrapper If provided, onion message paths will be fetched by calling the given router rather than an LDK `DefaultMessageRouter`.
+     */
+    public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
+                                     EntropySource entropy_source, NodeSigner node_signer, SignerProvider signer_provider,
+                                     FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     NetworkGraph net_graph, ProbabilisticScoringDecayParameters scoring_decay_params,
+                                     ProbabilisticScoringFeeParameters scoring_fee_params,
+                                     @Nullable RouterWrapper router_wrapper,
+                                     @Nullable MessageRouterWrapper message_router_wrapper,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
         this.entropy_source = entropy_source;
         this.node_signer = node_signer;
@@ -253,14 +331,27 @@ public class ChannelManagerConstructor {
         } else {
             router = default_router.as_Router();
         }
-        msg_router = DefaultMessageRouter.of(this.net_graph, entropy_source);
+        DefaultMessageRouter default_msg_router = DefaultMessageRouter.of(this.net_graph, entropy_source);
+        if (message_router_wrapper != null) {
+            msg_router = MessageRouter.new_impl(new MessageRouter.MessageRouterInterface() {
+                @Override public Result_OnionMessagePathNoneZ find_path(byte[] sender, byte[][] peers, Destination destination) {
+                    return message_router_wrapper.find_path(sender, peers, destination, default_msg_router);
+                }
+
+                @Override public Result_CVec_BlindedMessagePathZNoneZ create_blinded_paths(byte[] recipient, ReceiveAuthKey local_node_receive_key, MessageContext context, MessageForwardNode[] peers) {
+                    return message_router_wrapper.create_blinded_paths(recipient, local_node_receive_key, context, peers, default_msg_router);
+                }
+            });
+        } else {
+            msg_router = default_msg_router.as_MessageRouter();
+        }
         channel_monitors = new TwoTuple_ThirtyTwoBytesChannelMonitorZ[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
         ChainParameters params = ChainParameters.of(network, block);
         channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, router,
-            this.msg_router.as_MessageRouter(), logger, entropy_source, node_signer, signer_provider, config, params,
+            this.msg_router, logger, entropy_source, node_signer, signer_provider, config, params,
             (int) (System.currentTimeMillis() / 1000));
         this.logger = logger;
     }
@@ -312,7 +403,7 @@ public class ChannelManagerConstructor {
         else
             routing_msg_handler = ignoring_handler.as_RoutingMessageHandler();
         OnionMessenger messenger = OnionMessenger.of(this.entropy_source, this.node_signer, this.logger,
-                this.channel_manager.as_NodeIdLookUp(), this.msg_router.as_MessageRouter(),
+                this.channel_manager.as_NodeIdLookUp(), this.msg_router,
                 channel_manager.as_OffersMessageHandler(), IgnoringMessageHandler.of().as_AsyncPaymentsMessageHandler(),
                 channel_manager.as_DNSResolverMessageHandler(),
                 IgnoringMessageHandler.of().as_CustomOnionMessageHandler());
