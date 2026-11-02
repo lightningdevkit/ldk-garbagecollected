@@ -266,12 +266,13 @@ public class NioPeerHandler {
         boolean connected;
         try {
             chan.configureBlocking(false);
-            Selector open_selector = Selector.open();
-            chan.register(open_selector, SelectionKey.OP_CONNECT);
-            if (!chan.connect(remote)) {
-                open_selector.select(timeout_ms);
+            try (Selector open_selector = Selector.open()) {
+                chan.register(open_selector, SelectionKey.OP_CONNECT);
+                if (!chan.connect(remote)) {
+                    open_selector.select(timeout_ms);
+                }
+                connected = chan.finishConnect();
             }
-            connected = chan.finishConnect();
         } catch (IOException e) {
             try { chan.close(); } catch (IOException _e) { }
             throw e;
