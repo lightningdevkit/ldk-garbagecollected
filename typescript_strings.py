@@ -1746,19 +1746,21 @@ js_invoke = function(obj_ptr: number, fn_id: number, arg1: bigint|number, arg2: 
 		console.error("Got function call on GC'd JS object!");
 		throw new Error("Got function call on GC'd JS object!");
 	}
-	var fn;
+	let method_name: string;
 """)
             bindings.write("\tswitch (fn_id) {\n")
             for f in self.function_ptrs:
-                bindings.write(f"\t\tcase {str(f)}: fn = Object.getOwnPropertyDescriptor(obj, \"{self.function_ptrs[f][1]}\"); break;\n")
+                bindings.write(f"\t\tcase {str(f)}: method_name = \"{self.function_ptrs[f][1]}\"; break;\n")
 
             bindings.write("""\t\tdefault:
 			console.error("Got unknown function call with id " + fn_id + " from C!");
 			throw new Error("Got unknown function call with id " + fn_id + " from C!");
 	}
+	const fn = Object.getOwnPropertyDescriptor(obj, method_name);
 	if (fn == null || fn == undefined) {
-		console.error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
-		throw new Error("Got function call with id " + fn_id + " on incorrect JS object: " + obj);
+		const message = "Got function call with id " + fn_id + " (" + method_name + ") on incorrect JS object: " + obj;
+		console.error(message);
+		throw new Error(message);
 	}
 	var ret;
 	try {
